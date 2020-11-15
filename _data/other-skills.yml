@@ -1,0 +1,7 @@
+- name: Docker/Kubernetes
+  percentage: 50
+  color: info
+
+- name: AWS Experience
+  percentage: 70
+  color: success

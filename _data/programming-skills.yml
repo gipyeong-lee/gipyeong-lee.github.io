@@ -1,0 +1,19 @@
+- name: HTML5/CSS3
+  percentage: 90
+  color: danger
+
+- name: objective-c/swift
+  percentage : 70
+  color: warning
+
+- name : kotlin/java
+  percentage : 60
+  color: warning
+
+- name: Javscript
+  percentage: 80
+  color: success
+
+- name: Python
+  percentage: 30
+  color: dark
