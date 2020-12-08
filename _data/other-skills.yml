@@ -1,4 +1,4 @@
-- name: Docker/Kubernetes
+- name: Docker/Kubernetes/Jenkins
   percentage: 50
   color: info
 
