@@ -2,7 +2,7 @@
 name: react-ion-slider
 tools: [javascript, react]
 image: 
-description: This is wrapping ion.rangeSlider
+description: This is react component. Wrapping ion.rangeSlider
 external_url: https://github.com/gipyeong-lee/react-ion-slider
 ---
 
