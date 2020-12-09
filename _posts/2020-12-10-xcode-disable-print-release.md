@@ -1,9 +1,9 @@
 ---
-title: Disable print when build release scheme
-tags: [react, jsx, webpack]
+title: Disable print when build release scheme in Xcode with swift
+tags: [swift, iOS, Xcode]
 style: border
 color: dark
-description: In case of release build in xcode, override print function to prevent debugging
+description: In case of release build in Xcode, override print function to prevent debugging
 ---
 
 ## Under what circumstances?
