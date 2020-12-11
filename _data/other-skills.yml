@@ -1,4 +1,4 @@
-- name: Docker/Kubernetes/Jenkins
+- name: Devops
   percentage: 50
   color: info
 
