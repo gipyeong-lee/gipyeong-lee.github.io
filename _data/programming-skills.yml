@@ -3,11 +3,11 @@
   color: danger
 
 - name: objective-c/swift
-  percentage : 70
+  percentage : 80
   color: warning
 
 - name : kotlin/java
-  percentage : 60
+  percentage : 80
   color: warning
 
 - name: Javscript

@@ -1,5 +1,5 @@
-- name: Devops
-  percentage: 50
+- name: Devops(k8s,jenkins)
+  percentage: 70
   color: info
 
 - name: AWS Experience
