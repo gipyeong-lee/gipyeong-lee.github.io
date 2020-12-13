@@ -2,7 +2,7 @@
 title: what's different between `retrieve` and `exchange` in Webflux?
 tags: [spring boot, webflux]
 style: border
-color: light
+color: info
 description: If you using webflux stack on your api server or else. you should read this post.
 ---
 
