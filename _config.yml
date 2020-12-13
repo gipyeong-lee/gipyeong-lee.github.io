@@ -11,6 +11,7 @@ remote_theme        : gipyeong-lee/portfolYOU
 plugins:
   - jemoji
   - jekyll-sitemap
+  - jekyll-feed
 
 ### whitelist ###
 whitelist:
