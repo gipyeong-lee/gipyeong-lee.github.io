@@ -1,7 +1,7 @@
 ---
-title: what's different between `retrive` and `exchange` in Webflux?
+title: what's different between `retrieve` and `exchange` in Webflux?
 tags: [spring boot, webflux]
-style: fill
+style: border
 color: light
 description: If you using webflux stack on your api server or else. you should read this post.
 ---
@@ -12,9 +12,9 @@ I was using webflux with spring boot version 2.x.x
 
 When i was using Webclient in my codes. I was usually using `exchange()` after request. cause, api what i used. when failed. it response `200 HTTP Status` with error body.
 
-At that time i had a big mistake. that I thought `exchange()` and `retrive()` is same.
+At that time i had a big mistake. that I thought `exchange()` and `retrieve()` is same.
 
-If you think like that. you are wrong. they are different. then what is different `exchange` and `retrive`?
+If you think like that. you are wrong. they are different. then what is different `exchange` and `retrieve`?
 
 ### Response is Different
 
@@ -75,7 +75,7 @@ If you using upper version of spring boot 2.4.x than using `exchangeToMono` like
 });
 ```
 
-If you under verion of spring boot 2.4.x than using `retrive()` or consume your response body before throw exception.
+If you under verion of spring boot 2.4.x than using `retrieve()` or consume your response body before throw exception.
 
 For excample below codes.
 
