@@ -94,5 +94,6 @@ Libraries don't do everything.
 
 - [Versions of Spring Boot](https://docs.spring.io/spring-boot/docs/)
 - [Spring Boot 2.3.x Dependencies](https://docs.spring.io/spring-boot/docs/2.3.x/reference/html/appendix-dependency-versions.html#dependency-versions)
+- [Spring framework webclient docs](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/reactive/function/client/WebClient.RequestHeadersSpec.html#retrieve--)
 
 > _Stay Hunger, Stay Foolish_
