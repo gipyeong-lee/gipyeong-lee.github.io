@@ -10,12 +10,7 @@ url: https://gipyeong-lee/github.io
 ### Plugins ###
 plugins:
   - jemoji
-  - jekyll-sitemap
   - jekyll-feed
-
-### whitelist ###
-whitelist:
-  - jekyll-sitemap
 
 ### Navbar Settings ###
 nav_exclude:                                            # The following paths are excluded from navbar
