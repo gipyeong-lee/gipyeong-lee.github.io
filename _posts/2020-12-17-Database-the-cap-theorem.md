@@ -22,6 +22,8 @@ The CAP theorem is also called Brewer’s Theorem, because it was first advanced
 
 Two years later, MIT professors Seth Gilbert and Nancy Lynch published a proof of “Brewer’s Conjecture.”
 
+---
+
 ### The CAP theorem
 
 Let’s take a look at the three distributed system characteristics to which the CAP theorem refers.
@@ -52,7 +54,9 @@ Another way to state this—all working nodes in the distributed system return a
 
 A partition is a communications break within a distributed system—a lost or temporarily delayed connection between two nodes. Partition tolerance means that the cluster must continue to work despite any number of communication breakdowns between nodes in the system.
 
-#### CAP theorem NoSQL database types
+---
+
+### CAP theorem NoSQL database types
 
 These days NoSQL ( Not Relationship ) databases consider horizontal scale not only vertical. also, they can rapidly scale across a growing network consisting of multiple interconnected nodes.
 
@@ -66,7 +70,9 @@ There are several types of base on the two CAP properties.
 
 as you know in distributed system partitions can’t be avoided. so, a CA distributed database can’t exist. but, this doesn’t mean you can’t have a CA database for your distributed application if you need one. Many relational databases, such as `PostgreSQL`, deliver consistency and availability and can be deployed to multiple nodes using replication. and also sharding.
 
-#### MongoDB and the CAP theorem ( CP )
+---
+
+### MongoDB and the CAP theorem ( CP )
 
 MongoDB is a popular NoSQL database management system that stores data as BSON (binary JSON) documents. It's frequently used for big data and real-time applications running at multiple different locations. Relative to the CAP theorem, MongoDB is a CP data store—it resolves network partitions by maintaining consistency, while compromising on availability.
 
@@ -76,7 +82,9 @@ MongoDB is a single-master system—each replica set can have only one primary n
 
 When the primary node becomes unavailable, the secondary node with the most recent operation log will be elected as the new primary node. Once all the other secondary nodes catch up with the new master, the cluster becomes available again. As clients can't make any write requests during this interval, the data remains consistent across the entire network.
 
-#### Casandria ( AP )
+---
+
+### Casandria ( AP )
 
 Apache Cassandra is an open source NoSQL database maintained by the Apache Software Foundation. It’s a wide-column database that lets you store data on a distributed network. However, unlike MongoDB, Cassandra has a masterless architecture, and as a result, it has multiple points of failure, rather than a single one.
 
@@ -84,9 +92,13 @@ Relative to the CAP theorem, Cassandra is an AP database—it delivers availabil
 
 As data only becomes inconsistent in the case of a network partition and inconsistencies are quickly resolved, Cassandra offers “repair” functionality to help nodes catch up with their peers. However, constant availability results in a highly performant system that might be worth the trade-off in many cases.
 
+---
+
 ### End of the post
 
 Looking at the databases based on the CAP theory in a distributed system, we could better understand the advantages of each database. Finally, I would like to express my gratitude to IBM for organizing the CAP theory, distributed processing system, and database.
+
+---
 
 ### Appendix
 
