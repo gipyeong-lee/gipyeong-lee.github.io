@@ -5,7 +5,7 @@ description         : >-
 baseurl             : ""                     # Change to empty quotes if you are hosting your site at <your-username>.github.io directly
 repository          : gipyeong-lee/gipyeong.github.io     # Change to <your-username>/<your-username>.github.io (or remove it if you don't need remote projects)
 remote_theme        : gipyeong-lee/portfolYOU
-
+url: https://gipyeong-lee/github.io
 
 ### Plugins ###
 plugins:
@@ -90,6 +90,10 @@ defaults:
       type: "posts"
     values:
       comments: true                                   # Set to true to enable disqus comments
+  - scope:
+      path: "assets/**/*.*"
+    values:
+      sitemap: false
 
 ### Exclude from processing ###
 exclude:
