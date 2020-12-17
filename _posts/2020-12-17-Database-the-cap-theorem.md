@@ -35,11 +35,14 @@ It means that all clients see the same data at the same time.
 This word can be interpreted in several meanings. please don't be confused with ACID's consistency.
 
 > From a database point of view
-```
+
+```txt
 It's meaning `transaction`. The transaction is unit of interaction in such database system. actually, in database transaction has ACID properties.
 ```
+
 > From an atomic point of view
-```
+
+```txt
 Single request/response operation sequence.
 All clients see the same data at the same time.
 ```
