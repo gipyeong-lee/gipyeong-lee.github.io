@@ -97,9 +97,11 @@ As data only becomes inconsistent in the case of a network partition and inconsi
 
 ---
 
-### End of the post
+### Conclusion
 
 Looking at the databases based on the CAP theory in a distributed system, we could better understand the advantages of each database. Finally, I would like to express my gratitude to IBM for organizing the CAP theory, distributed processing system, and database.
+
+> _Stay Hunger, Stay Foolish_
 
 ---
 

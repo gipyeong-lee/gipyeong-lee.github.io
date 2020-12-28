@@ -130,6 +130,8 @@ Understand about DBMS's transaction based on ACID.
 Might be next time my post about normalization of RDBMS.
 The normalization of RDBMS is a process to maintain integrity.
 
+> _Stay Hunger, Stay Foolish_
+
 ## Appendix
 
 - [wikipedia](https://en.wikipedia.org/wiki/Database#Database_management_system)

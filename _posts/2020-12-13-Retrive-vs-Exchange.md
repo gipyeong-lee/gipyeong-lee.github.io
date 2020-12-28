@@ -90,10 +90,10 @@ clientResponse.bodyToMono<String>().defaultIfEmpty("").map {
 I thought I should get into the habit of reading and using the document properly before using the library.
 Libraries don't do everything.
 
+> _Stay Hunger, Stay Foolish_
+
 ## Appendix
 
 - [Versions of Spring Boot](https://docs.spring.io/spring-boot/docs/)
 - [Spring Boot 2.3.x Dependencies](https://docs.spring.io/spring-boot/docs/2.3.x/reference/html/appendix-dependency-versions.html#dependency-versions)
 - [Spring framework webclient docs](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/reactive/function/client/WebClient.RequestHeadersSpec.html#retrieve--)
-
-> _Stay Hunger, Stay Foolish_
