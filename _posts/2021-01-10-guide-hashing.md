@@ -1,6 +1,6 @@
 ---
 title: "데이터베이스 - 5부 : 컨시스턴스 해싱"
-tags: [Distributed System, consistent hashing., Hashing]
+tags: [Distributed System, consistent hashing, Hashing, ketama]
 style: border
 color: primary
 description: Study JDBC, JPA, Mybatis
@@ -55,7 +55,7 @@ description: Study JDBC, JPA, Mybatis
 
 이를 해결하고자 나온 해싱 기법이 바로 일관된 해싱 (Consitency Hashing) 이다.
 
-### 일관된 해싱
+### Consitent Hashing
 
 ![image](/assets/images/blog/2021-01-10-hashing/hashing.png){: width="60%"}
 
@@ -95,16 +95,26 @@ description: Study JDBC, JPA, Mybatis
 
 **바로 여기서 이 기법을 통해 우리는 C 장비에 할당되어 있는 키들만 rehashing 이 필요하다는 것을 알 수 있다.**
 
- A, B 의 서버를 바라보는 키는 이미 가장 가까운 위치 A,B 를 바라보고 있기 때문이다. C 가 없어져도 그 키들은 변경사항이 없다. 오직 C 서버에 할당된 키들만 rehashing 이 필요하다.
+A, B 의 서버를 바라보는 키는 이미 가장 가까운 위치 A,B 를 바라보고 있기 때문이다. C 가 없어져도 그 키들은 변경사항이 없다. 오직 C 서버에 할당된 키들만 rehashing 이 필요하다.
 
-반대로 장비가 추가되어도 K/N ( 키의 개수 / 장비수 ) 만큼의 rehashing 이 필요할뿐 모든 키에 대해 rehashing 이 필요하지 않습니다.
+반대로 장비가 추가되어도 K/N ( 키의 개수 / 장비수 ) 만큼의 rehashing 이 필요할뿐 모든 키에 대해 rehashing 이 필요하지 않다.
 
-예를들어 키가 3개고, 장비가 두개였을때. 이 사이에 장비가 한개 들어간다고 생각하면. 장비에 키가 골고루 들어가도록 설계했다고 가정한다면, 3/3 = 1개의 키에 대해서 리해싱이 일어날 수 있고, 이는 결국 장비 하나당 하나의 키가 저장되는 균형된 모습을 보일 수 있습니다. (키쏠림 방지)
+예를들어 키가 3개고, 장비가 두개였을때. 이 사이에 장비가 한개 들어간다고 생각하면. 장비에 키가 골고루 들어가도록 설계했다고 가정한다면, 3/3 = 1개의 키에 대해서 리해싱이 일어날 수 있고, 이는 결국 장비 하나당 하나의 키가 저장되는 균형된 모습을 보일 수 있습니다.
 
-이것이 바로 Consistent Hashing 기법입니다.
+Consistent Hashing 은 문제를 갖고 있다. 바로 키 쏠림이다. 이를 어떻게 하면 완화시킬 수 있을까?
+
+### Ketama Consitent Hashing
+
+![image](/assets/images/blog/2021-01-10-hashing/hashing2.png){: width="60%"}
+
+우선 가장 쉬운방법은 서버를 여러개의 토큰으로 쪼개서 Consistent Hashing Circle 에 배치하는 것이다.
+이것이 바로 Ketema Consistent Hashing 기법이다. A서버를 A0-A10까지 분산시켜 키배치가 최대한 균일하게 되도록 한다.
 
 ### 생각
+
 - 결국, rehashing 은 피할 수 없는 문제이다. 최소한으로 rehashing 이 일어나도록 설계하고 만드는 것이 분산처리의 요구사항이라 생각된다.
 
 ### Appendix
+
 - [Constant Hashing](https://www.toptal.com/big-data/consistent-hashing)
+- [hashing, ketama](https://codeascraft.com/2017/11/30/how-etsy-caches)
