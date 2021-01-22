@@ -3,7 +3,8 @@ title: "데이터베이스 - 5부 : 컨시스턴스 해싱"
 tags: [Distributed System, consistent hashing, Hashing, ketama]
 style: border
 color: primary
-description: Study JDBC, JPA, Mybatis
+description: 컨시스턴스 해싱이란 무엇일까?
+이를 알기에 앞서, 우선 hashing 이란 말은 `다지고 섞다`라고 이해할 수 있다. Hash Map은 index에 데이터를 맵핑해둔 자료구조이다. O(1)로써 가장 효율적이라고 말할 수 있다. 대게는 키-값 쌍으로 저장하는게 일반적이다.
 ---
 
 ### Overview
