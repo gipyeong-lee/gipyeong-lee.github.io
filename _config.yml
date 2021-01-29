@@ -9,6 +9,7 @@ url: https://gipyeong-lee/github.io
 
 ### Plugins ###
 plugins:
+  - jekyll-sitemap
   - jemoji
   - jekyll-feed
 
