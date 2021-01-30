@@ -114,6 +114,10 @@ Consistent Hashing 은 문제를 갖고 있다. 바로 키 쏠림이다. 이를 
 
 - 결국, rehashing 은 피할 수 없는 문제이다. 최소한으로 rehashing 이 일어나도록 설계하고 만드는 것이 분산처리의 요구사항이라 생각된다.
 
+### 함께 보면 좋은 프로젝트 ( 위의 이론을 간단히 구현 해보았다 )
+
+- [Reduster]([https](https://github.com/gipyeong-lee/reduster))
+
 ### Appendix
 
 - [Constant Hashing](https://www.toptal.com/big-data/consistent-hashing)
