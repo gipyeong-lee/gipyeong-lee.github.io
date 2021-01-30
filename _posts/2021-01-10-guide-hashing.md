@@ -1,6 +1,6 @@
 ---
 title: "데이터베이스 - 5부 : 컨시스턴스 해싱"
-tags: [Distributed System, consistent hashing, Hashing, ketama]
+tags: [Distributed System, consistent hashing, Hashing, ketama, Reduster]
 style: border
 color: info
 description: 컨시스턴스 해싱이란 무엇일까? 이를 알기에 앞서, 우선 hashing 이란 말은 `다지고 섞다`라고 이해할 수 있다. Hash Map은 index에 데이터를 맵핑해둔 자료구조이다. O(1)로써 가장 효율적이라고 말할 수 있다. 대게는 키-값 쌍으로 저장하는게 일반적이다.
@@ -114,9 +114,9 @@ Consistent Hashing 은 문제를 갖고 있다. 바로 키 쏠림이다. 이를 
 
 - 결국, rehashing 은 피할 수 없는 문제이다. 최소한으로 rehashing 이 일어나도록 설계하고 만드는 것이 분산처리의 요구사항이라 생각된다.
 
-### 함께 보면 좋은 프로젝트 ( 위의 이론을 간단히 구현 해보았다 )
+### 예제 프로젝트 ( 위의 이론을 간단히 구현 해보았다 )
 
-- [Reduster]([https](https://github.com/gipyeong-lee/reduster))
+- [Reduster](https://github.com/gipyeong-lee/reduster)
 
 ### Appendix
 
