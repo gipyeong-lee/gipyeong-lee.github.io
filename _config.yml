@@ -67,6 +67,7 @@ analytics:
   enabled: true                                        # Set true to enable analytics
   google:
     tracking_id: G-BZ475R8BPR
+    adsense_id: ca-pub-2018157982347357
 
 
 ### Defaults for collections ###
