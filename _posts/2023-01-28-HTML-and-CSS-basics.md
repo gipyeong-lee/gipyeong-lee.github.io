@@ -4,7 +4,7 @@ tags: [html, css, webdesign]
 style: border
 color: warning
 description: The world of web development and design is constantly changing and evolving. As a web designer or developer, it is important to stay up to date with the latest trends and technologies. This article will provide an overview of HTML and CSS basics, which are essential for any web developer or designer. We will cover the fundamentals of HTML and CSS, as well as some tips and tricks for getting the most out of your code.
-image: https://source.unsplash.com/1600x900/?html,css,webdesign
+image: https://images.unsplash.com/photo-1637158539893-66237b2f5e9f?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=900&ixid=MnwxfDB8MXxyYW5kb218MHx8aHRtbCxjc3Msd2ViZGVzaWdufHx8fHx8MTY3NDkyNTQ1NQ&ixlib=rb-4.0.3&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=1600
 ---
 ## Introduction
 

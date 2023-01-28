@@ -4,7 +4,7 @@ tags: [ai, machine learning, artificial intelligence, data analytics]
 style: border 
 color: info 
 description: AI and ML are powerful tools used to solve complex problems, automate processes and create more efficient ways of doing things. AI is divided into two categories, general AI which can think and reason like a human, and narrow AI which is focused on a specific task. ML is a subset of AI used to identify patterns and make predictions from data. AI and ML can be used in engineering to automate processes, reduce costs and increase efficiency. They can be used to optimize design processes, improve customer service and provide personalized recommendations. 
-image: https://source.unsplash.com/1600x900/?ai,machinelearning,artificialintelligence 
+image: [https://source.unsplash.com/1600x900/?ai,machine learning,artificial intelligence ](https://images.unsplash.com/photo-1605459862899-f506150a7a80?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=900&ixid=MnwxfDB8MXxyYW5kb218MHx8YWksbWFjaGluZSBsZWFybmluZyxhcnRpZmljaWFsIGludGVsbGlnZW5jZXx8fHx8fDE2NzQ5MjU0Mjc&ixlib=rb-4.0.3&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=1600)
 ---
 
 # Introduction to AI and Machine Learning
