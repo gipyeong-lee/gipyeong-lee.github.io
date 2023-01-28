@@ -1,15 +1,16 @@
 ### Site Settings ###
 title               : GiPyeong Lee
 description         : >-
+                      <br>
                       We think of history as something remote and almost irrelevant to ourselves. Or, it is regarded as an old book neatly placed in an old bookshelf in a library. <br>But each and every one of us has a history. It is everyday history.<br>What and how you act today, the present day, decorates a page in your daily history. <br>Can you get through the day without panicking or panicking? Will you spend it negligently or will you bravely challenge it? <br>Are you going to do something in a better way than yesterday? Each such attitude makes its own daily history.<br>
-<br>
--from Nietzsche-<br>
-<br>
-I didn't want to go down in history. I don't want to be remembered that way. <br>It's okay, it's enough to live happily with the people next to me at this moment. <br>I won't avoid spending it carelessly or bravely challenging if it's part of those things. <br>For me, the desire to continue to be with that precious person is greater than 'remembering', 'Memory' is such a sad word for me. <br>Someday you'll know that friend.<br>
-<br>
-Did Nietzsche and I have different thoughts...?<br>
-<br>
-Don't live to be history, live right now.
+                      <br>
+                      -from Nietzsche-<br>
+                      <br>
+                      I didn't want to go down in history. I don't want to be remembered that way. <br>It's okay, it's enough to live happily with the people next to me at this moment. <br>I won't avoid spending it carelessly or bravely challenging if it's part of those things. <br>For me, the desire to continue to be with that precious person is greater than 'remembering', 'Memory' is such a sad word for me. <br>Someday you'll know that friend.<br>
+                      <br>
+                      Did Nietzsche and I have different thoughts...?<br>
+                      <br>
+                      Don't live to be history, live right now.
 baseurl             : ""                     # Change to empty quotes if you are hosting your site at <your-username>.github.io directly
 repository          : gipyeong-lee/gipyeong.github.io     # Change to <your-username>/<your-username>.github.io (or remove it if you don't need remote projects)
 remote_theme        : gipyeong-lee/portfolYOU
