@@ -5,7 +5,7 @@ tags: [natural-language-processing, NLP, AI,it]
 style: border
 color: info
 description: Natural Language Processing (NLP) is a subfield of Artificial Intelligence that focuses on enabling computers to understand and process human language. It uses a combination of machine learning, natural language understanding, and computational linguistics to interpret and analyze human language. NLP has been used in a variety of applications such as natural language understanding, sentiment analysis, text classification, and machine translation.
-image: 2023-01-29-Natural-Language-Processing-(NLP).jpg
+image: 2023-01-29-Natural-Language-Processing-NLP.jpg
 ---
 # Introduction
 
