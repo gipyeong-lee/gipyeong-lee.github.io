@@ -14,7 +14,7 @@ _My heart is hot, and my head is cold_
 <small>November, 2017 ~ Present</small>
 
 <b>Positioning</b><br />
-<small>Game Platform Dev1, Fullstack engineer</small><br />
+<small>Game Platform Dev1, Leed engineer</small><br />
 <b>Experience</b><br/>
 <small>_Java, kotlin language based API Server (Servlet, Webflux)</small><br />
 <small>_Android,unity,cocos2d-x sdk</small><br />
