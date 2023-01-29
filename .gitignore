@@ -4,3 +4,7 @@ _site
 .DS_Store
 js
 search.json
+_sass
+_includes
+_layouts
+404.html
