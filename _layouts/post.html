@@ -87,7 +87,7 @@ layout: default
     {% if page.previous.url %}
     <div class="prev">
       {% if page.next.image %}
-      <a class="post__nav__image" href="{{ site.baseurl }}{{page.previous.url}}" style="background-image: url({{site.baseurl}}/images/{{page.previous.image}})"></a>
+      <a class="post__nav__image" href="{{ site.baseurl }}{{page.previous.url}}" style="background-image: url('{{site.baseurl}}/images/{{page.previous.image}}')"></a>
       {% endif %}
       <h2 class="post__nav__title">
         <i class="ion ion-md-arrow-back"></i>
