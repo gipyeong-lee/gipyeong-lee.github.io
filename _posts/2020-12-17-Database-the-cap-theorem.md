@@ -1,6 +1,7 @@
 ---
+layout: post
 title: "Database - Part1 : The CAP Theorem"
-tags: [Database, distributed system, CAP]
+tags: [Database, CAP]
 style: border
 color: success
 description: Think why noSQL we need.

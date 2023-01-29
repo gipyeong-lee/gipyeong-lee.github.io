@@ -1,4 +1,5 @@
 ---
+layout: post
 title: "데이터베이스 - 5부 : 컨시스턴스 해싱"
 tags: [Distributed System, consistent hashing, Hashing, ketama, Reduster]
 style: border

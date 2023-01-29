@@ -1,4 +1,5 @@
 ---
+layout: post
 title: Be care package.json data with webpack
 tags: [react, jsx, webpack]
 style: border

@@ -1,10 +1,10 @@
 ---
+layout: post
 title: Building a responsive website
 tags: [responsive web design, website development, website design]
 style: border
 color: warning
 description: Building a responsive website is an important task for web developers and designers. It ensures that a website looks great on any device and works well for all users. A responsive website is designed to adapt to different screen sizes, so it looks good on both desktop and mobile devices. In this article, we'll discuss the basics of responsive design and how to create a responsive website.
-image: https://images.unsplash.com/photo-1543269865-cbf427effbad?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=900&ixid=MnwxfDB8MXxyYW5kb218MHx8cmVzcG9uc2l2ZSB3ZWIgZGVzaWduLCB3ZWJzaXRlIGRldmVsb3BtZW50LCB3ZWJzaXRlIGRlc2lnbnx8fHx8fDE2NzQ5MjU0OTI&ixlib=rb-4.0.3&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=1600
 ---
 # Introduction 
 

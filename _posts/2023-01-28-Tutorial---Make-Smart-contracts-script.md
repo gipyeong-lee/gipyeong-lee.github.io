@@ -1,10 +1,11 @@
 ---
+layout: post
 title: Tutorial - Make Smart contracts script
 tags: [smart contracts, tutorial, blockchain,it]
 style: border
 color: primary
 description: Smart contracts are self-executing contracts with the terms of the agreement between buyer and seller being directly written into lines of code. It is a computer protocol intended to digitally facilitate, verify, or enforce the negotiation or performance of a contract. Smart contracts are stored on the blockchain, allowing for secure and transparent management of transactions.
-image: https://images.unsplash.com/photo-1603546641777-3619b490ecd2?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=900&ixid=MnwxfDB8MXxyYW5kb218MHx8c21hcnQgY29udHJhY3RzLHR1dG9yaWFsLGJsb2NrY2hhaW4saXR8fHx8fHwxNjc0OTI2MjY3&ixlib=rb-4.0.3&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=1600
+
 ---
 # Introduction
 

@@ -1,4 +1,5 @@
 ---
+layout: post
 title: what's different between `retrieve` and `exchange` in Webflux?
 tags: [spring boot, webflux]
 style: border

@@ -1,4 +1,5 @@
 ---
+layout: post
 title: "Database - Part2 : DBMS"
 tags: [Database, DBMS, RDBMS, DB, ACID]
 style: border

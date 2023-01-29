@@ -1,10 +1,11 @@
 ---
+layout: post
 title: Building a Chatbot 
 tags: [chatbot development, chatbot technology, artificial intelligence] 
 style: border 
 color: primary 
 description: This article discusses the use of Chatbots, computer programs designed to simulate conversations with human users, and how to build one. Benefits of using a chatbot include cost savings, increased efficiency, and improved customer experience. Technologies and tools for building a chatbot include natural language processing, machine learning, and chatbot frameworks. 
-image: https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=900&ixid=MnwxfDB8MXxyYW5kb218MHx8Y2hhdGJvdC1kZXZlbG9wbWVudCxjaGF0Ym90LXRlY2hub2xvZ3ksYXJ0aWZpY2lhbC1pbnRlbGxpZ2VuY2V8fHx8fHwxNjc0OTI1NTE3&ixlib=rb-4.0.3&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=1600
+
 ---
 
  # Introduction

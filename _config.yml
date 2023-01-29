@@ -1,109 +1,43 @@
-### Site Settings ###
-title               : GiPyeong Lee
-description         : >-
-                      <br>
-                      We think of history as something remote and almost irrelevant to ourselves. Or, it is regarded as an old book neatly placed in an old bookshelf in a library. <br>But each and every one of us has a history. It is everyday history.<br>What and how you act today, the present day, decorates a page in your daily history. <br>Can you get through the day without panicking or panicking? Will you spend it negligently or will you bravely challenge it? <br>Are you going to do something in a better way than yesterday? Each such attitude makes its own daily history.<br>
-                      <br>
-                      -from Nietzsche-<br>
-                      <br>
-                      I didn't want to go down in history. I don't want to be remembered that way. <br>It's okay, it's enough to live happily with the people next to me at this moment. <br>I won't avoid spending it carelessly or bravely challenging if it's part of those things. <br>For me, the desire to continue to be with that precious person is greater than 'remembering', 'Memory' is such a sad word for me. <br>Someday you'll know that friend.<br>
-                      <br>
-                      Did Nietzsche and I have different thoughts...?<br>
-                      <br>
-                      Don't live to be history, live right now.
-baseurl             : ""                     # Change to empty quotes if you are hosting your site at <your-username>.github.io directly
-repository          : gipyeong-lee/gipyeong.github.io     # Change to <your-username>/<your-username>.github.io (or remove it if you don't need remote projects)
-remote_theme        : gipyeong-lee/portfolYOU
-url: https://gipyeong-lee.github.io
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "https://gipyeong-lee.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 
-### Plugins ###
+
+# Build settings
+markdown: kramdown
+permalink: pretty
 plugins:
+  - jekyll-paginate
   - jekyll-sitemap
-  - jemoji
-  - jekyll-feed
+  - jekyll/tagging
 
-### Navbar Settings ###
-nav_exclude:                                            # The following paths are excluded from navbar
-  - pages/tags.html
-  - pages/404.html
-  - pages/index.md
-  - documentation/partials/**                           # For Documentation Only
+paginate: 5
+paginate_path: "/page/:num"
 
 
-### Author Info ###
-author:
-  name              : GiPyeong Lee
-  image             : /assets/images/config/profile.JPG
-  behance           : GiPyeong Lee
-# dribbble          : your_username
-  email             : gipyeong.lee@gmail.com
-#  facebook          : your_username
-  # github            : gipyeong-lee
-# gitlab            : your_username
-  instagram         : gipyeong.lee
-# kaggle            : your_username
-# linkedin          : your_username
-# medium            : your_username
-# soundcloud        : your_username
-# spotify           : your_username
-# stackoverflow     : your_user_id
-# tumblr            : your_username.tumblr.com
-# twitch            : your_username
-# twitter           : your_username
-# vimeo             : your_username
-# youtube           : your_channel_name
-
-
-### Posts ###
-permalink: /blog/:title
-
-
-### Collections ###
-collections:
-  projects:
-    output: true
-    permalink: /projects/:name
-  elements:                                             # For Documentation Only
-    output: true                                        # For Documentation Only
-
-
-### Disqus ###
-disqus: gipyeong                          # Your website Shortname on disqus
-
-
-### Analytics ###
-analytics:
-  enabled: true                                        # Set true to enable analytics
-  google:
-    tracking_id: G-BZ475R8BPR
-    adsense_id: ca-pub-2018157982347357
-
-
-### Defaults for collections ###
+# Pages Path
 defaults:
   - scope:
-      path: ""
-      type: "projects"
+      path: '_pages'
     values:
-      layout: "page"
-  - scope:                                              # For Documentation Only
-      path: ""                                          # For Documentation Only
-      type: "elements"                                  # For Documentation Only
-    values:                                             # For Documentation Only
-      layout: "element"                                 # For Documentation Only
-  - scope:
-      path: ""
-      type: "posts"
-    values:
-      comments: true                                   # Set to true to enable disqus comments
+      permalink: /:basename:output_ext
   - scope:
       path: "assets/**/*.*"
     values:
       sitemap: false
+  - scope:
+        path: "_posts"
+    type: "posts"
+    values:
+      comments: true      
+include:
+  - _pages
 
-### Exclude from processing ###
-exclude:
-  - README.md
-  - CONTRIBUTING.md
-  - LICENSE
-  - "*.log"
+
+# Tags
+tag_page_dir:         tag
+tag_page_layout:      tag_page
+tag_permalink_style:  pretty
+
+sass:
+  sass_dir: _sass
+  style: compressed
