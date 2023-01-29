@@ -4,7 +4,7 @@ title: Natural Language Processing (NLP)
 tags: [natural language processing, NLP, machine learning,it]
 style: border
 color: primary
-description: dummy
+description: Natural Language Processing (NLP) is a field of artificial intelligence that gives computers the ability to understand and interpret human language. NLP enables machines to read, understand, and generate natural language, allowing them to interact with humans in a more natural way. NLP algorithms can be used to analyze text and extract useful information, such as sentiment, topics, and entities.
 image: 2023-01-29-Natural-Language-Processing-(NLP).jpg
 ---
 ## What is Natural Language Processing?
