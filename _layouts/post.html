@@ -32,7 +32,7 @@ layout: default
   {% assign no-image = nil %}
   {% if page.image %}
     <div class="post__head">
-      <div class="post-image" style="background-image: url({{site.baseurl}}/images/{{page.image}})"></div>
+      <div class="post-image" style="background-image: url('{{site.baseurl}}/images/{{page.image}}')"></div>
     </div>
   {% else %}
     {% assign no-image = 'post-no-image' %}
@@ -106,7 +106,7 @@ layout: default
     {% if page.next.url %}
     <div class="next">
       {% if page.next.image %}
-       <a class="post__nav__image" href="{{ site.baseurl }}{{page.next.url}}" style="background-image: url({{site.baseurl}}/images/{{page.next.image}})">
+       <a class="post__nav__image" href="{{ site.baseurl }}{{page.next.url}}" style="background-image: url('{{site.baseurl}}/images/{{page.next.image}}')">
       </a>
       {% endif %}
       <h2 class="post__nav__title">
