@@ -1,6 +1,7 @@
 ---
+layout: post
 title: "Webflux - Upload files with multipart"
-tags: [Webflux, multipart, upload]
+tags: [multipart, upload]
 style: border
 color: danger
 description: Webflux upload multipart example.

@@ -1,4 +1,5 @@
 ---
+layout: post
 title: "Database - Part3 : JDBC, JPA, Mybatis"
 tags: [Database, DBMS, RDBMS, DB, JDBC, JPA, Mybatis]
 style: border

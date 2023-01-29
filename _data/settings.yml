@@ -1,0 +1,46 @@
+#-------------------------------
+# General Site Settings
+title: Tech Blog
+description: Here is personal tech blog
+
+
+#-------------------------------
+# Author Settings
+author:
+  name: Gi Pyeong Lee
+  image: profile.jpg
+  say-hello: Hello, I’m <strong>Gi PyeongLee</strong>
+  bio: But each and every one of us has a history. It is everyday history.<br>What and how you act today, the present day, decorates a page in your daily history. <br>Can you get through the day without panicking or panicking? Will you spend it negligently or will you bravely challenge it? <br>Are you going to do something in a better way than yesterday? Each such attitude makes its own daily history.<br>
+                      <br>
+                      -from Nietzsche-
+
+#-------------------------------
+# Contact links
+twitter: https://twitter.com/XcsWo2H9MrYRNyw # Add your Twitter handle
+# facebook: https://facebook.com/ # Add your Facebook handle
+# dribbble: https://dribbble.com/ # Add your Dribbble handle
+instagram: https://www.instagram.com/gipyeong.lee # Add your Instagram handle
+# pinterest: https://pinterest.com/ # Add your Pinterest handle
+
+
+#-------------------------------
+# Comment Section (Disqus)
+disqus-identifier: gipyeong # add your shortname for Disqus Comment. For example mr-brown
+
+
+#-------------------------------
+# Instagram Feed
+instafeed: # To enable the instafeed, use the value true. To turn off use the value false.
+instagram-profile: gipyeong.lee # Add instagram username
+
+
+#-------------------------------
+# Google Analytics
+google:
+  analytics: G-BZ475R8BPR # Add your identifier. For example UA-99631805-1.
+  adsense_id: ca-pub-2018157982347357
+
+
+#-------------------------------
+# Newsletter
+mailchimp: GiPyeong # Add your MailChimp form identifier. For example - blogenjoyfreedom.us16.list-manage.com/subscribe/post?u=cd56155d76ddeeb4c0bc4d080&amp;id=7a526cd13e

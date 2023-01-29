@@ -1,10 +1,11 @@
 ---
+layout: post
 title: Introduction to AI and Machine Learning
 tags: [ai, machine learning, introduction,it]
 style: border
 color: warning
 description: Artificial Intelligence (AI) and Machine Learning (ML) are two of the most popular and powerful technologies of the modern era. AI and ML are used in a variety of applications, from facial recognition and natural language processing to autonomous vehicles and robotics. In this article, we'll take a look at what AI and ML are, how they work, and some of the most popular applications for them.
-image: https://images.unsplash.com/photo-1526379095098-d400fd0bf935?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=900&ixid=MnwxfDB8MXxyYW5kb218MHx8YWksbWFjaGluZS1sZWFybmluZyxpbnRyb2R1Y3Rpb24saXR8fHx8fHwxNjc0OTI2NDcx&ixlib=rb-4.0.3&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=1600
+
 ---
 ## Introduction
 

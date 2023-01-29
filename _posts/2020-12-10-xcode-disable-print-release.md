@@ -1,4 +1,5 @@
 ---
+layout: post
 title: Disable print when build release scheme in Xcode with swift
 tags: [swift, iOS, Xcode]
 style: border
