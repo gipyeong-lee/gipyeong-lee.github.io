@@ -3,6 +3,7 @@ layout: page
 title: About
 permalink: /about/
 image: profile.jpg
+order: 2
 ---
 
 Hi! I am GiPyeong Lee <br>
