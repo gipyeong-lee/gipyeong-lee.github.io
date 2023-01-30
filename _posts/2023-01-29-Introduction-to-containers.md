@@ -33,9 +33,3 @@ Kubernetes provides a number of tools for managing containers, such as schedulin
 
 ## Conclusion
 Containers are a powerful tool for developers and operations teams alike. They allow for applications to be easily moved between different machines and cloud providers, and they provide a number of benefits such as portability, isolation, scalability, and ease of deployment. In order to run containers, a container runtime such as Docker is needed. Once containers are running, they need to be managed, which is where container orchestration tools such as Kubernetes come in.
-
-References: 
-- [What are Containers?](https://www.docker.com/resources/what-container)
-- [Benefits of Containers](https://www.docker.com/why-docker)
-- [Container Runtime](https://www.docker.com/get-started)
-- [Container Orchestration](https://kubernetes.io/)

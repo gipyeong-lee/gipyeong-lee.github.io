@@ -44,10 +44,3 @@ If there are any issues with the automated testing and deployment system, it is 
 ## Conclusion
 
 Automated testing and deployment is a process that enables developers to quickly and easily test their code, detect any issues, and deploy the code in a live environment. This process helps to reduce the time and effort required to ensure that a software application is functioning properly, and it also helps to ensure that any changes made to the application are not breaking existing features.
-
-## References
-
-- [What is Automated Testing?](https://www.softwaretestinghelp.com/automated-testing/)
-- [What Is Continuous Integration?](https://www.atlassian.com/continuous-delivery/continuous-integration)
-- [What Is Continuous Delivery?](https://www.atlassian.com/continuous-delivery/continuous-delivery)
-- [Troubleshooting Automated Testing and Deployment](https://www.guru99.com/troubleshooting-automated-testing.html)

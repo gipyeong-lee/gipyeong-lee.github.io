@@ -37,11 +37,3 @@ When building an IoT application, it is important to have a plan in place to tro
 ## Final Thoughts
 
 Building an IoT application can be a challenging and rewarding process. It is important to have a clear understanding of the requirements and the architecture, as well as a user-friendly design for the interface. Additionally, it is important to test and monitor the application regularly to ensure that it is functioning properly. With the right preparation and planning, building an IoT application can be a rewarding experience.
-
-## References
-
-- [Internet of Things (IoT) Overview](https://www.iotforall.com/what-is-iot/)
-- [Designing an Intuitive User Interface for IoT Applications](https://www.iotforall.com/intuitive-user-interface-for-iot-applications/)
-- [Developing an IoT Application](https://www.iotforall.com/developing-iot-application/)
-- [Testing and Monitoring IoT Applications](https://www.iotforall.com/testing-and-monitoring-iot-applications/)
-- [Troubleshooting IoT Applications](https://www.iotforall.com/troubleshooting-iot-applications/)

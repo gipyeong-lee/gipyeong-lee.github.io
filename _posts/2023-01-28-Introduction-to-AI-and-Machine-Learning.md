@@ -38,17 +38,3 @@ AI and ML are used in a variety of applications, from facial recognition and nat
 ## Conclusion
 
 AI and ML are two of the most powerful and popular technologies of the modern era. AI and ML are used in a variety of applications, from facial recognition and natural language processing to autonomous vehicles and robotics. AI and ML are powerful tools that can be used to improve efficiency, accuracy, and safety in many different fields.
-
-## References
-
-https://en.wikipedia.org/wiki/Artificial_intelligence
-
-https://en.wikipedia.org/wiki/Machine_learning
-
-https://www.tutorialspoint.com/artificial_intelligence/index.htm
-
-https://www.tutorialspoint.com/machine_learning/index.htm
-
-https://www.techopedia.com/definition/33845/artificial-intelligence-ai
-
-https://www.techopedia.com/definition/974/machine-learning-ml

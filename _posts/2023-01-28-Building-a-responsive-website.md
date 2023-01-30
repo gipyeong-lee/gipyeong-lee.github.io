@@ -33,9 +33,3 @@ The final step is to test the website. This involves testing the website on vari
 # Conclusion
 
 Creating a responsive website is a multi-step process that involves designing, coding, and testing. By following the steps outlined above, you can ensure that your website looks great on all devices and works well for all users. With a responsive website, you can ensure that your website looks good on all types of devices, from large desktop screens to small mobile screens.
-
-# Reference
-
-- [What is Responsive Design?](https://www.webfx.com/blog/web-design/what-is-responsive-design/)
-- [How to Create a Responsive Website](https://www.webfx.com/blog/web-design/how-to-create-a-responsive-website/)
-- [Mobile-First Design: What It Is and Why It Matters](https://www.webfx.com/blog/web-design/mobile-first-design/)

@@ -42,8 +42,3 @@ Writing quantum programs can be difficult, but there are some resources availabl
 Quantum programming is an exciting and rapidly developing field of computer science that seeks to develop algorithms and software to utilize the power of quantum computing. It has the potential to revolutionize the way we think about computing, and it can unlock new possibilities that were previously unimaginable.
 
 The most popular quantum programming languages are Q#, Quipper, and Qiskit. Writing quantum programs is similar to writing traditional programs, but it requires a different set of skills and knowledge. Fortunately, there are resources available to help learn quantum programming.
-
-## References
-
-- [Microsoft Q# Course](https://docs.microsoft.com/en-us/quantum/courses/index)
-- [IBM Qiskit Tutorial](https://qiskit.org/textbook/preface.html)

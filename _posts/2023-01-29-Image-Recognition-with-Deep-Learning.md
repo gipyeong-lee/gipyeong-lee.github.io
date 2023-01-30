@@ -34,9 +34,3 @@ Once the algorithm is trained, we can use it to detect cats in new images. To do
 # Conclusion
 
 In this article, we discussed how to use deep learning for image recognition. We discussed how to use a convolutional neural network to “train” the algorithm to recognize objects or features in images. We also looked at an example of how to use deep learning for image recognition. By using deep learning for image recognition, we can detect objects or features in images even if they are partially obscured or in an unusual position.
-
-# References
-
-- What Is Deep Learning? (https://www.mathworks.com/discovery/deep-learning.html)
-- How to Use Deep Learning for Image Recognition (https://heartbeat.fritz.ai/how-to-use-deep-learning-for-image-recognition-b2f2d8f6f8e)
-- Convolutional Neural Networks Explained (https://www.analyticsvidhya.com/blog/2017/06/understanding-convolutional-neural-networks-for-nlp/)

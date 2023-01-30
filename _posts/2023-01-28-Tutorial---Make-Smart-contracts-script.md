@@ -68,14 +68,3 @@ Truffle is a development environment for Ethereum, which allows for the testing 
 Once the code has been tested and is functioning correctly, it can be deployed to the Ethereum blockchain. This can be done using a number of different tools, such as Remix, MyEtherWallet, and MetaMask. 
 
 Remix is an online IDE for Ethereum development, which allows for the deployment of smart contracts. MyEtherWallet is an open-source, client-side tool for interacting with the Ethereum blockchain. MetaMask is a browser plugin that allows users to interact with the Ethereum blockchain.
-
-# Reference
-- https://en.wikipedia.org/wiki/Smart_contract
-- https://www.investopedia.com/terms/s/smart-contract.asp
-- https://medium.com/@ConsenSys/what-is-a-smart-contract-f93e2ee7e2e3
-- https://www.blockgeeks.com/guides/what-is-a-smart-contract/
-- https://www.trufflesuite.com/truffle
-- https://www.trufflesuite.com/ganache
-- https://remix.ethereum.org/
-- https://www.myetherwallet.com/
-- https://metamask.io/

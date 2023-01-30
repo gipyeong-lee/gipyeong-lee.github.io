@@ -42,9 +42,3 @@ Events are used to trigger functions when a certain action is taken. In JavaScri
 ## Conclusion
 
 JavaScript is a powerful scripting language that can be used to create dynamic web pages and web applications. It is used to create interactive web pages, mobile applications, and games. Learning JavaScript can be a daunting task, but there are many resources available to help.
-
-## References
-
-- [MDN JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
-- [W3Schools JavaScript](https://www.w3schools.com/js/)
-- [JavaScript Tutorial](https://www.tutorialspoint.com/javascript/)

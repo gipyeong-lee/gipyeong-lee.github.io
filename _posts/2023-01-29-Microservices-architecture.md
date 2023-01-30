@@ -32,11 +32,3 @@ Since microservices architecture breaks applications into smaller services, it i
 ## Conclusion
 
 Microservices architecture is a software design pattern that is becoming increasingly popular. It enables organizations to develop and deploy applications more quickly, while reducing complexity and cost. However, there are also some challenges associated with microservices architecture, such as maintaining consistency across services and managing complexity. To ensure that microservices architecture is secure, organizations should use secure coding practices and utilize tools such as firewalls.
-
-## References
-
-- [What is Microservices Architecture?](https://www.amazon.com/Microservices-Architecture-Practices-Building-Applications/dp/1492039015)
-- [Netflix Uses Microservices Architecture](https://www.infoq.com/news/2015/06/netflix-uses-microservices/)
-- [Secure Coding Practices](https://www.owasp.org/index.php/Category:OWASP_Secure_Coding_Practices_-_Quick_Reference_Guide)
-- [Network Firewalls](https://www.cloudflare.com/learning/security/firewalls/)
-- [Web Application Firewalls](https://www.cloudflare.com/learning/security/wafs/)

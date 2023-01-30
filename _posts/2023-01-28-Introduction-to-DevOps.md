@@ -38,9 +38,3 @@ DevOps is a culture, movement or practice that emphasizes the collaboration and 
 ## Conclusion
 
 DevOps is a set of practices that combines software development and IT operations to shorten the systems development life cycle while delivering features, fixes, and updates frequently. DevOps enables organizations to deliver software faster and more reliably, improve quality, increase collaboration, and reduce costs. There are various tools available to help organizations implement DevOps such as source code management tools, configuration management tools, continuous integration tools, and monitoring tools.
-
-## Reference
-
-- [What is DevOps?](https://www.atlassian.com/devops/what-is-devops)
-- [Advantages of DevOps](https://www.edureka.co/blog/devops-advantages/)
-- [Tools for DevOps](https://www.edureka.co/blog/devops-tools/)
