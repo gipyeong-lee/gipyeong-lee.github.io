@@ -1,0 +1,424 @@
+/* line 18, node_modules/bootstrap/scss/_navbar.scss */
+.navbar {
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    padding: 0.5rem 1rem; }
+    /* line 28, node_modules/bootstrap/scss/_navbar.scss */
+    .navbar > .container,
+    .navbar > .container-fluid {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap;
+      -webkit-box-align: center;
+          -ms-flex-align: center;
+              align-items: center;
+      -webkit-box-pack: justify;
+          -ms-flex-pack: justify;
+              justify-content: space-between; }
+  
+  /* line 42, node_modules/bootstrap/scss/_navbar.scss */
+  .navbar-brand {
+    display: inline-block;
+    padding-top: 0.3125rem;
+    padding-bottom: 0.3125rem;
+    margin-right: 1rem;
+    font-size: 1.25rem;
+    line-height: inherit;
+    white-space: nowrap; }
+    /* line 17, node_modules/bootstrap/scss/mixins/_hover.scss */
+    .navbar-brand:hover, .navbar-brand:focus {
+      text-decoration: none; }
+  
+  /* line 61, node_modules/bootstrap/scss/_navbar.scss */
+  .navbar-nav {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none; }
+    /* line 68, node_modules/bootstrap/scss/_navbar.scss */
+    .navbar-nav .nav-link {
+      padding-right: 0;
+      padding-left: 0; }
+    /* line 73, node_modules/bootstrap/scss/_navbar.scss */
+    .navbar-nav .dropdown-menu {
+      position: static;
+      float: none; }
+  
+  /* line 84, node_modules/bootstrap/scss/_navbar.scss */
+  .navbar-text {
+    display: inline-block;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem; }
+  
+  /* line 99, node_modules/bootstrap/scss/_navbar.scss */
+  .navbar-collapse {
+    -ms-flex-preferred-size: 100%;
+        flex-basis: 100%;
+    -webkit-box-flex: 1;
+        -ms-flex-positive: 1;
+            flex-grow: 1;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center; }
+  
+  /* line 108, node_modules/bootstrap/scss/_navbar.scss */
+  .navbar-toggler {
+    padding: 0.25rem 0.75rem;
+    font-size: 1.25rem;
+    line-height: 1;
+    background-color: transparent;
+    border: 1px solid transparent;
+    border-radius: 0.25rem; }
+    /* line 17, node_modules/bootstrap/scss/mixins/_hover.scss */
+    .navbar-toggler:hover, .navbar-toggler:focus {
+      text-decoration: none; }
+    /* line 121, node_modules/bootstrap/scss/_navbar.scss */
+    .navbar-toggler:not(:disabled):not(.disabled) {
+      cursor: pointer; }
+  
+  /* line 128, node_modules/bootstrap/scss/_navbar.scss */
+  .navbar-toggler-icon {
+    display: inline-block;
+    width: 1.5em;
+    height: 1.5em;
+    vertical-align: middle;
+    content: "";
+    background: no-repeat center center;
+    background-size: 100% 100%; }
+  
+  @media (max-width: 575.98px) {
+    /* line 147, node_modules/bootstrap/scss/_navbar.scss */
+    .navbar-expand-sm > .container,
+    .navbar-expand-sm > .container-fluid {
+      padding-right: 0;
+      padding-left: 0; } }
+  
+  @media (min-width: 576px) {
+    /* line 145, node_modules/bootstrap/scss/_navbar.scss */
+    .navbar-expand-sm {
+      -webkit-box-orient: horizontal;
+      -webkit-box-direction: normal;
+          -ms-flex-flow: row nowrap;
+              flex-flow: row nowrap;
+      -webkit-box-pack: start;
+          -ms-flex-pack: start;
+              justify-content: flex-start; }
+      /* line 158, node_modules/bootstrap/scss/_navbar.scss */
+      .navbar-expand-sm .navbar-nav {
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: normal;
+            -ms-flex-direction: row;
+                flex-direction: row; }
+        /* line 161, node_modules/bootstrap/scss/_navbar.scss */
+        .navbar-expand-sm .navbar-nav .dropdown-menu {
+          position: absolute; }
+        /* line 165, node_modules/bootstrap/scss/_navbar.scss */
+        .navbar-expand-sm .navbar-nav .nav-link {
+          padding-right: 0.7rem;
+          padding-left: 0.7rem; }
+      /* line 172, node_modules/bootstrap/scss/_navbar.scss */
+      .navbar-expand-sm > .container,
+      .navbar-expand-sm > .container-fluid {
+        -ms-flex-wrap: nowrap;
+            flex-wrap: nowrap; }
+      /* line 177, node_modules/bootstrap/scss/_navbar.scss */
+      .navbar-expand-sm .navbar-collapse {
+        display: -webkit-box !important;
+        display: -ms-flexbox !important;
+        display: flex !important;
+        -ms-flex-preferred-size: auto;
+            flex-basis: auto; }
+      /* line 184, node_modules/bootstrap/scss/_navbar.scss */
+      .navbar-expand-sm .navbar-toggler {
+        display: none; } }
+  
+  @media (max-width: 767.98px) {
+    /* line 147, node_modules/bootstrap/scss/_navbar.scss */
+    .navbar-expand-md > .container,
+    .navbar-expand-md > .container-fluid {
+      padding-right: 0;
+      padding-left: 0; } }
+  
+  @media (min-width: 768px) {
+    /* line 145, node_modules/bootstrap/scss/_navbar.scss */
+    .navbar-expand-md {
+      -webkit-box-orient: horizontal;
+      -webkit-box-direction: normal;
+          -ms-flex-flow: row nowrap;
+              flex-flow: row nowrap;
+      -webkit-box-pack: start;
+          -ms-flex-pack: start;
+              justify-content: flex-start; }
+      /* line 158, node_modules/bootstrap/scss/_navbar.scss */
+      .navbar-expand-md .navbar-nav {
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: normal;
+            -ms-flex-direction: row;
+                flex-direction: row; }
+        /* line 161, node_modules/bootstrap/scss/_navbar.scss */
+        .navbar-expand-md .navbar-nav .dropdown-menu {
+          position: absolute; }
+        /* line 165, node_modules/bootstrap/scss/_navbar.scss */
+        .navbar-expand-md .navbar-nav .nav-link {
+          padding-right: 0.7rem;
+          padding-left: 0.7rem; }
+      /* line 172, node_modules/bootstrap/scss/_navbar.scss */
+      .navbar-expand-md > .container,
+      .navbar-expand-md > .container-fluid {
+        -ms-flex-wrap: nowrap;
+            flex-wrap: nowrap; }
+      /* line 177, node_modules/bootstrap/scss/_navbar.scss */
+      .navbar-expand-md .navbar-collapse {
+        display: -webkit-box !important;
+        display: -ms-flexbox !important;
+        display: flex !important;
+        -ms-flex-preferred-size: auto;
+            flex-basis: auto; }
+      /* line 184, node_modules/bootstrap/scss/_navbar.scss */
+      .navbar-expand-md .navbar-toggler {
+        display: none; } }
+  
+  @media (max-width: 991.98px) {
+    /* line 147, node_modules/bootstrap/scss/_navbar.scss */
+    .navbar-expand-lg > .container,
+    .navbar-expand-lg > .container-fluid {
+      padding-right: 0;
+      padding-left: 0; } }
+  
+  @media (min-width: 992px) {
+    /* line 145, node_modules/bootstrap/scss/_navbar.scss */
+    .navbar-expand-lg {
+      -webkit-box-orient: horizontal;
+      -webkit-box-direction: normal;
+          -ms-flex-flow: row nowrap;
+              flex-flow: row nowrap;
+      -webkit-box-pack: start;
+          -ms-flex-pack: start;
+              justify-content: flex-start; }
+      /* line 158, node_modules/bootstrap/scss/_navbar.scss */
+      .navbar-expand-lg .navbar-nav {
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: normal;
+            -ms-flex-direction: row;
+                flex-direction: row; }
+        /* line 161, node_modules/bootstrap/scss/_navbar.scss */
+        .navbar-expand-lg .navbar-nav .dropdown-menu {
+          position: absolute; }
+        /* line 165, node_modules/bootstrap/scss/_navbar.scss */
+        .navbar-expand-lg .navbar-nav .nav-link {
+          padding-right: 0.7rem;
+          padding-left: 0.7rem; }
+      /* line 172, node_modules/bootstrap/scss/_navbar.scss */
+      .navbar-expand-lg > .container,
+      .navbar-expand-lg > .container-fluid {
+        -ms-flex-wrap: nowrap;
+            flex-wrap: nowrap; }
+      /* line 177, node_modules/bootstrap/scss/_navbar.scss */
+      .navbar-expand-lg .navbar-collapse {
+        display: -webkit-box !important;
+        display: -ms-flexbox !important;
+        display: flex !important;
+        -ms-flex-preferred-size: auto;
+            flex-basis: auto; }
+      /* line 184, node_modules/bootstrap/scss/_navbar.scss */
+      .navbar-expand-lg .navbar-toggler {
+        display: none; } }
+  
+  @media (max-width: 1199.98px) {
+    /* line 147, node_modules/bootstrap/scss/_navbar.scss */
+    .navbar-expand-xl > .container,
+    .navbar-expand-xl > .container-fluid {
+      padding-right: 0;
+      padding-left: 0; } }
+  
+  @media (min-width: 1200px) {
+    /* line 145, node_modules/bootstrap/scss/_navbar.scss */
+    .navbar-expand-xl {
+      -webkit-box-orient: horizontal;
+      -webkit-box-direction: normal;
+          -ms-flex-flow: row nowrap;
+              flex-flow: row nowrap;
+      -webkit-box-pack: start;
+          -ms-flex-pack: start;
+              justify-content: flex-start; }
+      /* line 158, node_modules/bootstrap/scss/_navbar.scss */
+      .navbar-expand-xl .navbar-nav {
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: normal;
+            -ms-flex-direction: row;
+                flex-direction: row; }
+        /* line 161, node_modules/bootstrap/scss/_navbar.scss */
+        .navbar-expand-xl .navbar-nav .dropdown-menu {
+          position: absolute; }
+        /* line 165, node_modules/bootstrap/scss/_navbar.scss */
+        .navbar-expand-xl .navbar-nav .nav-link {
+          padding-right: 0.7rem;
+          padding-left: 0.7rem; }
+      /* line 172, node_modules/bootstrap/scss/_navbar.scss */
+      .navbar-expand-xl > .container,
+      .navbar-expand-xl > .container-fluid {
+        -ms-flex-wrap: nowrap;
+            flex-wrap: nowrap; }
+      /* line 177, node_modules/bootstrap/scss/_navbar.scss */
+      .navbar-expand-xl .navbar-collapse {
+        display: -webkit-box !important;
+        display: -ms-flexbox !important;
+        display: flex !important;
+        -ms-flex-preferred-size: auto;
+            flex-basis: auto; }
+      /* line 184, node_modules/bootstrap/scss/_navbar.scss */
+      .navbar-expand-xl .navbar-toggler {
+        display: none; } }
+  
+  /* line 145, node_modules/bootstrap/scss/_navbar.scss */
+  .navbar-expand {
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-flow: row nowrap;
+            flex-flow: row nowrap;
+    -webkit-box-pack: start;
+        -ms-flex-pack: start;
+            justify-content: flex-start; }
+    /* line 147, node_modules/bootstrap/scss/_navbar.scss */
+    .navbar-expand > .container,
+    .navbar-expand > .container-fluid {
+      padding-right: 0;
+      padding-left: 0; }
+    /* line 158, node_modules/bootstrap/scss/_navbar.scss */
+    .navbar-expand .navbar-nav {
+      -webkit-box-orient: horizontal;
+      -webkit-box-direction: normal;
+          -ms-flex-direction: row;
+              flex-direction: row; }
+      /* line 161, node_modules/bootstrap/scss/_navbar.scss */
+      .navbar-expand .navbar-nav .dropdown-menu {
+        position: absolute; }
+      /* line 165, node_modules/bootstrap/scss/_navbar.scss */
+      .navbar-expand .navbar-nav .nav-link {
+        padding-right: 0.7rem;
+        padding-left: 0.7rem; }
+    /* line 172, node_modules/bootstrap/scss/_navbar.scss */
+    .navbar-expand > .container,
+    .navbar-expand > .container-fluid {
+      -ms-flex-wrap: nowrap;
+          flex-wrap: nowrap; }
+    /* line 177, node_modules/bootstrap/scss/_navbar.scss */
+    .navbar-expand .navbar-collapse {
+      display: -webkit-box !important;
+      display: -ms-flexbox !important;
+      display: flex !important;
+      -ms-flex-preferred-size: auto;
+          flex-basis: auto; }
+    /* line 184, node_modules/bootstrap/scss/_navbar.scss */
+    .navbar-expand .navbar-toggler {
+      display: none; }
+  
+  /* line 199, node_modules/bootstrap/scss/_navbar.scss */
+  .navbar-light .navbar-brand {
+    color: rgba(0, 0, 0, 0.9); }
+    /* line 17, node_modules/bootstrap/scss/mixins/_hover.scss */
+    .navbar-light .navbar-brand:hover, .navbar-light .navbar-brand:focus {
+      color: rgba(0, 0, 0, 0.9); }
+  
+  /* line 208, node_modules/bootstrap/scss/_navbar.scss */
+  .navbar-light .navbar-nav .nav-link {
+    color: rgba(0, 0, 0, 0.3); }
+    /* line 17, node_modules/bootstrap/scss/mixins/_hover.scss */
+    .navbar-light .navbar-nav .nav-link:hover, .navbar-light .navbar-nav .nav-link:focus {
+      color: rgba(0, 0, 0, 0.7); }
+    /* line 215, node_modules/bootstrap/scss/_navbar.scss */
+    .navbar-light .navbar-nav .nav-link.disabled {
+      color: rgba(0, 0, 0, 0.3); }
+  
+  /* line 220, node_modules/bootstrap/scss/_navbar.scss */
+  .navbar-light .navbar-nav .show > .nav-link,
+  .navbar-light .navbar-nav .active > .nav-link,
+  .navbar-light .navbar-nav .nav-link.show,
+  .navbar-light .navbar-nav .nav-link.active {
+    color: rgba(0, 0, 0, 0.9); }
+  
+  /* line 228, node_modules/bootstrap/scss/_navbar.scss */
+  .navbar-light .navbar-toggler {
+    color: rgba(0, 0, 0, 0.3);
+    border-color: rgba(0, 0, 0, 0.1); }
+  
+  /* line 233, node_modules/bootstrap/scss/_navbar.scss */
+  .navbar-light .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(0, 0, 0, 0.3)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E"); }
+  
+  /* line 237, node_modules/bootstrap/scss/_navbar.scss */
+  .navbar-light .navbar-text {
+    color: rgba(0, 0, 0, 0.3); }
+    /* line 239, node_modules/bootstrap/scss/_navbar.scss */
+    .navbar-light .navbar-text a {
+      color: rgba(0, 0, 0, 0.9); }
+      /* line 17, node_modules/bootstrap/scss/mixins/_hover.scss */
+      .navbar-light .navbar-text a:hover, .navbar-light .navbar-text a:focus {
+        color: rgba(0, 0, 0, 0.9); }
+  
+  /* line 251, node_modules/bootstrap/scss/_navbar.scss */
+  .navbar-dark .navbar-brand {
+    color: #fff; }
+    /* line 17, node_modules/bootstrap/scss/mixins/_hover.scss */
+    .navbar-dark .navbar-brand:hover, .navbar-dark .navbar-brand:focus {
+      color: #fff; }
+  
+  /* line 260, node_modules/bootstrap/scss/_navbar.scss */
+  .navbar-dark .navbar-nav .nav-link {
+    color: rgba(255, 255, 255, 0.9); }
+    /* line 17, node_modules/bootstrap/scss/mixins/_hover.scss */
+    .navbar-dark .navbar-nav .nav-link:hover, .navbar-dark .navbar-nav .nav-link:focus {
+      color: #fff; }
+    /* line 267, node_modules/bootstrap/scss/_navbar.scss */
+    .navbar-dark .navbar-nav .nav-link.disabled {
+      color: rgba(255, 255, 255, 0.25); }
+  
+  /* line 272, node_modules/bootstrap/scss/_navbar.scss */
+  .navbar-dark .navbar-nav .show > .nav-link,
+  .navbar-dark .navbar-nav .active > .nav-link,
+  .navbar-dark .navbar-nav .nav-link.show,
+  .navbar-dark .navbar-nav .nav-link.active {
+    color: #fff; }
+  
+  /* line 280, node_modules/bootstrap/scss/_navbar.scss */
+  .navbar-dark .navbar-toggler {
+    color: rgba(255, 255, 255, 0.9);
+    border-color: rgba(255, 255, 255, 0.1); }
+  
+  /* line 285, node_modules/bootstrap/scss/_navbar.scss */
+  .navbar-dark .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255, 255, 0.9)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E"); }
+  
+  /* line 289, node_modules/bootstrap/scss/_navbar.scss */
+  .navbar-dark .navbar-text {
+    color: rgba(255, 255, 255, 0.9); }
+    /* line 291, node_modules/bootstrap/scss/_navbar.scss */
+    .navbar-dark .navbar-text a {
+      color: #fff; }
+      /* line 17, node_modules/bootstrap/scss/mixins/_hover.scss */
+      .navbar-dark .navbar-text a:hover, .navbar-dark .navbar-text a:focus {
+        color: #fff; }
+
+.navbar-nav.categories  a   {
+    font-size: 15px;
+    font-weight: 700;
+}
+
