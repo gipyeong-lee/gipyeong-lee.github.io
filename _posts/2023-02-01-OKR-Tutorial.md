@@ -7,7 +7,6 @@ color: info
 description: OKR(Objectives and Key Results)는 목표를 설정하고 이를 실현하기 위해 필요한 여러 가지 작업을 정의하는 프레임워크입니다. 이 튜토리얼은 OKR의 기본 원리를 이해하고 이를 실제로 사용하는 방법을 알아보겠습니다.
 image: 2023-02-01-OKR-Tutorial.jpg
 ---
-.
 
 # OKR 튜토리얼
 

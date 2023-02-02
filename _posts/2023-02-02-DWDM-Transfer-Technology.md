@@ -1,10 +1,10 @@
 ---
 layout: post
 title: DWDM Transfer Technology
-tags: [dwdm transfer, technology, data transfer,it]
+tags: [dwdm transfer, technology, data transfer]
 style: border
 color: warning
-description: dummy
+description: DWDM (Dense Wavelength Division Multiplexing) is a technology that allows multiple optical signals to be transmitted over a single fiber optic cable. It is used to increase the capacity of fiber optic networks and is becoming increasingly popular in the telecommunications industry. DWDM technology is used to transmit data over long distances, as well as in metropolitan networks.
 image: 2023-02-02-DWDM-Transfer-Technology.jpg
 ---
 # Introduction to DWDM Transfer Technology
