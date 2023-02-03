@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Tutorial: Rest Api"
+title: Tutorial - Rest Api
 tags: [rest api tutorial, api tutorial, rest api]
 style: border
 color: warning
