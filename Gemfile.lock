@@ -130,6 +130,7 @@ PLATFORMS
   arm64-darwin-22
 
 DEPENDENCIES
+  jekyll (~> 4.2)
   jekyll-feed (~> 0.17.0)
   jekyll-remote-theme (~> 0.4.3)
   jekyll-sitemap (~> 1.4)
