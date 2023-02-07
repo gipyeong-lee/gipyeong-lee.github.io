@@ -29,6 +29,10 @@ defaults:
     type: "posts"
     values:
       comments: true      
+  - scope:
+      path: "images"
+    values:
+      image: true
 include:
   - _pages
 
