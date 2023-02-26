@@ -6,8 +6,6 @@ style: border
 color: info
 description: JVM Option Tuning is the process of optimizing the performance of a Java Virtual Machine (JVM) by adjusting the settings of the JVM options. These options are used to control the behavior of the JVM and can have a significant impact on the performance of an application. Understanding the different JVM options and how they work is essential for tuning the JVM for optimal performance.
 ---
-.
-
 # JVM Option Basics
 
 Java Virtual Machine (JVM) options are command-line flags that can be used to configure the JVM to better suit the needs of the application. These options can be used to increase performance, reduce memory usage, and improve the overall stability of the application.
