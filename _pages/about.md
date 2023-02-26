@@ -7,7 +7,7 @@ order: 2
 ---
 
 Hi! I am GiPyeong Lee <br>
-_My heart is hot, and my head is cold_
+This blog's working with chat gpt.
 
 ***
 
