@@ -26,7 +26,7 @@ class MyClass {
 
 This code will generate a class diagram that looks like this:
 
-![MyClass Diagram](myclass_diagram.png)
+![MyClass Diagram]('/images/myclass_diagram.png')
 
 PlantUML also supports a wide range of other features, such as the ability to generate diagrams from existing UML models, create diagrams from scratch, and even generate diagrams from text. PlantUML is a great tool for quickly creating diagrams to document your designs.
 # Benefits of PlantUML
