@@ -6,6 +6,8 @@ style: border
 color: info
 description: Jekyll is a static site generator that is used to create websites and blogs. It is written in Ruby and is used to generate HTML pages from Markdown files. It is the engine behind GitHub Pages, which allows users to host their websites on GitHub for free.
 image: 2023-02-04-Tutorial--Jekyll-for-github-page.jpg
+lang: ko
+ref: 2023-02-04-Tutorial--Jekyll-for-github-page
 ---
 # What is Jekyll?
 Jekyll is a static site generator that is used to create websites and blogs. It is written in the Ruby programming language and is used to create websites from plain text files. Jekyll is the engine behind GitHub Pages, a free hosting service for websites and blogs.

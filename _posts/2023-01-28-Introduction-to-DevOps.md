@@ -5,7 +5,8 @@ tags: [devops, introduction, automation]
 style: border
 color: info
 description: DevOps is a set of practices that combines software development (Dev) and information-technology operations (Ops) to shorten the systems development life cycle while delivering features, fixes, and updates frequently in close alignment with business objectives. It helps organizations rapidly produce software products and services and is widely recognized for its ability to dramatically improve productivity, reliability, security, and performance.
-
+lang: ko
+ref: 2023-01-28-Introduction-to-DevOps
 ---
 ## Introduction
 

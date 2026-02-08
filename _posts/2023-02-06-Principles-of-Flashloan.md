@@ -6,6 +6,8 @@ style: border
 color: primary
 description: A flashloan is a type of loan that is taken out and repaid in a single transaction on the Ethereum blockchain. It is a type of loan that is taken out and repaid in a single transaction on the Ethereum blockchain, allowing users to access funds quickly and without the need for a third-party intermediary. The loan is taken out in the form of a smart contract, and is repaid in the same transaction.
 image: 2023-02-06-Principles-of-Flashloan.jpg
+lang: ko
+ref: 2023-02-06-Principles-of-Flashloan
 ---
 # What is a Flashloan?
 

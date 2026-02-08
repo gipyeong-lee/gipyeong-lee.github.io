@@ -10,6 +10,13 @@
   <link rel="canonical" href="{{ page.url | replace:'index.html','' | absolute_url }}">
   <link rel="alternate" type="application/rss+xml" title="{{ site.title | escape }}" href="{{ "/feed.xml" | relative_url }}">
 
+  {% if page.ref %}
+    {% assign translations = site.posts | where: "ref", page.ref %}
+    {% for translation in translations %}
+  <link rel="alternate" hreflang="{{ translation.lang }}" href="{{ site.url }}{{ site.baseurl }}{{ translation.url }}" />
+    {% endfor %}
+  {% endif %}
+
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
   <!-- Ionicons -->

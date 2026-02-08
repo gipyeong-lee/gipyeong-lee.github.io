@@ -5,7 +5,8 @@ tags: [automated testing, deployment, continuous integration]
 style: border
 color: primary
 description: Automated testing and deployment is a process that enables developers to quickly and easily test their code, detect any issues, and deploy the code in a live environment. This process helps to reduce the time and effort required to ensure that a software application is functioning properly, and it also helps to ensure that any changes made to the application are not breaking existing features.
-
+lang: ko
+ref: 2023-01-28-Automated-testing-and-deployment
 ---
 # Automated Testing and Deployment
 

@@ -5,6 +5,8 @@ tags: [Database, CAP]
 style: border
 color: success
 description: Think why noSQL we need.
+lang: ko
+ref: 2020-12-17-Database-the-cap-theorem
 ---
 
 ![CAP](/assets/images/blog/2020-12-17-Database-the-cap-theorem/cap.png){: width="60%"}

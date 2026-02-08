@@ -5,6 +5,8 @@ tags: [jvm optimization, jdk8, java virtual machine]
 style: border
 color: warning
 description: JDK 8 is the latest version of the Java Development Kit, and it comes with a number of improvements to the JVM. In this article, we'll look at some of the JVM optimizations that have been introduced in JDK 8, and how they can help improve the performance of your applications.
+lang: ko
+ref: 2023-02-22-JVM-Optimization-in-jdk8
 ---
 # JVM Optimization in JDK 8
 

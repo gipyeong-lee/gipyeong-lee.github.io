@@ -6,6 +6,8 @@ style: border
 color: info
 description: This step explains how to create a Github page, which is a website hosted by Github that can be used to showcase projects and other information.
 image: 2023-02-07-Step-By-Step--Make-your-github-page-searchable-on-google.jpg
+lang: ko
+ref: 2023-02-07-Step-By-Step--Make-your-github-page-searchable-on-google
 ---
 # Step 1: Create a Github Page
 

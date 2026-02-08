@@ -6,6 +6,8 @@ style: border
 color: warning
 description: This curriculum provides an introduction to Generation AI, a field of study focused on the development of artificial intelligence. It covers the fundamentals of AI, including algorithms, data structures, and machine learning. It also provides an overview of the current state of AI research and development, as well as the potential applications of AI in the future.
 image: 2023-03-29-Curriculum-of-generation-ai-to-learn.jpg
+lang: ko
+ref: 2023-03-29-Curriculum-of-generation-ai-to-learn
 ---
 # Introduction to Generation AI
 

@@ -6,6 +6,8 @@ style: border
 color: warning
 description: Spring Boot is an open source Java-based framework used to create a Micro Service. It is developed by Pivotal Team and is used to build stand-alone and production-ready applications. It simplifies the bootstrapping and development of a new Spring application. It provides pre-configured set of features and functionalities that makes it easy to develop and deploy Spring applications quickly and efficiently.
 image: 2023-02-04-Spring-Boot-Framework.jpg
+lang: ko
+ref: 2023-02-04-Spring-Boot-Framework
 ---
 # What is Spring Boot?
 Spring Boot is an open source Java-based framework used to create a micro Service. It is developed by Pivotal Team and is used to build stand-alone and production ready spring applications.

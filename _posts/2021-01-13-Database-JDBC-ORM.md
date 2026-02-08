@@ -5,6 +5,8 @@ tags: [Database, DBMS, RDBMS, DB, JDBC, JPA, Mybatis]
 style: border
 color: primary
 description: Study JDBC, JPA, Mybatis
+lang: ko
+ref: 2021-01-13-Database-JDBC-ORM
 ---
 
 ### What is JDBC ?

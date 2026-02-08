@@ -6,6 +6,8 @@ style: border
 color: info
 description: JavaScript is a scripting language used to create and control dynamic websites. It is one of the three core technologies of web development, along with HTML and CSS. JavaScript is a powerful language that can be used to create complex web applications. It is also used for server-side programming, game development, and mobile app development.
 image: 2023-01-29-JavaScript-fundamentals.jpg
+lang: ko
+ref: 2023-01-29-JavaScript-fundamentals
 ---
 ## Introduction to JavaScript
 

@@ -6,6 +6,8 @@ style: border
 color: primary
 description: Redis Transaction is a feature of Redis that allows multiple commands to be executed as a single atomic operation. It ensures that all commands in the transaction are either all executed or none are executed, thus providing data integrity and consistency.
 image: 2023-02-07-Redis-Transaction.jpg
+lang: ko
+ref: 2023-02-07-Redis-Transaction
 ---
 # What is Redis Transaction?
 

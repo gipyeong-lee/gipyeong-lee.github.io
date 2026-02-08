@@ -5,6 +5,8 @@ tags: [spring boot, webflux]
 style: border
 color: info
 description: If you using webflux stack on your api server or else. you should read this post.
+lang: ko
+ref: 2020-12-13-Retrive-vs-Exchange
 ---
 
 ## Under what circumstances?

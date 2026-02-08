@@ -5,6 +5,8 @@ tags: [multipart, upload]
 style: border
 color: danger
 description: Webflux upload multipart example.
+lang: ko
+ref: 2020-12-29-Webflux-Multipart
 ---
 
 

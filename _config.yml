@@ -45,3 +45,11 @@ tag_permalink_style:  pretty
 sass:
   sass_dir: _sass
   style: compressed
+
+# Localization
+languages: ["ko", "en", "ja"]
+default_lang: ko
+language_names:
+  ko: "한국어"
+  en: "English"
+  ja: "日本語"

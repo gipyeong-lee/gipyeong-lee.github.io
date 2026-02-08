@@ -6,6 +6,8 @@ style: border
 color: info
 description: Network Hole Punching is a technique used to establish a connection between two computers that are behind a firewall or NAT (Network Address Translation). It is a way to bypass the restrictions of firewalls and NATs and allow two computers to communicate with each other.
 image: 2023-02-04-Network-Hole-puhching.jpg
+lang: ko
+ref: 2023-02-04-Network-Hole-puhching
 ---
 # Introduction
 

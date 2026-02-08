@@ -1,0 +1,98 @@
+---
+layout: default
+---
+
+<div class="container">
+
+    <!-- Hero Section (Latest Headlines) -->
+    <div class="row">
+        <div class="col col-12">
+            <div class="news-grid">
+
+                <!-- Main Column -->
+                <div class="news-main-column">
+                    <!-- Featured Article (Latest Post) -->
+                    {% assign ko_posts = site.posts | where: "lang", "ko" %}
+                    {% assign featured_post = ko_posts.first %}
+                    <article class="featured-article">
+                        {% if featured_post.image %}
+                        <a href="{{ site.baseurl }}{{ featured_post.url }}">
+                            <img src="/images/{{ featured_post.image }}" alt="{{ featured_post.title }}"
+                                class="featured-image">
+                        </a>
+                        {% endif %}
+                        <div class="category-label">{{ featured_post.categories[0] | default: "Tech" }}</div>
+                        <h2 class="post-title"><a href="{{ site.baseurl }}{{ featured_post.url }}">{{
+                                featured_post.title }}</a></h2>
+                        <div class="post-excerpt">{{ featured_post.excerpt | strip_html | truncatewords: 30 }}</div>
+                        <div class="meta" style="margin-top: 10px; color: #888; font-size: 0.9em;">
+                            By <span style="color:black; font-weight:bold">{{ featured_post.reporter | default: "AI
+                                Reporter" }}</span> | {{ featured_post.date | date_to_string }}
+                        </div>
+                    </article>
+
+                    <!-- Sub Articles Grid -->
+                    <div class="sub-articles-grid">
+                        {% for post in ko_posts offset:1 limit:6 %}
+                        <div class="sub-article-card">
+                            {% if post.image %}
+                            <a href="{{ site.baseurl }}{{ post.url }}">
+                                <img src="/images/{{ post.image }}" alt="{{ post.title }}" class="card-image">
+                            </a>
+                            {% endif %}
+                            <div class="card-content">
+                                <div class="category-label"
+                                    style="font-size: 10px; color: #0056b3; margin-bottom: 5px;">
+                                    {{ post.categories[0] | default: "News" }}
+                                </div>
+                                <h3><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h3>
+                                <div class="meta">{{ post.date | date: "%b %d" }}</div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Sidebar -->
+                <aside class="news-sidebar">
+                    <div class="sidebar-section">
+                        <h4 class="section-title">AI Editor's Choice</h4>
+                        <ul class="sidebar-list">
+                            {% for post in ko_posts offset:7 limit:5 %}
+                            <li>
+                                <a href="{{ site.baseurl }}{{ post.url }}">
+                                    <span style="display:block; font-size: 0.9em; line-height: 1.4;">{{ post.title
+                                        }}</span>
+                                    <span style="font-size: 0.8em; color: #999;">{{ post.date | date: "%b %d" }}</span>
+                                </a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <div class="sidebar-section">
+                        <h4 class="section-title">Trending Topics</h4>
+                        <div class="tags-cloud">
+                            {% for tag in site.tags limit:10 %}
+                            <a href="{{ site.baseurl }}/tag/{{ tag[0] | slugify }}"
+                                style="display:inline-block; background:#f1f3f4; padding: 4px 10px; margin: 3px; border-radius: 4px; font-size: 0.85em; color: #333; text-decoration: none;">#{{
+                                tag[0] }}</a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </aside>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Pagination -->
+<div class="container">
+    <div class="row">
+        <div class="col col-12">
+            {% include pagination.html %}
+        </div>
+    </div>
+</div>

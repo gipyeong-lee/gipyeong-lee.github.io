@@ -5,7 +5,8 @@ tags: [codeversioncontrol, git, versioncontrol]
 style: border
 color: info
 description: Code version control is a process that allows software developers to keep track of changes to their source code. It allows them to easily roll back to previous versions if something goes wrong or if they need to make a change. Version control also allows multiple developers to work on the same code base without overwriting each other’s work.
-
+lang: ko
+ref: 2023-01-28-Code-version-control-with-Git
 ---
 # Introduction
 

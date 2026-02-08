@@ -6,6 +6,8 @@ style: border
 color: warning
 description: Understanding the fundamentals of networking is essential for server engineers. This includes understanding the different types of networks, their components, and how they interact with each other. Additionally, server engineers must understand the protocols used to communicate between networks and the security measures used to protect them.
 image: 2023-03-16-Network-basic-for-Server-Engineer.jpg
+lang: ko
+ref: 2023-03-16-Network-basic-for-Server-Engineer
 ---
 # Network Basics for Server Engineers
 

@@ -6,6 +6,8 @@ style: border
 color: warning
 description: This article discusses the steps one needs to take to become a great software engineer. It covers topics such as building a strong foundation in computer science, developing problem-solving skills, mastering coding languages, and staying up-to-date with the latest technologies.
 image: 2023-02-18-To-be-Great-Software-Engineer.jpg
+lang: ko
+ref: 2023-02-18-To-be-Great-Software-Engineer
 ---
 .
 

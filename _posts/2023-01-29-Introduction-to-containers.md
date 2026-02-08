@@ -6,6 +6,8 @@ style: border
 color: primary
 description: Containers are a form of virtualization that allow developers to package up an application with all the parts it needs, such as libraries and other dependencies, and ship it all out as one package. By doing so, developers can be sure that the application will run on any other Linux machine regardless of any differences between the machines. This guarantees that the application will always run the same and makes the process of moving applications between different machines much easier. 
 image: 2023-01-29-Introduction-to-containers.jpg
+lang: ko
+ref: 2023-01-29-Introduction-to-containers
 ---
 ## What are Containers?
 Containers are a form of virtualization that allow developers to package up an application with all the parts it needs, such as libraries and other dependencies, and ship it all out as one package. By doing so, developers can be sure that the application will run on any other Linux machine regardless of any differences between the machines. This guarantees that the application will always run the same and makes the process of moving applications between different machines much easier. 

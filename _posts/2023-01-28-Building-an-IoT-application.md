@@ -5,6 +5,8 @@ tags: [iot, internetofthings, applications]
 style: border
 color: warning
 description: The Internet of Things (IoT) is an emerging trend in the engineering field that is quickly changing the way businesses and consumers interact with their environment. IoT applications allow users to connect physical devices to the internet and control them remotely, as well as monitor their activity and performance. Building an IoT application can be a daunting prospect, but with the right preparation and planning, it can be a rewarding experience. In this article, we will discuss the different steps involved in creating an IoT application, as well as provide some tips and troubleshooting examples to help you along the way.
+lang: ko
+ref: 2023-01-28-Building-an-IoT-application
 ---
 ## Introduction
 

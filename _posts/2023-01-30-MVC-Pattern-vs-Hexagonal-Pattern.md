@@ -6,6 +6,8 @@ style: border
 color: warning
 description: dummy
 image: 2023-01-30-MVC-Pattern-vs-Hexagonal-Pattern.jpg
+lang: ko
+ref: 2023-01-30-MVC-Pattern-vs-Hexagonal-Pattern
 ---
 # Introduction
 

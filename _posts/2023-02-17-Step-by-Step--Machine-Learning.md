@@ -6,6 +6,8 @@ style: border
 color: info
 description: This book provides a comprehensive introduction to the field of machine learning. It covers the basics of machine learning, from the fundamentals of data analysis to the most advanced algorithms and techniques. It also includes practical examples to help readers understand the concepts better and get hands-on experience with machine learning.
 image: 2023-02-17-Step-by-Step--Machine-Learning.jpg
+lang: ko
+ref: 2023-02-17-Step-by-Step--Machine-Learning
 ---
 # What is Machine Learning?
 

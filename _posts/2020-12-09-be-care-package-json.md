@@ -5,6 +5,8 @@ tags: [react, jsx, webpack]
 style: border
 color: primary
 description: When creating a production build using webpack, be careful not to get the package.json information involved.
+lang: ko
+ref: 2020-12-09-be-care-package-json
 ---
 
 ## Under what circumstances?

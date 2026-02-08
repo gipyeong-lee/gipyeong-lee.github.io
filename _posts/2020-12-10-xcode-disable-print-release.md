@@ -5,6 +5,8 @@ tags: [swift, iOS, Xcode]
 style: border
 color: dark
 description: In case of release build in Xcode, override print function to prevent debugging
+lang: ko
+ref: 2020-12-10-xcode-disable-print-release
 ---
 
 ## Under what circumstances?

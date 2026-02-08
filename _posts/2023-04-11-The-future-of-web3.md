@@ -6,6 +6,8 @@ style: border
 color: info
 description: Web3 is set to revolutionize the way we interact with the internet, with the potential to create a more secure, transparent, and efficient digital world. Web3 technologies such as blockchain, distributed ledgers, and smart contracts are expected to have a profound impact on the way we use the internet, from financial transactions to data management and more.
 image: 2023-04-11-The-future-of-web3.jpg
+lang: ko
+ref: 2023-04-11-The-future-of-web3
 ---
 # The Impact of Web3
 

@@ -6,6 +6,8 @@ style: border
 color: warning
 description: This step explains how to set up the environment for crawling with Python, including installing the necessary libraries and setting up the project folder.
 image: 2023-02-04-Step-by-step--Crawling-by-python.jpg
+lang: ko
+ref: 2023-02-04-Step-by-step--Crawling-by-python
 ---
 # Setting Up the Environment
 

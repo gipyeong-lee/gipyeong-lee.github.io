@@ -6,6 +6,8 @@ style: border
 color: primary
 description: PlantUML is a powerful open-source tool for creating UML diagrams. It is used by engineers to quickly create diagrams that represent complex systems and processes. PlantUML is easy to use and can be used to create diagrams in a variety of formats, including PNG, SVG, and PDF.
 image: 2023-03-06-Useful-PlantUML.jpg
+lang: ko
+ref: 2023-03-06-Useful-PlantUML
 ---
 # Useful PlantUML
 

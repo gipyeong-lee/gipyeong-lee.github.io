@@ -6,6 +6,8 @@ style: border
 color: info
 description: This tutorial provides an overview of k6s, a powerful open source container orchestration platform. It explains the features and benefits of k6s, and provides step-by-step instructions for installing and using it. It also covers advanced topics such as scaling and security.
 image: 2023-03-10-Tutorial-of-k6s.jpg
+lang: ko
+ref: 2023-03-10-Tutorial-of-k6s
 ---
 # Introduction to k6s
 

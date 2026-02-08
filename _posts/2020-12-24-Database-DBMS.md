@@ -5,6 +5,8 @@ tags: [Database, DBMS, RDBMS, DB, ACID]
 style: border
 color: info
 description: Let's check what is DBMS
+lang: ko
+ref: 2020-12-24-Database-DBMS
 ---
 
 ## What is DBMS

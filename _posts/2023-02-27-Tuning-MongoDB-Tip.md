@@ -6,6 +6,8 @@ style: border
 color: primary
 description: This article provides tips on how to optimize MongoDB performance, including optimizing queries, indexing, and storage.
 image: 2023-02-27-Tuning-MongoDB-Tip.jpg
+lang: ko
+ref: 2023-02-27-Tuning-MongoDB-Tip
 ---
 # Optimizing MongoDB Indexes
 
