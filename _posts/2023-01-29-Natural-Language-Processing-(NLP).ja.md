@@ -1,7 +1,6 @@
 ---
 layout: post
 title: 自然言語処理 (NLP)
-tags: [natural language processing, NLP, machine learning,it]
 style: border
 color: primary
 description: 自然言語処理 (NLP) は、コンピュータに人間の言語を理解し解釈する能力を与える人工知能の分野です。NLPにより、機械は自然言語を読み、理解し、生成することが可能になり、人間とより自然な方法で対話できるようになります。NLPアルゴリズムは、テキストを分析し、感情、トピック、エンティティなどの有用な情報を抽出するために使用されます。

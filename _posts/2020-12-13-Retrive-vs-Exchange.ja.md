@@ -1,7 +1,6 @@
 ---
 layout: post
 title: Webfluxの `retrieve` と `exchange` の違いとは？
-tags: [spring boot, webflux]
 style: border
 color: info
 description: APIサーバーなどでWebfluxスタックを使用しているなら、この記事を読むべきです。

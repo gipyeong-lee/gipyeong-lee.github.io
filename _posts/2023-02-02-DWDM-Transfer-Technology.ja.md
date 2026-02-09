@@ -1,7 +1,6 @@
 ---
 layout: post
 title: DWDM伝送技術
-tags: [dwdm transfer, technology, data transfer]
 style: border
 color: warning
 description: DWDM（高密度波長分割多重方式）は、1本の光ファイバーケーブルで複数の光信号を伝送できるようにする技術です。光ファイバーネットワークの容量を増やすために使用されており、通信業界でますます普及しています。DWDM技術は、長距離データ伝送や都市部ネットワークで使用されています。

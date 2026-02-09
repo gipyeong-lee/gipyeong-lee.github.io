@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "Webflux - Multipart File Upload"
-tags: [multipart, upload]
 style: border
 color: danger
 description: An example of how to handle multipart file uploads in Spring Webflux.

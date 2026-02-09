@@ -1,7 +1,6 @@
 ---
 layout: post
 title: JavaScriptの基礎
-tags: [javascript, fundamentals, coding,it]
 style: border
 color: info
 description: JavaScriptは、動的なWebサイトを作成および制御するために使用されるスクリプト言語です。HTMLやCSSと並ぶ、Web開発の3つの主要技術の1つです。JavaScriptは、複雑なWebアプリケーションを作成できる強力な言語です。また、サーバーサイドプログラミング、ゲーム開発、モバイルアプリ開発にも使用されます。

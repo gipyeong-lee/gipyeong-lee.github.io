@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "Step By Step: GitHub PageをGoogleで検索可能にする方法"
-tags: [github, google, searchable]
 style: border
 color: info
 description: このステップでは、プロジェクトやその他の情報を公開するために使用できる、GitHubがホストするウェブサイトであるGitHub Pageの作成方法を説明します。

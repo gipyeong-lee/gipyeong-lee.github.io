@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "優れたソフトウェアエンジニアになるために"
-tags: [software engineering, software development, coding]
 style: border
 color: warning
 description: 本記事では、優れたソフトウェアエンジニアになるために必要なステップについて解説します。コンピュータサイエンスの強固な基礎の構築、問題解決スキルの開発、プログラミング言語の習得、そして最新技術のキャッチアップなどのトピックを扱います。

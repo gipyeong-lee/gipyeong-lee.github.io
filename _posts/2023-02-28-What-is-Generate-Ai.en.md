@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "What is Generate AI?"
-tags: [generateai, artificialintelligence, machinelearning]
 style: border
 color: warning
 description: Generate AI is an artificial intelligence (AI) platform that enables businesses to quickly and easily create AI-driven applications. It provides a comprehensive set of tools and services to help developers create AI-powered applications quickly and easily. Generate AI is designed to help businesses quickly and easily create AI-driven applications that can be used to automate tasks, improve customer experiences, and optimize business operations.

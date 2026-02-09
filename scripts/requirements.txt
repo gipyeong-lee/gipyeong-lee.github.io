@@ -1,4 +1,9 @@
 requests
 feedparser
 beautifulsoup4
-duckduckgo-search
+ddgs
+torch
+diffusers
+transformers
+accelerate
+safetensors

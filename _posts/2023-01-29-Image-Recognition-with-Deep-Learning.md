@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Image Recognition with Deep Learning
-tags: [image recognition, deep learning, machine learning,it]
+tags: [image recognition, deep learning, Machine Learning, it]
 style: border
 color: info
 description: Image recognition is the process of identifying and detecting an object or a feature in a digital image or video. Deep learning is a subset of machine learning that uses large amounts of data and complex algorithms to “learn” from the data. Deep learning can be used for image recognition and can be used to identify objects, faces, text, and other features in images. In this article, we will discuss how to use deep learning for image recognition.

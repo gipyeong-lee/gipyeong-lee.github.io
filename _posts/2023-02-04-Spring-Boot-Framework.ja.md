@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "Spring Boot フレームワーク"
-tags: [springboot, framework, java]
 style: border
 color: warning
 description: Spring Bootは、マイクロサービスを作成するために使用されるオープンソースのJavaベースのフレームワークです。Pivotalチームによって開発され、スタンドアロンで本番環境に対応したアプリケーションを構築するために使用されます。Spring Bootは、新しいSpringアプリケーションのブートストラップと開発を簡素化します。事前に設定された機能と機能セットを提供し、Springアプリケーションを迅速かつ効率的に開発および展開することを容易にします。

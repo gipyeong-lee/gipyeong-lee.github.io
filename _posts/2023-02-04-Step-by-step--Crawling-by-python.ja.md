@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "ステップ・バイ・ステップ：Pythonによるクローリング"
-tags: [python crawling, step by step, web crawling]
 style: border
 color: warning
 description: このステップでは、必要なライブラリのインストールやプロジェクトフォルダの設定など、Pythonでクローリングを行うための環境設定方法について説明します。

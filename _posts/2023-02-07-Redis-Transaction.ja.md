@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "Redis トランザクション"
-tags: [redis, transaction, distributed]
 style: border
 color: primary
 description: Redis トランザクションは、複数のコマンドを単一のアトミックな操作として実行できるようにする Redis の機能です。トランザクション内のすべてのコマンドがすべて実行されるか、またはまったく実行されないかのいずれかを保証し、データの整合性と一貫性を提供します。

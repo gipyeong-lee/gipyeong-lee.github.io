@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "Transaction in Redis Cluster"
-tags: [plantuml, tutorial, uml]
 style: border
 color: info
 description: Redis is an in-memory data structure store that is used as a database, cache, and message broker. One of the key features of Redis is its ability to perform transactions, which allows multiple commands to be executed as a single atomic operation. In Redis Cluster, transactions are used to guarantee that a series of commands are executed as a single unit, ensuring data consistency across the cluster.

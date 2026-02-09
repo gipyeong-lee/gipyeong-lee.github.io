@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "Tuning MongoDB Tip"
-tags: [mongodb tuning, mongodb tips, database tuning]
 style: border
 color: primary
 description: This article provides tips on how to optimize MongoDB performance, including optimizing queries, indexing, and storage.

@@ -1,7 +1,6 @@
 ---
 layout: post
 title: Webpack使用時のpackage.jsonデータの取り扱いに注意
-tags: [react, jsx, webpack]
 style: border
 color: primary
 description: Webpackを使用して本番ビルドを作成する際、package.jsonの情報が巻き込まれないように注意してください。

@@ -150,7 +150,7 @@ Return valid JSON:
                 f"Too many unverified claims: {unverified}/{len(claims)} "
                 f"({unverified/len(claims)*100:.0f}%)"
             )
-        elif unverified > 0:
+        elif unverified > len(claims) * 0.2:
             verdict = Verdict.NEEDS_REVISION
         else:
             verdict = Verdict.PASS

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Blockchain의 미래"
-tags: [blockchain, future, cryptocurrency]
+tags: [blockchain, Future, cryptocurrency]
 style: border
 color: primary
 description: Blockchain은 분산 네트워크에서 데이터를 안전하게 관리하고 공유하는 기술로, 비트코인과 같은 암호화폐를 비롯해 다양한 분야에서 활용되고 있습니다. 기술의 발전과 보안 강화를 위해 다양한 연구가 진행되고 있습니다.

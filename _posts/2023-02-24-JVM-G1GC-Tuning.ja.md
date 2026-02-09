@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "JVM G1GC チューニング"
-tags: [jvm, g1gc, tuning]
 style: border
 color: warning
 description: この記事では、JVM G1GC ガベージコレクションアルゴリズムとそのチューニングパラメータの概要を説明します。

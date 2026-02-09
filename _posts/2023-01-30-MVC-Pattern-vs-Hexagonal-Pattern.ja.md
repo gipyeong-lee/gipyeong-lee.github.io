@@ -1,7 +1,6 @@
 ---
 layout: post
 title: MVCパターン vs ヘキサゴナルパターン
-tags: [mvc pattern, hexagonal pattern, software architecture,it]
 style: border
 color: warning
 description: ダミー

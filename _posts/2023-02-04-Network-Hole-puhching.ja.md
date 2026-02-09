@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "ネットワークホールパンチング"
-tags: [network hole punching, firewall security, network security,it]
 style: border
 color: info
 description: ネットワークホールパンチングは、ファイアウォールやNAT（ネットワークアドレス変換）の背後にある2台のコンピュータ間で接続を確立するために使用される技術です。これはファイアウォールやNATの制限を回避し、2台のコンピュータが相互に通信できるようにする方法です。

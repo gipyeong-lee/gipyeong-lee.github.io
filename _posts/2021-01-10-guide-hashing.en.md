@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "Database - Part 5: Consistent Hashing"
-tags: [Distributed System, consistent hashing, Hashing, ketama, Reduster]
 style: border
 color: info
 description: What is consistent hashing? Before understanding this, first, hashing can be understood as `chopping and mixing`. A Hash Map is a data structure that maps data to an index. It can be said to be the most efficient as O(1). It is generally stored as key-value pairs.

@@ -1,7 +1,6 @@
 ---
 layout: post
 title: AIと機械学習入門
-tags: [ai, machine learning, introduction,it]
 style: border
 color: warning
 description: 人工知能（AI）と機械学習（ML）は、現代において最も人気があり強力な技術の2つです。AIとMLは、顔認識や自然言語処理から自動運転車やロボット工学に至るまで、さまざまなアプリケーションで使用されています。この記事では、AIとMLとは何か、それらがどのように機能するか、そしてそれらの最も一般的な用途のいくつかについて見ていきます。

@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "データベース - Part3 : JDBC, JPA, Mybatis"
-tags: [Database, DBMS, RDBMS, DB, JDBC, JPA, Mybatis]
 style: border
 color: primary
 description: JDBC, JPA, Mybatis についての学習

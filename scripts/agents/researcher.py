@@ -2,7 +2,7 @@
 
 from typing import List, Optional
 
-from duckduckgo_search import DDGS
+from ddgs import DDGS
 
 from .base import BaseAgent
 from ..models import Source, KeyFact, ResearchBrief

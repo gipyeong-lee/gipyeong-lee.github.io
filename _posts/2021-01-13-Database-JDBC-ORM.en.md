@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "Database - Part 3: JDBC, JPA, Mybatis"
-tags: [Database, DBMS, RDBMS, DB, JDBC, JPA, Mybatis]
 style: border
 color: primary
 description: Study JDBC, JPA, Mybatis

@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "Redis Clusterにおけるトランザクション"
-tags: [plantuml, tutorial, uml]
 style: border
 color: info
 description: Redisは、データベース、キャッシュ、メッセージブローカーとして使用されるインメモリデータ構造ストアです。Redisの主要な機能の一つは、複数のコマンドを単一のアトミックな操作として実行できるトランザクション機能です。Redis Clusterでは、一連のコマンドを単一のユニットとして実行することを保証し、クラスタ全体でのデータ整合性を確保するためにトランザクションが使用されます。

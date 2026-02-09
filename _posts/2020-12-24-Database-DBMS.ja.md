@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "データベース - Part2 : DBMS"
-tags: [Database, DBMS, RDBMS, DB, ACID]
 style: border
 color: info
 description: DBMSとは何かを見ていきましょう

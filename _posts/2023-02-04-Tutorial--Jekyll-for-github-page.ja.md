@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "チュートリアル: GitHub PagesのためのJekyll"
-tags: [jekyll, github page, tutorial]
 style: border
 color: info
 description: Jekyllは、ウェブサイトやブログを作成するために使用される静的サイトジェネレーターです。Rubyで記述されており、MarkdownファイルからHTMLページを生成します。これはGitHub Pagesの背後にあるエンジンであり、ユーザーはGitHub上で無料でウェブサイトをホストできます。

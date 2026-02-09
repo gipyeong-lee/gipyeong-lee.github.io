@@ -1,7 +1,6 @@
 ---
 layout: post
 title: Disabling the print function for Release builds in Xcode with Swift
-tags: [swift, iOS, Xcode]
 style: border
 color: dark
 description: Learn how to override the print function in Xcode Release builds to prevent debug logs from appearing in production.

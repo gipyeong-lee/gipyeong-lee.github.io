@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "Curriculum for Learning Generative AI"
-tags: [generation ai learning, curriculum design, AI education]
 style: border
 color: warning
 description: This curriculum provides an introduction to Generative AI, a field of study focused on the development of artificial intelligence. It covers the fundamentals of AI, including algorithms, data structures, and machine learning. It also provides an overview of the current state of AI research and development, as well as the potential applications of AI in the future.

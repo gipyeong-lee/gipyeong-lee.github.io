@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "便利なPlantUML"
-tags: [plantuml, uml diagrams, uml tools]
 style: border
 color: primary
 description: PlantUMLは、UML図を作成するための強力なオープンソースツールです。エンジニアが複雑なシステムやプロセスを表す図を素早く作成するために使用されます。PlantUMLは使いやすく、PNG、SVG、PDFなど、さまざまな形式で図を作成できます。

@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "Step-by-Step: Make Your GitHub Page Searchable on Google"
-tags: [github, google, searchable]
 style: border
 color: info
 description: This guide explains how to create a GitHub Page, a website hosted by GitHub that can be used to showcase projects and other information.

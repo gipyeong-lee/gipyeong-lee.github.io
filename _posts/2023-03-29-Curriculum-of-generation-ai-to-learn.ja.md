@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "生成AIを学ぶためのカリキュラム"
-tags: [generation ai learning, curriculum design, AI education]
 style: border
 color: warning
 description: このカリキュラムは、人工知能の開発に焦点を当てた研究分野である生成AIへの入門を提供します。アルゴリズム、データ構造、機械学習など、AIの基礎を網羅しています。また、AIの研究開発の現状や、将来におけるAIの潜在的な応用についても概要を説明します。

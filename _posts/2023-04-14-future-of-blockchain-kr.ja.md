@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "ブロックチェーンの未来"
-tags: [blockchain, future, cryptocurrency]
 style: border
 color: primary
 description: ブロックチェーンは分散ネットワーク上でデータを安全に管理・共有する技術であり、ビットコインのような暗号資産をはじめ、様々な分野で活用されています。技術の発展とセキュリティ強化のために、多様な研究が進められています。

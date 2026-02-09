@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "解決策: Redis Clusterのトランザクション"
-tags: [Redis Cluster, Transaction, Database]
 style: border
 color: warning
 description: この記事では、大規模なデータセットを管理するための分散データベースシステムであるRedis Clusterのトランザクションシステムの概要を説明します。Redis Clusterでトランザクションがどのように処理されるか、利用可能なさまざまな種類のトランザクション、およびRedis Clusterでトランザクションを使用するメリットとデメリットについて解説します。また、Redis Clusterでのトランザクションの例も紹介します。

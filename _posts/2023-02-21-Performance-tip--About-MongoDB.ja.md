@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "パフォーマンス・チップ：MongoDBについて"
-tags: [MongoDB, Performance, Database]
 style: border
 color: primary
 description: この記事では、異なるタイプのストレージエンジンに関する議論、インデックス作成の重要性、およびMongoDBのパフォーマンスを最適化するためのその他のヒントなど、MongoDBパフォーマンスの基本の概要を説明します。

@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "データベース - 第5部 : コンシステントハッシュ"
-tags: [Distributed System, consistent hashing, Hashing, ketama, Reduster]
 style: border
 color: info
 description: コンシステントハッシュとは何でしょうか？これを知る前に、まずhashing（ハッシュ化）という言葉は「刻んで混ぜる」と理解できます。Hash Mapはインデックスにデータをマッピングしたデータ構造です。O(1)であり最も効率的だと言えます。通常はキーと値のペアで保存するのが一般的です。

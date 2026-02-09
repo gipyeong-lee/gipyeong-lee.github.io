@@ -1,7 +1,6 @@
 ---
 layout: post
 title: Tutorial - Rest Api
-tags: [rest , rest api]
 style: border
 color: warning
 description: REST (REpresentational State Transfer) API is a web-based architecture that enables communication between different systems over the internet. It is a set of rules that allow programs to talk to each other. The REST API defines a set of functions that developers can use to perform requests and receive responses.

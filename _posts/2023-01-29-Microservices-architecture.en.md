@@ -1,7 +1,6 @@
 ---
 layout: post
 title: Microservices architecture
-tags: [microservices architecture, cloud computing, distributed systems,it]
 style: border
 color: warning
 description: Microservices architecture is a software design pattern that is becoming increasingly popular. It is a form of distributed computing in which individual services are broken down into smaller, self-contained units that can be deployed and managed independently. This approach enables organizations to rapidly develop, deploy, and scale applications, while reducing complexity and cost.

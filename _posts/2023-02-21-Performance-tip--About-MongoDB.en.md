@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "Performance tip: About MongoDB"
-tags: [MongoDB, Performance, Database]
 style: border
 color: primary
 description: This article provides an overview of the basics of MongoDB performance, including a discussion of the different types of storage engines, the importance of indexing, and other tips for optimizing MongoDB performance.

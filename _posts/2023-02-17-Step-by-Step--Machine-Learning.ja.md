@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "ステップ・バイ・ステップ：機械学習"
-tags: [machinelearning, stepbystep, ML]
 style: border
 color: info
 description: 本書は機械学習分野への包括的な入門書です。データ分析の基礎から最先端のアルゴリズムや技術まで、機械学習の基本を網羅しています。また、読者が概念をより深く理解し、機械学習の実地経験を積むのに役立つ実践的な例も含まれています。

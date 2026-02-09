@@ -1,7 +1,6 @@
 ---
 layout: post
 title: HTMLとCSSの基礎
-tags: [html, css, webdesign]
 style: border
 color: warning
 description: Web開発とデザインの世界は常に変化し、進化し続けています。Webデザイナーや開発者として、最新のトレンドや技術を常に把握しておくことは重要です。この記事では、Web開発者やデザイナーにとって不可欠なHTMLとCSSの基礎について概説します。HTMLとCSSの基本に加え、コードを最大限に活用するためのヒントやテクニックについても取り上げます。

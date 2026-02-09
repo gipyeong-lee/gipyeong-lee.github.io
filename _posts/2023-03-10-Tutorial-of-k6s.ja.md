@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "k6s チュートリアル"
-tags: [k6s tutorial, kubernetes tutorial, cloud computing]
 style: border
 color: info
 description: このチュートリアルでは、強力なオープンソースのコンテナオーケストレーションプラットフォームであるk6sの概要を説明します。k6sの機能と利点を解説し、インストールと使用方法をステップバイステップで説明します。また、スケーリングやセキュリティなどの高度なトピックについても触れます。

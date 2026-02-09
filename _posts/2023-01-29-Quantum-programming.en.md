@@ -1,7 +1,6 @@
 ---
 layout: post
 title: Quantum programming
-tags: [quantum programming, quantum computers, quantum algorithms,it]
 style: border
 color: info
 description: Quantum programming is a new and rapidly emerging field of computer science that seeks to develop algorithms and software to utilize the power of quantum computing. Quantum computing is an exciting and rapidly developing field that has the potential to revolutionize the way we think about computing. It has the potential to solve problems that are too complex for traditional computers, and to unlock new possibilities that were previously unimaginable.

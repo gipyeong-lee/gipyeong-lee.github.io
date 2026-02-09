@@ -1,7 +1,6 @@
 ---
 layout: post
 title: Introduction to containers
-tags: [container technology, container basics, container introduction,it]
 style: border
 color: primary
 description: Containers are a form of virtualization that allow developers to package up an application with all the parts it needs, such as libraries and other dependencies, and ship it all out as one package. By doing so, developers can be sure that the application will run on any other Linux machine regardless of any differences between the machines. This guarantees that the application will always run the same and makes the process of moving applications between different machines much easier. 

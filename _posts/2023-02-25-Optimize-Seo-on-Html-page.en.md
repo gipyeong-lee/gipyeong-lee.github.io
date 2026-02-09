@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "Optimize Seo on Html page"
-tags: [seo optimization, html page, website optimization]
 style: border
 color: warning
 description: Optimizing SEO on HTML pages is essential for any website that wants to rank well in search engine results. SEO optimization involves making changes to the HTML code of a page to improve its ranking in search engine results. This includes optimizing the page title, meta tags, headings, content, and other elements. Additionally, optimizing the page for mobile devices and ensuring that the page loads quickly are also important for SEO optimization.

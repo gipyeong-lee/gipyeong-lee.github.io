@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "JVM G1GC Tuning Methods"
-tags: [jvm, g1gc, tuning]
 style: border
 color: info
 description: As a Garbage Collector for the Java Virtual Machine (JVM), G1GC became available starting from JDK 7 Update 4. Unlike the previous garbage collector CMS, G1GC uses a method of partitioning and managing memory.

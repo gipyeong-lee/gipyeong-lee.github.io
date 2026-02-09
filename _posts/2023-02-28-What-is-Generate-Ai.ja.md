@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "Generate AIとは？"
-tags: [generateai, artificialintelligence, machinelearning]
 style: border
 color: warning
 description: Generate AIは、企業がAI駆動型アプリケーションを迅速かつ容易に作成できるようにする人工知能（AI）プラットフォームです。開発者がAI搭載アプリケーションを迅速かつ簡単に作成するための包括的なツールとサービス一式を提供します。Generate AIは、企業がタスクの自動化、顧客体験の向上、業務運用の最適化に使用できるAI駆動型アプリケーションを迅速かつ容易に作成できるように設計されています。

@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "Step by step: Crawling by python"
-tags: [python crawling, step by step, web crawling]
 style: border
 color: warning
 description: This step explains how to set up the environment for crawling with Python, including installing the necessary libraries and setting up the project folder.

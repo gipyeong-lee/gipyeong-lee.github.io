@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "The Future of Blockchain"
-tags: [blockchain, future, cryptocurrency]
 style: border
 color: primary
 description: Blockchain is a technology that securely manages and shares data in a distributed network, utilized in various fields including cryptocurrencies like Bitcoin. Various research is being conducted to advance the technology and enhance security.

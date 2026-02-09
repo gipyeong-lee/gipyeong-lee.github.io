@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "フラッシュローンの原理"
-tags: [flashloan principles, decentralized finance, DeFi]
 style: border
 color: primary
 description: フラッシュローンとは、Ethereumブロックチェーン上の単一トランザクション内で借り入れと返済が行われるローンの一種です。これにより、ユーザーは第三者の仲介を必要とせずに迅速に資金にアクセスできます。ローンはスマートコントラクトの形態で実行され、同一トランザクション内で返済されます。

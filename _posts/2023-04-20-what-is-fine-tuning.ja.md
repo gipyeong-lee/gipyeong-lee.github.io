@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "AIモデルにおけるファインチューニングとは？"
-tags: [AI, Machine Learning, Fine-tuning]
 style: border
 color: info
 description: ファインチューニングは、事前学習済みモデルを基に、新しいデータに対して学習を行う手法です。これにより、モデルの性能を向上させることができます。

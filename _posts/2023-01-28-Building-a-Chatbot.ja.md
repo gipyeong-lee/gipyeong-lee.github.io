@@ -1,7 +1,6 @@
 ---
 layout: post
 title: チャットボットの構築
-tags: [chatbot development, chatbot technology, artificial intelligence]
 style: border
 color: primary
 description: 本記事では、人間のユーザーとの会話をシミュレートするように設計されたコンピュータープログラムであるチャットボットの活用と、その構築方法について解説します。チャットボットを利用するメリットには、コスト削減、効率化、顧客体験の向上などがあります。チャットボットを構築するための技術やツールには、自然言語処理、機械学習、チャットボットフレームワークなどがあります。

@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "MongoDBチューニングのヒント"
-tags: [mongodb tuning, mongodb tips, database tuning]
 style: border
 color: primary
 description: この記事では、クエリの最適化、インデックス作成、ストレージなど、MongoDBのパフォーマンスを最適化するためのヒントを提供します。

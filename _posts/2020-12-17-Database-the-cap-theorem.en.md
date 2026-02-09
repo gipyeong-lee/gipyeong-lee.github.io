@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "Database - Part1 : The CAP Theorem"
-tags: [Database, CAP]
 style: border
 color: success
 description: Understanding why we need NoSQL.

@@ -1,7 +1,6 @@
 ---
 layout: post
 title: MVC Pattern vs Hexagonal Pattern
-tags: [mvc pattern, hexagonal pattern, software architecture,it]
 style: border
 color: warning
 description: dummy

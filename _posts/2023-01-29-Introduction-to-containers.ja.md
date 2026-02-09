@@ -1,7 +1,6 @@
 ---
 layout: post
 title: コンテナ入門
-tags: [container technology, container basics, container introduction,it]
 style: border
 color: primary
 description: コンテナは、開発者がアプリケーションを、ライブラリやその他の依存関係など必要なすべてのパーツと一緒にパッケージ化し、1つのパッケージとして出荷することを可能にする仮想化の一形態です。これにより、開発者は、マシンの違いに関係なく、他のLinuxマシン上でアプリケーションが実行されることを確信できます。これは、アプリケーションが常に同じように動作することを保証し、異なるマシン間でアプリケーションを移動するプロセスをはるかに容易にします。

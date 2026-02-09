@@ -1,7 +1,6 @@
 ---
 layout: post
 title: マイクロサービスアーキテクチャ
-tags: [microservices architecture, cloud computing, distributed systems,it]
 style: border
 color: warning
 description: マイクロサービスアーキテクチャは、ますます人気が高まっているソフトウェア設計パターンです。これは分散コンピューティングの一形態であり、個々のサービスが、独立してデプロイおよび管理できる、より小さく自己完結したユニットに分割されます。このアプローチにより、組織は複雑さとコストを削減しながら、アプリケーションを迅速に開発、デプロイ、およびスケーリングできるようになります。

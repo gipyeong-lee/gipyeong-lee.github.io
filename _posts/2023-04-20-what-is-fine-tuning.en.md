@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "What is Fine-tuning in AI Models?"
-tags: [AI, Machine Learning, Fine-tuning]
 style: border
 color: info
 description: Fine-tuning is a technique of training on new data based on a pre-trained model. This can improve the model's performance.

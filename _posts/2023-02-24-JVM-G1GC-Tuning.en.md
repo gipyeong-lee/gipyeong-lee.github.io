@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "JVM G1GC Tuning"
-tags: [jvm, g1gc, tuning]
 style: border
 color: warning
 description: This article provides an overview of the JVM G1GC garbage collection algorithm and its tuning parameters.

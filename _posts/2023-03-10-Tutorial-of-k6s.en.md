@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "Tutorial of k6s"
-tags: [k6s tutorial, kubernetes tutorial, cloud computing]
 style: border
 color: info
 description: This tutorial provides an overview of k6s, a powerful open source container orchestration platform. It explains the features and benefits of k6s, and provides step-by-step instructions for installing and using it. It also covers advanced topics such as scaling and security.

@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "The Future of Web3"
-tags: [web3, future tech, blockchain]
 style: border
 color: info
 description: Web3 provides a methodology for securing and managing personal data through blockchain technology. As the technology matures, the scope of services offered via blockchain is expanding, accompanied by the development of new tools that enhance accessibility for all users.

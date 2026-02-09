@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "チュートリアル：PlantUML"
-tags: [plantuml, tutorial, uml]
 style: border
 color: info
 description: このチュートリアルでは、UML図を作成するための強力なオープンソースツールであるPlantUMLを使用して図を作成する方法を解説します。言語の基本、ソフトウェアのインストールと使用方法、そしてPlantUMLを使用して図を作成する方法について説明します。また、PlantUMLを最大限に活用するためのヒントやコツも紹介します。

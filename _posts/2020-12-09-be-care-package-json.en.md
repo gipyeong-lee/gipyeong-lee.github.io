@@ -1,7 +1,6 @@
 ---
 layout: post
 title: Be Careful with package.json Data in Webpack
-tags: [react, jsx, webpack]
 style: border
 color: primary
 description: When creating a production build using Webpack, be careful not to inadvertently include package.json information.

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "생성AI에 대한 이해"
-tags: [ai understanding, artificial intelligence, machine learning]
+tags: [ai understanding, artificial intelligence, Machine Learning]
 style: border
 color: warning
 description: AI 생성은 인공 지능이 새로운 아이디어나 콘텐츠를 생성하는 기술을 말합니다. 이는 인간이 생성하는 것과 비슷하지만, 인공 지능이 생성하는 것이라는 차이가 있습니다.

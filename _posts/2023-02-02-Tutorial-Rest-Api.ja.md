@@ -1,7 +1,6 @@
 ---
 layout: post
 title: チュートリアル - REST API
-tags: [rest , rest api]
 style: border
 color: warning
 description: REST (REpresentational State Transfer) APIは、インターネットを介して異なるシステム間での通信を可能にするWebベースのアーキテクチャです。これは、プログラム同士が対話できるようにするための一連のルールです。REST APIは、開発者がリクエストを実行し、レスポンスを受け取るために使用できる一連の関数を定義しています。

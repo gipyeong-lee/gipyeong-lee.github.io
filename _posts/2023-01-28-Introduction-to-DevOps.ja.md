@@ -1,7 +1,6 @@
 ---
 layout: post
 title: DevOps入門
-tags: [devops, introduction, automation]
 style: border
 color: info
 description: DevOpsは、ソフトウェア開発（Dev）とIT運用（Ops）を組み合わせた一連のプラクティスであり、ビジネスの目標に合わせて機能、修正、アップデートを頻繁に提供しながら、システム開発ライフサイクルを短縮することを目的としています。これにより、組織はソフトウェア製品やサービスを迅速に作成できるようになり、生産性、信頼性、セキュリティ、パフォーマンスを劇的に向上させる能力があるとして広く認識されています。

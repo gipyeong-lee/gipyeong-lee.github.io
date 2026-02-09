@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "Becoming a Great Software Engineer"
-tags: [software engineering, software development, coding]
 style: border
 color: warning
 description: This article explores the essential steps and qualities required to become an exceptional software engineer, from building a strong computer science foundation to mastering problem-solving and staying current with evolving technologies.

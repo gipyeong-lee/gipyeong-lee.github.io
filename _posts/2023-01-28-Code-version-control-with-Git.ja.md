@@ -1,7 +1,6 @@
 ---
 layout: post
 title: Gitによるコードバージョン管理
-tags: [codeversioncontrol, git, versioncontrol]
 style: border
 color: info
 description: コードバージョン管理は、ソフトウェア開発者がソースコードの変更を追跡できるようにするプロセスです。何か問題が発生した場合や変更が必要な場合に、簡単に以前のバージョンに戻すことができます。また、バージョン管理により、複数の開発者が互いの作業を上書きすることなく同じコードベースで作業することができます。

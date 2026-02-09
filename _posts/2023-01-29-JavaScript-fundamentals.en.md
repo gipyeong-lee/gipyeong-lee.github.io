@@ -1,7 +1,6 @@
 ---
 layout: post
 title: JavaScript Fundamentals
-tags: [javascript, fundamentals, coding, it]
 style: border
 color: info
 description: JavaScript is a scripting language used to create and control dynamic websites. It is one of the three core technologies of web development, along with HTML and CSS. JavaScript is a powerful language that can be used to create complex web applications. It is also used for server-side programming, game development, and mobile app development.

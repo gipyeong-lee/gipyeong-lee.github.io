@@ -1,7 +1,6 @@
 ---
 layout: post
 title: OKR Tutorial
-tags: [okr tutorial, okr guide, okr basics,it]
 style: border
 color: info
 description: OKR (Objectives and Key Results) is a framework for setting goals and defining the various tasks needed to achieve them. This tutorial will explore the basic principles of OKR and how to use it in practice.

@@ -11,6 +11,7 @@ from .agents import (
     FactCheckerAgent,
     EditorAgent,
     TranslatorAgent,
+    ImageGeneratorAgent,
 )
 
 POSTS_DIR = "_posts"
@@ -26,6 +27,7 @@ class Pipeline:
         self.fact_checker = FactCheckerAgent()
         self.editor = EditorAgent()
         self.translator = TranslatorAgent()
+        self.image_generator = ImageGeneratorAgent()
 
     def run(self, topic: str) -> bool:
         """Run the full pipeline for a topic.
@@ -42,7 +44,7 @@ class Pipeline:
         print(f"{'='*60}\n")
 
         # --- Stage 1: Research ---
-        print("[Stage 1/5] Research")
+        print("[Stage 1/6] Research")
         brief = self.researcher.run(topic)
         if not brief:
             print("Pipeline ABORTED: Research failed.\n")
@@ -52,7 +54,7 @@ class Pipeline:
               f"{len(brief.key_facts)} facts\n")
 
         # --- Stage 2: Write ---
-        print("[Stage 2/5] Write Draft")
+        print("[Stage 2/6] Write Draft")
         draft = self.writer.run(brief, full_slug)
         if not draft:
             print("Pipeline ABORTED: Draft generation failed.\n")
@@ -60,7 +62,7 @@ class Pipeline:
         print(f"  Draft written: {len(draft)} chars\n")
 
         # --- Stage 3: Fact-Check (with revision loop) ---
-        print("[Stage 3/5] Fact-Check")
+        print("[Stage 3/6] Fact-Check")
         for round_num in range(1, MAX_REVISION_ROUNDS + 2):
             report = self.fact_checker.run(draft, brief)
 
@@ -90,15 +92,30 @@ class Pipeline:
             print(f"  Revised draft: {len(draft)} chars")
 
         # --- Stage 4: Edit ---
-        print("[Stage 4/5] Edit")
+        print("[Stage 4/6] Edit")
         final_ko = self.editor.run(draft, report)
         if not final_ko:
             print("Pipeline ABORTED: Editor rejected the post.\n")
             return False
         print(f"  Editing complete: {len(final_ko)} chars\n")
 
-        # --- Stage 5: Translate ---
-        print("[Stage 5/5] Translate")
+        # --- Stage 5: Generate Image ---
+        print("[Stage 5/6] Generate Image")
+        image_filename = self.image_generator.run(
+            topic=brief.topic,
+            summary=brief.summary,
+            slug=full_slug,
+        )
+        if image_filename:
+            print(f"  Image generated: images/{image_filename}\n")
+        else:
+            print("  Warning: Image generation skipped/failed. Post will have no image.")
+            # Remove image field from front matter so template shows no-image style
+            final_ko = self._strip_image_field(final_ko)
+            print()
+
+        # --- Stage 6: Translate ---
+        print("[Stage 6/6] Translate")
         final_en = self.translator.run(final_ko, "en")
         final_ja = self.translator.run(final_ko, "ja")
 
@@ -136,13 +153,30 @@ class Pipeline:
         else:
             filename = f"{slug}.{lang}.md"
 
-        # Inject permalink if not present
-        content = self._ensure_permalink(content, slug)
+        # Korean gets a pretty permalink; other languages use Jekyll's default
+        # (file-based) URL to avoid permalink collisions between translations
+        if lang == "ko":
+            content = self._ensure_permalink(content, slug)
+        else:
+            content = self._strip_permalink(content)
+            content = self._strip_tags(content)
 
         filepath = os.path.join(POSTS_DIR, filename)
         with open(filepath, "w", encoding="utf-8") as f:
             f.write(content)
         print(f"  Saved: {filepath}")
+
+    def _strip_image_field(self, content: str) -> str:
+        """Remove image field from front matter when no image was generated."""
+        return re.sub(r"^image:.*\n", "", content, count=1, flags=re.MULTILINE)
+
+    def _strip_tags(self, content: str) -> str:
+        """Remove tags field from front matter to avoid jekyll-tagging conflicts."""
+        return re.sub(r"^tags:.*\n", "", content, count=1, flags=re.MULTILINE)
+
+    def _strip_permalink(self, content: str) -> str:
+        """Remove permalink field from front matter to avoid collision with Korean version."""
+        return re.sub(r"^permalink:.*\n", "", content, count=1, flags=re.MULTILINE)
 
     def _ensure_permalink(self, content: str, slug: str) -> str:
         """Ensure the post has a permalink in front matter."""

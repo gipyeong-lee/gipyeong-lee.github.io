@@ -4,7 +4,11 @@ import json
 import os
 import re
 import subprocess
+import time
 from typing import Optional, Union
+
+MAX_RETRIES = 3
+RETRY_DELAY = 5  # seconds
 
 
 class GeminiCLI:
@@ -12,28 +16,40 @@ class GeminiCLI:
 
     @staticmethod
     def call(prompt: str) -> str:
-        """Call Gemini CLI with the given prompt and return the response."""
-        try:
-            process = subprocess.Popen(
-                ["gemini"],
-                stdin=subprocess.PIPE,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                text=True,
-            )
-            stdout, stderr = process.communicate(input=prompt)
+        """Call Gemini CLI with retries on transient API errors."""
+        for attempt in range(1, MAX_RETRIES + 1):
+            try:
+                process = subprocess.Popen(
+                    ["gemini"],
+                    stdin=subprocess.PIPE,
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
+                    text=True,
+                )
+                stdout, stderr = process.communicate(input=prompt)
 
-            if process.returncode != 0:
-                print(f"  [Gemini CLI Error] {stderr}")
+                if process.returncode != 0:
+                    if attempt < MAX_RETRIES:
+                        delay = RETRY_DELAY * attempt
+                        print(f"  [Gemini CLI] Attempt {attempt} failed, retrying in {delay}s...")
+                        time.sleep(delay)
+                        continue
+                    print(f"  [Gemini CLI Error] {stderr}")
+                    return ""
+
+                return stdout.strip()
+            except FileNotFoundError:
+                print("  [Error] 'gemini' CLI not found. Is it installed and on PATH?")
                 return ""
-
-            return stdout.strip()
-        except FileNotFoundError:
-            print("  [Error] 'gemini' CLI not found. Is it installed and on PATH?")
-            return ""
-        except Exception as e:
-            print(f"  [Error] Gemini CLI call failed: {e}")
-            return ""
+            except Exception as e:
+                if attempt < MAX_RETRIES:
+                    delay = RETRY_DELAY * attempt
+                    print(f"  [Gemini CLI] Attempt {attempt} error: {e}, retrying in {delay}s...")
+                    time.sleep(delay)
+                    continue
+                print(f"  [Error] Gemini CLI call failed: {e}")
+                return ""
+        return ""
 
     @staticmethod
     def call_json(prompt: str) -> Optional[Union[dict, list]]:

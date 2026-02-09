@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "Creating Your Own ChatGPT"
-tags: [chatgpt, chatbot, chatbot development]
 style: border
 color: primary
 description: ChatGPT is a natural language generation model that creates responses based on user input sentences. In this article, we will learn how to easily create your own ChatGPT.

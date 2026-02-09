@@ -1,7 +1,6 @@
 ---
 layout: post
 title: OKR チュートリアル
-tags: [okr tutorial, okr guide, okr basics,it]
 style: border
 color: info
 description: OKR (Objectives and Key Results) は、目標を設定し、それを実現するために必要な様々なタスクを定義するフレームワークです。このチュートリアルでは、OKRの基本原理を理解し、実際に使用する方法について学びます。

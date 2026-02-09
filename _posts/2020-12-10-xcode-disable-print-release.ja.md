@@ -1,7 +1,6 @@
 ---
 layout: post
 title: SwiftとXcodeでのリリースビルド時にprint出力を無効にする
-tags: [swift, iOS, Xcode]
 style: border
 color: dark
 description: Xcodeのリリースビルドにおいて、デバッグ出力を防ぐためにprint関数をオーバーライドする方法について。

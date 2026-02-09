@@ -1,7 +1,6 @@
 ---
 layout: post
 title: LAMP stack setup tutorial
-tags: [lamp stack, setup tutorial, server configuration]
 style: border
 color: info
 description: LAMP stands for Linux, Apache, MySQL and PHP. It is a widely used web development platform that is used to power dynamic websites and web applications. This tutorial will show you how to set up a basic LAMP stack on a Linux machine.

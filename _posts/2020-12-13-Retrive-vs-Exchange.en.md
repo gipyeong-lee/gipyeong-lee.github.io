@@ -1,7 +1,6 @@
 ---
 layout: post
 title: What is the difference between `retrieve` and `exchange` in WebFlux?
-tags: [spring boot, webflux]
 style: border
 color: info
 description: If you are using the WebFlux stack on your API server or elsewhere, you should read this post.

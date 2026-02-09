@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "生成AIについての理解"
-tags: [ai understanding, artificial intelligence, machine learning]
 style: border
 color: warning
 description: 生成AIとは、人工知能が新しいアイデアやコンテンツを生み出す技術のことです。人間が生成するものと似ていますが、人工知能によって生成されるという点に違いがあります。

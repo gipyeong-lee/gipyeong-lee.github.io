@@ -1,7 +1,6 @@
 ---
 layout: post
 title: 自動テストとデプロイ
-tags: [automated testing, deployment, continuous integration]
 style: border
 color: primary
 description: 自動テストとデプロイは、開発者がコードを迅速かつ簡単にテストし、問題を検出し、ライブ環境にコードをデプロイできるようにするプロセスです。このプロセスは、ソフトウェアアプリケーションが適切に機能していることを確認するために必要な時間と労力を削減し、アプリケーションへの変更が既存の機能を損なわないことを保証するのに役立ちます。

@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "Database - Part 2: DBMS"
-tags: [Database, DBMS, RDBMS, DB, ACID]
 style: border
 color: info
 description: Let's explore what a DBMS is

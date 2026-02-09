@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "Solution: Transaction of Redis cluster"
-tags: [Redis Cluster, Transaction, Database]
 style: border
 color: warning
 description: This article provides an overview of the transaction system for Redis cluster, which is a distributed database system for managing large datasets. It explains how transactions are handled in Redis cluster, the various types of transactions available, and the advantages and disadvantages of using transactions in Redis cluster. It also provides an example of a transaction in Redis cluster.

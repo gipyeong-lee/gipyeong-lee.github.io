@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "データベース - Part1 : CAP定理"
-tags: [Database, CAP]
 style: border
 color: success
 description: なぜ NoSQL が必要なのかを考える。

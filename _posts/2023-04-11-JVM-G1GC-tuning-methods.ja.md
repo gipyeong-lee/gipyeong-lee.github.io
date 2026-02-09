@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "JVM G1GCチューニング方法"
-tags: [jvm, g1gc, tuning]
 style: border
 color: info
 description: Java Virtual Machine (JVM)のガベージコレクタとして、G1GCはJDK 7 Update 4から利用可能になりました。G1GCは、以前のガベージコレクタであるCMSとは異なり、メモリを分割して管理する方式を採用しています。

@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "Web3の未来"
-tags: [web3, future tech, blockchain]
 style: border
 color: info
 description: Web3は、インターネットとの関わり方に革命をもたらし、より安全で透明性が高く、効率的なデジタル世界を創造する可能性を秘めています。ブロックチェーン、分散型台帳、スマートコントラクトなどのWeb3技術は、金融取引からデータ管理などに至るまで、私たちがインターネットを利用する方法に多大な影響を与えると期待されています。

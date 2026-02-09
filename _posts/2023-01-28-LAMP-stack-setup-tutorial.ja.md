@@ -1,7 +1,6 @@
 ---
 layout: post
 title: LAMPスタック構築チュートリアル
-tags: [lamp stack, setup tutorial, server configuration]
 style: border
 color: info
 description: LAMPはLinux、Apache、MySQL、PHPの略です。これは、動的なWebサイトやWebアプリケーションを動かすために広く使用されているWeb開発プラットフォームです。このチュートリアルでは、Linuxマシン上に基本的なLAMPスタックをセットアップする方法を紹介します。

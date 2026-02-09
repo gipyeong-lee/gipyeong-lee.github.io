@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "Tutorial: PlantUML"
-tags: [plantuml, tutorial, uml]
 style: border
 color: info
 description: This tutorial will teach you how to create diagrams with PlantUML, a powerful open source tool for creating UML diagrams. It will cover the basics of the language, how to install and use the software, and how to create diagrams with PlantUML. It will also provide some tips and tricks to help you get the most out of PlantUML.

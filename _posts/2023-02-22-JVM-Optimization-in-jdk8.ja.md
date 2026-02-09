@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "JDK 8におけるJVMの最適化"
-tags: [jvm optimization, jdk8, java virtual machine]
 style: border
 color: warning
 description: JDK 8はJava Development Kitの最新バージョンであり、JVMに多くの改善が加えられています。この記事では、JDK 8で導入されたいくつかのJVM最適化と、それらがアプリケーションのパフォーマンス向上にどのように役立つかを見ていきます。
