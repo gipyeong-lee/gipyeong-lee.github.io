@@ -95,10 +95,12 @@ def cleanup_file(filepath):
 
 
 def main():
-    # Process all .en.md and .ja.md files
+    # Process all translation files
     patterns = [
         os.path.join(POSTS_DIR, '*.en.md'),
         os.path.join(POSTS_DIR, '*.ja.md'),
+        os.path.join(POSTS_DIR, '*.zh-cn.md'),
+        os.path.join(POSTS_DIR, '*.zh-tw.md'),
     ]
 
     total_fixed = 0

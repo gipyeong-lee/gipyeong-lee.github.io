@@ -4,6 +4,8 @@
 - .md -> lang: ko
 - .en.md -> lang: en
 - .ja.md -> lang: ja
+- .zh-cn.md -> lang: zh-cn
+- .zh-tw.md -> lang: zh-tw
 - ref: <date-slug> (same for all language versions of a post)
 """
 
@@ -18,9 +20,14 @@ def get_lang_and_ref(filepath):
     """Determine lang and ref from filename."""
     basename = os.path.basename(filepath)
 
-    if basename.endswith('.en.md'):
+    if basename.endswith('.zh-cn.md'):
+        lang = 'zh-cn'
+        slug_part = basename[:-9]  # remove '.zh-cn.md'
+    elif basename.endswith('.zh-tw.md'):
+        lang = 'zh-tw'
+        slug_part = basename[:-9]  # remove '.zh-tw.md'
+    elif basename.endswith('.en.md'):
         lang = 'en'
-        # Remove .en.md to get slug
         slug_part = basename[:-6]  # remove '.en.md'
     elif basename.endswith('.ja.md'):
         lang = 'ja'

@@ -1,4 +1,4 @@
-"""Translator Agent — translates posts to English and Japanese."""
+"""Translator Agent — translates posts to English, Japanese, and Chinese."""
 
 import re
 from typing import Optional
@@ -13,11 +13,15 @@ class TranslatorAgent(BaseAgent):
     LANG_MAP = {
         "en": "English",
         "ja": "Japanese",
+        "zh-cn": "Simplified Chinese",
+        "zh-tw": "Traditional Chinese",
     }
 
     REF_SECTION_MAP = {
         "en": "## References",
         "ja": "## 参考資料",
+        "zh-cn": "## 参考资料",
+        "zh-tw": "## 參考資料",
     }
 
     def run(self, content: str, target_lang: str) -> Optional[str]:
@@ -25,7 +29,7 @@ class TranslatorAgent(BaseAgent):
 
         Args:
             content: The Korean markdown post content.
-            target_lang: Language code ("en" or "ja").
+            target_lang: Language code ("en", "ja", "zh-cn", or "zh-tw").
 
         Returns:
             Translated markdown content with corrected front matter.
@@ -73,11 +77,11 @@ Output ONLY the translated markdown starting with `---`."""
     def _force_lang_field(self, content: str, target_lang: str) -> str:
         """Programmatically force the lang field in front matter."""
         # Match lang field in front matter
-        pattern = r"(^---\n.*?)lang:\s*\w+(.*?^---)"
+        pattern = r"(^---\n.*?)lang:\s*[\w-]+(.*?^---)"
         match = re.search(pattern, content, re.MULTILINE | re.DOTALL)
         if match:
             content = re.sub(
-                r"(lang:\s*)\w+",
+                r"(lang:\s*)[\w-]+",
                 f"\\g<1>{target_lang}",
                 content,
                 count=1,
@@ -98,7 +102,7 @@ Output ONLY the translated markdown starting with `---`."""
         target_header = self.REF_SECTION_MAP.get(target_lang, "## References")
         # Replace any variant of the references header
         content = re.sub(
-            r"## (?:참고자료|References|参考資料|참고 자료)",
+            r"## (?:참고자료|References|参考資料|참고 자료|参考资料|參考資料)",
             target_header,
             content,
         )

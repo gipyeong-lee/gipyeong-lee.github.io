@@ -66,7 +66,13 @@ def translate_file(filename, target_lang):
         
         # Determine new filename
         base_name, ext = os.path.splitext(filename)
-        lang_code = "en" if target_lang == "English" else "ja"
+        lang_map = {
+            "English": "en",
+            "Japanese": "ja",
+            "Simplified Chinese": "zh-cn",
+            "Traditional Chinese": "zh-tw",
+        }
+        lang_code = lang_map.get(target_lang, "en")
         new_filename = f"{base_name}.{lang_code}{ext}"
         new_filepath = os.path.join(POSTS_DIR, new_filename)
         
@@ -94,7 +100,7 @@ def translate_file(filename, target_lang):
                  if len(parts) >= 4:
                      y, m, d, raw_slug = parts[0], parts[1], parts[2], parts[3]
                      # Remove lang suffix if present in slug (unlikely if strictly named)
-                     raw_slug = re.sub(r'\.(en|ja|ko)$', '', raw_slug)
+                     raw_slug = re.sub(r'\.(en|ja|ko|zh-cn|zh-tw)$', '', raw_slug)
                      permalink = f"/{y}/{m}/{d}/{raw_slug}/"
                      
                      # Inject
@@ -119,6 +125,12 @@ if __name__ == "__main__":
     
     # Translate to English
     translate_file(target_file, "English")
-    
+
     # Translate to Japanese
     translate_file(target_file, "Japanese")
+
+    # Translate to Simplified Chinese
+    translate_file(target_file, "Simplified Chinese")
+
+    # Translate to Traditional Chinese
+    translate_file(target_file, "Traditional Chinese")

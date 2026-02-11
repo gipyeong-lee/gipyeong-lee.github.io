@@ -118,6 +118,8 @@ class Pipeline:
         print("[Stage 6/6] Translate")
         final_en = self.translator.run(final_ko, "en")
         final_ja = self.translator.run(final_ko, "ja")
+        final_zh_cn = self.translator.run(final_ko, "zh-cn")
+        final_zh_tw = self.translator.run(final_ko, "zh-tw")
 
         # --- Save ---
         print("\nSaving posts...")
@@ -130,6 +132,14 @@ class Pipeline:
             self._save_post(final_ja, full_slug, "ja")
         else:
             print("  Warning: Japanese translation failed.")
+        if final_zh_cn:
+            self._save_post(final_zh_cn, full_slug, "zh-cn")
+        else:
+            print("  Warning: Simplified Chinese translation failed.")
+        if final_zh_tw:
+            self._save_post(final_zh_tw, full_slug, "zh-tw")
+        else:
+            print("  Warning: Traditional Chinese translation failed.")
 
         print(f"\n{'='*60}")
         print(f"  Pipeline Complete: {topic}")

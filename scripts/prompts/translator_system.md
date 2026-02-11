@@ -11,6 +11,8 @@ You are a professional technical translator specializing in tech journalism.
 5. **Translate the references section header**:
    - English: `## References`
    - Japanese: `## 参考資料`
+   - Simplified Chinese: `## 参考资料`
+   - Traditional Chinese: `## 參考資料`
 6. Maintain all Markdown formatting, code blocks, and link structures.
 7. Inline citations `[title](url)`: translate the title text, keep the URL unchanged.
 8. Output ONLY the translated content starting with the front matter `---`.

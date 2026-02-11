@@ -53,14 +53,19 @@ def process_file(filename):
     base_name, ext = os.path.splitext(filename)
     
     # Skip if it's already a translated file
-    if base_name.endswith('.en') or base_name.endswith('.ja'):
+    if base_name.endswith('.en') or base_name.endswith('.ja') \
+       or base_name.endswith('.zh-cn') or base_name.endswith('.zh-tw'):
         return
 
     en_filename = f"{base_name}.en{ext}"
     ja_filename = f"{base_name}.ja{ext}"
+    zh_cn_filename = f"{base_name}.zh-cn{ext}"
+    zh_tw_filename = f"{base_name}.zh-tw{ext}"
     en_path = os.path.join(POSTS_DIR, en_filename)
     ja_path = os.path.join(POSTS_DIR, ja_filename)
-    
+    zh_cn_path = os.path.join(POSTS_DIR, zh_cn_filename)
+    zh_tw_path = os.path.join(POSTS_DIR, zh_tw_filename)
+
     with open(file_path, 'r', encoding='utf-8') as f:
         content = f.read()
 
@@ -97,6 +102,40 @@ def process_file(filename):
         time.sleep(2) # Prevent rate limiting
     else:
         print(f"Skipping Japanese (exists): {ja_filename}")
+
+    # Translate to Simplified Chinese
+    if not os.path.exists(zh_cn_path):
+        print(f"Translating {filename} to Simplified Chinese...")
+        translated = translate_content(content, "Simplified Chinese")
+        if translated:
+            translated = re.sub(r'^```markdown\s*', '', translated)
+            translated = re.sub(r'^```\s*', '', translated)
+            translated = re.sub(r'\s*```$', '', translated)
+            with open(zh_cn_path, 'w', encoding='utf-8') as f:
+                f.write(translated.strip())
+            print(f"Created: {zh_cn_filename}")
+        else:
+            print(f"Failed to translate {filename} to Simplified Chinese")
+        time.sleep(2) # Prevent rate limiting
+    else:
+        print(f"Skipping Simplified Chinese (exists): {zh_cn_filename}")
+
+    # Translate to Traditional Chinese
+    if not os.path.exists(zh_tw_path):
+        print(f"Translating {filename} to Traditional Chinese...")
+        translated = translate_content(content, "Traditional Chinese")
+        if translated:
+            translated = re.sub(r'^```markdown\s*', '', translated)
+            translated = re.sub(r'^```\s*', '', translated)
+            translated = re.sub(r'\s*```$', '', translated)
+            with open(zh_tw_path, 'w', encoding='utf-8') as f:
+                f.write(translated.strip())
+            print(f"Created: {zh_tw_filename}")
+        else:
+            print(f"Failed to translate {filename} to Traditional Chinese")
+        time.sleep(2) # Prevent rate limiting
+    else:
+        print(f"Skipping Traditional Chinese (exists): {zh_tw_filename}")
 
 def main():
     print("Starting batch translation...")

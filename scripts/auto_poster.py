@@ -127,7 +127,7 @@ def main():
 
     if success:
         append_history(topic)
-        print("\nDone! Check the _posts directory for KO, EN, JA versions.")
+        print("\nDone! Check the _posts directory for KO, EN, JA, ZH-CN, ZH-TW versions.")
     else:
         print("\nPipeline failed. No posts were saved.")
         sys.exit(1)

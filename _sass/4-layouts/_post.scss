@@ -98,6 +98,55 @@
 
 .post__content {
   margin-bottom: 40px;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  overflow-x: hidden;
+
+  // Magazine-style body
+  font-size: 17px;
+  line-height: 1.8;
+
+  h2 {
+    margin-top: 2em;
+    padding-bottom: 8px;
+    border-bottom: 1px solid $light-gray;
+  }
+
+  h3 {
+    margin-top: 1.5em;
+  }
+
+  p {
+    margin-bottom: 1.5em;
+  }
+
+  // Drop cap (magazine signature)
+  > p:first-of-type::first-letter {
+    float: left;
+    font-size: 3.2em;
+    line-height: 0.8;
+    padding-right: 8px;
+    padding-top: 4px;
+    font-weight: 700;
+    color: $dark;
+  }
+
+  // In-body link style
+  a {
+    border-bottom: 1px solid rgba($link-color, 0.3);
+    &:hover {
+      border-bottom-color: $link-color;
+    }
+  }
+
+  li {
+    margin-bottom: 0.5em;
+    line-height: 1.7;
+  }
+
+  img {
+    border-radius: 3px;
+  }
 }
 
 .post__share {

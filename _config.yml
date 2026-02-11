@@ -47,9 +47,11 @@ sass:
   style: compressed
 
 # Localization
-languages: ["ko", "en", "ja"]
+languages: ["ko", "en", "ja", "zh-cn", "zh-tw"]
 default_lang: ko
 language_names:
   ko: "한국어"
   en: "English"
   ja: "日本語"
+  zh-cn: "简体中文"
+  zh-tw: "繁體中文"
