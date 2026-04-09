@@ -109,9 +109,13 @@
         <span class="text-sm font-medium">Reference voice path</span>
         <input type="text" name="video_reference_voice_path"
                value="{{ settings.video_reference_voice_path }}"
-               placeholder="/Users/.../voice_reference.wav"
+               placeholder="/Users/.../voice_reference.mp4"
                class="mt-1 block w-full border rounded px-3 py-2 text-sm font-mono" />
-        <div class="text-xs text-slate-400">빈 값이면 MeloTTS 기본 한국어 음성 사용. 30~60초 자연 독백 권장.</div>
+        <div class="text-xs text-slate-400">
+          빈 값이면 MeloTTS 기본 한국어 음성 사용. 30~60초 자연 독백 권장.
+          <b>지원 포맷:</b> wav, mp4, m4a, mp3, aac, webm, mov, flac, ogg, opus.
+          wav 가 아닌 경우 ffmpeg로 24kHz 모노 wav 로 자동 변환 + 캐싱합니다.
+        </div>
       </label>
       <label class="block">
         <span class="text-sm font-medium">Target duration (sec)</span>

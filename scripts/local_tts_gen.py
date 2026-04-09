@@ -18,11 +18,13 @@ from __future__ import annotations
 
 import argparse
 import os
+import subprocess
 import sys
 import tempfile
 import traceback
 import wave
 from pathlib import Path
+from typing import Optional
 
 
 def _get_device() -> str:
@@ -35,6 +37,92 @@ def _get_device() -> str:
     if torch.cuda.is_available():
         return "cuda"
     return "cpu"
+
+
+# Audio/video containers that ffmpeg can read and that this machine
+# might hold the user's voice sample in. Anything NOT in this set gets
+# passed through unchanged (so .wav remains zero-copy).
+_NON_WAV_EXTS = {
+    ".mp4", ".m4a", ".mp3", ".aac", ".webm", ".mkv", ".mov",
+    ".flac", ".ogg", ".oga", ".opus", ".3gp", ".wma", ".aif", ".aiff",
+}
+
+
+def _ensure_wav_reference(source_path: str) -> Optional[str]:
+    """Return a wav version of `source_path`, converting via ffmpeg if needed.
+
+    Accepts any audio/video format ffmpeg can decode — the user can drop
+    a voicemail .m4a, a QuickTime .mov, a phone-camera .mp4, etc. at the
+    reference path and this helper extracts a 24kHz mono wav next to it
+    as `<source>.__autowav.wav`. Subsequent calls reuse the cache unless
+    the source file has been modified.
+
+    Returns:
+        - `source_path` unchanged if it is already a .wav
+        - path to the cached wav on successful conversion
+        - None on ffmpeg failure (caller should fall back to base voice)
+    """
+    if not source_path or not os.path.exists(source_path):
+        return None
+    ext = os.path.splitext(source_path)[1].lower()
+    if ext == ".wav":
+        return source_path
+
+    cache = source_path + ".__autowav.wav"
+    try:
+        if os.path.exists(cache):
+            src_mtime = os.path.getmtime(source_path)
+            cache_mtime = os.path.getmtime(cache)
+            if cache_mtime >= src_mtime and os.path.getsize(cache) > 2000:
+                print(f"  [TTS] Reusing cached wav conversion: {cache}")
+                return cache
+    except OSError:
+        pass
+
+    print(f"  [TTS] Converting voice reference → wav via ffmpeg ({ext})")
+    try:
+        result = subprocess.run(
+            [
+                "ffmpeg",
+                "-y",                    # overwrite cache
+                "-loglevel", "error",
+                "-i", source_path,
+                "-vn",                   # drop any video track
+                "-ac", "1",              # mono (OpenVoice expects mono)
+                "-ar", "24000",          # 24kHz — matches MeloTTS base output
+                "-sample_fmt", "s16",
+                "-f", "wav",
+                cache,
+            ],
+            capture_output=True,
+            text=True,
+            timeout=120,
+        )
+    except FileNotFoundError:
+        print("  [TTS] ffmpeg not found on PATH; cannot convert reference.")
+        return None
+    except subprocess.TimeoutExpired:
+        print("  [TTS] ffmpeg conversion timed out.")
+        return None
+    except Exception as e:
+        print(f"  [TTS] ffmpeg conversion crashed: {e}")
+        return None
+
+    if result.returncode != 0:
+        print(f"  [TTS] ffmpeg exit={result.returncode}: {result.stderr[:200]}")
+        # Clean up an incomplete cache file so next run retries.
+        try:
+            if os.path.exists(cache):
+                os.remove(cache)
+        except OSError:
+            pass
+        return None
+
+    if not os.path.exists(cache) or os.path.getsize(cache) < 2000:
+        print("  [TTS] ffmpeg produced an empty wav.")
+        return None
+
+    return cache
 
 
 def _wav_duration_seconds(path: str) -> float:
@@ -152,9 +240,20 @@ def main() -> int:
     output_path = os.path.abspath(args.output)
     os.makedirs(os.path.dirname(output_path) or ".", exist_ok=True)
 
+    # Resolve the reference voice: accept any audio/video format ffmpeg
+    # can read, convert to 24kHz mono wav on first use, cache alongside.
+    reference_wav: Optional[str] = None
+    if args.reference and os.path.exists(args.reference):
+        reference_wav = _ensure_wav_reference(args.reference)
+        if reference_wav is None:
+            print(
+                f"  [TTS] Could not obtain wav from {args.reference}; "
+                "falling back to MeloTTS base voice."
+            )
+
     # Stage 1: base synthesis (MeloTTS Korean).
     base_path = output_path
-    needs_convert = bool(args.reference) and os.path.exists(args.reference)
+    needs_convert = bool(reference_wav)
     if needs_convert:
         base_path = output_path + ".base.wav"
 
@@ -167,7 +266,7 @@ def main() -> int:
 
     # Stage 2: tone conversion, only if a reference is provided.
     if needs_convert:
-        ok = _convert_voice(base_path, args.reference, output_path, speaker_key)
+        ok = _convert_voice(base_path, reference_wav, output_path, speaker_key)
         if not ok:
             # Fall back: copy base to output so the pipeline can continue
             # with MeloTTS base voice instead of failing the entire video.
