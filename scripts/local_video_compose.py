@@ -153,6 +153,84 @@ def build_outro(duration: float, channel_name: str, font: str):
     return CompositeVideoClip([bg, channel, cta], size=(WIDTH, HEIGHT))
 
 
+def build_multi_hero(image_paths: List[str], audio_duration: float):
+    """Build a multi-segment hero track for the 50-min newscast format.
+
+    Slices `audio_duration` into ``len(image_paths)`` equal windows and
+    runs a Ken Burns zoom on each hero image during its window. The
+    blurred letterbox background is rebuilt per segment so each segment
+    feels visually distinct without expensive transitions.
+
+    No LTX animation here — generating per-segment animations would add
+    20+ minutes to every render and the visual benefit on a 50-min
+    newscast is marginal compared to the existing zoom.
+    """
+    from moviepy import (
+        ImageClip,
+        CompositeVideoClip,
+        concatenate_videoclips,
+    )
+    from moviepy.video.fx import FadeIn, FadeOut, Resize
+    from PIL import Image, ImageFilter
+    import numpy as np
+
+    n = max(1, len(image_paths))
+    per = audio_duration / n
+    print(f"multi-hero: {n} images @ {per:.1f}s each")
+
+    segments = []
+    for idx, img_path in enumerate(image_paths):
+        try:
+            bg_img = Image.open(img_path).convert("RGB")
+        except Exception as e:
+            print(f"failed to open hero {img_path}: {e}; skipping")
+            continue
+        bg_img = bg_img.resize((WIDTH, HEIGHT))
+        bg_img = bg_img.filter(ImageFilter.GaussianBlur(radius=40))
+        bg_arr = np.array(bg_img)
+        bg_clip = ImageClip(bg_arr).with_duration(per)
+
+        fg = ImageClip(img_path).with_duration(per)
+        target_w = int(WIDTH * 0.9)
+        ratio = target_w / fg.w
+        target_h = int(fg.h * ratio)
+        fg = fg.with_effects([Resize(new_size=(target_w, target_h))])
+
+        # Per-segment Ken Burns: alternate zoom-in / zoom-out so adjacent
+        # segments don't all push the same direction.
+        zoom_in = (idx % 2 == 0)
+        z_start = KEN_BURNS_ZOOM_START if zoom_in else KEN_BURNS_ZOOM_END
+        z_end = KEN_BURNS_ZOOM_END if zoom_in else KEN_BURNS_ZOOM_START
+
+        def make_zoom(z0, z1, dur):
+            def _z(t):
+                if dur <= 0:
+                    return 1.0
+                progress = min(max(t / dur, 0.0), 1.0)
+                return z0 + (z1 - z0) * progress
+            return _z
+
+        fg = fg.with_effects(
+            [Resize(new_size=make_zoom(z_start, z_end, per))]
+        ).with_position("center")
+
+        seg = CompositeVideoClip(
+            [bg_clip, fg], size=(WIDTH, HEIGHT)
+        ).with_duration(per)
+        # Cross-fade between segments — 0.4s fade keeps transitions
+        # smooth without burning subtitle space.
+        seg = seg.with_effects([FadeIn(0.4), FadeOut(0.4)])
+        segments.append(seg)
+
+    if not segments:
+        # Pathological: no images openable. Caller should have prevented
+        # this; return a single black clip so the pipeline doesn't crash.
+        from moviepy import ColorClip
+        return ColorClip(size=(WIDTH, HEIGHT), color=(0, 0, 0), duration=audio_duration)
+
+    return concatenate_videoclips(segments, method="compose").with_duration(audio_duration)
+
+
 def build_hero(
     image_path: str, audio_duration: float, animation_path: str | None = None
 ):
@@ -296,7 +374,16 @@ def build_subtitles(sentences, audio_duration: float, font: str):
 
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--image", required=True)
+    ap.add_argument("--image", required=True, help="Primary hero image (single-topic mode)")
+    ap.add_argument(
+        "--images",
+        default="",
+        help=(
+            "Comma-separated list of hero image paths for newscast (multi-"
+            "topic) mode. When provided, the composer slices the audio "
+            "into N equal Ken-Burns segments, one per image."
+        ),
+    )
     ap.add_argument("--audio", required=True)
     ap.add_argument("--script", required=True)
     ap.add_argument("--title", required=True)
@@ -329,8 +416,16 @@ def main() -> int:
         intro = build_intro(args.intro, args.channel, args.title, font)
         intro = intro.with_effects([FadeIn(0.5), FadeOut(0.4)])
 
-        animation_path = args.animation.strip() or None
-        hero = build_hero(args.image, audio_duration, animation_path=animation_path)
+        # Newscast (multi-hero) mode bypasses single-hero logic entirely.
+        multi_paths = [
+            p.strip() for p in (args.images or "").split(",") if p.strip()
+        ]
+        if len(multi_paths) > 1:
+            print(f"newscast mode: {len(multi_paths)} hero images")
+            hero = build_multi_hero(multi_paths, audio_duration)
+        else:
+            animation_path = args.animation.strip() or None
+            hero = build_hero(args.image, audio_duration, animation_path=animation_path)
         subtitles = build_subtitles(split_sentences(args.script), audio_duration, font)
         main_comp = CompositeVideoClip([hero, *subtitles], size=(WIDTH, HEIGHT))
         main_comp = main_comp.with_audio(audio)

@@ -62,6 +62,8 @@ class RuntimeSettings:
     broadcast_hour_local: int
     broadcast_timezone: str
     video_language: str
+    topics_per_episode: int
+    topics_freshness_hours: int
 
 
 def _defaults_as_dict() -> dict[str, Any]:
@@ -106,6 +108,8 @@ def _defaults_as_dict() -> dict[str, Any]:
         "broadcast_hour_local": DEFAULTS.broadcast_hour_local,
         "broadcast_timezone": DEFAULTS.broadcast_timezone,
         "video_language": DEFAULTS.video_language,
+        "topics_per_episode": DEFAULTS.topics_per_episode,
+        "topics_freshness_hours": DEFAULTS.topics_freshness_hours,
     }
 
 

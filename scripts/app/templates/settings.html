@@ -151,11 +151,15 @@
         </select>
       </label>
       <label class="block">
-        <span class="text-sm font-medium">YouTube upload daily cap</span>
-        <input type="number" min="0" max="20" name="youtube_upload_daily_cap"
+        <span class="text-sm font-medium">YouTube uploads per day (slots)</span>
+        <input type="number" min="1" max="6" name="youtube_upload_daily_cap"
                value="{{ settings.youtube_upload_daily_cap }}"
                class="mt-1 block w-full border rounded px-3 py-2 text-sm" />
-        <div class="text-xs text-slate-400">일일 쿼타 방어. 10,000 units ÷ 1,600 = 약 6 건.</div>
+        <div class="text-xs text-slate-400">
+          하루 N개 슬롯, 자정 기준 균등 배치. 1=18시 ET (legacy), 3=04/12/20 ET,
+          4=03/09/15/21 ET, 6=02/06/10/14/18/22 ET. 캡션 켠 상태에서 안전 max ≈ 4
+          (1건당 ~2050 units, 일일 10,000).
+        </div>
       </label>
       <label class="block md:col-span-2">
         <span class="text-sm font-medium">YouTube channel name</span>
@@ -218,6 +222,24 @@
           {% endfor %}
         </select>
         <div class="text-xs text-slate-400">스크립트와 TTS 언어. 해당 언어 번역본 (`&lt;slug&gt;.&lt;lang&gt;.md`) 이 있는 포스트만 영상으로 만듭니다.</div>
+      </label>
+      <label class="block">
+        <span class="text-sm font-medium">Topics per episode</span>
+        <input type="number" min="1" max="20" name="topics_per_episode"
+               value="{{ settings.topics_per_episode }}"
+               class="mt-1 block w-full border rounded px-3 py-2 text-sm" />
+        <div class="text-xs text-slate-400">
+          1 = 단일 포스트 90초 모드. 8 = 50분 newscast (각 토픽 ~6분).
+        </div>
+      </label>
+      <label class="block">
+        <span class="text-sm font-medium">Topic freshness window (hours)</span>
+        <input type="number" min="1" max="168" name="topics_freshness_hours"
+               value="{{ settings.topics_freshness_hours }}"
+               class="mt-1 block w-full border rounded px-3 py-2 text-sm" />
+        <div class="text-xs text-slate-400">
+          이 시간 안에 발행된 포스트만 episode 후보. 기본 36h.
+        </div>
       </label>
 
       <label class="inline-flex items-center gap-2 md:col-span-2 border-t pt-3">

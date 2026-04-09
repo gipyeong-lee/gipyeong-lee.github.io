@@ -65,6 +65,8 @@ async def save_settings(
     broadcast_hour_local: int = Form(18),
     broadcast_timezone: str = Form("America/New_York"),
     video_language: str = Form("en"),
+    topics_per_episode: int = Form(8),
+    topics_freshness_hours: int = Form(36),
 ) -> JSONResponse:
     # Parse blocklist: one keyword per line, or comma-separated
     bl = [kw.strip() for chunk in keyword_blocklist.split("\n") for kw in chunk.split(",") if kw.strip()]
@@ -115,6 +117,8 @@ async def save_settings(
         "broadcast_hour_local": max(0, min(23, int(broadcast_hour_local))),
         "broadcast_timezone": broadcast_timezone.strip() or "America/New_York",
         "video_language": (video_language.strip() or "en").lower(),
+        "topics_per_episode": max(1, min(20, int(topics_per_episode))),
+        "topics_freshness_hours": max(1, min(168, int(topics_freshness_hours))),
     }
     if sources_enabled:
         patch["sources_enabled"] = sources_enabled

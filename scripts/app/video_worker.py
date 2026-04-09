@@ -33,7 +33,7 @@ from __future__ import annotations
 import asyncio
 import logging
 import re
-from datetime import date, datetime, time, timedelta, timezone
+from datetime import datetime, timedelta, timezone
 from typing import Optional
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
@@ -130,48 +130,62 @@ async def _tick() -> None:
         log.debug("video_worker: skipping — youtube OAuth not yet completed")
         return
 
-    # --- Broadcast slot gate ----------------------------------------
-    # The daily broadcast slot is the *only* trigger for new uploads.
-    # `should_run_broadcast` is pure / testable: it answers "is the
-    # local broadcast hour already reached for a day on which we have
-    # not yet uploaded?"
+    # --- Slot gate ---------------------------------------------------
+    # We compute N evenly-spaced slots across the local broadcast day
+    # (N = youtube_upload_daily_cap). Each slot fires at most once
+    # within its 24/N-hour window. This caps daily uploads at the
+    # YouTube quota limit while spreading them evenly so no two
+    # uploads hit the channel within minutes of each other.
     decision = should_run_broadcast(
         now_utc=datetime.now(timezone.utc),
-        broadcast_hour=settings.broadcast_hour_local,
+        cap_per_day=settings.youtube_upload_daily_cap,
+        anchor_hour=settings.broadcast_hour_local,
         broadcast_tz_name=settings.broadcast_timezone,
-        last_broadcast_date=_last_broadcast_local_date(settings.broadcast_timezone),
+        last_upload_at_utc=_last_upload_at_utc(),
     )
     if not decision.run:
         return
 
-    # Daily cap acts as a hard belt-and-suspenders second check (defends
-    # against a bug in the slot logic accidentally double-firing).
+    # Belt-and-suspenders: hard daily cap on top of slot logic to defend
+    # against a bug accidentally double-firing within a window.
     if settings.video_auto_upload and _reached_daily_upload_cap(
         settings.youtube_upload_daily_cap, settings.broadcast_timezone
     ):
         return
 
-    candidate = _pick_next_post_slug(
-        settings.video_max_retries,
+    # Pick the next episode (newscast: N topics; legacy: 1 topic).
+    episode = _pick_next_episode(
+        n=settings.topics_per_episode,
         language=settings.video_language,
+        freshness_hours=settings.topics_freshness_hours,
     )
-    if candidate is None:
+    if episode is None:
         return
 
-    slug, title = candidate
+    episode_slug = episode["episode_slug"]
+    episode_title = episode["episode_title"]
+    topics = episode["topics"]
+
     async with _video_lock:
         _state["current_video_id"] = None
-        video_id = _upsert_video_row(slug)
+        video_id = _upsert_video_row(episode_slug)
         _state["current_video_id"] = video_id
         run_id = _start_video_run(video_id, trigger="auto")
 
         try:
             result = await asyncio.wait_for(
-                asyncio.to_thread(_run_video_pipeline_sync, slug, title, video_id, run_id),
+                asyncio.to_thread(
+                    _run_video_pipeline_sync,
+                    episode_slug,
+                    episode_title,
+                    topics,
+                    video_id,
+                    run_id,
+                ),
                 timeout=settings.video_pipeline_timeout_seconds,
             )
         except asyncio.TimeoutError:
-            log.warning(f"video pipeline timeout for {slug}")
+            log.warning(f"video pipeline timeout for {episode_slug}")
             _finish_video_run(
                 video_id,
                 run_id,
@@ -208,52 +222,98 @@ async def _tick() -> None:
 # ----------------------------------------------------------------------
 
 
-def _pick_next_post_slug(
-    max_retries: int, *, language: str = "ko"
-) -> Optional[tuple[str, str]]:
-    """Return (slug, title) for the newest post without a usable video row.
+def _pick_next_episode(
+    *,
+    n: int,
+    language: str,
+    freshness_hours: int,
+) -> Optional[dict]:
+    """Pick the freshest N posts for the upcoming episode.
 
-    Newest-first ordering prioritizes fresh content (which is what a news
-    channel cares about) and matches the blog pipeline's own ordering.
-    We also filter out posts that have no hero image on disk *and* have
-    no published translation in the requested language — composing a
-    video without either is a non-starter and would just waste a retry.
+    Returns ``None`` if fewer than 1 post is available within the
+    freshness window. The episode slug is synthetic and unique per UTC
+    hour, so re-running the worker tick within an hour does not
+    accidentally start a duplicate episode.
+
+    Returned dict shape:
+        {
+            "episode_slug": "episode-2026-04-10-04",
+            "episode_title": "AI News Daily — April 10, 2026",
+            "topics": [
+                {
+                    "slug": "<post-slug>",
+                    "title": "<post-title>",
+                    "description": "<post-description>",
+                    "post_path": "<absolute path to .{lang}.md>",
+                    "hero_path": "<absolute path to hero image>",
+                    "tags": ["..."],
+                },
+                ...
+            ],
+        }
     """
     lang = (language or "ko").lower()
+    n = max(1, int(n or 1))
+    cutoff_utc = datetime.utcnow() - timedelta(hours=max(1, int(freshness_hours)))
+
+    candidates: list[dict] = []
     with session_scope() as s:
-        # Posts that have no videos row at all → highest priority, newest first.
-        # We fetch a small candidate window, then filter in Python by hero image
-        # existence (SQL can't express that cheaply).
-        missing_stmt = (
-            select(PostHistory.slug, PostHistory.title)
-            .where(
-                ~PostHistory.slug.in_(select(Video.post_slug))
-            )
+        rows = s.execute(
+            select(PostHistory.slug, PostHistory.title, PostHistory.published_at)
+            .where(PostHistory.published_at >= cutoff_utc)
             .order_by(PostHistory.published_at.desc())
-            .limit(20)
+            .limit(n * 4)  # over-fetch for hero/translation filtering
+        ).all()
+    for slug, title, _published_at in rows:
+        if len(candidates) >= n:
+            break
+        if not _has_hero_image(slug) or not _has_post_translation(slug, lang):
+            continue
+        post_path = _resolve_post_path(slug, lang)
+        hero_path = _resolve_hero_path(slug)
+        if post_path is None or hero_path is None:
+            continue
+        meta = _read_post_meta(slug, language=lang)
+        candidates.append(
+            {
+                "slug": slug,
+                "title": title or slug,
+                "description": meta.get("description", "") if isinstance(meta, dict) else "",
+                "post_path": str(post_path),
+                "hero_path": str(hero_path),
+                "tags": meta.get("tags", []) if isinstance(meta, dict) else [],
+            }
         )
-        for slug, title in s.execute(missing_stmt).all():
-            if _has_hero_image(slug) and _has_post_translation(slug, lang):
-                return (slug, title or slug)
 
-        # Otherwise: any failed video with fail_count < max_retries,
-        # at least 1h since its last attempt. Blocked videos are skipped
-        # (quota/oauth issues; admin must Regenerate manually).
-        now = datetime.utcnow()
-        backoff = now - timedelta(hours=1)
-        retry_stmt = (
-            select(Video.post_slug, PostHistory.title)
-            .join(PostHistory, PostHistory.slug == Video.post_slug)
-            .where(Video.status == "failed")  # blocked videos are excluded
-            .where(Video.fail_count < max_retries)
-            .where((Video.updated_at == None) | (Video.updated_at < backoff))  # noqa: E711
-            .order_by(Video.updated_at.asc().nullsfirst())
-            .limit(1)
-        )
-        for slug, title in s.execute(retry_stmt).all():
-            if _has_hero_image(slug) and _has_post_translation(slug, lang):
-                return (slug, title or slug)
+    if not candidates:
+        return None
 
+    now_utc = datetime.now(timezone.utc)
+    episode_slug = f"episode-{now_utc:%Y-%m-%d-%H}"
+    episode_title = f"AI News Daily — {now_utc:%B %d, %Y}"
+    return {
+        "episode_slug": episode_slug,
+        "episode_title": episode_title,
+        "topics": candidates,
+    }
+
+
+def _resolve_post_path(slug: str, language: str) -> Optional["object"]:
+    from pathlib import Path as _P
+    if language and language != "ko":
+        translated = _P(POSTS_DIR) / f"{slug}.{language}.md"
+        if translated.exists():
+            return translated
+    korean = _P(POSTS_DIR) / f"{slug}.md"
+    return korean if korean.exists() else None
+
+
+def _resolve_hero_path(slug: str) -> Optional["object"]:
+    from pathlib import Path as _P
+    for ext in ("jpg", "jpeg", "png", "webp"):
+        cand = _P(IMAGES_DIR) / f"{slug}.{ext}"
+        if cand.exists():
+            return cand
     return None
 
 
@@ -382,12 +442,12 @@ def _reached_daily_upload_cap(cap: int, tz_name: str = "America/New_York") -> bo
 
 
 class BroadcastDecision:
-    """Result of deciding whether the daily broadcast slot is open.
+    """Result of deciding whether a broadcast slot is currently open.
 
     Tiny class instead of dataclass for zero-import overhead in tests.
     """
 
-    __slots__ = ("run", "reason", "local_now", "next_run_at")
+    __slots__ = ("run", "reason", "local_now", "next_run_at", "active_slot_hour")
 
     def __init__(
         self,
@@ -395,14 +455,19 @@ class BroadcastDecision:
         reason: str,
         local_now: datetime,
         next_run_at: Optional[datetime] = None,
+        active_slot_hour: Optional[int] = None,
     ):
         self.run = run
         self.reason = reason
         self.local_now = local_now
         self.next_run_at = next_run_at
+        self.active_slot_hour = active_slot_hour
 
     def __repr__(self) -> str:  # pragma: no cover - debug only
-        return f"BroadcastDecision(run={self.run}, reason={self.reason!r})"
+        return (
+            f"BroadcastDecision(run={self.run}, reason={self.reason!r}, "
+            f"slot={self.active_slot_hour})"
+        )
 
 
 def _resolve_timezone(name: str):
@@ -413,52 +478,120 @@ def _resolve_timezone(name: str):
         return ZoneInfo("UTC")
 
 
+def compute_broadcast_slots(cap_per_day: int, anchor_hour: int = 0) -> list[int]:
+    """Return the list of local hours (0-23) at which slots fire.
+
+    For ``cap_per_day == 1`` we honour ``anchor_hour`` so the legacy
+    "single 18:00 ET broadcast" behavior is preserved verbatim. For
+    higher caps we evenly distribute slots starting from local midnight,
+    centered within their interval — this gives a clean, predictable
+    grid that does not depend on the anchor hour::
+
+        N=2 → [ 6, 18]
+        N=3 → [ 4, 12, 20]
+        N=4 → [ 3,  9, 15, 21]
+        N=5 → [ 2,  7, 12, 17, 22]
+        N=6 → [ 2,  6, 10, 14, 18, 22]
+
+    The (k + 0.5) offset centers each slot within its window, so the
+    user never sees an awkward 00:00 broadcast and the gaps stay
+    symmetric across midnight.
+    """
+    n = max(1, min(24, int(cap_per_day or 1)))
+    if n == 1:
+        return [max(0, min(23, int(anchor_hour)))]
+    return sorted({round((k + 0.5) * 24 / n) % 24 for k in range(n)})
+
+
+def find_active_slot(
+    local_now: datetime, slot_hours: list[int]
+) -> Optional[int]:
+    """Return the most recent slot whose start hour has already passed today.
+
+    Returns the hour-of-day (0-23) of the active slot, or None if the
+    current local time is earlier than every slot of the day.
+    """
+    if not slot_hours:
+        return None
+    now_h = local_now.hour + local_now.minute / 60.0 + local_now.second / 3600.0
+    passed = [h for h in sorted(slot_hours) if h <= now_h]
+    return passed[-1] if passed else None
+
+
 def should_run_broadcast(
     *,
     now_utc: datetime,
-    broadcast_hour: int,
+    cap_per_day: int,
+    anchor_hour: int,
     broadcast_tz_name: str,
-    last_broadcast_date: Optional[date],
+    last_upload_at_utc: Optional[datetime],
 ) -> BroadcastDecision:
-    """Decide whether to fire today's broadcast slot.
+    """Decide whether the active slot is open and unfilled.
 
-    Pure function — takes the current UTC time and the most recent
-    broadcast date and returns a yes/no answer plus a human reason.
+    Pure function. Returns ``run=True`` only when:
+    - the current local time is past at least one slot for today, AND
+    - no upload has happened inside that slot's window yet.
 
-    Logic:
-    - If we already broadcast on the local-day for `now_utc`, do not fire.
-    - If the local clock has not yet reached `broadcast_hour`, do not
-      fire (wait for tonight's slot).
-    - Otherwise fire.
+    A slot's window is ``[slot_start, slot_start + 24/N hours)`` so each
+    slot can fire at most once. The next-run-at field tells the caller
+    when the next opportunity arrives if we declined this tick.
     """
     tz = _resolve_timezone(broadcast_tz_name)
     if now_utc.tzinfo is None:
         now_utc = now_utc.replace(tzinfo=timezone.utc)
     local_now = now_utc.astimezone(tz)
-    today_local = local_now.date()
-    slot_start = local_now.replace(
-        hour=max(0, min(23, broadcast_hour)),
-        minute=0,
-        second=0,
-        microsecond=0,
-    )
 
-    if last_broadcast_date == today_local:
-        # Already done today — next slot is tomorrow at broadcast hour.
-        next_local = slot_start + timedelta(days=1)
+    slots = compute_broadcast_slots(cap_per_day, anchor_hour)
+    n = len(slots)
+    window_hours = 24.0 / n if n > 0 else 24.0
+
+    active_hour = find_active_slot(local_now, slots)
+
+    # Pre-day case: no slot has started yet today.
+    if active_hour is None:
+        first_slot_today = local_now.replace(
+            hour=slots[0], minute=0, second=0, microsecond=0
+        )
         return BroadcastDecision(
             run=False,
-            reason="already_broadcast_today",
+            reason="before_first_slot",
             local_now=local_now,
-            next_run_at=next_local,
+            next_run_at=first_slot_today,
         )
 
-    if local_now < slot_start:
+    slot_start_local = local_now.replace(
+        hour=active_hour, minute=0, second=0, microsecond=0
+    )
+    slot_end_local = slot_start_local + timedelta(hours=window_hours)
+
+    # Did any upload land inside [slot_start, slot_end)?
+    already_filled = False
+    if last_upload_at_utc is not None:
+        last_local = last_upload_at_utc.astimezone(tz)
+        if slot_start_local <= last_local < slot_end_local:
+            already_filled = True
+
+    if already_filled:
+        # Next slot today, or first slot tomorrow if we're on the last one.
+        try:
+            idx = slots.index(active_hour)
+        except ValueError:  # pragma: no cover - active_hour came from slots
+            idx = -1
+        if idx + 1 < n:
+            next_local = local_now.replace(
+                hour=slots[idx + 1], minute=0, second=0, microsecond=0
+            )
+        else:
+            next_local = (
+                local_now.replace(hour=slots[0], minute=0, second=0, microsecond=0)
+                + timedelta(days=1)
+            )
         return BroadcastDecision(
             run=False,
-            reason="before_slot",
+            reason="slot_already_filled",
             local_now=local_now,
-            next_run_at=slot_start,
+            next_run_at=next_local,
+            active_slot_hour=active_hour,
         )
 
     return BroadcastDecision(
@@ -466,6 +599,7 @@ def should_run_broadcast(
         reason="slot_open",
         local_now=local_now,
         next_run_at=None,
+        active_slot_hour=active_hour,
     )
 
 
@@ -481,9 +615,8 @@ def _youtube_oauth_ready() -> bool:
         return False
 
 
-def _last_broadcast_local_date(tz_name: str) -> Optional[date]:
-    """Return the local-day of the most recent successful upload, or None."""
-    tz = _resolve_timezone(tz_name)
+def _last_upload_at_utc() -> Optional[datetime]:
+    """Return the UTC timestamp of the most recent upload, or None."""
     with session_scope() as s:
         row = s.execute(
             select(Video.uploaded_at)
@@ -496,7 +629,7 @@ def _last_broadcast_local_date(tz_name: str) -> Optional[date]:
     uploaded_at = row[0]
     if uploaded_at.tzinfo is None:
         uploaded_at = uploaded_at.replace(tzinfo=timezone.utc)
-    return uploaded_at.astimezone(tz).date()
+    return uploaded_at
 
 
 # ----------------------------------------------------------------------
@@ -505,15 +638,23 @@ def _last_broadcast_local_date(tz_name: str) -> Optional[date]:
 
 
 def _run_video_pipeline_sync(
-    slug: str, title: str, video_id: int, run_id: int
+    episode_slug: str,
+    episode_title: str,
+    topics: list[dict],
+    video_id: int,
+    run_id: int,
 ) -> VideoPipelineResult:
-    pipeline = VideoPipeline()
-    # Resolve post description/permalink/tags by reading the front matter.
-    settings = get_settings()
-    meta = _read_post_meta(slug, language=settings.video_language)
+    """Run the appropriate pipeline variant for an episode.
 
-    def stage_hook(stage: str, status: str, meta: dict) -> None:
-        # Keep it light: only bump the runs.stage field.
+    - Multi-topic episodes (``len(topics) > 1``) call ``run_newscast``,
+      which weaves a 50-min broadcast script + multi-hero composer.
+    - Single-topic episodes fall through to the legacy single-post
+      ``run`` so that user-triggered "Regenerate" of an old single
+      video still works without surprise.
+    """
+    pipeline = VideoPipeline()
+
+    def stage_hook(stage: str, status: str, _meta: dict) -> None:
         try:
             with session_scope() as s:
                 run = s.get(VideoRun, run_id)
@@ -522,12 +663,22 @@ def _run_video_pipeline_sync(
         except Exception:
             log.exception("stage hook write failed")
 
+    if len(topics) > 1:
+        return pipeline.run_newscast(
+            episode_slug=episode_slug,
+            episode_title=episode_title,
+            topics=topics,
+            stage_hook=stage_hook,
+        )
+
+    # Single-topic fallback (legacy mode + manual regenerate of old rows).
+    only = topics[0]
     return pipeline.run(
-        slug=slug,
-        title=title,
-        description=meta.get("description", ""),
-        tags=meta.get("tags") or [],
-        permalink=meta.get("permalink", ""),
+        slug=only["slug"],
+        title=only.get("title") or only["slug"],
+        description=only.get("description", ""),
+        tags=only.get("tags") or [],
+        permalink="",
         stage_hook=stage_hook,
     )
 

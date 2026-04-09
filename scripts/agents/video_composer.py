@@ -47,9 +47,17 @@ class VideoComposerAgent(BaseAgent):
         intro_seconds: float = 3.0,
         outro_seconds: float = 2.0,
         animation_path: str | Path | None = None,
+        image_paths: Optional[List[str | Path]] = None,
         timeout_seconds: int = 10 * 60,
     ) -> Optional[float]:
-        """Render an mp4 at `output_path`. Returns duration seconds or None."""
+        """Render an mp4 at `output_path`. Returns duration seconds or None.
+
+        Two modes:
+        - **Single-hero** (default): pass `image_path` only.
+        - **Newscast** (multi-hero): pass `image_paths` with 2+ images.
+          The runner divides the audio into N equal Ken-Burns segments.
+          `image_path` is still required as a fallback / first hero.
+        """
         image = Path(image_path)
         audio = Path(audio_path)
         output = Path(output_path)
@@ -80,7 +88,13 @@ class VideoComposerAgent(BaseAgent):
             "--intro", str(intro_seconds),
             "--outro", str(outro_seconds),
         ]
-        if animation_path:
+        # Newscast multi-hero mode: pass the comma-separated image list.
+        if image_paths and len(image_paths) > 1:
+            valid = [str(Path(p)) for p in image_paths if Path(p).exists()]
+            if len(valid) > 1:
+                cmd.extend(["--images", ",".join(valid)])
+                self.log(f"newscast mode: {len(valid)} hero images")
+        elif animation_path:
             anim = Path(animation_path)
             if anim.exists() and anim.stat().st_size > 10_000:
                 cmd.extend(["--animation", str(anim)])

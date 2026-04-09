@@ -46,10 +46,14 @@ PORT = int(os.environ.get("AIBLOG_PORT", "7001"))
 
 @dataclass(frozen=True)
 class DefaultSettings:
-    min_interval_seconds: int = 2 * 60 * 60               # 2h
-    max_interval_seconds: int = 6 * 60 * 60               # 6h
+    # Blog publish cadence: one post per hour (user-requested 2026-04-10).
+    # Both bounds equal → no jitter; the scheduler picks exactly 60 min.
+    min_interval_seconds: int = 60 * 60                   # 1h
+    max_interval_seconds: int = 60 * 60                   # 1h
     event_trigger_threshold: float = 0.85                 # score to preempt timer
-    source_poll_interval_seconds: int = 15 * 60           # 15m
+    # Topic source polling: every 30 minutes (was 15) — fresher than the
+    # post cadence but not so aggressive that we burn rate limits.
+    source_poll_interval_seconds: int = 30 * 60           # 30m
     cooldown_after_fail_seconds: int = 60 * 60            # 1h
     max_fail_count_before_block: int = 3
     pipeline_timeout_seconds: int = 20 * 60               # 20m per run
@@ -85,8 +89,9 @@ class DefaultSettings:
     # Path to the user's 30-60s Korean voice reference wav used by OpenVoice.
     # Empty string means "use MeloTTS base voice without tone conversion".
     video_reference_voice_path: str = ""
-    # Target narration length in seconds (soft guide for the script writer).
-    video_target_duration_seconds: int = 90
+    # Target narration length in seconds. 50 min newscast (3000s) is the
+    # default — single-topic 90s legacy mode requires lowering this.
+    video_target_duration_seconds: int = 50 * 60          # 50 min
     # Automatically upload to YouTube once compose succeeds. Set True now
     # because the daily broadcast slot is the entire purpose of the worker.
     video_auto_upload: bool = True
@@ -94,22 +99,34 @@ class DefaultSettings:
     youtube_default_privacy: str = "unlisted"
     # Display name used in intro / outro / description.
     youtube_channel_name: str = "MindTickleBytes"
-    # Hard cap on YouTube API uploads per calendar day (quota defense).
-    # 1 upload ≈ 1600 units; 10,000 daily quota → ~6 uploads/day max.
-    # User intent: 1 broadcast video per day.
-    youtube_upload_daily_cap: int = 1
+    # Hard cap on YouTube API uploads per local day (quota defense).
+    # Each upload ~2050 units (insert + thumbnail + captions) → 4-5
+    # safely under the 10,000-unit daily quota. Default 3 = every 8h.
+    youtube_upload_daily_cap: int = 3
     # -- Daily broadcast scheduling --------------------------------------
-    # Render+upload exactly one video per local broadcast day, fired at
-    # `broadcast_hour_local` o'clock in `broadcast_timezone`. The default
-    # 18:00 America/New_York mirrors a US "evening news" slot.
+    # When `youtube_upload_daily_cap == 1` we anchor the lone broadcast at
+    # `broadcast_hour_local` (legacy single-evening-news mode). For higher
+    # caps the slot times are computed by `compute_broadcast_slots` and
+    # the anchor hour is ignored — slots are spread evenly from midnight.
     broadcast_hour_local: int = 18
     broadcast_timezone: str = "America/New_York"
     # ISO 639-1 narration language code. The script writer reads the
     # corresponding `.{lang}.md` post (or the Korean `.md` for "ko") and
     # the TTS agent picks the matching MeloTTS speaker.
     video_language: str = "en"
+    # -- 50-min newscast format ------------------------------------------
+    # How many recent posts to weave into one episode. 8 stories × ~6 min
+    # per segment ≈ 50 min total. Set to 1 to fall back to single-story
+    # short-form videos.
+    topics_per_episode: int = 8
+    # Maximum age of posts the picker is willing to use as topics, in
+    # hours. Anything older is considered stale for a "today's news"
+    # broadcast and is skipped. 36h gives one buffer day on top of the
+    # current 24h news cycle.
+    topics_freshness_hours: int = 36
     # Per-video pipeline timeout (script + tts + compose + thumbnail + upload).
-    video_pipeline_timeout_seconds: int = 15 * 60
+    # 50-min newscast format needs ~45 min on M3 Max; 90 min gives safety.
+    video_pipeline_timeout_seconds: int = 90 * 60
     # Hard cap on video pipeline retries for a single post.
     video_max_retries: int = 2
     # YouTube metadata / captions / playlist enhancements
