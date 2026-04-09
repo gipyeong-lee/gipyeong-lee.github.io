@@ -58,6 +58,10 @@ class RuntimeSettings:
     video_animation_height: int
     video_animation_fps: int
     video_animation_steps: int
+    # -- Daily broadcast scheduling --
+    broadcast_hour_local: int
+    broadcast_timezone: str
+    video_language: str
 
 
 def _defaults_as_dict() -> dict[str, Any]:
@@ -99,6 +103,9 @@ def _defaults_as_dict() -> dict[str, Any]:
         "video_animation_height": DEFAULTS.video_animation_height,
         "video_animation_fps": DEFAULTS.video_animation_fps,
         "video_animation_steps": DEFAULTS.video_animation_steps,
+        "broadcast_hour_local": DEFAULTS.broadcast_hour_local,
+        "broadcast_timezone": DEFAULTS.broadcast_timezone,
+        "video_language": DEFAULTS.video_language,
     }
 
 

@@ -141,27 +141,60 @@ def _wav_duration_seconds(path: str) -> float:
             return 0.0
 
 
-def _synthesize_base(text: str, output_path: str, speed: float) -> str:
-    """Run MeloTTS Korean synthesis into `output_path` (wav). Returns speaker key."""
+# Language ISO → (MeloTTS language code, preferred speaker key list,
+# OpenVoice base-speaker embedding filename in base_speakers/ses/).
+_LANG_TABLE: dict = {
+    "ko": {
+        "melo_lang": "KR",
+        "speaker_keys": ["KR"],
+        "openvoice_se": "kr",
+    },
+    "en": {
+        # MeloTTS English ships several accents under the "EN" model:
+        # EN-US, EN-BR, EN_INDIA, EN-AU, EN-Default. We try US first
+        # for a neutral broadcast accent and fall back gracefully.
+        "melo_lang": "EN",
+        "speaker_keys": ["EN-US", "EN-Default", "EN-BR", "EN-AU", "EN_INDIA"],
+        "openvoice_se": "en-us",
+    },
+}
+
+
+def _resolve_lang(language: str) -> dict:
+    return _LANG_TABLE.get((language or "ko").lower(), _LANG_TABLE["ko"])
+
+
+def _synthesize_base(text: str, output_path: str, speed: float, language: str) -> tuple[str, str]:
+    """Run MeloTTS synthesis into `output_path` (wav).
+
+    Returns ``(speaker_key, openvoice_se_name)`` so the optional voice
+    conversion stage knows which OpenVoice base embedding to load.
+    """
     from melo.api import TTS  # type: ignore
 
+    cfg = _resolve_lang(language)
     device = _get_device()
-    print(f"  [TTS] MeloTTS device={device}")
+    print(f"  [TTS] MeloTTS device={device} language={cfg['melo_lang']}")
     # MeloTTS downloads the ckpt on first call; HF cache keeps it.
-    model = TTS(language="KR", device=device)
+    model = TTS(language=cfg["melo_lang"], device=device)
     # spk2id is melo's custom HParams object. It does NOT iterate cleanly
     # (its __getitem__ calls getattr and fails on int indices from iter()).
-    # Use .keys() or look up "KR" directly.
     spk2id = model.hps.data.spk2id
     try:
         keys = list(spk2id.keys())
     except Exception:
-        keys = ["KR"]
-    speaker_key = "KR" if "KR" in keys else (keys[0] if keys else "KR")
+        keys = list(cfg["speaker_keys"])
+    speaker_key: Optional[str] = None
+    for cand in cfg["speaker_keys"]:
+        if cand in keys:
+            speaker_key = cand
+            break
+    if speaker_key is None:
+        speaker_key = keys[0] if keys else cfg["speaker_keys"][0]
     speaker_id = spk2id[speaker_key]
     print(f"  [TTS] speaker={speaker_key} id={speaker_id} speed={speed}")
     model.tts_to_file(text, speaker_id, output_path, speed=speed)
-    return speaker_key
+    return speaker_key, cfg["openvoice_se"]
 
 
 def _convert_voice(
@@ -169,6 +202,7 @@ def _convert_voice(
     reference_wav: str,
     output_wav: str,
     base_speaker_key: str,
+    openvoice_se_name: str = "kr",
 ) -> bool:
     """Apply OpenVoice v2 ToneColorConverter. Returns True on success."""
     try:
@@ -194,13 +228,26 @@ def _convert_voice(
     converter_dir = os.path.join(ckpt_dir, "converter")
     base_speakers_dir = os.path.join(ckpt_dir, "base_speakers", "ses")
 
-    # Pick the Korean base speaker embedding. OpenVoiceV2 ships files like
-    # "kr.pth", "en-us.pth", etc.
-    lang_tag = "kr"
-    source_se_path = os.path.join(base_speakers_dir, f"{lang_tag}.pth")
-    if not os.path.exists(source_se_path):
-        print(f"  [TTS] Base speaker embedding not found: {source_se_path}")
+    # OpenVoiceV2 ships per-language base speaker embeddings as
+    # "kr.pth", "en-us.pth", "en-default.pth" etc. Pick the one matching
+    # the MeloTTS language we just synthesized with.
+    lang_tag = (openvoice_se_name or "kr").lower()
+    candidates = [lang_tag]
+    if lang_tag.startswith("en"):
+        candidates.extend(["en-us", "en-default", "en-newest", "en"])
+    source_se_path = ""
+    for tag in candidates:
+        candidate = os.path.join(base_speakers_dir, f"{tag}.pth")
+        if os.path.exists(candidate):
+            source_se_path = candidate
+            break
+    if not source_se_path:
+        print(
+            f"  [TTS] Base speaker embedding not found for lang={lang_tag}. "
+            f"Looked in {base_speakers_dir}"
+        )
         return False
+    print(f"  [TTS] Using OpenVoice base SE: {os.path.basename(source_se_path)}")
 
     device = _get_device()
     tcc = ToneColorConverter(
@@ -235,6 +282,7 @@ def main() -> int:
     ap.add_argument("--output", required=True, help="Path to final wav")
     ap.add_argument("--reference", default="", help="Optional reference voice wav")
     ap.add_argument("--speed", type=float, default=1.0)
+    ap.add_argument("--language", default="ko", help="ISO 639-1 (ko, en, ...)")
     args = ap.parse_args()
 
     output_path = os.path.abspath(args.output)
@@ -258,7 +306,9 @@ def main() -> int:
         base_path = output_path + ".base.wav"
 
     try:
-        speaker_key = _synthesize_base(args.text, base_path, args.speed)
+        speaker_key, openvoice_se_name = _synthesize_base(
+            args.text, base_path, args.speed, args.language
+        )
     except Exception as e:
         print(f"  [TTS] MeloTTS synthesis failed: {e}")
         traceback.print_exc()
@@ -266,7 +316,9 @@ def main() -> int:
 
     # Stage 2: tone conversion, only if a reference is provided.
     if needs_convert:
-        ok = _convert_voice(base_path, reference_wav, output_path, speaker_key)
+        ok = _convert_voice(
+            base_path, reference_wav, output_path, speaker_key, openvoice_se_name
+        )
         if not ok:
             # Fall back: copy base to output so the pipeline can continue
             # with MeloTTS base voice instead of failing the entire video.

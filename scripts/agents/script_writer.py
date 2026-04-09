@@ -1,8 +1,9 @@
-"""Script Writer Agent — Korean blog post → 1~2 min narration script.
+"""Script Writer Agent — blog post → 1~2 min broadcast narration.
 
-Reads a published Korean post's front matter + body, extracts the parts
-that matter for a news-anchor style summary, and asks Gemini CLI to
-collapse it into a narration script suitable for TTS.
+Reads a published post's front matter + body, extracts the parts that
+matter for a news-anchor style segment, and asks Gemini CLI to collapse
+it into a narration script suitable for TTS. The agent supports both
+Korean (legacy briefing) and English (broadcast story-arc) modes.
 
 The agent is a sibling of the blog pipeline agents (writer/editor/...),
 but it operates on an already-published file instead of a ResearchBrief.
@@ -16,11 +17,27 @@ from typing import Optional
 from .base import BaseAgent
 
 
+# Language → (system prompt file, target words/sec heuristic, opening fields,
+# section header keywords for excerpt cleanup).
+_LANG_CONFIG: dict[str, dict] = {
+    "ko": {
+        "prompt_file": "script_writer_system.md",
+        "ref_headers": ("## 참고자료", "## 참고 자료", "## References"),
+        "estimate_chars_per_sec": 4,  # Korean
+    },
+    "en": {
+        "prompt_file": "script_writer_broadcast_en_system.md",
+        "ref_headers": ("## References", "## Sources", "## 참고자료"),
+        "estimate_chars_per_sec": 14,  # English ~150 wpm @ 5 chars/word
+    },
+}
+
+
 class ScriptWriterAgent(BaseAgent):
-    """Turn a Korean blog post into a news-briefing narration script."""
+    """Turn a published blog post into a news-anchor narration script."""
 
     name = "ScriptWriter"
-    prompt_file = "script_writer_system.md"
+    prompt_file = "script_writer_system.md"  # default; overridden per-language
 
     # We only need the first N body sections to keep prompt + Gemini latency low.
     BODY_SECTIONS_TO_KEEP = 2
@@ -29,14 +46,20 @@ class ScriptWriterAgent(BaseAgent):
         self,
         post_path: str | Path,
         *,
-        channel_name: str = "Antigravity News",
+        channel_name: str = "MindTickleBytes",
         target_duration_seconds: int = 90,
+        language: str = "ko",
     ) -> Optional[str]:
         """Return plain narration text for the post at `post_path`, or None."""
         path = Path(post_path)
         if not path.exists():
             self.log(f"Post not found: {path}")
             return None
+
+        lang = (language or "ko").lower()
+        cfg = _LANG_CONFIG.get(lang, _LANG_CONFIG["ko"])
+        # Override the BaseAgent prompt_file lookup just for this call.
+        self.prompt_file = cfg["prompt_file"]
 
         raw = path.read_text(encoding="utf-8")
         meta, body = self._split_front_matter(raw)
@@ -47,13 +70,67 @@ class ScriptWriterAgent(BaseAgent):
         title = meta.get("title") or ""
         description = meta.get("description") or ""
         ai_opinion = meta.get("ai_opinion") or ""
-        body_excerpt = self._extract_body_excerpt(body)
+        body_excerpt = self._extract_body_excerpt(body, ref_headers=cfg["ref_headers"])
 
-        self.log(f"Composing script for: {title[:60]}")
+        self.log(
+            f"Composing {lang.upper()} script for: {title[:60]}"
+        )
 
         system_prompt = self.get_system_prompt().replace("{channel_name}", channel_name)
 
-        prompt = f"""{system_prompt}
+        if lang == "en":
+            prompt = self._build_en_prompt(
+                system_prompt=system_prompt,
+                channel_name=channel_name,
+                target_duration_seconds=target_duration_seconds,
+                title=title,
+                description=description,
+                ai_opinion=ai_opinion,
+                body_excerpt=body_excerpt,
+            )
+        else:
+            prompt = self._build_ko_prompt(
+                system_prompt=system_prompt,
+                channel_name=channel_name,
+                target_duration_seconds=target_duration_seconds,
+                title=title,
+                description=description,
+                ai_opinion=ai_opinion,
+                body_excerpt=body_excerpt,
+            )
+
+        narration = self.gemini.call(prompt)
+        if not narration:
+            self.log("Gemini returned no script.")
+            return None
+
+        cleaned = self._clean(narration)
+        min_chars = 200 if lang == "en" else 80
+        if len(cleaned) < min_chars:
+            self.log(f"Script too short ({len(cleaned)} chars, min {min_chars}). Rejecting.")
+            return None
+
+        self.log(
+            f"Script: {len(cleaned)} chars, ~{self._estimate_seconds(cleaned, lang)}s narration"
+        )
+        return cleaned
+
+    # ------------------------------------------------------------------
+    # prompt builders (per language)
+    # ------------------------------------------------------------------
+
+    @staticmethod
+    def _build_ko_prompt(
+        *,
+        system_prompt: str,
+        channel_name: str,
+        target_duration_seconds: int,
+        title: str,
+        description: str,
+        ai_opinion: str,
+        body_excerpt: str,
+    ) -> str:
+        return f"""{system_prompt}
 
 ## 채널명
 {channel_name}
@@ -77,18 +154,40 @@ class ScriptWriterAgent(BaseAgent):
 출력은 순수 텍스트 한 블록만, 마크다운이나 따옴표 없이.
 """
 
-        narration = self.gemini.call(prompt)
-        if not narration:
-            self.log("Gemini returned no script.")
-            return None
+    @staticmethod
+    def _build_en_prompt(
+        *,
+        system_prompt: str,
+        channel_name: str,
+        target_duration_seconds: int,
+        title: str,
+        description: str,
+        ai_opinion: str,
+        body_excerpt: str,
+    ) -> str:
+        return f"""{system_prompt}
 
-        cleaned = self._clean(narration)
-        if len(cleaned) < 80:
-            self.log(f"Script too short ({len(cleaned)} chars). Rejecting.")
-            return None
+## Channel name
+{channel_name}
 
-        self.log(f"Script: {len(cleaned)} chars, ~{self._estimate_seconds(cleaned)}s narration")
-        return cleaned
+## Target spoken duration
+{target_duration_seconds} seconds (about 220-290 words)
+
+## Post title
+{title}
+
+## Post description
+{description}
+
+## Author commentary
+{ai_opinion}
+
+## Post excerpt (first sections)
+{body_excerpt}
+
+Write the broadcast narration only. Plain text. No markdown, no quotes,
+no headings, no stage directions. Channel name appears exactly twice.
+"""
 
     # ------------------------------------------------------------------
     # helpers
@@ -116,10 +215,12 @@ class ScriptWriterAgent(BaseAgent):
             meta[key] = val
         return meta, body
 
-    def _extract_body_excerpt(self, body: str) -> str:
+    def _extract_body_excerpt(
+        self, body: str, *, ref_headers: tuple[str, ...] = ("## 참고자료", "## References")
+    ) -> str:
         """Keep only the first few `##` sections; strip reference sections."""
-        # Drop everything from the references section onward (Korean + fallbacks).
-        for header in ("## 참고자료", "## 참고 자료", "## References"):
+        # Drop everything from the references section onward.
+        for header in ref_headers:
             idx = body.find(header)
             if idx != -1:
                 body = body[:idx]
@@ -158,7 +259,8 @@ class ScriptWriterAgent(BaseAgent):
         return text.strip()
 
     @staticmethod
-    def _estimate_seconds(text: str) -> int:
-        """Very rough heuristic: ~4 Korean chars/sec for anchor pace."""
+    def _estimate_seconds(text: str, language: str = "ko") -> int:
+        """Rough heuristic per language for anchor pace."""
         chars = len(re.sub(r"\s+", "", text))
-        return max(1, chars // 4)
+        per_sec = _LANG_CONFIG.get(language, _LANG_CONFIG["ko"])["estimate_chars_per_sec"]
+        return max(1, chars // per_sec)

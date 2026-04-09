@@ -40,9 +40,14 @@ class TTSVoiceAgent(BaseAgent):
         *,
         reference_voice: str | Path | None = None,
         speed: float = 1.0,
+        language: str = "ko",
         timeout_seconds: int = 10 * 60,
     ) -> Optional[float]:
-        """Synthesize `script_text` to `output_path` wav. Returns duration or None."""
+        """Synthesize `script_text` to `output_path` wav. Returns duration or None.
+
+        `language` selects MeloTTS speaker + OpenVoice base embedding:
+        ``ko`` → Korean speaker / kr.pth, ``en`` → English speaker / en.pth.
+        """
         if not script_text or not script_text.strip():
             self.log("Empty script; nothing to synthesize.")
             return None
@@ -55,12 +60,14 @@ class TTSVoiceAgent(BaseAgent):
             self.log(f"Runner not found: {script_path}")
             return None
 
+        lang = (language or "ko").lower()
         cmd = [
             _IMAGE_PYTHON,
             str(script_path),
             "--text", script_text,
             "--output", str(out),
             "--speed", str(speed),
+            "--language", lang,
         ]
         if reference_voice:
             ref = Path(reference_voice)
@@ -74,7 +81,9 @@ class TTSVoiceAgent(BaseAgent):
 
         if _IMAGE_PYTHON != sys.executable:
             self.log(f"Using {_IMAGE_PYTHON} for TTS (has torch)")
-        self.log(f"Synthesizing {len(script_text)} chars of Korean narration…")
+        self.log(
+            f"Synthesizing {len(script_text)} chars of {lang.upper()} narration…"
+        )
 
         try:
             result = subprocess.run(

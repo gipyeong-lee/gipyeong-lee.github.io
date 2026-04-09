@@ -67,6 +67,7 @@ class YouTubeUploaderAgent(BaseAgent):
         privacy: str = "unlisted",
         thumbnail_path: str | Path | None = None,
         made_for_kids: bool = False,
+        language: str = "ko",
     ) -> Optional[UploadResult]:
         mp4 = Path(mp4_path)
         if not mp4.exists():
@@ -85,14 +86,15 @@ class YouTubeUploaderAgent(BaseAgent):
             self.log(f"OAuth / service build failed: {e}")
             return None
 
+        lang_code = (language or "ko").lower()
         body = {
             "snippet": {
                 "title": title[:100],
                 "description": description[:4500],
                 "tags": (tags or [])[:30],
                 "categoryId": _CATEGORY_SCIENCE_TECH,
-                "defaultLanguage": "ko",
-                "defaultAudioLanguage": "ko",
+                "defaultLanguage": lang_code,
+                "defaultAudioLanguage": lang_code,
             },
             "status": {
                 "privacyStatus": privacy if privacy in ("public", "unlisted", "private") else "unlisted",

@@ -123,24 +123,27 @@ class VideoPipeline:
     ) -> VideoPipelineResult:
         """Execute all stages for `slug`. Returns a VideoPipelineResult."""
         settings = get_settings()
-        channel = settings.youtube_channel_name or "Antigravity News"
+        channel = settings.youtube_channel_name or "MindTickleBytes"
         target_duration = settings.video_target_duration_seconds or 90
         ref_voice = (settings.video_reference_voice_path or "").strip()
+        language = (settings.video_language or "ko").lower()
         if upload is None:
             upload = settings.video_auto_upload
         privacy = settings.youtube_default_privacy or "unlisted"
 
         result = VideoPipelineResult(success=False, slug=slug)
 
-        # Resolve input files.
+        # Resolve input files. For non-Korean languages we look for the
+        # `.<lang>.md` translation first and fall back to the Korean
+        # source if no translation exists yet.
         if post_path is None:
-            post_path = Path(POSTS_DIR) / f"{slug}.md"
+            post_path = _find_post_for_language(slug, language)
         if image_path is None:
             image_path = _find_image(slug)
 
         if post_path is None or not Path(post_path).exists():
             result.failed_stage = "script"
-            result.error = f"post file not found for slug {slug}"
+            result.error = f"post file not found for slug {slug} (lang={language})"
             stage_hook("script", "fail", {"error": result.error})
             return result
 
@@ -162,6 +165,7 @@ class VideoPipeline:
             post_path=post_path,
             channel_name=channel,
             target_duration_seconds=target_duration,
+            language=language,
         )
         if not script:
             result.failed_stage = "script"
@@ -183,6 +187,7 @@ class VideoPipeline:
                 script_text=script,
                 output_path=wav_path,
                 reference_voice=ref_voice or None,
+                language=language,
             )
         except Exception as e:
             traceback.print_exc()
@@ -364,6 +369,7 @@ class VideoPipeline:
 
         # --- Stage 4.6: SRT captions ------------------------------------
         srt_path: Optional[Path] = None
+        srt_language = language
         if settings.youtube_captions_enabled and tts_duration > 0:
             try:
                 srt_text = build_srt_captions(
@@ -395,6 +401,7 @@ class VideoPipeline:
                 tags=meta_obj.tags,
                 privacy=privacy,
                 thumbnail_path=thumb_path if result.thumbnail_path else None,
+                language=language,
             )
         except Exception as e:
             traceback.print_exc()
@@ -425,8 +432,9 @@ class VideoPipeline:
         # --- Post-upload extras: captions + playlist --------------------
         if srt_path and srt_path.exists():
             try:
+                caption_label = "English (auto)" if srt_language == "en" else "한국어 (자동)"
                 ok = self.uploader.upload_captions(
-                    upload_result.video_id, srt_path, language="ko"
+                    upload_result.video_id, srt_path, language=srt_language, name=caption_label
                 )
                 result.caption_uploaded = bool(ok)
                 stage_hook("captions_upload", "ok" if ok else "fail", {})
@@ -497,5 +505,23 @@ def _find_image(slug: str) -> Optional[Path]:
         if cand.exists():
             return cand
     return None
+
+
+def _find_post_for_language(slug: str, language: str) -> Optional[Path]:
+    """Locate the post markdown for a given language.
+
+    Korean lives at `<slug>.md`; other languages live at `<slug>.<lang>.md`.
+    Falls back to the Korean source if no translation is published.
+    """
+    posts = Path(POSTS_DIR)
+    if not posts.exists():
+        return None
+    lang = (language or "ko").lower()
+    if lang and lang != "ko":
+        translated = posts / f"{slug}.{lang}.md"
+        if translated.exists():
+            return translated
+    korean = posts / f"{slug}.md"
+    return korean if korean.exists() else None
 
 

@@ -5,3 +5,18 @@ _site
 .bundle/
 vendor/
 *.log
+
+# scripts/app runtime data (SQLite, logs)
+scripts/app/data/
+scripts/app/*.log
+scripts/app/__pycache__/
+scripts/app/**/__pycache__/
+
+# Defense-in-depth: never commit OAuth/YouTube secrets even if someone
+# accidentally drops them inside the repo. Real location is
+# ~/.config/aiblog/* which is already outside the repo tree.
+client_secret*.json
+client_secrets.json
+youtube_token*.json
+**/aiblog_credentials/
+.config/aiblog/

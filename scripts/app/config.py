@@ -87,15 +87,27 @@ class DefaultSettings:
     video_reference_voice_path: str = ""
     # Target narration length in seconds (soft guide for the script writer).
     video_target_duration_seconds: int = 90
-    # Automatically upload to YouTube once compose succeeds.
+    # Automatically upload to YouTube once compose succeeds. Set True now
+    # because the daily broadcast slot is the entire purpose of the worker.
     video_auto_upload: bool = True
     # Default YouTube visibility. Safety default: unlisted.
     youtube_default_privacy: str = "unlisted"
     # Display name used in intro / outro / description.
-    youtube_channel_name: str = "Antigravity News"
+    youtube_channel_name: str = "MindTickleBytes"
     # Hard cap on YouTube API uploads per calendar day (quota defense).
     # 1 upload ≈ 1600 units; 10,000 daily quota → ~6 uploads/day max.
-    youtube_upload_daily_cap: int = 5
+    # User intent: 1 broadcast video per day.
+    youtube_upload_daily_cap: int = 1
+    # -- Daily broadcast scheduling --------------------------------------
+    # Render+upload exactly one video per local broadcast day, fired at
+    # `broadcast_hour_local` o'clock in `broadcast_timezone`. The default
+    # 18:00 America/New_York mirrors a US "evening news" slot.
+    broadcast_hour_local: int = 18
+    broadcast_timezone: str = "America/New_York"
+    # ISO 639-1 narration language code. The script writer reads the
+    # corresponding `.{lang}.md` post (or the Korean `.md` for "ko") and
+    # the TTS agent picks the matching MeloTTS speaker.
+    video_language: str = "en"
     # Per-video pipeline timeout (script + tts + compose + thumbnail + upload).
     video_pipeline_timeout_seconds: int = 15 * 60
     # Hard cap on video pipeline retries for a single post.

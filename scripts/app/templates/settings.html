@@ -192,6 +192,34 @@
         <div class="text-xs text-slate-400">기본 gemini. codex 선택 시 코드·구조적 출력이 많은 agent 가 이를 우선 사용 (향후 옵트인).</div>
       </label>
 
+      <div class="md:col-span-2 border-t pt-3 text-sm font-semibold text-slate-600">
+        Daily broadcast (one video per local broadcast day)
+      </div>
+      <label class="block">
+        <span class="text-sm font-medium">Broadcast hour (0-23, local)</span>
+        <input type="number" min="0" max="23" name="broadcast_hour_local"
+               value="{{ settings.broadcast_hour_local }}"
+               class="mt-1 block w-full border rounded px-3 py-2 text-sm" />
+        <div class="text-xs text-slate-400">기본 18 (저녁 6시 미국 뉴스 방송 슬롯).</div>
+      </label>
+      <label class="block">
+        <span class="text-sm font-medium">Broadcast timezone (IANA)</span>
+        <input type="text" name="broadcast_timezone"
+               value="{{ settings.broadcast_timezone }}"
+               placeholder="America/New_York"
+               class="mt-1 block w-full border rounded px-3 py-2 text-sm font-mono" />
+        <div class="text-xs text-slate-400">예: America/New_York, America/Los_Angeles, Asia/Seoul.</div>
+      </label>
+      <label class="block md:col-span-2">
+        <span class="text-sm font-medium">Narration language</span>
+        <select name="video_language" class="mt-1 block w-full border rounded px-3 py-2 text-sm">
+          {% for opt in ['en', 'ko', 'ja', 'zh-cn', 'zh-tw'] %}
+            <option value="{{ opt }}" {% if settings.video_language == opt %}selected{% endif %}>{{ opt }}</option>
+          {% endfor %}
+        </select>
+        <div class="text-xs text-slate-400">스크립트와 TTS 언어. 해당 언어 번역본 (`&lt;slug&gt;.&lt;lang&gt;.md`) 이 있는 포스트만 영상으로 만듭니다.</div>
+      </label>
+
       <label class="inline-flex items-center gap-2 md:col-span-2 border-t pt-3">
         <input type="checkbox" name="video_animation_enabled" value="true"
                {% if settings.video_animation_enabled %}checked{% endif %} class="rounded" />
