@@ -159,6 +159,34 @@
                value="{{ settings.youtube_channel_name }}"
                class="mt-1 block w-full border rounded px-3 py-2 text-sm" />
       </label>
+
+      <label class="inline-flex items-center gap-2 md:col-span-2">
+        <input type="checkbox" name="youtube_metadata_enabled" value="true"
+               {% if settings.youtube_metadata_enabled %}checked{% endif %} class="rounded" />
+        <span class="text-sm">auto-generate YouTube metadata (rich description + chapters + SEO tags via Gemini)</span>
+      </label>
+      <label class="inline-flex items-center gap-2 md:col-span-2">
+        <input type="checkbox" name="youtube_captions_enabled" value="true"
+               {% if settings.youtube_captions_enabled %}checked{% endif %} class="rounded" />
+        <span class="text-sm">upload SRT captions after publish (접근성 + SEO)</span>
+      </label>
+      <label class="block md:col-span-2">
+        <span class="text-sm font-medium">YouTube playlist ID (optional)</span>
+        <input type="text" name="youtube_playlist_id"
+               value="{{ settings.youtube_playlist_id }}"
+               placeholder="PLxxxxxxxxxxxxxxx"
+               class="mt-1 block w-full border rounded px-3 py-2 text-sm font-mono" />
+        <div class="text-xs text-slate-400">지정 시 업로드된 비디오를 자동으로 이 플레이리스트에 추가.</div>
+      </label>
+      <label class="block md:col-span-2">
+        <span class="text-sm font-medium">CLI backend (creative text generation)</span>
+        <select name="cli_backend" class="mt-1 block w-full border rounded px-3 py-2 text-sm">
+          {% for opt in ['gemini', 'codex'] %}
+            <option value="{{ opt }}" {% if settings.cli_backend == opt %}selected{% endif %}>{{ opt }}</option>
+          {% endfor %}
+        </select>
+        <div class="text-xs text-slate-400">기본 gemini. codex 선택 시 코드·구조적 출력이 많은 agent 가 이를 우선 사용 (향후 옵트인).</div>
+      </label>
     </div>
   </div>
 

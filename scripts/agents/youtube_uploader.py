@@ -118,6 +118,71 @@ class YouTubeUploaderAgent(BaseAgent):
         self.log(f"Uploaded: {url} (privacy={privacy})")
         return UploadResult(video_id=video_id, url=url, privacy=privacy)
 
+    def upload_captions(
+        self,
+        video_id: str,
+        srt_path: str | Path,
+        *,
+        language: str = "ko",
+        name: str = "한국어 (자동)",
+    ) -> bool:
+        """Upload an SRT file as a YouTube caption track for `video_id`."""
+        path = Path(srt_path)
+        if not path.exists() or path.stat().st_size < 30:
+            self.log(f"captions file missing/tiny: {path}")
+            return False
+        try:
+            from googleapiclient.http import MediaFileUpload
+
+            youtube = self._build_service()
+            body = {
+                "snippet": {
+                    "videoId": video_id,
+                    "language": language,
+                    "name": name,
+                    "isDraft": False,
+                }
+            }
+            media = MediaFileUpload(
+                str(path),
+                mimetype="application/octet-stream",
+                resumable=False,
+            )
+            youtube.captions().insert(
+                part="snippet",
+                body=body,
+                media_body=media,
+            ).execute()
+            self.log(f"captions uploaded for {video_id}")
+            return True
+        except Exception as e:
+            self.log(f"captions upload failed (non-fatal): {e}")
+            return False
+
+    def add_to_playlist(self, video_id: str, playlist_id: str) -> bool:
+        """Append `video_id` to `playlist_id`."""
+        if not playlist_id:
+            return False
+        try:
+            youtube = self._build_service()
+            youtube.playlistItems().insert(
+                part="snippet",
+                body={
+                    "snippet": {
+                        "playlistId": playlist_id,
+                        "resourceId": {
+                            "kind": "youtube#video",
+                            "videoId": video_id,
+                        },
+                    }
+                },
+            ).execute()
+            self.log(f"video {video_id} added to playlist {playlist_id}")
+            return True
+        except Exception as e:
+            self.log(f"playlist append failed (non-fatal): {e}")
+            return False
+
     def update_privacy(self, video_id: str, privacy: str) -> bool:
         """Promote an already-uploaded video (unlisted → public, etc.)."""
         if privacy not in ("public", "unlisted", "private"):

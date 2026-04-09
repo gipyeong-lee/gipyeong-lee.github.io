@@ -31,8 +31,10 @@ from ..agents import (
     TTSVoiceAgent,
     ThumbnailMakerAgent,
     VideoComposerAgent,
+    YouTubeMetadataAgent,
     YouTubeUploaderAgent,
 )
+from ..agents.youtube_metadata import build_srt_captions
 from .config import IMAGES_DIR, POSTS_DIR, VIDEOS_DIR
 from .settings_store import get_settings
 
@@ -50,10 +52,16 @@ class VideoPipelineResult:
     wav_path: Optional[str] = None
     mp4_path: Optional[str] = None
     thumbnail_path: Optional[str] = None
+    srt_path: Optional[str] = None
     duration_seconds: Optional[float] = None
+    metadata_title: Optional[str] = None
+    metadata_description: Optional[str] = None
+    metadata_tags: list = None  # type: ignore[assignment]
     youtube_video_id: Optional[str] = None
     youtube_url: Optional[str] = None
     youtube_privacy: Optional[str] = None
+    caption_uploaded: bool = False
+    playlist_added: bool = False
     failed_stage: Optional[str] = None
     error: Optional[str] = None
 
@@ -87,12 +95,14 @@ class VideoPipeline:
         tts: Optional[TTSVoiceAgent] = None,
         composer: Optional[VideoComposerAgent] = None,
         thumbnail: Optional[ThumbnailMakerAgent] = None,
+        metadata: Optional[YouTubeMetadataAgent] = None,
         uploader: Optional[YouTubeUploaderAgent] = None,
     ):
         self.script_writer = script_writer or ScriptWriterAgent()
         self.tts = tts or TTSVoiceAgent()
         self.composer = composer or VideoComposerAgent()
         self.thumbnail = thumbnail or ThumbnailMakerAgent()
+        self.metadata = metadata or YouTubeMetadataAgent()
         self.uploader = uploader or YouTubeUploaderAgent()
 
     def run(
@@ -243,6 +253,71 @@ class VideoPipeline:
             # Non-fatal: thumbnail failure should not kill the whole video.
             stage_hook("thumbnail", "fail", {"error": "thumbnail skipped"})
 
+        # --- Stage 4.5: Metadata (title/description/chapters/tags) -------
+        # Runs even when upload is off, because the metadata is useful for
+        # the Admin UI preview and gets stored on the Video row.
+        tts_duration = float(duration or 0.0)
+        stage_hook("metadata", "start", {})
+        t0 = time.time()
+        meta_obj = None
+        if settings.youtube_metadata_enabled:
+            try:
+                meta_obj = self.metadata.run(
+                    post_path=post_path,
+                    narration_script=script,
+                    narration_duration_seconds=tts_duration,
+                    channel_name=channel,
+                    permalink=permalink,
+                    fallback_title=title,
+                    fallback_description=description,
+                    fallback_tags=tags or [],
+                )
+            except Exception as e:
+                self.metadata.log(f"metadata agent crashed: {e}")
+                meta_obj = None
+        if meta_obj is None:
+            # Legacy fallback: plain description + hashtag tail.
+            from ..agents.youtube_metadata import YouTubeMetadata
+
+            meta_obj = YouTubeMetadata.from_fallback(
+                title=title,
+                description=description,
+                tags=tags or [],
+                permalink=permalink,
+                channel_name=channel,
+            )
+        result.metadata_title = meta_obj.title
+        result.metadata_description = meta_obj.description
+        result.metadata_tags = list(meta_obj.tags)
+        stage_hook(
+            "metadata",
+            "ok",
+            {
+                "title_chars": len(meta_obj.title),
+                "desc_chars": len(meta_obj.description),
+                "tags": len(meta_obj.tags),
+                "chapters": len(meta_obj.chapters),
+                "elapsed": round(time.time() - t0, 2),
+            },
+        )
+
+        # --- Stage 4.6: SRT captions ------------------------------------
+        srt_path: Optional[Path] = None
+        if settings.youtube_captions_enabled and tts_duration > 0:
+            try:
+                srt_text = build_srt_captions(
+                    script,
+                    narration_duration_seconds=tts_duration,
+                )
+                if srt_text:
+                    srt_path = Path(VIDEOS_DIR) / f"{slug}.srt"
+                    srt_path.write_text(srt_text, encoding="utf-8")
+                    result.srt_path = str(srt_path)
+                    stage_hook("captions", "ok", {"bytes": len(srt_text)})
+            except Exception as e:
+                stage_hook("captions", "fail", {"error": str(e)})
+                srt_path = None
+
         # --- Stage 5: Upload ---------------------------------------------
         if not upload:
             stage_hook("upload", "ok", {"skipped": True})
@@ -251,13 +326,12 @@ class VideoPipeline:
 
         stage_hook("upload", "start", {"privacy": privacy})
         t0 = time.time()
-        upload_desc = _build_description(description, permalink, tags, channel)
         try:
             upload_result = self.uploader.run(
                 mp4_path=mp4_path,
-                title=title,
-                description=upload_desc,
-                tags=(tags or []) + ["AI", "AI뉴스", channel.replace(" ", "")],
+                title=meta_obj.title or title,
+                description=meta_obj.description,
+                tags=meta_obj.tags,
                 privacy=privacy,
                 thumbnail_path=thumb_path if result.thumbnail_path else None,
             )
@@ -287,6 +361,27 @@ class VideoPipeline:
             },
         )
 
+        # --- Post-upload extras: captions + playlist --------------------
+        if srt_path and srt_path.exists():
+            try:
+                ok = self.uploader.upload_captions(
+                    upload_result.video_id, srt_path, language="ko"
+                )
+                result.caption_uploaded = bool(ok)
+                stage_hook("captions_upload", "ok" if ok else "fail", {})
+            except Exception as e:
+                stage_hook("captions_upload", "fail", {"error": str(e)})
+
+        if settings.youtube_playlist_id:
+            try:
+                ok = self.uploader.add_to_playlist(
+                    upload_result.video_id, settings.youtube_playlist_id
+                )
+                result.playlist_added = bool(ok)
+                stage_hook("playlist", "ok" if ok else "fail", {})
+            except Exception as e:
+                stage_hook("playlist", "fail", {"error": str(e)})
+
         result.success = True
         return result
 
@@ -308,22 +403,3 @@ def _find_image(slug: str) -> Optional[Path]:
     return None
 
 
-def _build_description(
-    description: str, permalink: str, tags: Optional[list[str]], channel: str
-) -> str:
-    base = (description or "").strip()
-    tag_line = " ".join(f"#{t.replace(' ', '')}" for t in (tags or [])[:8])
-    link_line = ""
-    if permalink:
-        origin = "https://gipyeong-lee.github.io"
-        if not permalink.startswith("http"):
-            link_line = f"원문: {origin}{permalink}"
-        else:
-            link_line = f"원문: {permalink}"
-    parts: list[str] = [base]
-    if link_line:
-        parts.append("")
-        parts.append(link_line)
-    parts.append("")
-    parts.append(f"#{channel.replace(' ', '')} #AI #AI뉴스 {tag_line}".strip())
-    return "\n".join(parts).strip()

@@ -100,6 +100,14 @@ class DefaultSettings:
     video_pipeline_timeout_seconds: int = 15 * 60
     # Hard cap on video pipeline retries for a single post.
     video_max_retries: int = 2
+    # YouTube metadata / captions / playlist enhancements
+    youtube_metadata_enabled: bool = True        # use Gemini-generated rich metadata
+    youtube_captions_enabled: bool = True        # upload SRT subtitles after publish
+    youtube_playlist_id: str = ""                # optional: auto-append to this playlist
+    # Which CLI backend agents should default to when creative text is needed.
+    # "gemini" (default — existing agents) or "codex". Claude is never a runtime
+    # option per user policy.
+    cli_backend: str = "gemini"
 
 
 DEFAULTS = DefaultSettings()

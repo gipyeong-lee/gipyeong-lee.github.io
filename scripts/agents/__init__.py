@@ -10,6 +10,7 @@ from .script_writer import ScriptWriterAgent
 from .tts_voice import TTSVoiceAgent
 from .video_composer import VideoComposerAgent
 from .thumbnail_maker import ThumbnailMakerAgent
+from .youtube_metadata import YouTubeMetadataAgent
 from .youtube_uploader import YouTubeUploaderAgent
 from .deploy_fixer import DeployFixerAgent
 
@@ -25,6 +26,7 @@ __all__ = [
     "TTSVoiceAgent",
     "VideoComposerAgent",
     "ThumbnailMakerAgent",
+    "YouTubeMetadataAgent",
     "YouTubeUploaderAgent",
     # Deploy self-healing
     "DeployFixerAgent",

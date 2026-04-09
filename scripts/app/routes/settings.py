@@ -51,6 +51,10 @@ async def save_settings(
     youtube_default_privacy: str = Form("unlisted"),
     youtube_upload_daily_cap: int = Form(5),
     youtube_channel_name: str = Form("Antigravity News"),
+    youtube_metadata_enabled: bool = Form(False),
+    youtube_captions_enabled: bool = Form(False),
+    youtube_playlist_id: str = Form(""),
+    cli_backend: str = Form("gemini"),
 ) -> JSONResponse:
     # Parse blocklist: one keyword per line, or comma-separated
     bl = [kw.strip() for chunk in keyword_blocklist.split("\n") for kw in chunk.split(",") if kw.strip()]
@@ -87,6 +91,10 @@ async def save_settings(
         "youtube_default_privacy": youtube_default_privacy,
         "youtube_upload_daily_cap": youtube_upload_daily_cap,
         "youtube_channel_name": youtube_channel_name,
+        "youtube_metadata_enabled": bool(youtube_metadata_enabled),
+        "youtube_captions_enabled": bool(youtube_captions_enabled),
+        "youtube_playlist_id": youtube_playlist_id.strip(),
+        "cli_backend": cli_backend.strip() or "gemini",
     }
     if sources_enabled:
         patch["sources_enabled"] = sources_enabled

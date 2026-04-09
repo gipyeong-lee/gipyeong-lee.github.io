@@ -46,6 +46,10 @@ class RuntimeSettings:
     youtube_upload_daily_cap: int
     video_pipeline_timeout_seconds: int
     video_max_retries: int
+    youtube_metadata_enabled: bool
+    youtube_captions_enabled: bool
+    youtube_playlist_id: str
+    cli_backend: str
 
 
 def _defaults_as_dict() -> dict[str, Any]:
@@ -75,6 +79,10 @@ def _defaults_as_dict() -> dict[str, Any]:
         "youtube_upload_daily_cap": DEFAULTS.youtube_upload_daily_cap,
         "video_pipeline_timeout_seconds": DEFAULTS.video_pipeline_timeout_seconds,
         "video_max_retries": DEFAULTS.video_max_retries,
+        "youtube_metadata_enabled": DEFAULTS.youtube_metadata_enabled,
+        "youtube_captions_enabled": DEFAULTS.youtube_captions_enabled,
+        "youtube_playlist_id": DEFAULTS.youtube_playlist_id,
+        "cli_backend": DEFAULTS.cli_backend,
     }
 
 

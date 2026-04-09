@@ -3,7 +3,7 @@
 These tests exercise:
 - diagnostics.classify_video_error: error text → category mapping
 - diagnostics.video_category_should_block: block-decision for quota/oauth
-- video_pipeline._build_description: description composer
+- YouTubeMetadata.from_fallback: legacy description composer
 - video_worker._read_post_meta: front matter parser
 """
 from __future__ import annotations
@@ -12,12 +12,12 @@ from pathlib import Path
 
 import pytest
 
+from scripts.agents.youtube_metadata import YouTubeMetadata
 from scripts.app.diagnostics import (
     classify_video_error,
     video_category_should_block,
     VIDEO_CATEGORIES,
 )
-from scripts.app.video_pipeline import _build_description
 from scripts.app.video_worker import _read_post_meta, _has_hero_image
 
 
@@ -64,41 +64,47 @@ def test_video_category_should_block_only_quota_and_oauth():
 
 
 # ----------------------------------------------------------------------
-# _build_description
+# YouTubeMetadata.from_fallback (legacy description composer)
 # ----------------------------------------------------------------------
 
 
-def test_description_embeds_permalink_and_channel_hashtag():
-    desc = _build_description(
+def test_fallback_embeds_permalink_and_channel_hashtag():
+    meta = YouTubeMetadata.from_fallback(
+        title="t",
         description="AI 음성 혁명",
-        permalink="/2026/04/09/gemini/",
         tags=["Gemini", "Voice AI"],
-        channel="Antigravity News",
+        permalink="/2026/04/09/gemini/",
+        channel_name="Antigravity News",
     )
-    assert "AI 음성 혁명" in desc
-    assert "https://gipyeong-lee.github.io/2026/04/09/gemini/" in desc
-    # Channel hashtag — spaces stripped.
-    assert "#AntigravityNews" in desc
-    # Tag hashtags preserved (minus spaces).
-    assert "#Gemini" in desc
-    assert "#VoiceAI" in desc
+    assert "AI 음성 혁명" in meta.description
+    assert "https://gipyeong-lee.github.io/2026/04/09/gemini/" in meta.description
+    assert "#AntigravityNews" in meta.description
+    assert "#Gemini" in meta.description
+    assert "#VoiceAI" in meta.description
 
 
-def test_description_ok_without_permalink():
-    desc = _build_description(
-        description="summary", permalink="", tags=None, channel="X Y"
+def test_fallback_ok_without_permalink():
+    meta = YouTubeMetadata.from_fallback(
+        title="t",
+        description="summary",
+        tags=[],
+        permalink="",
+        channel_name="X Y",
     )
-    assert "summary" in desc
-    # No link line when permalink empty.
-    assert "원문:" not in desc
-    assert "#XY" in desc
+    assert "summary" in meta.description
+    assert "원문:" not in meta.description
+    assert "#XY" in meta.description
 
 
-def test_description_handles_absolute_permalink():
-    desc = _build_description(
-        description="d", permalink="https://example.com/a", tags=None, channel="N"
+def test_fallback_handles_absolute_permalink():
+    meta = YouTubeMetadata.from_fallback(
+        title="t",
+        description="d",
+        tags=[],
+        permalink="https://example.com/a",
+        channel_name="N",
     )
-    assert "https://example.com/a" in desc
+    assert "https://example.com/a" in meta.description
 
 
 # ----------------------------------------------------------------------
