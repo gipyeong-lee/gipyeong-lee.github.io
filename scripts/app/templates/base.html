@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>aiblog admin · {{ page|default('dashboard') }}</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+  <script src="https://unpkg.com/htmx.org@1.9.12/dist/ext/sse.js"></script>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif; }
+    .log-line { font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace; font-size: 12px; }
+    .stage-pill { display:inline-block; padding: 2px 8px; border-radius: 9999px; font-size: 11px; font-weight: 600; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900 min-h-screen">
+  <header class="bg-slate-900 text-white">
+    <div class="max-w-6xl mx-auto px-6 py-3 flex items-center gap-6">
+      <a href="/" class="font-bold text-lg">aiblog admin</a>
+      <nav class="flex gap-4 text-sm">
+        <a href="/" class="hover:underline {% if page == 'dashboard' %}font-semibold text-emerald-300{% endif %}">Dashboard</a>
+        <a href="/pipeline" class="hover:underline {% if page == 'pipeline' %}font-semibold text-emerald-300{% endif %}">Pipeline</a>
+        <a href="/posts" class="hover:underline {% if page == 'posts' %}font-semibold text-emerald-300{% endif %}">Posts</a>
+        <a href="/videos" class="hover:underline {% if page == 'videos' %}font-semibold text-emerald-300{% endif %}">Videos</a>
+        <a href="/topics" class="hover:underline {% if page == 'topics' %}font-semibold text-emerald-300{% endif %}">Topics</a>
+        <a href="/diagnoses" class="hover:underline {% if page == 'diagnoses' %}font-semibold text-emerald-300{% endif %}">Diagnoses</a>
+        <a href="/deploy" class="hover:underline {% if page == 'deploy' %}font-semibold text-emerald-300{% endif %}">Deploy</a>
+        <a href="/settings" class="hover:underline {% if page == 'settings' %}font-semibold text-emerald-300{% endif %}">Settings</a>
+      </nav>
+      <div class="ml-auto text-xs text-slate-300">
+        127.0.0.1:7001 · local only
+      </div>
+    </div>
+  </header>
+  <main class="max-w-6xl mx-auto px-6 py-8">
+    {% block content %}{% endblock %}
+  </main>
+  <footer class="max-w-6xl mx-auto px-6 py-8 text-center text-xs text-slate-500">
+    aiblog daemon · gipyeong-lee.github.io
+  </footer>
+</body>
+</html>

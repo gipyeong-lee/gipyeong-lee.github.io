@@ -1,0 +1,185 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class="text-xl font-semibold mb-6">Settings</h1>
+
+<form hx-post="/settings" hx-swap="none" class="bg-white rounded-lg shadow p-6 space-y-6 max-w-3xl">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <label class="block">
+      <span class="text-sm font-medium">Min interval (sec)</span>
+      <input type="number" name="min_interval_seconds" value="{{ settings.min_interval_seconds }}" class="mt-1 block w-full border rounded px-3 py-2 text-sm" />
+      <div class="text-xs text-slate-400">기본 2h = 7200</div>
+    </label>
+    <label class="block">
+      <span class="text-sm font-medium">Max interval (sec)</span>
+      <input type="number" name="max_interval_seconds" value="{{ settings.max_interval_seconds }}" class="mt-1 block w-full border rounded px-3 py-2 text-sm" />
+      <div class="text-xs text-slate-400">기본 6h = 21600</div>
+    </label>
+    <label class="block">
+      <span class="text-sm font-medium">Event trigger threshold</span>
+      <input type="number" step="0.01" name="event_trigger_threshold" value="{{ settings.event_trigger_threshold }}" class="mt-1 block w-full border rounded px-3 py-2 text-sm" />
+      <div class="text-xs text-slate-400">0.0~1.0. 이 점수 이상이면 min 이후 즉시 발행</div>
+    </label>
+    <label class="block">
+      <span class="text-sm font-medium">Source poll interval (sec)</span>
+      <input type="number" name="source_poll_interval_seconds" value="{{ settings.source_poll_interval_seconds }}" class="mt-1 block w-full border rounded px-3 py-2 text-sm" />
+    </label>
+    <label class="block">
+      <span class="text-sm font-medium">Cooldown after fail (sec)</span>
+      <input type="number" name="cooldown_after_fail_seconds" value="{{ settings.cooldown_after_fail_seconds }}" class="mt-1 block w-full border rounded px-3 py-2 text-sm" />
+    </label>
+    <label class="block">
+      <span class="text-sm font-medium">Max fail before block</span>
+      <input type="number" name="max_fail_count_before_block" value="{{ settings.max_fail_count_before_block }}" class="mt-1 block w-full border rounded px-3 py-2 text-sm" />
+    </label>
+    <label class="block md:col-span-2">
+      <span class="text-sm font-medium">Pipeline timeout (sec)</span>
+      <input type="number" name="pipeline_timeout_seconds" value="{{ settings.pipeline_timeout_seconds }}" class="mt-1 block w-full border rounded px-3 py-2 text-sm" />
+      <div class="text-xs text-slate-400">개별 파이프라인 실행 최대 시간 (기본 20분 = 1200)</div>
+    </label>
+  </div>
+
+  <div class="flex items-center gap-6 border-t pt-4">
+    <label class="inline-flex items-center gap-2">
+      <input type="checkbox" name="auto_publish" value="true" {% if settings.auto_publish %}checked{% endif %} class="rounded" />
+      <span class="text-sm">auto publish (fact-check PASS 시 자동 커밋)</span>
+    </label>
+    <label class="inline-flex items-center gap-2">
+      <input type="checkbox" name="git_push" value="true" {% if settings.git_push %}checked{% endif %} class="rounded" />
+      <span class="text-sm">git push (커밋을 origin/main 에 푸시)</span>
+    </label>
+  </div>
+
+  <div class="border-t pt-4">
+    <h2 class="text-sm font-semibold text-slate-700 mb-2">Fact-checker tuning</h2>
+    <p class="text-xs text-slate-500 mb-3">
+      값을 높일수록 통과 기준이 느슨해집니다. 엄격함 ↔ 통과율의 트레이드오프를 조정하세요.
+    </p>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <label class="block">
+        <span class="text-sm font-medium">FAIL ratio</span>
+        <input type="number" step="0.01" min="0" max="1" name="fact_check_fail_ratio"
+               value="{{ settings.fact_check_fail_ratio }}"
+               class="mt-1 block w-full border rounded px-3 py-2 text-sm" />
+        <div class="text-xs text-slate-400">unverified claim 비율이 이 값 이상이면 FAIL (기본 0.40)</div>
+      </label>
+      <label class="block">
+        <span class="text-sm font-medium">Revision ratio</span>
+        <input type="number" step="0.01" min="0" max="1" name="fact_check_revision_ratio"
+               value="{{ settings.fact_check_revision_ratio }}"
+               class="mt-1 block w-full border rounded px-3 py-2 text-sm" />
+        <div class="text-xs text-slate-400">이 값 이상이면 NEEDS_REVISION (기본 0.25)</div>
+      </label>
+      <label class="block">
+        <span class="text-sm font-medium">Dead link tolerance</span>
+        <input type="number" min="0" name="fact_check_dead_link_tolerance"
+               value="{{ settings.fact_check_dead_link_tolerance }}"
+               class="mt-1 block w-full border rounded px-3 py-2 text-sm" />
+        <div class="text-xs text-slate-400">허용되는 dead link 수 (기본 2)</div>
+      </label>
+      <label class="block">
+        <span class="text-sm font-medium">Relaxation per round</span>
+        <input type="number" step="0.01" min="0" max="0.5" name="fact_check_relaxation_per_round"
+               value="{{ settings.fact_check_relaxation_per_round }}"
+               class="mt-1 block w-full border rounded px-3 py-2 text-sm" />
+        <div class="text-xs text-slate-400">revision 라운드마다 임계값 +X (기본 0.10)</div>
+      </label>
+      <label class="block md:col-span-2">
+        <span class="text-sm font-medium">Max revision rounds</span>
+        <input type="number" min="0" max="5" name="max_revision_rounds"
+               value="{{ settings.max_revision_rounds }}"
+               class="mt-1 block w-full border rounded px-3 py-2 text-sm" />
+        <div class="text-xs text-slate-400">최대 revision 라운드 수 (기본 3)</div>
+      </label>
+    </div>
+  </div>
+
+  <div class="border-t pt-4">
+    <h2 class="text-sm font-semibold text-slate-700 mb-2">Video pipeline (Phase E)</h2>
+    <p class="text-xs text-slate-500 mb-3">
+      발행된 한국어 포스트를 1~2분 뉴스 비디오로 만들어 YouTube에 업로드합니다.
+      <code>~/.config/aiblog/client_secrets.json</code> 준비 후 enabled 체크.
+    </p>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <label class="inline-flex items-center gap-2 md:col-span-2">
+        <input type="checkbox" name="video_generation_enabled" value="true"
+               {% if settings.video_generation_enabled %}checked{% endif %} class="rounded" />
+        <span class="text-sm">video generation enabled (daemon이 자동으로 비디오 생성)</span>
+      </label>
+      <label class="block md:col-span-2">
+        <span class="text-sm font-medium">Reference voice path</span>
+        <input type="text" name="video_reference_voice_path"
+               value="{{ settings.video_reference_voice_path }}"
+               placeholder="/Users/.../voice_reference.wav"
+               class="mt-1 block w-full border rounded px-3 py-2 text-sm font-mono" />
+        <div class="text-xs text-slate-400">빈 값이면 MeloTTS 기본 한국어 음성 사용. 30~60초 자연 독백 권장.</div>
+      </label>
+      <label class="block">
+        <span class="text-sm font-medium">Target duration (sec)</span>
+        <input type="number" name="video_target_duration_seconds"
+               value="{{ settings.video_target_duration_seconds }}"
+               class="mt-1 block w-full border rounded px-3 py-2 text-sm" />
+        <div class="text-xs text-slate-400">스크립트 생성 목표 낭독 길이 (기본 90)</div>
+      </label>
+      <label class="block">
+        <span class="text-sm font-medium">Pipeline timeout (sec)</span>
+        <input type="number" name="video_pipeline_timeout_seconds"
+               value="{{ settings.video_pipeline_timeout_seconds }}"
+               class="mt-1 block w-full border rounded px-3 py-2 text-sm" />
+      </label>
+      <label class="block">
+        <span class="text-sm font-medium">Max retries per video</span>
+        <input type="number" name="video_max_retries" min="0" max="10"
+               value="{{ settings.video_max_retries }}"
+               class="mt-1 block w-full border rounded px-3 py-2 text-sm" />
+      </label>
+      <label class="inline-flex items-center gap-2">
+        <input type="checkbox" name="video_auto_upload" value="true"
+               {% if settings.video_auto_upload %}checked{% endif %} class="rounded" />
+        <span class="text-sm">auto upload to YouTube</span>
+      </label>
+      <label class="block">
+        <span class="text-sm font-medium">YouTube default privacy</span>
+        <select name="youtube_default_privacy"
+                class="mt-1 block w-full border rounded px-3 py-2 text-sm">
+          {% for opt in ['unlisted', 'public', 'private'] %}
+            <option value="{{ opt }}" {% if settings.youtube_default_privacy == opt %}selected{% endif %}>{{ opt }}</option>
+          {% endfor %}
+        </select>
+      </label>
+      <label class="block">
+        <span class="text-sm font-medium">YouTube upload daily cap</span>
+        <input type="number" min="0" max="20" name="youtube_upload_daily_cap"
+               value="{{ settings.youtube_upload_daily_cap }}"
+               class="mt-1 block w-full border rounded px-3 py-2 text-sm" />
+        <div class="text-xs text-slate-400">일일 쿼타 방어. 10,000 units ÷ 1,600 = 약 6 건.</div>
+      </label>
+      <label class="block md:col-span-2">
+        <span class="text-sm font-medium">YouTube channel name</span>
+        <input type="text" name="youtube_channel_name"
+               value="{{ settings.youtube_channel_name }}"
+               class="mt-1 block w-full border rounded px-3 py-2 text-sm" />
+      </label>
+    </div>
+  </div>
+
+  <label class="block">
+    <span class="text-sm font-medium">Keyword blocklist (한 줄에 하나)</span>
+    <textarea name="keyword_blocklist" rows="5" class="mt-1 block w-full border rounded px-3 py-2 text-sm font-mono">{% for k in settings.keyword_blocklist %}{{ k }}
+{% endfor %}</textarea>
+  </label>
+
+  <label class="block">
+    <span class="text-sm font-medium">Sources enabled (name=true/false, 쉼표)</span>
+    <input type="text" name="sources_enabled_csv"
+           value="{% for name, on in settings.sources_enabled.items() %}{{ name }}={{ 'true' if on else 'false' }}{% if not loop.last %},{% endif %}{% endfor %}"
+           class="mt-1 block w-full border rounded px-3 py-2 text-sm font-mono" />
+    <div class="text-xs text-slate-400">예: hackernews=true,arxiv=true,openai_blog=true</div>
+  </label>
+
+  <div class="pt-4 border-t">
+    <button type="submit" class="px-5 py-2 bg-emerald-600 text-white rounded hover:bg-emerald-700 text-sm">
+      저장
+    </button>
+  </div>
+</form>
+{% endblock %}

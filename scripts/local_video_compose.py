@@ -1,0 +1,301 @@
+#!/usr/bin/env python3
+"""Local video composer — moviepy 2.x pipeline.
+
+Called as a subprocess by scripts/agents/video_composer.py. Produces an
+1920x1080 @ 30fps H.264 mp4 with:
+  - 3s intro (channel name + post title, fade in)
+  - Main segment sized to audio duration, hero image with Ken Burns,
+    narration audio, burn-in subtitles split evenly across sentences
+  - 2s outro (channel name + "구독과 좋아요", fade out)
+
+Usage:
+    python3 scripts/local_video_compose.py \
+        --image images/slug.jpg --audio data/videos/slug.wav \
+        --script "안녕하세요 ..." --title "..." \
+        --output data/videos/slug.mp4 [--channel "Antigravity News"]
+
+Prints "OK <duration>" on success.
+"""
+from __future__ import annotations
+
+import argparse
+import math
+import os
+import re
+import sys
+import traceback
+from typing import List
+
+# --- Rendering constants ---------------------------------------------------
+
+WIDTH = 1920
+HEIGHT = 1080
+FPS = 30
+KEN_BURNS_ZOOM_START = 1.05
+KEN_BURNS_ZOOM_END = 1.18
+
+# macOS built-in Korean font ships with the OS — reliable across machines.
+KOREAN_FONT_CANDIDATES = [
+    "/System/Library/Fonts/AppleSDGothicNeo.ttc",
+    "/Library/Fonts/AppleSDGothicNeo.ttc",
+    "/System/Library/Fonts/Supplemental/NotoSansKR-Regular.otf",
+    "/System/Library/Fonts/PingFang.ttc",
+]
+
+
+def pick_font() -> str:
+    for cand in KOREAN_FONT_CANDIDATES:
+        if os.path.exists(cand):
+            return cand
+    return ""
+
+
+# --- Subtitle splitting ----------------------------------------------------
+
+_SENTENCE_END_RE = re.compile(r"(?<=[.!?。！？])\s+|(?<=다\.)\s+|\n+")
+
+
+def split_sentences(text: str) -> List[str]:
+    text = re.sub(r"\s+", " ", text).strip()
+    parts = _SENTENCE_END_RE.split(text)
+    out: List[str] = []
+    for p in parts:
+        p = p.strip()
+        if not p:
+            continue
+        # Further split long chunks on Korean commas so subtitles fit on screen.
+        if len(p) > 40:
+            chunks = re.split(r",\s*|,\s*", p)
+            for c in chunks:
+                c = c.strip()
+                if c:
+                    out.append(c)
+        else:
+            out.append(p)
+    return out
+
+
+def wrap_two_lines(text: str, per_line: int = 28) -> str:
+    """Wrap a subtitle into at most two lines (<= per_line chars each)."""
+    text = text.strip()
+    if len(text) <= per_line:
+        return text
+    # Break near the middle on a space or comma.
+    mid = len(text) // 2
+    for step in range(0, 8):
+        for idx in (mid - step, mid + step):
+            if 0 < idx < len(text) and text[idx] in " ,":
+                return text[:idx].strip() + "\n" + text[idx + 1:].strip()
+    return text[:per_line].rstrip() + "\n" + text[per_line:].strip()
+
+
+# --- MoviePy scene builders ------------------------------------------------
+
+
+def build_intro(
+    duration: float, channel_name: str, title: str, font: str
+):
+    from moviepy import ColorClip, TextClip, CompositeVideoClip
+
+    bg = ColorClip(size=(WIDTH, HEIGHT), color=(8, 12, 24), duration=duration)
+
+    channel_kwargs = dict(
+        text=channel_name,
+        font=font or None,
+        font_size=84,
+        color="white",
+        size=(int(WIDTH * 0.9), None),
+        method="caption",
+    )
+    channel = TextClip(**channel_kwargs).with_duration(duration).with_position(
+        ("center", HEIGHT // 2 - 120)
+    )
+
+    title_kwargs = dict(
+        text=title,
+        font=font or None,
+        font_size=52,
+        color=(200, 220, 255),
+        size=(int(WIDTH * 0.82), None),
+        method="caption",
+        text_align="center",
+    )
+    title_clip = TextClip(**title_kwargs).with_duration(duration).with_position(
+        ("center", HEIGHT // 2 + 20)
+    )
+
+    return CompositeVideoClip([bg, channel, title_clip], size=(WIDTH, HEIGHT)).with_duration(duration)
+
+
+def build_outro(duration: float, channel_name: str, font: str):
+    from moviepy import ColorClip, TextClip, CompositeVideoClip
+
+    bg = ColorClip(size=(WIDTH, HEIGHT), color=(8, 12, 24), duration=duration)
+
+    channel = TextClip(
+        text=channel_name,
+        font=font or None,
+        font_size=96,
+        color="white",
+        size=(int(WIDTH * 0.9), None),
+        method="caption",
+    ).with_duration(duration).with_position(("center", HEIGHT // 2 - 120))
+
+    cta = TextClip(
+        text="구독과 좋아요 부탁드립니다",
+        font=font or None,
+        font_size=56,
+        color=(220, 230, 255),
+        size=(int(WIDTH * 0.82), None),
+        method="caption",
+    ).with_duration(duration).with_position(("center", HEIGHT // 2 + 20))
+
+    return CompositeVideoClip([bg, channel, cta], size=(WIDTH, HEIGHT))
+
+
+def build_hero(
+    image_path: str, audio_duration: float
+):
+    """Build the main segment: blurred letterbox + centered hero + Ken Burns."""
+    from moviepy import ImageClip, ColorClip, CompositeVideoClip
+    from moviepy.video.fx import Resize
+    from PIL import Image, ImageFilter
+    import numpy as np
+
+    # Blurred background
+    bg_img = Image.open(image_path).convert("RGB")
+    bg_img = bg_img.resize((WIDTH, HEIGHT))
+    bg_img = bg_img.filter(ImageFilter.GaussianBlur(radius=40))
+    bg_arr = np.array(bg_img)
+    bg_clip = ImageClip(bg_arr).with_duration(audio_duration)
+
+    # Foreground hero with Ken Burns zoom via per-frame resize factor.
+    fg = ImageClip(image_path).with_duration(audio_duration)
+
+    # Fit hero to 90% width.
+    target_w = int(WIDTH * 0.9)
+    ratio = target_w / fg.w
+    target_h = int(fg.h * ratio)
+
+    fg = fg.with_effects([Resize(new_size=(target_w, target_h))])
+
+    def zoom_factor(t: float) -> float:
+        if audio_duration <= 0:
+            return 1.0
+        progress = min(max(t / audio_duration, 0.0), 1.0)
+        return KEN_BURNS_ZOOM_START + (KEN_BURNS_ZOOM_END - KEN_BURNS_ZOOM_START) * progress
+
+    fg = fg.with_effects([Resize(new_size=zoom_factor)]).with_position("center")
+
+    return CompositeVideoClip([bg_clip, fg], size=(WIDTH, HEIGHT)).with_duration(audio_duration)
+
+
+def build_subtitles(sentences, audio_duration: float, font: str):
+    """Create a list of TextClips with sentence-level timing."""
+    from moviepy import TextClip
+
+    if not sentences:
+        return []
+
+    per = audio_duration / len(sentences)
+    clips = []
+    for i, sentence in enumerate(sentences):
+        wrapped = wrap_two_lines(sentence)
+        start = i * per
+        dur = per
+
+        txt = TextClip(
+            text=wrapped,
+            font=font or None,
+            font_size=48,
+            color="white",
+            stroke_color="black",
+            stroke_width=4,
+            size=(int(WIDTH * 0.85), None),
+            method="caption",
+            text_align="center",
+        ).with_start(start).with_duration(dur).with_position(
+            ("center", HEIGHT - 220)
+        )
+        clips.append(txt)
+    return clips
+
+
+# --- Main ------------------------------------------------------------------
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--image", required=True)
+    ap.add_argument("--audio", required=True)
+    ap.add_argument("--script", required=True)
+    ap.add_argument("--title", required=True)
+    ap.add_argument("--output", required=True)
+    ap.add_argument("--channel", default="Antigravity News")
+    ap.add_argument("--intro", type=float, default=3.0)
+    ap.add_argument("--outro", type=float, default=2.0)
+    args = ap.parse_args()
+
+    try:
+        from moviepy import AudioFileClip, CompositeVideoClip, concatenate_videoclips
+        from moviepy.video.fx import FadeIn, FadeOut
+    except Exception as e:
+        print(f"moviepy import failed: {e}", file=sys.stderr)
+        return 2
+
+    font = pick_font()
+    print(f"font: {font or '(default)'}")
+
+    audio = AudioFileClip(args.audio)
+    audio_duration = float(audio.duration)
+    print(f"audio duration: {audio_duration:.2f}s")
+
+    try:
+        intro = build_intro(args.intro, args.channel, args.title, font)
+        intro = intro.with_effects([FadeIn(0.5), FadeOut(0.4)])
+
+        hero = build_hero(args.image, audio_duration)
+        subtitles = build_subtitles(split_sentences(args.script), audio_duration, font)
+        main_comp = CompositeVideoClip([hero, *subtitles], size=(WIDTH, HEIGHT))
+        main_comp = main_comp.with_audio(audio)
+
+        outro = build_outro(args.outro, args.channel, font)
+        outro = outro.with_effects([FadeIn(0.4), FadeOut(0.6)])
+
+        final = concatenate_videoclips([intro, main_comp, outro], method="compose")
+    except Exception as e:
+        print(f"compose error: {e}", file=sys.stderr)
+        traceback.print_exc()
+        return 3
+
+    try:
+        final.write_videofile(
+            args.output,
+            codec="libx264",
+            audio_codec="aac",
+            fps=FPS,
+            preset="medium",
+            threads=4,
+            bitrate="4000k",
+            temp_audiofile=args.output + ".temp.m4a",
+            remove_temp=True,
+            logger=None,
+        )
+    except Exception as e:
+        print(f"write_videofile failed: {e}", file=sys.stderr)
+        traceback.print_exc()
+        return 4
+    finally:
+        try:
+            final.close()
+            audio.close()
+        except Exception:
+            pass
+
+    total_duration = args.intro + audio_duration + args.outro
+    print(f"OK {total_duration:.3f}")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

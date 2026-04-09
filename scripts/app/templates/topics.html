@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="flex items-center justify-between mb-6">
+  <h1 class="text-xl font-semibold">Topic Queue ({{ topics|length }})</h1>
+</div>
+
+<!-- Shared toast target for all action buttons on this page -->
+<div id="topics-status" class="mb-4"></div>
+
+<section class="bg-white rounded-lg shadow p-6 mb-6">
+  <h2 class="text-sm font-semibold text-slate-500 mb-3">수동 토픽 추가</h2>
+  <form hx-post="/topics" hx-target="#topics-status" hx-swap="innerHTML" class="flex gap-3">
+    <input name="title" type="text" placeholder="토픽 제목" required
+           class="flex-1 px-3 py-2 border rounded text-sm" />
+    <input name="url" type="url" placeholder="참고 URL (optional)"
+           class="flex-1 px-3 py-2 border rounded text-sm" />
+    <button class="px-4 py-2 bg-emerald-600 text-white rounded text-sm">추가</button>
+  </form>
+</section>
+
+<div class="bg-white rounded-lg shadow overflow-x-auto">
+  <table class="w-full text-sm">
+    <thead>
+      <tr class="text-left text-slate-500 border-b">
+        <th class="py-2 px-4">score</th>
+        <th>source</th>
+        <th>title</th>
+        <th>status</th>
+        <th>actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for t in topics %}
+      <tr id="topic-{{ t.id }}" class="border-b last:border-0 hover:bg-slate-50">
+        <td class="py-2 px-4 font-mono text-xs">
+          {{ t.score }}
+          {% if t.boost > 0 %}<span class="text-amber-600">(+{{ t.boost }})</span>{% endif %}
+        </td>
+        <td class="text-xs text-slate-600">{{ t.source }}</td>
+        <td class="max-w-md">
+          <div class="font-medium truncate">{{ t.title }}</div>
+          {% if t.url %}<a href="{{ t.url }}" target="_blank" class="text-xs text-blue-500 hover:underline truncate block">{{ t.url }}</a>{% endif %}
+          {% if t.keyword_hits %}
+          <div class="mt-1">{% for k in t.keyword_hits %}<span class="stage-pill bg-slate-100 text-slate-600">{{ k }}</span>{% endfor %}</div>
+          {% endif %}
+        </td>
+        <td>
+          {% if t.status == 'queued' %}<span class="stage-pill bg-emerald-100 text-emerald-700">queued</span>
+          {% elif t.status == 'failed' %}<span class="stage-pill bg-rose-100 text-rose-700">failed · {{ t.fail_count }}</span>
+          {% elif t.status == 'blocked' %}<span class="stage-pill bg-slate-300 text-slate-700">blocked</span>
+          {% elif t.status == 'selected' %}<span class="stage-pill bg-amber-100 text-amber-700">selected</span>
+          {% else %}{{ t.status }}{% endif %}
+          {% if t.last_error %}<div class="text-xs text-rose-500 truncate max-w-xs">{{ t.last_error }}</div>{% endif %}
+        </td>
+        <td class="whitespace-nowrap">
+          <button class="text-xs text-blue-600 hover:underline"
+                  hx-post="/topics/{{ t.id }}/prioritize"
+                  hx-target="#topics-status" hx-swap="innerHTML">↑</button>
+          <button class="text-xs text-emerald-600 hover:underline font-semibold"
+                  hx-post="/pipeline/trigger"
+                  hx-vals='{"topic_id": "{{ t.id }}"}'
+                  hx-target="#topics-status" hx-swap="innerHTML">run</button>
+          {% if t.status in ['failed', 'blocked'] %}
+          <button class="text-xs text-amber-600 hover:underline"
+                  hx-post="/topics/{{ t.id }}/reset"
+                  hx-target="#topics-status" hx-swap="innerHTML">reset</button>
+          {% endif %}
+          <button class="text-xs text-rose-600 hover:underline"
+                  hx-delete="/topics/{{ t.id }}"
+                  hx-target="#topic-{{ t.id }}"
+                  hx-swap="outerHTML">del</button>
+        </td>
+      </tr>
+      {% else %}
+      <tr><td colspan="5" class="p-6 text-center text-slate-400">큐가 비어있습니다. 소스 폴링을 기다리거나 위에서 수동 추가하세요.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

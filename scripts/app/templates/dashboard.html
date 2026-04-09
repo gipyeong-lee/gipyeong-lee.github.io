@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+  <div class="bg-white rounded-lg shadow p-4">
+    <div class="text-xs text-slate-500 uppercase tracking-wide">24h posts</div>
+    <div class="text-3xl font-bold">{{ data.posts_24h }}</div>
+  </div>
+  <div class="bg-white rounded-lg shadow p-4">
+    <div class="text-xs text-slate-500 uppercase tracking-wide">Total posts</div>
+    <div class="text-3xl font-bold">{{ data.posts_total }}</div>
+  </div>
+  <div class="bg-white rounded-lg shadow p-4">
+    <div class="text-xs text-slate-500 uppercase tracking-wide">Queue</div>
+    <div class="text-3xl font-bold">{{ data.queue_size }}</div>
+  </div>
+  <div class="bg-white rounded-lg shadow p-4">
+    <div class="text-xs text-slate-500 uppercase tracking-wide">Failed</div>
+    <div class="text-3xl font-bold text-rose-600">{{ data.failed_topics }}</div>
+  </div>
+</div>
+
+<section class="bg-white rounded-lg shadow p-6 mb-6">
+  <div class="flex items-center gap-4">
+    <div class="flex-1">
+      <div class="text-sm text-slate-500">Daemon</div>
+      <div class="text-lg font-semibold">
+        {% if daemon.running %}
+          <span class="stage-pill bg-emerald-100 text-emerald-700">running</span>
+        {% else %}
+          <span class="stage-pill bg-slate-200 text-slate-700">stopped</span>
+        {% endif %}
+        {% if daemon.pipeline_locked %}
+          <span class="stage-pill bg-amber-100 text-amber-700">pipeline in progress</span>
+        {% endif %}
+      </div>
+      <div class="text-xs text-slate-400 mt-1">
+        last run: {{ daemon.last_run_at or '—' }} ·
+        interval: {{ settings.min_interval_seconds // 3600 }}h–{{ settings.max_interval_seconds // 3600 }}h ·
+        auto-publish: {{ 'on' if settings.auto_publish else 'off' }} ·
+        git-push: {{ 'on' if settings.git_push else 'off' }}
+      </div>
+    </div>
+    <div class="flex gap-2">
+      <button class="px-4 py-2 rounded bg-slate-200 hover:bg-slate-300 text-sm"
+              hx-post="/daemon/start" hx-swap="none">Start</button>
+      <button class="px-4 py-2 rounded bg-slate-200 hover:bg-slate-300 text-sm"
+              hx-post="/daemon/stop" hx-swap="none">Stop</button>
+      <button class="px-4 py-2 rounded bg-slate-800 text-white hover:bg-slate-900 text-sm"
+              hx-post="/daemon/restart" hx-swap="none">Restart (launchd)</button>
+    </div>
+  </div>
+</section>
+
+<section class="bg-white rounded-lg shadow p-6 mb-6">
+  <div class="flex items-center justify-between mb-4">
+    <h2 class="text-lg font-semibold">새 포스트 바로 발행</h2>
+    <a href="/pipeline" class="text-sm text-blue-600 hover:underline">→ pipeline monitor</a>
+  </div>
+  <form hx-post="/pipeline/trigger"
+        hx-target="#trigger-status"
+        hx-swap="innerHTML"
+        hx-disabled-elt="find button"
+        class="flex gap-3">
+    <input name="custom_topic" type="text"
+           placeholder="토픽 제목 (비워두면 최고 점수 토픽 자동 선택)"
+           class="flex-1 px-3 py-2 border rounded text-sm" />
+    <input name="custom_url" type="url" placeholder="참고 URL (optional)"
+           class="flex-1 px-3 py-2 border rounded text-sm" />
+    <button type="submit" class="px-4 py-2 bg-emerald-600 text-white rounded hover:bg-emerald-700 text-sm whitespace-nowrap">
+      파이프라인 실행
+    </button>
+  </form>
+  <div id="trigger-status" class="mt-3"></div>
+  <div class="text-xs text-slate-400 mt-2">
+    제목을 비우고 실행하면 큐에서 가장 높은 점수의 미발행 토픽이 자동 선택됩니다. 또는
+    <a href="/topics" class="text-blue-600 hover:underline">Topics 페이지</a>에서 개별 선택.
+  </div>
+</section>
+
+<section class="bg-white rounded-lg shadow p-6">
+  <h2 class="text-lg font-semibold mb-4">Recent runs</h2>
+  {% if data.runs_recent %}
+  <table class="w-full text-sm">
+    <thead>
+      <tr class="text-left text-slate-500 border-b">
+        <th class="py-2">#</th><th>trigger</th><th>stage</th><th>status</th><th>slug</th><th>started</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in data.runs_recent %}
+      <tr class="border-b last:border-0">
+        <td class="py-2">{{ r.id }}</td>
+        <td>{{ r.trigger }}</td>
+        <td>{{ r.stage or '—' }}</td>
+        <td>
+          {% if r.status == 'success' %}
+            <span class="stage-pill bg-emerald-100 text-emerald-700">success</span>
+          {% elif r.status == 'failed' %}
+            <span class="stage-pill bg-rose-100 text-rose-700">failed</span>
+          {% else %}
+            <span class="stage-pill bg-slate-200 text-slate-700">{{ r.status }}</span>
+          {% endif %}
+        </td>
+        <td class="text-slate-600">{{ r.final_slug or '—' }}</td>
+        <td class="text-slate-400 text-xs">{{ r.started_at }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <div class="text-slate-400 text-sm">아직 실행 기록이 없습니다.</div>
+  {% endif %}
+</section>
+{% endblock %}

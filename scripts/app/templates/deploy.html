@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="flex items-start justify-between mb-4">
+  <div>
+    <h1 class="text-xl font-semibold">Deploy incidents</h1>
+    <p class="text-sm text-slate-500">
+      GitHub Pages 배포 실패를 감지·분류·자동 수정하는 deploy_watcher 로그.
+      2분 주기로 <code>gh run list</code> 폴링 → 실패 감지 시 log 분석 →
+      YAML 자동 복구 + push → 재배포.
+    </p>
+  </div>
+  <form hx-post="/deploy/scan" hx-swap="none" class="shrink-0">
+    <button type="submit"
+            class="px-3 py-2 text-xs rounded bg-slate-900 text-white hover:bg-slate-800">
+      Scan now
+    </button>
+  </form>
+</div>
+
+{% if incidents %}
+<div class="space-y-3">
+  {% for inc in incidents %}
+  <div class="bg-white rounded-lg shadow p-4">
+    <div class="flex items-start gap-3">
+      <div class="shrink-0">
+        {% set color =
+          'bg-emerald-600' if inc.auto_applied else
+          'bg-amber-500'   if not inc.fix_error else
+          'bg-rose-600' %}
+        <span class="{{ color }} text-white text-xs px-2 py-0.5 rounded-full font-semibold uppercase">
+          {{ inc.category }}
+        </span>
+      </div>
+      <div class="flex-1 min-w-0">
+        <div class="text-sm">
+          <span class="text-slate-400 font-mono">#{{ inc.gh_run_id }}</span>
+          {% if inc.commit_sha %}
+          <span class="text-slate-400 font-mono ml-2">(@{{ inc.commit_sha }})</span>
+          {% endif %}
+          {% if inc.created_at %}
+          <span class="text-slate-400 ml-2">{{ inc.created_at }}</span>
+          {% endif %}
+        </div>
+        <div class="text-sm mt-1">{{ inc.root_cause }}</div>
+
+        {% if inc.suggested_fix %}
+        <pre class="text-xs bg-slate-50 rounded p-2 mt-2 whitespace-pre-wrap">{{ inc.suggested_fix }}</pre>
+        {% endif %}
+
+        {% if inc.fix_error %}
+        <div class="text-xs text-rose-600 bg-rose-50 rounded p-2 mt-2">
+          auto-fix failed: {{ inc.fix_error }}
+        </div>
+        {% endif %}
+
+        {% if inc.fix_commit_sha %}
+        <div class="text-xs mt-2">
+          <span class="text-emerald-700">✓ auto-fixed</span>
+          <span class="text-slate-400 font-mono ml-2">{{ inc.fix_commit_sha }}</span>
+        </div>
+        {% endif %}
+
+        {% if inc.evidence and inc.evidence.url %}
+        <div class="text-xs mt-2">
+          <a href="{{ inc.evidence.url }}" target="_blank" rel="noopener"
+             class="text-indigo-600 hover:underline">Actions run ↗</a>
+        </div>
+        {% endif %}
+      </div>
+      <div class="shrink-0">
+        {% if not inc.auto_applied %}
+        <form hx-post="/deploy/{{ inc.id }}/retry" hx-swap="none">
+          <button type="submit"
+                  class="px-3 py-1 text-xs rounded border border-slate-300 hover:bg-slate-50">
+            Retry fix
+          </button>
+        </form>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<div class="bg-white rounded-lg shadow p-8 text-center text-sm text-slate-500">
+  아직 기록된 deploy failure가 없습니다. 배포 실패 감지 시 자동으로 여기에 표시됩니다.
+</div>
+{% endif %}
+{% endblock %}

@@ -6,6 +6,12 @@ from .fact_checker import FactCheckerAgent
 from .editor import EditorAgent
 from .translator import TranslatorAgent
 from .image_generator import ImageGeneratorAgent
+from .script_writer import ScriptWriterAgent
+from .tts_voice import TTSVoiceAgent
+from .video_composer import VideoComposerAgent
+from .thumbnail_maker import ThumbnailMakerAgent
+from .youtube_uploader import YouTubeUploaderAgent
+from .deploy_fixer import DeployFixerAgent
 
 __all__ = [
     "ResearcherAgent",
@@ -14,4 +20,12 @@ __all__ = [
     "EditorAgent",
     "TranslatorAgent",
     "ImageGeneratorAgent",
+    # Phase E — video pipeline
+    "ScriptWriterAgent",
+    "TTSVoiceAgent",
+    "VideoComposerAgent",
+    "ThumbnailMakerAgent",
+    "YouTubeUploaderAgent",
+    # Deploy self-healing
+    "DeployFixerAgent",
 ]
