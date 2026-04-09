@@ -8,6 +8,7 @@ from .translator import TranslatorAgent
 from .image_generator import ImageGeneratorAgent
 from .script_writer import ScriptWriterAgent
 from .tts_voice import TTSVoiceAgent
+from .video_animator import VideoAnimatorAgent
 from .video_composer import VideoComposerAgent
 from .thumbnail_maker import ThumbnailMakerAgent
 from .youtube_metadata import YouTubeMetadataAgent
@@ -24,6 +25,7 @@ __all__ = [
     # Phase E — video pipeline
     "ScriptWriterAgent",
     "TTSVoiceAgent",
+    "VideoAnimatorAgent",
     "VideoComposerAgent",
     "ThumbnailMakerAgent",
     "YouTubeMetadataAgent",

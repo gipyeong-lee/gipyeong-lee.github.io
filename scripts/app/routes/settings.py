@@ -55,6 +55,13 @@ async def save_settings(
     youtube_captions_enabled: bool = Form(False),
     youtube_playlist_id: str = Form(""),
     cli_backend: str = Form("gemini"),
+    video_animation_enabled: bool = Form(False),
+    video_animation_duration_seconds: float = Form(5.0),
+    video_animation_timeout_seconds: int = Form(600),
+    video_animation_width: int = Form(1216),
+    video_animation_height: int = Form(704),
+    video_animation_fps: int = Form(24),
+    video_animation_steps: int = Form(20),
 ) -> JSONResponse:
     # Parse blocklist: one keyword per line, or comma-separated
     bl = [kw.strip() for chunk in keyword_blocklist.split("\n") for kw in chunk.split(",") if kw.strip()]
@@ -95,6 +102,13 @@ async def save_settings(
         "youtube_captions_enabled": bool(youtube_captions_enabled),
         "youtube_playlist_id": youtube_playlist_id.strip(),
         "cli_backend": cli_backend.strip() or "gemini",
+        "video_animation_enabled": bool(video_animation_enabled),
+        "video_animation_duration_seconds": float(video_animation_duration_seconds),
+        "video_animation_timeout_seconds": int(video_animation_timeout_seconds),
+        "video_animation_width": int(video_animation_width),
+        "video_animation_height": int(video_animation_height),
+        "video_animation_fps": int(video_animation_fps),
+        "video_animation_steps": int(video_animation_steps),
     }
     if sources_enabled:
         patch["sources_enabled"] = sources_enabled

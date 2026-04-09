@@ -50,6 +50,14 @@ class RuntimeSettings:
     youtube_captions_enabled: bool
     youtube_playlist_id: str
     cli_backend: str
+    video_animation_enabled: bool
+    video_animation_model: str
+    video_animation_duration_seconds: float
+    video_animation_timeout_seconds: int
+    video_animation_width: int
+    video_animation_height: int
+    video_animation_fps: int
+    video_animation_steps: int
 
 
 def _defaults_as_dict() -> dict[str, Any]:
@@ -83,6 +91,14 @@ def _defaults_as_dict() -> dict[str, Any]:
         "youtube_captions_enabled": DEFAULTS.youtube_captions_enabled,
         "youtube_playlist_id": DEFAULTS.youtube_playlist_id,
         "cli_backend": DEFAULTS.cli_backend,
+        "video_animation_enabled": DEFAULTS.video_animation_enabled,
+        "video_animation_model": DEFAULTS.video_animation_model,
+        "video_animation_duration_seconds": DEFAULTS.video_animation_duration_seconds,
+        "video_animation_timeout_seconds": DEFAULTS.video_animation_timeout_seconds,
+        "video_animation_width": DEFAULTS.video_animation_width,
+        "video_animation_height": DEFAULTS.video_animation_height,
+        "video_animation_fps": DEFAULTS.video_animation_fps,
+        "video_animation_steps": DEFAULTS.video_animation_steps,
     }
 
 

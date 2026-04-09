@@ -191,6 +191,53 @@
         </select>
         <div class="text-xs text-slate-400">기본 gemini. codex 선택 시 코드·구조적 출력이 많은 agent 가 이를 우선 사용 (향후 옵트인).</div>
       </label>
+
+      <label class="inline-flex items-center gap-2 md:col-span-2 border-t pt-3">
+        <input type="checkbox" name="video_animation_enabled" value="true"
+               {% if settings.video_animation_enabled %}checked{% endif %} class="rounded" />
+        <span class="text-sm">
+          <b>LTX-Video animation</b> — hero 이미지에 생성형 모션 적용 (Ken Burns 대체)
+          <span class="text-slate-400">· Apache 2.0 · 첫 실행 시 ~10GB 다운로드 · 5초 클립 ping-pong 루프</span>
+        </span>
+      </label>
+      <label class="block">
+        <span class="text-sm font-medium">Animation duration (sec)</span>
+        <input type="number" step="0.5" min="1" max="10" name="video_animation_duration_seconds"
+               value="{{ settings.video_animation_duration_seconds }}"
+               class="mt-1 block w-full border rounded px-3 py-2 text-sm" />
+        <div class="text-xs text-slate-400">생성 클립 길이 (기본 5). 길수록 생성 시간↑ 메모리↑.</div>
+      </label>
+      <label class="block">
+        <span class="text-sm font-medium">Animation inference steps</span>
+        <input type="number" min="5" max="50" name="video_animation_steps"
+               value="{{ settings.video_animation_steps }}"
+               class="mt-1 block w-full border rounded px-3 py-2 text-sm" />
+        <div class="text-xs text-slate-400">기본 20. 낮추면 빠르고 거칠게.</div>
+      </label>
+      <label class="block">
+        <span class="text-sm font-medium">Animation width</span>
+        <input type="number" min="256" max="1920" step="32" name="video_animation_width"
+               value="{{ settings.video_animation_width }}"
+               class="mt-1 block w-full border rounded px-3 py-2 text-sm" />
+      </label>
+      <label class="block">
+        <span class="text-sm font-medium">Animation height</span>
+        <input type="number" min="256" max="1080" step="32" name="video_animation_height"
+               value="{{ settings.video_animation_height }}"
+               class="mt-1 block w-full border rounded px-3 py-2 text-sm" />
+      </label>
+      <label class="block">
+        <span class="text-sm font-medium">Animation FPS</span>
+        <input type="number" min="12" max="30" name="video_animation_fps"
+               value="{{ settings.video_animation_fps }}"
+               class="mt-1 block w-full border rounded px-3 py-2 text-sm" />
+      </label>
+      <label class="block">
+        <span class="text-sm font-medium">Animation timeout (sec)</span>
+        <input type="number" min="60" max="3600" name="video_animation_timeout_seconds"
+               value="{{ settings.video_animation_timeout_seconds }}"
+               class="mt-1 block w-full border rounded px-3 py-2 text-sm" />
+      </label>
     </div>
   </div>
 

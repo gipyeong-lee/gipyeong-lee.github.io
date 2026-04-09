@@ -108,6 +108,17 @@ class DefaultSettings:
     # "gemini" (default — existing agents) or "codex". Claude is never a runtime
     # option per user policy.
     cli_backend: str = "gemini"
+    # LTX-Video I2V animation (replaces Ken-Burns zoom on the static hero
+    # image with actual generative motion). Defaults ENABLED — toggle off
+    # in Settings if performance is unacceptable on this machine.
+    video_animation_enabled: bool = True
+    video_animation_model: str = "ltx-video-2b"      # display only; runner is hardcoded
+    video_animation_duration_seconds: float = 5.0    # 5s clip → ping-pong looped
+    video_animation_timeout_seconds: int = 10 * 60   # 10 min hard cap per generation
+    video_animation_width: int = 1216
+    video_animation_height: int = 704
+    video_animation_fps: int = 24
+    video_animation_steps: int = 20
 
 
 DEFAULTS = DefaultSettings()

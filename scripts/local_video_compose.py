@@ -154,29 +154,49 @@ def build_outro(duration: float, channel_name: str, font: str):
 
 
 def build_hero(
-    image_path: str, audio_duration: float
+    image_path: str, audio_duration: float, animation_path: str | None = None
 ):
-    """Build the main segment: blurred letterbox + centered hero + Ken Burns."""
-    from moviepy import ImageClip, ColorClip, CompositeVideoClip
+    """Build the main segment: blurred letterbox + centered hero.
+
+    Two modes:
+
+    - **Animation mode** (`animation_path` provided): The animation clip
+      is the foreground. We *ping-pong loop* it (forward → reverse →
+      forward …) until the audio duration is filled. The static blurred
+      background is still rendered from the original hero image.
+
+    - **Static mode** (no animation): legacy Ken Burns zoom on the
+      static hero image. Identical to the original behavior — used as
+      automatic fallback when LTX-Video is disabled or generation fails.
+    """
+    from moviepy import ImageClip, ColorClip, CompositeVideoClip, concatenate_videoclips
     from moviepy.video.fx import Resize
     from PIL import Image, ImageFilter
     import numpy as np
 
-    # Blurred background
+    # Blurred background — same in both modes (animation clip is too low-res
+    # to also use as the background letterbox).
     bg_img = Image.open(image_path).convert("RGB")
     bg_img = bg_img.resize((WIDTH, HEIGHT))
     bg_img = bg_img.filter(ImageFilter.GaussianBlur(radius=40))
     bg_arr = np.array(bg_img)
     bg_clip = ImageClip(bg_arr).with_duration(audio_duration)
 
-    # Foreground hero with Ken Burns zoom via per-frame resize factor.
-    fg = ImageClip(image_path).with_duration(audio_duration)
+    if animation_path and os.path.exists(animation_path):
+        fg = _build_animation_foreground(animation_path, audio_duration)
+        if fg is not None:
+            print(f"foreground: animation clip ({animation_path})")
+            return CompositeVideoClip(
+                [bg_clip, fg], size=(WIDTH, HEIGHT)
+            ).with_duration(audio_duration)
+        # If the animation clip can't be opened, fall through to Ken Burns.
+        print("animation clip unusable; falling back to Ken Burns")
 
-    # Fit hero to 90% width.
+    # --- Static fallback: Ken Burns zoom on the hero image -------------
+    fg = ImageClip(image_path).with_duration(audio_duration)
     target_w = int(WIDTH * 0.9)
     ratio = target_w / fg.w
     target_h = int(fg.h * ratio)
-
     fg = fg.with_effects([Resize(new_size=(target_w, target_h))])
 
     def zoom_factor(t: float) -> float:
@@ -186,8 +206,58 @@ def build_hero(
         return KEN_BURNS_ZOOM_START + (KEN_BURNS_ZOOM_END - KEN_BURNS_ZOOM_START) * progress
 
     fg = fg.with_effects([Resize(new_size=zoom_factor)]).with_position("center")
+    return CompositeVideoClip(
+        [bg_clip, fg], size=(WIDTH, HEIGHT)
+    ).with_duration(audio_duration)
 
-    return CompositeVideoClip([bg_clip, fg], size=(WIDTH, HEIGHT)).with_duration(audio_duration)
+
+def _build_animation_foreground(animation_path: str, audio_duration: float):
+    """Load the LTX clip, ping-pong loop it to fill `audio_duration`, fit canvas."""
+    try:
+        from moviepy import VideoFileClip, concatenate_videoclips
+        from moviepy.video.fx import Resize
+    except Exception as e:
+        print(f"moviepy import failed for animation: {e}")
+        return None
+
+    try:
+        clip = VideoFileClip(animation_path).without_audio()
+    except Exception as e:
+        print(f"failed to open animation clip: {e}")
+        return None
+
+    if clip.duration <= 0 or audio_duration <= 0:
+        return None
+
+    # Resize to fit 90% width while preserving aspect ratio.
+    target_w = int(WIDTH * 0.9)
+    ratio = target_w / clip.w
+    target_h = int(clip.h * ratio)
+    clip = clip.with_effects([Resize(new_size=(target_w, target_h))])
+
+    # Ping-pong loop: [forward, reverse] tile, then trim to audio_duration.
+    try:
+        from moviepy.video.fx import TimeMirror
+
+        reverse = clip.with_effects([TimeMirror()])
+    except Exception:
+        # Older moviepy: skip the reverse leg, just loop forward.
+        reverse = None
+
+    base_unit = (
+        concatenate_videoclips([clip, reverse], method="compose")
+        if reverse is not None
+        else clip
+    )
+    unit_dur = base_unit.duration
+    if unit_dur <= 0:
+        return None
+
+    import math
+    repeats = max(1, int(math.ceil(audio_duration / unit_dur)))
+    looped = concatenate_videoclips([base_unit] * repeats, method="compose")
+    looped = looped.subclipped(0, audio_duration)
+    return looped.with_position("center")
 
 
 def build_subtitles(sentences, audio_duration: float, font: str):
@@ -234,6 +304,11 @@ def main() -> int:
     ap.add_argument("--channel", default="Antigravity News")
     ap.add_argument("--intro", type=float, default=3.0)
     ap.add_argument("--outro", type=float, default=2.0)
+    ap.add_argument(
+        "--animation",
+        default="",
+        help="Optional path to a pre-rendered LTX-Video clip to use as the foreground.",
+    )
     args = ap.parse_args()
 
     try:
@@ -254,7 +329,8 @@ def main() -> int:
         intro = build_intro(args.intro, args.channel, args.title, font)
         intro = intro.with_effects([FadeIn(0.5), FadeOut(0.4)])
 
-        hero = build_hero(args.image, audio_duration)
+        animation_path = args.animation.strip() or None
+        hero = build_hero(args.image, audio_duration, animation_path=animation_path)
         subtitles = build_subtitles(split_sentences(args.script), audio_duration, font)
         main_comp = CompositeVideoClip([hero, *subtitles], size=(WIDTH, HEIGHT))
         main_comp = main_comp.with_audio(audio)

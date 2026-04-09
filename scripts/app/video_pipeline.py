@@ -30,6 +30,7 @@ from ..agents import (
     ScriptWriterAgent,
     TTSVoiceAgent,
     ThumbnailMakerAgent,
+    VideoAnimatorAgent,
     VideoComposerAgent,
     YouTubeMetadataAgent,
     YouTubeUploaderAgent,
@@ -93,6 +94,7 @@ class VideoPipeline:
         *,
         script_writer: Optional[ScriptWriterAgent] = None,
         tts: Optional[TTSVoiceAgent] = None,
+        animator: Optional[VideoAnimatorAgent] = None,
         composer: Optional[VideoComposerAgent] = None,
         thumbnail: Optional[ThumbnailMakerAgent] = None,
         metadata: Optional[YouTubeMetadataAgent] = None,
@@ -100,6 +102,7 @@ class VideoPipeline:
     ):
         self.script_writer = script_writer or ScriptWriterAgent()
         self.tts = tts or TTSVoiceAgent()
+        self.animator = animator or VideoAnimatorAgent()
         self.composer = composer or VideoComposerAgent()
         self.thumbnail = thumbnail or ThumbnailMakerAgent()
         self.metadata = metadata or YouTubeMetadataAgent()
@@ -199,8 +202,65 @@ class VideoPipeline:
             {"duration": duration, "elapsed": round(time.time() - t0, 2)},
         )
 
+        # --- Stage 2.5: Animate (LTX-Video I2V) --------------------------
+        # Generates a short animated clip from the hero image. The composer
+        # then ping-pong loops it under the narration. On any failure
+        # (disabled, model missing, OOM, MPS op gap) we silently fall
+        # through to the legacy Ken-Burns zoom on the static hero.
+        anim_path: Optional[Path] = None
+        if settings.video_animation_enabled:
+            anim_path = Path(VIDEOS_DIR) / f"{slug}.anim.mp4"
+            # Reuse a pre-existing animation clip across reruns to save
+            # ~1-3 minutes of generation time when only later stages need
+            # to be retried.
+            reuse = anim_path.exists() and anim_path.stat().st_size > 10_000
+            stage_hook(
+                "animate",
+                "start",
+                {"reused": reuse, "model": settings.video_animation_model},
+            )
+            t0 = time.time()
+            anim_ok = False
+            if reuse:
+                anim_ok = True
+            else:
+                try:
+                    anim_prompt = self.animator.build_prompt_from_post(
+                        topic=title,
+                        summary=meta.get("description", "") if (meta := _read_post_meta_for_anim(post_path)) else "",
+                    )
+                    anim_dur = self.animator.run(
+                        image_path=image_path,
+                        prompt=anim_prompt,
+                        output_path=anim_path,
+                        duration_seconds=settings.video_animation_duration_seconds,
+                        timeout_seconds=settings.video_animation_timeout_seconds,
+                    )
+                    anim_ok = anim_dur is not None and anim_path.exists()
+                except Exception as e:
+                    traceback.print_exc()
+                    self.animator.log(f"animator crashed: {e}")
+                    anim_ok = False
+            if anim_ok:
+                stage_hook(
+                    "animate",
+                    "ok",
+                    {"path": anim_path.name, "elapsed": round(time.time() - t0, 2)},
+                )
+            else:
+                # Non-fatal: fall through to static Ken-Burns mode.
+                stage_hook(
+                    "animate",
+                    "fail",
+                    {
+                        "fallback": "ken_burns",
+                        "elapsed": round(time.time() - t0, 2),
+                    },
+                )
+                anim_path = None
+
         # --- Stage 3: Compose --------------------------------------------
-        stage_hook("compose", "start", {})
+        stage_hook("compose", "start", {"animation": bool(anim_path)})
         t0 = time.time()
         try:
             total = self.composer.run(
@@ -210,6 +270,7 @@ class VideoPipeline:
                 title=title,
                 output_path=mp4_path,
                 channel_name=channel,
+                animation_path=anim_path,
             )
         except Exception as e:
             traceback.print_exc()
@@ -389,6 +450,41 @@ class VideoPipeline:
 # ----------------------------------------------------------------------
 # helpers
 # ----------------------------------------------------------------------
+
+
+def _read_post_meta_for_anim(post_path: Optional[Path]) -> Optional[dict]:
+    """Tiny helper: extract front-matter fields from a post for the animator prompt.
+
+    Reuses the same parser pattern as other modules; we intentionally
+    don't import the heavier video_worker version to keep the pipeline
+    module dependency-free.
+    """
+    if post_path is None:
+        return None
+    try:
+        from pathlib import Path as _P
+        p = _P(post_path)
+        if not p.exists():
+            return None
+        raw = p.read_text(encoding="utf-8")
+    except Exception:
+        return None
+    import re as _re
+
+    match = _re.match(r"^---\s*\n(.*?)\n---\s*\n", raw, _re.DOTALL)
+    if not match:
+        return None
+    fm = match.group(1)
+    out: dict = {}
+    for line in fm.splitlines():
+        kv = _re.match(r"^([A-Za-z_][\w-]*)\s*:\s*(.*)$", line)
+        if not kv:
+            continue
+        key, val = kv.group(1), kv.group(2).strip()
+        if val.startswith('"') and val.endswith('"'):
+            val = val[1:-1]
+        out[key] = val
+    return out
 
 
 def _find_image(slug: str) -> Optional[Path]:

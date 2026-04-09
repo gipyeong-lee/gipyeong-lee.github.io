@@ -46,6 +46,7 @@ class VideoComposerAgent(BaseAgent):
         channel_name: str = "Antigravity News",
         intro_seconds: float = 3.0,
         outro_seconds: float = 2.0,
+        animation_path: str | Path | None = None,
         timeout_seconds: int = 10 * 60,
     ) -> Optional[float]:
         """Render an mp4 at `output_path`. Returns duration seconds or None."""
@@ -79,6 +80,11 @@ class VideoComposerAgent(BaseAgent):
             "--intro", str(intro_seconds),
             "--outro", str(outro_seconds),
         ]
+        if animation_path:
+            anim = Path(animation_path)
+            if anim.exists() and anim.stat().st_size > 10_000:
+                cmd.extend(["--animation", str(anim)])
+                self.log(f"using LTX animation foreground: {anim.name}")
 
         if _IMAGE_PYTHON != sys.executable:
             self.log(f"Using {_IMAGE_PYTHON} for video compose")
