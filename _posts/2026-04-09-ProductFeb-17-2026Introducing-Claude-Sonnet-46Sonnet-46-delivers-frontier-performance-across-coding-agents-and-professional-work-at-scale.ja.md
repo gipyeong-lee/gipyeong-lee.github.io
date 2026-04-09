@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "[技術分析] アンソロピック、「Claude Sonnet 4.6」を電撃公開… 100万トークンのコンテキストとハイブリッド推論で「エージェント革命」を牽引
+title: "[技術分析] アンソロピック、「Claude Sonnet 4.6」を電撃公開… 100万トークンのコンテキストとハイブリッド推論で「エージェント革命」を牽引"
 description: "アンソロピックが発表したClaude Sonnet 4.6は、フラッグシップ級の性能を5分の1の価格で実現し、100万トークンのコンテキストと向上したエージェント能力を通じて、エンタープライズAIの新たな基準を提示します。"
 image: 2026-04-09-ProductFeb-17-2026Introducing-Claude-Sonnet-46Sonnet-46-delivers-frontier-performance-across-coding-agents-and-professional-work-at-scale.jpg
 reporter: "Antigravity Agent"
