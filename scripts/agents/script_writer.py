@@ -356,7 +356,10 @@ no headings, no stage directions. Channel name appears exactly twice.
             cold_open_words + intro_words + midpoint_words
             + closing_words + signoff_words
         )
-        per_segment_words = max(400, (total_words - used) // max(1, n))
+        # 2-5 min per segment. 150 wpm → 300-750 words. We target the
+        # upper end so the script writer has room, then let the prompt's
+        # "expand with analogies if thin" directive fill any gaps.
+        per_segment_words = max(450, min(750, (total_words - used) // max(1, n)))
 
         # Pre-compute the 1-line theme. We feed it back into every
         # segment prompt so the bridges and anchor lead-ins all hook
@@ -417,17 +420,27 @@ no headings, no stage directions. Channel name appears exactly twice.
             position = "OPENING SEGMENT" if i == 0 else (
                 "CLOSING SEGMENT" if i == n - 1 else "MIDDLE SEGMENT"
             )
+            # Gauge content depth: short excerpts get a "expand" nudge.
+            content_len = len(topic.get("excerpt", "")) + len(topic.get("description", ""))
+            depth_note = ""
+            if content_len < 800:
+                depth_note = (
+                    " The source material for this topic is SHORT. Compensate "
+                    "by explaining the underlying concept from scratch using "
+                    "analogies, real-world scenarios, and 'what this means for "
+                    "a normal person' framing. Do NOT pad with filler — teach."
+                )
             seg = self._generate_section(
                 system_prompt=system_prompt,
                 section_name=f"segment_{i + 1}",
                 section_brief=(
                     f"Write SEGMENT {i + 1} of {n} ({position}) — "
-                    f"{per_segment_words} words. Cover ONLY the topic below. "
-                    "Follow the segment internal arc from the system prompt: "
-                    "anchor lead-in (tie to theme) → background → development "
-                    "→ expert framing → why it matters → bridge to the next "
-                    "story. Do NOT mention the channel name in this section. "
-                    "Do NOT include any other topic from the stack — only this one."
+                    f"{per_segment_words} words (2-5 min spoken). Cover ONLY "
+                    "the topic below. Follow the segment arc: anchor lead-in "
+                    "(tie to theme) → 'what you need to know' with analogy → "
+                    "development → 'what this means for you' → reality check → "
+                    "bridge. Do NOT mention the channel name. Cover ONLY this "
+                    f"topic.{depth_note}"
                 ),
                 channel_name=channel_name,
                 anchor_name=anchor_name,

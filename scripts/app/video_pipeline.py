@@ -37,6 +37,8 @@ from ..agents import (
 )
 from ..agents.youtube_metadata import build_srt_captions
 from .config import IMAGES_DIR, POSTS_DIR, VIDEOS_DIR
+from .db import session_scope
+from .models_db import EpisodeTopic
 from .settings_store import get_settings
 
 
@@ -393,6 +395,10 @@ class VideoPipeline:
                 stage_hook("playlist", "ok" if ok else "fail", {})
             except Exception as e:
                 stage_hook("playlist", "fail", {"error": str(e)})
+
+        # Record which posts were consumed by this episode so the picker
+        # never reuses them across future episodes.
+        _save_episode_topics(episode_slug, topics)
 
         result.success = True
         return result
@@ -825,6 +831,25 @@ def _collect_topic_tags(topics: list[dict]) -> list[str]:
             seen.add(tag.lower())
             out.append(tag)
     return out[:25]
+
+
+def _save_episode_topics(episode_slug: str, topics: list[dict]) -> None:
+    """Persist the post→episode mapping so the picker can skip used posts."""
+    try:
+        with session_scope() as s:
+            for i, t in enumerate(topics):
+                slug = t.get("slug", "")
+                if not slug:
+                    continue
+                s.add(EpisodeTopic(
+                    episode_slug=episode_slug,
+                    post_slug=slug,
+                    position=i,
+                ))
+    except Exception:
+        # Non-fatal: if this fails the worst case is topic reuse in a
+        # future episode. Don't let it crash the pipeline.
+        pass
 
 
 def _find_post_for_language(slug: str, language: str) -> Optional[Path]:

@@ -232,6 +232,27 @@ class Video(Base):
     )
 
 
+class EpisodeTopic(Base):
+    """Junction table: which individual posts were included in each episode.
+
+    One row per (episode_slug, post_slug) pair. The picker queries this
+    table to skip posts that have already been broadcast so no topic is
+    ever repeated across episodes.
+    """
+
+    __tablename__ = "episode_topics"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    episode_slug: Mapped[str] = mapped_column(String, nullable=False)
+    post_slug: Mapped[str] = mapped_column(String, nullable=False)
+    position: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+
+    __table_args__ = (
+        Index("idx_episode_topics_post", "post_slug"),
+        Index("idx_episode_topics_episode", "episode_slug"),
+    )
+
+
 class DeployIncident(Base):
     """Recorded GitHub Pages deploy failure + (auto-)applied fix.
 

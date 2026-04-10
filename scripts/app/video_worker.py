@@ -48,7 +48,7 @@ from .config import (
 )
 from .db import session_scope
 from .diagnostics import classify_video_error, video_category_should_block
-from .models_db import PostHistory, Video, VideoRun
+from .models_db import EpisodeTopic, PostHistory, Video, VideoRun
 from .settings_store import get_settings
 from .video_pipeline import VideoPipeline, VideoPipelineResult
 
@@ -228,43 +228,44 @@ def _pick_next_episode(
     language: str,
     freshness_hours: int,
 ) -> Optional[dict]:
-    """Pick the freshest N posts for the upcoming episode.
+    """Pick the next N unused posts for the upcoming episode.
 
-    Returns ``None`` if fewer than 1 post is available within the
-    freshness window. The episode slug is synthetic and unique per UTC
-    hour, so re-running the worker tick within an hour does not
-    accidentally start a duplicate episode.
+    **Selection policy** (user-requested 2026-04-10):
+    - Posts are ordered **oldest-first** (chronological backlog).
+    - Posts already consumed by a previous successful episode are
+      **skipped** via the ``episode_topics`` table — no topic is ever
+      reused across episodes.
+    - The ``freshness_hours`` parameter is still supported (set it to
+      a very large number to process the full backlog, which is the
+      current default).
 
-    Returned dict shape:
-        {
-            "episode_slug": "episode-2026-04-10-04",
-            "episode_title": "AI News Daily — April 10, 2026",
-            "topics": [
-                {
-                    "slug": "<post-slug>",
-                    "title": "<post-title>",
-                    "description": "<post-description>",
-                    "post_path": "<absolute path to .{lang}.md>",
-                    "hero_path": "<absolute path to hero image>",
-                    "tags": ["..."],
-                },
-                ...
-            ],
-        }
+    Returns ``None`` when no unused posts remain.
     """
     lang = (language or "ko").lower()
     n = max(1, int(n or 1))
-    cutoff_utc = datetime.utcnow() - timedelta(hours=max(1, int(freshness_hours)))
+
+    # Subquery: all post slugs that have already been broadcast.
+    used_slugs = select(EpisodeTopic.post_slug).distinct()
+
+    # Freshness cutoff. A value >= 8760 (1 year) effectively means
+    # "process the entire backlog".
+    cutoff_utc = None
+    if freshness_hours and freshness_hours < 8760:
+        cutoff_utc = datetime.utcnow() - timedelta(hours=max(1, int(freshness_hours)))
 
     candidates: list[dict] = []
     with session_scope() as s:
-        rows = s.execute(
+        stmt = (
             select(PostHistory.slug, PostHistory.title, PostHistory.published_at)
-            .where(PostHistory.published_at >= cutoff_utc)
-            .order_by(PostHistory.published_at.desc())
-            .limit(n * 4)  # over-fetch for hero/translation filtering
-        ).all()
-    for slug, title, _published_at in rows:
+            .where(~PostHistory.slug.in_(used_slugs))
+            .order_by(PostHistory.published_at.asc())  # oldest first
+            .limit(n * 4)
+        )
+        if cutoff_utc is not None:
+            stmt = stmt.where(PostHistory.published_at >= cutoff_utc)
+        rows = s.execute(stmt).all()
+
+    for slug, title, _pub in rows:
         if len(candidates) >= n:
             break
         if not _has_hero_image(slug) or not _has_post_translation(slug, lang):

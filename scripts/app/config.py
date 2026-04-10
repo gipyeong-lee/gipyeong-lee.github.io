@@ -115,15 +115,14 @@ class DefaultSettings:
     # the TTS agent picks the matching MeloTTS speaker.
     video_language: str = "en"
     # -- 50-min newscast format ------------------------------------------
-    # How many recent posts to weave into one episode. 8 stories × ~6 min
-    # per segment ≈ 50 min total. Set to 1 to fall back to single-story
-    # short-form videos.
-    topics_per_episode: int = 8
-    # Maximum age of posts the picker is willing to use as topics, in
-    # hours. Anything older is considered stale for a "today's news"
-    # broadcast and is skipped. 36h gives one buffer day on top of the
-    # current 24h news cycle.
-    topics_freshness_hours: int = 36
+    # How many posts to weave into one episode. 12 stories × ~3-4 min
+    # per segment ≈ 50 min total. Each topic gets 2-5 min of narration
+    # depending on content depth. Set to 1 for single-story short videos.
+    topics_per_episode: int = 12
+    # Maximum age of posts the picker will consider, in hours. Set to
+    # 99999 (≈11 years) to process the entire backlog chronologically.
+    # For "today's news" mode set to 36.
+    topics_freshness_hours: int = 99999
     # Per-video pipeline timeout (script + tts + compose + thumbnail + upload).
     # 50-min newscast format needs ~45 min on M3 Max; 90 min gives safety.
     video_pipeline_timeout_seconds: int = 90 * 60

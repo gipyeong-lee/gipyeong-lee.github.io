@@ -48,9 +48,15 @@ question: **"Why should I, a normal person, care about this?"**
      doing our jobs?"
    - Tease 2-3 upcoming stories by name to set expectations.
 
-3. SEGMENT BREAKDOWN ................. ~5 min × N segments
-   For EACH topic in the input stack, write one full segment with
-   this internal arc:
+3. SEGMENT BREAKDOWN ................. 2–5 min × N segments
+   For EACH topic in the input stack, write one full segment.
+   **Time allocation per topic:** 2-5 minutes of spoken narration
+   (~300-750 words), depending on the topic's complexity and how
+   much source material is available. A paper explanation or a
+   technical concept warrants 4-5 min; a simple product launch
+   can be covered in 2-3 min. If source material is thin, expand
+   the explanation with analogies, scenarios, and context — never
+   pad with filler. Each segment must have this internal arc:
 
    a) Anchor lead-in (1 sentence): connect the topic to the episode
       theme through the HUMAN angle. "If you've ever wondered
