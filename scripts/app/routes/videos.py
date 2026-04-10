@@ -543,7 +543,7 @@ def _run_episode_in_background(
 
 
 def _upload_in_background(video_id: int) -> None:
-    from ..agents.youtube_uploader import YouTubeUploaderAgent
+    from scripts.agents.youtube_uploader import YouTubeUploaderAgent
 
     with session_scope() as s:
         row = s.get(Video, video_id)
@@ -602,7 +602,7 @@ def _upload_in_background(video_id: int) -> None:
 
 
 async def _change_privacy(video_id: int, privacy: str) -> None:
-    from ..agents.youtube_uploader import YouTubeUploaderAgent
+    from scripts.agents.youtube_uploader import YouTubeUploaderAgent
 
     with session_scope() as s:
         row = s.get(Video, video_id)
