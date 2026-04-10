@@ -4,29 +4,105 @@
   <div>
     <h1 class="text-xl font-semibold">Videos</h1>
     <p class="text-sm text-slate-500">
-      블로그 포스트 → 1~2분 뉴스 비디오 → YouTube ({{ channel_name }}).
-      기본 공개 상태: <span class="font-mono">{{ default_privacy }}</span>,
-      일일 업로드 한도 {{ daily_cap }}건.
+      {{ channel_name }} · {{ default_privacy }} · daily cap {{ daily_cap }}
       {% if not enabled %}
-        <span class="text-amber-600">⚠ 비디오 생성 비활성화됨. Settings에서 활성화하세요.</span>
+        <span class="text-amber-600 ml-2">⚠ video generation disabled</span>
       {% endif %}
     </p>
   </div>
   <div class="text-right text-xs text-slate-500">
-    <div>reference voice: <span class="font-mono">{{ reference_voice_path or '(base voice)' }}</span></div>
+    <div>voice: <span class="font-mono">{{ reference_voice_path or '(base)' }}</span></div>
     <div>auto upload: {{ 'on' if auto_upload else 'off' }}</div>
   </div>
 </div>
 
 <div id="videos-status" class="mb-4 min-h-[24px]"></div>
 
-<!-- Posts with no video yet -->
-{% if missing %}
+<!-- ================================================================ -->
+<!-- Episode Generator                                                 -->
+<!-- ================================================================ -->
 <section class="bg-white rounded-lg shadow p-5 mb-6">
   <h2 class="text-sm font-semibold text-slate-700 mb-3">
-    비디오가 아직 생성되지 않은 포스트 ({{ missing|length }})
+    Episode Generator
   </h2>
-  <ul class="divide-y divide-slate-100 text-sm">
+
+  <!-- Auto-pick -->
+  <div class="flex items-center gap-3 mb-4">
+    <form hx-post="/videos/episodes/auto-pick"
+          hx-target="#videos-status"
+          hx-swap="innerHTML"
+          class="shrink-0">
+      <button type="submit"
+              class="px-4 py-2 text-sm rounded bg-blue-600 text-white hover:bg-blue-700 font-medium">
+        Auto-Pick Next Episode
+      </button>
+    </form>
+    <span class="text-xs text-slate-400">
+      Next {{ topics_per_episode }} unused posts (oldest-first)
+    </span>
+  </div>
+
+  <!-- Divider -->
+  <div class="flex items-center gap-3 mb-4">
+    <div class="flex-1 border-t border-slate-200"></div>
+    <span class="text-xs text-slate-400 uppercase">or select manually</span>
+    <div class="flex-1 border-t border-slate-200"></div>
+  </div>
+
+  <!-- Custom episode form -->
+  {% if missing %}
+  <form hx-post="/videos/episodes/custom"
+        hx-target="#videos-status"
+        hx-swap="innerHTML"
+        id="custom-episode-form">
+
+    <div class="flex gap-2 mb-2">
+      <button type="button" onclick="toggleAll(true)"
+              class="text-xs text-blue-600 hover:underline">Select All</button>
+      <button type="button" onclick="toggleAll(false)"
+              class="text-xs text-blue-600 hover:underline">Clear</button>
+      <span id="topic-count" class="text-xs text-slate-500 ml-auto">0 selected</span>
+    </div>
+
+    <div class="max-h-64 overflow-y-auto border rounded p-3 mb-3 space-y-1">
+      {% for m in missing %}
+      <label class="flex items-center gap-2 text-sm hover:bg-slate-50 rounded px-1 py-0.5 cursor-pointer">
+        <input type="checkbox" class="post-checkbox rounded" value="{{ m.slug }}">
+        <span class="flex-1 truncate">{{ m.title }}</span>
+        <span class="text-xs text-slate-400 font-mono shrink-0">{{ m.slug[:30] }}</span>
+      </label>
+      {% endfor %}
+    </div>
+
+    <!-- Hidden field populated by JS on submit -->
+    <input type="hidden" name="post_slugs" id="post-slugs-input">
+
+    <div class="flex items-center gap-3">
+      <input type="text" name="episode_title" placeholder="Episode title (optional)"
+             class="flex-1 px-3 py-2 text-sm border rounded">
+      <button type="submit"
+              class="px-4 py-2 text-sm rounded bg-emerald-600 text-white hover:bg-emerald-700 font-medium shrink-0">
+        Create Custom Episode
+      </button>
+    </div>
+    <p class="text-xs text-slate-400 mt-2">
+      Episode takes 60-120 min: script → TTS → illustrations → compose → upload.
+    </p>
+  </form>
+  {% else %}
+  <p class="text-sm text-slate-500">No unused posts available. All posts have been assigned to episodes.</p>
+  {% endif %}
+</section>
+
+<!-- ================================================================ -->
+<!-- Single-post generation (legacy, collapsed)                        -->
+<!-- ================================================================ -->
+{% if missing %}
+<details class="bg-white rounded-lg shadow mb-6">
+  <summary class="p-4 text-sm font-semibold text-slate-700 cursor-pointer hover:bg-slate-50">
+    Single-post videos ({{ missing|length }} available)
+  </summary>
+  <ul class="divide-y divide-slate-100 text-sm px-5 pb-4">
     {% for m in missing %}
     <li class="py-2 flex items-center gap-3">
       <div class="flex-1 min-w-0">
@@ -39,33 +115,36 @@
             class="shrink-0">
         <input type="hidden" name="slug" value="{{ m.slug }}">
         <button type="submit"
-                class="px-3 py-1 text-xs rounded bg-emerald-600 text-white hover:bg-emerald-700">
-          Generate video
+                class="px-3 py-1 text-xs rounded bg-slate-600 text-white hover:bg-slate-700">
+          Generate single
         </button>
       </form>
     </li>
     {% endfor %}
   </ul>
-</section>
+</details>
 {% endif %}
 
-<!-- Video cards -->
+<!-- ================================================================ -->
+<!-- Video cards                                                        -->
+<!-- ================================================================ -->
 {% if videos %}
 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
   {% for v in videos %}
   <div class="bg-white rounded-lg shadow overflow-hidden">
+    <!-- Thumbnail / status -->
     <div class="relative aspect-video bg-slate-900">
       {% if v.thumb_url %}
         <img src="{{ v.thumb_url }}" alt="thumbnail" class="w-full h-full object-cover">
       {% else %}
         <div class="absolute inset-0 flex items-center justify-center text-slate-500 text-sm">
-          no thumbnail
+          {% if v.is_episode %}Episode{% else %}no thumbnail{% endif %}
         </div>
       {% endif %}
       <div class="absolute bottom-2 right-2 bg-black/70 text-white text-xs px-2 py-0.5 rounded">
-        {% if v.duration %}{{ '%0.0f' % v.duration }}s{% else %}--{% endif %}
+        {% if v.duration_display %}{{ v.duration_display }}{% else %}--{% endif %}
       </div>
-      <div class="absolute top-2 left-2">
+      <div class="absolute top-2 left-2 flex gap-1">
         {% set color =
           'bg-emerald-600' if v.status in ('uploaded','success') else
           'bg-amber-500'   if v.status == 'running' else
@@ -74,13 +153,42 @@
         <span class="{{ color }} text-white text-xs px-2 py-0.5 rounded-full font-semibold uppercase">
           {{ v.status }}
         </span>
+        {% if v.is_episode %}
+        <span class="bg-indigo-600 text-white text-xs px-2 py-0.5 rounded-full font-semibold">
+          EPISODE
+        </span>
+        {% endif %}
       </div>
     </div>
+
+    <!-- Card body -->
     <div class="p-4 space-y-2">
       <div>
         <div class="font-medium leading-snug">{{ v.title }}</div>
         <div class="text-xs text-slate-400 font-mono truncate">{{ v.slug }}</div>
       </div>
+
+      <!-- Running stage indicator -->
+      {% if v.status == 'running' and v.current_stage %}
+      <div class="text-xs bg-blue-50 border border-blue-100 p-2 rounded flex items-center gap-2">
+        <span class="animate-pulse text-blue-500">●</span>
+        <span>Stage: <span class="font-mono font-semibold">{{ v.current_stage }}</span></span>
+      </div>
+      {% endif %}
+
+      <!-- Episode topic list -->
+      {% if v.episode_topics %}
+      <details class="text-xs">
+        <summary class="cursor-pointer text-indigo-600 hover:underline font-medium">
+          {{ v.episode_topics|length }} topics in this episode
+        </summary>
+        <ol class="mt-1 list-decimal list-inside text-slate-600 space-y-0.5 pl-1">
+          {% for t in v.episode_topics %}
+          <li class="truncate">{{ t.title }}</li>
+          {% endfor %}
+        </ol>
+      </details>
+      {% endif %}
 
       {% if v.youtube_url %}
       <div class="text-xs">
@@ -96,6 +204,7 @@
       </div>
       {% endif %}
 
+      <!-- Action buttons -->
       <div class="flex flex-wrap gap-2 pt-2">
         {% if v.status in ('success','uploaded','failed') %}
           <button
@@ -122,7 +231,7 @@
             hx-post="/videos/{{ v.id }}/publish"
             hx-target="#videos-status"
             hx-swap="innerHTML"
-            hx-confirm="이 비디오를 공개(public)로 전환합니다. 계속할까요?"
+            hx-confirm="Set to public?"
             class="px-3 py-1 text-xs rounded bg-emerald-600 text-white hover:bg-emerald-700">
             Make public
           </button>
@@ -140,7 +249,7 @@
           hx-delete="/videos/{{ v.id }}"
           hx-target="#videos-status"
           hx-swap="innerHTML"
-          hx-confirm="로컬 비디오 파일과 DB를 삭제합니다. YouTube 영상은 그대로 남습니다."
+          hx-confirm="Delete local files + DB row? YouTube stays."
           class="px-3 py-1 text-xs rounded border border-rose-300 text-rose-600 hover:bg-rose-50 ml-auto">
           Delete
         </button>
@@ -156,9 +265,30 @@
 </div>
 {% else %}
 <div class="bg-white rounded-lg shadow p-8 text-center text-sm text-slate-500">
-  아직 생성된 비디오가 없습니다. 위의 포스트 목록에서 "Generate video"를 눌러
-  시작하거나, Settings에서 비디오 생성을 활성화하면 daemon이 자동 실행합니다.
+  No videos yet. Use the Episode Generator above to create your first broadcast.
 </div>
 {% endif %}
 
+<script>
+function toggleAll(checked) {
+  document.querySelectorAll('.post-checkbox').forEach(el => el.checked = checked);
+  updateCount();
+}
+function updateCount() {
+  const n = document.querySelectorAll('.post-checkbox:checked').length;
+  const el = document.getElementById('topic-count');
+  if (el) el.textContent = n + ' selected';
+}
+document.addEventListener('change', e => {
+  if (e.target.classList.contains('post-checkbox')) updateCount();
+});
+// Populate hidden field before submit
+const form = document.getElementById('custom-episode-form');
+if (form) {
+  form.addEventListener('htmx:configRequest', e => {
+    const checked = [...document.querySelectorAll('.post-checkbox:checked')].map(el => el.value);
+    document.getElementById('post-slugs-input').value = checked.join(',');
+  });
+}
+</script>
 {% endblock %}
