@@ -352,6 +352,16 @@ class VideoPipeline:
             self.composer._animation_paths = anim_paths
             self.composer._topic_titles = topic_titles
             self.composer._segment_images = segment_images
+            # Extract first sentence of script as the cold-open hook.
+            hook_text = ""
+            if script:
+                for line in script.strip().splitlines():
+                    line = line.strip()
+                    if line and line != "--- SEGMENT BREAK ---" and len(line) > 20:
+                        hook_text = line[:120]
+                        break
+            self.composer._hook_text = hook_text
+            self.composer._music_dir = str(Path(VIDEOS_DIR).parent / "music")
             try:
                 total = self.composer.run(
                     image_path=hero_paths[0],

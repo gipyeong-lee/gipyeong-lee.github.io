@@ -116,6 +116,13 @@ class VideoComposerAgent(BaseAgent):
                 cmd.extend(["--animation", str(anim)])
                 self.log(f"using LTX animation foreground: {anim.name}")
 
+        # Forward hook text for the cold-open.
+        if hasattr(self, '_hook_text') and self._hook_text:
+            cmd.extend(["--hook-text", self._hook_text])
+        # Forward music directory for background music mixing.
+        if hasattr(self, '_music_dir') and self._music_dir:
+            cmd.extend(["--music-dir", self._music_dir])
+
         if _IMAGE_PYTHON != sys.executable:
             self.log(f"Using {_IMAGE_PYTHON} for video compose")
         self.log(f"Rendering video to {output.name}…")

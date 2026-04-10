@@ -93,6 +93,53 @@ def wrap_two_lines(text: str, per_line: int = 28) -> str:
 # --- MoviePy scene builders ------------------------------------------------
 
 
+def build_hook(duration: float, hook_text: str, channel_name: str, font: str):
+    """5-second cold-open hook — bold text + accent bar to grab attention.
+
+    Research shows 50% of viewers decide to leave in the first 3 seconds.
+    This hook shows the most arresting sentence from the script before the
+    intro, creating an "information gap" that keeps viewers watching.
+    """
+    from moviepy import ColorClip, TextClip, CompositeVideoClip
+    from moviepy.video.fx import Resize
+
+    bg = ColorClip(size=(WIDTH, HEIGHT), color=(8, 12, 28), duration=duration)
+
+    # Top accent bar (bright blue, attention-grabbing).
+    accent = ColorClip(size=(WIDTH, 4), color=(0, 160, 255), duration=duration)
+    accent = accent.with_position(("center", 0))
+
+    # Hook text — large, bold, centered.
+    hook = TextClip(
+        text=hook_text[:120],
+        font=font or None,
+        font_size=72,
+        color="white",
+        size=(int(WIDTH * 0.85), None),
+        method="caption",
+        text_align="center",
+    ).with_duration(duration).with_position(("center", HEIGHT // 2 - 80))
+
+    # Channel branding at bottom.
+    brand = TextClip(
+        text=channel_name,
+        font=font or None,
+        font_size=28,
+        color=(100, 120, 160),
+    ).with_duration(duration).with_position(("center", HEIGHT - 80))
+
+    clip = CompositeVideoClip(
+        [bg, accent, hook, brand], size=(WIDTH, HEIGHT)
+    ).with_duration(duration)
+
+    # Subtle zoom-in effect (1.0→1.05) for dynamism.
+    def zoom(t):
+        progress = min(t / max(duration, 0.1), 1.0)
+        return 1.0 + 0.05 * progress
+    clip = clip.with_effects([Resize(new_size=zoom)])
+    return clip
+
+
 def build_intro(
     duration: float, channel_name: str, title: str, font: str
 ):
@@ -380,6 +427,118 @@ def _build_multi_image_segment(
     return result.with_duration(segment_duration)
 
 
+def build_cta_overlays(total_duration: float, channel_name: str, font: str):
+    """Subscribe/CTA reminders at strategic retention drop points.
+
+    Research: CTA at 50% re-engages declining attention, at 80% converts
+    committed viewers, at end provides closure. Semi-transparent banners.
+    """
+    from moviepy import TextClip, CompositeVideoClip, ColorClip
+
+    overlays = []
+    CTA_DUR = 6.0
+
+    # CTA at 50% — re-engagement point.
+    if total_duration > 120:
+        try:
+            bar = ColorClip(
+                size=(WIDTH, 50), color=(0, 0, 0), duration=CTA_DUR
+            ).with_opacity(0.6).with_position(("center", HEIGHT - 130))
+            txt = TextClip(
+                text=f"Subscribe to {channel_name} for daily AI news",
+                font=font or None,
+                font_size=26,
+                color=(0, 200, 255),
+                method="caption",
+                size=(int(WIDTH * 0.8), None),
+            ).with_duration(CTA_DUR).with_position(("center", HEIGHT - 120))
+            cta = CompositeVideoClip(
+                [bar, txt], size=(WIDTH, HEIGHT)
+            ).with_duration(CTA_DUR).with_start(total_duration * 0.5)
+            overlays.append(cta)
+        except Exception:
+            pass
+
+    # CTA at 80% — high conversion point.
+    if total_duration > 120:
+        try:
+            bar = ColorClip(
+                size=(WIDTH, 50), color=(0, 0, 0), duration=CTA_DUR
+            ).with_opacity(0.6).with_position(("center", HEIGHT - 130))
+            txt = TextClip(
+                text="Hit the bell for new episodes every day",
+                font=font or None,
+                font_size=26,
+                color=(255, 215, 0),
+                method="caption",
+                size=(int(WIDTH * 0.8), None),
+            ).with_duration(CTA_DUR).with_position(("center", HEIGHT - 120))
+            cta = CompositeVideoClip(
+                [bar, txt], size=(WIDTH, HEIGHT)
+            ).with_duration(CTA_DUR).with_start(total_duration * 0.8)
+            overlays.append(cta)
+        except Exception:
+            pass
+
+    return overlays
+
+
+def mix_background_music(
+    video_clip, music_dir: str, narration_duration: float
+):
+    """Underlay royalty-free background music at -18dB beneath narration.
+
+    Loops the music track across the full video duration, fades in/out
+    at start/end. The music is quiet enough not to compete with speech
+    but fills "dead air" and adds emotional engagement.
+    """
+    from moviepy import AudioFileClip, CompositeAudioClip
+
+    if not music_dir or not os.path.isdir(music_dir):
+        return video_clip
+
+    # Find first .mp3 or .wav in the music directory.
+    music_file = None
+    for ext in ("mp3", "wav", "m4a"):
+        for f in sorted(os.listdir(music_dir)):
+            if f.endswith(f".{ext}"):
+                music_file = os.path.join(music_dir, f)
+                break
+        if music_file:
+            break
+
+    if not music_file:
+        print("no background music found")
+        return video_clip
+
+    try:
+        music = AudioFileClip(music_file)
+        target_dur = video_clip.duration
+
+        # Loop music to fill video length.
+        if music.duration < target_dur:
+            repeats = int(math.ceil(target_dur / music.duration))
+            from moviepy import concatenate_audioclips
+            music = concatenate_audioclips([music] * repeats)
+        music = music.subclipped(0, target_dur)
+
+        # Volume: -18dB ≈ 0.126 linear. Very subtle.
+        music = music.with_volume_scaled(0.126)
+
+        # Fade in/out.
+        music = music.audio_fadein(3.0).audio_fadeout(5.0)
+
+        # Composite under existing audio.
+        if video_clip.audio is not None:
+            combined = CompositeAudioClip([video_clip.audio, music])
+            return video_clip.with_audio(combined)
+        else:
+            return video_clip.with_audio(music)
+    except Exception as e:
+        print(f"background music mixing failed: {e}")
+        return video_clip
+
+
 def _build_lower_third(duration: float, topic_name: str, font: str):
     """Semi-transparent news-style bar at the bottom with the current topic."""
     from moviepy import ColorClip, TextClip, CompositeVideoClip
@@ -579,6 +738,16 @@ def main() -> int:
             "'img1,img2,img3|img4,img5|...' (pipe = segment boundary)."
         ),
     )
+    ap.add_argument(
+        "--hook-text",
+        default="",
+        help="Cold-open hook sentence (first 5s of video).",
+    )
+    ap.add_argument(
+        "--music-dir",
+        default="",
+        help="Directory containing royalty-free background music files.",
+    )
     ap.add_argument("--audio", required=True)
     ap.add_argument("--script", required=True)
     ap.add_argument("--title", required=True)
@@ -608,6 +777,15 @@ def main() -> int:
     print(f"audio duration: {audio_duration:.2f}s")
 
     try:
+        # Build the hook (cold-open, first 5 seconds) if hook text provided.
+        hook_clip = None
+        hook_text = (args.hook_text or "").strip()
+        if hook_text:
+            HOOK_DUR = 5.0
+            hook_clip = build_hook(HOOK_DUR, hook_text, args.channel, font)
+            hook_clip = hook_clip.with_effects([FadeIn(0.3), FadeOut(0.5)])
+            print(f"hook: {hook_text[:60]}")
+
         intro = build_intro(args.intro, args.channel, args.title, font)
         intro = intro.with_effects([FadeIn(0.5), FadeOut(0.4)])
 
@@ -655,7 +833,26 @@ def main() -> int:
         outro = build_outro(args.outro, args.channel, font)
         outro = outro.with_effects([FadeIn(0.4), FadeOut(0.6)])
 
-        final = concatenate_videoclips([intro, main_comp, outro], method="compose")
+        # Assemble: [hook] + intro + main + outro.
+        parts = []
+        if hook_clip is not None:
+            parts.append(hook_clip)
+        parts.extend([intro, main_comp, outro])
+        final = concatenate_videoclips(parts, method="compose")
+
+        # Add CTA overlays (subscribe reminders at 50% and 80%).
+        cta_overlays = build_cta_overlays(
+            float(final.duration), args.channel, font
+        )
+        if cta_overlays:
+            final = CompositeVideoClip([final, *cta_overlays])
+            print(f"cta overlays: {len(cta_overlays)} added")
+
+        # Mix background music under narration.
+        music_dir = (args.music_dir or "").strip()
+        if music_dir:
+            final = mix_background_music(final, music_dir, audio_duration)
+            print(f"background music: mixed from {music_dir}")
     except Exception as e:
         print(f"compose error: {e}", file=sys.stderr)
         traceback.print_exc()
@@ -685,7 +882,8 @@ def main() -> int:
         except Exception:
             pass
 
-    total_duration = args.intro + audio_duration + args.outro
+    hook_dur = 5.0 if hook_text else 0.0
+    total_duration = hook_dur + args.intro + audio_duration + args.outro
     print(f"OK {total_duration:.3f}")
     return 0
 
