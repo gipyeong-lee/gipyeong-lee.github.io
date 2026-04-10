@@ -102,6 +102,14 @@ class VideoComposerAgent(BaseAgent):
                 # Forward topic titles for title cards + lower thirds.
                 if hasattr(self, '_topic_titles') and self._topic_titles:
                     cmd.extend(["--titles", "|".join(self._topic_titles)])
+                # Forward per-segment image lists for fast visual cuts.
+                # Format: "img1,img2,img3|img4,img5|..." (pipe = segment boundary).
+                if hasattr(self, '_segment_images') and self._segment_images:
+                    seg_str = "|".join(
+                        ",".join(p for p in seg if p) for seg in self._segment_images
+                    )
+                    if seg_str:
+                        cmd.extend(["--segment-images", seg_str])
         elif animation_path:
             anim = Path(animation_path)
             if anim.exists() and anim.stat().st_size > 10_000:

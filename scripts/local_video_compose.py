@@ -160,6 +160,7 @@ def build_multi_hero(
     animation_paths: List[str] | None = None,
     topic_titles: List[str] | None = None,
     font: str = "",
+    segment_images: List[List[str]] | None = None,
 ):
     """Build a multi-segment hero track for the 50-min newscast format.
 
@@ -206,50 +207,58 @@ def build_multi_hero(
             segments.append(card)
 
         # --- Build the segment's foreground ----------------------------
-        try:
-            bg_img = Image.open(img_path).convert("RGB")
-        except Exception as e:
-            print(f"failed to open hero {img_path}: {e}; skipping")
-            continue
-        bg_img = bg_img.resize((WIDTH, HEIGHT))
-        bg_img = bg_img.filter(ImageFilter.GaussianBlur(radius=40))
-        bg_arr = np.array(bg_img)
-        bg_clip = ImageClip(bg_arr).with_duration(per)
+        # If we have multiple images for this segment (from the
+        # illustrator), cycle through them every ~20 seconds. This gives
+        # the "fast visual pacing" look of channels like 헤이제임스.
+        seg_vis = None
+        if segment_images and idx < len(segment_images) and len(segment_images[idx]) > 1:
+            vis_list = segment_images[idx]
+            seg_vis = _build_multi_image_segment(vis_list, per, idx, font)
+        if seg_vis is not None:
+            print(f"  seg {idx + 1}: {len(segment_images[idx])} visual cuts")
+            layers = [seg_vis]
+        else:
+            # Single-image mode: LTX animation or Ken Burns on the hero.
+            try:
+                bg_img = Image.open(img_path).convert("RGB")
+            except Exception as e:
+                print(f"failed to open hero {img_path}: {e}; skipping")
+                continue
+            bg_img = bg_img.resize((WIDTH, HEIGHT))
+            bg_img = bg_img.filter(ImageFilter.GaussianBlur(radius=40))
+            bg_arr = np.array(bg_img)
+            bg_clip = ImageClip(bg_arr).with_duration(per)
 
-        # Try LTX animation first — gives real video motion.
-        anim_path = anim_list[idx] if idx < len(anim_list) else ""
-        fg = None
-        if anim_path and os.path.exists(anim_path) and os.path.getsize(anim_path) > 10_000:
-            fg = _build_animation_foreground(anim_path, per)
-            if fg is not None:
-                print(f"  seg {idx + 1}: LTX animation ({os.path.basename(anim_path)})")
+            anim_path = anim_list[idx] if idx < len(anim_list) else ""
+            fg = None
+            if anim_path and os.path.exists(anim_path) and os.path.getsize(anim_path) > 10_000:
+                fg = _build_animation_foreground(anim_path, per)
+                if fg is not None:
+                    print(f"  seg {idx + 1}: LTX animation")
 
-        # Fall back to Ken Burns with visible zoom + pan.
-        if fg is None:
-            fg = ImageClip(img_path).with_duration(per)
-            target_w = int(WIDTH * 0.9)
-            ratio = target_w / fg.w
-            target_h = int(fg.h * ratio)
-            fg = fg.with_effects([Resize(new_size=(target_w, target_h))])
+            if fg is None:
+                fg = ImageClip(img_path).with_duration(per)
+                target_w = int(WIDTH * 0.9)
+                ratio = target_w / fg.w
+                target_h = int(fg.h * ratio)
+                fg = fg.with_effects([Resize(new_size=(target_w, target_h))])
+                zoom_in = (idx % 2 == 0)
+                z_start = KEN_BURNS_ZOOM_START if zoom_in else KEN_BURNS_ZOOM_END
+                z_end = KEN_BURNS_ZOOM_END if zoom_in else KEN_BURNS_ZOOM_START
 
-            zoom_in = (idx % 2 == 0)
-            z_start = KEN_BURNS_ZOOM_START if zoom_in else KEN_BURNS_ZOOM_END
-            z_end = KEN_BURNS_ZOOM_END if zoom_in else KEN_BURNS_ZOOM_START
+                def make_zoom(z0, z1, dur):
+                    def _z(t):
+                        if dur <= 0:
+                            return 1.0
+                        progress = min(max(t / dur, 0.0), 1.0)
+                        return z0 + (z1 - z0) * progress
+                    return _z
 
-            def make_zoom(z0, z1, dur):
-                def _z(t):
-                    if dur <= 0:
-                        return 1.0
-                    progress = min(max(t / dur, 0.0), 1.0)
-                    return z0 + (z1 - z0) * progress
-                return _z
+                fg = fg.with_effects(
+                    [Resize(new_size=make_zoom(z_start, z_end, per))]
+                ).with_position("center")
 
-            fg = fg.with_effects(
-                [Resize(new_size=make_zoom(z_start, z_end, per))]
-            ).with_position("center")
-
-        # Composite: background + foreground + lower-third bar.
-        layers = [bg_clip, fg]
+            layers = [bg_clip, fg]
 
         # Lower-third news bar — semi-transparent dark bar at bottom.
         topic_name = titles[idx] if idx < len(titles) else ""
@@ -295,6 +304,80 @@ def _build_title_card(duration: float, topic_name: str, font: str):
     ).with_duration(duration)
     card = card.with_effects([FadeIn(0.3), FadeOut(0.3)])
     return card
+
+
+def _build_multi_image_segment(
+    image_paths: List[str], segment_duration: float, seg_idx: int, font: str
+):
+    """Build a segment that cuts between multiple images every ~20 seconds.
+
+    Each sub-image gets a Ken Burns zoom with alternating direction.
+    0.6-second cross-fades between sub-images create smooth transitions.
+    This gives the fast visual pacing of professional YouTube AI channels.
+    """
+    from moviepy import ImageClip, CompositeVideoClip, concatenate_videoclips
+    from moviepy.video.fx import FadeIn, FadeOut, Resize
+    from PIL import Image, ImageFilter
+    import numpy as np
+
+    valid = [p for p in image_paths if p and os.path.exists(p)]
+    if not valid:
+        return None
+
+    n = len(valid)
+    per_image = max(5.0, segment_duration / n)  # at least 5 seconds per image
+    sub_clips = []
+
+    for k, img_path in enumerate(valid):
+        try:
+            # Blurred background
+            bg_img = Image.open(img_path).convert("RGB")
+            bg_img = bg_img.resize((WIDTH, HEIGHT))
+            bg_img = bg_img.filter(ImageFilter.GaussianBlur(radius=35))
+            bg_arr = np.array(bg_img)
+            bg_clip = ImageClip(bg_arr).with_duration(per_image)
+
+            # Foreground with Ken Burns
+            fg = ImageClip(img_path).with_duration(per_image)
+            target_w = int(WIDTH * 0.92)
+            ratio = target_w / fg.w
+            target_h = int(fg.h * ratio)
+            fg = fg.with_effects([Resize(new_size=(target_w, target_h))])
+
+            # Alternate zoom direction based on global segment + image index
+            zoom_in = ((seg_idx + k) % 2 == 0)
+            z_start = KEN_BURNS_ZOOM_START if zoom_in else KEN_BURNS_ZOOM_END
+            z_end = KEN_BURNS_ZOOM_END if zoom_in else KEN_BURNS_ZOOM_START
+
+            def make_zoom(z0, z1, dur):
+                def _z(t):
+                    if dur <= 0:
+                        return 1.0
+                    progress = min(max(t / dur, 0.0), 1.0)
+                    return z0 + (z1 - z0) * progress
+                return _z
+
+            fg = fg.with_effects(
+                [Resize(new_size=make_zoom(z_start, z_end, per_image))]
+            ).with_position("center")
+
+            sub = CompositeVideoClip(
+                [bg_clip, fg], size=(WIDTH, HEIGHT)
+            ).with_duration(per_image)
+            sub = sub.with_effects([FadeIn(0.6), FadeOut(0.6)])
+            sub_clips.append(sub)
+        except Exception as e:
+            print(f"    visual {k} failed: {e}")
+            continue
+
+    if not sub_clips:
+        return None
+
+    result = concatenate_videoclips(sub_clips, method="compose")
+    # Trim to exact segment duration in case of rounding
+    if result.duration > segment_duration:
+        result = result.subclipped(0, segment_duration)
+    return result.with_duration(segment_duration)
 
 
 def _build_lower_third(duration: float, topic_name: str, font: str):
@@ -488,6 +571,14 @@ def main() -> int:
         default="",
         help="Pipe-separated topic titles for title cards + lower thirds.",
     )
+    ap.add_argument(
+        "--segment-images",
+        default="",
+        help=(
+            "Per-segment image lists for fast visual cuts. Format: "
+            "'img1,img2,img3|img4,img5|...' (pipe = segment boundary)."
+        ),
+    )
     ap.add_argument("--audio", required=True)
     ap.add_argument("--script", required=True)
     ap.add_argument("--title", required=True)
@@ -531,16 +622,28 @@ def main() -> int:
             topic_titles = [
                 t.strip() for t in (args.titles or "").split("|") if t.strip()
             ]
-            n_anims = sum(
-                1 for p in anim_paths if p and os.path.exists(p) and os.path.getsize(p) > 10000
-            )
-            print(f"newscast mode: {len(multi_paths)} hero images, {n_anims} animations")
+            # Parse per-segment image lists for fast visual cuts.
+            seg_images_raw = getattr(args, "segment_images", "") or ""
+            seg_images: List[List[str]] | None = None
+            if seg_images_raw.strip():
+                seg_images = [
+                    [p.strip() for p in group.split(",") if p.strip() and os.path.exists(p.strip())]
+                    for group in seg_images_raw.split("|")
+                ]
+                total_vis = sum(len(s) for s in seg_images)
+                print(f"newscast mode: {len(multi_paths)} segments, {total_vis} total visuals")
+            else:
+                n_anims = sum(
+                    1 for p in anim_paths if p and os.path.exists(p) and os.path.getsize(p) > 10000
+                )
+                print(f"newscast mode: {len(multi_paths)} hero images, {n_anims} animations")
             hero = build_multi_hero(
                 multi_paths,
                 audio_duration,
                 animation_paths=anim_paths or None,
                 topic_titles=topic_titles or None,
                 font=font,
+                segment_images=seg_images,
             )
         else:
             animation_path = args.animation.strip() or None

@@ -28,6 +28,7 @@ from typing import Callable, Optional
 
 from ..agents import (
     ScriptWriterAgent,
+    SegmentIllustratorAgent,
     TTSVoiceAgent,
     ThumbnailMakerAgent,
     VideoAnimatorAgent,
@@ -104,6 +105,7 @@ class VideoPipeline:
     ):
         self.script_writer = script_writer or ScriptWriterAgent()
         self.tts = tts or TTSVoiceAgent()
+        self.illustrator = SegmentIllustratorAgent()
         self.animator = animator or VideoAnimatorAgent()
         self.composer = composer or VideoComposerAgent()
         self.thumbnail = thumbnail or ThumbnailMakerAgent()
@@ -260,6 +262,39 @@ class VideoPipeline:
                  "elapsed": round(time.time() - t0, 2)},
             )
 
+        # --- Stage 2.7: Segment illustrations (SDXL-Turbo) ---------------
+        # Generate 4 supplementary images per topic for fast visual cuts.
+        # These make the newscast look like a real video production
+        # instead of a slideshow. Each segment cycles through its images
+        # every ~20-30 seconds.
+        segment_images: list[list[str]] = []
+        stage_hook("illustrate", "start", {"topics": len(topics)})
+        t0 = time.time()
+        for i, topic in enumerate(topics):
+            seg_prefix = f"{episode_slug}.seg{i}"
+            # Include the hero image as the first visual in each segment.
+            hero_str = str(hero_paths[i]) if i < len(hero_paths) else ""
+            imgs = [hero_str] if hero_str else []
+            try:
+                supplementary = self.illustrator.run(
+                    topic_title=topic.get("title", ""),
+                    topic_description=topic.get("description", ""),
+                    script_excerpt=topic.get("excerpt", "")[:1000],
+                    output_dir=Path(VIDEOS_DIR),
+                    slug_prefix=seg_prefix,
+                    num_images=4,
+                    timeout_per_image=120,
+                )
+                imgs.extend(supplementary)
+            except Exception as e:
+                self.illustrator.log(f"seg {i} illustrations failed: {e}")
+            segment_images.append(imgs)
+        total_vis = sum(len(s) for s in segment_images)
+        stage_hook(
+            "illustrate", "ok",
+            {"total_images": total_vis, "elapsed": round(time.time() - t0, 2)},
+        )
+
         # Extract topic titles for title cards + lower thirds.
         topic_titles = [t.get("title", "") for t in topics]
 
@@ -313,10 +348,10 @@ class VideoPipeline:
         if result.mp4_path is None:
             stage_hook("compose", "start", {"hero_count": len(hero_paths)})
             t0 = time.time()
-            # Attach animation paths + topic titles to the composer so
-            # they get forwarded to the subprocess via --animations/--titles.
+            # Attach visual data to the composer for subprocess forwarding.
             self.composer._animation_paths = anim_paths
             self.composer._topic_titles = topic_titles
+            self.composer._segment_images = segment_images
             try:
                 total = self.composer.run(
                     image_path=hero_paths[0],
