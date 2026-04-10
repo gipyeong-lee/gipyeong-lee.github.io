@@ -30,7 +30,7 @@ from typing import List
 
 WIDTH = 1920
 HEIGHT = 1080
-FPS = 30
+FPS = 24  # 24fps saves 20% encode time vs 30fps; visually identical for static heroes
 KEN_BURNS_ZOOM_START = 1.05
 KEN_BURNS_ZOOM_END = 1.18
 
@@ -445,9 +445,9 @@ def main() -> int:
             codec="libx264",
             audio_codec="aac",
             fps=FPS,
-            preset="medium",
-            threads=4,
-            bitrate="4000k",
+            preset="fast",
+            threads=8,
+            bitrate="3500k",
             temp_audiofile=args.output + ".temp.m4a",
             remove_temp=True,
             logger=None,

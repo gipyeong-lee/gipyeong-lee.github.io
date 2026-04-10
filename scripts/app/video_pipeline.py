@@ -218,56 +218,102 @@ class VideoPipeline:
         )
 
         # --- Stage 3: Compose (multi-hero) ------------------------------
-        stage_hook("compose", "start", {"hero_count": len(hero_paths)})
-        t0 = time.time()
-        try:
-            total = self.composer.run(
-                image_path=hero_paths[0],
-                audio_path=wav_path,
-                script_text=script,
-                title=episode_title,
-                output_path=mp4_path,
-                channel_name=channel,
-                image_paths=hero_paths,
-                # 50-min compose can take 30 min on M3 Max.
-                timeout_seconds=60 * 60,
-            )
-        except Exception as e:
-            traceback.print_exc()
-            result.failed_stage = "compose"
-            result.error = f"newscast compose crashed: {e}"
-            stage_hook("compose", "fail", {"error": result.error})
-            return result
-        if total is None or not mp4_path.exists():
-            result.failed_stage = "compose"
-            result.error = "newscast compose produced no mp4 output"
-            stage_hook("compose", "fail", {"error": result.error})
-            return result
-        result.mp4_path = str(mp4_path)
-        result.duration_seconds = total
-        stage_hook(
-            "compose",
-            "ok",
-            {"duration": total, "elapsed": round(time.time() - t0, 2)},
-        )
+        # Reuse a pre-existing mp4 from a timed-out prior run so we don't
+        # burn another 60+ min of encode time on retry.
+        if mp4_path.exists() and mp4_path.stat().st_size > 1_000_000:
+            import subprocess as _sp
+            try:
+                probe = _sp.run(
+                    ["ffprobe", "-v", "error", "-show_entries", "format=duration",
+                     "-of", "default=noprint_wrappers=1:nokey=1", str(mp4_path)],
+                    capture_output=True, text=True, timeout=10,
+                )
+                cached_dur = float(probe.stdout.strip()) if probe.returncode == 0 else 0
+            except Exception:
+                cached_dur = 0
+            if cached_dur > 60:
+                result.mp4_path = str(mp4_path)
+                result.duration_seconds = cached_dur
+                stage_hook(
+                    "compose", "ok",
+                    {"duration": cached_dur, "reused": True, "elapsed": 0},
+                )
+                total = cached_dur
+                # Skip to thumbnail.
+                stage_hook("thumbnail", "start", {})
+                t0 = time.time()
+                try:
+                    thumb_result = self.thumbnail.run(
+                        image_path=hero_paths[0],
+                        title=episode_title,
+                        output_path=thumb_path,
+                    )
+                except Exception:
+                    thumb_result = None
+                if thumb_result and thumb_path.exists():
+                    result.thumbnail_path = str(thumb_path)
+                    stage_hook("thumbnail", "ok", {"elapsed": round(time.time() - t0, 2)})
+                else:
+                    stage_hook("thumbnail", "fail", {"error": "thumbnail skipped"})
+                # Jump past compose + thumbnail into metadata (line below).
+                # We use a goto-equivalent by extracting the remaining
+                # stages into a helper. For now, let it fall through by
+                # setting `total` and skipping the compose block.
+                # (The actual compose try/except is skipped via the outer if.)
+            else:
+                mp4_path.unlink(missing_ok=True)
+                cached_dur = 0
 
-        # --- Stage 4: Thumbnail (use first hero) -------------------------
-        stage_hook("thumbnail", "start", {})
-        t0 = time.time()
-        try:
-            thumb_result = self.thumbnail.run(
-                image_path=hero_paths[0],
-                title=episode_title,
-                output_path=thumb_path,
+        if result.mp4_path is None:
+            stage_hook("compose", "start", {"hero_count": len(hero_paths)})
+            t0 = time.time()
+            try:
+                total = self.composer.run(
+                    image_path=hero_paths[0],
+                    audio_path=wav_path,
+                    script_text=script,
+                    title=episode_title,
+                    output_path=mp4_path,
+                    channel_name=channel,
+                    image_paths=hero_paths,
+                    timeout_seconds=2 * 60 * 60,
+                )
+            except Exception as e:
+                traceback.print_exc()
+                result.failed_stage = "compose"
+                result.error = f"newscast compose crashed: {e}"
+                stage_hook("compose", "fail", {"error": result.error})
+                return result
+            if total is None or not mp4_path.exists():
+                result.failed_stage = "compose"
+                result.error = "newscast compose produced no mp4 output"
+                stage_hook("compose", "fail", {"error": result.error})
+                return result
+            result.mp4_path = str(mp4_path)
+            result.duration_seconds = total
+            stage_hook(
+                "compose",
+                "ok",
+                {"duration": total, "elapsed": round(time.time() - t0, 2)},
             )
-        except Exception:
-            traceback.print_exc()
-            thumb_result = None
-        if thumb_result and thumb_path.exists():
-            result.thumbnail_path = str(thumb_path)
-            stage_hook("thumbnail", "ok", {"elapsed": round(time.time() - t0, 2)})
-        else:
-            stage_hook("thumbnail", "fail", {"error": "thumbnail skipped"})
+
+            # --- Stage 4: Thumbnail (use first hero) ---------------------
+            stage_hook("thumbnail", "start", {})
+            t0 = time.time()
+            try:
+                thumb_result = self.thumbnail.run(
+                    image_path=hero_paths[0],
+                    title=episode_title,
+                    output_path=thumb_path,
+                )
+            except Exception:
+                traceback.print_exc()
+                thumb_result = None
+            if thumb_result and thumb_path.exists():
+                result.thumbnail_path = str(thumb_path)
+                stage_hook("thumbnail", "ok", {"elapsed": round(time.time() - t0, 2)})
+            else:
+                stage_hook("thumbnail", "fail", {"error": "thumbnail skipped"})
 
         # --- Stage 4.5: Metadata ----------------------------------------
         # Newscast metadata: feed the *first topic's* post for the title

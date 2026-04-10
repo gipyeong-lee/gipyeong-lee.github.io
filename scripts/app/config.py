@@ -124,8 +124,9 @@ class DefaultSettings:
     # For "today's news" mode set to 36.
     topics_freshness_hours: int = 99999
     # Per-video pipeline timeout (script + tts + compose + thumbnail + upload).
-    # 50-min newscast format needs ~45 min on M3 Max; 90 min gives safety.
-    video_pipeline_timeout_seconds: int = 90 * 60
+    # 50-min newscast: script ~3m + TTS ~15m + compose ~60m (fast preset,
+    # 24fps) + upload ~5m ≈ 83m. 3h gives safe headroom.
+    video_pipeline_timeout_seconds: int = 3 * 60 * 60
     # Hard cap on video pipeline retries for a single post.
     video_max_retries: int = 2
     # YouTube metadata / captions / playlist enhancements
