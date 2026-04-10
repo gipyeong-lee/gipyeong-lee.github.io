@@ -217,6 +217,52 @@ class VideoPipeline:
             {"duration": duration, "elapsed": round(time.time() - t0, 2)},
         )
 
+        # --- Stage 2.5: Animate per-segment (LTX-Video) -----------------
+        # Generate a short motion clip from each hero image. These clips
+        # make the newscast feel like actual video instead of a slideshow.
+        # On failure or when disabled, the composer falls back to Ken Burns.
+        anim_paths: list[str] = []
+        if settings.video_animation_enabled:
+            stage_hook("animate", "start", {"count": len(hero_paths)})
+            t0 = time.time()
+            for i, hp in enumerate(hero_paths):
+                anim_out = Path(VIDEOS_DIR) / f"{episode_slug}.seg{i}.anim.mp4"
+                # Reuse cached animation from prior runs.
+                if anim_out.exists() and anim_out.stat().st_size > 10_000:
+                    anim_paths.append(str(anim_out))
+                    continue
+                try:
+                    topic_title = topics[i]["title"] if i < len(topics) else ""
+                    prompt = self.animator.build_prompt_from_post(
+                        topic=topic_title,
+                        summary=topics[i].get("description", "") if i < len(topics) else "",
+                    )
+                    dur = self.animator.run(
+                        image_path=hp,
+                        prompt=prompt,
+                        output_path=anim_out,
+                        duration_seconds=settings.video_animation_duration_seconds,
+                        timeout_seconds=min(
+                            settings.video_animation_timeout_seconds, 300
+                        ),
+                    )
+                    if dur and anim_out.exists():
+                        anim_paths.append(str(anim_out))
+                    else:
+                        anim_paths.append("")
+                except Exception as e:
+                    self.animator.log(f"seg {i} animate failed: {e}")
+                    anim_paths.append("")
+            ok_count = sum(1 for p in anim_paths if p)
+            stage_hook(
+                "animate", "ok",
+                {"ok": ok_count, "total": len(hero_paths),
+                 "elapsed": round(time.time() - t0, 2)},
+            )
+
+        # Extract topic titles for title cards + lower thirds.
+        topic_titles = [t.get("title", "") for t in topics]
+
         # --- Stage 3: Compose (multi-hero) ------------------------------
         # Reuse a pre-existing mp4 from a timed-out prior run so we don't
         # burn another 60+ min of encode time on retry.
@@ -267,6 +313,10 @@ class VideoPipeline:
         if result.mp4_path is None:
             stage_hook("compose", "start", {"hero_count": len(hero_paths)})
             t0 = time.time()
+            # Attach animation paths + topic titles to the composer so
+            # they get forwarded to the subprocess via --animations/--titles.
+            self.composer._animation_paths = anim_paths
+            self.composer._topic_titles = topic_titles
             try:
                 total = self.composer.run(
                     image_path=hero_paths[0],

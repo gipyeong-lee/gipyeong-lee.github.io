@@ -31,8 +31,9 @@ from typing import List
 WIDTH = 1920
 HEIGHT = 1080
 FPS = 24  # 24fps saves 20% encode time vs 30fps; visually identical for static heroes
-KEN_BURNS_ZOOM_START = 1.05
-KEN_BURNS_ZOOM_END = 1.18
+# Aggressive zoom so the motion is clearly visible on screen.
+KEN_BURNS_ZOOM_START = 1.0
+KEN_BURNS_ZOOM_END = 1.35
 
 # macOS built-in Korean font ships with the OS — reliable across machines.
 KOREAN_FONT_CANDIDATES = [
@@ -153,20 +154,31 @@ def build_outro(duration: float, channel_name: str, font: str):
     return CompositeVideoClip([bg, channel, cta], size=(WIDTH, HEIGHT))
 
 
-def build_multi_hero(image_paths: List[str], audio_duration: float):
+def build_multi_hero(
+    image_paths: List[str],
+    audio_duration: float,
+    animation_paths: List[str] | None = None,
+    topic_titles: List[str] | None = None,
+    font: str = "",
+):
     """Build a multi-segment hero track for the 50-min newscast format.
 
-    Slices `audio_duration` into ``len(image_paths)`` equal windows and
-    runs a Ken Burns zoom on each hero image during its window. The
-    blurred letterbox background is rebuilt per segment so each segment
-    feels visually distinct without expensive transitions.
+    Two visual modes per segment:
+    - **Animation mode**: if ``animation_paths[k]`` exists and is a valid
+      mp4, the segment uses a ping-pong-looped LTX-Video clip as the
+      foreground — real AI-generated motion from the hero image.
+    - **Ken Burns fallback**: aggressive zoom (1.0x → 1.35x) + subtle
+      pan when no animation is available.
 
-    No LTX animation here — generating per-segment animations would add
-    20+ minutes to every render and the visual benefit on a 50-min
-    newscast is marginal compared to the existing zoom.
+    Between segments a **3-second title card** shows the upcoming topic
+    name (dark background, white text, news-ticker style). A
+    **persistent lower-third bar** overlays the bottom of each segment
+    with the topic title so the viewer always knows what story is on.
     """
     from moviepy import (
+        ColorClip,
         ImageClip,
+        TextClip,
         CompositeVideoClip,
         concatenate_videoclips,
     )
@@ -175,11 +187,25 @@ def build_multi_hero(image_paths: List[str], audio_duration: float):
     import numpy as np
 
     n = max(1, len(image_paths))
-    per = audio_duration / n
-    print(f"multi-hero: {n} images @ {per:.1f}s each")
+    anim_list = list(animation_paths or [])
+    titles = list(topic_titles or [])
 
-    segments = []
+    TITLE_CARD_DUR = 3.0
+    # Audio time after subtracting (n-1) title cards between segments.
+    cards_total = TITLE_CARD_DUR * max(0, n - 1)
+    content_time = max(60, audio_duration - cards_total)
+    per = content_time / n
+    print(f"multi-hero: {n} segments @ {per:.1f}s + {n - 1} title cards")
+
+    segments: list = []
     for idx, img_path in enumerate(image_paths):
+        # --- Title card between segments (not before the first) --------
+        if idx > 0:
+            topic_name = titles[idx] if idx < len(titles) else f"Story {idx + 1}"
+            card = _build_title_card(TITLE_CARD_DUR, topic_name, font)
+            segments.append(card)
+
+        # --- Build the segment's foreground ----------------------------
         try:
             bg_img = Image.open(img_path).convert("RGB")
         except Exception as e:
@@ -190,45 +216,113 @@ def build_multi_hero(image_paths: List[str], audio_duration: float):
         bg_arr = np.array(bg_img)
         bg_clip = ImageClip(bg_arr).with_duration(per)
 
-        fg = ImageClip(img_path).with_duration(per)
-        target_w = int(WIDTH * 0.9)
-        ratio = target_w / fg.w
-        target_h = int(fg.h * ratio)
-        fg = fg.with_effects([Resize(new_size=(target_w, target_h))])
+        # Try LTX animation first — gives real video motion.
+        anim_path = anim_list[idx] if idx < len(anim_list) else ""
+        fg = None
+        if anim_path and os.path.exists(anim_path) and os.path.getsize(anim_path) > 10_000:
+            fg = _build_animation_foreground(anim_path, per)
+            if fg is not None:
+                print(f"  seg {idx + 1}: LTX animation ({os.path.basename(anim_path)})")
 
-        # Per-segment Ken Burns: alternate zoom-in / zoom-out so adjacent
-        # segments don't all push the same direction.
-        zoom_in = (idx % 2 == 0)
-        z_start = KEN_BURNS_ZOOM_START if zoom_in else KEN_BURNS_ZOOM_END
-        z_end = KEN_BURNS_ZOOM_END if zoom_in else KEN_BURNS_ZOOM_START
+        # Fall back to Ken Burns with visible zoom + pan.
+        if fg is None:
+            fg = ImageClip(img_path).with_duration(per)
+            target_w = int(WIDTH * 0.9)
+            ratio = target_w / fg.w
+            target_h = int(fg.h * ratio)
+            fg = fg.with_effects([Resize(new_size=(target_w, target_h))])
 
-        def make_zoom(z0, z1, dur):
-            def _z(t):
-                if dur <= 0:
-                    return 1.0
-                progress = min(max(t / dur, 0.0), 1.0)
-                return z0 + (z1 - z0) * progress
-            return _z
+            zoom_in = (idx % 2 == 0)
+            z_start = KEN_BURNS_ZOOM_START if zoom_in else KEN_BURNS_ZOOM_END
+            z_end = KEN_BURNS_ZOOM_END if zoom_in else KEN_BURNS_ZOOM_START
 
-        fg = fg.with_effects(
-            [Resize(new_size=make_zoom(z_start, z_end, per))]
-        ).with_position("center")
+            def make_zoom(z0, z1, dur):
+                def _z(t):
+                    if dur <= 0:
+                        return 1.0
+                    progress = min(max(t / dur, 0.0), 1.0)
+                    return z0 + (z1 - z0) * progress
+                return _z
 
-        seg = CompositeVideoClip(
-            [bg_clip, fg], size=(WIDTH, HEIGHT)
-        ).with_duration(per)
-        # Cross-fade between segments — 0.4s fade keeps transitions
-        # smooth without burning subtitle space.
-        seg = seg.with_effects([FadeIn(0.4), FadeOut(0.4)])
+            fg = fg.with_effects(
+                [Resize(new_size=make_zoom(z_start, z_end, per))]
+            ).with_position("center")
+
+        # Composite: background + foreground + lower-third bar.
+        layers = [bg_clip, fg]
+
+        # Lower-third news bar — semi-transparent dark bar at bottom.
+        topic_name = titles[idx] if idx < len(titles) else ""
+        if topic_name and font:
+            lower_third = _build_lower_third(per, topic_name, font)
+            if lower_third is not None:
+                layers.append(lower_third)
+
+        seg = CompositeVideoClip(layers, size=(WIDTH, HEIGHT)).with_duration(per)
+        seg = seg.with_effects([FadeIn(0.6), FadeOut(0.6)])
         segments.append(seg)
 
     if not segments:
-        # Pathological: no images openable. Caller should have prevented
-        # this; return a single black clip so the pipeline doesn't crash.
         from moviepy import ColorClip
         return ColorClip(size=(WIDTH, HEIGHT), color=(0, 0, 0), duration=audio_duration)
 
     return concatenate_videoclips(segments, method="compose").with_duration(audio_duration)
+
+
+def _build_title_card(duration: float, topic_name: str, font: str):
+    """3-second dark card between segments showing the upcoming topic."""
+    from moviepy import ColorClip, TextClip, CompositeVideoClip
+    from moviepy.video.fx import FadeIn, FadeOut
+
+    bg = ColorClip(size=(WIDTH, HEIGHT), color=(12, 16, 28), duration=duration)
+
+    # Accent line (thin horizontal bar above the title).
+    accent = ColorClip(size=(200, 3), color=(0, 180, 255), duration=duration)
+    accent = accent.with_position(("center", HEIGHT // 2 - 50))
+
+    title = TextClip(
+        text=topic_name,
+        font=font or None,
+        font_size=56,
+        color="white",
+        size=(int(WIDTH * 0.85), None),
+        method="caption",
+        text_align="center",
+    ).with_duration(duration).with_position(("center", HEIGHT // 2 - 10))
+
+    card = CompositeVideoClip(
+        [bg, accent, title], size=(WIDTH, HEIGHT)
+    ).with_duration(duration)
+    card = card.with_effects([FadeIn(0.3), FadeOut(0.3)])
+    return card
+
+
+def _build_lower_third(duration: float, topic_name: str, font: str):
+    """Semi-transparent news-style bar at the bottom with the current topic."""
+    from moviepy import ColorClip, TextClip, CompositeVideoClip
+
+    try:
+        BAR_H = 60
+        bar_bg = ColorClip(
+            size=(WIDTH, BAR_H), color=(10, 10, 10), duration=duration
+        ).with_opacity(0.7).with_position(("center", HEIGHT - BAR_H - 80))
+
+        label = TextClip(
+            text=topic_name[:60],
+            font=font or None,
+            font_size=28,
+            color="white",
+            method="caption",
+            size=(int(WIDTH * 0.85), None),
+        ).with_duration(duration).with_position(
+            (int(WIDTH * 0.075), HEIGHT - BAR_H - 65)
+        )
+
+        return CompositeVideoClip(
+            [bar_bg, label], size=(WIDTH, HEIGHT)
+        ).with_duration(duration)
+    except Exception:
+        return None
 
 
 def build_hero(
@@ -381,8 +475,18 @@ def main() -> int:
         help=(
             "Comma-separated list of hero image paths for newscast (multi-"
             "topic) mode. When provided, the composer slices the audio "
-            "into N equal Ken-Burns segments, one per image."
+            "into N equal segments, one per image."
         ),
+    )
+    ap.add_argument(
+        "--animations",
+        default="",
+        help="Comma-separated LTX animation clip paths (parallel to --images).",
+    )
+    ap.add_argument(
+        "--titles",
+        default="",
+        help="Pipe-separated topic titles for title cards + lower thirds.",
     )
     ap.add_argument("--audio", required=True)
     ap.add_argument("--script", required=True)
@@ -421,8 +525,23 @@ def main() -> int:
             p.strip() for p in (args.images or "").split(",") if p.strip()
         ]
         if len(multi_paths) > 1:
-            print(f"newscast mode: {len(multi_paths)} hero images")
-            hero = build_multi_hero(multi_paths, audio_duration)
+            anim_paths = [
+                p.strip() for p in (args.animations or "").split(",") if p.strip()
+            ]
+            topic_titles = [
+                t.strip() for t in (args.titles or "").split("|") if t.strip()
+            ]
+            n_anims = sum(
+                1 for p in anim_paths if p and os.path.exists(p) and os.path.getsize(p) > 10000
+            )
+            print(f"newscast mode: {len(multi_paths)} hero images, {n_anims} animations")
+            hero = build_multi_hero(
+                multi_paths,
+                audio_duration,
+                animation_paths=anim_paths or None,
+                topic_titles=topic_titles or None,
+                font=font,
+            )
         else:
             animation_path = args.animation.strip() or None
             hero = build_hero(args.image, audio_duration, animation_path=animation_path)

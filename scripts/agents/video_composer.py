@@ -88,12 +88,20 @@ class VideoComposerAgent(BaseAgent):
             "--intro", str(intro_seconds),
             "--outro", str(outro_seconds),
         ]
-        # Newscast multi-hero mode: pass the comma-separated image list.
+        # Newscast multi-hero mode: pass the comma-separated image list
+        # plus optional animation clips and topic titles.
         if image_paths and len(image_paths) > 1:
             valid = [str(Path(p)) for p in image_paths if Path(p).exists()]
             if len(valid) > 1:
                 cmd.extend(["--images", ",".join(valid)])
                 self.log(f"newscast mode: {len(valid)} hero images")
+                # Forward animation clips if provided.
+                if hasattr(self, '_animation_paths') and self._animation_paths:
+                    anim_csv = ",".join(str(p) for p in self._animation_paths)
+                    cmd.extend(["--animations", anim_csv])
+                # Forward topic titles for title cards + lower thirds.
+                if hasattr(self, '_topic_titles') and self._topic_titles:
+                    cmd.extend(["--titles", "|".join(self._topic_titles)])
         elif animation_path:
             anim = Path(animation_path)
             if anim.exists() and anim.stat().st_size > 10_000:
