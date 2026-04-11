@@ -1,9 +1,0 @@
-requests
-feedparser
-beautifulsoup4
-ddgs
-torch
-diffusers
-transformers
-accelerate
-safetensors

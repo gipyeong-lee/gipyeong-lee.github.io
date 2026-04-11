@@ -27,18 +27,10 @@ bundle exec jekyll build
 
 ## Content Automation
 
-```bash
-# Install Python dependencies
-pip install -r scripts/requirements.txt
+Content generation and video pipeline are managed by a separate private service:
+**[EternaxCode/mindtickle-studio](https://github.com/EternaxCode/mindtickle-studio)** (private repo)
 
-# Generate new multilingual post (KR/EN/JA) from trending topics
-python3 scripts/auto_poster.py
-
-# Translate an existing post
-python3 scripts/translate_post.py
-```
-
-Requires Gemini CLI installed and authenticated.
+The service reads `_posts/` and `images/` from this repo and pushes new content via git.
 
 ## Post Conventions
 
@@ -72,7 +64,7 @@ The `ref` field must be identical across all language versions of the same post.
 - **SASS structure:** `_sass/` organized as `0-settings/` (variables, mixins) > `1-tools/` (grid, normalize) > `2-base/` > `3-modules/` (header, footer, search) > `4-layouts/` (page-specific)
 - **Site config:** `_data/settings.yml` (author, social links, analytics, Disqus)
 - **Search:** Client-side via `search.json` (Liquid-generated JSON index) + `js/common.js`
-- **Automation:** `scripts/auto_poster.py` fetches Google Trends keywords, researches via DuckDuckGo, generates/translates posts with Gemini CLI, tracks used keywords in `scripts/history.csv`
+- **Automation:** Managed by [EternaxCode/mindtickle-studio](https://github.com/EternaxCode/mindtickle-studio) (private)
 
 ## Deployment
 
