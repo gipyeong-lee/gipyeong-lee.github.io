@@ -5,6 +5,7 @@ url: "https://gipyeong-lee.github.io" # the base hostname & protocol for your si
 # Build settings
 markdown: kramdown
 permalink: pretty
+future: true
 plugins:
   - jekyll-paginate
   - jekyll/tagging
