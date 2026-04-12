@@ -1,0 +1,111 @@
+---
+layout: default
+---
+
+<!-- Hero -->
+<section class="about-hero">
+  <div class="about-hero__inner">
+    {% if page.hero.image %}
+    <img class="about-hero__avatar" src="{{ site.baseurl }}/images/{{ page.hero.image }}" alt="{{ page.hero.name }}">
+    {% endif %}
+    <h1 class="about-hero__name">{{ page.hero.name }}</h1>
+    <p class="about-hero__tagline">{{ page.hero.tagline }}</p>
+    {% if page.hero.quote %}
+    <p class="about-hero__quote">"{{ page.hero.quote }}"</p>
+    {% endif %}
+    <div class="about-hero__scroll">
+      <span>Scroll</span>
+      <div class="about-hero__scroll-line"></div>
+    </div>
+  </div>
+</section>
+
+<!-- Journey -->
+<section class="about-section">
+  <div class="container">
+    <h2 class="about-section__title reveal">Journey</h2>
+    <div class="about-timeline">
+      {% for item in page.career %}
+      <div class="about-timeline__item reveal">
+        <div class="about-timeline__dot"></div>
+        <div class="about-timeline__period">{{ item.period }}</div>
+        <div class="about-timeline__content">
+          <h3 class="about-timeline__company">{{ item.company }}</h3>
+          <p class="about-timeline__role">{{ item.role }}</p>
+          {% if item.tech %}
+          <div class="about-timeline__tech">
+            {% for t in item.tech %}
+            <span class="about-badge">{{ t }}</span>
+            {% endfor %}
+          </div>
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+
+      {% for item in page.education %}
+      <div class="about-timeline__item reveal">
+        <div class="about-timeline__dot about-timeline__dot--edu"></div>
+        <div class="about-timeline__period">{{ item.period }}</div>
+        <div class="about-timeline__content">
+          <h3 class="about-timeline__company">{{ item.school }}</h3>
+          <p class="about-timeline__role">{{ item.degree }}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- Tech Stack -->
+{% if page.tech_stack %}
+<section class="about-section about-section--alt">
+  <div class="container">
+    <h2 class="about-section__title reveal">Tech Stack</h2>
+    <div class="about-stack">
+      {% for group in page.tech_stack %}
+      <div class="about-stack__group reveal">
+        <h4 class="about-stack__label">{{ group.category }}</h4>
+        <div class="about-stack__badges">
+          {% for t in group.items %}
+          <span class="about-badge about-badge--lg">{{ t }}</span>
+          {% endfor %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- Projects -->
+{% if page.projects %}
+<section class="about-section">
+  <div class="container">
+    <h2 class="about-section__title reveal">Projects</h2>
+    <div class="about-projects">
+      {% for p in page.projects %}
+      <div class="about-project reveal">
+        <h3 class="about-project__name">{{ p.name }}</h3>
+        <p class="about-project__desc">{{ p.desc }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- Contact -->
+<section class="about-section about-section--alt about-contact">
+  <div class="container" style="text-align:center;">
+    <h2 class="about-section__title reveal">Get in Touch</h2>
+    <div class="about-social reveal">
+      {% if site.data.settings.twitter %}
+      <a href="{{ site.data.settings.twitter }}" class="about-social__link" target="_blank"><i class="ion ion-logo-twitter"></i></a>
+      {% endif %}
+      {% if site.data.settings.instagram %}
+      <a href="{{ site.data.settings.instagram }}" class="about-social__link" target="_blank"><i class="ion ion-logo-instagram"></i></a>
+      {% endif %}
+    </div>
+  </div>
+</section>

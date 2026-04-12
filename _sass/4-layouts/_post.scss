@@ -34,10 +34,10 @@
     font-weight: 700;
     
     .author-name {
-      color: $gray;
+      color: var(--color-gray);
       border-bottom: 1px solid transparent;
       &:hover {
-        border-bottom: 1px solid $gray;
+        border-bottom: 1px solid var(--color-gray);
       }
     }
   }
@@ -66,7 +66,7 @@
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    background-color: $light-gray;
+    background-color: var(--color-light-gray);
   &:after {
     content: "";
     display: table;
@@ -199,9 +199,9 @@ img.post-image {
 
       a {
         font-size: 18px;
-        color: $gray;
+        color: var(--color-gray);
         &:hover {
-          color: $dark;
+          color: var(--color-text);
         }
       }
     }
@@ -228,7 +228,7 @@ img.post-image {
       background-position: center;
       background-size: cover;
       background-repeat: no-repeat;
-      background-color: $light-gray;
+      background-color: var(--color-light-gray);
       transition: .35s ease-in-out;
       &:hover {
         opacity: 0.9;

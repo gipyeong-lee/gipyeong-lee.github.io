@@ -1,6 +1,6 @@
 .page-title-box {
   padding: 80px 0;
-  border-top: 1px solid $light-gray;
+  border-top: 1px solid var(--color-border);
 
   .page-title {
     font-size: 57px;
@@ -24,7 +24,7 @@
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    background-color: $light-gray;
+    background-color: var(--color-light-gray);
     &:after {
       content: "";
       display: table;
@@ -54,10 +54,10 @@
     a {
       display: inline-block;
       margin-left: 10px;
-      color: $dark;
+      color: var(--color-text);
       font-weight: 700;
       &:hover {
-        color: $black;
+        color: var(--color-accent);
       }
     }
   }

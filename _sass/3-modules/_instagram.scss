@@ -14,10 +14,10 @@
     letter-spacing: 0.5px;
     border-radius: 3px;
     box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.15);
-    color: $dark;
-    background: $white;
+    color: var(--color-text);
+    background: var(--color-surface);
     &:hover {
-      color: $black;
+      color: var(--color-heading);
     }
   }
   
