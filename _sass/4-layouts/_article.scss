@@ -12,7 +12,7 @@
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
-    background-color: $light-gray;
+    background-color: var(--color-light-gray);
     &:hover {
       opacity: 0.9;
     }
@@ -31,7 +31,7 @@
     margin-left: -10%;
     z-index: 1;
     border-radius: 3px;
-    background: rgba(255, 255, 255, 0.98);
+    background: var(--color-surface);
     box-shadow: 0 1px 4px rgba(0,0,0,0.15);
 
     .article__tag {
@@ -46,9 +46,9 @@
       font-size: 30px;
       
       a {
-        color: $dark;
+        color: var(--color-heading);
         &:hover {
-          color: $black;
+          color: var(--color-link-hover);
         }
       }
     }
@@ -63,7 +63,7 @@
       font-size: 12px;
       line-height: 18px;
       text-transform: uppercase;
-      color: $gray;
+      color: var(--color-gray);
     }
 
     .article__footer {
@@ -78,10 +78,10 @@
         letter-spacing: 1px;
         text-transform: uppercase;
         border-bottom: 1px solid transparent;
-        color: $gray;
+        color: var(--color-gray);
         &:hover {
-          color: $dark;
-          border-color: $brand-color;
+          color: var(--color-text);
+          border-color: var(--color-accent);
         }
       }
     }

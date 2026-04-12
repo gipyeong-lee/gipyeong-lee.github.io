@@ -29,11 +29,11 @@
       text-align: center;
       outline: none;
       border: none;
-      border-bottom: 3px solid $light-gray;
+      border-bottom: 3px solid var(--color-border);
 
       &::placeholder {
         font-size: 18px;
-        color: $light-gray;
+        color: var(--color-gray);
       }
     }
 
@@ -45,13 +45,14 @@
       letter-spacing: 0.5px;
       border-radius: 30px;
       border: none;
-      background: $light-gray;
+      background: var(--color-border);
+      color: var(--color-text);
       cursor: pointer;
       transition: all .35s;
 
       &:hover {
-        color: $white;
-        background: $dark;
+        color: var(--color-bg);
+        background: var(--color-text);
       }
     }
   }

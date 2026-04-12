@@ -2,8 +2,8 @@
   position: relative;
   padding: 80px 0 40px;
   text-align: center;
-  border-top: 1px solid $light-gray;
-  background: #f5f5f5;
+  border-top: 1px solid var(--color-border);
+  background: var(--color-surface);
 
   .contact {
     margin-bottom: 15px;
@@ -11,9 +11,9 @@
 
   .copyright {
     a {
-      color: $dark;
+      color: var(--color-text);
       &:hover {
-        color: $brand-color;
+        color: var(--color-accent);
       }
     }
   }

@@ -15,7 +15,7 @@
     top: 50%;
     transform: translateY(-50%); 
     height: 1px;
-    background: $light-gray;
+    background: var(--color-border);
   }
 
   &:after {
