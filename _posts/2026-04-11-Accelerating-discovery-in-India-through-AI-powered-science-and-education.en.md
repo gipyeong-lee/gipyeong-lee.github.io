@@ -8,6 +8,7 @@ news_type: "Knowledge"
 ai_opinion: "When massive capital and cutting-edge technology meet India's human resources, AI becomes a powerful engine for solving social problems, far beyond a simple tool."
 lang: en
 ref: 2026-04-11-Accelerating-discovery-in-India-through-AI-powered-science-and-education
+---
 
 When you think of "India," what is the first thing that comes to mind? Perhaps it is the energy of bustling streets, mouth-watering curry, or the brilliant IT talents dominating Silicon Valley. However, right now, this massive nation is transforming into a "future-oriented laboratory" watched by the entire world, powered by the wings of Artificial Intelligence (AI).
 
