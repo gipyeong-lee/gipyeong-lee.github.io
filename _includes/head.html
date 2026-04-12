@@ -15,6 +15,44 @@
     {% for translation in translations %}
   <link rel="alternate" hreflang="{{ translation.lang }}" href="{{ site.url }}{{ site.baseurl }}{{ translation.url }}" />
     {% endfor %}
+    {% assign ko_post = translations | where: "lang", "ko" | first %}
+    {% if ko_post %}
+  <link rel="alternate" hreflang="x-default" href="{{ site.url }}{{ site.baseurl }}{{ ko_post.url }}" />
+    {% endif %}
+  {% endif %}
+
+  <!-- Open Graph -->
+  {% case page.lang %}
+    {% when 'ko' %}{% assign og_locale = 'ko_KR' %}
+    {% when 'en' %}{% assign og_locale = 'en_US' %}
+    {% when 'ja' %}{% assign og_locale = 'ja_JP' %}
+    {% when 'zh-cn' %}{% assign og_locale = 'zh_CN' %}
+    {% when 'zh-tw' %}{% assign og_locale = 'zh_TW' %}
+    {% else %}{% assign og_locale = 'ko_KR' %}
+  {% endcase %}
+  <meta property="og:locale" content="{{ og_locale }}">
+  <meta property="og:type" content="{% if page.layout == 'post' %}article{% else %}website{% endif %}">
+  <meta property="og:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.data.settings.title }}{% endif %}">
+  <meta property="og:description" content="{% if page.description %}{{ page.description | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.data.settings.description }}{% endif %}">
+  <meta property="og:url" content="{{ page.url | replace:'index.html','' | absolute_url }}">
+  <meta property="og:site_name" content="{{ site.data.settings.title }}">
+  {% if page.image %}
+  <meta property="og:image" content="{{ site.url }}{{ site.baseurl }}/images/{{ page.image }}">
+  {% endif %}
+  {% if page.ref %}
+    {% for translation in translations %}
+      {% unless translation.lang == page.lang %}
+  <meta property="og:locale:alternate" content="{% case translation.lang %}{% when 'ko' %}ko_KR{% when 'en' %}en_US{% when 'ja' %}ja_JP{% when 'zh-cn' %}zh_CN{% when 'zh-tw' %}zh_TW{% endcase %}">
+      {% endunless %}
+    {% endfor %}
+  {% endif %}
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.data.settings.title }}{% endif %}">
+  <meta name="twitter:description" content="{% if page.description %}{{ page.description | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.data.settings.description }}{% endif %}">
+  {% if page.image %}
+  <meta name="twitter:image" content="{{ site.url }}{{ site.baseurl }}/images/{{ page.image }}">
   {% endif %}
 
   <!-- Fonts -->
@@ -30,4 +68,5 @@
   {{ include_to_scssify | scssify }}
   </style>
   <meta name="google-site-verification" content="a-ooQbWI49ahFL0LACl3xJhMzt9ZtWqDVqNoZo4yOYo" />
+  {% include article-schema.html %}
 </head>

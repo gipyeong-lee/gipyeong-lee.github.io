@@ -76,6 +76,14 @@
   }
 }
 
+img.post-image {
+  width: 100%;
+  height: auto;
+  min-height: 300px;
+  object-fit: cover;
+  background-color: $light-gray;
+}
+
 .post {
   margin: 80px auto;
 

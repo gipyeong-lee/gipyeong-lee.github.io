@@ -1,0 +1,26 @@
+{% if page.layout == 'post' %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "NewsArticle",
+  "headline": {{ page.title | jsonify }},
+  "description": {{ page.description | strip_html | strip_newlines | truncate: 160 | jsonify }},
+  {% if page.image %}"image": "{{ site.url }}{{ site.baseurl }}/images/{{ page.image }}",{% endif %}
+  "datePublished": "{{ page.date | date_to_xmlschema }}",
+  "dateModified": "{{ page.last_modified_at | default: page.date | date_to_xmlschema }}",
+  "inLanguage": "{{ page.lang | default: 'ko' }}",
+  "author": {
+    "@type": "Person",
+    "name": "{{ site.data.settings.author.name }}"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "MindTickleBytes"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "{{ page.url | replace:'index.html','' | absolute_url }}"
+  }
+}
+</script>
+{% endif %}

@@ -1,0 +1,32 @@
+---
+layout: null
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  {% for post in site.posts %}
+  <url>
+    <loc>{{ site.url }}{{ site.baseurl }}{{ post.url }}</loc>
+    <lastmod>{{ post.date | date_to_xmlschema }}</lastmod>
+    {% if post.ref %}
+      {% assign translations = site.posts | where: "ref", post.ref %}
+      {% for t in translations %}
+    <xhtml:link rel="alternate" hreflang="{{ t.lang }}" href="{{ site.url }}{{ site.baseurl }}{{ t.url }}" />
+      {% endfor %}
+      {% assign ko = translations | where: "lang", "ko" | first %}
+      {% if ko %}
+    <xhtml:link rel="alternate" hreflang="x-default" href="{{ site.url }}{{ site.baseurl }}{{ ko.url }}" />
+      {% endif %}
+    {% endif %}
+  </url>
+  {% endfor %}
+  {% for page in site.pages %}
+    {% unless page.url contains 'sitemap.xml' or page.url contains 'feed.xml' or page.url contains 'robots.txt' %}
+      {% if page.sitemap != false %}
+  <url>
+    <loc>{{ site.url }}{{ site.baseurl }}{{ page.url | replace:'index.html','' }}</loc>
+  </url>
+      {% endif %}
+    {% endunless %}
+  {% endfor %}
+</urlset>
