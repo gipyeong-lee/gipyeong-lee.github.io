@@ -44,6 +44,42 @@ $border-color: $light-gray;
 
 
 // *****************
+// CSS Custom Properties (Theme)
+// *****************
+:root {
+  --color-bg: #{$white};
+  --color-text: #{$dark};
+  --color-heading: #{$dark};
+  --color-accent: #{$brand-color};
+  --color-gray: #{$gray};
+  --color-light-gray: #{$light-gray};
+  --color-surface: #{$white};
+  --color-border: #{$light-gray};
+  --color-code-bg: #f5f5f5;
+  --color-link: #{$brand-color};
+  --color-link-hover: #{darken($dark, 15%)};
+  --color-selection-bg: #{$dark};
+  --color-selection-text: #{$white};
+}
+
+html[data-theme="dark"] {
+  --color-bg: #1a1b2e;
+  --color-text: #e0e0e0;
+  --color-heading: #f0f0f0;
+  --color-accent: #{$brand-color};
+  --color-gray: #9e9e9e;
+  --color-light-gray: #363650;
+  --color-surface: #252640;
+  --color-border: #363650;
+  --color-code-bg: #2a2b45;
+  --color-link: #{$brand-color};
+  --color-link-hover: #ffc766;
+  --color-selection-bg: #{$brand-color};
+  --color-selection-text: #1a1b2e;
+}
+
+
+// *****************
 // Typography
 // *****************
 $base-font-size: 16px;

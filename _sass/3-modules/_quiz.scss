@@ -1,0 +1,116 @@
+.quiz {
+  margin: 40px 0 60px;
+  padding: 30px 0;
+  border-top: 1px solid var(--color-border);
+
+  .quiz__title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 24px;
+    color: var(--color-heading);
+  }
+
+  .quiz__card {
+    margin-bottom: 16px;
+    padding: 20px 24px;
+    background: var(--color-surface);
+    border: 2px solid var(--color-border);
+    border-radius: 8px;
+    transition: border-color 0.3s ease;
+
+    &.is-correct { border-color: #4caf50; }
+    &.is-wrong   { border-color: #f44336; }
+    &.is-answered .quiz__choices { pointer-events: none; opacity: 0.7; }
+  }
+
+  .quiz__question {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--color-text);
+  }
+
+  .quiz__choices {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .quiz__choice {
+    padding: 10px 14px;
+    margin-bottom: 8px;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 15px;
+    color: var(--color-text);
+    transition: all 0.2s ease;
+
+    &:hover {
+      border-color: var(--color-accent);
+      background: rgba(246, 177, 65, 0.08);
+    }
+
+    &.is-selected-correct {
+      border-color: #4caf50;
+      background: rgba(76, 175, 80, 0.1);
+    }
+
+    &.is-selected-wrong {
+      border-color: #f44336;
+      background: rgba(244, 67, 54, 0.1);
+    }
+
+    &.is-actual-answer {
+      border-color: #4caf50;
+    }
+  }
+
+  .quiz__explanation {
+    display: none;
+    margin-top: 12px;
+    padding: 12px 14px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--color-text);
+    background: var(--color-code-bg);
+    border-radius: 6px;
+
+    .is-answered & { display: block; }
+  }
+
+  .quiz__result {
+    display: none;
+    text-align: center;
+    padding: 20px;
+    margin-top: 16px;
+    background: var(--color-surface);
+    border: 2px solid var(--color-accent);
+    border-radius: 8px;
+
+    &.is-visible { display: block; }
+
+    .quiz__score {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--color-accent);
+    }
+
+    .quiz__stars {
+      font-size: 24px;
+      margin: 8px 0;
+    }
+
+    .quiz__message {
+      font-size: 14px;
+      color: var(--color-gray);
+    }
+  }
+
+  .quiz__already {
+    text-align: center;
+    padding: 16px;
+    color: var(--color-gray);
+    font-size: 14px;
+  }
+}

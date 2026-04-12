@@ -1,6 +1,6 @@
 .post-title-box {
   padding: 80px 0;
-  border-top: 1px solid $light-gray;
+  border-top: 1px solid var(--color-border);
 
   .post-title {
     margin-bottom: 10px;
@@ -56,7 +56,7 @@
        width: 5px;
        height: 5px;
        border-radius: 50%;
-       background: $dark;
+       background: var(--color-text);
      }
    } 
   }
@@ -104,6 +104,31 @@ img.post-image {
   }
 }
 
+.post__summary {
+  margin-bottom: 40px;
+  padding: 20px 24px;
+  border-left: 4px solid var(--color-accent);
+  background: var(--color-surface);
+  border-radius: 0 $global-radius $global-radius 0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+
+  .post__summary-label {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--color-accent);
+    margin-bottom: 8px;
+  }
+
+  p {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--color-text);
+  }
+}
+
 .post__content {
   margin-bottom: 40px;
   overflow-wrap: break-word;
@@ -117,7 +142,7 @@ img.post-image {
   h2 {
     margin-top: 2em;
     padding-bottom: 8px;
-    border-bottom: 1px solid $light-gray;
+    border-bottom: 1px solid var(--color-border);
   }
 
   h3 {
@@ -136,7 +161,7 @@ img.post-image {
     padding-right: 8px;
     padding-top: 4px;
     font-weight: 700;
-    color: $dark;
+    color: var(--color-heading);
   }
 
   // In-body link style
@@ -188,7 +213,7 @@ img.post-image {
   align-items: baseline;
   margin-bottom: 80px;
   padding-bottom: 80px;
-  border-bottom: 1px solid $light-gray;
+  border-bottom: 1px solid var(--color-border);
 
   .prev,
   .next {
@@ -232,9 +257,9 @@ img.post-image {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        color: $dark;
+        color: var(--color-heading);
         &:hover {
-          color: $black;
+          color: var(--color-link-hover);
         }
       }
     }

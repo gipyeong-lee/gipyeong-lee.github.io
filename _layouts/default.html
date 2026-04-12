@@ -23,6 +23,17 @@
 
   {% include footer.html %}
 
+  {% if page.audio %}
+  <div class="audio-player" data-src="{{ site.baseurl }}/audio/{{ page.audio }}" data-ref="{{ page.ref }}">
+    <button class="audio-player__btn"><i class="ion ion-ios-play"></i></button>
+    <span class="audio-player__title">{{ page.title | truncate: 30 }}</span>
+    <div class="audio-player__progress"><div class="audio-player__progress-fill"></div></div>
+    <button class="audio-player__speed">1x</button>
+    <span class="audio-player__time">0:00</span>
+    <button class="audio-player__close"><i class="ion ion-ios-close"></i></button>
+  </div>
+  {% endif %}
+
   {% include javascripts.html %}
 </body>
 

@@ -52,6 +52,13 @@ layout: default
     <!-- begin post -->
     <article class="post {{ no-image }} col col-8 col-t-10 col-m-12">
 
+      {% if page.summary %}
+      <div class="post__summary">
+        <div class="post__summary-label">AI Summary</div>
+        <p>{{ page.summary }}</p>
+      </div>
+      {% endif %}
+
       <div class="post__content">
         {{ content }}
       </div>
@@ -83,6 +90,29 @@ layout: default
           </li>
         </ul>
       </div>
+      {% if page.quiz %}
+      <div class="quiz" data-ref="{{ page.ref }}">
+        <div class="quiz__title">{% if page.lang == 'ko' %}이 글을 얼마나 이해했나요?{% elsif page.lang == 'ja' %}この記事の理解度チェック{% elsif page.lang == 'zh-cn' %}测试你的理解{% elsif page.lang == 'zh-tw' %}測試你的理解{% else %}Test Your Understanding{% endif %}</div>
+        <div class="quiz__already" style="display:none;"></div>
+        {% for q in page.quiz %}
+        <div class="quiz__card" data-answer="{{ q.answer }}">
+          <div class="quiz__question">Q{{ forloop.index }}. {{ q.question }}</div>
+          <ul class="quiz__choices">
+            {% for c in q.choices %}
+            <li class="quiz__choice">{{ c }}</li>
+            {% endfor %}
+          </ul>
+          <div class="quiz__explanation">{{ q.explanation }}</div>
+        </div>
+        {% endfor %}
+        <div class="quiz__result">
+          <div class="quiz__score"></div>
+          <div class="quiz__stars"></div>
+          <div class="quiz__message"></div>
+        </div>
+      </div>
+      {% endif %}
+
     </article>
     <!-- end post -->
     </div>

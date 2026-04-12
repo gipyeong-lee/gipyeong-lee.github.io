@@ -34,13 +34,13 @@
     font-size: 30px;
     font-weight: 700;
     letter-spacing: 0.5px;
-    color: $dark;
+    color: var(--color-heading);
     text-decoration: none;
     &:hover {
-      color: $black;
+      color: var(--color-link-hover);
     }
   }
-  
+
   .logo__image {
     max-height: 50px;
   }
@@ -79,9 +79,9 @@
         font-weight: 700;
         letter-spacing: 0.5px;
         text-transform: uppercase;
-        color: $dark;
+        color: var(--color-text);
         &:hover {
-          color: $black;
+          color: var(--color-link-hover);
         }
       }
     }
@@ -99,7 +99,7 @@
     height: 100vh;
     padding: 40px 30px 30px;
     transition: right 0.5s cubic-bezier(0.7, 0.4, 0, 1);
-    background: $white;
+    background: var(--color-surface);
     &.is-open {
       right: 0;
     }
@@ -133,10 +133,10 @@
   font-size: 21px;
   
   .nav__icon {
-    color: $dark;
+    color: var(--color-text);
     cursor: pointer;
     &:hover {
-      color: $black;
+      color: var(--color-link-hover);
     }
   }
   
