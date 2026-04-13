@@ -6,7 +6,7 @@ order: 2
 hero:
   name: "Gi Pyeong Lee"
   tagline: "Software Engineer & AI Enthusiast"
-  quote: "매일의 역사를 만들어가는 엔지니어"
+  quote: "Building tomorrow's history, one line of code at a time."
   image: profile.jpg
 career:
   - period: "2017 — Present"
@@ -45,8 +45,32 @@ tech_stack:
   - category: "AI / ML"
     items: ["PyTorch", "MeloTTS", "OpenVoice", "Diffusers"]
 projects:
+  - name: "EternaxCode"
+    desc: "A creative studio building AI-powered digital products — web, mobile, and intelligent systems."
+    url: "https://eternaxcode.com"
+  - name: "Econalk"
+    desc: "AI-powered economic news platform delivering real-time insights in multiple languages."
+    image: work-econalk.png
+    url: "https://econalk.com"
+    tags: ["AI", "News", "Multi-language"]
+  - name: "Ddu Bakehouse"
+    desc: "A warm, modern web experience for a Jeju-based bakery, capturing the brand's unique atmosphere."
+    image: work-ddubakehouse.png
+    url: "https://ddubakehouse.com"
+    tags: ["Web", "Branding"]
+  - name: "Lotto Puri"
+    desc: "A playful lottery prediction service blending traditional Korean saju fortune-telling with modern UX."
+    image: work-lottopuri.png
+    url: "https://xn--vk1b81dq9kjzf.kr"
+    tags: ["Web", "Entertainment"]
+  - name: "Memoire"
+    desc: "A visual diary app for capturing daily moments — calendar view, photo journal, and magazine-style PDF book export."
+    tags: ["iOS", "Android", "Coming Soon"]
   - name: "MindTickleBytes"
-    desc: "AI 기술 블로그 자동화 서비스 — 리서치, 작성, 팩트체크, 번역, TTS 나레이션, 영상 생성까지 전 과정 자동화"
-  - name: "Master for League of Legends"
-    desc: "App Store 한국 참고자료 앱 1위 달성 — 개인 프로젝트"
+    desc: "Fully automated AI tech blog — research, writing, fact-checking, translation, TTS narration, and video generation pipeline."
+    url: "https://gipyeong-lee.github.io"
+    tags: ["AI", "Automation"]
+  - name: "Master for LoL"
+    desc: "Ranked #1 Reference App on the Korean App Store — a solo project for League of Legends players."
+    tags: ["iOS", "Gaming"]
 ---

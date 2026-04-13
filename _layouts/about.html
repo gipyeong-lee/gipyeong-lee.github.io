@@ -85,10 +85,24 @@ layout: default
     <h2 class="about-section__title reveal">Projects</h2>
     <div class="about-projects">
       {% for p in page.projects %}
-      <div class="about-project reveal">
-        <h3 class="about-project__name">{{ p.name }}</h3>
-        <p class="about-project__desc">{{ p.desc }}</p>
-      </div>
+      <{% if p.url %}a href="{{ p.url }}" target="_blank" rel="noopener"{% else %}div{% endif %} class="about-project reveal{% if p.image %} about-project--has-image{% endif %}">
+        {% if p.image %}
+        <div class="about-project__image">
+          <img src="{{ site.baseurl }}/images/{{ p.image }}" alt="{{ p.name }}" loading="lazy">
+        </div>
+        {% endif %}
+        <div class="about-project__body">
+          <h3 class="about-project__name">{{ p.name }}</h3>
+          <p class="about-project__desc">{{ p.desc }}</p>
+          {% if p.tags %}
+          <div class="about-project__tags">
+            {% for t in p.tags %}
+            <span class="about-badge">{{ t }}</span>
+            {% endfor %}
+          </div>
+          {% endif %}
+        </div>
+      </{% if p.url %}a{% else %}div{% endif %}>
       {% endfor %}
     </div>
   </div>
