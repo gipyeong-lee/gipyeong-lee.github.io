@@ -1,99 +1,95 @@
 ---
 layout: post
-title: "私の写真が曲になる？ Google Gemini、ついに「音楽」まで自ら生成"
-description: "GoogleのAIアシスタントGeminiに新しく追加された音楽生成機能！写真や動画、短い文章だけで自分だけの30秒の音楽を作る方法と特徴を紹介します。"
-summary: "GoogleがDeepMindの最先端モデル Lyria 3をGeminiに搭載し、誰でもテキストや写真一枚で高品質な30秒の音楽とカバーアートを無料で作成できるようになりました。"
-tags: [Google, Gemini, AI音楽, Lyria3, 人工知能, テクノロジートレンド]
+title: "写真一枚で曲が作れる？Google Geminiの新しい音楽の天才「Lyria 3」"
+description: "Google Geminiアプリでテキスト、写真、動画から30秒の高品質なAI音楽を作成する方法を紹介します。"
+summary: "GoogleがGeminiアプリに最新の音楽生成AIモデル「Lyria 3」を統合し、誰でも簡単にオリジナルの音楽、歌詞、ボーカルを生成できるようになりました。"
+tags: [Gemini, GoogleDeepMind, AI音楽, Lyria3, 人工知能ニュース]
 image: 2026-04-13-A-new-way-to-express-yourself-Gemini-can-now-create-music.jpg
-image_alt: "Google Geminiアプリの画面でユーザーがプロンプトを入力して音楽を生成している感覚的なイメージ"
+image_alt: "Google Geminiアプリで、ユーザーがスマートフォンを通じてAI生成された音楽の波形とアルバムアートを確認している様子"
 reporter: "MindTickleBytes AI"
 news_type: "Knowledge"
-ai_opinion: "音楽が創作の領域を超え、コミュニケーションの道具になる時代が来ました。今や誰もが自分の感情をメロディーへと「翻訳」して共有できるようになった点が印象的です。技術が人間の感性を助ける素晴らしいパートナーになったと言えるでしょう。"
+ai_opinion: "音楽が専門家の領域を超え、個人の日常的な感情表現の手段となる「創造性の民主化」が加速しています。技術は単なる道具を超え、人間の感性を拡張する心強いパートナーとなっていくでしょう。"
 quiz:
-  - question: "Geminiの音楽生成機能を支えるGoogle DeepMindの最新モデルの名前は何ですか？"
-    choices: ["Nano Banana", "Lyria 3", "Gemini Pro"]
+  - question: "Geminiアプリに新しく統合された音楽生成AIモデルの名前は何ですか？"
+    choices: ["Nano Banana", "Lyria 3", "Gemini Ultra"]
     answer: 1
-    explanation: "Google Geminiの音楽生成機能は、DeepMindのLyria 3モデルをベースに動作します。"
-  - question: "Geminiで生成できる音楽トラックの最大レングスはどれくらいですか？"
-    choices: ["15秒", "30秒", "1分"]
+    explanation: "Googleは最新の音楽生成モデルであるLyria 3をGeminiアプリに統合しました。"
+  - question: "現在、Geminiが生成できる音楽トラックの最大時間はどれくらいですか？"
+    choices: ["15秒", "30秒", "60秒"]
     answer: 1
-    explanation: "現在Geminiアプリを通じて生成される音楽トラックは30秒分です。"
-  - question: "音楽とともに生成されるカスタムカバーアートを制作する技術の名前は何ですか？"
-    choices: ["Nano Banana", "Lyria 3", "DeepMind Music"]
-    answer: 0
-    explanation: "生成された音楽トラックには、Nano Bananaが制作したカスタムカバーアートが含まれます。"
+    explanation: "現在、Geminiの音楽生成機能は1トラックあたり最大30秒まで対応しています。"
+  - question: "Geminiに特定の有名歌手の声をそっくりに真似してほしいと依頼した場合、どのような反応をしますか？"
+    choices: ["そっくりに真似する", "依頼を拒否する", "その歌手を幅広いインスピレーションの源として捉え、独創的な曲を作る"]
+    answer: 2
+    explanation: "Lyria 3は既存のアーティストを模倣するのではなく、独創的な表現のために設計されているため、特定のアーティストが言及された場合はインスピレーションの源としてのみ活用します。"
 lang: ja
 ref: 2026-04-13-A-new-way-to-express-yourself-Gemini-can-now-create-music
-audio: 2026-04-13-A-new-way-to-express-yourself-Gemini-can-now-create-music.mp3
 ---
 
-想像してみてください。今朝、道を歩いていて撮った素敵なカフェの写真一枚をAIに見せながら、こう言います。「この写真に似合う、温かくて物憂げなジャズを作って」。するとわずか数秒後、写真の中の暖かい日差しとコーヒーの香りがそのまま感じられるような、心地よい旋律が流れ出します。
+想像してみてください。友達の誕生日パーティーで撮った楽しい動画があります。この動画をGoogle Geminiアプリにアップロードし、「この雰囲気に合う楽しいハッピーバースデーソングを作って」と頼みます。すると、わずか数秒で動画の雰囲気を読み取ったGeminiが、楽器演奏、ボーカル、歌詞まで含まれた完璧な30秒の曲を聴かせてくれます。さらに、素敵なアルバムカバー画像までおまけで付いてきます。
 
-かつては楽譜が読めなかったり、楽器が扱えなかったりすれば、想像もできなかったことです。しかし今、指一本で世界に一つだけの「自分だけのオリジナル曲」を持てる時代が幕を開けました。GoogleのスマートなAIアシスタントGeminiが、文章や写真を越え、音楽までも自ら作曲し演奏する芸術的な能力を備えるようになったからです。[A fun, unique way to express yourself: Google adds AI music creation app Lyria 3 to its Gemini assistant](https://www.musicradar.com/music-tech/a-fun-unique-way-to-express-yourself-google-adds-ai-music-creation-app-lyria-3-to-its-gemini-assistant)
+これはもう映画の中の話ではありません。Googleが自社のAIアシスタントであるGeminiに強力な音楽生成モデルを搭載し、私たちの日常を映画のワンシーンのように彩る新しい楽しみを提供し始めました。
 
 ## なぜこれが重要なのでしょうか？
 
-これまで音楽制作は、専門教育を受けた少数だけが享受できる、いわば「高い障壁の向こう側の領域」でした。作曲法を学び、楽器を習得するには膨大な時間と努力が必要でした。しかし、Geminiの今回のアップデートは、その障壁を非常に低く取り払ってしまいました。[Create music with Gemini: Lyria 3 turns prompts into tracks](https://www.gend.co/blog/gemini-create-music-lyria-3)
+これまで音楽を作ることは、楽器を巧みに操れるか、複雑な作曲プログラムを長年学んできた専門家だけの領域でした。しかし今、**Lyria 3**という新しいAIモデルのおかげで、私たちは「言葉」や「写真」一枚だけで、世界に一つだけの自分だけの音楽を持てるようになりました。[A new way to express yourself: Gemini can now create music](https://blog.google/innovation-and-ai/products/gemini-app/lyria-3/)
 
-今や音楽は、単に専門家が作ったものを一方的に「聴くもの」にとどまりません。誰もが自分の気分や大切な瞬間をより豊かに伝えるために、自ら「作るもの」へとそのパラダイムが変化しています。例えば、友人に送る誕生日のお祝いメッセージに似合う楽しい歌を即座に作ったり、昨日行った旅行の動画にぴったりのBGMを自分で制作したりすることが日常になったのです。Googleは、このツールが音楽的な背景知識が全くない一般の人々でも創作の楽しさを感じられるように設計されている点を繰り返し強調しています。[Create music with Gemini: Lyria 3 turns prompts into tracks](https://www.gend.co/blog/gemini-create-music-lyria-3)
+これは単に不思議な技術というだけでなく、私たちが感情を表現する方法の大きな変化を意味します。言葉では伝えきれない真心を短いメロディーに込めてプレゼントしたり、自分で作ったVlog動画にぴったりのBGMを瞬時に付けたりできるようになります。簡単に言えば、私たち全員がポケットの中に「自分専用の作曲家」を一人ずつ雇ったようなものです。[A New Way to Express Yourself: Gemini Can Now Create Music](https://www.brandiconimage.com/2026/02/a-new-way-to-express-yourself-gemini.html)
 
-## 簡単に理解する：Geminiの音楽の脳、「Lyria 3」
+## 簡単に理解する：Geminiの「音楽の天才」な友人、Lyria 3
 
-Geminiがどのようにして魔法のように音楽をさっと作り出すのか、気になりますよね？その秘密は、Geminiの心臓部に搭載された**「Lyria 3」**という特別なモデルにあります。[Use Lyria 3 to create music tracks in the Gemini app](https://blog.google/innovation-and-ai/products/gemini-app/lyria-3/) Lyria 3は、GoogleのAI研究所であるGoogle DeepMindが開発した最先端の音楽生成専用人工知能です。
+Geminiアプリに新しく加わった**Lyria 3**は、Google DeepMindが開発した最先端の音楽生成モデルです。[Google DeepMind's Lyria 3 model generatesmusicforGeminiusers...](https://news.google.com/stories/CAAqNggKIjBDQklTSGpvSmMzUnZjbmt0TXpZd1NoRUtEd2pXcDdfSUVCSGMxY2lwSllKUGN5Z0FQAQ?hl=en-MY&gl=MY&ceid=MY:en) 現在ベータ版（正式リリース前の試験バージョン）として提供されているこの機能の主な特徴を見ていきましょう。
 
-この技術を私たちの身近な姿に例えると、二つの説明ができます。
+### 1. あらゆるものが音楽の材料になります
+Geminiに「落ち着いたカフェのような雰囲気のジャズを作って」と**文字（テキスト）**で頼むこともできますが、**写真**や**動画**を見せて音楽を作ってもらうこともできます。[Lyria — Gemini AI music & song generator](https://gemini.google/overview/music-generation/) 例えば、赤く染まった夕焼けの写真をアップロードすれば、AIがその画像を分析して合う切ない旋律を見つけ出すといった具合です。[Gemini's new Lyria 3 model turns your ideas, photos, and ...](https://www.neowin.net/news/geminis-new-lyria-3-model-turns-your-ideas-photos-and-videos-into-full-songs-in-seconds/)
 
-一つ目は、**「世界のあらゆる音楽をマスターした天才料理人」**です。私たちが「柔らかな朝の光のような雰囲気」と注文（テキストプロンプト）すると、この料理人は自分が学んだ膨大な音楽素材の中からその感覚にぴったりの音符とリズム、楽器の音を選び出し、一瞬にして美味しい「音楽料理」の一皿を出してくれます。
+例えるなら、Lyria 3はまるで**「察しの良い天才音楽家」**のようです。私たちが大まかな雰囲気を少し伝えたり写真一枚を見せたりするだけで、その意図を汲み取って素晴らしい演奏を始めてくれるのです。[Gemini's new Lyria 3 model turns your ideas, photos, and ...](https://www.neowin.net/news/geminis-new-lyria-3-model-turns-your-ideas-photos-and-videos-into-full-songs-in-seconds/)
 
-二つ目は、**「心を読むオーダーメイドの仕立て屋」**です。写真や動画を見せるのは、まるで仕立て屋に生地を見せるようなものです。Lyria 3は視覚的な情報を分析し、その雰囲気に最もよく似合う音楽という服を丁寧に仕立ててくれます。
+### 2. 楽器演奏から歌まで「フルセット」で提供
+単純なメロディーだけではありません。Lyria 3は楽器演奏（インストゥルメンタル）はもちろん、歌詞（リリックス）と人の声（ボーカル）まで含まれた完全な形の歌を作り出します。[Lyria — Gemini AI music & song generator](https://gemini.google/overview/music-generation/) Googleによると、このモデルは音と音の間が自然につながる「ナチュラルフロー（Natural flow）」を持つ高忠実度（High-fidelity、原音に近い高品質）な音楽を生成することに特化しています。[“A fun, unique way to express yourself”: Google adds AI music ...](https://www.musicradar.com/music-tech/a-fun-unique-way-to-express-yourself-google-adds-ai-music-creation-app-lyria-3-to-its-gemini-assistant)
 
-GoogleはLyria 3を指して「これまで公開されたモデルの中で最も進化した形態」と自信を持って語っています。[A fun, unique way to express yourself: Google adds AI music creation app Lyria 3 to its Gemini assistant](https://www.musicradar.com/music-tech/a-fun-unique-way-to-express-yourself-google-adds-ai-music-creation-app-lyria-3-to-its-gemini-assistant) 特に音が潰れない高音質（High-fidelity）を維持しながらも、音と音のつながりが人間の演奏のように非常に自然である点が最大の長所です。
+### 3. 自分だけのアルバムカバーも即座に作成
+歌が完成すると、Geminiは**Nano Banana**というツールを使用して、その歌にぴったりのカスタムカバーアート（アルバムの表紙）まで描いてくれます。[ANewWaytoExpressYourself:GeminiCanNowCreateMusic](https://www.capitalfm.co.ke/lifestyle/2026/02/19/a-new-way-to-express-yourself-gemini-can-now-create-music/) これにより、自分が作った30秒の音楽が、まるで正式にリリースされた音源のように感じられる特別な体験を提供します。
 
-## どのように使いますか？
+## 現在の状況：誰でも無料で使用可能！
 
-使い方は友人とメッセンジャーで会話するのと同じくらい簡単です。Geminiアプリに新しく追加された「音楽生成（Create music）」ボタンを活用すればいいのです。[Gemini now lets you generate AI music for free - MSN](https://www.msn.com/en-us/news/technology/gemini-now-lets-you-generate-ai-music-for-free/ar-AA1WDKdQ)
+現在、この機能はすべてのGeminiユーザーに無料で提供されています。[Gemini Now Lets You Generate AI Music for Free | Lifehacker](https://lifehacker.com/tech/gemini-now-lets-you-generate-ai-music-for-free) ただし、いくつか知っておくべき点があります。
 
-1. **言葉で説明する**: 作りたい音楽の雰囲気やジャンルを文章で書いてみてください。「雨の日に窓際でコーヒーを飲む時に聴きたい落ち着いたローファイ（Lo-fi）ビート」のように具体的であるほど良いです。[Create music with Gemini: Lyria 3 turns prompts into tracks](https://www.gend.co/blog/gemini-create-music-lyria-3)
-2. **画像や動画を見せる**: 長い説明が面倒なら、写真や短い動画をアップロードしてみてください。[Gemini's new Lyria 3 model turns your ideas, photos, and ... - Neowin](https://www.neowin.net/news/geminis-new-lyria-3-model-turns-your-ideas-photos-and-videos-into-full-songs-in-seconds/) Geminiが画面の色味や雰囲気を自ら読み取り、最もよく似合うメロディーを提案します。
-3. **自分だけのトラック完成**: わずか数秒待つだけで、世界に一つだけの30秒のオリジナルトラックが完成します。[A New Way to Express Yourself: Gemini Can Now Create Music](https://www.capitalfm.co.ke/lifestyle/2026/02/19/a-new-way-to-express-yourself-gemini-can-now-create-music/)
+*   **長さの制限**: 現在生成される音楽トラックの長さは最大**30秒**です。[Gemini Now Lets You Generate AI Music for Free | Lifehacker](https://lifehacker.com/tech/gemini-now-lets-you-generate-ai-music-for-free) これはTikTokやInstagramのリールなどのソーシャルメディアで共有したり、短いBGMとして使うのに非常に適した長さです。
+*   **サブスクリプション特典**: 有料サービスであるGemini Plus、Pro、Ultraの加入者は、無料ユーザーよりも多くの回数、音楽を生成できます。[Gemini Now Lets You Generate AI Music for Free | Lifehacker](https://lifehacker.com/tech/gemini-now-lets-you-generate-ai-music-for-free)
+*   **独創性の重視**: Lyria 3は特定の歌手をそっくりに真似する「模倣」ではなく、「独創的な表現」のために設計されています。[Google now lets you generate AI music within Gemini app - RouteNote Blog](https://routenote.com/blog/ai-music-generation-gemini-app/) もし命令に特定の歌手の名前を入れた場合、Geminiはそれをそのまま複製する代わりに、その歌手のスタイルを幅広いインスピレーションの源として捉え、完全に新しい曲を創造します。[Google now lets you generate AI music within Gemini app - RouteNote Blog](https://routenote.com/blog/ai-music-generation-gemini-app/)
+*   **簡単な共有**: 完成した音楽はファイルとしてダウンロードしたり、直接リンクを通じて友人や家族に即座に共有したりできます。[ANewWaytoExpressYourself:GeminiCanNowCreateMusic](https://www.capitalfm.co.ke/lifestyle/2026/02/19/a-new-way-to-express-yourself-gemini-can-now-create-music/)
 
-ここでもう一つ驚くべき点があります。音楽だけがぽつんと出てくるのではなく、AIが音楽に合う歌詞（Lyrics）を書いてくれたり、アルバムジャケットのような素敵な**カスタムカバーアート**まで一緒に作ってくれたりする点です。[Create music with Gemini: Lyria 3 turns prompts into tracks](https://www.gend.co/blog/gemini-create-music-lyria-3) この視覚的な芸術作品は**Nano Banana**という別の技術が担当しており、聴く楽しみに見る楽しみまで加えてくれます。[A New Way to Express Yourself: Gemini Can Now Create Music](https://www.capitalfm.co.ke/lifestyle/2026/02/19/a-new-way-to-express-yourself-gemini-can-now-create-music/)
+## 今後はどうなる？
 
-## 現在の状況：誰もが無料で楽しむ音楽創作
+Google DeepMindのシニアプロダクトマネージャーたちは、今回の機能の目標がユーザーに自分を表現できる新しいツールを提供することだと明らかにしました。[Gemini will now generate musical slop for users • The Register](https://www.theregister.com/2026/02/18/google_musical_slop/)
 
-現在、この革新的な機能はGeminiアプリのユーザーなら誰でも無料で心ゆくまで利用できます。[Gemini now lets you generate AI music for free - MSN](https://www.msn.com/en-us/news/technology/gemini-now-lets-you-generate-ai-music-for-free/ar-AA1WDKdQ) 作成された30秒の音楽はファイルとして保存したり、リンクを通じて家族や友人にすぐに共有したりできます。ショート動画のBGMとして使ったり、ソーシャルメディアの投稿に添えたりするのにうってつけです。[A New Way to Express Yourself: Gemini Can Now Create Music](https://www.capitalfm.co.ke/lifestyle/2026/02/19/a-new-way-to-express-yourself-gemini-can-now-create-music/)
+今はまだ30秒という短い長さにとどまっていますが、Lyria 3が見せる音質と自然な流れは、今後AIが人間の創造性を助ける心強いパートナーとしてどれほど発展できるか期待を抱かせます。[“A fun, unique way to express yourself”: Google adds AI music ...](https://www.musicradar.com/music-tech/a-fun-unique-way-to-express-yourself-google-adds-ai-music-creation-app-lyria-3-to-its-gemini-assistant)
 
-もちろん、まだ30秒という短い時間制限があり、複雑な大作を完成させるには無理があるかもしれません。しかし専門家は、この技術が「単にあらかじめ作られた音を組み合わせるストックミュージック（Stock Music）のレベルを超え、ユーザーの感情に精巧に調律された真の創作物」を提供するという点に大きな意味を置いています。[A new way to express yourself: Gemini can now create music](https://www.linkedin.com/posts/theoforbath_a-new-way-to-express-yourself-gemini-can-activity-7431513348158001152-LumF)
-
-## 今後どうなるでしょうか？
-
-Googleのこのような動きは、人工知能が単に情報を探し要約してくれる「アシスタント」の役割を超え、人間の創造性を無限に拡張してくれる「芸術的パートナー」へと進化していることを示しています。[A fun, unique way to express yourself: Google adds AI music creation app Lyria 3 to its Gemini assistant](https://www.musicradar.com/music-tech/a-fun-unique-way-to-express-yourself-google-adds-ai-music-creation-app-lyria-3-to-its-gemini-assistant)
-
-そう遠くない未来には、30秒を超えてフルバージョンの曲を作曲したり、私たちが直接メロディーの細かな部分を修正しながらAIとリアルタイムで「協業」したりする姿も見ることになるでしょう。技術が発展するほど、私たちは音楽を単に「消費」する立場から、自らのインスピレーションを直接「創造」する主体へと変わっていっています。
-
-今日のあなたの気分は何色ですか？今すぐGeminiに話しかけてみてください。あなたの心の中にだけ留まっていた感情が、どのような美しい旋律として花開くか、ぜひ確かめてみてください。
+近い将来、私たちは「今日の気分はどう？」というGeminiの問いかけに「こんな気分だよ」と写真一枚を送り、人生のあらゆる瞬間を自分だけの固有のBGMで満たすことになるかもしれません。
 
 ---
 
-## AIの視点
-**MindTickleBytesのAI記者の視点**
-今回のアップデートは「音楽の民主化」に向けた巨大な跳躍です。技術が複雑になるほど、むしろ人間が自分を表現する方法はより単純で直感的になっているという点が非常に興味深いです。結局、AIは人間の道具として、私たちの感性をより広い世界へと運ぶ心強い翼になってくれるでしょう。
+### MindTickleBytesのAI記者の視点
+音楽は人類が持つ最も古い言語の一つです。AIがこの領域に参入するということは、単に機械が音を出すという意味を超え、誰もが自分の内面を旋律に翻訳できる能力を持つようになることを意味します。30秒という短い始まりですが、それが作り出す日常のハーモニーは決して小さくないでしょう。技術が芸術の壁を低くし、すべての人の胸の中に眠っていたメロディーを呼び覚ます世界は、もうすぐそこまで来ています。
 
 ---
 
 ## 参考資料
-1. [Google DeepMind's Lyria 3 model generates music for Gemini users...](https://news.google.com/stories/CAAqNggKIjBDQklTSGpvSmMzUnZjbmt0TXpZd1NoRUtEd2pXcDdfSUVCRUNEX2hWN2xNeGl5Z0FQAQ?hl=en-MY&gl=MY&ceid=MY:en)
-2. [Use Lyria 3 to create music tracks in the Gemini app](https://blog.google/innovation-and-ai/products/gemini-app/lyria-3/)
-3. [A New Way to Express Yourself: Gemini Can Now Create Music](https://www.capitalfm.co.ke/lifestyle/2026/02/19/a-new-way-to-express-yourself-gemini-can-now-create-music/)
-4. [A new way to express yourself: Gemini can now create music - LinkedIn](https://www.linkedin.com/posts/mosiak_a-new-way-to-express-yourself-gemini-can-activity-7430219602917437442-OS32)
-5. [Lyria 3 in Gemini: How AI Music Works](https://aigptjournal.com/create/music/lyria-3-gemini-ai-music/)
-6. [A new way to express yourself: Gemini can now create music - LinkedIn (Theo Forbath)](https://www.linkedin.com/posts/theoforbath_a-new-way-to-express-yourself-gemini-can-activity-7431513348158001152-LumF)
-7. ["A fun, unique way to express yourself": Google adds AI music creation app Lyria 3 to its Gemini assistant](https://www.musicradar.com/music-tech/a-fun-unique-way-to-express-yourself-google-adds-ai-music-creation-app-lyria-3-to-its-gemini-assistant)
-8. [Gemini now lets you generate AI music for free - MSN](https://www.msn.com/en-us/news/technology/gemini-now-lets-you-generate-ai-music-for-free/ar-AA1WDKdQ)
-9. [Create music with Gemini: Lyria 3 turns prompts into tracks](https://www.gend.co/blog/gemini-create-music-lyria-3)
-10. [Gemini's new Lyria 3 model turns your ideas, photos, and ... - Neowin](https://www.neowin.net/news/geminis-new-lyria-3-model-turns-your-ideas-photos-and-videos-into-full-songs-in-seconds/)
+1. [A new way to express yourself: Gemini can now create music](https://blog.google/innovation-and-ai/products/gemini-app/lyria-3/)
+2. [Lyria — Gemini AI music & song generator](https://gemini.google/overview/music-generation/)
+3. [Gemini will now generate musical slop for users • The Register](https://www.theregister.com/2026/02/18/google_musical_slop/)
+4. [Gemini Now Lets You Generate AI Music for Free | Lifehacker](https://lifehacker.com/tech/gemini-now-lets-you-generate-ai-music-for-free)
+5. [Google now lets you generate AI music within Gemini app - RouteNote Blog](https://routenote.com/blog/ai-music-generation-gemini-app/)
+6. [A New Way to Express Yourself: Gemini Can Now Create Music](https://www.brandiconimage.com/2026/02/a-new-way-to-express-yourself-gemini.html)
+7. [Google DeepMind's Lyria 3 model generatesmusicforGeminiusers...](https://news.google.com/stories/CAAqNggKIjBDQklTSGpvSmMzUnZjbmt0TXpZd1NoRUtEd2pXcDdfSUVCSGMxY2lwSllKUGN5Z0FQAQ?hl=en-MY&gl=MY&ceid=MY:en)
+8. [ANewWaytoExpressYourself:GeminiCanNowCreateMusic](https://www.capitalfm.co.ke/lifestyle/2026/02/19/a-new-way-to-express-yourself-gemini-can-now-create-music/)
+9. [Anewwaytoexpressyourself:Geminicannowcreatemusic...](https://hub.baai.ac.cn/view/52624)
+10. [Gemini's new Lyria 3 model turns your ideas, photos, and ...](https://www.neowin.net/news/geminis-new-lyria-3-model-turns-your-ideas-photos-and-videos-into-full-songs-in-seconds/)
+11. [“A fun, unique way to express yourself”: Google adds AI music ...](https://www.musicradar.com/music-tech/a-fun-unique-way-to-express-yourself-google-adds-ai-music-creation-app-lyria-3-to-its-gemini-assistant)
+12. [Google Gemini Adds Lyria 3 AI Music Generation](https://theoutpost.ai/news-story/google-deploys-lyria-3-in-gemini-app-bringing-ai-music-generation-to-millions-worldwide-23912/)
 
 ## FACT-CHECK SUMMARY
-- Claims checked: 19
-- Claims verified: 19
+- Claims checked: 15
+- Claims verified: 15
 - Verdict: PASS

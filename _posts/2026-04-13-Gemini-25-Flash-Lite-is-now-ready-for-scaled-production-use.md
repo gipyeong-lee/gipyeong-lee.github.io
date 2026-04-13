@@ -25,6 +25,7 @@ quiz:
 lang: ko
 ref: 2026-04-13-Gemini-25-Flash-Lite-is-now-ready-for-scaled-production-use
 permalink: /2026/04/13/Gemini-25-Flash-Lite-is-now-ready-for-scaled-production-use/
+audio: 2026-04-13-Gemini-25-Flash-Lite-is-now-ready-for-scaled-production-use.mp3
 ---
 
 상상해보세요. 여러분이 수천 페이지에 달하는 법률 문서나 수십 시간 분량의 회의 영상을 단 몇 분 만에 정리해야 하는 상황에 놓였습니다. 예전 같으면 팀원 수십 명이 며칠 밤을 새워야 했을 일이죠. 그런데 이제는 커피 한 잔도 안 되는 아주 적은 돈으로 이 방대한 일을 대신해줄 수 있는 '똑똑하고 빠른 비서'가 우리 앞에 나타났습니다.

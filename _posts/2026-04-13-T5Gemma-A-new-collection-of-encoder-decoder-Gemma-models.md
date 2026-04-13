@@ -25,6 +25,7 @@ quiz:
 lang: ko
 ref: 2026-04-13-T5Gemma-A-new-collection-of-encoder-decoder-Gemma-models
 permalink: /2026/04/13/T5Gemma-A-new-collection-of-encoder-decoder-Gemma-models/
+audio: 2026-04-13-T5Gemma-A-new-collection-of-encoder-decoder-Gemma-models.mp3
 ---
 
 ## 들어가는 글: AI의 '두 가지' 생각 방식

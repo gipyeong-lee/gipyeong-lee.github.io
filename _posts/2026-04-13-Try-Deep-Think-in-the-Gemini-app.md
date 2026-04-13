@@ -25,6 +25,7 @@ quiz:
 lang: ko
 ref: 2026-04-13-Try-Deep-Think-in-the-Gemini-app
 permalink: /2026/04/13/Try-Deep-Think-in-the-Gemini-app/
+audio: 2026-04-13-Try-Deep-Think-in-the-Gemini-app.mp3
 ---
 
 ## 들어가는 말: 1초 만에 나오는 답이 항상 정답일까요?

@@ -25,6 +25,7 @@ quiz:
 lang: ko
 ref: 2026-04-13-Introducing-Gemma-3n-The-developer-guide
 permalink: /2026/04/13/Introducing-Gemma-3n-The-developer-guide/
+audio: 2026-04-13-Introducing-Gemma-3n-The-developer-guide.mp3
 ---
 
 상상해보세요. 등산 중에 이름 모를 예쁜 꽃을 발견했습니다. 스마트폰을 꺼내 사진을 찍고, 그 자리에서 바로 AI에게 물어봅니다. "이 꽃 이름이 뭐야? 그리고 이 꽃말에 어울리는 짧은 시 한 구절 써줘." 인터넷이 잘 터지지 않는 깊은 산속이지만, 스마트폰은 지체 없이 대답을 내놓습니다. 

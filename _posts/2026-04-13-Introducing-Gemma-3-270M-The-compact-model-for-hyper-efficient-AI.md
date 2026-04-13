@@ -25,6 +25,7 @@ quiz:
 lang: ko
 ref: 2026-04-13-Introducing-Gemma-3-270M-The-compact-model-for-hyper-efficient-AI
 permalink: /2026/04/13/Introducing-Gemma-3-270M-The-compact-model-for-hyper-efficient-AI/
+audio: 2026-04-13-Introducing-Gemma-3-270M-The-compact-model-for-hyper-efficient-AI.mp3
 ---
 
 # 인터넷 없이도 AI가 된다고? 구글이 내놓은 주머니 속 천재 '젬마 3 270M'

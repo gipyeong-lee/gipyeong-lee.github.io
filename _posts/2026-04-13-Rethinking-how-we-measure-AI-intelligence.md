@@ -25,6 +25,7 @@ quiz:
 lang: ko
 ref: 2026-04-13-Rethinking-how-we-measure-AI-intelligence
 permalink: /2026/04/13/Rethinking-how-we-measure-AI-intelligence/
+audio: 2026-04-13-Rethinking-how-we-measure-AI-intelligence.mp3
 ---
 
 상상해보세요. 여러분이 중요한 수학 시험을 보러 갔는데, 시험지를 펼치자마자 깜짝 놀라고 맙니다. 사실 그 문제들은 어제 밤 인터넷에서 우연히 봤던 '기출문제'들과 토씨 하나 다르지 않았거든요. 문제를 전혀 이해하지 못했더라도 정답 번호만 달달 외운 학생이라면 만점을 받을 수 있는 상황입니다. 과연 우리는 이 학생을 진짜 수학 천재라고 부를 수 있을까요? 아니면 단순히 '암기왕'이라고 불러야 할까요?

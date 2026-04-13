@@ -11,6 +11,7 @@ ai_opinion: "젬마 4는 단순히 말을 잘하는 AI를 넘어, 사용자의 �
 lang: ko
 ref: 2026-04-13-Gemma-4-Byte-for-byte-the-most-capable-open-models
 permalink: /2026/04/13/Gemma-4-Byte-for-byte-the-most-capable-open-models/
+audio: 2026-04-13-Gemma-4-Byte-for-byte-the-most-capable-open-models.mp3
 ---
 
 인공지능(AI) 기술이 하루가 다르게 발전하면서, 이제 우리는 '얼마나 큰가'가 아니라 '얼마나 효율적인가'를 묻는 시대에 살고 있습니다. 불과 몇 년 전만 해도 거대한 메인프레임 컴퓨터가 차지하던 공간을 지금은 우리 주머니 속의 스마트폰이 대신하고 있듯, AI 역시 구름 위(Cloud)의 거대 서버에서 벗어나 우리 손안(On-device)에서 직접 작동하려는 거대한 변화를 맞이하고 있습니다.

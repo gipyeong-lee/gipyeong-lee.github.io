@@ -25,6 +25,7 @@ quiz:
 lang: ko
 ref: 2026-04-13-Introducing-Google-Antigravity
 permalink: /2026/04/13/Introducing-Google-Antigravity/
+audio: 2026-04-13-Introducing-Google-Antigravity.mp3
 ---
 
 한 번 상상해보세요. 당신은 우리 동네 빵집을 위한 아주 간단한 배달 앱을 하나 만들고 싶어 합니다. 하지만 당신은 '파이썬(Python)'이 뱀 이름인지 프로그래밍 언어인지도 모르는 평범한 사람입니다. 예전 같으면 수개월 동안 복잡한 코딩 학원을 다니거나, 수백만 원의 비용을 들여 전문 개발자를 고용해야 했겠죠. 

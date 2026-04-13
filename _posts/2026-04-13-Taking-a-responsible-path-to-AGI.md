@@ -25,6 +25,7 @@ quiz:
 lang: ko
 ref: 2026-04-13-Taking-a-responsible-path-to-AGI
 permalink: /2026/04/13/Taking-a-responsible-path-to-AGI/
+audio: 2026-04-13-Taking-a-responsible-path-to-AGI.mp3
 ---
 
 친구와 카페에서 대화를 나누다가 이런 상상을 해본 적 있으신가요? "만약 내가 시키지 않아도 AI가 알아서 내 업무를 파악하고, 필요한 사람들에게 메일을 보내고, 결과물까지 완벽하게 만들어준다면 얼마나 좋을까?" 혹은 "영화 속 아이언맨의 '자비스' 같은 존재가 실제로 나타나면 세상은 어떻게 변할까?"

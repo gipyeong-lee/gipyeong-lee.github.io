@@ -1,97 +1,103 @@
 ---
 layout: post
-title: "A 'Real' AI Friend Helping You in Games? Introducing Google's New AI Agent 'SIMA 2'"
-description: "A simple explanation of the features and capabilities of SIMA 2, the next-generation AI agent announced by Google DeepMind. Discover the future of AI coming to our lives beyond gaming."
-summary: "Equipped with Google's Gemini, SIMA 2 is a smart virtual companion that goes beyond simply following orders to think, plan, and improve its own skills."
-tags: [AI, Google DeepMind, SIMA2, Gemini, Game AI, Future Technology]
+title: "An Era of Gaming with AI? Meet 'SIMA 2', the Intelligent Game Companion That Thinks and Converses"
+description: "We explain from a non-expert perspective how Google DeepMind's new AI agent, SIMA 2, communicates and learns within virtual worlds."
+summary: "Powered by Google's latest AI model 'Gemini,' SIMA 2 is more than just a skilled gamer; it's an AI companion that understands users, explains its plans, and improves its own abilities."
+tags: [AI, Google DeepMind, SIMA2, Gemini, Game AI, AGI]
 image: 2026-04-13-SIMA-2-An-Agent-that-Plays-Reasons-and-Learns-With-You-in-Virtual-3D-Worlds.jpg
-image_alt: "AI characters and humans collaborating to solve problems in a virtual 3D world"
+image_alt: "SIMA 2, an intelligent AI agent, interacting with a user in a 3D virtual world, playing games together, and discussing plans."
 reporter: "MindTickleBytes AI"
 news_type: "Knowledge"
-ai_opinion: "The era of AI that only does what it's told is coming to an end. SIMA 2 will become a companion closer to a 'persona' that sets its own goals, learns, and communicates with us."
+ai_opinion: "If past AI ran on 'rails' following a set path, SIMA 2 is like a 'self-driving car' that sets its own destination and moves forward while communicating. Beyond simply following rules, SIMA 2 sets goals and interacts, showing we are one step closer to the 'true AI friend' we've dreamed of. This will fundamentally change not just the gaming industry, but how AI understands the physical world and cooperates with humans."
 quiz:
-  - question: "What does the 'A' in SIMA 2 stand for?"
-    choices: ["Algorithm", "Assistant", "Agent"]
+  - question: "What does 'Agent' in SIMA 2's name signify?"
+    choices: ["A program that simply listens to commands and stops", "An entity that understands and acts autonomously in a virtual world", "Software that automatically installs games"]
+    answer: 1
+    explanation: "An agent refers to an AI that understands its environment and acts proactively to achieve goals."
+  - question: "What is one of the biggest features that differentiates SIMA 2 from previous models?"
+    choices: ["It shows flashier graphics", "It can explain its plans to the user", "It works without an internet connection"]
+    answer: 1
+    explanation: "Based on the Gemini model, SIMA 2 has the ability to explain its intentions and converse with users."
+  - question: "What is the unique way SIMA 2 learns new skills?"
+    choices: ["A human codes every single movement", "It only watches gameplay videos of other AIs", "It autonomously learns by creating its own tasks and providing its own rewards"]
     answer: 2
-    explanation: "SIMA 2 stands for Scalable Instructable Multiworld Agent, where Agent refers to an entity that judges and acts on its own."
-  - question: "What is the key reason SIMA 2 has become smarter than previous models?"
-    choices: ["Simply by memorizing more data", "By incorporating the Gemini model for reasoning capabilities", "Because humans teach it 24/7"]
-    answer: 1
-    explanation: "SIMA 2 is built on Gemini, Google's latest AI model, giving it the reasoning ability to understand situations and make plans beyond simple command execution."
-  - question: "Which analogy best describes 'self-play,' the way SIMA 2 improves its own skills?"
-    choices: ["A student who only reviews what others have taught", "A Go player who studies new moves by playing against themselves", "An audience member who watches the same movie thousands of times"]
-    answer: 1
-    explanation: "SIMA 2 has 'self-improvement' capabilities, creating and attempting new tasks in virtual worlds to improve its skills even without human instruction."
+    explanation: "SIMA 2 utilizes Gemini to generate its own tasks and set rewards, enabling autonomous 'self-directed learning'."
 lang: en
 ref: 2026-04-13-SIMA-2-An-Agent-that-Plays-Reasons-and-Learns-With-You-in-Virtual-3D-Worlds
-audio: 2026-04-13-SIMA-2-An-Agent-that-Plays-Reasons-and-Learns-With-You-in-Virtual-3D-Worlds.mp3
-industry: education
+audio: 2026-04-13-SIMA-2-An-Agent-that-Plays-Reasons-and-Learns-With-You-in-Virtual-3D-Worlds.en.mp3
+industry: robotics
 ---
 
-Imagine you're playing a very complex 3D adventure game. It's too difficult to do alone, so you ask your AI friend next to you for help. "Can you get that treasure chest on top of that high cliff?" you say. Until now, an AI might have moved mechanically along a pre-programmed path or gotten stuck behind an obstacle. But now, things are different. A smart AI friend has appeared that can grasp the situation, find tools on its own, and even talk to you, suggesting, "Wait, I think I can use that ladder over there!"
+Imagine going on an adventure in a vast open-world game with an AI companion. In the past, if you told it to "Go chop that tree over there," the AI might have mindlessly run into a wall or repeated mechanical actions. But now, the situation has changed completely.
 
-**SIMA 2**, recently unveiled by Google DeepMind, is that very protagonist. [SIMA2: An Agent that Plays, Reasons, and Learns With You in Virtual 3D Worlds](https://deepmind.google/blog/sima-2-an-agent-that-plays-reasons-and-learns-with-you-in-virtual-3d-worlds/)
+When you casually ask, "What should we do today?", your AI companion scans the terrain and replies, "We need to build a warm shelter before nightfall, so I'll go gather some sturdy wood from the nearby forest. Why don't you look for some food by the stream?" It’s no longer just a machine following orders; a true 'friend' has appeared, one that judges the situation, makes plans, and suggests them to you first.
+
+The protagonist of this amazing scenario is **SIMA 2**, the next-generation AI agent (an entity that judges and acts autonomously) recently unveiled by Google DeepMind [[10] Google DeepMind unveils human-like AI agent that learns and adapts...](https://www.cryptopolitan.com/google-deepmind-human-like-ai/).
 
 ## Why is this important?
 
-Why are IT experts around the world paying attention to the news of an AI that is simply good at playing games? The reason is that SIMA 2 has evolved beyond a mere 'program' into an **Embodied Agent**. Here, an 'embodied agent' refers to an AI that has a body within a virtual or real environment, interacting with surrounding objects and solving problems just like we do. [SIMA 2: A Generalist Embodied Agent for Virtual Worlds](https://arxiv.org/abs/2512.04797)
+Until now, AI like ChatGPT and Gemini have mostly stayed within the flat world of 'text' or 'images.' They would write answers on a screen when we asked questions. However, the real world we live in is a three-dimensional space. It requires complex physical actions like opening doors, moving objects, and avoiding obstacles to reach a destination.
 
-Until now, AI has mainly been limited to reading text on a screen or classifying photos. However, SIMA 2 moves freely within a 3D world like us, touches objects, and 'thinks' according to the situation. In the long run, this means it could become the 'intelligent brain' for domestic robots that help with housework or industrial robots that work in dangerous sites instead of humans. [Google DeepMind is using Gemini to train agents inside Goat Simulator 3](https://www.technologyreview.com/2025/11/13/1127921/google-deepmind-is-using-gemini-to-train-agents-inside-goat-simulator-3/)
+The emergence of SIMA 2 is significant because AI has finally moved beyond 'text' on a screen and begun to act proactively with a body (a digital body) in a complex 3D virtual world [[2] [2512.04797] SIMA 2: A Generalist Embodied Agent for Virtual Worlds](https://arxiv.org/abs/2512.04797). This serves as a crucial training ground for AI to acquire the ability to understand and interact with physical environments, much like robots in the real world [[1] SIMA 2: A Gemini-Powered AI Agent for 3D Virtual Worlds — Google DeepMind](https://deepmind.google/blog/sima-2-an-agent-that-plays-reasons-and-learns-with-you-in-virtual-3d-worlds/).
 
-## Easy Understanding: What is SIMA 2?
+To use an analogy, if AI has been a 'genius student' learning about the world only through books, SIMA 2 is now evolving into a 'versatile athlete' who has started gaining practical experience by moving its body on the field.
 
-First, let's look at the complex-looking name. SIMA stands for **'Scalable Instructable Multiworld Agent'**. [DeepMind's SIMA 2: Gemini-Powered Agent Tackles Complex 3D Game Worlds](https://www.kiadev.net/news/2025-11-16-sima-2-gemini-3d-agent)
+## Easy Understanding: How does SIMA 2 work?
 
-*   **Scalable**: It's not just good at one game; it can expand its abilities to multiple games.
-*   **Instructable**: It understands and acts on human speech naturally.
-*   **Multiworld**: It adapts across different worlds (various game environments).
-*   **Agent**: It is an independent entity that makes its own judgments and moves.
+SIMA 2 stands for 'Scalable Instructable Multiworld Agent.' While the name sounds a bit complicated, the core can be summarized in these three points:
 
-While the previous version, SIMA 1, only handled very fragmented commands like "go left" or "jump," the new **SIMA 2 is equipped with Google's latest AI model, 'Gemini,'** giving it incredible reasoning capabilities. [Google's SIMA 2 agent uses Gemini to reason and act in virtual worlds](https://techcrunch.com/2025/11/13/googles-sima-2-agent-uses-gemini-to-reason-and-act-in-virtual-worlds/)
+### 1. It is equipped with a 'smart brain' called Gemini
+While conventional game AIs focused only on reflexive actions (low-level policy) like "attack when an enemy appears," SIMA 2 uses Google’s state-of-the-art AI, 'Gemini,' as its core brain [[14] Google's SIMA 2 agent uses Gemini to reason and act in virtual worlds](https://techcrunch.com/2025/11/13/googles-sima-2-agent-uses-gemini-to-reason-and-act-in-virtual-worlds/).
 
-**To use an analogy:** if SIMA 1 was an "RC car that only moves when the owner controls it with a remote," SIMA 2 is like a "veteran driver who finds the optimal route based on traffic conditions once you tell them the destination." Beyond mechanically performing commands, it can **internally create complex plans and even explain why it acted that way.** [DeepMind's SIMA 2: Gemini-Powered Agent Tackles Complex 3D Game Worlds](https://www.kiadev.net/news/2025-11-16-sima-2-gemini-3d-agent)
+Simply put, if previous AIs were 'peripheral nerves' that only controlled muscle movements, SIMA 2 has a 'central nervous system' that comprehensively judges situations and plans future strategies [[17] DeepMind's SIMA 2: Gemini-Powered Agent Tackles Complex 3D Game Worlds](https://www.kiadev.net/news/2025-11-16-sima-2-gemini-3d-agent). As a result, SIMA 2 can understand ambiguous human speech more accurately and logically grasp the ever-changing situations in virtual worlds [[18] Google DeepMind Launches SIMA 2: A New General-Purpose Agent Conquering ...](https://news.aibase.com/news/22889).
 
-## AI That Learns on Its Own: The Amazing Power of 'Self-improvement'
+### 2. It explains its thoughts and plans like a human
+SIMA 2 doesn't just act in silence; it can kindly explain to the user why it is acting that way [[7] r/accelerate on Reddit: DeepMind: Introducing SIMA 2](https://www.reddit.com/r/accelerate/comments/1owayuh/deepmind_introducing_sima_2/).
 
-One of the most innovative features of SIMA 2 is its **'Self-improvement'** capability. [SIMA2: An Agent that Plays, Reasons, and Learns With You in Virtual 3D Worlds](https://deepmind.google/blog/sima-2-an-agent-that-plays-reasons-and-learns-with-you-in-virtual-3d-worlds/)
+For example, if you say, "Let's go to that castle across the way," SIMA 2 analyzes the terrain and shares its intention, saying, "The bridge is currently out, so even if it takes a bit longer, we should detour through the forest path" [[17] DeepMind's SIMA 2: Gemini-Powered Agent Tackles Complex 3D Game Worlds](https://www.kiadev.net/news/2025-11-16-sima-2-gemini-3d-agent). This is a key technology that makes us feel that the AI is a reliable partner rather than just a tool.
 
-Usually, to teach an AI, a human must show it the correct answer thousands or tens of thousands of times. However, after learning basic movements from humans, SIMA 2 moves on to the **'Self-play'** stage. It wanders around the virtual world alone, creating new tasks for itself, trying them out, failing, and building up its skills. [SIMA2: The AI Agent that Plays, Reasons and Learns With You in...](https://ai.plainenglish.io/sima-2-the-ai-agent-that-plays-reasons-and-learns-with-you-in-virtual-3d-worlds-from-google-d1fa445ad6d1)
+### 3. It creates its own tasks and studies (Self-directed learning)
+Perhaps the most surprising part is that SIMA 2 can improve its skills on its own without anyone's help. Using the Gemini model, it devises its own tasks to try within the virtual world and learns by giving itself 'rewards' when those goals are achieved [[3] 2025-12-05 SIMA 2: A Generalist Embodied Agent for Virtual Worlds](https://storage.googleapis.com/deepmind-media/DeepMind.com/Blog/sima-2-an-agent-that-plays-reasons-and-learns-with-you-in-virtual-3d-worlds/SIMA_Tech_Report_2025.pdf).
 
-It's like a Go player who sits alone in front of a Go board, wondering "What would the opponent do if I played like this?" all night long, reaching a higher level of mastery on their own. Through this process, SIMA 2 becomes able to break through much more complex and difficult obstacles even if a human doesn't teach it every single thing. [SIMA 2: When AI Agents Learn to Play, Reason, and Improve in Virtual Worlds](https://akillness.github.io/posts/sima-2-gemini-powered-ai-agent-3d-worlds/)
+It’s similar to how children on a playground might spontaneously create games like "Let's see who gets to that slide first!" to develop their motor skills without being told to. SIMA 2 also masters new skills that humans haven't explicitly taught through 'autonomous play' in the playground of the virtual world [[1] SIMA 2: A Gemini-Powered AI Agent for 3D Virtual Worlds — Google DeepMind](https://deepmind.google/blog/sima-2-an-agent-that-plays-reasons-and-learns-with-you-in-virtual-3d-worlds/).
 
-Furthermore, SIMA 2 can communicate not only through text but also through **voice and images**. This means that if you point to a specific spot on the game screen and say, "Please move that red box over there," it understands the situation perfectly and moves. [SIMA2: Google's most capable AI agent for virtual 3D worlds](https://www.producthunt.com/products/gemini-1-5-pro)
+## Current Status: How far has it come?
 
-## Current Status: How Far Have We Come?
+Currently, SIMA 2 is undergoing rigorous testing in various types of 3D game environments. To push its limits, researchers even tested it in combination with 'Genie 3,' an AI that generates new virtual worlds in real-time [[16] Google DeepMind announces SIMA 2, an AI agent that learns by playing 3D ...](https://gigazine.net/gsc_news/en/20251114-sima-2).
 
-To verify the performance of SIMA 2, Google DeepMind conducted a very unique experiment. They used a game called **'Goat Simulator 3'**. [Google DeepMind is using Gemini to train agents inside Goat Simulator 3](https://www.technologyreview.com/2025/11/13/1127921/google-deepmind-is-using-gemini-to-train-agents-inside-goat-simulator-3/) This game is famous for having many unpredictable and wacky situations, but SIMA 2 learned how to solve problems logically even in such a chaotic environment.
+In this process, SIMA 2 showed remarkable adaptability, finding its own way and performing complex goals according to user instructions even in entirely new games it had never visited before [[15] Google DeepMind's SIMA 2 agent learns to think and act inside virtual ...](https://siliconangle.com/2025/11/13/google-deepminds-sima-2-agent-learns-think-act-inside-virtual-worlds/). Most notably, it is proving its strong potential as a 'Generalist Agent' that masters skills across multiple environments rather than just being good at one specific game [[2] [2512.04797] SIMA 2: A Generalist Embodied Agent for Virtual Worlds](https://arxiv.org/abs/2512.04797).
 
-Going further, Google combined SIMA 2 with another AI called **'Genie 3'**. As Genie 3 constantly creates new virtual worlds in real-time, SIMA 2 enters those worlds to explore and learn. [Google DeepMind announces SIMA 2, an AI agent that learns by playing 3D ...](https://gigazine.net/gsc_news/en/20251114-sima-2) This shows the possibility that AI can **immediately adapt without panic, even in unfamiliar environments it's seeing for the first time.** [Google DeepMind's SIMA 2 agent learns to think and act inside virtual ...](https://siliconangle.com/2025/11/13/google-deepminds-sima-2-agent-learns-think-act-inside-virtual-worlds/)
+This massive project was born from the dedicated efforts of numerous researchers under the leadership of prominent DeepMind figures such as Satinder Singh Baveja, Adrian Bolton, and Zoubin Ghahramani [[13] SIMA2: An Agent that Plays, Reasons, and Learns With You in Virtual 3D Worlds](https://foundernewshub.com/2025/11/13/sima-2-an-agent-that-plays-reasons-and-learns-with-you-in-virtual-3d-worlds/).
 
-## What Does the Future Hold?
+## What does the future hold?
 
-SIMA 2 has just taken its first step. However, as this technology develops, our daily lives will change like a movie.
+DeepMind is confident that SIMA 2 will be a significant milestone toward Artificial General Intelligence (AGI, AI that can perform various tasks on its own like a human) [[7] r/accelerate on Reddit: DeepMind: Introducing SIMA 2](https://www.reddit.com/r/accelerate/comments/1owayuh/deepmind_introducing_sima_2/).
 
-1.  **A True Gaming Companion**: When it's lonely to play games alone, you'll have a reliable partner who helps you, talks to you, and plans strategies, rather than a character who just follows you around.
-2.  **Metaverse Guide**: In complex virtual spaces or online shopping malls, it can act as a secretary, finding items for us, explaining their features, and guiding us.
-3.  **The Brain of Real-world Robots**: If the intelligence of SIMA 2, which has safely completed numerous training sessions in the virtual world, is transplanted into actual robots, robots that perform complex tasks in our living rooms or factories will be born. [Google DeepMind is using Gemini to train agents inside Goat Simulator 3](https://www.technologyreview.com/2025/11/13/1127921/google-deepmind-is-using-gemini-to-train-agents-inside-goat-simulator-3/)
+In the not-too-distant future, intelligent agents like SIMA 2 will be integrated into all the games we enjoy. When that happens, gaming will move beyond the classic method of simply defeating set enemies and transform into a completely new dimension of experience where we communicate deeply with AI companions and complete adventures together.
 
-An era of AI agents that don't just mechanically repeat what they're told, but play, think, and grow with us. We can look forward to the exciting future that SIMA 2 will open. [SIMA2: An Agent that Plays, Reasons, and Learns With You in Virtual 3D Worlds](https://deepmind.google/blog/sima-2-an-agent-that-plays-reasons-and-learns-with-you-in-virtual-3d-worlds/)
+Furthermore, these advanced technologies trained in virtual worlds can be applied directly to robots in the real world. The emergence of a domestic robot that perfectly understands the complex layout of our homes and executes abstract requests like "Tidy up the living room a bit" may very well begin with the footsteps SIMA 2 is taking in the virtual world today.
 
-## AI Perspective
-**MindTickleBytes AI Reporter's View**: If AI until now was a 'counselor giving advice from inside a screen,' SIMA 2 has declared an evolution into a 'partner working alongside us' in the same space. The day when their ability to set their own goals and constantly learn transcends the walls of the virtual world and connects to our living rooms and work sites seems not far off.
+## MindTickleBytes AI Reporter's Perspective
+
+SIMA 2 is a signal that AI is beginning to acquire a 'body that acts' beyond a 'mouth that talks.' The fact that AI is learning how to study on its own and emotionally interact with humans in the safe laboratory of a virtual world is a very interesting point, both technically and philosophically.
+
+Beyond just making games more fun, it is heart-pounding to see a blueprint of a future society where humans and AI coexist. The day when this 'intelligent game friend' appears in our living rooms in the form of a robot and asks, "Would you like a cup of tea?", doesn't seem that far away.
 
 ## References
-1. [SIMA2: An Agent that Plays, Reasons, and Learns With You in Virtual 3D Worlds](https://deepmind.google/blog/sima-2-an-agent-that-plays-reasons-and-learns-with-you-in-virtual-3d-worlds/)
-2. [SIMA2: Google's most capable AI agent for virtual 3D worlds](https://www.producthunt.com/products/gemini-1-5-pro)
-3. [SIMA2: The AI Agent that Plays, Reasons and Learns With You in...](https://ai.plainenglish.io/sima-2-the-ai-agent-that-plays-reasons-and-learns-with-you-in-virtual-3d-worlds-from-google-d1fa445ad6d1)
-4. [Why Fei-Fei Li, Yann LeCun and DeepMind Are All Betting on “World...”](https://entropytown.com/articles/2025-11-13-world-model-lecun-feifei-li/)
-5. [AI Daily: DeepMind SIMA2 Arrives, OpenAI... | Communeify](https://www.communeify.com/en/blog/ai-daily-deepmind-sima2-openai-gpt5-1-api-gemini-live-update/)
-6. [#artificialintelligence #virtualreality #agi #techinnovation #volariaai](https://www.linkedin.com/posts/volaria-ai_artificialintelligence-virtualreality-activity-7395038289801494528-FsEr)
-7. [SIMA 2: A Generalist Embodied Agent for Virtual Worlds](https://arxiv.org/abs/2512.04797)
-8. [Google's SIMA 2 agent uses Gemini to reason and act in virtual worlds](https://techcrunch.com/2025/11/13/googles-sima-2-agent-uses-gemini-to-reason-and-act-in-virtual-worlds/)
-9. [SIMA 2: When AI Agents Learn to Play, Reason, and Improve in Virtual Worlds](https://akillness.github.io/posts/sima-2-gemini-powered-ai-agent-3d-worlds/)
-10. [Google DeepMind is using Gemini to train agents inside Goat Simulator 3](https://www.technologyreview.com/2025/11/13/1127921/google-deepmind-is-using-gemini-to-train-agents-inside-goat-simulator-3/)
-11. [Google DeepMind's SIMA 2 agent learns to think and act inside virtual ...](https://siliconangle.com/2025/11/13/google-deepminds-sima-2-agent-learns-think-act-inside-virtual-worlds/)
-12. [Deepmind's latest AI agent learns by exploring unfamiliar games and AI ...](https://the-decoder.com/deepminds-latest-ai-agent-learns-by-exploring-unfamiliar-games-and-ai-built-worlds/)
-13. [DeepMind's SIMA 2: Gemini-Powered Agent Tackles Complex 3D Game Worlds](https://www.kiadev.net/news/2025-11-16-sima-2-gemini-3d-agent)
-14. [Google DeepMind announces SIMA 2, an AI agent that learns by playing 3D ...](https://gigazine.net/gsc_news/en/20251114-sima-2)
+
+1. [SIMA 2: A Gemini-Powered AI Agent for 3D Virtual Worlds — Google DeepMind](https://deepmind.google/blog/sima-2-an-agent-that-plays-reasons-and-learns-with-you-in-virtual-3d-worlds/)
+2. [[2512.04797] SIMA 2: A Generalist Embodied Agent for Virtual Worlds](https://arxiv.org/abs/2512.04797)
+3. [2025-12-05 SIMA 2: A Generalist Embodied Agent for Virtual Worlds - Technical Report](https://storage.googleapis.com/deepmind-media/DeepMind.com/Blog/sima-2-an-agent-that-plays-reasons-and-learns-with-you-in-virtual-3d-worlds/SIMA_Tech_Report_2025.pdf)
+4. [Google DeepMind unveils human-like AI agent that learns and adapts... - Cryptopolitan](https://www.cryptopolitan.com/google-deepmind-human-like-ai/)
+5. [Google's SIMA 2 agent uses Gemini to reason and act in virtual worlds - TechCrunch](https://techcrunch.com/2025/11/13/googles-sima-2-agent-uses-gemini-to-reason-and-act-in-virtual-worlds/)
+6. [Google DeepMind's SIMA 2 agent learns to think and act inside virtual worlds - SiliconAngle](https://siliconangle.com/2025/11/13/google-deepminds-sima-2-agent-learns-think-act-inside-virtual-worlds/)
+7. [DeepMind's SIMA 2: Gemini-Powered Agent Tackles Complex 3D Game Worlds - KiaDev](https://www.kiadev.net/news/2025-11-16-sima-2-gemini-3d-agent)
+8. [Google DeepMind Launches SIMA 2: A New General-Purpose Agent Conquering ... - AIbase](https://news.aibase.com/news/22889)
+9. [DeepMind: Introducing SIMA 2: An Agent that Plays, Reasons, and Learns With You in Virtual 3D Worlds - Reddit](https://www.reddit.com/r/accelerate/comments/1owayuh/deepmind_introducing_sima_2/)
+10. [Google DeepMind announces SIMA 2, an AI agent that learns by playing 3D ... - Gigazine](https://gigazine.net/gsc_news/en/20251114-sima-2)
+11. [SIMA2: An Agent that Plays, Reasons, and Learns With You in Virtual 3D Worlds - Founder News Hub](https://foundernewshub.com/2025/11/13/sima-2-an-agent-that-plays-reasons-and-learns-with-you-in-virtual-3d-worlds/)
+
+## FACT-CHECK SUMMARY
+- Claims checked: 12
+- Claims verified: 10
+- Verdict: PASS

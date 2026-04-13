@@ -1,103 +1,101 @@
 ---
 layout: post
-title: "从听话的‘工具’到自主工作的‘伙伴’，谷歌 Gemini 2.0 开启的新时代"
-description: "简明扼要地介绍谷歌下一代 AI 模型 Gemini 2.0 以及智能体时代的开始。"
-summary: "谷歌发布的 Gemini 2.0 不仅仅是一个对话式 AI，更是一个具有里程碑意义的模型，它开启了能够自主判断和行动的‘AI 智能体’时代。"
-tags: [谷歌, Gemini, AI智能体, 人工智能, 多模态]
+title: "谷歌 Gemini 2.0 登场：AI 不再只是“动口”的助手，而是开始“行动”的代理人"
+description: "深入浅出地为您解读谷歌新一代 AI 模型 Gemini 2.0 开启的“代理人时代”，以及原生多模态、工具调用能力等核心功能。"
+summary: "谷歌发布了迄심更为强大的模型 Gemini 2.0，拉开了 AI 自主判断并利用工具完成任务的“代理人时代”序幕。"
+tags: [Gemini 2.0, 谷歌AI, 代理人AI, 人工智能, IT趋势]
 image: 2026-04-13-Introducing-Gemini-20-our-new-AI-model-for-the-agentic-era.jpg
-image_alt: "展现谷歌新 AI 模型 Gemini 2.0 与各种工具交互并自主执行任务的构想图"
+image_alt: "象征谷歌新 AI 模型 Gemini 2.0 作为与多种工具连接并采取行动的代理人形象图"
 reporter: "MindTickleBytes AI"
 news_type: "Knowledge"
-ai_opinion: "Gemini 2.0 是一个重大的转折点，标志着 AI 已从单纯的信息提供者进化为深度参与我们实际工作和生活的‘智能体’。"
+ai_opinion: "从单纯的对话型 AI 进化为能将用户意图转化为实际行动的“代理人”，将从根本上改变我们与技术互动的方式。"
 quiz:
-  - question: "与之前的 Gemini 1.5 Pro 相比，Gemini 2.0 Flash 的速度有多快？"
-    choices: ["水平相当", "快约 1.5 倍", "快两倍 (2x)"]
-    answer: 2
-    explanation: "Gemini 2.0 Flash 的速度比之前最优秀的模型 Gemini 1.5 Pro 快两倍。"
-  - question: "Gemini 2.0 强调的‘Agentic（智能体）’一词最接近的含义是什么？"
-    choices: ["能够翻译更多语言的能力", "在用户监督下自主判断并执行任务的能力", "能够生成更精细图像的能力"]
+  - question: "Gemini 2.0 与之前模型相比，最大的区别之一是什么？"
+    choices: ["仅提升了文本回答速度", "能直接生成图像和音频的“原生多模态”功能", "仅展示搜索结果"]
     answer: 1
-    explanation: "智能体 AI 是指能够理解上下文，并在用户监督下自主判断并完成复杂任务的模型。"
-  - question: "在 Gemini 2.0 新增加的功能中，能够深入研究复杂主题并撰写包含来源报告的功能叫什么？"
-    choices: ["深度研究 (Deep Research)", "Project Astra", "多模态大师"]
+    explanation: "Gemini 2.0 具备“原生多模态”能力，可以自主生成图像和音频输出。"
+  - question: "Gemini 2.0 为了协助处理现实世界任务，可以直接使用哪些谷歌工具？"
+    choices: ["谷歌搜索和谷歌地图", "仅限 YouTube Shorts", "仅能使用计算器功能"]
     answer: 0
-    explanation: "深度研究 (Deep Research) 功能是指 AI 自主进行研究并提供包含原始资源链接的综合报告的功能。"
+    explanation: "Gemini 2.0 旨在直接利用谷歌搜索、地图等工具来执行实际任务。"
+  - question: "在 Gemini 2.0 模型中，旨在降低延迟并强化大规模性能的“实干型”模型名称是什么？"
+    choices: ["Gemini 2.0 Pro", "Gemini 2.0 Ultra", "Gemini 2.0 Flash"]
+    answer: 2
+    explanation: "Gemini 2.0 Flash 是一款提供低延迟和增强性能的“工作马（实干型）”模型。"
 lang: zh-cn
 ref: 2026-04-13-Introducing-Gemini-20-our-new-AI-model-for-the-agentic-era
+audio: 2026-04-13-Introducing-Gemini-20-our-new-AI-model-for-the-agentic-era.mp3
 ---
 
-如果说直到昨天我们遇到的 AI 还只是勉强完成指令的“聪明字典”，那么现在，一个能够代替我们思考并先行一步的“干练秘书”已经出现了。它就是谷歌雄心勃勃发布的下一代 AI 模型——**Gemini 2.0**。随着该模型的亮相，谷歌宣布我们已经超越了单纯的对话水平，正式步入了 **“智能体时代 (Agentic Era)”** [介绍 Gemini 2.0：面向智能体时代的新 AI 模型](https://blog.google/innovation-and-ai/models-and-research/google-deepmind/google-gemini-ai-update-december-2024/)。
+**想象一下。** 你在下班路上拿出手机对 AI 说：“这周末我要和朋友去济州岛旅游，帮我预订一家符合我喜好的住宿，并把位置分享给朋友。”
 
-这项新技术将如何改变我们的生活？Gemini 2.0 与以往有何不同？让我们像老朋友聊天一样，为您一一揭晓。
+以前的 AI 可能会列出一长串济州岛的住宿清单，然后回答：“请从中选择一个”。但现在情况已完全不同。谷歌雄心勃勃推出的新一代人工智能模型 **Gemini 2.0** 不再仅仅局限于展示清单，而是开始代表你查看地图、办理预订并发送消息——它开始“行动”了。
 
-## 为什么这很重要？
+谷歌将其称为 **“代理人时代 (Agentic Era)”**。[介绍 Gemini 2.0：我们面向代理人时代的新 AI 模型](https://blog.google/technology/google-deepmind/google-gemini-ai-update-december-2024/)
 
-到目前为止，我们使用的 ChatGPT 或旧版本的 Gemini 都是一种 **“工具 (Tool)”**。**打个比方**，它们就像锤子或剪刀，必须由我们握在手中，每分每秒发出“做这个”的指令，它们才会动一下。但谷歌所说的“智能体时代”的 AI，其目标是超越工具，成为 **“协作伙伴 (Collaborator)”** [介绍 Gemini 2.0：面向智能体时代的新 AI 模型](https://blog.google/innovation-and-ai/models-and-research/google-deepmind/google-gemini-ai-update-december-2024/)。
+## 这为什么很重要？ (Why It Matters)
 
-**智能体 (Agentic)** 是指“理解用户意图并能自主判断和行动的属性”。也就是说，智能体 AI 不仅仅是回答问题，它还能理解周围环境，预测未来，并在用户的监督下直接完成任务 [谷歌发布 Gemini 2.0，多模态 AI 开启“智能体时代”...](https://techeconomy.ng/google-launches-gemini-2-0-multimodal-ai-ushering-in-the-agentic-era/)。
+长期以来，我们一直把 AI 当作“聪明的词典”或“文采斐然的作家”。这是一种我们提问、它回答的单向模式。但从 Gemini 2.0 开始，AI 将成为你可靠的 **“数字代理人 (Agent)”**。
 
-**请试着想象一下：** 以前你问 AI“推荐一下济州岛的美食店”，然后得自己去查看列表；现在你可以这样说：“帮我计划下周和父母去济州岛的三天两夜旅行，并预订两家我家人会喜欢的餐厅。”接着，AI 会自行搜索、查看地图，并联动实际的预订服务完成所有过程。这就是从单纯工具到主动智能体的进化。
+什么是 **代理人 AI (Agentic AI)**？简单打个比方，这就像是只会告诉你怎么走的方向“向导”，与直接开车送你到目的地的“私人司机”之间的区别。因为 Gemini 2.0 在理解用户命令后，具备了直接利用谷歌搜索、谷歌地图等实际服务来完成复杂任务的能力。[介绍 Gemini 2.0：我们面向代理人时代的新 AI 模型 | AutomationInside.com](https://www.automationinside.com/article/introducing-gemini-2-0-our-new-ai-model-for-the-agentic-era)
 
-## 轻松理解：Gemini 2.0 的三大核心变化
+谷歌 DeepMind 首席执行官 Demis Hassabis 强调，此次发布是人工智能历史上开启“代理人 AI”新篇章的重要里程碑。[Gemini 2.0：谷歌面向代理人时代的新模型](https://www.analyticsvidhya.com/blog/2024/12/gemini-2-0/)
 
-我们可以用三个关键词来总结 Gemini 2.0 相比前代模型实现了哪些飞跃。
+## 易于理解：Gemini 2.0 的三大强力武器
 
-### 1. “思考速度翻倍”
-Gemini 2.0 系列中首先公开的是 **Gemini 2.0 Flash** [介绍 Gemini 2.0：面向智能体时代的新 AI 模型](https://blog.google/innovation-and-ai/models-and-research/google-deepmind/google-gemini-ai-update-december-2024/)。该模型最大的特点是压倒性的“反应速度”。据谷歌称，Gemini 2.0 Flash 比上一代最优秀的 Gemini 1.5 Pro **快了两倍 (2x)** [Gemini 2.0 Flash：一款极具科幻感的优秀多模态大语言模型...](https://simonwillison.net/2024/Dec/11/gemini-2/)。
+我们将通过核心功能为您解读，为什么 Gemini 2.0 是谷歌历史上最强大的模型 [Gemini 2.0：我们迄今为止最新、最强大的 AI 模型](https://blog.google/products/gemini/google-gemini-ai-collection-2024/)。
 
-**简单来说**，如果以前的 AI 还在一页页翻阅厚厚的百科全书寻找答案，Gemini 2.0 则是在眨眼间扫视完数千页内容并立即作答。速度的提升意味着我们与 AI 交流时那种特有的“机械延迟感”消失了，沟通变得像人与人对话一样实时且自然。
+### 1. 出生即全能的“原生多模态”
+以前的 AI 通常是先学习文本，之后才“额外”学习如何看图或听声。打个比方，这就像一个只会说韩语的人，后来才通过翻译机学习英语。
 
-### 2. “视、听、说三合一”
-Gemini 2.0 是 **原生多模态 (Native Multimodal)** 模型 [介绍 Gemini 2.0：面向智能体时代的新 AI 模型](https://blog.google/intl/en-nz/company-news/2024_12_introducing-gemini-20-our-new-ai-mode/)。这里的 **多模态 (Multimodal)** 是指能够同时处理文本、图像、音频、视频等多种形式信息的能力。
+但 Gemini 2.0 采用了 **原生多模态 (Native Multimodal，即同时理解并生成文本、图像、音频等多种形式数据的架构)** 设计。[Reddit 上的 r/Android：介绍 Gemini 2.0：我们面向代理人时代的新 AI 模型](https://www.reddit.com/r/Android/comments/1hbw88a/introducing_gemini_20_our-new-ai-model-for-the/)。得益于此，它无需外部工具即可自主生成图像和音频。[谷歌发布面向代理人时代的 Gemini 2.0 AI 模型](https://aistartupsnews.com/news/google-launches-gemini-2-0-ai-model-for-agentic-era/)。这意味着 AI 现在能以更立体、更直观的方式理解世界并进行沟通。
 
-重点在于“原生 (Native)”，即从诞生之初就是如此。以前 AI 要理解图片，需要一个充当“眼睛”的 AI，要说话则需要一个充当“嘴巴”的 AI，然后将它们拼凑在一起。但 Gemini 2.0 的设计是让一个“大脑”直接负责图像生成和音频输出 [谷歌 Gemini 2.0：新闻与公告 - The Keyword](https://blog.google/products-and-platforms/products/gemini/google-gemini-ai-collection-2024/)。得益于此，它生成的图像和声音更加精细和生动，没有拼凑感 [Gemini 2.0 与智能体时代 - LinkedIn](https://www.linkedin.com/pulse/gemini-20-agentic-era-google-cloud-6b9bc?tl=en)。
+### 2. 熟练使用工具的智能
+正如“使用工具”是区分人类与动物的关键特征之一，Gemini 2.0 也能自主使用工具。这在专业术语中被称为 **原生工具调用 (Native Tool Use)**。[介绍 Gemini 2.0：我们面向代理人时代的新 AI 模型](https://news.enggtalks.com/introducing-gemini-2-0-our-new-ai-model-for-the-agentic-era/)
 
-### 3. “直接使用地图和搜索的聪明才智”
-如果 AI 只在理论上聪明却不了解世事，那也没什么用。Gemini 2.0 **原生集成了 (Native tool use)** 谷歌搜索 (Google Search) 和谷歌地图 (Google Maps) 等实际服务工具，并能直接使用它们 [谷歌 Gemini 2.0：新闻与公告 - The Keyword](https://blog.google/products-and-platforms/products/gemini/google-gemini-ai-collection-2024/)。
+例如，为了回答你的问题，AI 会自主执行谷歌搜索以获取最新信息，或者打开谷歌地图计算实时路线。[谷歌发布面向代理人时代的 Gemini 2.0 AI 模型](https://aistartupsnews.com/news/google-launches-gemini-2-0-ai-model-for-agentic-era/)。这就像 AI 拥有了“手和脚”，可以亲自在互联网这个巨大的图书馆里查阅书籍，并展开真实的地图。
 
-请想象一下 AI 为了确认最新信息而自行搜索，为了找路而打开地图的样子。通过这一点，AI 超越了单纯复述过去学习数据的水平，能够基于“此时此刻”现实世界的实时信息来解决复杂问题 [谷歌推出 Gemini 2.0：以多模态创新变革 AI](https://www.azoai.com/news/20250101/Google-Unveils-Gemini-20-Transforming-AI-with-Multimodal-Innovations.aspx)。
+### 3. 更快更敏捷的实干型模型“Flash”
+性能再好，如果回答太慢，在现实生活中用起来也会觉得憋屈。谷歌在 Gemini 2.0 系列中重点推出了 **“Gemini 2.0 Flash”** 模型。
 
-## 现状：我们现在就能尝试的创新功能
+这个模型堪称“高效的实干代理人 (Workhorse)”。它在大幅降低延迟（Latency，即发出命令到做出反应的时间）的同时，仍能保持强大的性能。[介绍 Gemini 2.0：我们面向代理人时代的新 AI 模型](https://blog.google/innovation-and-ai/models-and-research/google-deepmind/google-gemini-ai-update-december-2024/)。得益于此，用户可以体验到无需等待的流畅 AI 服务。
 
-在发布 Gemini 2.0 的同时，谷歌还公开了几项我们在日常生活中非常有用的新功能。
+## 现状：来到我们身边的 Gemini 2.0
 
-- **深度研究 (Deep Research)**：用户抛出一个复杂主题后，AI 会彻底搜遍互联网进行研究，并撰写包含原始来源链接的详细报告 [Gemini：体验深度研究与 Gemini 2.0 Flash 实验版](https://blog.google/products-and-platforms/products/gemini/google-gemini-deep-research/)。这就像是把调研任务交给了一位细心的实习生。
-- **Project Astra & Mariner**：谷歌正在研究能够帮助用户执行复杂任务的 AI 智能体原型——“Project Astra”和“Project Mariner” [介绍 Gemini 2.0：面向智能体时代的新 AI 模型](https://blog.google/intl/en-nz/company-news/2024_12_introducing-gemini-20-our-new-ai-mode/)。特别是 Astra，它承载了未来型秘书的愿景，能通过智能手机摄像头与我们共同观察世界，并进行实时对话提供帮助。
+2024 年 12 月 11 日，谷歌率先向开发者和测试小组开放了 Gemini 2.0 [介绍 Gemini 2.0：我们面向代理人时代的新 AI 模型](https://blog.google/technology/google-deepmind/google-gemini-ai-update-december-2024/)。此后，在全球用户的热切关注下，服务不断扩展。从 2025 年 2 月 5 日起，所有用户都可以正式使用 Gemini 2.0 系列模型产品。[谷歌向所有人开放 Gemini 2.0，其最强大的 AI 模型... - CNBC](https://www.cnbc.com/2025/02/05/google-opens-gemini-2point0-its-most-powerful-ai-model-to-everyone.html)
 
-目前，Gemini 2.0 Flash 的实验版本已通过 Google AI Studio 等平台优先向开发者开放，预计将逐步扩展至普通用户 [谷歌最新的 AI 模型 Gemini 2.0 旨在引领“智能体时代”...](https://www.androidcentral.com/apps-software/googles-latest-ai-model-gemini-2-0-is-here-to-usher-in-the-agentic-era)。
+目前，谷歌正基于该模型不断推出各种代理人服务和创新项目。[Reddit 上的 r/Android：介绍 Gemini 2.0：我们面向代理人时代的新 AI 模型](https://www.reddit.com/r/Android/comments/1hbw88a/introducing_gemini_20_our-new-ai-model-for-the/)
 
-## 未来展望：我们的生活将如何改变？
+## 未来会怎样？ (What's Next)
 
-Gemini 2.0 的出现预示着 AI 在我们生活中扮演的角色将发生根本性转变。谷歌 DeepMind 负责人德米斯·哈萨比斯 (Demis Hassabis) 强调，该模型是真正为智能体时代设计的下一代模型 [介绍 Gemini 2.0：面向智能体时代的新 AI 模型](https://blog.google/innovation-and-ai/models-and-research/google-deepmind/google-gemini-ai-update-december-2024/)。
+Gemini 2.0 的出现将从根本上改变我们使用电脑和手机的方式。
 
-许多专家认为，AI 现在已经超越了单纯的问答机器，开始转变为能够洞察用户意图并自主处理任务的“真正合作伙伴” [介绍 Gemini 2.0：为智能体时代革命化 AI](https://www.linkedin.com/pulse/introducing-gemini-20-revolutionizing-ai-agentic-era-saurabh-anand-hcyic)。我们已经渡过了询问 AI“怎么做？”的方法论阶段，正在迈向直接要求结果的“把这个做完”的阶段 [谷歌推出 Gemini 2.0：面向智能体时代的新 AI 模型](https://hyperight.com/google-introduces-gemini-2-0-new-ai-model-for-the-agentic-era/?trk=article-ssr-frontend-pulse_little-text-block)。
+**想象一下。** 现在你不再需要学习复杂的 Excel 公式，也不需要反复出入多个旅游网站对比价格。你只需告诉像 Gemini 2.0 这样的代理人 AI 你的“目标”即可。AI 将通过谷歌搜索查找最新信息，通过地图确认位置，并代表你完美地整理结果甚至完成预订。[谷歌推出 Gemini 2.0：面向代理人时代的新 AI 模型 - hyperight.com](https://hyperight.com/google-introduces-gemini-2-0-new-ai-model-for-the-agentic-era/)
 
-当然，在这一自主过程中，人类的监督和最终确认仍将是最核心的关键要素 [谷歌发布 Gemini 2.0，多模态 AI 开启“智能体时代”...](https://techeconomy.ng/google-launches-gemini-2-0-multimodal-ai-ushering-in-the-agentic-era/)。
+谷歌梦寐以求的“万能助手 (Universal Assistant)”时代，正通过 Gemini 2.0 阔步迈入我们的日常生活。[介绍 Gemini 2.0：我们面向代理人时代的新 AI 模型](https://news.enggtalks.com/introducing-gemini-2-0-our-new-ai-model-for-the-agentic-era/)
 
 ---
 
-### MindTickleBytes AI 记者的视角
-Gemini 2.0 的意义远不止于“高性能人工智能”的出现。它吹响了 AI 代替我们实际“处理工作”的时代大转换的号角。现在，我们不仅要思考如何与 AI 交流，更要思考该把哪些有价值的事情交给 AI 这位能干的同事，并与之共同成长。我们正迎来一个令人振奋的新时代。
+### AI 的视角 (AI's Take)
+
+Gemini 2.0 的诞生不仅仅是一个“更聪明 AI”的出现，它宣告了 AI 开始拥有直接介入世界并执行任务的“执行力”。如果说以前的 AI 是回答我们问题的“知识库”，那么现在它已经成为了将我们的意图转化为现实的“执行伙伴”。这种变化不仅改变了我们与技术互动的方式，还将使工作、旅游和管理日常生活的整个过程变得更加便捷和丰富。
+
+---
 
 ## 参考资料
-1. [介绍 Gemini 2.0：面向智能体时代的新 AI 模型](https://blog.google/innovation-and-ai/models-and-research/google-deepmind/google-gemini-ai-update-december-2024/)
-2. [谷歌 Gemini 2.0 详解：你需要知道的一切](https://www.techtarget.com/WhatIs/feature/Google-Gemini-20-explained-Everything-you-need-to-know)
-3. [介绍 Gemini 2.0：面向智能体时代的新 AI 模型](https://blog.google/intl/en-nz/company-news/2024_12_introducing-gemini-20-our-new-ai-mode/)
-4. [谷歌 Gemini 2.0：新闻与公告 - The Keyword](https://blog.google/products-and-platforms/products/gemini/google-gemini-ai-collection-2024/)
-5. [Gemini 2.0 与智能体时代 - LinkedIn](https://www.linkedin.com/pulse/gemini-20-agentic-era-google-cloud-6b9bc?tl=en)
-6. [谷歌向所有人开放其最强大的 AI 模型 Gemini 2.0 - CNBC](https://www.cnbc.com/2025/02/05/google-opens-gemini-2point0-its-most-powerful-ai-model-to-everyone.html)
-7. [介绍 Gemini 2.0：为智能体时代革命化 AI](https://www.linkedin.com/pulse/introducing-gemini-20-revolutionizing-ai-agentic-era-saurabh-anand-hcyic)
-8. [谷歌推出 Gemini 2.0：面向智能体时代的新 AI 模型](https://hyperight.com/google-introduces-gemini-2-0-new-ai-model-for-the-agentic-era/?trk=article-ssr-frontend-pulse_little-text-block)
-9. [Gemini 2.0 Flash：一款极具科幻感的优秀多模态大语言模型...](https://simonwillison.net/2024/Dec/11/gemini-2/)
-10. [谷歌推出 Gemini 2.0：以多模态创新变革 AI](https://www.azoai.com/news/20250101/Google-Unveils-Gemini-20-Transforming-AI-with-Multimodal-Innovations.aspx)
-11. [谷歌最新的 AI 模型 Gemini 2.0 旨在引领“智能体时代”...](https://www.androidcentral.com/apps-software/googles-latest-ai-model-gemini-2-0-is-here-to-usher-in-the-agentic-era)
-12. [谷歌 DeepMind 最新 AI 突破：Gemini 2.0、Veo...](https://encord.com/blog/google-deepminds-ai-innovations/)
-13. [Gemini：体验深度研究与 Gemini 2.0 Flash 实验版](https://blog.google/products-and-platforms/products/gemini/google-gemini-deep-research/)
-14. [介绍 Gemini 2.0：开启 AI 的智能体时代 - YouTube](https://www.youtube.com/watch?v=UO-vTsBns6Y)
-15. [介绍 Gemini 2.0：面向智能体时代的新 AI 模型](https://www.linkedin.com/posts/gokulvanniar_introducing-gemini-20-our-new-ai-model-activity-7272985885971750913-eijn)
-16. [谷歌发布 Gemini 2.0，多模态 AI 开启“智能体时代”...](https://techeconomy.ng/google-launches-gemini-2-0-multimodal-ai-ushering-in-the-agentic-era/)
 
-## FACT-CHECK SUMMARY
-- Claims checked: 15
-- Claims verified: 15
-- Verdict: PASS
+1. [介绍 Gemini 2.0：我们面向代理人时代的新 AI 模型](https://blog.google/technology/google-deepmind/google-gemini-ai-update-december-2024/)
+2. [Reddit 上的 r/Android：介绍 Gemini 2.0：我们面向代理人时代的新 AI 模型](https://www.reddit.com/r/Android/comments/1hbw88a/introducing_gemini_20_our-new-ai-model-for-the/)
+3. [Gemini 2.0：我们面向代理人时代的新 AI 模型 - YouTube](https://www.youtube.com/playlist?list=PLqYmG7hTraZD8qyQmEfXrJMpGsQKk-LCY)
+4. [Gemini 2.0：我们迄今为止最新、最强大的 AI 模型](https://blog.google/products/gemini/google-gemini-ai-collection-2024/)
+5. [谷歌新西兰博客：介绍 Gemini 2.0：我们面向代理人时代的新 AI 模型](https://newzealand.googleblog.com/2024/12/introducing-gemini-20-our-new-ai-model.html)
+6. [谷歌推出 Gemini 2.0：面向代理人时代的新 AI 模型 - hyperight.com](https://hyperight.com/google-introduces-gemini-2-0-new-ai-model-for-the-agentic-era/)
+7. [介绍 Gemini 2.0：我们面向代理人时代的新 AI 模型 | AutomationInside.com](https://www.automationinside.com/article/introducing-gemini-2-0-our-new-ai-model-for-the-agentic-era)
+8. [介绍 Gemini 2.0：我们面向代理人时代的新 AI 模型](https://blog.google/innovation-and-ai/models-and-research/google-deepmind/google-gemini-ai-update-december-2024/)
+9. [谷歌发布面向代理人时代的 Gemini 2.0 AI 模型 | InfoWorld](https://www.infoworld.com/article/3622598/google-unveils-gemini-2-0-ai-model-for-agentic-era.html)
+10. [介绍 Gemini 2.0：我们面向代理人时代的新 AI 模型](https://news.enggtalks.com/introducing-gemini-2-0-our-new-ai-model-for-the-agentic-era/)
+11. [谷歌向所有人开放 Gemini 2.0，其最强大的 AI 模型... - CNBC](https://www.cnbc.com/2025/02/05/google-opens-gemini-2point0-its-most-powerful-ai-model-to-everyone.html)
+12. [谷歌发布面向代理人时代的 Gemini 2.0 AI 模型](https://aistartupsnews.com/news/google-launches-gemini-2-0-ai-model-for-agentic-era/)
+13. [详解 Google Gemini 2.0：你需要知道的一切](https://www.techtarget.com/WhatIs/feature/Google-Gemini-20-explained-Everything-you-need-to-know)
+14. [Gemini 2.0：谷歌面向代理人时代的新模型](https://www.analyticsvidhya.com/blog/2024/12/gemini-2-0/)
+15. [谷歌 Gemini 2.0 AI 模型提供扩展功能](https://aimagazine.com/articles/googles-gemini-2-0-ai-model-offers-expanded-capabilities)
