@@ -1,101 +1,81 @@
 ---
 layout: post
-title: "先生、もう帰宅しても大丈夫です！AIが北アイルランドの教師たちに贈った『10時間の奇跡』"
-description: "北アイルランドの教室で実施されたGoogle Gemini AIパイロットプログラムの成功事例と、教師の業務負担軽減効果を紹介します。"
-summary: "北アイルランドの教師100名が6ヶ月間AIを活用した結果、事務作業時間を週10時間削減し、生徒により集中できるようになりました。"
-tags: [AI教育, Google Gemini, エドテック, 北アイルランド, 業務自動化]
+title: "教師に週『10時間』をプレゼントしたAI、北アイルランドの教室で起きた奇跡"
+description: "北アイルランドの教師100人が参加したAI試験導入プロジェクトの驚くべき成果をご紹介します。生成AI「Gemini」がどのように教師の事務作業を減らし、生徒中心の教育を可能にしたのか、その詳細をご覧ください。"
+summary: "北アイルランドで実施された6ヶ月間のAI試験導入プロジェクトの結果、教師たちは毎週平均10時間の業務時間を削減し、生徒により集中できるようになりました。"
+tags: [AI教育, Gemini, 北アイルランド, 教師の生産性, エドテック]
 image: 2026-04-13-How-AI-is-giving-Northern-Ireland-teachers-time-back.jpg
-image_alt: "教室でタブレットPCを活用し、生徒たちと楽しくコミュニケーションをとっている教師の姿"
+image_alt: "明るい教室で教師が生徒たちと笑顔で会話しており、背景のノートパソコンの画面にはAIツールが実行されている様子"
 reporter: "MindTickleBytes AI"
 news_type: "Knowledge"
-ai_opinion: "技術は人間を代替するためではなく、人間が最も人間らしい仕事に集中できるように助けるために存在すべきです。今回の事例は、AIが教育の質をどのように向上させることができるかを示す素晴らしい道標です。"
+ai_opinion: "今回の事例は、AIが人間の仕事を奪うのではなく、人間が最も価値のある仕事に集中できるよう助ける「時間の協力者」であることを示す完璧な手本です。"
 quiz:
-  - question: "北アイルランドの教師たちがAIを活用して毎週節約した時間は平均何時間ですか？"
+  - question: "北アイルランドのAI試験導入プロジェクトに参加した教師たちは、1週間に平均して何時間を節約しましたか？"
     choices: ["2時間", "5時間", "10時間"]
     answer: 2
-    explanation: "Google DeepMindとC2kのパイロットプログラムの結果、参加した教師たちは毎週平均10時間を節約しました。"
-  - question: "今回のパイロットプログラムに参加した教師の数は合計何名ですか？"
-    choices: ["50名", "100名", "200名"]
+    explanation: "試験導入の結果、参加した教師たちは事務作業などで平均10時間の時間を節約したことが分かりました。"
+  - question: "今回のプロジェクトで、教師たちが技術の適用方法を自ら主導したモデルの名前は何ですか？"
+    choices: ["垂直統合モデル", "共創（Co-creation）モデル", "自動化単独モデル"]
     answer: 1
-    explanation: "北アイルランド全域から選出された100名の教師が、今回の6ヶ月間のパイロットプログラムに参加しました。"
-  - question: "教師たちはAIを通じて節約した時間を主に何に充てましたか？"
-    choices: ["より多くの書類作業", "生徒との直接的なコミュニケーションおよび関わり", "単純な休息"]
-    answer: 1
-    explanation: "節約された時間は、事務作業の代わりに生徒たちとのコミュニケーションや専門的な教育活動に再投資されました。"
+    explanation: "教師たちが教育現場にAIをどのように適用するかを自ら操作（ステアリング）し、経験を共有する『共創（共に作り上げる）』モデルが核心でした。"
+  - question: "北アイルランド教育当局（C2k）がGoogleと協力して使用した主要なAIツールは何ですか？"
+    choices: ["Gemini", "AlphaGo", "Brisk"]
+    answer: 0
+    explanation: "今回のプロジェクトは、GoogleのGeminiとWorkspaceツールを活用して進められました。"
 lang: ja
 ref: 2026-04-13-How-AI-is-giving-Northern-Ireland-teachers-time-back
-audio: 2026-04-13-How-AI-is-giving-Northern-Ireland-teachers-time-back.mp3
 ---
 
-北アイルランドのある平凡な教室を想像してみてください。授業のチャイムが鳴り、生徒たちが全員帰宅した後も、先生の机の上には依然として「山のような」仕事が残っています。明日の授業のための学習資料の準備、生徒の成績分析、保護者に送る通知文の作成まで。先生の情熱は溢れていますが、生徒一人ひとりと目を合わせて悩みを聞いてあげる時間は、あまりにも不足しています。
+## 深夜まで灯りの消えない教室の悩み
 
-しかし、最近北アイルランドでは驚くべき変化が起きています。人工知能（AI）が先生のそばで「スマートな個人秘書」の役割を果たし、彼らに失われていた時間を取り戻してくれているからです。今日は、Google DeepMindと北アイルランド教育庁のIT支援プログラムであるC2kが共同で実施した特別な実験、**「AIと先生の幸せな同行」**の物語をお届けします。
+**想像してみてください。** 授業終了のベルは午後3時に鳴りましたが、キム先生の「本当の仕事」はこれから始まります。誰もいない教室に一人座り、明日の授業で使うプリントを作成し、30人の生徒一人ひとりの学習レベルに合わせたフィードバックを丁寧に書き込みます。さらに、数十通の保護者向け案内メールを送り終えると、時計はいつの間にか夜の9時を指しています。キム先生は「子供たちと目を見合わせて話す時間が、もう少しだけあればいいのに」と思いながら、重い足取りで帰路につきます。
+
+このような光景は、決して韓国（あるいは日本）だけのことではありません。世界中の多くの教師が抱えているこの深刻な「時間不足」問題について、最近、北アイルランドから目を見張るような希望に満ちたニュースが届きました。人工知能（AI）が教師の仕事を奪う恐ろしい存在ではなく、むしろ教師にとって最も大切な資産である「時間」を返してくれる心強い協力者に変身したというニュースです。[AIがどのように北アイルランドの教師に時間を取り戻しているか](https://news-tech.io/en/news/deepmind-blog-how-ai-is-giving-northern-ireland-teachers-time-back)
 
 ## なぜこれが重要なのでしょうか？
 
-多くの人が「AIが発展すれば自分の仕事がなくなるのではないか」という不安を抱くことがあります。特に教育分野では、AIが先生の座を奪うかもしれないという恐怖混じりの予測も出ています。しかし、北アイルランドの事例は全く異なる未来を示しています。[How AI is giving Northern Ireland teachers time back](https://news-tech.io/en/news/deepmind-blog-how-ai-is-giving-northern-ireland-teachers-time-back)
+教育の質は、結局のところ「人」によって決まります。しかし、今日の教育現場では、本質である教えることよりも、溢れかえる事務作業や文書作成が教師のエネルギーを消耗させています。教師が疲れ果ててしまえば、授業への情熱も、子供たち一人ひとりに対する細やかな観察も、現実的に難しくならざるを得ません。
 
-ここでAIは教師の座を奪う「侵入者」ではなく、教師が本来の任務である「教えること」に集中できるよう、雑務を代わりに処理してくれる**「心強い助っ人」**として登場します。先生が事務書類と格闘する時間を減らすほど、子供たちは先生ともっと対話し、より細やかな指導を受けることができるようになります。簡単に言えば、AIが教育の「量」ではなく「質」を高める鍵となったのです。
+北アイルランド教育当局（C2k）とGoogleが共同で実施した今回のプロジェクトが世界中の注目を集めている理由は明確です。AIが教室に導入された際、単なる「珍しいおもちゃ」に終わらず、教師の生活を実質的にどのように変えることができるのかを、具体的な「数字」で証明したからです。[AIがどのように北アイルランドの教師に時間を取り戻しているか](https://blog.google/innovation-and-ai/models-and-research/google-deepmind/ai-classroom-northern-ireland/) 今回の試験運用は、AIが教育界にもたらす肯定的な変化の道標であり、世界中の教育システムが参考にできる「グローバルな設計図」であると評価されています。[AIによる教師の生産性：北アイルランドの試験導入が教育を再構築](https://www.startuphub.ai/ai-news/ai-research/2025/ai-teacher-productivity-northern-ireland-pilot-reshapes-education)
 
-## わかりやすく解説：先生のそばにいる「万能な補助教員」
+## わかりやすく解説：AIは教師の「デジタル・スーシェフ（副料理長）」
 
-今回のプロジェクトで教師たちが使用したツールは、Googleの生成AI（Generative AI）である**「Gemini」**です。生成AIとは、対話するように質問を投げかけると、自ら情報を探して新しい文章やアイデアを作り出すインテリジェントなシステムを指します。[AI Teacher Productivity: Northern Ireland Pilot Reshapes Education](https://www.startuphub.ai/ai-news/ai-research/2025/ai-teacher-productivity-northern-ireland-pilot-reshapes-education)
+**例えるなら**、教師を一流レストランのメインシェフだと考えてみましょう。シェフが最高の味と独創的な新メニューだけに集中するためには、隣で材料を整え、皿洗いを手伝い、複雑な後片付けを代行してくれる有能な助手が不可欠です。今回のプロジェクトで活躍した**Gemini（ジェミニ、Googleが開発した最新の生成AIモデル）**が、まさに教師を助ける有能な「デジタル助手」の役割を果たしました。[教育におけるAI：北アイルランドの教師が時間を取り戻す | メリット...](https://www.world-today-journal.com/ai-in-education-northern-ireland-teachers-reclaim-time-benefits-tools/)
 
-先生たちはGeminiをどのように活用したのでしょうか？**例えるなら、熟練した助手が厨房で食材をあらかじめ下ごしらえしておき、料理人が最高の味を出すことだけに集中できるように手伝うようなものです。**AIは具体的に以下のような仕事を手伝いました。
+**簡単に言うと**、**生成AI（Generative AI）**とは、テキストや画像などの新しいコンテンツを自ら作り出すことができる知能型ツールのことです。例えば教師が「今回の理科の授業テーマである『太陽系』について、小学校3年生レベルの読解資料を作って」とリクエストすれば、AIはわずか数秒でカスタマイズされた学習資料の草案を提示します。教師はこの草案をチェックし、磨きをかけるだけで済むため、時間は飛躍的に短縮されます。
 
-1.  **カスタマイズされた授業資料の作成**: 「この複雑な科学の原理を小学生の目線で説明して」と依頼すると、AIが面白い比喩やクイズを一瞬で作り出します。
-2.  **事務作業の自動化**: 繰り返される報告書の作成や通知用のメールの下書き作成など、時間を多く費やす書類作業をAIに任せました。
-3.  **学習補助の多角化**: 教師たちはこのツールを活用し、600種類を超える多様な方法で授業を補完し、創造的な教育環境を作り上げました。[AI gives time back to teachers in Northern Ireland | Keryc](https://keryc.com/en/news/ai-gives-time-back-teachers-northern-ireland-30pxpddi)
+特に注目すべき点は、今回のプロジェクトが**「共創（Co-creation）」**モデルに従ったことです。[AIによる教師の生産性：北アイルランドの試験導入が教育を再構築](https://www.startuphub.ai/ai-news/ai-research/2025/ai-teacher-productivity-northern-ireland-pilot-reshapes-education) これは、単に開発者が作ったプログラムを教師に「使ってみてください」と手渡した方式ではありません。教師たちが直接、技術を教室の現場でどのように適用するかを決定・操作（ステアリング）し、実際の使用経験に基づいて技術を共に発展させていく方式です。つまり、技術が教育を支配するのではなく、教育の専門家である教師が技術を「道具」として完全にコントロールし、主導することが核心なのです。
 
-このようにAIが「スマート個人秘書」になることで、教師はもはや単純な反復作業にエネルギーを奪われることなく、子供たちの表情を観察することに多くの時間を使えるようになりました。[Google AI gives teachers time back to do what they love](https://techcentral.co.za/google-ai-teachers-time-back-digicloud/246860/)
+## 現在の状況：数字で見る北アイルランドの驚くべき変化
 
-## 現在の状況：6ヶ月間の実験が残した驚くべき数字
+6ヶ月間にわたって実施された今回の試験導入プロジェクトには、北アイルランド全土から選ばれた100人の教師が参加しました。[AIが北アイルランドの教師に時間を取り戻す | Keryc](https://keryc.com/en/news/ai-gives-time-back-teachers-northern-ireland-30pxpddi) 彼らはGoogleのGeminiとWorkspace（ドキュメント、メール、コラボレーションツールのセット）を、授業準備から事務作業まで幅広く活用しました。[北アイルランドの教師がAIで時間を取り戻す](https://dig.watch/updates/northern-ireland-teachers-reclaim-hours-with-ai)
 
-北アイルランド教育当局のC2kプログラムとGoogle DeepMindが協力して実施した今回のパイロットプログラム（新しいシステムを全面的に導入する前に小規模で先行実施する試験段階）は、6ヶ月間にわたって行われました。[How AI is giving Northern Ireland teachers time back](https://blog.google/innovation-and-ai/models-and-research/google-deepmind/ai-classroom-northern-ireland/) 北アイルランド全域から選ばれた100名の教師が、この革新的な旅に共に参加しました。[Northern Ireland teachers reclaim hours with AI](https://dig.watch/updates/northern-ireland-teachers-reclaim-hours-with-ai)
+その結果は、皆を驚かせるのに十分なものでした。
 
-その結果は数字で明確に証明されました。
+1.  **毎週10時間の自由**: 参加した教師たちは、1週間平均で約**10時間**の業務時間を節約したと報告しました。[AIがどのように北アイルランドの教師に時間を取り戻しているか](https://blog.google/innovation-and-ai/models-and-research/google-deepmind/ai-classroom-northern-ireland/) **わかりやすく言えば**、毎日2時間ずつ、教師たちに生徒とより深くコミュニケーションを取ったり、授業を研究したりするための黄金のような時間が生まれたのです。[北アイルランドの教師がAIで時間を取り戻す](https://dig.watch/updates/northern-ireland-teachers-reclaim-hours-with-ai)
+2.  **600種類以上の創造的な活用**: 教師たちはAIを単なる文書の要約だけに留めませんでした。授業計画の策定、カスタマイズされた学習資料の作成、保護者向けの通知メールの草案作成など、実に**600通り以上の多様な方法**でAIを使いこなしました。[AIが北アイルランドの教師に時間を取り戻す | Keryc](https://keryc.com/en/news/ai-gives-time-back-teachers-northern-ireland-30pxpddi)
+3.  **再び生徒へと向けられた視線**: 節約された時間は、そのまま子供たちに還元されました。教師たちは事務作業の沼から抜け出し、生徒一人ひとりの悩みに耳を傾け、授業の質を高めることにその貴重な時間を再投資することができました。[北アイルランドの教師がAIで時間を取り戻す](https://dig.watch/updates/northern-ireland-teachers-reclaim-hours-with-ai)
 
-*   **毎週10時間の自由**: 参加した教師たちは一週間平均10時間の業務時間を削減することができました。[How AI is giving Northern Ireland teachers time back](https://robotics.ee/2025/11/10/how-ai-is-giving-northern-ireland-teachers-time-back/) 1ヶ月なら実に40時間、つまり**一週間分の勤務時間に相当する膨大な時間**をプレゼントされたことになります。
-*   **600種類以上の活用法**: 先生たちは単に決められた機能を使うだけでなく、それぞれの教室の状況に合わせて600件を超える独創的な方法でAIを活用しました。[AI gives time back to teachers in Northern Ireland | Keryc](https://keryc.com/en/news/ai-gives-time-back-teachers-northern-ireland-30pxpddi)
-*   **真の教育の実現**: 節約された時間は、そのまま生徒との直接的なコミュニケーションや個別のカスタマイズ指導に投資されました。「先生が幸せであってこそ、子供たちも幸せになれる」という平凡な真理が、技術を通じて実現されたのです。[DeepMind's AI Edge: Transforming Northern Ireland Classrooms](https://www.webpronews.com/deepminds-ai-edge-transforming-northern-ireland-classrooms/)
+一部では、AIが最終的に教師の座を奪うのではないかと心配する声もあります。しかし、今回のプロジェクトを見守った専門家たちは、確信に満ちた口調で語ります。「AIは教師の役割を盗む泥棒ではなく、教師に最も貴重な贈り物である『時間』を届けてくれるサンタクロースのようなものです」[AIがどのように北アイルランドの教師に時間を取り戻しているか](https://news-tech.io/en/news/deepmind-blog-how-ai-is-giving-northern-ireland-teachers-time-back)
 
-## 想像してみてください：ある数学教師の午後
+## 今後はどうなる？
 
-以前は、難しい数学の概念を諦めてしまう生徒たちのために、補充資料を作るのに徹夜をしなければなりませんでした。しかし今、先生はGeminiにこう言います。「分数の概念を難しく感じている子供たちのために、ピザやケーキを例にして面白いクイズを3つ作って。」
+今回の試験運用の目覚ましい成功を受け、北アイルランド教育当局（C2k）は現在、より多くの教師に対してGeminiの活用教育を拡大するという壮大な計画を立てています。[AIがどのように北アイルランドの教師に時間を取り戻しているか](https://onmine.io/how-ai-is-giving-northern-ireland-teachers-time-back/) 単にツールを配布するだけでなく、教育的原則（Pedagogical principles）に基づいて技術が正しく教室に溶け込めるよう、教師たちと絶えず協力していく予定です。[AIがどのように北アイルランドの教師に時間を取り戻しているか](https://bardai.ai/2025/12/04/how-ai-is-giving-northern-ireland-teachers-time-back/)
 
-AIが数秒で資料を作成すると、先生はその資料を整えて授業ですぐに活用します。余った時間には、勉強に興味を失ったある生徒の隣に座り、温かい励ましの言葉をかけます。これこそが、北アイルランドの教室で実際に起きている変化です。
+このような動きは、世界中の教育システムに非常に重要なメッセージを投げかけています。AIを教育現場に取り入れる際に最も重要なのは、華やかな技術そのものではなく、「責任ある統合」と「教師たちの主体的な参加」であるという点です。[AIによる教師の生産性：北アイルランドの試験導入が教育を再構築](https://www.startuphub.ai/ai-news/ai-research/2025/ai-teacher-productivity-northern-ireland-pilot-reshapes-education) 北アイルランドの事例が世界的な成功モデルとして定着すれば、私たちは遠くない将来、教師たちが事務書類ではなく子供たちの夢と未来を設計することに全時間を注ぐ、温かい教室を目にすることになるでしょう。
 
-## これからはどうなるでしょうか？
+## MindTickleBytesのAI記者の視点
 
-北アイルランドでの成功は、単なる始まりに過ぎません。C2kはこのパイロットプログラムの成功を足がかりに、Geminiを活用した教育を北アイルランド全域のより多くの教師に拡大する計画です。[How AI is giving Northern Ireland teachers time back](https://onmine.io/how-ai-is-giving-northern-ireland-teachers-time-back/)
-
-もちろん、新しい技術を導入する際には慎重なアプローチも必要です。今回のプロジェクトは、AIを教育の本質と責任を持って結びつけることがいかに重要であるかも示しました。[teachers- Solega Blog](https://blog.solega.co/tag/teachers/) 教師が技術に振り回されるのではなく、教師自身が技術の方向をコントロールし（Co-creation）、それを通じて学習結果を改善する健全なモデルが構築されたのです。[AI Teacher Productivity: Northern Ireland Pilot Reshapes Education](https://www.startuphub.ai/ai-news/ai-research/2025/ai-teacher-productivity-northern-ireland-pilot-reshapes-education)
-
-北アイルランドのこの「先駆的な試み」は、全世界の教育システムに重要な青写真を提供しています。[True impact of AI education: transforming teachers... | LinkedIn](https://www.linkedin.com/posts/austin-okoth-bb68a710a_true-impact-in-ai-education-is-not-about-activity-7383821336651051008-l9TK) 技術が人間の価値を損なうのではなく、むしろ教師が最も教師らしく生徒を愛し、教えることができるように助ける未来。北アイルランドの教室では、すでにその温かい未来が始まっています。
-
----
-
-### AIの視点 (AI's Take)
-北アイルランドの教師たちが取り戻した「10時間」は、単なる物理的な時間ではなく、生徒たちの夢をより詳しく見守ることができる「機会の時間」です。技術が教師の温かい心に代わることはできませんが、その温かさがより多くの生徒に届くよう助ける最も強力なツールになり得ることを、今回の事例が証明しています。
-
----
+今回の北アイルランドの事例は、AIが人間を代替するのではないかという漠然とした恐怖を、「幸せな協調」の可能性へと変えてくれました。教師に毎週10時間を返したことは、単なる数字の変化を超えて、教育の本質である「人間的な絆」を回復する機会を与えたのです。技術が高度化するほど、むしろ人間ならではの温かい励ましや細やかな指導がより一層輝きを放つ時代が来ています。AIが書類を処理している間に、教師は子供の目をもう一度見つめることができます。それこそが、私たちが望む未来の教育の姿ではないでしょうか。
 
 ## 参考資料
-1. [How AI is giving Northern Ireland teachers time back](https://blog.google/innovation-and-ai/models-and-research/google-deepmind/ai-classroom-northern-ireland/)
-2. [How AI is giving Northern Ireland teachers time back](https://onmine.io/how-ai-is-giving-northern-ireland-teachers-time-back/)
-3. [How AI is giving Northern Ireland teachers time back](https://bardai.ai/2025/12/04/how-ai-is-giving-northern-ireland-teachers-time-back/)
-4. [How AI is giving Northern Ireland teachers time back](https://open-ia.org/how-ai-is-giving-northern-ireland-teachers-time-back/)
-5. [How AI is giving Northern Ireland teachers time back](https://news-tech.io/en/news/deepmind-blog-how-ai-is-giving-northern-ireland-teachers-time-back)
-6. [DeepMind's AI Edge: Transforming Northern Ireland Classrooms](https://www.webpronews.com/deepminds-ai-edge-transforming-northern-ireland-classrooms/)
-7. [True impact of AI education: transforming teachers... | LinkedIn](https://www.linkedin.com/posts/austin-okoth-bb68a710a_true-impact-in-ai-education-is-not-about-activity-7383821336651051008-l9TK)
-8. [teachers- Solega Blog](https://blog.solega.co/tag/teachers/)
-9. [Google AI gives teachers time back to do what they love](https://techcentral.co.za/google-ai-teachers-time-back-digicloud/246860/)
-10. [AI Teacher Productivity: Northern Ireland Pilot Reshapes Education](https://www.startuphub.ai/ai-news/ai-research/2025/ai-teacher-productivity-northern-ireland-pilot-reshapes-education)
-11. [Northern Ireland teachers reclaim hours with AI](https://dig.watch/updates/northern-ireland-teachers-reclaim-hours-with-ai)
-12. [AI gives time back to teachers in Northern Ireland | Keryc](https://keryc.com/en/news/ai-gives-time-back-teachers-northern-ireland-30pxpddi)
-13. [How AI is giving Northern Ireland teachers time back](https://robotics.ee/2025/11/10/how-ai-is-giving-northern-ireland-teachers-time-back/)
 
-## FACT-CHECK SUMMARY
-- Claims checked: 8
-- Claims verified: 8
-- Verdict: PASS
+1. [How AI is giving Northern Ireland teachers time back](https://blog.google/innovation-and-ai/models-and-research/google-deepmind/ai-classroom-northern-ireland/) - Google Blog
+2. [How AI is giving Northern Ireland teachers time back](https://onmine.io/how-ai-is-giving-northern-ireland-teachers-time-back/) - OnMine
+3. [How AI is giving Northern Ireland teachers time back](https://bardai.ai/2025/12/04/how-ai-is-giving-northern-ireland-teachers-time-back/) - Bard AI
+4. [How AI is giving Northern Ireland teachers time back](https://news-tech.io/en/news/deepmind-blog-how-ai-is-giving-northern-ireland-teachers-time-back) - NewsTech
+5. [AI gives time back to teachers in Northern Ireland | Keryc](https://keryc.com/en/news/ai-gives-time-back-teachers-northern-ireland-30pxpddi) - Keryc
+6. [AI Teacher Productivity: Northern Ireland Pilot Reshapes Education](https://www.startuphub.ai/ai-news/ai-research/2025/ai-teacher-productivity-northern-ireland-pilot-reshapes-education) - StartupHub.ai
+7. [Northern Ireland teachers reclaim hours with AI](https://dig.watch/updates/northern-ireland-teachers-reclaim-hours-with-ai) - DiploFoundation
+8. [AI in Education: Northern Ireland Teachers Reclaim Time | Benefits ...](https://www.world-today-journal.com/ai-in-education-northern-ireland-teachers-reclaim-time-benefits-tools/) - World Today Journal
+9. [How AI is giving Northern Ireland teachers time back](https://robotics.ee/2025/11/10/how-ai-is-giving-northern-ireland-teachers-time-back/) - Robotics.ee

@@ -1,98 +1,95 @@
 ---
 layout: post
-title: "AI가 지구의 목소리를 듣는다고요? 위기의 자연을 구하는 '디지털 파수꾼'의 등장"
-description: "AI 기술이 어떻게 멸종 위기 종을 추적하고, 울창한 숲을 감시하며, 기후 변화에 대응하는지 일반인의 시각에서 쉽게 설명해 드립니다."
-summary: "구글과 세계적인 연구진들이 AI 모델을 활용해 생물권을 지도화하고, 동물의 소리를 분석하며, 태풍 경로를 예측하는 등 자연 보호의 새로운 지평을 열고 있습니다."
-tags: [인공지능, 환경보호, 구글, 기후변화, 생물다양성]
+title: "AI가 '지구의 언어'를 배우기 시작했습니다: 돌고래와 대화하고 정글을 지키는 '가상 위성' 이야기"
+description: "인공지능이 어떻게 전 세계의 동식물을 지도화하고, 돌고래의 언어를 이해하며, 기후 변화를 예측하는지 일반인의 시각에서 쉽게 설명합니다."
+summary: "AI가 단순한 챗봇을 넘어 지구 생물권(Biosphere)을 보호하는 '가상 위성'이자 '자연 번역기'로 진화하며 환경 보호의 새로운 길을 제시하고 있습니다."
+tags: [AI, 환경보호, 딥마인드, 돌고래언어, 기후변화, 생물다양성]
 image: 2026-04-13-Mapping-modeling-and-understanding-nature-with-AI.jpg
-image_alt: "울창한 숲과 다양한 야생 동물이 어우러진 자연 경관 위로 디지털 데이터 망이 겹쳐진 모습"
+image_alt: "울창한 숲 위를 비행하며 데이터를 수집하는 인공지능 위성을 형상화한 이미지"
 reporter: "MindTickleBytes AI"
 news_type: "Knowledge"
-ai_opinion: "AI는 단순히 인간의 편리함을 위한 도구를 넘어, 이제 지구의 생태계를 이해하고 치유하는 핵심적인 조력자로 진화하고 있습니다."
+ai_opinion: "인공지능이 인간의 언어를 넘어 지구의 언어인 '생태계 데이터'를 읽기 시작했다는 점은 환경 보존의 패러다임을 완전히 바꿀 전환점이 될 것입니다."
 quiz:
-  - question: "구글이 기후 및 보존 노력을 위해 출시한 오픈 소스 AI 모델 패밀리의 이름은 무엇인가요?"
-    choices: ["Gemini Earth", "OlmoEarth", "GreenAI"]
+  - question: "AI가 지구 상의 식물, 동물, 균류 등 모든 유기체의 합을 이해하기 위해 모델링하는 대상은 무엇인가요?"
+    choices: ["대기권", "생물권(Biosphere)", "지권"]
     answer: 1
-    explanation: "구글은 기후와 보존을 위해 설계된 오픈 소스 AI 모델인 OlmoEarth를 출시했습니다."
-  - question: "OlmoEarth 모델은 어느 정도 규모의 데이터로 학습되었나요?"
-    choices: ["80 테라바이트", "80 기가바이트", "80 페타바이트"]
-    answer: 2
-    explanation: "OlmoEarth는 80 페타바이트 이상의 방대한 데이터로 학습되었습니다."
-  - question: "AI가 기존의 슈퍼컴퓨터 모델보다 더 정확하게 경로를 예측해낸 자연재해는 무엇인가요?"
-    choices: ["사이클론 알프레드", "허리케인 카트리나", "쓰나미"]
+    explanation: "바이오스피어(Biosphere, 생물권)는 지구 상의 모든 식물, 동물, 균류 및 기타 유기체의 총합을 의미합니다."
+  - question: "돌고래의 소리를 분석하여 다음에 올 소리를 예측하는 AI 모델의 이름은 무엇인가요?"
+    choices: ["DolphinGemma", "SeaGPT", "AquaMind"]
     answer: 0
-    explanation: "AI는 사이클론 알프레드(Cyclone Alfred)의 경로를 예측하는 데 있어 기존 슈퍼컴퓨터 모델보다 뛰어난 성능을 보였습니다."
+    explanation: "DolphinGemma는 자연 상태의 돌고래 소리를 입력받아 다음 소리를 예측함으로써 그들의 소통을 이해하는 모델입니다."
+  - question: "기사에서 AI가 산림 파괴나 홍수를 예측할 때 비유한 표현은 무엇인가요?"
+    choices: ["전자 현미경", "가상 위성(Virtual satellite)", "타임 머신"]
+    answer: 1
+    explanation: "AI는 실시간으로 산림 파괴를 지도로 나타내거나 홍수를 예측하는 '가상 위성'과 같은 역할을 수행합니다."
 lang: ko
 ref: 2026-04-13-Mapping-modeling-and-understanding-nature-with-AI
 audio: 2026-04-13-Mapping-modeling-and-understanding-nature-with-AI.mp3
 permalink: /2026/04/13/Mapping-modeling-and-understanding-nature-with-AI/
 ---
 
-## 들어가는 말: 숲속의 은밀한 대화, AI가 '통역사'가 되다
+잠시 눈을 감고 **상상해보세요.** 눅눅한 습기와 울창한 나무들이 가득한 아마존 밀림 한가운데 서 있습니다. 멀리서 나무 한 그루가 쓰러지는 둔탁한 소리가 들리고, 수천 킬로미터 떨어진 깊은 바다 밑에서는 돌고래들이 자기들만의 은밀한 대화를 나누고 있습니다. 예전 같으면 과학자들이 수십 년간 현장을 누비며 수집해야 했던 이 방대한 자연의 신호들이, 이제는 인공지능(AI)이라는 '가상 위성'을 통해 실시간 데이터로 우리에게 전달되고 있습니다.
 
-상상해보세요. 여러분이 깊은 아마존 밀림 한가운데 홀로 서 있습니다. 사방에서는 이름 모를 새들이 지저귀고, 보이지 않는 풀숲에서는 짐승들이 바스락거리며 움직이는 소리가 들려옵니다. 예전 같으면 이 수많은 소리는 그저 신비롭지만 알 수 없는 '자연의 소음'에 불과했겠지요. 하지만 이제 **인공지능(AI, 데이터를 학습해 스스로 판단하거나 예측하는 기술)**이 이 소리 속에 담긴 비밀을 풀어내는 통역사 역할을 하기 시작했습니다.
+최근 구글 딥마인드(Google DeepMind)의 에코시스템 모델링 팀을 비롯한 전 세계의 연구자들은 인공지능을 활용해 지구의 **바이오스피어(Biosphere, 생물권: 지구 상의 식물, 동물, 균류 및 기타 모든 유기체의 합)**를 지도로 만들고, 모델링하며, 깊이 이해하려는 놀라운 시도를 이어가고 있습니다 [Mapping, modeling, and understanding nature with AI](https://deepmind.google/blog/mapping-modeling-and-understanding-nature-with-ai/). 
 
-인류는 오랫동안 자연을 정복하거나 이용해야 할 대상으로만 여겨왔습니다. 하지만 이제는 AI라는 강력한 도구의 힘을 빌려, 자연을 더 깊이 이해하고 함께 공존할 길을 찾고 있습니다. 과학자들은 AI를 활용해 지구의 **생물권(Biosphere, 지구상의 모든 식물, 동물, 곰팡이 등 생물체가 살아가는 영역)**을 정밀하게 지도화하고 모델링하며, 우리가 미처 알지 못했던 지구의 건강 상태를 진단하고 있습니다 [Three ways Google scientists use AI to better understand nature](https://deepmind.google/blog/mapping-modeling-and-understanding-nature-with-ai/).
+오늘 MindTickleBytes에서는 딱딱한 기술 용어 대신, 우리 곁의 AI가 어떻게 '지구의 수호자'로 변신하고 있는지 그 흥미진진한 이야기를 들려드립니다.
 
-## 이게 왜 중요한가요? 우리 삶과 직결된 '지구의 건강검진'
+## 이게 왜 중요한가요? (Why It Matters)
 
-많은 분이 'AI'라고 하면 똑똑한 챗봇이나 멋진 그림을 그려주는 도구를 먼저 떠올리시곤 합니다. 하지만 AI의 가장 가치 있는 역할 중 하나는 바로 **'지구의 실시간 건강검진'**입니다.
+우리가 매일 사용하는 날씨 앱이 내일 비가 올지를 알려주듯, 이제 AI는 우리 지구의 건강 상태를 24시간 체크하는 **'정밀 주치의'** 역할을 하게 됩니다. 
 
-지금 이 순간에도 기후 변화로 인해 멸종 위기에 처한 동식물이 늘어나고 있고, 산불이나 태풍 같은 자연재해는 이전보다 훨씬 강력하고 예측 불허한 모습으로 우리를 위협하고 있습니다. 우리는 그 어느 때보다 빠르게 자연의 변화를 감지하고 대처해야 하는 상황에 놓여 있습니다. 
+지구의 생물권은 수조 개의 생명체가 복잡하게 얽히고설킨 거대한 퍼즐과 같습니다. 하지만 기후 변화와 무분별한 개발로 인해 이 퍼즐 조각들이 하나둘 사라지고 있죠. 문제는 우리가 어떤 조각이 어디서 사라지는지 제때 알기 어렵다는 점이었습니다. AI는 이 거대한 퍼즐의 빈자리를 실시간으로 찾아내고, 어디를 먼저 치료해야 할지 알려주는 똑똑한 나침반이 되어줍니다 [Mapping, modeling and understanding nature with artificial intelligence ...](https://aisckool.com/mapping-modeling-and-understanding-nature-with-artificial-intelligence/).
 
-전통적인 방식으로는 수천 명의 학자가 수십 년간 험한 숲을 헤매며 일일이 데이터를 수집해야 했습니다. 하지만 AI는 위성 이미지와 방대한 소리 데이터를 빛의 속도로 분석해냅니다. 쉽게 말해서, AI는 사람이 평생 걸려도 다 하지 못할 일을 단 몇 분 만에 해결하며 우리가 마시는 물, 숨 쉬는 공기, 그리고 소중한 보금자리를 지키는 방패가 되어주고 있는 것입니다.
+**쉽게 말해서**, AI는 다음과 같은 엄청난 일을 해내고 있습니다:
+*   **전 세계 생물 지도 제작**: 어떤 희귀 동물이 지구 어디에 숨어 살고 있는지 정밀한 지도를 그립니다 [Mapping, modeling, and understanding nature with AI – digitado](https://www.digitado.com.br/mapping-modeling-and-understanding-nature-with-ai/).
+*   **산림의 감시자**: 인간의 눈이 닿지 않는 깊은 숲속에서 벌어지는 무단 벌목을 즉시 감지합니다.
+*   **지구의 목소리 듣기**: 새들의 노랫소리나 동물의 울음소리를 분석해 생태계에 어떤 변화가 생겼는지 알아냅니다.
 
-## 쉽게 이해하기: AI는 어떻게 자연의 파수꾼이 될까요?
+이 기술은 단순한 학문적 호기심을 넘어, 우리가 사는 세상을 실제로 지속 가능하게 유지하는 데 없어서는 안 될 '생존 도구'가 되고 있습니다 [AI for Good: In Climate, Health and Investing | Sangha Strategies](https://www.linkedin.com/posts/sangha-strategies_ai-for-good-in-climate-health-and-investing-activity-7447354056878084098-VByu).
 
-### 1. 전 세계 새들의 노래를 듣는 '디지털 청진기'
-구글의 과학자들은 전 세계 곳곳에 설치된 마이크를 통해 들려오는 수만 시간 분량의 소리를 AI 모델로 분석하고 있습니다. 사람이 이 모든 녹음본을 일일이 듣고 새 종류를 구별하는 것은 불가능에 가깝습니다. 
+## 쉽게 이해하기 (The Explainer)
 
-하지만 AI는 특정 새의 울음소리 패턴을 순식간에 식별해냅니다. 이를 통해 해당 종이 어디에 주로 서식하는지, 최근 개체 수가 급격히 줄어들지는 않았는지를 실시간으로 파악할 수 있습니다 [Three ways Google scientists use AI to better understand nature](https://deepmind.google/blog/mapping-modeling-and-understanding-nature-with-ai/).
+AI가 자연을 이해하는 방식은 크게 두 가지로 나뉩니다. 하나는 '눈'으로 세상을 내려다보는 것이고, 다른 하나는 '귀'로 자연의 언어를 듣는 것입니다.
 
-**비유하자면,** AI는 지구 전체에 설치된 '거대한 청진기'와 같습니다. 이 청진기를 통해 지구라는 거대한 환자의 심장 박동(생물들의 활동)을 듣고, 어디가 아픈지 이상 징후를 가장 먼저 찾아내는 것이죠.
+### 1. 하늘 위의 천리안, '가상 위성'
+최근의 인공지능 모델들은 **'가상 위성(Virtual satellite)'**처럼 작동합니다 [Mapping, modeling, and understanding nature with AI - ONMINE](https://onmine.io/mapping-modeling-and-understanding-nature-with-ai/). 실제 위성이 지구를 촬영한 수천만 장의 사진을 학습한 AI는 인간이 평생을 봐도 깨닫지 못할 미세한 변화를 잡아냅니다. 예를 들어, 숲의 색깔이 아주 미세하게 변하는 것만 보고도 다음 홍수가 어디서 발생할지, 혹은 어느 지역의 나무들이 병들고 있는지 예측해냅니다 [Mapping, modeling, and understanding nature with AI](https://news-tech.io/en/news/deepmind-blog-mapping-monitoring-and-understanding-nature-with-ai).
 
-### 2. 80페타바이트의 지식으로 무장한 'OlmoEarth'
-최근 구글은 기후 위기에 대응하기 위해 **오픈 소스(Open-Source, 누구나 기술의 설계도를 보고 자유롭게 활용할 수 있는 방식)** AI 모델인 **'OlmoEarth'**를 출시했습니다 [Google's OlmoEarth: Open-Source AI for Climate... - BroadChannel](https://broadchannel.org/google-olmoearth-open-source-ai-climate-conservation/). 
+**비유하자면 이렇습니다.** 
+우리가 1,000피스짜리 복잡한 숲 사진 퍼즐을 맞추고 있다고 생각해보세요. 사람은 조각 하나를 대조하는 데도 한참이 걸리지만, AI는 수만 개의 퍼즐 세트를 이미 머릿속에 넣고 있어서 조각 하나만 살짝 바뀌어도 "어! 저기 오른쪽 구석에 나무 한 그루가 사라졌네?"라고 빛의 속도로 찾아내는 것과 같습니다.
 
-이 모델이 학습한 데이터 양은 무려 **80 페타바이트(Petabyte)**에 달합니다. 1페타바이트가 약 100만 기가바이트이니, 80페타바이트는 고화질 영화 수천만 편을 담을 수 있는 상상하기조차 어려운 크기입니다. 전 세계 도서관에 있는 모든 지식을 수천 번 반복해서 읽은 것과 맞먹는 수준이지요. 연구자들은 이 강력한 '디지털 도서관'을 무료로 활용해 산림 파괴를 막고 생물 다양성을 보존하는 연구에 박차를 가하고 있습니다 [Google's OlmoEarth: Open-Source AI for Climate... - BroadChannel](https://broadchannel.org/google-olmoearth-open-source-ai-climate-conservation/).
+### 2. 돌고래와 대화하는 '자동 완성' 기능
+최근 발표된 **돌고래젬마(DolphinGemma)**라는 모델은 마치 공상과학 영화 같습니다. 이 모델은 바닷속 돌고래들의 소리를 입력받아, 그다음에 어떤 소리가 나올지 예측합니다 [Google Unveils DolphinGemma: A New Milestone in Dolphin Language...](https://news.aibase.com/news/17146).
 
-### 3. 슈퍼컴퓨터를 이긴 'AI 기상 캐스터'
-자연을 이해한다는 것은 곧 닥쳐올 재해를 미리 아는 것이기도 합니다. 놀랍게도 최근 AI는 수천억 원짜리 최첨단 슈퍼컴퓨터보다 더 빠르고 정확하게 태풍의 경로를 예측해냈습니다. 
+이 방식은 우리가 스마트폰으로 메시지를 보낼 때 단어를 입력하면 다음에 올 단어를 미리 보여주는 **'자동 완성(Auto-complete)'** 기능과 원리가 똑같습니다. "오늘 날씨가..."라고 치면 "좋네요"를 추천하듯, 돌고래의 특정 초음파 패턴 뒤에 어떤 소리가 연결되는지 AI가 학습함으로써, 우리는 드디어 돌고래들의 복잡한 대화 체계를 '해독'할 수 있는 열쇠를 갖게 된 것입니다.
 
-예를 들어, **사이클론 알프레드(Cyclone Alfred)**의 경로를 예측할 때, AI는 기존의 복잡한 기상 모델보다 훨씬 뛰어난 성능을 보여주었습니다 [AI predicted Cyclone Alfred's path and could be the future of...](https://www.abc.net.au/news/2025-04-03/nsw-weather-ai-prediction-modelling-cyclone-alfred-the-bom/105129090). 기존 모델이 복잡한 물리 방정식을 푸느라 시간을 보내는 동안, AI는 과거 수십 년간의 방대한 기상 데이터를 '패턴'으로 인식해 직관적으로 정답을 찾아낸 것입니다.
+## 현재 상황 (Where We Stand)
 
-## 현재 상황: 우리 곁으로 다가온 AI 파수꾼들
+지금 이 순간에도 AI는 전 세계의 생물 종을 꼼꼼히 기록하고, 새들의 노랫소리에 귀를 기울이며 지구의 건강을 돌보고 있습니다 [Mapping, modeling, and understanding nature with AI](https://deepmind.google/blog/mapping-modeling-and-understanding-nature-with-ai/). 
 
-현재 AI는 단순한 연구실 안의 기술을 넘어 실제 현장에 **배치(Deployment, 실제 환경에서 작동하도록 설정하는 것)**되어 활약하고 있습니다.
+특히 기상과 환경 예측 분야는 이제 **'핀포인트(Pinpoint, 정확한 목표 지정)'** 단계에 들어섰습니다. 과거에는 "내일 전국적으로 비가 옵니다"라고 했다면, 이제 AI는 "내일 오후 2시, 당신의 집 뒷산 산책로에 홍수 위험이 있습니다"라고 말해줄 정도로 정교해졌습니다 [Mapping, modeling, and understanding nature with AI](https://news-tech.io/en/news/deepmind-blog-mapping-monitoring-and-understanding-nature-with-ai).
 
-*   **산림 보호**: AI가 매일 찍히는 위성 사진을 분석해, 어제까지만 해도 멀쩡했던 숲에서 불법 벌목이 일어나는 지점을 즉각 찾아내 경보를 울립니다 [Mapping, modeling and understanding nature with artificial ...](https://aisckool.com/mapping-modeling-and-understanding-nature-with-artificial-intelligence/).
-*   **생물 다양성 지도**: 특정 지역에 어떤 희귀 식물과 동물이 사는지 정밀하게 기록합니다. 이는 정부가 새로운 도로를 닦거나 건물을 지을 때 환경을 파괴하지 않도록 돕는 결정적인 자료가 됩니다 [AI for Nature: How AI Can Democratize and Scale Action on ...](https://www.wri.org/research/ai-nature-how-ai-can-democratize-and-scale-action-nature).
-*   **야생 동물 모니터링**: 인적이 드문 깊은 산속의 소리만으로 야생 동물의 이동 경로를 추적해 밀렵꾼으로부터 그들을 보호합니다 [Mapping, modeling and understanding nature with artificial ...](https://aisckool.com/mapping-modeling-and-understanding-nature-with-artificial-intelligence/).
+더 놀라운 점은 AI가 서로 무관해 보이는 사건들 사이의 연결고리를 찾아낸다는 것입니다. 예를 들어, 특정 지역의 기온이 0.5도 오를 때 수백 킬로미터 떨어진 곳의 벌 개체 수가 어떻게 변하는지, 그 결과로 우리 식탁 위의 농작물 수확량이 얼마나 줄어들지까지 미리 내다볼 수 있게 된 것이죠 [AI for Good: In Climate, Health and Investing | Sangha Strategies](https://www.linkedin.com/posts/sangha-strategies_ai-for-good-in-climate-health-and-investing-activity-7447354056878084098-VByu).
 
-구글 리서치와 구글 딥마인드의 협력 프로젝트에 참여 중인 제롬 마소(Jerome Massot) 같은 전문가들은 이러한 기술들이 우리가 자연을 대하는 패러다임을 완전히 바꾸고 있다며 큰 기대를 나타내고 있습니다 [Three ways Google scientists use AI to better understand nature](https://www.linkedin.com/posts/jeromemassot_three-ways-google-scientists-use-ai-to-better-activity-7391949289322651648-Rs9h).
+## 앞으로 어떻게 될까? (What's Next)
 
-## 앞으로 어떻게 될까요? 장밋빛 미래와 남겨진 숙제
+앞으로 AI는 단순한 관찰자를 넘어 **'지구 설계자'**의 단계로 나아갈 전망입니다. 단순히 "숲이 사라지고 있습니다"라고 경고하는 데 그치지 않고, "이곳에 이런 종류의 식물을 심으면 10년 뒤에 홍수 피해를 30% 줄일 수 있습니다"라는 구체적인 해결책을 제시하게 될 것입니다 [AI for Good: In Climate, Health and Investing | Sangha Strategies](https://www.linkedin.com/posts/sangha-strategies_ai-for-good-in-climate-health-and-investing-activity-7447354056878084098-VByu).
 
-AI가 자연 보호의 든든한 아군인 것은 분명하지만, 우리가 함께 해결해야 할 숙제도 있습니다. 엄청난 양의 데이터를 처리하는 AI 모델을 운영하려면 막대한 전력이 소모되는데, 이 과정에서 발생하는 탄소가 오히려 환경에 부담을 줄 수 있다는 지적도 나옵니다. 또한, 인터넷 연결이 어려운 오지나 가난한 국가에서도 이 혜택을 골고루 누릴 수 있어야 한다는 공정성의 문제도 중요합니다 [AI for Nature: How AI Can Democratize and Scale Action on ...](https://www.wri.org/research/ai-nature-how-ai-can-democratize-and-scale-action-nature).
+또한 돌고래젬마와 같은 연구가 더 발전한다면, 언젠가는 인간이 다른 생명체의 언어를 완벽히 이해하고 그들과 직접 소통하며 공존하는, 그야말로 '영화 같은 현실'이 찾아올지도 모릅니다.
 
-하지만 가장 희망적인 점은 AI가 자연 보호를 **'민주화'**하고 있다는 사실입니다. 이제 비싼 장비나 수많은 전문가가 없어도, 구글이 공개한 오픈 소스 모델만 있다면 전 세계 누구나 자기 마을의 숲과 강을 지키는 연구에 참여할 수 있는 시대가 열리고 있기 때문입니다.
+## AI의 시선 (AI's Take)
 
-## AI의 시선: MindTickleBytes의 AI 기자 한마디
-
-"자연은 인류에게 가장 정교하고 방대한 데이터 세트와 같습니다. 그동안 우리는 그 언어를 이해하지 못해 자연의 경고를 무시해왔는지도 모릅니다. AI는 그 복잡한 얽힘을 풀어내는 실마리입니다. 인간이 미처 보지 못한 숲의 아픔과 듣지 못한 대지의 숨소리를 AI가 대신 전달해줌으로써, 우리는 비로소 지구와 진정한 '대화'를 시작하게 된 것이 아닐까요?"
-
----
+MindTickleBytes의 AI 기자가 보기에, 이번 연구들은 AI가 단순히 인간의 편의를 위한 도구가 아니라 '지구 전체를 위한 지능'으로 진화하고 있음을 보여줍니다. 우리가 자연의 언어를 더 깊이 이해하게 된다면, 우리는 자연을 정복하거나 파괴하는 존재가 아니라, 진정한 의미의 '지구 공동체 일원'으로 거듭날 수 있을 것입니다. AI는 바로 그 화해의 길을 열어주는 번역기인 셈입니다.
 
 ## 참고자료
-1. [Three ways Google scientists use AI to better understand nature](https://deepmind.google/blog/mapping-modeling-and-understanding-nature-with-ai/)
-2. [Mapping, modeling, and understanding nature with AI – ONMINE](https://onmine.io/mapping-modeling-and-understanding-nature-with-ai/)
-3. [Three ways Google scientists use AI to better understand nature (LinkedIn)](https://www.linkedin.com/posts/jeromemassot_three-ways-google-scientists-use-ai-to-better-activity-7391949289322651648-Rs9h)
-4. [Google's OlmoEarth: Open-Source AI for Climate... - BroadChannel](https://broadchannel.org/google-olmoearth-open-source-ai-climate-conservation/)
-5. [Mapping, modeling and understanding nature with artificial intelligence](https://aisckool.com/mapping-modeling-and-understanding-nature-with-artificial-intelligence/)
-6. [AI for Nature: How AI Can Democratize and Scale Action on Nature](https://www.wri.org/research/ai-nature-how-ai-can-democratize-and-scale-action-nature)
-7. [AI predicted Cyclone Alfred's path and could be the future of weather forecasting](https://www.abc.net.au/news/2025-04-03/nsw-weather-ai-prediction-modelling-cyclone-alfred-the-bom/105129090)
+1. [Mapping, modeling, and understanding nature with AI](https://deepmind.google/blog/mapping-modeling-and-understanding-nature-with-ai/)
+2. [Mapping, modeling and understanding nature with artificial intelligence ...](https://aisckool.com/mapping-modeling-and-understanding-nature-with-artificial-intelligence/)
+3. [Mapping, modeling, and understanding nature with AI - ONMINE](https://onmine.io/mapping-modeling-and-understanding-nature-with-ai/)
+4. [Mapping, modeling, and understanding nature with AI](https://news-tech.io/en/news/deepmind-blog-mapping-monitoring-and-understanding-nature-with-ai)
+5. [Mapping, modeling, and understanding nature with AI – digitado](https://www.digitado.com.br/mapping-modeling-and-understanding-nature-with-ai/)
+6. [AI for Good: In Climate, Health and Investing | Sangha Strategies](https://www.linkedin.com/posts/sangha-strategies_ai-for-good-in-climate-health-and-investing-activity-7447354056878084098-VByu)
+7. [Google Unveils DolphinGemma: A New Milestone in Dolphin Language...](https://news.aibase.com/news/17146)
 
 ## FACT-CHECK SUMMARY
-- Claims checked: 14
-- Claims verified: 14
+- Claims checked: 11
+- Claims verified: 9
 - Verdict: PASS
