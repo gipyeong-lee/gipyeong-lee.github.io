@@ -1,99 +1,96 @@
 ---
 layout: post
-title: "Robots Have Finally Gained 'Intuition'? Google DeepMind Unveils the New Brain for Robots: 'Gemini Robotics-ER 1.6'"
-description: "Google DeepMind's latest AI model, Gemini Robotics-ER 1.6, grants robots practical thinking abilities. From reading gauges to determining task success, check out the evolution of robotics."
-summary: "Gemini Robotics-ER 1.6, unveiled by Google DeepMind, is the latest AI model that helps robots understand the physical world, make independent decisions, and perform tasks."
-tags: [AI, Robotics, Google DeepMind, Gemini, Technology]
-image: 2026-04-17-Gemini-Robotics-ER-1-6-Powering-real-world-robotics-tasks-through-enhanced-embodi.jpg
-image_alt: "An intelligent scene of a robotic arm gazing at a complex industrial control panel and analyzing data"
+title: "What if Robots Had 'Common Sense'? Google Unveils New AI, Gemini Robotics-ER 1.6"
+description: "Will we see an era where robots go beyond simply following orders to making judgments and verifying tasks themselves? We explain the changes brought by Google DeepMind's latest robotics AI, Gemini Robotics-ER 1.6."
+summary: "Google DeepMind has released Gemini Robotics-ER 1.6, granting robots reasoning abilities akin to human 'common sense,' elevating autonomy in industrial settings."
+tags: [Google DeepMind, Robotics AI, Gemini, Artificial Intelligence, Tech Trends]
+image: 2026-04-17-Gemini-Robotics-ER-16-Powering-real-world-robotics-tasks-through-enhanced-embodi.jpg
+image_alt: "An intelligent robot performing tasks while checking gauges in an industrial setting"
 reporter: "MindTickleBytes AI"
 news_type: "Knowledge"
-ai_opinion: "Robots are evolving beyond mere moving machines into intelligent agents that can 'judge' situations. This will be a significant turning point that transcends the limits of physical automation."
+ai_opinion: "This is a major milestone showing that AI has moved beyond understanding text and images on a screen to becoming human 'hands and feet' acting directly in the physical world. It signifies the evolution of AI into 'agents' with physical presence, going beyond simple automation."
 quiz:
-  - question: "What specific capability has been particularly enhanced in Gemini Robotics-ER 1.6 compared to the previous version (1.5)?"
-    choices: ["Improved robot movement speed", "Enhanced spatial and physical reasoning abilities", "Optimized battery efficiency"]
+  - question: "What specific ability has been strengthened in Gemini Robotics-ER 1.6 compared to previous versions or Gemini 3.0 Flash?"
+    choices: ["Foreign language translation", "Spatial and physical reasoning", "Music composition"]
     answer: 1
-    explanation: "Gemini Robotics-ER 1.6 has significantly improved spatial and physical reasoning abilities compared to the previous version 1.5 or Gemini 3.0 Flash."
-  - question: "What new task can robots now perform in industrial settings through this model?"
-    choices: ["Metal welding", "Reading industrial gauges and sight glass values", "Driving autonomous vehicles"]
+    explanation: "Gemini Robotics-ER 1.6 shows significantly improved reasoning in the physical world, including spatial reasoning, pointing at objects, counting, and detecting task success."
+  - question: "Which newly emphasized feature allows the robot to verify if a task has been completed?"
+    choices: ["Success Detection", "Auto Charging", "Voice Recognition"]
+    answer: 0
+    explanation: "The 'Success Detection' feature, where the robot judges for itself whether it has completed an assigned command, is a key element in increasing the reliability of autonomous robots."
+  - question: "What new industrial task can Boston Dynamics' 'Spot' robot perform using this model?"
+    choices: ["Coffee delivery", "Reading industrial gauges", "Cleaning factory floors"]
     answer: 1
-    explanation: "This model possesses the ability to read industrial gauges and sight glasses, enabling autonomous industrial inspections."
-  - question: "What is the name of the function where a robot independently verifies if its task has been successfully completed?"
-    choices: ["Object detection", "Path prediction", "Success detection"]
-    answer: 2
-    explanation: "One of the model's core features, 'Success Detection,' is the ability for the robot to independently judge whether a performed task has actually been completed."
+    explanation: "Equipped with Gemini Robotics-ER 1.6, Spot can now read factory gauges or sight glasses to check equipment status independently."
 lang: en
-ref: 2026-04-17-Gemini-Robotics-ER-1-6-Powering-real-world-robotics-tasks-through-enhanced-embodi
+ref: 2026-04-17-Gemini-Robotics-ER-16-Powering-real-world-robotics-tasks-through-enhanced-embodi
 audio: 2026-04-17-Gemini-Robotics-ER-16-Powering-real-world-robotics-tasks-through-enhanced-embodi.en.mp3
 industry: creative
 ---
 
-## Robots, Now 'Thinking' and 'Acting'
+Robots around us aren't actually as smart as you might think. Factory robotic arms move mechanically only to set positions, and robot vacuums sometimes get stuck on low thresholds, unable to finish cleaning. What they lack is the **'common sense'** that we humans possess.
 
-Imagine this: In the middle of a factory where complex machines are running non-stop, a robot quietly gazes at a pressure gauge on the wall. After a moment, the robot decides, "The pressure has risen to a dangerous level; I should tighten valve number 2 slightly for safety." It then reaches out and takes action on its own. After finishing the task, it checks the gauge again and confirms its own performance, saying, "Hmm, the pressure is normal now. Mission accomplished!"
+Thoughts like "I should go around if there's an obstacle while I'm picking up a cup" or "I should be careful because water on the floor might be slippery" are perfectly natural to us. For robots until now, such judgments have been an extremely difficult challenge.
 
-Scenes like this used to feel like science fiction stories in movies, right? But now, it's becoming a reality right beside us. This is because Google DeepMind announced a new artificial intelligence model on April 14, 2026, called **'Gemini Robotics-ER 1.6,'** which grants robots this kind of high-level intelligence [Gemini Robotics-ER 1.6: What Google’s New Robotics Model Does](https://www.junia.ai/blog/gemini-robotics-er-1-6). This model is expected to be the key to evolving robots from simple 'machines' into 'intelligent agents'—entities that understand our complex world and act with their own purposes [Gemini Robotics-ER 1.6 | Gemini API | Google AI for Developers](https://ai.google.dev/gemini-api/docs/robotics-overview).
+However, on April 14, 2026, Google DeepMind announced a new 'brain' that can instill this 'common sense' into robots: **Gemini Robotics-ER 1.6** [Gemini Robotics-ER 1.6: What Google's New Robotics Model Does](https://www.junia.ai/blog/gemini-robotics-er-1-6) [DeepMind's Gemini Robotics-ER 1.6 Lets Spot Read Gauges - WinBuzzer](https://winbuzzer.com/2026/04/16/google-deepmind-gemini-robotics-er-1-6-autonomous-industrial-inspections-xcxwbn/). In this post, we'll take a close and easy look at why this AI is being called a game-changer for the future of robotics and what changes it will bring to our lives.
 
-## Why is this important?
+## Why Is This Important?
 
-Most of the robots we've seen so far were 'honor students' who were only good at 'pre-defined tasks.' They followed pre-programmed paths or moved objects at fixed locations. The problem is that the real world we live in is not that simple. If the position of an object changed even slightly, or if someone suddenly blocked their path, robots would often stop in confusion.
+Until now, robots moved according to sophisticated 'manuals' written in computer code. But the real world we live in is incredibly complex with countless variables. When an unexpected situation not in the manual occurred, robots would often stop or behave erratically.
 
-Gemini Robotics-ER 1.6 gives these robots a special ability called **'Embodied Reasoning'** [Gemini Robotics: Bringing AI into the Physical World](https://arxiv.org/html/2503.20020v1). 'Embodied Reasoning' essentially means **'the ability for a robot to think and judge like a human within a real environment using its physical body.'** Robots can now go beyond simply capturing video with their eyes (cameras) and logically grasp questions like "What is that object?", "How far is it from me?", and "What will happen if I touch that now?" [Google News - Google DeepMind unveils Gemini Robotics-ER...](https://news.google.com/stories/CAAqNggKIjBDQklTSGpvSmMzUnZjbmt0TXpZd1NoRUtEd2lRcVBQMEVCSDJXV1M3RVlPOEV5Z0FQAQ?hl=en-US&gl=US&ceid=US:en).
+Gemini Robotics-ER 1.6 gives robots the ability of **Embodied Reasoning** [Gemini Robotics-ER 1.6: Powering real-world robotics tasks through enhanced embodied reasoning](https://deepmind.google/blog/gemini-robotics-er-1-6/) [DeepMinds Gemini 1.6 Gives Robots Point-and-Click … | …](https://robohorizon.com/en-us/news/2026/04/deepminds-gemini-16-gives-robots-point-and-click-reality/). Simply put, 'embodied reasoning' refers to the ability of a robot to understand its own body and surroundings in real-time and make its own judgments.
 
-While previous robots had smart 'eyes' and strong 'hands' but lacked the 'link of thought' to connect the two, they now have a 'real brain' that integrates everything to read the situation.
+To use an analogy, it's an evolution from a machine that only moves as instructed to an intelligent 'agent' that can look at a situation and decide, "Ah, this is the right way to handle this now" [Gemini Robotics-ER 1.6 | Gemini API | Google AI for Developers](https://ai.google.dev/gemini-api/docs/robotics-overview). This means that in factories or dangerous industrial sites, robots will be able to work more safely and perfectly autonomously without human help [Gemini Robotics-ER 1.6: Real-World Robotics Intelligence](https://www.labellerr.com/blog/gemini-robotics-er-1-6-explained/).
 
-## Understanding Easily: Looking at the Robot's New Capabilities through Analogies
+## Easy Understanding: The 'Eyes' and 'Brain' Robots Have Gained
 
-Not quite feeling the change Gemini Robotics-ER 1.6 brings? The difference becomes clear when compared to familiar scenes in our daily lives.
+Gemini Robotics-ER 1.6 is a **Vision-Language Model (VLM)** [Gemini Robotics-ER 1.6 | Gemini API | Google AI for Developers](https://ai.google.dev/gemini-api/docs/robotics-overview). This means it can simultaneously understand and connect visual image information and the everyday language we use. Let's explain this model's core abilities through three analogies.
 
-### 1. Spatial intelligence that understands "Look at that!" perfectly
-When you tell a young child, "Can you bring me that red apple on the table?", the child scans the surroundings, finds the apple, estimates the distance, and walks over. Gemini Robotics-ER 1.6 grants robots this **Spatial Reasoning** ability [Gemini Robotics-ER 1.6: Powering real-world robotics tasks...](https://onmine.io/gemini-robotics-er-1-6-powering-real-world-robotics-tasks-through-enhanced-embodied-reasoning/). Now, robots can go beyond simple object recognition to perform complex spatial tasks much more precisely, such as detecting specific objects (Object Detection), pointing at them (Pointing), and counting them (Counting) [Gemini Robotics: Bringing AI into the Physical World](https://arxiv.org/html/2503.20020v1).
+### 1. "The Ability to Draw a Map in One's Mind" (Spatial Reasoning)
+Imagine going to the bathroom in a dark room at night; you can navigate around furniture by guessing their positions even without turning on the light. This model combines complex video feeds from multiple cameras to three-dimensionally perceive the space where the robot is standing (Multi-camera reasoning) [Gemini Robotics-ER 1.6: Real-World Robotics Intelligence](https://www.labellerr.com/blog/gemini-robotics-er-1-6-explained/). It's not just taking a picture, but deeply 'understanding' that "that object is behind me, and this wall is a space I can pass through" [Gemini Robotics-ER 1.6: What Google's New Robotics Model Does](https://www.junia.ai/blog/gemini-robotics-er-1-6).
 
-### 2. "Is there anything wrong with my homework?" Reviewing oneself
-Just as a student double-checks their answers after finishing an exam, robots have gained the ability of **'Success Detection'** [Gemini Robotics-ER 1.6: What Google’s New Robotics Model Does](https://www.junia.ai/blog/gemini-robotics-er-1-6). Immediately after performing a command, the robot examines the scene with its camera and judges for itself: "Did the drawer close as I planned?" or "Was the item moved safely?" [Google DeepMind Gemini Robotics-ER 1.6 via Gemini API ...](https://www.siliconreport.com/google-deepmind-puts-gemini-robotics-er-1-6-into-the-gemini-api-7ccaf115118f7272). Thanks to this, robots can work autonomously with fewer mistakes without needing someone to check every single step.
+### 2. "Meticulousness in Checking if Homework is Done" (Success Detection)
+When many robots are ordered to pick up an object, they simply perform the motion of reaching out their arm. Even if they drop the object midway, they think, "I reached out my arm, mission accomplished!" and move to the next step. However, this model features **Success detection** [Gemini Robotics-ER 1.6: Powering real-world robotics tasks through enhanced embodied reasoning](https://deepmind.google/blog/gemini-robotics-er-1-6/) [DeepMind's Gemini Robotics-ER 1.6 pushes embodied AI into the real world](https://gadgetbond.com/google-deepmind-gemini-robotics-er-1-6-embodied-ai-reasoning-model/). After finishing a task, it checks for itself, "Was the object really moved correctly?" and if it failed, it tries again or stops [Gemini Robotics-ER 1.6: What Google's New Robotics Model Does](https://www.junia.ai/blog/gemini-robotics-er-1-6).
 
-### 3. A 'Veteran's Eye' that reads even fine scales
-The most surprising point is that robots can now read the values of complex industrial gauges (Gauges) or sight glasses (Sight glasses) containing liquids [DeepMind's Gemini Robotics-ER 1.6 Lets Spot Read Gauges](https://winbuzzer.com/2026/04/16/google-deepmind-gemini-robotics-er-1-6-autonomous-industrial-inspections-xcxwbn/). Just as a veteran engineer with decades of experience reads the condition of a machine by looking at a finely vibrating needle, robots can now highly interpret visual data [Google's new AI helps robots understand and act in real world](https://interestingengineering.com/ai-robotics/google-gemini-robotics-er16-embodied-reasoning).
+### 3. "Reading Instruments with an Expert's Eye" (Instrument Reading)
+Industrial sites have many needle-based pressure gauges or glass tubes (sight glasses) showing oil levels. To a typical robot, these might just look like complex drawings, but Gemini Robotics-ER 1.6 can accurately read what these scales currently mean [DeepMind's Gemini Robotics-ER 1.6 Lets Spot Read Gauges - WinBuzzer](https://winbuzzer.com/2026/04/16/google-deepmind-gemini-robotics-er-1-6-autonomous-industrial-inspections-xcxwbn/) [DeepMind's Gemini Robotics-ER 1.6 pushes embodied AI into the real world](https://gadgetbond.com/google-deepmind-gemini-robotics-er-1-6-embodied-ai-reasoning-model/). It's at a level comparable to a seasoned factory manager inspecting equipment themselves.
 
-## Current Status: How far have we come?
+## Current Status: 'Spot' Has Become Smarter
 
-According to Google DeepMind, this Gemini Robotics-ER 1.6 shows much better performance than the previous model (version 1.5) or the general AI model Gemini 3.0 Flash [Gemini Robotics-ER 1.6: Powering real-world robotics tasks...](https://onmine.io/gemini-robotics-er-1-6-powering-real-world-robotics-tasks-through-enhanced-embodied-reasoning/). It has achieved truly remarkable evolution, especially in the area of reasoning through 'physical situations' that robots encounter [Google DeepMind's New Robot Brain... - AI Universe: A News Startup](https://www.aiuniverse.news/google-deepminds-new-robot-brain-masters-reading-dials-and-understanding-space/).
+Developed by brilliant Google researchers such as Laura Graesser and Peng Xu, this model is already being applied to real robots with remarkable results [Gemini Robotics-ER 1.6: Powering real-world robotics tasks through enhanced embodied reasoning](https://deepmind.google/blog/gemini-robotics-er-1-6/).
 
-Currently, robots equipped with this model are demonstrating the following amazing capabilities:
-*   **Intelligent Path Prediction**: They predict the movement of surrounding objects and decide on efficient paths to move without colliding [Gemini Robotics: Bringing AI into the Physical World](https://arxiv.org/html/2503.20020v1).
-*   **Delicate Manipulation**: Beyond simply grabbing objects, very fine physical tasks (Dexterity) like folding paper neatly have become possible [Google DeepMind’s new AI models help robots perform physical tasks...](https://www.theverge.com/news/628021/google-deepmind-gemini-robotics-ai-models).
-*   **Autonomous Inspection of Dangerous Sites**: In environments dangerous for humans to access, robots can roam autonomously, check gauge values, and report signs of abnormality [Google's new AI helps robots understand and act in real world](https://interestingengineering.com/ai-robotics/google-gemini-robotics-er16-embodied-reasoning).
+Specifically, Boston Dynamics' famous robot dog, 'Spot,' has been tasked with walking around factories on its own to read various gauges and precisely inspect equipment status thanks to this model [DeepMind's Gemini Robotics-ER 1.6 Lets Spot Read Gauges - WinBuzzer](https://winbuzzer.com/2026/04/16/google-deepmind-gemini-robotics-er-1-6-autonomous-industrial-inspections-xcxwbn/). This is a result of performance that overwhelmingly surpasses the previous version, Gemini Robotics-ER 1.5, or high-performance models like Gemini 3.0 Flash in physical reasoning abilities (pointing at objects, counting, trajectory prediction, etc.) [GeminiRobotics-ER1.6:Poweringreal-worldroboticstasks...](https://onmine.io/gemini-robotics-er-1-6-powering-real-world-robotics-tasks-through-enhanced-embodied-reasoning/) [GeminiRobotics: Bringing AI into the Physical World](https://arxiv.org/html/2503.20020v1).
 
-Google has fully opened this powerful model to developers through the Gemini API and Google AI Studio [DeepMind's Gemini Robotics-ER 1.6 Lets Spot Read Gauges](https://winbuzzer.com/2026/04/16/google-deepmind-gemini-robotics-er-1-6-autonomous-industrial-inspections-xcxwbn/). This means developers around the world can now transplant this 'smart brain' into their own robots [Google DeepMind Gemini Robotics-ER 1.6 via Gemini API ...](https://www.siliconreport.com/google-deepmind-puts-gemini-robotics-er-1-6-into-the-gemini-api-7ccaf115118f7272).
+We have now reached a level where if you naturally tell a robot, "Check the pressure gauge next to that red valve over there," the robot can perfectly understand the meaning and immediately take action [Gemini Robotics-ER 1.6 | Gemini API | Google AI for Developers](https://ai.google.dev/gemini-api/docs/robotics-overview).
 
-## What does the future hold?
+## What Lies Ahead?
 
-The emergence of Gemini Robotics-ER 1.6 will change the way we look at robots. Now, robots are becoming reliable 'colleagues' who respond flexibly to situations, rather than just 'tools' that only do what they are told [Google DeepMind Launches Gemini Robotics-ER 1.6 - Colitco](https://colitco.com/google-deepmind-gemini-robotics-er-1-6-1504202625/).
+This announcement from Google DeepMind is a significant signal that robots are moving beyond the fences of laboratories and into the 'field' of our real lives.
 
-Soon, we will see these intelligent robots active in rugged construction sites, complex smart factories, and even within our warm homes. The daily life where a robot says, "Master, it looks like there's too much laundry in the washing machine, so I've adjusted the cycle," and solves the problem on its own might arrive sooner than we think.
+In the near future, robots equipped with this model will be the first to be deployed to radioactive facilities or toxic gas leak sites that are too dangerous for humans. Robots will not stop at just transmitting site footage; they will complete missions by making high-level judgments like, "Gas levels are at a dangerous level, so I will close the main valve immediately" [Gemini Robotics-ER 1.6: Real-World Robotics Intelligence](https://www.labellerr.com/blog/gemini-robotics-er-1-6-explained/).
+
+Furthermore, this technology will serve as a solid foundation for developing more general-purpose robots. We expect the day when we meet 'truly smart robot helpers' that assist with complex housework in our homes, not just in factories, to arrive much faster [Google unveils Gemini Robotics for building general purpose robots](https://9to5google.com/2025/03/12/gemini-robotics/).
+
+## AI's Perspective
+
+**Imagine this.** You wake up in the morning and say, "Check the expiration date of the milk in the fridge and put the clutter in the living room back in its place," and the robot finishes the housework on its own. While AI until now has been a 'smart assistant' communicating only through text and images on a screen, through Gemini Robotics-ER 1.6, it has finally gained a 'body that understands and moves in the world.'
+
+This amazing technology, connecting human language to actual physical actions, will soon make the 'coexistence with robots' we only dreamed of in SF movies an everyday reality. AI has finally stepped out of the computer and started walking with us.
 
 ---
 
-### AI's Take
-**MindTickleBytes AI Reporter's Perspective**
-If giving 'eyes' to robots was the first revolution in the past, we have now entered the era of 'Embodied Reasoning,' where robots 'understand' the world seen through those eyes and decide how to move their own bodies. Gemini Robotics-ER 1.6 is a very important milestone proving that AI is not just a being playing with data in a virtual world, but has begun to understand the laws of physical reality where we stand. The true 'technology for coexistence,' where humans and robots cooperate safely, is starting from this small brain.
-
 ## References
-1. [Gemini Robotics-ER 1.6: Powering real-world robotics tasks through enhanced embodied reasoning](https://deepmind.google/blog/gemini-robotics-er-1-6/)
-2. [Google News - Google DeepMind unveils Gemini Robotics-ER...](https://news.google.com/stories/CAAqNggKIjBDQklTSGpvSmMzUnZjbmt0TXpZd1NoRUtEd2lRcVBQMEVCSDJXV1M3RVlPOEV5Z0FQAQ?hl=en-US&gl=US&ceid=US:en)
-3. [Gemini Robotics-ER 1.6: Powering real-world robotics tasks...](https://onmine.io/gemini-robotics-er-1-6-powering-real-world-robotics-tasks-through-enhanced-embodied-reasoning/)
-4. [DeepMind's Gemini Robotics-ER 1.6 Lets Spot Read Gauges](https://winbuzzer.com/2026/04/16/google-deepmind-gemini-robotics-er-1-6-autonomous-industrial-inspections-xcxwbn/)
-5. [Gemini Robotics-ER 1.6 | Gemini API | Google AI for Developers](https://ai.google.dev/gemini-api/docs/robotics-overview)
-6. [Gemini Robotics: Bringing AI into the Physical World](https://arxiv.org/html/2503.20020v1)
-7. [Building the Next Generation of Physical Agents with Gemini...](https://developers.googleblog.com/en/building-the-next-generation-of-physical-agents-with-gemini-robotics-er-15/)
-8. [Gemini Robotics-ER 1.6: What Google’s New Robotics Model Does](https://www.junia.ai/blog/gemini-robotics-er-1-6)
-9. [Google DeepMind Gemini Robotics-ER 1.6 via Gemini API ...](https://www.siliconreport.com/google-deepmind-puts-gemini-robotics-er-1-6-into-the-gemini-api-7ccaf115118f7272)
-10. [Google's new AI helps robots understand and act in real world](https://interestingengineering.com/ai-robotics/google-gemini-robotics-er16-embodied-reasoning)
-11. [Google DeepMind Launches Gemini Robotics-ER 1.6 - Colitco](https://colitco.com/google-deepmind-gemini-robotics-er-1-6-1504202625/)
-12. [Google DeepMind's New Robot Brain... - AI Universe: A News Startup](https://www.aiuniverse.news/google-deepminds-new-robot-brain-masters-reading-dials-and-understanding-space/)
-13. [Google DeepMind’s new AI models help robots perform physical tasks...](https://www.theverge.com/news/628021/google-deepmind-gemini-robotics-ai-models)
 
-## FACT-CHECK SUMMARY
-- Claims checked: 19
-- Claims verified: 19
-- Verdict: PASS
+1. [Gemini Robotics ER 1.6: Enhanced Embodied Reasoning](https://deepmind.google/blog/gemini-robotics-er-1-6/)
+2. [Gemini Robotics-ER 1.6 | Gemini API | Google AI for Developers](https://ai.google.dev/gemini-api/docs/robotics-overview)
+3. [Gemini Robotics-ER 1.6 - The Keyword](https://blog.google/innovation-and-ai/models-and-research/google-deepmind/gemini-robotics-er-1-6/)
+4. [Gemini Robotics-ER 1.6: Real-World Robotics Intelligence](https://www.labellerr.com/blog/gemini-robotics-er-1-6-explained/)
+5. [DeepMinds Gemini 1.6 Gives Robots Point-and-Click … | …](https://robohorizon.com/en-us/news/2026/04/deepminds-gemini-16-gives-robots-point-and-click-reality/)
+6. [Gemini Robotics-ER 1.6: What Google's New Robotics Model Does](https://www.junia.ai/blog/gemini-robotics-er-1-6)
+7. [DeepMind's Gemini Robotics-ER 1.6 Lets Spot Read Gauges - WinBuzzer](https://winbuzzer.com/2026/04/16/google-deepmind-gemini-robotics-er-1-6-autonomous-industrial-inspections-xcxwbn/)
+8. [DeepMind's Gemini Robotics-ER 1.6 pushes embodied AI into the real world](https://gadgetbond.com/google-deepmind-gemini-robotics-er-1-6-embodied-ai-reasoning-model/)
+9. [Google News - Google DeepMind unveils Gemini Robotics-ER...](https://news.google.com/stories/CAAqNggKIjBDQklTSGpvSmMzUnZjbmt0TXpZd1NoRUtEd2lRcVBQMEVCSDJXV1M3RVlPOEV5Z0FQAQ?hl=en-US&gl=US&ceid=US:en)
+10. [Gemini Robotics-ER 1.6: Powering real-world robotics tasks...](https://onmine.io/gemini-robotics-er-1-6-powering-real-world-robotics-tasks-through-enhanced-embodied-reasoning/)
+11. [Gemini Robotics: Bringing AI into the Physical World](https://arxiv.org/html/2503.20020v1)
+12. [Google unveils Gemini Robotics for building general purpose robots](https://9to5google.com/2025/03/12/gemini-robotics/)
+13. [Building the Next Generation of Physical Agents with Gemini...](https://developers.googleblog.com/en/building-the-next-generation-of-physical-agents-with-gemini-robotics-er-15/)
