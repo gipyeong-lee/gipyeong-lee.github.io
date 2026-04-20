@@ -20,3 +20,4 @@ client_secrets.json
 youtube_token*.json
 **/aiblog_credentials/
 .config/aiblog/
+.gstack/
