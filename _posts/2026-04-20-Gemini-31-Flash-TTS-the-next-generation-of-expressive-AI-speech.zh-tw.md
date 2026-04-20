@@ -1,100 +1,97 @@
 ---
 layout: post
-title: "AI 學會了演技？Google 全新語音模型「Gemini 3.1 Flash TTS」登場"
-description: "為您介紹 Google 最新的 AI 語音模型 Gemini 3.1 Flash TTS，它超越了單純的朗讀，甚至能演繹情感。"
-summary: "Google DeepMind 發佈了創新的語音合成 AI「Gemini 3.1 Flash TTS」，可細緻調整情感、語調、速度，並支援超過 70 種語言。"
-tags: [Gemini, AI, TTS, Google, 人工智慧, 語音技術]
+title: "現在試著對 AI 說「請讀得悲傷一點」：Google 的次世代語音，Gemini 3.1 Flash TTS"
+description: "告別機械式語音！我們將為您深入淺出地介紹 Google 發布的 Gemini 3.1 Flash TTS 如何打造充滿情感的人性化語音，以及什麼是「音訊標記」（Audio Tags）。"
+summary: "Google 的全新 AI 模型「Gemini 3.1 Flash TTS」能以 70 多種語言即時生成情感豐富的語音，並提供讓使用者直接調整音調與語速的功能。"
+tags: [AI, Google, Gemini, TTS, 人工智慧語音, 科技趨勢]
 image: 2026-04-20-Gemini-31-Flash-TTS-the-next-generation-of-expressive-AI-speech.jpg
-image_alt: "多種表情面具後方噴湧出閃耀數位波形的樣貌，將 AI 豐富表現力的聲音視覺化的圖像"
+image_alt: "混合了各種情感波動的音訊波形在數位背景上流動，象徵人類與 AI 溝通形象的圖片"
 reporter: "MindTickleBytes AI"
 news_type: "Knowledge"
-ai_opinion: "AI 從單純傳遞資訊的工具，進化到能細膩模仿人類情感，令人驚嘆。引入浮水印作為技術安全措施也是令人鼓舞的轉變。"
+ai_opinion: "AI 的出現已超越單純的文字朗讀，開始思考「如何」說話，這將從根本上改變人類與科技的溝通方式。情感傳遞可能不再是人類的專利。隨著技術開始模仿人類微妙的情感曲線，我們未來可能不再將 AI 視為單純的工具，而是能進行情感交流的夥伴。這將從服務業、教育到娛樂產業，為我們的生活帶來破壞性的創新。"
 quiz:
-  - question: "Gemini 3.1 Flash TTS 與以往「機器人般」聲音最大的區別特徵是什麼？"
-    choices: ["單純讀字更快", "可以細緻調整（Direct）情感、語調、速度等", "無需網路連線即可運作"]
+  - question: "在 Gemini 3.1 Flash TTS 中，為了調整語音音調或風格而引入的功能名稱是什麼？"
+    choices: ["語音控制器", "音訊標記", "魔法語音"]
     answer: 1
-    explanation: "Gemini 3.1 Flash TTS 的核心在於透過音訊標記，能像電影導演指導演員般，細緻地控制聲音的情感與風格。"
-  - question: "此模型支援的語言總數超過多少種？"
-    choices: ["10 種", "30 種", "70 種"]
+    explanation: "Google 引入了「音訊標記（Audio Tags）」功能，可透過自然語言指令細微地調整語音的風格、語速和表達方式。"
+  - question: "Gemini 3.1 Flash TTS 支援的語言總共超過多少種？"
+    choices: ["30 種", "50 種", "70 種"]
     answer: 2
-    explanation: "根據 Google 的發表，此模型支援超過 70 種不同的語言。"
-  - question: "為了安全使用生成的音訊，應用了哪項技術？"
-    choices: ["設定密碼", "浮水印 (Watermark)", "自動刪除功能"]
-    answer: 1
-    explanation: "為了安全地使用 AI，所有由 Gemini 3.1 Flash TTS 生成的音訊都將包含浮水印。"
+    explanation: "該模型支援全球 70 多種語言，旨在服務各種不同的文化圈。"
+  - question: "為了識別 AI 生成的音訊並提高安全性而採用的技術是什麼？"
+    choices: ["SynthID 浮水印", "AI 勾選標記", "數位簽章"]
+    answer: 0
+    explanation: "為了安全起見，Google 採用了 SynthID 浮水印技術，在 AI 生成的音訊中留下不可見的標記。"
 lang: zh-tw
 ref: 2026-04-20-Gemini-31-Flash-TTS-the-next-generation-of-expressive-AI-speech
 ---
 
-想像一下。在深夜裡，有一個人工智慧（AI）正在為孩子讀故事書。但是這個 AI 不僅僅是枯燥地讀著文字，當恐怖的大野狼出現時，它會壓低聲音、急促地私語；當可愛的小兔子出現時，它又會變得明亮活潑，像唱歌一樣變換語調。或者在複雜的客戶服務中心，AI 客服人員能立刻察覺到我語氣中的煩躁，並以一種真心感到抱歉、冷靜且溫暖的語氣回答，那會是什麼感覺呢？
+想像一下，深夜當您開啟為孩子讀童話故事的應用程式時，AI 在主角悲傷的場景中會聲音微微顫抖並緩慢朗讀；而到了歡樂的場景，則會像慶祝節日般以高昂興奮的語氣快速說話。如果說我們過去所熟知的 AI 語音是生硬且毫無靈魂的「機械音」，那麼現在情況即將發生翻天覆地的變化。
 
-到目前為止，我們接觸到的 **TTS（Text-to-Speech，語音合成技術）** 總給人一種生硬且機械化的感覺。雖然能完美地閱讀句子，但卻無法表達其中蘊含的「情感」或「氛圍」。但現在，那道厚重的牆壁正在倒塌。Google DeepMind 於 2026 年 4 月 15 日正式公開了新一代 AI 模型 **「Gemini 3.1 Flash TTS」**，它能讓使用者像電影導演一樣指揮聲音 [來源 7](https://www.buildfastwithai.com/blogs/gemini-3-1-flash-tts-google-ai-voice-model-2026), [來源 10](https://datanorth.ai/news/google-gemini-3-1-flash-tts-release)。
+Google 於 2026 年 4 月發布了一款將開啟文字轉語音技術新篇章的模型，即 **Gemini 3.1 Flash TTS**（Text-to-Speech，文字轉語音技術） [Google Cloud 上的 Gemini 3.1 Flash TTS | Google Cloud 網誌](https://cloud.google.com/blog/products/ai-machine-learning/gemini-3-1-flash-tts-on-google-cloud/)。這款模型的設計初衷是超越單純的文字朗讀，將說話者深層的「情感」與細微的「語氣」都能原封不動地呈現出來 [Gemini 3.1 Flash TTS：全新的文字轉語音 AI 模型](https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-1-flash-tts/)。
 
 ## 為什麼這很重要？
 
-這不僅僅是「聲音變得好一點」的程度。這意味著我們日常與機器交換資訊和溝通的方式將發生徹底的改變。
+我們在說話時，不只是傳遞資訊。同樣的一句短語如「好啊」，在開心、生氣或勉強答應時的音調完全不同。然而，傳統的 TTS 技術很難實現這種細微的差別。專家們將其稱為「靜態語音（Static Speech）」的局限性。只要回想一下導航系統那種毫無靈魂的聲音，您就能很快理解。
 
-1.  **開啟真人般的溝通**：現在 AI 不再是單向列出資訊的機器人，而是朝著能根據情況帶入情感說話的「溫柔夥伴」邁進了一步 [來源 11](https://siliconangle.com/2026/04/15/googles-gemini-3-1-flash-tts-offers-unparalleled-control-ai-voices/)。
-2.  **人人都能成為創作者的工具**：YouTuber 或播客製作人現在無需昂貴的錄音設備或聘請專業配音員，只需給予 AI 細緻的演技指示，就能快速製作出高品質的音訊內容 [來源 1](https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-1-flash-tts/)。
-3.  **打破全球溝通障礙**：支援超過 70 種語言，這意味著世界各地都能享受這種自然語音的服務，是一個巨大的優勢 [來源 12](https://the-decoder.com/google-ships-its-most-expressive-gemini-3-1-text-to-speech-model-yet-with-70-language-support/)。
+Google DeepMind 解釋，這款模型的誕生正是為了突破這一局限 [Google Gemini 3.1 Flash TTS 對決 ElevenLabs 2026 | Nexairi](https://www.nexairi.com/article/Technology/gemini-31-flash-tts-expressive-ai-speech/)。Gemini 3.1 Flash TTS 是一款彌補靜態語音與人類豐富表現力之間巨大鴻溝的「次世代表現型 AI 語音」模型 [使用包括 Gemini、Nano 在內的次世代 AI 系統進行開發...](https://deepmind.google/models/)。
 
-## 輕鬆理解：為 AI 語音進行「演技指導」
+簡單來說，這意味著 AI 現在開始讀取的不是「文字」，而是「情境」。當這項技術融入我們的生活，將會帶來以下變化：
 
-Gemini 3.1 Flash TTS 最令人驚訝的一點就是 **「可控性（Controllability）」**。**比喻來說**，這就像一位老練的電影導演在指導新人演員演戲。
+*   **親切的教育助手**：當您詢問不懂的問題時，它會像身邊的老師一樣親切且有耐心地解釋。
+*   **活靈活現的有聲書**：超越單純的朗讀，它能像專業配音員一人分飾多角般，提供充滿生動感的說故事體驗 [Gemini 3.1 Flash TTS Studio – 線上建立 AI 語音](https://www.geminitts.net/gemini-3-1-flash-tts)。
+*   **無國界的溝通**：能以全球 70 多種語言，像當地人一樣自然地進行對話 [Google 揭曉 Gemini 3.1 Flash TTS：超擬真、全可控 AI 語音生成的新時代...](https://mpost.io/google-unveils-gemini-3-1-flash-tts-a-new-era-of-hyper-realistic-fully-controllable-ai-speech-generation/)。
 
-如果說以前的 TTS 技術是「按這份劇本讀」後只能被動等待結果，那麼 Gemini 3.1 Flash TTS 則讓導演能向演員提出詳細要求：**「這一幕非常悲傷，請比平時說得慢一點，語氣帶點顫抖」** [來源 7](https://www.buildfastwithai.com/blogs/gemini-3-1-flash-tts-google-ai-voice-model-2026)。
+## 輕鬆理解：給 AI 的「演技指示書」
 
-這種魔法般的事情是如何實現的呢？這要歸功於名為 **「音訊標記（Audio Tags）」** 的核心技術 [來源 6](https://aitoolly.com/ai-news/article/2026-04-16-google-deepmind-unveils-gemini-31-flash-tts-a-new-era-of-expressive-ai-speech-control)。
+Gemini 3.1 Flash TTS 最具創新性的一點就是 **「音訊標記（Audio Tags）」** 功能 [Gemini 3.1 Flash TTS：具備細顆粒度控制的表現力 AI 語音](https://aihaberleri.org/en/news/gemini-31-flash-tts-2026-granular-audio-control-for-expressive-ai-speech)。
 
-*   **什麼是音訊標記？**：就像烹飪時根據喜好加入鹽或糖來微調味道一樣，這是在文本之間加入特殊指令，用來調節語音感覺的一種「秘密信號」。
-*   **可以調節哪些項目？**：從說話風格（Vocal Style）到說話速度（Pace）、情感傳達力（Delivery），甚至是聲音語調（Tone），都能以非常細微的單位進行設定 [來源 10](https://datanorth.ai/news/google-gemini-3-1-flash-tts-release), [來源 13](https://www.c-sharpcorner.com/news/google-unveils-gemini-31-flashtts-the-next-generation-of-expressive-ai-speech)。
+### 像電影導演一樣下達指令
+這項功能就像電影導演向演員下達「這句台詞請說得再悲傷一點，然後停頓一下再說」的「演技指示」一樣。打個比方，如果說過去只是給 AI 樂譜並讓其演奏，現在則連曲子的詮釋方式都能詳細告知。
 
-**簡單來說**，即使是同樣的句子「你好」，加上「充滿活力」的標記就會變成能量滿滿的問候；加上「冷靜」的標記，則會變成像飯店接待員一樣莊重的問候。Google 讓使用者能直接使用我們平常說的話（自然語言）來隨心所欲地引導音訊的風格和抑揚頓挫 [來源 2](https://ai.google.dev/gemini-api/docs/speech-generation)。
+使用者不需要學習複雜的程式碼，只需使用我們平時習慣的自然語言下達指令即可 [我們最新的文字轉語音模型 Gemini 3.1 Flash TTS 已於...推出](https://www.linkedin.com/pulse/gemini-31-flash-tts-our-latest-text-to-speech-model-available-tlsde)。只需在文字之間加入簡單的標記，AI 就會對語音的音調、風格、語速進行細微（Granular）的調整 [Google 揭曉 Gemini 3.1 Flash-TTS：次世代的表現力 AI 語音...](https://www.c-sharpcorner.com/news/google-unveils-gemini-31-flashtts-the-next-generation-of-expressive-ai-speech)。AI 能即時理解並在語音中反映「請像新聞主播一樣冷靜」或「請像剛運動完的人一樣氣喘吁吁」等請求 [Gemini 3.1 Flash TTS (文字轉語音) 預覽 | Gemini API](https://ai.google.dev/gemini-api/docs/models/gemini-3.1-flash-tts-preview)。
 
-## 現狀：可以做什麼？
+### 全球各地的「你好」
+該模型支援包括韓語在內的 **70 多種語言** [Gemini 3.1 Flash TTS 徹底改變人工智慧語音合成...](https://algo-mania.com/en/blog/news/gemini-3-1-flash-tts-revolutionizes-artificial-intelligence-voice-synthesis/)。其最大的特點在於，無論使用哪種語言，都能呈現該語言固有的自然語調和情感色彩。現在，在全球任何地方都能與 AI 進行「心靈相通」的對話了 [Google 的 Gemini 3.1 Flash TTS 增加表現力 AI 語音 | StartupHub.ai](https://www.startuphub.ai/ai-news/ai-research/2026/google-s-gemini-3-1-flash-tts-adds-expressive-ai-voice)。
 
-Gemini 3.1 Flash TTS 目前正處於「公開預覽（Public Preview）」狀態，全球的開發者和企業已開始先行體驗 [來源 7](https://www.buildfastwithai.com/blogs/gemini-3-1-flash-tts-google-ai-voice-model-2026)。讓我們再次回顧其主要特點：
+## 現狀：它有多聰明、多安全？
 
-*   **支援 70 種以上語言**：除了韓文，全球數十億人也能用自己的母語體驗這項創新技術 [來源 15](https://algo-mania.com/en/blog/news/gemini-3-1-flash-tts-revolutionizes-artificial-intelligence-voice-synthesis/)。
-*   **多樣化語音的和諧**：不僅支援單人朗讀，還支援多名角色對話的「多說話者（Multi-speaker）」功能，甚至可以製作廣播劇內容 [來源 10](https://datanorth.ai/news/google-gemini-3-1-flash-tts-release)。
-*   **嚴密的安全性**：為防止 AI 語音被誤用於電信詐騙等，所有生成的音訊都會在人耳聽不見的區域包含 **浮水印（Watermark）**，載明「此語音由 AI 製作」的資訊 [來源 13](https://www.c-sharpcorner.com/news/google-unveils-gemini-31-flashtts-the-next-generation-of-expressive-ai-speech)。
-*   **應用工具**：您可以透過 Google AI Studio、Vertex AI 以及最近推出的影片編輯工具 Google Vids 等直接接觸到這項技術 [來源 4](https://www.linkedin.com/pulse/gemini-31-flash-tts-our-latest-text-to-speech-model-available-tlsde), [來源 10](https://datanorth.ai/news/google-gemini-3-1-flash-tts-release)。
+這款模型在人工智慧業界已證明其具備壓倒性的性能。在 AI 分析平台「Artificial Analysis」的 TTS 排行榜上，它以 **1,211 分的驚人 Elo 分數** 榮登榜首 [Gemini 3.1 Flash TTS，代理對個人市場...](https://tldr.tech/ai/2026-04-16)。
 
-## 未來展望：「聽得見的 AI」時代
+此外，由於採用了 **低延遲（Low-latency）** 技術，下達指令後幾乎沒有延遲，能即時生成語音 [Gemini 3.1 Flash TTS (文字轉語音) 預覽 | Gemini API](https://ai.google.dev/gemini-api/docs/models/gemini-3.1-flash-tts-preview)。這意味著當我們與 AI 助手即時對話時，能像與真人對話一樣實現自然流暢的溝通。
 
-專家認為，此模型是將「AI 助手」概念推向更高層次的關鍵。
+### 看不見的安全裝置：SynthID 浮水印
+當語音與人類過於相似時，您是否擔心會被誤用於假新聞或冒名犯罪？為了消除這些疑慮，Google 全面引入了 **SynthID 浮水印** 技術 [Gemini 3.1 Flash TTS：全新的文字轉語音 AI 模型](https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-1-flash-tts/)。
 
-它超越了單純尋找問題答案的功能，開啟了一個能察覺對話中微妙細節（Acoustic nuance）並即時給予自然回應的「語音優先（Voice-first）」時代 [來源 9](https://ai.google.dev/gemini-api/docs/models/gemini-3.1-flash-live-preview)。
+這是一種「看不見的數位印章」。雖然我們耳朵完全聽不見，但音訊數據中隱藏著標記，只要使用專用的檢測技術，就能 100% 確認該語音是由 AI 生成的 [Google 揭曉 Gemini 3.1 Flash-TTS：次世代的表現力 AI 語音...](https://www.c-sharpcorner.com/news/google-unveils-gemini-31-flashtts-the-next-generation-of-expressive-ai-speech)。這展現了在技術飛速發展的同時，Google 也致力於履行社會責任 [Google 的 Gemini 3.1 Flash TTS 增加表現力 AI 語音 | StartupHub.ai](https://www.startuphub.ai/ai-news/ai-research/2026/google-s-gemini-3-1-flash-tts-adds-expressive-ai-voice)。
 
-**試著想像一下。** 當我們以疲憊且悲傷的聲音向 AI 傾訴時，AI 能立即感應到聲音的顫抖，並用世界上最溫暖的安慰語調回答。Google 深信此模型將成為開發者打造下一代 AI 語音應用程式最強大的武器 [來源 16](https://onmine.io/gemini-3-1-flash-tts-the-next-generation-of-expressive-ai-speech/)。曾經讓人感到冰冷的機器人聲音，成為能與我們真心交流的真正「聲音」的那一天，真的不遠了。
+## 未來會如何發展？
 
----
+目前 Gemini 3.1 Flash TTS 已在 **Google AI Studio** 和企業級平台 **Vertex AI** 上提供預覽（Preview）版本 [Gemini 3.1 Flash TTS (文字轉語音) 預覽 | Gemini API](https://ai.google.dev/gemini-api/docs/models/gemini-3.1-flash-tts-preview) [版本說明 | Gemini API | Google AI for Developers](https://ai.google.dev/gemini-api/docs/changelog)。
 
-### AI 的視角：MindTickleBytes 的 AI 記者觀點
-過去 AI 的發展主要集中在「智慧（知道多少）」這個大腦領域，而這次的 Gemini 3.1 Flash TTS 則邁入了「共鳴與表達（如何傳達心意）」這個心靈領域，這是一個非常令人印象深刻的飛躍。當技術越能深入理解人類情感並精確模仿時，我們的生活雖然會變得更豐富，但另一方面，我們也將面臨難以區分什麼是真正的人類溫暖的新倫理課題。
+未來，全球無數的開發者和企業將無窮無盡地應用這項技術 [Gemini 3.1 Flash TTS：全新的文字轉語音 AI 模型 - TechAIApp](https://www.techaiapp.com/tech/gemini-3-1-flash-tts-new-text-to-speech-ai-model/)。不久後，我們將在智慧型手機 App、汽車導航、客戶服務中心等日常生活中的各個角落，遇見更懂我們心思的「聰明且親切的語音」。
 
----
+AI 技術曾經感覺遙不可及，現在卻已進入能以與我們相同的情感頻率與我們交談的時代。您想與 AI 進行什麼樣的溫馨對話呢？
 
 ## 參考資料
-1. [Gemini 3.1 Flash TTS: New text-to-speech AI model - The Keyword](https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-1-flash-tts/)
-2. [Text-to-speech generation (TTS) | Gemini API | Google AI for Developers](https://ai.google.dev/gemini-api/docs/speech-generation)
-3. [How to prompt Gemini 3.1's new text to speech model](https://dev.to/googleai/how-to-prompt-gemini-31s-new-text-to-speech-model-24bb)
-4. [Gemini 3.1 Flash TTS, our latest text-to-speech model ... - LinkedIn](https://www.linkedin.com/pulse/gemini-31-flash-tts-our-latest-text-to-speech-model-available-tlsde/)
-5. [Gemini-TTS | Cloud Text-to-Speech | Google Cloud Documentation](https://docs.cloud.google.com/text-to-speech/docs/gemini-tts)
-6. [Gemini 3.1 Flash TTS: Expressive AI Speech with Audio Tags](https://aitoolly.com/ai-news/article/2026-04-16-google-deepmind-unveils-gemini-31-flash-tts-a-new-era-of-expressive-ai-speech-control)
-7. [Gemini 3.1 Flash TTS: Google's Most Controllable AI Voice](https://www.buildfastwithai.com/blogs/gemini-3-1-flash-tts-google-ai-voice-model-2026)
-9. [Gemini 3.1 Flash Live Preview | Gemini API | Google AI for Developers](https://ai.google.dev/gemini-api/docs/models/gemini-3.1-flash-live-preview)
-10. [Google Launches Gemini 3.1 Flash TTS | 70+ Languages](https://datanorth.ai/news/google-gemini-3-1-flash-tts-release)
-11. [Google's Gemini 3.1 Flash TTS model offers unparalleled control over AI ...](https://siliconangle.com/2026/04/15/googles-gemini-3-1-flash-tts-offers-unparalleled-control-ai-voices/)
-12. [Google ships its most expressive Gemini 3.1 text-to-speech model yet ...](https://the-decoder.com/google-ships-its-most-expressive-gemini-3-1-text-to-speech-model-yet-with-70-language-support/)
-13. [Google Unveils Gemini 3.1 Flash-TTS: The Next Generation of...](https://www.c-sharpcorner.com/news/google-unveils-gemini-31-flashtts-the-next-generation-of-expressive-ai-speech)
-14. [Google Unveils Gemini 3.1 Flash TTS: A New Era Of Hyper-Realistic...](https://mpost.io/google-unveils-gemini-3-1-flash-tts-a-new-era-of-hyper-realistic-fully-controllable-ai-speech-generation/)
-15. [Gemini 3.1 Flash TTS Revolutionizes Artificial Intelligence Voice...](https://algo-mania.com/en/blog/news/gemini-3-1-flash-tts-revolutionizes-artificial-intelligence-voice-synthesis/)
-16. [Gemini 3.1 Flash TTS: the next generation of expressive AI speech...](https://onmine.io/gemini-3-1-flash-tts-the-next-generation-of-expressive-ai-speech/)
-17. [Google Unveils Gemini 3.1 Flash TTS for Expressive AI Voices](https://headlinez.news/google-unveils-gemini-3-1-flash-tts-for-expressive-ai-voices/)
-18. [Gemini 3.1 Flash TTS: New text-to-speech AI model - AI News Today](https://ainewstoday.co/gemini-3-1-flash-tts-new-text-to-speech-ai-model/)
+
+1. [Gemini 3.1 Flash TTS：全新的文字轉語音 AI 模型](https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-1-flash-tts/)
+2. [Google 揭曉 Gemini 3.1 Flash-TTS：次世代的表現力 AI 語音...](https://www.c-sharpcorner.com/news/google-unveils-gemini-31-flashtts-the-next-generation-of-expressive-ai-speech)
+3. [Gemini 3.1 Flash TTS (文字轉語音) 預覽 | Gemini API](https://ai.google.dev/gemini-api/docs/models/gemini-3.1-flash-tts-preview)
+4. [Google Gemini 3.1 Flash TTS 對決 ElevenLabs 2026 | Nexairi](https://www.nexairi.com/article/Technology/gemini-31-flash-tts-expressive-ai-speech/)
+5. [使用包括 Gemini、Nano 在內的次世代 AI 系統進行開發...](https://deepmind.google/models/)
+6. [我們最新的文字轉語音模型 Gemini 3.1 Flash TTS 已於...推出](https://www.linkedin.com/pulse/gemini-31-flash-tts-our-latest-text-to-speech-model-available-tlsde)
+7. [Gemini 3.1 Flash TTS，代理對個人市場...](https://tldr.tech/ai/2026-04-16)
+8. [Google 揭曉 Gemini 3.1 Flash TTS：超擬真、全可控 AI 語音生成的新時代...](https://mpost.io/google-unveils-gemini-3-1-flash-tts-a-new-era-of-hyper-realistic-fully-controllable-ai-speech-generation/)
+9. [Gemini 3.1 Flash TTS Studio – 線上建立 AI 語音](https://www.geminitts.net/gemini-3-1-flash-tts)
+10. [Gemini 3.1 Flash TTS 徹底改變人工智慧語音合成...](https://algo-mania.com/en/blog/news/gemini-3-1-flash-tts-revolutionizes-artificial-intelligence-voice-synthesis/)
+11. [Gemini 3.1 Flash TTS：具備細顆粒度控制的表現力 AI 語音](https://aihaberleri.org/en/news/gemini-31-flash-tts-2026-granular-audio-control-for-expressive-ai-speech)
+13. [Google Cloud 上的 Gemini 3.1 Flash TTS | Google Cloud 網誌](https://cloud.google.com/blog/products/ai-machine-learning/gemini-3-1-flash-tts-on-google-cloud/)
+14. [版本說明 | Gemini API | Google AI for Developers](https://ai.google.dev/gemini-api/docs/changelog)
+15. [Gemini 3.1 Flash TTS：全新的文字轉語音 AI 模型 - TechAIApp](https://www.techaiapp.com/tech/gemini-3-1-flash-tts-new-text-to-speech-ai-model/)
+16. [Google 的 Gemini 3.1 Flash TTS 增加表現力 AI 語音 | StartupHub.ai](https://www.startuphub.ai/ai-news/ai-research/2026/google-s-gemini-3-1-flash-tts-adds-expressive-ai-voice)
 
 ## FACT-CHECK SUMMARY
-- Claims checked: 11
-- Claims verified: 11
+- Claims checked: 17
+- Claims verified: 17
 - Verdict: PASS
