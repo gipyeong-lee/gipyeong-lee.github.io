@@ -77,3 +77,23 @@ Push to `main` branch triggers GitHub Actions (`.github/workflows/jekyll.yml`) w
 - **Tag pages:** `/tag/tag-name/` via `jekyll/tagging` plugin
 - **Comments:** Disqus (shortname: `gipyeong`)
 - **Analytics:** Google Analytics 4 (`G-BZ475R8BPR`)
+
+### GA4 instrumentation
+
+`_includes/google-analytics.html` adds beyond the stock gtag bootstrap:
+
+- **Per-page custom params** attached to every event: `content_lang`,
+  `content_type` (= layout name), `content_slug`, `content_tag` (first
+  tag), `ref_family` (cross-language post family).
+- **First-touch attribution** (sessionStorage): `first_utm_source/medium/
+  campaign/term/content`, `first_referrer`, `first_landing_path`.
+- **Custom events**: `share_click` (which platform), `language_switch`,
+  `tag_click`, `outbound_link` (with anchor text + domain), `search_query`
+  (debounced), `scroll_depth` (25/50/75 %), `quiz_complete`.
+
+To make these queryable in GA4 reports, register matching custom dimensions
+in **Admin → Data display → Custom definitions**. Event-scope dimensions
+needed: `content_lang`, `content_type`, `content_tag`, `content_slug`,
+`ref_family`, `share_platform`, `switch_to`, `tag_name`, `link_domain`,
+`search_term_normalized`, `percent_scrolled`, `first_utm_source`,
+`first_utm_medium`, `first_utm_campaign`, `first_referrer`.

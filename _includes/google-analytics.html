@@ -1,9 +1,200 @@
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<!-- Google tag (gtag.js) -->
+{% comment %}
+  Google Analytics 4 — enriched with per-page custom dimensions and
+  interaction events so reports can answer:
+    1. Where do visitors come from?  → standard acquisition reports work
+       out of the box; this script adds first_touch attribution capture
+       (utm_source/medium/campaign/term/content + initial referrer) into
+       sessionStorage and re-attaches them to every event.
+    2. Which pages / sections do they engage with?  → every event carries
+       content_lang, content_type, content_tag, content_slug, ref_family.
+       Plus we emit explicit scroll_depth (25/50/75 %), share_click,
+       language_switch, tag_click, outbound_link, search_query, quiz_*.
+
+  GA4 admin setup needed (one-time, can't be done from code):
+    Admin → Data display → Custom definitions → Create custom dimension
+    for each: content_lang, content_type, content_tag, content_slug,
+    ref_family, share_platform, switch_to, tag_name, link_domain,
+    search_term_normalized, percent_scrolled, first_utm_source,
+    first_utm_medium, first_utm_campaign, first_referrer.
+{% endcomment %}
+
 <script async src="https://www.googletagmanager.com/gtag/js?id={{ site.data.settings.google.analytics }}"></script>
 <script>
+(function () {
+  var GA_ID = {{ site.data.settings.google.analytics | jsonify }};
+
+  // ---- Per-page metadata (Liquid-rendered server-side) -----------------
+  var PAGE_PARAMS = {
+    content_lang: {{ page.lang | default: site.default_lang | default: "ko" | jsonify }},
+    content_type: {{ page.layout | default: "page" | jsonify }},
+    content_slug: {{ page.slug | default: page.url | default: "" | jsonify }},
+    content_tag:  {{ page.tags | first | default: "" | jsonify }},
+    ref_family:   {{ page.ref | default: "" | jsonify }}
+  };
+
+  // ---- First-touch attribution capture (sessionStorage) ----------------
+  // GA4 already attributes the session, but we also stamp every custom
+  // event with the first-touch source so per-event funnels keep context.
+  function captureAttribution() {
+    try {
+      var stored = sessionStorage.getItem('__ga_first_touch');
+      if (stored) return JSON.parse(stored);
+      var qs = new URLSearchParams(window.location.search);
+      var data = {
+        first_utm_source:   qs.get('utm_source')   || '',
+        first_utm_medium:   qs.get('utm_medium')   || '',
+        first_utm_campaign: qs.get('utm_campaign') || '',
+        first_utm_term:     qs.get('utm_term')     || '',
+        first_utm_content:  qs.get('utm_content')  || '',
+        first_referrer:     document.referrer || '',
+        first_landing_path: window.location.pathname
+      };
+      sessionStorage.setItem('__ga_first_touch', JSON.stringify(data));
+      return data;
+    } catch (e) {
+      return {};
+    }
+  }
+  var ATTRIBUTION = captureAttribution();
+
+  // ---- gtag bootstrap --------------------------------------------------
   window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
+  function gtag(){ dataLayer.push(arguments); }
+  window.gtag = gtag;
   gtag('js', new Date());
-  gtag('config', '{{ site.data.settings.google.analytics }}');
+
+  // Merge page params + attribution so the auto page_view carries them
+  // and they remain on subsequent events (gtag('config') params persist).
+  var configParams = Object.assign({}, PAGE_PARAMS, ATTRIBUTION, {
+    send_page_view: true
+  });
+  gtag('config', GA_ID, configParams);
+
+  // ---- Helper to send custom events with full context ------------------
+  function track(name, params) {
+    try {
+      gtag('event', name, Object.assign({}, PAGE_PARAMS, ATTRIBUTION, params || {}));
+    } catch (e) { /* swallow — analytics must never break the page */ }
+  }
+  window.__gaTrack = track;
+
+  // ---- Click delegation: share / language / tag / outbound -------------
+  document.addEventListener('click', function (e) {
+    var a = e.target && e.target.closest && e.target.closest('a');
+    if (!a) return;
+    var href = a.getAttribute('href') || '';
+
+    // Share buttons (.share__facebook, .share__twitter, etc.)
+    if (a.closest('.share__list')) {
+      var m = (a.className || '').match(/share__([a-z]+)/);
+      track('share_click', { share_platform: (m && m[1]) || 'unknown' });
+      return;
+    }
+
+    // Language switcher
+    if (a.closest('.language-switcher')) {
+      track('language_switch', {
+        switch_to: (a.textContent || '').trim(),
+        switch_url: href
+      });
+      return;
+    }
+
+    // Tag click: in-post chips, trending tag cloud, header categories,
+    // tags index page — all funnel through /tag/<name>/.
+    if (href.indexOf('/tag/') !== -1) {
+      track('tag_click', {
+        tag_name: (a.textContent || '').trim().replace(/^#\s*/, ''),
+        tag_path: href
+      });
+      return;
+    }
+
+    // Outbound link enrichment (Enhanced Measurement also fires its own
+    // click event; this one adds anchor text so we can see *which* link).
+    if (/^https?:\/\//i.test(href)) {
+      try {
+        var u = new URL(href);
+        if (u.host && u.host !== window.location.host) {
+          track('outbound_link', {
+            link_url: href,
+            link_text: (a.textContent || '').trim().slice(0, 100),
+            link_domain: u.host
+          });
+        }
+      } catch (err) { /* malformed URL — ignore */ }
+    }
+  }, true);
+
+  // ---- Search query (debounced) ---------------------------------------
+  document.addEventListener('DOMContentLoaded', function () {
+    var input = document.getElementById('js-search-input');
+    if (!input) return;
+    var t = null;
+    input.addEventListener('input', function () {
+      if (t) clearTimeout(t);
+      t = setTimeout(function () {
+        var q = (input.value || '').trim();
+        if (q.length < 2) return;  // skip incidental keystrokes
+        track('search_query', {
+          search_term: q,
+          search_term_normalized: q.toLowerCase().slice(0, 100)
+        });
+      }, 800);
+    });
+  });
+
+  // ---- Scroll milestones (25 / 50 / 75 %) ------------------------------
+  // GA4 Enhanced Measurement only fires at 90%; the earlier marks let us
+  // see where readers drop off mid-post.
+  (function () {
+    var fired = {};
+    var MILESTONES = [25, 50, 75];
+    var raf = null;
+
+    function depthPct() {
+      var doc = document.documentElement;
+      var body = document.body;
+      var seen = (window.scrollY || doc.scrollTop || body.scrollTop || 0) + window.innerHeight;
+      var total = Math.max(doc.scrollHeight, body.scrollHeight);
+      return total > 0 ? (seen / total) * 100 : 0;
+    }
+    function check() {
+      raf = null;
+      var d = depthPct();
+      for (var i = 0; i < MILESTONES.length; i++) {
+        var m = MILESTONES[i];
+        if (!fired[m] && d >= m) {
+          fired[m] = true;
+          track('scroll_depth', { percent_scrolled: m });
+        }
+      }
+    }
+    window.addEventListener('scroll', function () {
+      if (raf == null) raf = window.requestAnimationFrame(check);
+    }, { passive: true });
+  })();
+
+  // ---- Quiz completion (post.html ships .quiz with quiz.js) -----------
+  // quiz.js doesn't currently emit a custom event; observe the result
+  // panel becoming visible as a proxy for completion.
+  document.addEventListener('DOMContentLoaded', function () {
+    var quiz = document.querySelector('.quiz');
+    if (!quiz) return;
+    var result = quiz.querySelector('.quiz__result');
+    if (!result) return;
+    var obs = new MutationObserver(function () {
+      var visible = result.offsetParent !== null && result.textContent.trim().length > 0;
+      if (visible && !quiz.dataset.gaCompleted) {
+        quiz.dataset.gaCompleted = '1';
+        var scoreEl = quiz.querySelector('.quiz__score');
+        track('quiz_complete', {
+          quiz_ref: {{ page.ref | default: "" | jsonify }},
+          quiz_score_text: scoreEl ? (scoreEl.textContent || '').trim().slice(0, 40) : ''
+        });
+      }
+    });
+    obs.observe(result, { childList: true, subtree: true, attributes: true });
+  });
+})();
 </script>
