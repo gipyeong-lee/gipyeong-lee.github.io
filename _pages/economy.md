@@ -1,5 +1,5 @@
 ---
-title: "경제"
+title: "Economy"
 layout: default
 permalink: /economy/
 order: 0
