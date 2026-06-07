@@ -16,9 +16,13 @@ layout: default
                     {% assign featured_post = ko_posts.first %}
                     <article class="featured-article">
                         {% if featured_post.image %}
+                        {% assign featured_webp = featured_post.image | split: '.' | first %}
                         <a href="{{ site.baseurl }}{{ featured_post.url }}">
-                            <img src="/images/{{ featured_post.image }}" alt="{{ featured_post.title }}"
-                                class="featured-image">
+                            <picture>
+                                <source srcset="/images/{{ featured_webp }}.webp" type="image/webp">
+                                <img src="/images/{{ featured_post.image }}" alt="{{ featured_post.title }}"
+                                    class="featured-image" fetchpriority="high">
+                            </picture>
                         </a>
                         {% endif %}
                         <div class="category-label">{{ featured_post.categories[0] | default: "Tech" }}</div>
@@ -36,8 +40,12 @@ layout: default
                         {% for post in ko_posts offset:1 limit:6 %}
                         <div class="sub-article-card">
                             {% if post.image %}
+                            {% assign card_webp = post.image | split: '.' | first %}
                             <a href="{{ site.baseurl }}{{ post.url }}">
-                                <img src="/images/{{ post.image }}" alt="{{ post.title }}" class="card-image">
+                                <picture>
+                                    <source srcset="/images/{{ card_webp }}.webp" type="image/webp">
+                                    <img src="/images/{{ post.image }}" alt="{{ post.title }}" class="card-image" loading="lazy">
+                                </picture>
                             </a>
                             {% endif %}
                             <div class="card-content">

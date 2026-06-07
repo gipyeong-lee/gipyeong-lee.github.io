@@ -1,0 +1,35 @@
+{% if page.layout == 'post' %}
+{% assign first_tag = page.tags | first %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "{{ site.data.settings.title | escape }}",
+      "item": "{{ site.url }}{{ site.baseurl }}/"
+    }{% if first_tag %},
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "{{ first_tag | escape }}",
+      "item": "{{ site.url }}{{ site.baseurl }}/tag/{{ first_tag | downcase | replace: ' ', '-' }}"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "{{ page.title | escape }}",
+      "item": "{{ page.url | replace:'index.html','' | absolute_url }}"
+    }{% else %},
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "{{ page.title | escape }}",
+      "item": "{{ page.url | replace:'index.html','' | absolute_url }}"
+    }{% endif %}
+  ]
+}
+</script>
+{% endif %}
