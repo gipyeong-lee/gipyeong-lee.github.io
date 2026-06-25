@@ -61,7 +61,7 @@ projects:
   - name: "Lotto Puri"
     desc: "A playful lottery prediction service blending traditional Korean saju fortune-telling with modern UX."
     image: work-lottopuri.png
-    url: "https://xn--vk1b81dq9kjzf.kr"
+    url: "https://xn--961bo7bixwyvm.kr/"
     tags: ["Web", "Entertainment"]
   - name: "Memoire"
     desc: "A visual diary app for capturing daily moments — calendar view, photo journal, and magazine-style PDF book export."
