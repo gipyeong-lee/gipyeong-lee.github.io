@@ -1,0 +1,27 @@
+/* AdSense unit wrapper — clear separation from content per AdSense
+   placement policy (avoid accidental clicks, label ads). */
+.ad-slot {
+  margin: 32px 0;
+  text-align: center;
+  clear: both;
+
+  .ad-slot__label {
+    display: block;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: #aaa;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+}
+
+.ad-slot--in-feed {
+  margin: 0;
+}
+
+.sub-article-card--ad {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 120px;
+}

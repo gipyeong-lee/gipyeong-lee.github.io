@@ -64,8 +64,21 @@ layout: default
       {% endif %}
 
       <div class="post__content">
-        {{ content }}
+        {% assign ad_slot_mid = site.data.settings.google.adsense_slot_in_article %}
+        {% assign paragraphs = content | split: '</p>' %}
+        {% if ad_slot_mid != "" and paragraphs.size > 6 %}
+          {% for part in paragraphs %}
+            {%- if forloop.last -%}{{ part }}{%- else -%}{{ part }}</p>{%- endif -%}
+            {% if forloop.index == 4 %}
+              {% include adsense.html type="in-article" slot=ad_slot_mid %}
+            {% endif %}
+          {% endfor %}
+        {% else %}
+          {{ content }}
+        {% endif %}
       </div>
+
+      {% include adsense.html type="display" slot=site.data.settings.google.adsense_slot_post_bottom %}
 
       <div class="post__share">
         <span class="share__title">Share this article:</span>

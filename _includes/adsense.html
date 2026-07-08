@@ -1,0 +1,37 @@
+{% comment %}
+  Reusable AdSense unit.
+  Usage: {% include adsense.html type="in-article" slot=site.data.settings.google.adsense_slot_in_article %}
+  Types: "in-article" (fluid, inside post content),
+         "display"    (responsive rectangle/banner),
+         "in-feed"    (fluid, between article cards; needs layout_key)
+  Renders nothing when slot is empty, so it is safe to ship before the
+  ad units exist in the AdSense dashboard.
+{% endcomment %}
+{% if include.slot and include.slot != "" %}
+<div class="ad-slot ad-slot--{{ include.type | default: 'display' }}">
+  <span class="ad-slot__label">AD</span>
+  {% if include.type == "in-article" %}
+  <ins class="adsbygoogle"
+       style="display:block; text-align:center;"
+       data-ad-layout="in-article"
+       data-ad-format="fluid"
+       data-ad-client="{{ site.data.settings.google.adsense_id }}"
+       data-ad-slot="{{ include.slot }}"></ins>
+  {% elsif include.type == "in-feed" %}
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-format="fluid"
+       data-ad-layout-key="{{ site.data.settings.google.adsense_in_feed_layout_key }}"
+       data-ad-client="{{ site.data.settings.google.adsense_id }}"
+       data-ad-slot="{{ include.slot }}"></ins>
+  {% else %}
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="{{ site.data.settings.google.adsense_id }}"
+       data-ad-slot="{{ include.slot }}"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
+  {% endif %}
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+{% endif %}

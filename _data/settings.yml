@@ -39,6 +39,12 @@ instagram-profile: gipyeong.lee # Add instagram username
 google:
   analytics: G-BZ475R8BPR # Add your identifier. For example UA-99631805-1.
   adsense_id: ca-pub-2018157982347357
+  # Ad unit slot IDs — create units in AdSense dashboard (Ads → By ad unit)
+  # and paste each unit's data-ad-slot number here. Empty = unit not rendered.
+  adsense_slot_in_article: "7840777202"   # "In-article" unit, shown mid-post content
+  adsense_slot_post_bottom: "5214613864"  # "Display (responsive)" unit, end of post
+  adsense_slot_in_feed: "8962287180"      # "In-feed" unit, homepage article list
+  adsense_in_feed_layout_key: "-9t-5q-sn+82+3vo" # data-ad-layout-key from the in-feed unit code
 
 
 #-------------------------------

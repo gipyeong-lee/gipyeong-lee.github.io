@@ -57,6 +57,14 @@ layout: default
                                 <div class="meta">{{ post.date | date: "%b %d" }}</div>
                             </div>
                         </div>
+                        {% if forloop.index == 3 %}
+                        {% assign ad_slot_feed = site.data.settings.google.adsense_slot_in_feed %}
+                        {% if ad_slot_feed != "" %}
+                        <div class="sub-article-card sub-article-card--ad">
+                            {% include adsense.html type="in-feed" slot=ad_slot_feed %}
+                        </div>
+                        {% endif %}
+                        {% endif %}
                         {% endfor %}
                     </div>
                 </div>

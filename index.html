@@ -19,6 +19,14 @@ layout: default
 	<div class="row">
 		{% for post in ko_posts limit:10 %}
 			{% include article-content.html %}
+			{% if forloop.index == 3 %}
+				{% assign ad_slot_feed = site.data.settings.google.adsense_slot_in_feed %}
+				{% if ad_slot_feed != "" %}
+				<div class="col col-12">
+					{% include adsense.html type="in-feed" slot=ad_slot_feed %}
+				</div>
+				{% endif %}
+			{% endif %}
 		{% endfor %}
 	</div>
 </div>
