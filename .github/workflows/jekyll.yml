@@ -20,10 +20,15 @@ permissions:
   pages: write
   id-token: write
 
-# Allow one concurrent deployment
+# Allow one concurrent deployment. cancel-in-progress must stay false:
+# posts are pushed roughly hourly by the content daemon while a full build
+# takes ~40 min, so cancelling in-progress builds starves deployment —
+# most runs died cancelled and the site lagged behind main for hours.
+# With false, the running build always completes and the newest push waits
+# in the queue (intermediate pending runs are superseded automatically).
 concurrency:
   group: "pages"
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   # Build job
