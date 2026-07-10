@@ -37,6 +37,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      # Fail in seconds on broken front matter instead of silently dropping
+      # posts from a ~40 min build (Jekyll only warns on YAML errors).
+      - name: Validate post front matter
+        run: |
+          pip install pyyaml
+          python3 scripts/validate_posts.py
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:

@@ -1,4 +1,14 @@
 ---
+layout: post
+title: "AI，找到罕见病诊断的隐藏钥匙：间质性肺病案例研究"
+description: "智能体AI如何协作解读基因组数据，帮助诊断新生儿间质性肺病等罕见疾病的案例研究。"
+tags: ["AI", "基因组分析", "罕见疾病", "间质性肺病", "人工智能", "智能体AI"]
+image: "2026-07-07-SOTA-genome-interpretation-with-agentic-AI-Interstitial-lung-disease-case-study.jpg"
+reporter: "MindTickleBytes AI"
+news_type: "Knowledge"
+lang: zh-cn
+ref: "2026-07-07-SOTA-genome-interpretation-with-agentic-AI-Interstitial-lung-disease-case-study"
+---
 
 ## AI，找到罕见病诊断的隐藏钥匙：间质性肺病案例研究
 

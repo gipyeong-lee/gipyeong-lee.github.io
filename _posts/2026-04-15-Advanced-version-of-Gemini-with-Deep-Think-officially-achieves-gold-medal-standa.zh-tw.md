@@ -9,19 +9,6 @@ image_alt: "在充滿數學符號的黑板前苦思的機器人形象與 Google 
 reporter: "MindTickleBytes AI"
 news_type: "Knowledge"
 ai_opinion: "AI 在超越單純知識檢索、屬於邏輯推理領域的「數學」中奪得金牌，這意味著 AI 已經成為能與我們一同「思考」複雜問題的真正夥伴。"
-quiz:
-  - question: "這次 Gemini 模型參加的是什麼比賽，並取得了什麼樣的成績？"
-    choices: ["在世界數學競賽中獲得銀牌", "在國際數學奧林匹亞 (IMO) 中獲得金牌標準", "在亞洲數學大賽中獲得大獎"]
-    answer: 1
-    explanation: "Google 的 Gemini 模型在 2025 年國際數學奧林匹亞 (IMO) 中正式獲得了金牌標準 (Gold-medal standard) 的成績。"
-  - question: "Gemini 在這次比賽中獲得的分數和解決的問題數量分別是多少？"
-    choices: ["30 分，解決 4 題", ["35 分，解決 5 題", "40 分，解決 6 題"]
-    answer: 1
-    explanation: "Gemini 在這次比賽中總共獲得了 35 分，並成功解決了 6 個問題中的 5 個。"
-  - question: "這次成果與過去其他 AI 的挑戰相比，最大的特點是什麼？"
-    choices: ["它是作為數學專用 AI 製作的", "嚴格遵守了官方比賽規則", "比人類解題速度快得多"]
-    answer: 1
-    explanation: "與以往的 AI 嘗試不同，這次 Gemini 的成果之重要在於它是遵守官方 IMO 比賽規則並獲得正式認可的紀錄。"
 lang: zh-tw
 ref: 2026-04-15-Advanced-version-of-Gemini-with-Deep-Think-officially-achieves-gold-medal-standa
 ---

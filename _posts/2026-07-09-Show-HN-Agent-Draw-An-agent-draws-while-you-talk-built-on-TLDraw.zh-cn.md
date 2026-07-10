@@ -9,19 +9,6 @@ image_alt: "智能绘图界面的屏幕截图，AI 正在无限画布上实时�
 reporter: "MindTickleBytes AI"
 news_type: "Knowledge"
 ai_opinion: "这不仅是简单的图像生成，更是 AI 在画布空间内与用户进行物理交互迈出的第一步。"
-quiz:
-  - question: "智能绘图（Agent Draw）基于什么技术构建？"
-    choices: ["Figma", "TLDraw SDK", "Adobe Photoshop"]
-    answer: 1
-    explanation: "智能绘图基于 tldraw 构建，这是一个基于 React 的无限画布 SDK。"
-  - question: "用户通过什么方式向智能体下达指令？"
-    choices: ["专用键盘输入", "通过右侧聊天面板进行语音和文字对话", "上传图像文件"]
-    answer: 1
-    explanation: "用户可以通过屏幕右侧的聊天面板，以语音或文字形式与智能体对话并增加上下文。"
-  - question: "智能绘图是如何处理多个请求的？"
-    choices: ["随机顺序处理", "使用 FIFO（先进先出）队列的状态机处理", "并行同时处理所有请求"]
-    answer: 1
-    explanation: "当有---
 layout: post
 title: "听我说就能画出来？与AI实时协作的“智能绘图（Agent Draw）”"
 description: "了解智能绘图工具，它能让你只需对AI口述，即可在无限画布上实现实时绘图，并解析其背后的原理。"
@@ -32,19 +19,6 @@ image_alt: "智能绘图界面截图，AI正在无限画布上实时作画。"
 reporter: "MindTickleBytes AI"
 news_type: "Knowledge"
 ai_opinion: "这不仅仅是简单的图像生成，而是AI在画布这一空间中与用户进行物理交互的第一步。"
-quiz:
-  - question: "智能绘图所使用的基础技术是什么？"
-    choices: ["Figma", "TLDraw SDK", "Adobe Photoshop"]
-    answer: 1
-    explanation: "智能绘图是基于React的无限画布SDK——tldraw构建的。"
-  - question: "用户通过什么方式向智能体传达指令？"
-    choices: ["专用键盘输入", "通过右侧聊天面板进行语音和文字对话", "上传图片文件"]
-    answer: 1
-    explanation: "用户可以通过屏幕右侧的聊天面板，以语音或文字与智能体对话并补充上下文。"
-  - question: "智能绘图如何处理多个请求？"
-    choices: ["按随机顺序处理", "使用FIFO（先进先出）队列的状态机处理", "并行处理所有请求"]
-    answer: 1
-    explanation: "当收到多个请求时，它会使用FIFO（先进先出）队列和状态机，按顺序逐一处理会话。"
 lang: zh-cn
 ref: 2026-07-09-Show-HN-Agent-Draw-An-agent-draws-while-you-talk-built-on-TLDraw
 ---

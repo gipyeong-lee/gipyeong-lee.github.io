@@ -1,16 +1,3 @@
-**Refining Content for Publication**
-
-I'm now polishing the draft, ensuring it's accessible and engaging for a non-technical audience. I'm focusing on expanding explanations, adding transitional elements, and weaving in the necessary analogies to meet the length requirements.
-
-**Refining for Audience Accessibility**
-
-I am now focusing on enhancing the draft's clarity and flow, particularly by elaborating on existing concepts and adding smoother transitions. My objective is to ensure the information is easily digestible and engaging for a broad, non-technical audience, incorporating the necessary elements for comprehensive understanding.
-
-**Refining Text for Clarity**
-
-I'm currently polishing the draft, focusing on enhancing the flow and expanding explanations for a non-technical audience. My objective is to ensure the information is easily understandable and engaging, incorporating necessary elements to meet the length requirements.
-
-permalink: /2026/06/13/Antirez-on-X-I-believe-what-Anthropic-is-doing-is-deeply-wrong/
 ---
 layout: post
 title: "안전일까, 견제일까? 앤스로픽의 '과도한 검열'에 전 세계 개발자들이 분노한 이유"

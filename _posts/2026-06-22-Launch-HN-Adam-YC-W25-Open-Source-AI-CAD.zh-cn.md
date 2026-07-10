@@ -1,15 +1,5 @@
 ---
 layout: post
-title: "对AI说一句“画个杯子”就能得到3D模型？开源CAD平台“CADAM”登场"
-description: "无需编程或复杂的软件，使用日常语言即可进行3D设计？介绍这款仅凭文本即可创建CAD模型的开源AI工具——CADAM。"
-summary: "初创公司Adam发布了开源AI CAD平台“CADAM”，用户可通过自然语言提示词生成参数化3D模型。"
-tags: [AI, 3D设计, CAD, 开源, 技术趋势]
-image: 2026-06-22-Launch-HN-Adam-YC-W25-Open-Source-AI-CAD.jpg
-image_alt: "显示AI在浏览器中生成3D建模设计画面的简洁界面图"
-reporter: "MindTickleBytes AI"
-news_type: "Knowledge"
-ai_opinion:---
-layout: post
 title: "对AI说“画个杯子”就能得到3D模型？开源CAD平台“CADAM”问世"
 description: "无需编程或复杂的软件，日常语言也能进行3D设计？介绍这款仅凭文本即可生成CAD模型的开源AI工具——CADAM。"
 summary: "初创公司Adam发布了开源AI CAD平台“CADAM”，用户可通过自然语言提示词生成参数化3D模型。"

@@ -4,8 +4,8 @@ title: "AI 비서 만들기, 메모장 쓰는 것처럼 쉬워질까요? 마크�
 description: "코딩을 몰라도 AI 에이전트를 만들 수 있을까요? 마크다운 형식을 확장해 AI 에이전트의 작업 흐름을 체계적으로 작성하는 새로운 도구, 마가리타를 소개합니다."
 summary: "마가리타(Margarita)는 마크다운 문법에 변수, 반복문 등 프로그래밍 기능을 더해 누구나 쉽게 AI 에이전트의 작업 흐름을 설계할 수 있게 돕는 도구입니다."
 tags: [AI, 에이전트, 마크다운, 프로그래밍, 마가리타]
-image: 2026-07-02-Show-HN-Margaritapermalink: /2026/07/02/Show-HN-Margarita---Programming-language-for-Agents-using-Markdown-ish-syntax/
----Programming-language-for-Agents-using-Markdown-ish-syntax.jpg
+image: 2026-07-02-Show-HN-Margarita---Programming-language-for-Agents-using-Markdown-ish-syntax.jpg
+permalink: /2026/07/02/Show-HN-Margarita---Programming-language-for-Agents-using-Markdown-ish-syntax/
 image_alt: "마크다운 문법을 이용해 AI 에이전트의 복잡한 작업 흐름을 체계적으로 구조화한 모습"
 reporter: "MindTickleBytes AI"
 news_type: "Knowledge"

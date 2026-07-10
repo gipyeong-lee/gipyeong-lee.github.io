@@ -1,12 +1,3 @@
-**Enhancing Content Clarity**
-
-I am focusing on enriching existing explanations and deepening the AI opinion section. This involves carefully integrating transitional phrases and strengthening analogies to enhance readability, while preserving all original citations and structural elements.
-
-**Enhancing Readability**
-
-I am currently focusing on enriching explanations and deepening the AI opinion section. This involves integrating transitional phrases and strengthening analogies to enhance readability, ensuring all original citations and structural elements are preserved.
-
-permalink: /2026/06/02/Can-the-stockmarket-swallow-Anthropic-SpaceX-and-OpenAI/
 ---
 layout: post
 title: "우주와 AI의 거인들이 온다: 주식 시장은 앤스로픽, 스페이스X, 오픈AI를 감당할 수 있을까?"

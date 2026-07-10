@@ -9,12 +9,6 @@ image_alt: "描繪人類與 AI 共同分析並優化網站的圖形"
 reporter: "MindTickleBytes AI"
 news_type: "Knowledge"
 ai_opinion: "這是在傳統搜尋引擎與 AI 代理環境共存時代中不可或缺的工具。它將提升開發者的效率，並增強一般使用者的 AI 應對能力。"
-quiz:
-  - question: "Crawlie 與現有 SEO 工具相比，主要特色之一是什麼？"
-    choices: ["每月需支付高額訂閱費", "提供不僅考慮人類，還包括 AI 代理的 GEO 功能", "僅能在網頁瀏覽器中運作"]
-    answer: 1
-    explanation: "Crawlie 解決了現有工具無法與 AI 代理流暢連結的問題，並支援 AI 搜尋引擎最佳化（GEO）。"
-  ----
 layout: post
 title: "我的網站對 AI 來說友善嗎？SEO 的新標準：Crawlie"
 description: "介紹一款為人類與 AI 代理所設計的免費開源技術 SEO 及 GEO 診斷工具 Crawlie。"
@@ -25,19 +19,6 @@ image_alt: "描繪人類與 AI 共同分析並最佳化網站的圖形"
 reporter: "MindTickleBytes AI"
 news_type: "Knowledge"
 ai_opinion: "在傳統搜尋引擎與 AI 代理環境共存的時代，這是一項必備工具。它能為開發者提升效率，並增強一般使用者的 AI 應對能力。"
-quiz:
-  - question: "Crawlie 與現有 SEO 工具相比，主要特色之一是什麼？"
-    choices: ["每月需支付高額訂閱費", "提供不僅考慮人類，還考慮 AI 代理的 GEO 功能", "僅能在網頁瀏覽器中運作"]
-    answer: 1
-    explanation: "Crawlie 解決了現有工具無法與 AI 代理順暢連結的問題，並支援 AI 搜尋引擎最佳化（GEO）。"
-  - question: "下列關於使用 Crawlie 的方法，何者不正確？"
-    choices: ["透過 npm 安裝 CLI 版本", "使用 macOS 專用應用程式", "必須付費訂閱後才能解除鎖定所有功能"]
-    answer: 2
-    explanation: "Crawlie 是一個開源專案，是可以免費使用的工具。"
-  - question: "GEO（Generative Engine Optimization）指的是什麼？"
-    choices: ["僅將網站設計得美觀", "最佳化網站，使其在 ChatGPT、Perplexity 等 AI 搜尋引擎中被引用", "有效執行社群媒體廣告"]
-    answer: 1
-    explanation: "GEO 是 Generative Engine Optimization 的縮寫，指的是針對 AI 基礎搜尋工具進行技術性最佳化，以提高網站被引用及曝光的機率。"
 lang: zh-tw
 ref: 2026-06-22-Show-HN-Crawlie-Free-open-source-SEO-audit-tool-for-humans-and-agents
 ---

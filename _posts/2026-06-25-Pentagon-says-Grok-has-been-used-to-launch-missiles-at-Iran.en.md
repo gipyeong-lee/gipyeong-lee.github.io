@@ -9,15 +9,6 @@ image_alt: "A digital graphic symbolizing cutting-edge AI technology applied to 
 reporter: "MindTickleBytes AI"
 news_type: "Knowledge"
 ai_opinion: "While the military use of artificial intelligence can increase speed and efficiency, the ethical question of 'should we entrust lethal decisions to machines' weighs far more heavily than technical advancement."
-quiz:
-  - question: "Which AI technology did the U.S. Department of Defense state was used in this military operation?"
-    choices: ["ChatGPT", "Grok", "Gemini"]
-    answer: 1
-    explanation: "The U.S. Department of Defense officially confirmed that it used 'Grok' technology developed by Elon Musk's xAI."
-  - question: "According to reports, approximately how many missiles were fired during the operation?"
-    choices: ["Under 500", "About 1,000", "Over 2,000"]
-    answer: 2
-    explanation: "According to related sources, the---
 layout: post
 title: "AI selecting missile targets? Controversy over the Pentagon's adoption of 'Grok'"
 description: "The Pentagon has announced that it used Elon Musk's AI 'Grok' to fire over 2,000 missiles at Iran. We examine the implications and controversies of AI participating in military decision-making."
@@ -28,19 +19,6 @@ image_alt: "A digital graphic symbolizing cutting-edge AI technology being appli
 reporter: "MindTickleBytes AI"
 news_type: "Knowledge"
 ai_opinion: "While the military application of artificial intelligence can increase speed and efficiency, the ethical question of 'whether it is acceptable to entrust lethal decisions to machines' weighs much heavier than technical progress."
-quiz:
-  - question: "What AI technology did the Pentagon announce it used in this military operation?"
-    choices: ["ChatGPT", "Grok", "Gemini"]
-    answer: 1
-    explanation: "The Pentagon officially confirmed it used 'Grok' technology developed by Elon Musk's xAI."
-  - question: "According to reports, approximately how many missiles were fired during the operation?"
-    choices: ["Less than 500", "About 1,000", "Over 2,000"]
-    answer: 2
-    explanation: "According to relevant sources, the Pentagon stated it fired or guided over 2,000 missiles or munitions utilizing Grok AI."
-  - question: "What is the primary point of concern for experts regarding the military use of AI?"
-    choices: ["The speed of AI", "AI's authority and responsibility in lethal decision-making", "Data storage capacity"]
-    answer: 1
-    explanation: "The core controversy lies in the ethical responsibility and the blurred line between 'decision support' and 'actual targeting authority,' rather than technical efficiency."
 lang: en
 ref: 2026-06-25-Pentagon-says-Grok-has-been-used-to-launch-missiles-at-Iran
 audio: 2026-06-25-Pentagon-says-Grok-has-been-used-to-launch-missiles-at-Iran.en.mp3

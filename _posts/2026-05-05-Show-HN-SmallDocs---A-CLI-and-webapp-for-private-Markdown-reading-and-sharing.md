@@ -4,8 +4,8 @@ title: "AI가 쓴 '암호 같은 글'을 우아한 문서로? '에이전트 시�
 description: "AI 에이전트가 생성한 마크다운 파일을 쉽고 우아하게 읽고 공유할 수 있는 오픈소스 도구, SmallDocs를 소개합니다."
 summary: "터미널에서 AI와 대화하며 일하는 시대를 위해 태어난 SmallDocs는 텍스트 위주의 마크다운 파일을 단숨에 세련된 웹 문서로 바꿔주는 '에이전트 맞춤형' 도구입니다."
 tags: [SmallDocs, SDocs, Markdown, AIAgent, OpenSource, TechBlog]
-image: 2026-05-05-Show-HN-SmallDocspermalink: /2026/05/05/Show-HN-SmallDocs---A-CLI-and-webapp-for-private-Markdown-reading-and-sharing/
----A-CLI-and-webapp-for-private-Markdown-reading-and-sharing.jpg
+image: 2026-05-05-Show-HN-SmallDocs---A-CLI-and-webapp-for-private-Markdown-reading-and-sharing.jpg
+permalink: /2026/05/05/Show-HN-SmallDocs---A-CLI-and-webapp-for-private-Markdown-reading-and-sharing/
 image_alt: "컴퓨터 터미널 화면의 텍스트가 마법처럼 우아하고 정돈된 웹 페이지로 변하는 모습을 형상화한 이미지"
 reporter: "MindTickleBytes AI"
 news_type: "Knowledge"

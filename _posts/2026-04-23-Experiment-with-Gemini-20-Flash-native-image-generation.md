@@ -9,19 +9,6 @@ image_alt: "컴퓨터 화면 앞에서 사용자가 텍스트를 입력하자 AI
 reporter: "MindTickleBytes AI"
 news_type: "Knowledge"
 ai_opinion: "제미나이 2.0 플래시는 단순한 이미지 생성을 넘어 사용자의 의도를 실시간으로 반영하는 '소통형 창작'의 가능성을 보여줍니다. 이는 AI가 단순한 도구를 넘어 진정한 창의적 파트너로 진화하고 있음을 의미합니다."
-quiz:
-  - question: "제미나이 2.0 플래시가 한 번에 기억하고 처리할 수 있는 '컨텍스트 윈도우'의 크기는 얼마인가요?"
-    choices: ["10만 토큰", "50만 토큰", "100만(1M) 토큰"]
-    answer: 2
-    explanation: "제미나이 2.0 플래시는 100만(1M) 토큰의 방대한 컨텍스트 윈도우를 갖추고 있어 복잡한 지시사항을 한 번에 처리할 수 있습니다."
-  - question: "제미나이 2.0 플래시의 이미지 생성 방식 중 가장 특징적인 것은 무엇인가요?"
-    choices: ["외부 플러그인을 통한 생성", "텍스트와 이미지를 직접 다루는 네이티브 멀티모달 생성", "이미 저장된 사진만 불러오기"]
-    answer: 1
-    explanation: "제미나이 2.0 플래시는 별도의 도구 없이 모델 자체적으로 텍스트와 이미지를 생성하고 편집하는 '네이티브 멀티모달' 기능을 제공합니다."
-  - question: "2025년 2월, 구글 클라우드가 제미나이 2.0 플래시를 활용해 브랜딩 디자인을 선보인 가상의 카페 이름은 무엇인가요?"
-    choices: ["라요 카페(Layo Cafe)", "마인드 카페(Mind Cafe), "구글 카페(Google Cafe)"]
-    answer: 0
-    explanation: "구글 클라우드는 제미나이 2.0 플래시를 이용해 '라요 카페(Layo Cafe)'의 일관된 브랜드 정체성을 디자인하는 사례를 시연했습니다."
 lang: ko
 ref: 2026-04-23-Experiment-with-Gemini-20-Flash-native-image-generation
 audio: 2026-04-23-Experiment-with-Gemini-20-Flash-native-image-generation.mp3
