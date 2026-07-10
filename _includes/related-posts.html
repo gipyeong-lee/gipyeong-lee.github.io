@@ -1,40 +1,9 @@
-{% comment %}
-Related posts: same language, shared tags, scored by tag overlap.
-Excludes the current post and its translation family (page.ref).
-Entry packed as "SS:::url:::title:::image:::alt:::date" to avoid a second
-site.posts scan per result. SS is zero-padded so string sort ranks correctly.
-{% endcomment %}
-{% assign current_lang = page.lang | default: site.default_lang | default: 'ko' %}
-{% assign scored = '' | split: '' %}
-{% comment %} Bound the O(n) scan: compare against the most recent same-language
-posts only. Keeps build time flat as the archive grows and biases internal
-links toward fresh content. {% endcomment %}
-{% assign scan_cap = 600 %}
-{% assign scanned = 0 %}
-
-{% if page.tags.size >= 1 %}
-  {% for candidate in site.posts %}
-    {% if candidate.lang != current_lang %}{% continue %}{% endif %}
-    {% if candidate.url == page.url %}{% continue %}{% endif %}
-    {% if page.ref and candidate.ref == page.ref %}{% continue %}{% endif %}
-    {% if scanned >= scan_cap %}{% break %}{% endif %}
-    {% assign scanned = scanned | plus: 1 %}
-    {% assign shared = 0 %}
-    {% for tag in page.tags %}
-      {% if candidate.tags contains tag %}{% assign shared = shared | plus: 1 %}{% endif %}
-    {% endfor %}
-    {% if shared > 0 %}
-      {% assign padded = shared | prepend: '0' %}
-      {% assign padded = padded | slice: -2, 2 %}
-      {% capture entry %}{{ padded }}:::{{ candidate.url }}:::{{ candidate.title | escape }}:::{{ candidate.image }}:::{{ candidate.image_alt | default: candidate.title | escape }}:::{{ candidate.date | date: '%b %d, %Y' }}{% endcapture %}
-      {% assign scored = scored | push: entry %}
-    {% endif %}
-  {% endfor %}
-{% endif %}
-
-{% assign scored = scored | sort | reverse %}
-
-{% if scored.size >= 1 %}
+{%- comment -%}
+Related posts precomputed by _plugins/related_posts_map.rb as page.related
+(same language, shared-tag scoring, translation family excluded).
+{%- endcomment -%}
+{%- assign current_lang = page.lang | default: site.default_lang | default: 'ko' -%}
+{%- if page.related and page.related.size >= 1 %}
 <div class="container">
   <aside class="related-posts">
     <h2 class="related-posts__title">
@@ -47,24 +16,22 @@ links toward fresh content. {% endcomment %}
       {% endcase %}
     </h2>
     <div class="related-posts__grid">
-      {% for item in scored limit: 4 %}
-        {% assign parts = item | split: ':::' %}
-        <a class="related-posts__card" href="{{ site.baseurl }}{{ parts[1] }}">
-          {% assign rp_image = parts[3] %}
-          {% if rp_image and rp_image != '' %}
-          {% assign rp_webp = rp_image | split: '.' | first %}
+      {%- for item in page.related limit: 4 %}
+        <a class="related-posts__card" href="{{ site.baseurl }}{{ item.url }}">
+          {%- if item.image and item.image != '' -%}
+          {%- assign rp_webp = item.image | split: '.' | first %}
           <span class="related-posts__thumb">
             <picture>
               <source srcset="{{ site.baseurl }}/images/{{ rp_webp }}.webp" type="image/webp">
-              <img src="{{ site.baseurl }}/images/{{ rp_image }}" alt="{{ parts[4] }}" loading="lazy" width="400" height="225">
+              <img src="{{ site.baseurl }}/images/{{ item.image }}" alt="{{ item.image_alt | escape }}" loading="lazy" width="400" height="225">
             </picture>
           </span>
-          {% endif %}
-          <span class="related-posts__card-title">{{ parts[2] }}</span>
-          <span class="related-posts__card-date">{{ parts[5] }}</span>
+          {%- endif %}
+          <span class="related-posts__card-title">{{ item.title | escape }}</span>
+          <span class="related-posts__card-date">{{ item.date }}</span>
         </a>
-      {% endfor %}
+      {%- endfor %}
     </div>
   </aside>
 </div>
-{% endif %}
+{%- endif %}
