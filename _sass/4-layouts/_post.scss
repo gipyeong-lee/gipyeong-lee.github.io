@@ -1,26 +1,29 @@
 .post-title-box {
-  padding: 80px 0;
-  border-top: 1px solid var(--color-border);
+  padding: 56px 0 40px;
+  border-top: 3px solid var(--color-rule-strong);
 
   .post-title {
-    margin-bottom: 10px;
-    width: 500px;
-    max-width: 100%;
-    font-size: 57px;
-    line-height: 70px;
+    margin-bottom: 16px;
+    max-width: 820px;
+    font-size: 48px;
+    line-height: 1.18;
+    letter-spacing: -0.01em;
   }
 
   .post__date {
-    font-weight: 700;
+    font-family: $mono-font-family;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-gray);
   }
 
   @media only screen and (max-width: $mobile) {
-    padding: 40px 0;
+    padding: 36px 0 28px;
 
     .post-title {
       margin: 10px 0;
-      font-size: 47px;
-      line-height: 53px;
+      font-size: 32px;
     }
   }
 }
@@ -31,8 +34,11 @@
 
   .post__author {
     margin-right: 10px;
-    font-weight: 700;
-    
+    font-family: $mono-font-family;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+
     .author-name {
       color: var(--color-gray);
       border-bottom: 1px solid transparent;
@@ -46,7 +52,11 @@
    .post__tags-tag {
      position: relative;
      padding-left: 15px;
-     font-weight: 700;
+     font-family: $mono-font-family;
+     font-size: 12px;
+     letter-spacing: 0.06em;
+     text-transform: uppercase;
+     color: var(--color-accent);
      &:before {
        content: "";
        position: absolute;
@@ -107,16 +117,16 @@ img.post-image {
 .post__summary {
   margin-bottom: 40px;
   padding: 20px 24px;
-  border-left: 4px solid var(--color-accent);
-  background: var(--color-surface);
-  border-radius: 0 $global-radius $global-radius 0;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  border-top: 1px solid var(--color-rule-strong);
+  border-bottom: 1px solid var(--color-border);
+  background: transparent;
 
   .post__summary-label {
-    font-size: 12px;
-    font-weight: 700;
+    font-family: $mono-font-family;
+    font-size: 11px;
+    font-weight: 500;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 0.12em;
     color: var(--color-accent);
     margin-bottom: 8px;
   }

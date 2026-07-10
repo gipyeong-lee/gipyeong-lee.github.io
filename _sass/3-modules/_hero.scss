@@ -1,81 +1,51 @@
-.hero {
-  padding: 80px 0;
-  margin-bottom: 80px;
-  background: var(--color-surface);
+/* Newspaper masthead (replaces old author hero) */
+.masthead {
+  padding: 28px 0 0;
+  margin-bottom: 56px;
 
-  .last-item {
+  .masthead__topline {
     display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 8px 0;
+    border-top: 1px solid var(--color-rule-strong);
+    border-bottom: 1px solid var(--color-border);
+    font-family: $mono-font-family;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-gray);
   }
 
-  .hero__content {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: 100%;
-    padding: 0 40px 0 0;
-    
-    .hero__title {
-      font-size: 38px;
-      font-weight: normal;
-    }
+  .masthead__title {
+    margin: 30px 0 22px;
+    font-size: 76px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.01em;
+    text-align: center;
 
-    .hero__subtitle {
-      font-size: 18px;
-      line-height: 32px;
-      letter-spacing: 0.5px;
-    }
-
-    .hero__social {
-      display: flex;
-    }
-
-    .hero__social-title {
-      font-weight: 700;
-    }
-
-  }
-
-  .hero__image {
-    img {
-      box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+    a {
+      color: var(--color-heading);
+      &:hover { color: var(--color-heading); }
     }
   }
 
-  @media only screen and (max-width: $desktop) {
-    .hero__content {
-      padding: 0;
-
-      .hero__subtitle {
-        font-size: 16px;
-        line-height: 28px;
-      }
-    }
+  // classic double rule under the nameplate
+  .masthead__rule {
+    height: 4px;
+    border-top: 3px solid var(--color-rule-strong);
+    border-bottom: 1px solid var(--color-rule-strong);
   }
 
   @media only screen and (max-width: $tablet) {
     margin-bottom: 40px;
-
-    .last-item {
-      order: 1;
-    }
-
-    .hero__content {
-      .hero__title {
-        margin-bottom: 20px;
-        font-size: 27px;
-      }
-    }
-
-    .hero__image {
-      margin-bottom: 20px;
-      
-      img {
-        box-shadow: none;
-      }
-    }
+    .masthead__title { font-size: 52px; margin: 22px 0 16px; }
+    .masthead__edition { display: none; }
+    .masthead__topline { justify-content: center; }
   }
 
   @media only screen and (max-width: $mobile) {
-    padding: 40px 0;
+    .masthead__title { font-size: 40px; }
   }
 }

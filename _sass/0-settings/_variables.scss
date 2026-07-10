@@ -6,24 +6,26 @@
 $base-spacing-unit: 20px;
 
 // Border radius
-$global-radius: 3px;
+$global-radius: 0px;
 
 // Transition
-$global-transition: all .35s;
+$global-transition: all .25s ease;
 
 
 // *****************
-// Color Variables
+// Color Variables — editorial newsroom palette
 // *****************
-$brand-color: #f6b141;
-$dark: #393e46;
-$gray: #bbbbbb;
-$light-gray: #e6eef0;
+$brand-color: #b3382c;        // signal red (kickers, links, rules of emphasis)
+$dark: #16181d;               // ink
+$ink-soft: #4b515c;           // secondary text
+$gray: #8a8f99;
+$light-gray: #e5e1d8;         // warm hairline
+$paper: #faf9f5;              // warm paper background
 $white: #ffffff;
 $black: #000000;
 
 // Background Colors
-$background-color: $white;
+$background-color: $paper;
 
 // Body Color
 $text-color: $dark;
@@ -33,11 +35,11 @@ $heading-font-color: $dark;
 
 // Links
 $link-color: $brand-color;
-$link-color-hover: darken($dark, 15%);
+$link-color-hover: darken($brand-color, 12%);
 
 // Button
 $button-color: $white;
-$button-background-color: $brand-color;
+$button-background-color: $dark;
 
 // Border
 $border-color: $light-gray;
@@ -47,57 +49,62 @@ $border-color: $light-gray;
 // CSS Custom Properties (Theme)
 // *****************
 :root {
-  --color-bg: #{$white};
+  --color-bg: #{$paper};
   --color-text: #{$dark};
   --color-heading: #{$dark};
   --color-accent: #{$brand-color};
-  --color-gray: #{$gray};
+  --color-gray: #{$ink-soft};
   --color-light-gray: #{$light-gray};
   --color-surface: #{$white};
   --color-border: #{$light-gray};
-  --color-code-bg: #f5f5f5;
+  --color-rule-strong: #{$dark};
+  --color-code-bg: #f1efe9;
   --color-link: #{$brand-color};
-  --color-link-hover: #{darken($dark, 15%)};
+  --color-link-hover: #{darken($brand-color, 12%)};
   --color-selection-bg: #{$dark};
-  --color-selection-text: #{$white};
+  --color-selection-text: #{$paper};
 }
 
 html[data-theme="dark"] {
-  --color-bg: #1a1b2e;
-  --color-text: #e0e0e0;
-  --color-heading: #f0f0f0;
-  --color-accent: #{$brand-color};
-  --color-gray: #9e9e9e;
-  --color-light-gray: #363650;
-  --color-surface: #252640;
-  --color-border: #363650;
-  --color-code-bg: #2a2b45;
-  --color-link: #{$brand-color};
-  --color-link-hover: #ffc766;
-  --color-selection-bg: #{$brand-color};
-  --color-selection-text: #1a1b2e;
+  --color-bg: #16171a;
+  --color-text: #d6d7da;
+  --color-heading: #f2f2f0;
+  --color-accent: #e06a5a;
+  --color-gray: #9599a1;
+  --color-light-gray: #313339;
+  --color-surface: #1e2024;
+  --color-border: #313339;
+  --color-rule-strong: #d6d7da;
+  --color-code-bg: #26282d;
+  --color-link: #e06a5a;
+  --color-link-hover: #ef8b7d;
+  --color-selection-bg: #e06a5a;
+  --color-selection-text: #16171a;
 }
 
 
 // *****************
-// Typography
+// Typography — serif display over sans body, mono for wire-style meta
 // *****************
 $base-font-size: 16px;
 $base-font-style: normal;
 $base-font-variant: normal;
 $base-font-weight: normal;
-$base-font-family: 'Roboto', Helvetica Neue, Helvetica, Arial, sans-serif;
-$base-line-height: 26px;
+$base-font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+$base-line-height: 28px;
 
 // Headings
 $heading-font-weight: 700;
-$heading-font-family: 'Roboto', Helvetica Neue, Helvetica, Arial, sans-serif;
+$heading-font-family: 'Newsreader', 'Noto Serif KR', 'Apple SD Gothic Neo', serif;
 
-$font-size-h1:  36px;
-$font-size-h2:  28px;
+// Meta / kickers / bylines
+$mono-font-family: 'IBM Plex Mono', 'SFMono-Regular', Menlo, monospace;
+
+$font-size-h1:  40px;
+$font-size-h2:  30px;
 $font-size-h3:  24px;
 $font-size-h4:  20px;
 $font-size-h5:  18px;
 $font-size-h6:  16px;
 
-$heading-line-height: 1.2;
+$heading-line-height: 1.25;

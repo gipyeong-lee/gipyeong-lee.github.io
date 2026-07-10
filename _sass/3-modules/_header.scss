@@ -1,6 +1,7 @@
 .header {
   position: relative;
-  height: 100px;
+  height: 64px;
+  border-bottom: 1px solid var(--color-border);
 
   .header__overlay {
     position: fixed;
@@ -31,13 +32,14 @@
   transform: translateY(-50%);
   
   .logo__link {
-    font-size: 30px;
+    font-family: $heading-font-family;
+    font-size: 24px;
     font-weight: 700;
-    letter-spacing: 0.5px;
+    letter-spacing: 0;
     color: var(--color-heading);
     text-decoration: none;
     &:hover {
-      color: var(--color-link-hover);
+      color: var(--color-heading);
     }
   }
 
@@ -74,14 +76,15 @@
 
       .nav__link {
         display: inline-block;
-        padding: 10px 30px;
-        font-size: 14px;
-        font-weight: 700;
-        letter-spacing: 0.5px;
+        padding: 10px 22px;
+        font-family: $mono-font-family;
+        font-size: 12px;
+        font-weight: 500;
+        letter-spacing: 0.1em;
         text-transform: uppercase;
         color: var(--color-text);
         &:hover {
-          color: var(--color-link-hover);
+          color: var(--color-accent);
         }
       }
     }

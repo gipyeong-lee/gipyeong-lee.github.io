@@ -39,8 +39,8 @@ h4,
 h5,
 h6 {
   font-family: $heading-font-family;
-  line-height: initial;
-  letter-spacing: 0.5px;
+  line-height: $heading-line-height;
+  letter-spacing: normal;
 }
 
 h1 {

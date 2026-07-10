@@ -1,39 +1,19 @@
+/* Section label between lead story and grid */
 .lates-title {
   position: relative;
-  margin-bottom: 80px;
-  font-size: 14px;
+  margin-bottom: 34px;
+  padding-top: 10px;
+  font-family: $mono-font-family;
+  font-size: 12px;
   line-height: 24px;
-  letter-spacing: 1px;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  font-weight: normal;
-  text-align: center;
-  &:after,
-  &:before {
-    content: "";
-    display: block;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%); 
-    height: 1px;
-    background: var(--color-border);
-  }
-
-  &:after {
-    width: calc(50% - 90px);
-    left: 0;
-  }
-
-  &:before {
-    width: calc(50% - 90px);
-    right: 0;
-  }
+  font-weight: 500;
+  text-align: left;
+  color: var(--color-heading);
+  border-top: 3px solid var(--color-rule-strong);
 
   @media only screen and (max-width: $tablet) {
-    margin-bottom: 40px;
-    
-    &:after,
-    &:before {
-      width: calc(50% - 70px);
-    }
+    margin-bottom: 22px;
   }
 }
