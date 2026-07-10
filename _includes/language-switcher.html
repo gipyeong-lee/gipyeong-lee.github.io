@@ -3,9 +3,9 @@
   Uses the `ref` field in front matter to find translations of the same post.
 {% endcomment %}
 
-{% if page.ref %}
+{% if page.translations %}
 <div class="language-switcher">
-  {% assign translations = site.posts | where: "ref", page.ref %}
+  {% assign translations = page.translations %}
   {% for lang in site.languages %}
     {% assign lang_name = site.language_names[lang] %}
     {% assign translation = translations | where: "lang", lang | first %}

@@ -13,12 +13,11 @@
   <link rel="canonical" href="{{ page.url | replace:'index.html','' | absolute_url }}">
   <link rel="alternate" type="application/rss+xml" title="{{ site.title | escape }}" href="{{ "/feed.xml" | relative_url }}">
 
-  {% if page.ref %}
-    {% assign translations = site.posts | where: "ref", page.ref %}
-    {% for translation in translations %}
+  {% if page.translations %}
+    {% for translation in page.translations %}
   <link rel="alternate" hreflang="{{ translation.lang }}" href="{{ site.url }}{{ site.baseurl }}{{ translation.url }}" />
     {% endfor %}
-    {% assign ko_post = translations | where: "lang", "ko" | first %}
+    {% assign ko_post = page.translations | where: "lang", "ko" | first %}
     {% if ko_post %}
   <link rel="alternate" hreflang="x-default" href="{{ site.url }}{{ site.baseurl }}{{ ko_post.url }}" />
     {% endif %}
@@ -71,12 +70,7 @@
   <link href="https://unpkg.com/ionicons@4.2.2/dist/css/ionicons.min.css" rel="stylesheet">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ site.data.settings.google.adsense_id }}"
   crossorigin="anonymous"></script>
-  <style>
-  {% capture include_to_scssify %}
-    {% include main.scss %}
-  {% endcapture %}
-  {{ include_to_scssify | scssify }}
-  </style>
+  <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
   <meta name="google-site-verification" content="a-ooQbWI49ahFL0LACl3xJhMzt9ZtWqDVqNoZo4yOYo" />
   {% include article-schema.html %}
   {% include breadcrumb-schema.html %}

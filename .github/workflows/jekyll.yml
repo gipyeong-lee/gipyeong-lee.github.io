@@ -52,6 +52,15 @@ jobs:
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v5
+      # Jekyll 4 caches markdown/Liquid conversion in .jekyll-cache keyed by
+      # content — restoring it means only new/changed posts re-render.
+      - name: Cache Jekyll conversion cache
+        uses: actions/cache@v4
+        with:
+          path: .jekyll-cache
+          key: jekyll-cache-${{ github.sha }}
+          restore-keys: |
+            jekyll-cache-
       - name: Build with Jekyll
         run: bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}"
         env:

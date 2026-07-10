@@ -1,0 +1,5 @@
+---
+# Compiled once per build. head.html used to inline this stylesheet through
+# `scssify`, recompiling the full Sass tree for every generated page.
+---
+{% include main.scss %}
