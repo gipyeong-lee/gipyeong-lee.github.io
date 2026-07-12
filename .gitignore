@@ -21,3 +21,18 @@ youtube_token*.json
 **/aiblog_credentials/
 .config/aiblog/
 .gstack/
+
+.env.local
+.env.*
+
+# Python bytecode
+**/__pycache__/
+
+# Local AI assistant configs (generated per-machine, not part of the site)
+.agents/
+.clinerules/
+.cursor/
+.opencode/
+.windsurf/
+AGENTS.md
+.github/copilot-instructions.md
