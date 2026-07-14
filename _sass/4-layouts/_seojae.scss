@@ -1,0 +1,52 @@
+/* 서재 — quiet vertical list, distinct from the news grid */
+
+.seojae {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 40px 0 80px;
+}
+
+.seojae__heading {
+  font-size: 2rem;
+  margin-bottom: 8px;
+}
+
+.seojae__intro,
+.seojae__empty {
+  color: var(--text-alt-color, #777);
+  margin-bottom: 48px;
+}
+
+.seojae-list__item {
+  padding: 24px 0;
+  border-bottom: 1px solid var(--border-color, #eee);
+
+  &:first-child {
+    border-top: 1px solid var(--border-color, #eee);
+  }
+}
+
+.seojae-list__link {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  text-decoration: none;
+}
+
+.seojae-list__title {
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+.seojae-list__date {
+  flex-shrink: 0;
+  font-size: 0.85rem;
+  color: var(--text-alt-color, #999);
+}
+
+.seojae-list__excerpt {
+  margin: 8px 0 0;
+  font-size: 0.95rem;
+  color: var(--text-alt-color, #777);
+}
