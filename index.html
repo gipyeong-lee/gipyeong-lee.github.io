@@ -3,7 +3,8 @@ layout: default
 ---
 {% include hero.html %}
 
-{% assign ko_posts = site.posts | where: "lang", "ko" %}
+{% assign ko_posts = site.posts | where: "lang", "ko" | where_exp: "item", "item.section != 'seojae'" %}
+{% assign seojae_posts = site.posts | where: "section", "seojae" | where: "lang", "ko" %}
 
 <div class="container">
 	{% if ko_posts.size > 0 %}
@@ -37,3 +38,23 @@ layout: default
 		{% endfor %}
 	</div>
 </div>
+
+{% if seojae_posts.size > 0 %}
+<div class="container">
+	<div class="row">
+		<div class="col col-12">
+			<h4 class="lates-title seojae-home__title">서재
+				<a class="seojae-home__more" href="{{ site.baseurl }}/seojae/">더보기 →</a>
+			</h4>
+		</div>
+	</div>
+</div>
+
+<div class="container">
+	<div class="article-grid">
+		{% for post in seojae_posts limit:3 %}
+			{% include article-content.html post=post %}
+		{% endfor %}
+	</div>
+</div>
+{% endif %}
