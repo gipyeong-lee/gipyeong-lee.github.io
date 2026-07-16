@@ -57,3 +57,74 @@
   font-weight: 400;
   color: var(--text-alt-color, #777);
 }
+
+/* --- 서재 rich blocks (post body; harmless elsewhere) --- */
+
+.book-quote {
+  margin: 32px 0;
+  padding: 24px 28px;
+  border-left: 4px solid var(--brand-color, #c0a062);
+  background: var(--background-alt-color, #f8f6f2);
+  border-radius: 0 8px 8px 0;
+
+  p {
+    margin: 0 0 12px;
+    font-family: Georgia, "Times New Roman", serif;
+    font-style: italic;
+    font-size: 1.1rem;
+    line-height: 1.7;
+  }
+
+  cite {
+    display: block;
+    font-style: normal;
+    font-size: 0.85rem;
+    color: var(--text-alt-color, #777);
+  }
+}
+
+.img-row {
+  display: flex;
+  gap: 12px;
+  margin: 32px 0;
+
+  img {
+    flex: 1 1 0;
+    min-width: 0;
+    max-width: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+  }
+}
+
+.video-embed {
+  margin: 32px 0;
+  aspect-ratio: 16 / 9;
+
+  iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    border-radius: 8px;
+  }
+}
+
+details {
+  margin: 24px 0;
+  padding: 12px 16px;
+  border: 1px solid var(--border-color, #eee);
+  border-radius: 8px;
+
+  summary {
+    cursor: pointer;
+    font-weight: 600;
+  }
+
+  &[open] summary {
+    margin-bottom: 8px;
+  }
+}
