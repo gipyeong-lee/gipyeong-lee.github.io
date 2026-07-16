@@ -24,7 +24,11 @@
   {% include footer.html %}
 
   {% if page.audio %}
-  <div class="audio-player" data-src="{{ site.baseurl }}/audio/{{ page.audio }}" data-ref="{{ page.ref }}">
+  {%- comment -%}
+    mp3s are excluded from the Pages artifact (1.6GB — see _config.yml
+    exclude) and served from the jsDelivr GitHub CDN instead.
+  {%- endcomment -%}
+  <div class="audio-player" data-src="https://cdn.jsdelivr.net/gh/gipyeong-lee/gipyeong-lee.github.io@main/audio/{{ page.audio }}" data-ref="{{ page.ref }}">
     <button class="audio-player__btn"><i class="ion ion-ios-play"></i></button>
     <span class="audio-player__title">{{ page.title | truncate: 30 }}</span>
     <div class="audio-player__progress"><div class="audio-player__progress-fill"></div></div>

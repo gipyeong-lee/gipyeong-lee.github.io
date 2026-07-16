@@ -1,0 +1,11 @@
+# Static site nav. header.html renders this directly — do NOT go back to
+# iterating site.pages there: with thousands of generated tag pages that
+# where_exp scan cost ~660s of a 746s build (89%), measured 2026-07-16.
+- title: About
+  url: /about/
+- title: Economy
+  url: /economy/
+- title: Library
+  url: /seojae/
+- title: Tags
+  url: /tags/

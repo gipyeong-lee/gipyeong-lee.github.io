@@ -11,7 +11,11 @@
     {% if post.tags.size >= 1 %}
       <div class="article__kicker">
         {% for tag in post.tags limit:2 %}
+          {%- if post.linkable_tags contains tag %}
           <a href="{{ site.baseurl }}/tag/{{ tag | downcase | replace: " ", "-" }}" class="article__tag">{{ tag }}</a>
+          {%- else %}
+          <span class="article__tag">{{ tag }}</span>
+          {%- endif %}
         {% endfor %}
       </div>
     {% endif %}

@@ -25,19 +25,15 @@
 
             <ul class="nav__list list-reset">
               {%- comment -%}
-                site.pages includes ~6,000 jekyll-tagging tag pages; iterating
-                them un-filtered emitted ~400KB of loop whitespace into every
-                generated page and dominated build time. Filter first.
+                Nav comes from _data/navigation.yml. Never rebuild this from
+                site.pages: scanning thousands of generated tag pages on
+                every page render cost 662s of a 746s build (measured
+                2026-07-16 with --profile).
               {%- endcomment -%}
-              {%- assign pages_list = site.pages | where_exp: "item", "item.layout != 'tag_page'" | sort: 'order' -%}
-              {%- for page in pages_list -%}
-                {%- unless page.name == 'tags.html' or page.name == '404.html' -%}
-              {%- if page.title %}
+              {%- for item in site.data.navigation %}
               <li class="nav__item">
-                <a href="{{ page.url | prepend: site.baseurl }}" class="nav__link">{{ page.title }}</a>
+                <a href="{{ item.url | prepend: site.baseurl }}" class="nav__link">{{ item.title }}</a>
               </li>
-              {%- endif -%}
-                {%- endunless -%}
               {%- endfor %}
             </ul>
 

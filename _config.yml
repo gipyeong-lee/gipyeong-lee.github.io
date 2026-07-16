@@ -8,7 +8,28 @@ permalink: pretty
 future: true
 plugins:
   - jekyll-paginate
-  - jekyll/tagging
+
+# Tag pages come from _plugins/tag_pages.rb (jekyll/tagging was dropped:
+# it generated a page for every one of ~5,700 mostly-unique LLM tags).
+tag_min_posts: 5
+
+# audio/ stays committed but is excluded from the built site — 1.6GB of
+# mp3s made every Pages artifact ~2.3GB. The player loads them from the
+# jsDelivr GitHub CDN instead (see _layouts/default.html).
+exclude:
+  - .sass-cache
+  - .jekyll-cache
+  - gemfiles
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+  - audio
+  - scripts
+  - docs
+  - AGENTS.md
+  - CLAUDE.md
+  - README.md
 
 paginate: 5
 paginate_path: "/page/:num"
