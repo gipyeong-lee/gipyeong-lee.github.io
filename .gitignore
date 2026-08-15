@@ -28,6 +28,13 @@ youtube_token*.json
 # Python bytecode
 **/__pycache__/
 
+# TTS pipeline intermediates (only final .mp3 files are published)
+audio/*.wav.base.wav
+audio/*.wav.norm.wav
+
+# Browser automation temp output
+.playwright-mcp/
+
 # Local AI assistant configs (generated per-machine, not part of the site)
 .agents/
 .clinerules/
