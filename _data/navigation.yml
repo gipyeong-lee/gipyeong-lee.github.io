@@ -3,6 +3,8 @@
 # where_exp scan cost ~660s of a 746s build (89%), measured 2026-07-16.
 - title: About
   url: /about/
+- title: Blog
+  url: /blog/
 - title: Economy
   url: /economy/
 - title: Tags

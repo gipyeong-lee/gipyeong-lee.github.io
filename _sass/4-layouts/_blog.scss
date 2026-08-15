@@ -1,23 +1,51 @@
-/* 서재 — quiet vertical list, distinct from the news grid */
+/* 블로그 — 분류 필터가 있는 수직 목록 */
 
-.seojae {
+.blog-page {
   max-width: 720px;
   margin: 0 auto;
   padding: 40px 0 80px;
+
+  &__heading {
+    font-size: 2rem;
+    margin-bottom: 8px;
+  }
+
+  &__intro,
+  &__empty {
+    color: var(--text-alt-color, #777);
+    margin-bottom: 48px;
+  }
+
+  &__layout {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+  }
 }
 
-.seojae__heading {
-  font-size: 2rem;
-  margin-bottom: 8px;
+.blog-sidebar {
+  flex: 0 0 180px;
+  position: sticky;
+  top: 90px;
+
+  &__link {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 10px;
+    border-radius: 6px;
+    text-decoration: none;
+    color: inherit;
+
+    &:hover { background: rgba(0, 0, 0, 0.04); }
+    &.is-active { background: rgba(0, 0, 0, 0.07); font-weight: 700; }
+  }
+
+  &__count { opacity: 0.55; font-size: 0.85em; }
 }
 
-.seojae__intro,
-.seojae__empty {
-  color: var(--text-alt-color, #777);
-  margin-bottom: 48px;
-}
+.blog-content { flex: 1 1 auto; min-width: 0; }
 
-.seojae-list__item {
+.blog-list__item {
   padding: 24px 0;
   border-bottom: 1px solid var(--border-color, #eee);
 
@@ -26,7 +54,7 @@
   }
 }
 
-.seojae-list__link {
+.blog-list__link {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
@@ -34,31 +62,36 @@
   text-decoration: none;
 }
 
-.seojae-list__title {
+.blog-list__title {
   font-size: 1.15rem;
   font-weight: 600;
 }
 
-.seojae-list__date {
+.blog-list__date {
   flex-shrink: 0;
   font-size: 0.85rem;
   color: var(--text-alt-color, #999);
 }
 
-.seojae-list__excerpt {
+.blog-list__excerpt {
   margin: 8px 0 0;
   font-size: 0.95rem;
   color: var(--text-alt-color, #777);
 }
 
-.seojae-home__more {
-  margin-left: 12px;
-  font-size: 0.85rem;
-  font-weight: 400;
-  color: var(--text-alt-color, #777);
+@media (max-width: 768px) {
+  .blog-page__layout { flex-direction: column; gap: 16px; }
+  .blog-sidebar {
+    position: static;
+    flex: none;
+    width: 100%;
+
+    ul { display: flex; flex-wrap: nowrap; overflow-x: auto; gap: 8px; }
+    &__link { white-space: nowrap; }
+  }
 }
 
-/* --- 서재 rich blocks (post body; harmless elsewhere) --- */
+/* --- 블로그 rich blocks (post body; harmless elsewhere) --- */
 
 .book-quote {
   margin: 32px 0;

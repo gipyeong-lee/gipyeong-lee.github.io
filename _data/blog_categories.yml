@@ -1,0 +1,6 @@
+- slug: essay
+  name: 에세이
+  order: 1
+- slug: portfolio
+  name: 포트폴리오
+  order: 2

@@ -1,0 +1,68 @@
+---
+layout: default
+title: Blog
+permalink: /blog/
+order: 10
+---
+{% assign blog_posts = site.posts | where: "section", "blog" | where: "lang", "ko" %}
+<div class="container">
+  <div class="row">
+    <div class="col col-12">
+      <div class="blog-page">
+        <h1 class="blog-page__heading">Blog</h1>
+        <p class="blog-page__intro">직접 쓴 글과 작업 기록.</p>
+        <div class="blog-page__layout">
+          <nav class="blog-sidebar" aria-label="카테고리">
+            <ul class="list-reset">
+              <li><a href="#all" class="blog-sidebar__link is-active" data-filter="all">
+                전체 <span class="blog-sidebar__count">{{ blog_posts.size }}</span></a></li>
+              {% assign cats = site.data.blog_categories | sort: "order" %}
+              {% for cat in cats %}
+              {% assign cat_posts = blog_posts | where: "category", cat.slug %}
+              <li><a href="#{{ cat.slug }}" class="blog-sidebar__link" data-filter="{{ cat.slug }}">
+                {{ cat.name }} <span class="blog-sidebar__count">{{ cat_posts.size }}</span></a></li>
+              {% endfor %}
+            </ul>
+          </nav>
+          <div class="blog-content">
+            {% if blog_posts.size == 0 %}<p class="blog-content__empty">아직 글이 없습니다.</p>{% endif %}
+            <ul class="blog-list list-reset">
+              {% for post in blog_posts %}
+              <li class="blog-list__item" data-category="{{ post.category | default: 'essay' }}">
+                <a href="{{ post.url | prepend: site.baseurl }}" class="blog-list__link">
+                  <span class="blog-list__title">{{ post.title }}</span>
+                  <time class="blog-list__date" datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%Y.%m.%d" }}</time>
+                </a>
+                <p class="blog-list__excerpt">{% if post.description %}{{ post.description }}{% else %}{{ post.content | strip_html | truncate: 120 }}{% endif %}</p>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+(function () {
+  var links = document.querySelectorAll('.blog-sidebar__link');
+  var items = document.querySelectorAll('.blog-list__item');
+  function apply(filter) {
+    links.forEach(function (a) {
+      a.classList.toggle('is-active', a.dataset.filter === filter);
+    });
+    items.forEach(function (li) {
+      li.style.display =
+        (filter === 'all' || li.dataset.category === filter) ? '' : 'none';
+    });
+  }
+  links.forEach(function (a) {
+    a.addEventListener('click', function () { apply(a.dataset.filter); });
+  });
+  var initial = (location.hash || '#all').slice(1);
+  var known = Array.prototype.some.call(links, function (a) {
+    return a.dataset.filter === initial;
+  });
+  apply(known ? initial : 'all');
+})();
+</script>
