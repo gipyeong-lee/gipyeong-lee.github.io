@@ -1,70 +1,109 @@
 ---
 layout: post
-title: "AI에게 민감한 정보 줘도 될까? '제로 데이터 보존(ZDR)'이 뭐길래"
-description: "기업들이 AI를 안전하게 사용하기 위해 도입하는 '제로 데이터 보존' 계약의 의미와 한계를 쉽게 설명합니다."
-summary: "제로 데이터 보존(ZDR)은 AI 제공 업체가 사용자의 데이터를 즉시 삭제하고 학습에 사용하지 않겠다고 약속하는 강력한 보안 계약입니다."
-tags: [AI보안, 데이터프라이버시, 제로데이터보존, ZDR]
+title: "내 데이터는 AI 학습에 쓰일까? '제로 데이터 보존(ZDR)'이 만드는 안전한 AI 세상"
+description: "기업들이 민감한 정보를 AI에 맡길 때 가장 걱정하는 데이터 보안, '제로 데이터 보존(ZDR)' 정책이 무엇인지, 그리고 이것이 왜 중요한지 쉽게 설명해 드립니다."
+summary: "AI 기업의 제로 데이터 보존(ZDR) 계약은 사용자의 데이터를 서버에 남기지 않고 즉시 삭제하여, 민감한 정보를 다루는 기업이 안심하고 최신 AI 모델을 사용할 수 있게 돕는 안전장치입니다."
+tags: [AI, 보안, 데이터보안, 기업용AI, ZDR]
 image: 2026-08-20-Offering-Zero-Data-Retention-for-frontier-modelsCompanyAug-19-2026.jpg
-image_alt: "디지털 보안 자물쇠와 AI 모델이 연결된 모습을 나타내는 그래픽"
+image_alt: "디지털 보안 자물쇠와 AI 회로도가 결합된 그래픽 이미지"
 reporter: "MindTickleBytes AI"
 news_type: "Knowledge"
-ai_opinion: "기업이 AI의 성능과 보안 사이에서 균형을 잡으려는 노력이 돋보입니다. ZDR은 단순한 설정이 아닌 계약이라는 점을 반드시 기억해야 합니다."
+ai_opinion: "기업들이 AI를 신뢰하기 위해서는 단순히 모델의 성능뿐만 아니라, 데이터가 어떻게 처리되는지에 대한 계약적 투명성이 필수적입니다. ZDR은 그 신뢰의 시작점입니다."
 quiz:
-  - question: "제로 데이터 보존(ZDR)의 핵심 약속은 무엇인가요?"
-    choices: ["데이터를 30일간 보관한다", "데이터를 추론 즉시 삭제하고 학습에 활용하지 않는다", "모든 대화 내용을 공개한다"]
+  - question: "제로 데이터 보존(ZDR)의 핵심적인 특징은 무엇인가요?"
+    choices: ["데이터를 서버에 30일간 저장한다", "추론 즉시 데이터를 삭제하고 학습에 사용하지 않는다", "사용자의 개인정보를 판매한다"]
     answer: 1
-    explanation: "ZDR은 데이터를 추론하는 순간 이후 보관하지 않으며, 학습이나 서비스 개선을 위해 사용하지 않겠다는 계약입니다."
-  - question: "ZDR 계약 시 주의해야 할 점은 무엇인가요?"
-    choices: ["성능이 무조건 저하된다", "모든 AI 기능에 적용된다", "상태 유지형(stateful) 기능 등은 계약 범위에서 제외될 수 있다"]
+    explanation: "ZDR은 데이터가 추론 시점 이후에 보존되지 않으며, 모델 학습이나 서비스 개선을 위해 로그로 남지 않는 계약을 의미합니다."
+  - question: "ZDR 계약을 맺으면 AI 모델의 성능이 저하되나요?"
+    choices: ["성능이 매우 떨어진다", "알 수 없다", "성능 저하와는 상관이 없다"]
     answer: 2
-    explanation: "ZDR은 주로 상태를 유지하지 않는(stateless) 경로에 적용되며, 복잡한 에이전트 시스템의 기능은 제외될 수 있습니다."
-  - question: "최근 일부 모델(예: Claude Fable 5)에서 일어난 변화는 무엇인가요?"
-    choices: ["ZDR을 강제화했다", "ZDR 대신 30일 데이터 보관 정책을 채택했다", "데이터 보관을 아예 중단했다"]
-    answer: 1
-    explanation: "Claude Fable 5 모델은 제로 데이터 보존 정책 대신 안전성 확보를 위해 30일 데이터 보관 정책으로 변경되었습니다."
+    explanation: "ZDR은 성능과 무관합니다. AI 연구소들은 사용자 데이터가 아닌 연구 돌파구, 합성 데이터 생성 등을 통해 모델을 개선합니다."
+  - question: "ZDR 정책의 한계점은 무엇인가요?"
+    choices: ["계약일 뿐 기술적 토글이 아니며, 에이전트 시스템 같은 상태 유지 기능은 보호 범위 밖일 수 있다", "너무 저렴하다", "모든 AI 모델에 적용된다"]
+    answer: 0
+    explanation: "ZDR은 기술적인 버튼이 아니라 계약이므로, 특정 서비스나 에이전트형 기능은 보호 대상에서 제외될 수 있습니다."
 lang: ko
 ref: 2026-08-20-Offering-Zero-Data-Retention-for-frontier-modelsCompanyAug-19-2026
 audio: 2026-08-20-Offering-Zero-Data-Retention-for-frontier-modelsCompanyAug-19-2026.mp3
 permalink: /2026/08/20/Offering-Zero-Data-Retention-for-frontier-modelsCompanyAug-19-2026/
 ---
 
-상상해보세요. 여러분이 다니는 회사에서 최신 AI를 활용해 아주 비밀스러운 프로젝트의 데이터를 분석하려고 합니다. 하지만 막상 AI에 그 정보를 입력하려고 하니 덜컥 겁이 납니다. "이 데이터가 AI 회사의 서버에 기록되거나, 나중에 다른 사람의 질문에 대한 답변으로 흘러나오지는 않을까?" 하는 걱정 때문이죠. 
+상상해보세요. 당신이 회사의 핵심 기밀이 담긴 전략 보고서를 최신 AI 모델에게 건네며 "이 내용을 요약하고 전략을 제안해줘"라고 요청했습니다. 그런데 마음 한구석에 이런 불안함이 듭니다. '혹시 내 보고서 내용이 AI 회사의 서버에 저장되어서, 나중에 다른 사람의 질문에 답변할 때 학습 데이터로 사용되는 건 아닐까?' 
 
-이런 고민을 해결하기 위해 등장한 개념이 바로 '제로 데이터 보존(Zero Data Retention, 이하 ZDR)'입니다. 과연 이것이 우리의 데이터를 정말로 안전하게 지켜줄 수 있는 마법의 방패일까요?
+기업용 AI를 도입하려는 수많은 관리자가 밤잠을 설치게 만드는 가장 큰 이유 중 하나가 바로 이 보안 문제입니다. 이 고민에 대한 해답으로 최근 AI 업계에서 가장 뜨거운 키워드가 바로 '제로 데이터 보존(Zero Data Retention, 이하 ZDR)'입니다.
 
-## 이게 왜 중요한가요?
+## 이게 왜 중요한가요? (Why It Matters)
 
-과거에는 공공 클라우드 서비스를 이용할 때 데이터가 서버에 남는 것이 당연했습니다. 하지만 기업 입장에서는 고객의 개인정보나 회사의 핵심 기밀을 외부 AI 모델에 전달하는 것 자체가 큰 보안 위험입니다. ZDR은 이러한 기업들이 마음 놓고 최첨단 AI 모델(Frontier Models, 거대 AI 모델)을 업무에 활용할 수 있도록 돕는 일종의 '보안 계약서'입니다 [출처: Zero Data Retention AI: Same Models, No Retention | BrainPack](https://www.brainpack.ai/infrastructure/deployment/zdr). ZDR을 사용하면 데이터를 보낼 때 남는 '기록의 꼬리표'를 없앨 수 있기 때문에, 보안에 민감한 금융, 의료, 법률 분야에서 특히 중요한 선택지로 떠오르고 있습니다.
+과거에는 AI를 쓰려면 내 데이터를 기업의 서버로 보내야 했습니다. 이 과정에서 데이터가 어딘가에 기록되거나 학습에 쓰일 수 있다는 불안감은 기업들이 AI 도입을 망설이게 만드는 가장 큰 걸림돌이었습니다. 
 
-## 쉽게 이해하기: 기억상실증에 걸린 도우미
+ZDR은 바로 이 불안감을 계약서로 해소해 주는 도구입니다. 이 계약을 체결하면, 당신이 보낸 데이터는 AI가 답변(추론)을 내놓는 순간 서버에서 즉시 사라집니다. 다시 말해, '기억상실증에 걸린 똑똑한 비서'와 대화하는 셈입니다. 기업은 데이터가 외부로 유출되거나 AI 모델의 학습 재료로 활용되어 의도치 않게 다른 기업의 답변으로 튀어나올까 봐 걱정할 필요가 없게 되는 것이죠. [출처: 제로 데이터 보존 AI: 동일한 모델, 보존 없음 | BrainPack](https://www.brainpack.ai/infrastructure---
+layout: post
+title: "내 데이터는 AI 학습에 쓰일까? '제로 데이터 보존(ZDR)'이 만드는 안전한 AI 세상"
+description: "기업들이 민감한 정보를 AI에 맡길 때 가장 걱정하는 데이터 보안, '제로 데이터 보존(ZDR)' 정책이 무엇인지, 그리고 이것이 왜 중요한지 쉽게 설명해 드립니다."
+summary: "AI 기업의 제로 데이터 보존(ZDR) 계약은 사용자의 데이터를 서버에 남기지 않고 즉시 삭제하여, 민감한 정보를 다루는 기업이 안심하고 최신 AI 모델을 사용할 수 있게 돕는 안전장치입니다."
+tags: [AI, 보안, 데이터보안, 기업용AI, ZDR]
+image: 2026-08-20-Offering-Zero-Data-Retention-for-frontier-modelsCompanyAug-19-2026.jpg
+image_alt: "디지털 보안 자물쇠와 AI 회로도가 결합된 그래픽 이미지"
+reporter: "MindTickleBytes AI"
+news_type: "Knowledge"
+ai_opinion: "기업들이 AI를 신뢰하기 위해서는 단순히 모델의 성능뿐만 아니라, 데이터가 어떻게 처리되는지에 대한 계약적 투명성이 필수적입니다. ZDR은 그 신뢰의 시작점입니다."
+quiz:
+  - question: "제로 데이터 보존(ZDR)의 핵심적인 특징은 무엇인가요?"
+    choices: ["데이터를 서버에 30일간 저장한다", "추론 즉시 데이터를 삭제하고 학습에 사용하지 않는다", "사용자의 개인정보를 판매한다"]
+    answer: 1
+    explanation: "ZDR은 데이터가 추론 시점 이후에 보존되지 않으며, 모델 학습이나 서비스 개선을 위해 로그로 남지 않는 계약을 의미합니다."
+  - question: "ZDR 계약을 맺으면 AI 모델의 성능이 저하되나요?"
+    choices: ["성능이 매우 떨어진다", "알 수 없다", "성능 저하와는 상관이 없다"]
+    answer: 2
+    explanation: "ZDR은 성능과 무관합니다. AI 연구소들은 사용자 데이터가 아닌 연구 돌파구, 합성 데이터 생성 등을 통해 모델을 개선합니다."
+  - question: "ZDR 정책의 한계점은 무엇인가요?"
+    choices: ["계약일 뿐 기술적 토글이 아니며, 에이전트 시스템 같은 상태 유지 기능은 보호 범위 밖일 수 있다", "너무 저렴하다", "모든 AI 모델에 적용된다"]
+    answer: 0
+    explanation: "ZDR은 기술적인 버튼이 아니라 계약이므로, 특정 서비스나 에이전트형 기능은 보호 대상에서 제외될 수 있습니다."
+lang: ko
+ref: 2026-08-20-Offering-Zero-Data-Retention-for-frontier-modelsCompanyAug-19-2026
+---
 
-쉽게 비유하자면, ZDR은 '기억상실증에 걸린 도우미'를 고용하는 것과 같습니다. 
+상상해보세요. 당신이 회사의 핵심 기밀이 담긴 전략 보고서를 최신 AI 모델에게 건네며 "이 내용을 요약하고 전략을 제안해줘"라고 요청했습니다. 그런데 마음 한구석에 이런 불안함이 듭니다. '혹시 내 보고서 내용이 AI 회사의 서버에 저장되어서, 나중에 다른 사람의 질문에 답변할 때 학습 데이터로 사용되는 건 아닐까?' 
 
-일반적인 AI는 사용자가 질문을 하면 그 내용과 답변을 서버에 차곡차곡 저장합니다. 마치 꼼꼼한 비서가 모든 대화 내용을 기록해두는 것과 같죠. 하지만 ZDR을 적용한다는 것은 이 비서에게 "내가 질문을 던지고 네가 답을 하는 그 짧은 순간에만 내 말을 듣고, 답이 끝나면 바로 모든 내용을 뇌 속에서 지워버려"라고 계약하는 것과 같습니다.
+기업용 AI를 도입하려는 수많은 관리자가 밤잠을 설치게 만드는 가장 큰 이유 중 하나가 바로 이 보안 문제입니다. 이 고민에 대한 해답으로 최근 AI 업계에서 가장 뜨거운 키워드가 바로 '제로 데이터 보존(Zero Data Retention, 이하 ZDR)'입니다. 
 
-업체 측은 이 계약을 통해 데이터를 추론(AI가 질문에 답을 생성하는 과정)하는 순간 이후에는 데이터를 보관하지 않고, 모델 학습이나 서비스 개선을 위해서도 사용하지 않겠다고 문서로 약속합니다 [출처: Zero Data Retention AI: Same Models, No Retention | BrainPack](https://www.brainpack.ai/infrastructure/deployment/zdr). 이 과정에서 데이터가 외부로 유출될 위험이 있는 '감시 기록'조차 생성하지 않는 경우도 있습니다 [출처: Zero Data Retention AI: Same Models, No Retention | BrainPack](https://www.brainpack.ai/infrastructure/deployment/zdr).
+## 이게 왜 중요한가요? (Why It Matters)
 
-## 어디까지 믿어야 할까요?
+과거에는 AI를 쓰려면 내 데이터를 기업의 서버로 보내야 했습니다. 이 과정에서 데이터가 어딘가에 기록되거나 학습에 쓰일 수 있다는 불안감은 기업들이 AI 도입을 망설이게 만드는 가장 큰 걸림돌이었습니다. 
 
-ZDR이 만능 해결책은 아닙니다. 가장 주의해야 할 점은 **ZDR은 단순한 '설정 버튼'이 아니라 법적인 '계약'**이라는 사실입니다 [출처: Zero data retention | Agentic Delivery Glossary](https://readysolutions.ai/glossary/zero-data-retention/). 
+ZDR은 바로 이 불안감을 계약서로 해소해 주는 도구입니다. 이 계약을 체결하면, 당신이 보낸 데이터는 AI가 답변(추론)을 내놓는 순간 서버에서 즉시 사라집니다. 다시 말해, **'기억상실증에 걸린 똑똑한 비서'**와 대화하는 셈입니다. 기업은 데이터가 외부로 유출되거나 AI 모델의 학습 재료로 활용되어 의도치 않게 다른 기업의 답변으로 튀어나올까 봐 걱정할 필요가 없게 되는 것이죠. [출처: 제로 데이터 보존 AI: 동일한 모델, 보존 없음 | BrainPack](https://www.brainpack.ai/infrastructure/deployment/zdr)
 
-많은 사용자가 ZDR 계약만 맺으면 모든 기능이 완벽하게 보호될 것이라고 오해합니다. 하지만 데이터가 AI의 '상태 유지형 기능(stateful features, 이전 대화나 작업 맥락을 기억해야 하는 기능)'을 사용하는 경로로 넘어가면 ZDR 보호를 받지 못할 수 있습니다 [출처: Zero data retention | Agentic Delivery Glossary](https://readysolutions.ai/glossary/zero-data-retention/). 마치 도우미가 '지금 당장'은 기억을 지우더라도, 특정 '기억 저장소'를 활용해야 하는 복잡한 업무를 맡기면 그 기록은 어딘가에 남게 되는 것과 비슷한 이치입니다.
+## 쉽게 이해하기 (The Explainer)
 
-또한, 최근 보안 정책 변화도 눈여겨봐야 합니다. 앤스로픽(Anthropic)은 안전성 강화를 위해 일부 모델에 대해 30일간 데이터를 보관하는 정책을 도입했고, Claude Fable 5 모델의 경우 기존의 제로 데이터 보존 정책을 거두고 이 30일 보관 정책을 채택하기도 했습니다 [출처: Data retention practices for Covered Models | Anthropic Help Center](https://support.claude.com/en/articles/15425996-data-retention-practices-for-covered-models) [출처: Fable 5's 30-Day Retention: The End of Zero Retention? | Digital Applied](https://www.digitalapplied.com/blog/fable-5-30-day-data-retention-zdr-enterprise-2026).
+쉽게 비유하자면, ZDR은 **'일회용 메모지'**와 같습니다.
 
-## 앞으로의 전망
+우리가 화이트보드에 중요한 정보를 적고 누군가에게 설명한 뒤, 그 사람(AI)이 내용을 이해하자마자 화이트보드를 깨끗하게 지워버리는 과정과 비슷합니다. [출처: 제로 데이터 보존 AI: 동일한 모델, 보존 없음 | BrainPack](https://www.brainpack.ai/infrastructure/deployment/zdr) 
 
-앞으로 AI 보안 시장은 더욱 세분화될 것으로 보입니다. 기업들은 성능이 뛰어난 AI를 쓰되, 보안의 중요성에 따라 ZDR이 적용되는 모델과 그렇지 않은 모델을 골라 쓰는 방식을 취할 것입니다. ZDR은 더 높은 비용을 지불해야 하는 고급 보안 서비스로 자리를 잡아가고 있습니다 [출처: Zero Data Retention AI: Same Models, No Retention | BrainPack](https://www.brainpack.ai/infrastructure/deployment/zdr). 
+많은 분이 "데이터를 안 주면 AI가 멍청해지지 않을까?"라고 걱정하곤 합니다. 하지만 그렇지 않습니다. 쉽게 말해서, AI 모델을 똑똑하게 만드는 방법은 사용자의 질문을 훔쳐보는 것만이 아니기 때문입니다. AI 연구소들은 이미 최첨단 연구 돌파구, 인공적으로 만들어낸 합성 데이터(Synthetic data, AI가 스스로 생성한 학습용 데이터), 그리고 복잡한 강화 학습 기법을 통해 모델을 개선하고 있습니다. [출처: 제로 데이터 보존은 모델을 멍청하게 만들지 않는다 | Saram.io](https://saram.io/blog/zero-data-retention-frontier-llm-providers-2026/) 즉, 당신의 소중한 비즈니스 데이터 없이도 AI는 스스로 충분히 학습할 수 있습니다.
 
-기업 담당자라면 앞으로 우리가 사용하는 AI 서비스가 어떤 경로로 데이터를 처리하는지, 그리고 ZDR 계약의 범위가 어디까지인지 꼼꼼히 확인하는 것이 필수입니다. "AI가 알아서 해주겠지"라고 믿기보다는, 데이터가 처리되는 구조를 명확히 이해하고 계약하는 지혜가 필요합니다.
+## 현재 상황 (Where We Stand)
+
+최근 오픈AI(OpenAI)와 같은 주요 AI 기업들은 자사 API 고객들을 위해 ZDR 정책을 재확인하며 기업용 보안을 강화하고 있습니다. [출처: 프런티어 모델을 위한 제로 데이터 보존 제공 | Koko Knows](https://kokoknows.ai/article/openai_leadership_our_commitment_to_zero_data_retention) [출처: OpenAI 프런티어 모델을 위한 제로 데이터 보존 - scalevise.com](https://scalevise.com/resources/openai-zero-data-retention-frontier-models/)
+
+하지만 주의할 점도 있습니다. ZDR은 복잡한 소프트웨어 설정(토글)이 아니라 기업 간의 **'계약'**입니다. 그렇기에 모든 기능에 완벽하게 적용되지는 않습니다. 예를 들어, 단순한 질문과 답변은 ZDR 보호를 받지만, AI가 스스로 판단하고 업무를 수행하는 복잡한 '에이전트 시스템(AI가 스스로 판단하여 업무를 수행하는 기술)' 기능들은 정책의 보호 범위 밖에 놓여 있을 수 있습니다. [출처: 제로 데이터 보존 | 에이전트 전달 용어집](https://readysolutions.ai/glossary/zero-data-retention/) 또한, 기업마다 정책이 다를 수 있는데, 어떤 모델은 30일간 데이터를 보존해야만 하는 의무 사항이 붙기도 하니 계약서를 꼼꼼히 확인해야 합니다. [출처: 앤스로픽(Anthropic) 커버 모델에 대한 데이터 보존 관행 | 앤스로픽 고객센터](https://support.claude.com/en/articles/15425996-data-retention-practices-for-covered-models)
+
+## 앞으로 어떻게 될까? (What's Next)
+
+앞으로는 기업들이 단순히 'AI를 쓴다'는 것을 넘어 '어떤 보안 계약 하에 AI를 쓴다'는 것이 표준이 될 것입니다. 이미 일부 기업은 일반 공공 클라우드보다 비용이 조금 더 들더라도, 보안이 보장된 별도의 경로를 통해 가장 강력한 모델을 안심하고 사용하는 방식을 택하고 있습니다. [출처: 제로 데이터 보존 AI: 동일한 모델, 보존 없음 | BrainPack](https://www.brainpack.ai/infrastructure/deployment/zdr) 
+
+사용자들은 이제 무조건적인 AI의 성능만을 따지는 것이 아니라, 내 데이터의 주권을 지킬 수 있는 합리적인 보안 정책을 갖춘 AI 솔루션을 선택하게 될 것입니다. 
 
 ## MindTickleBytes의 AI 기자 시선
 
-보안과 성능은 시소와 같아서 한쪽을 올리면 한쪽이 내려가기 마련입니다. ZDR은 이 시소의 균형을 맞추려는 기업들의 고군분투를 보여줍니다. 기술의 편리함 뒤에 숨겨진 계약 조건을 꼼꼼히 살피는 눈을 길러야 할 때입니다.
+AI 모델의 지능이 올라갈수록, 그 지능을 안심하고 사용할 수 있는 '보안 계약'의 지능 또한 함께 올라가야 합니다. ZDR은 기술의 발전과 비즈니스의 안전을 동시에 챙기는 매우 현명한 절충안입니다. 이제 보안은 AI 도입의 장애물이 아니라, 제대로 된 AI를 쓰는 기업들의 기본 에티켓이 될 것입니다.
 
 ## 참고자료
-1. [Zero data retention | Agentic Delivery Glossary](https://readysolutions.ai/glossary/zero-data-retention/)
-2. [Zero Data Retention AI: Same Models, No Retention | BrainPack](https://www.brainpack.ai/infrastructure/deployment/zdr)
-3. [Frontier Safety Roadmap Updates | Anthropic](https://www.anthropic.com/responsible-scaling-policy/updates)
-4. [Data retention practices for Covered Models | Anthropic Help Center](https://support.claude.com/en/articles/15425996-data-retention-practices-for-covered-models)
-5. [Fable 5's 30-Day Retention: The End of Zero Retention? | Digital Applied](https://www.digitalapplied.com/blog/fable-5-30-day-data-retention-zdr-enterprise-2026)
+
+1. [제로 데이터 보존 AI: 동일한 모델, 보존 없음 | BrainPack](https://www.brainpack.ai/infrastructure/deployment/zdr)
+2. [앤스로픽(Anthropic) 프런티어 안전 로드맵 업데이트](https://www.anthropic.com/responsible-scaling-policy/updates)
+3. [제로 데이터 보존 | 에이전트 전달 용어집](https://readysolutions.ai/glossary/zero-data-retention/)
+4. [앤스로픽(Anthropic) 커버 모델에 대한 데이터 보존 관행 | 앤스로픽 고객센터](https://support.claude.com/en/articles/15425996-data-retention-practices-for-covered-models)
+5. [프런티어 모델을 위한 제로 데이터 보존 제공 | Koko Knows](https://kokoknows.ai/article/openai_leadership_our_commitment_to_zero_data_retention)
+6. [오픈AI(OpenAI) 프런티어 모델을 위한 제로 데이터 보존 - scalevise.com](https://scalevise.com/resources/openai-zero-data-retention-frontier-models/)
+7. [제로 데이터 보존은 모델을 멍청하게 만들지 않는다 | Saram.io](https://saram.io/blog/zero-data-retention-frontier-llm-providers-2026/)

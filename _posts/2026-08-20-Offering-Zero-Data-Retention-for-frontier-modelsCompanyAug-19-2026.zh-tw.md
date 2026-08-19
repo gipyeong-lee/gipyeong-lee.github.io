@@ -1,68 +1,71 @@
 ---
 layout: post
-title: "給予AI敏感資料安全嗎？「零資料保留 (ZDR)」是什麼"
-description: "深入淺出解釋企業為安全使用AI而採用的「零資料保留」協議之含義與局限。"
-summary: "零資料保留 (ZDR) 是一項強有力的安全協議，AI 提供商承諾即時刪除用戶資料，且不將其用於模型訓練。"
-tags: [AI安全, 資料隱私, 零資料保留, ZDR]
+title: "我的數據會被用來訓練 AI 嗎？「零數據保留（ZDR）」打造安全 AI 世界"
+description: "企業在將敏感資訊交給 AI 時，最擔心的就是資料安全。我們將為您深入淺出地解釋何謂「零數據保留（ZDR）」政策，以及它為何至關重要。"
+summary: "AI 企業的零數據保留（ZDR）協議是一項安全機制，確保使用者的數據不會留在伺服器中並會立即刪除，協助處理敏感資訊的企業能安心使用最新的 AI 模型。"
+tags: [AI, 資安, 資料安全, 企業用 AI, ZDR]
 image: 2026-08-20-Offering-Zero-Data-Retention-for-frontier-modelsCompanyAug-19-2026.jpg
-image_alt: "顯示數位安全鎖與 AI 模型連接的圖形"
+image_alt: "結合數位安全鎖與 AI 電路圖的圖形影像"
 reporter: "MindTickleBytes AI"
 news_type: "Knowledge"
-ai_opinion: "企業在 AI 效能與安全性之間取得平衡的努力十分顯著。必須謹記，ZDR 不僅僅是一項設定，更是一份法律協議。"
+ai_opinion: "企業要信賴 AI，除了模型的效能之外，合約上對於資料如何處理的透明度更是關鍵。ZDR 正是建立這份信任的起點。"
 quiz:
-  - question: "零資料保留 (ZDR) 的核心承諾是什麼？"
-    choices: ["將資料保留 30 天", "資料在推論後即時刪除，且不被用於訓練", "公開所有對話內容"]
+  - question: "零數據保留（ZDR）的核心特徵是什麼？"
+    choices: ["將資料在伺服器上儲存 30 天", "推論後立即刪除資料，且不用於訓練", "販售使用者的個人隱私資訊"]
     answer: 1
-    explanation: "ZDR 是一項協議，承諾資料在推論瞬間之後即不再保留，也不會被用於訓練或改進服務。"
-  - question: "簽署 ZDR 協議時需注意什麼？"
-    choices: ["效能必然會下降", "適用於所有 AI 功能", "有狀態 (stateful) 功能等路徑可能不屬於協議範圍"]
+    explanation: "ZDR 是指資料在推論時間點後不會被保留，也不會為了模型訓練或服務優化而留下日誌的協議。"
+  - question: "簽署 ZDR 協議會導致 AI 模型效能下降嗎？"
+    choices: ["效能會大幅下降", "不得而知", "與效能下降無關"]
     answer: 2
-    explanation: "ZDR 主要適用於無狀態 (stateless) 的傳輸路徑，複雜代理系統的功能可能會被排除在外。"
-  - question: "近期部分模型（如 Claude Fable 5）發生了什麼變化？"
-    choices: ["強制執行 ZDR", "採納了 30 天資料保留政策以取代 ZDR", "完全停止了資料保留"]
-    answer: 1
-    explanation: "Claude Fable 5 模型為了確保安全性，已將政策從零資料保留變更為 30 天資料保留政策。"
+    explanation: "ZDR 與效能無關。AI 實驗室透過研究突破、生成合成數據等方式來提升模型，而非依賴使用者資料。"
+  - question: "ZDR 政策的局限性是什麼？"
+    choices: ["它僅是合約而非技術開關，且像代理系統（Agent System）這類狀態維護功能可能不在保護範圍內", "費用過於低廉", "適用於所有 AI 模型"]
+    answer: 0
+    explanation: "ZDR 是合約而非技術上的切換按鈕，因此特定服務或代理型功能可能被排除在保護對象之外。"
 lang: zh-tw
 ref: 2026-08-20-Offering-Zero-Data-Retention-for-frontier-modelsCompanyAug-19-2026
 ---
 
-想像一下，貴公司正計畫利用最新的 AI 來分析高度機密的專案資料。然而，當您準備將這些資訊輸入 AI 時，卻感到卻步。因為擔心：「這些資料會不會被記錄在 AI 公司的伺服器上，或者日後被洩漏給其他人作為回答內容？」
+試想一下，您將一份含有公司核心機密的策略報告交給最新的 AI 模型，並請求：「請總結這些內容並提出策略建議。」然而，心中卻浮現一絲不安：「這份報告的內容會不會被儲存在 AI 公司的伺服器裡，並在未來回答別人的提問時，變成訓練資料的一部分？」
 
-為了解決這類疑慮，一個名為「零資料保留 (Zero Data Retention, 以下簡稱 ZDR)」的概念應運而生。這真的是能保護我們資料安全的魔法盾牌嗎？
+對於無數計畫導入企業用 AI 的管理者而言，這類安全疑慮是讓他們徹夜難眠的主因之一。針對這個困擾，近期 AI 業界最熱門的關鍵字正是「零數據保留（Zero Data Retention，簡稱 ZDR）」。
 
-## 這為何重要？
+## 這為何重要？ (Why It Matters)
 
-過去，使用公共雲端服務時，資料殘留在伺服器上被視為理所當然。然而對企業而言，將客戶隱私或公司核心機密傳遞給外部 AI 模型本身就是重大的安全風險。ZDR 是幫助這些企業能安心將頂尖 AI 模型 (Frontier Models) 應用於業務的一種「安全協議」[出處: Zero Data Retention AI: Same Models, No Retention | BrainPack](https://www.brainpack.ai/infrastructure/deployment/zdr)。透過 ZDR，可以在傳送資料時消除「紀錄的尾巴」，因此在對安全性高度敏感的金融、醫療與法律領域，它已成為重要的選擇。
+過去，若要使用 AI，必須將資料發送到企業的伺服器。在此過程中，資料可能被記錄或用於訓練，這種不安感成為企業導入 AI 的最大阻礙。
 
-## 輕鬆理解：患有健忘症的助理
+ZDR 正是透過合約來消除這份不安的工具。簽署此協議後，您發送的資料在 AI 給出回答（推論）的瞬間，就會從伺服器中立即消失。換句話說，這就像是在與一位「患有健忘症的聰明秘書」對話。企業無需擔心資料外洩，或是被用作 AI 模型的學習素材，導致意外出現在其他企業的回答中。 [參考資料：零數據保留 AI：相同的模型，無保留 | BrainPack](https://www.brainpack.ai/infrastructure/deployment/zdr)
 
-用簡單的比喻來說，ZDR 就像雇用了一位「患有健忘症的助理」。
+## 輕鬆理解 (The Explainer)
 
-一般的 AI 在使用者提問後，會將提問內容與回答一一儲存於伺服器中，就像一位細心的祕書記錄下所有對話內容。但採用 ZDR，則相當於與這位祕書簽約，要求他：「只在聽我提問並回答的那一瞬間記得這些內容，一旦回答結束，就立刻從大腦中刪除所有資訊。」
+簡單比喻的話，ZDR 就像是**「拋棄式備忘錄」**。
 
-業者透過此協議承諾，在完成推論（AI 生成回答的過程）後，將不再保留資料，也不會將其用於模型訓練或改進服務 [出處: Zero Data Retention AI: Same Models, No Retention | BrainPack](https://www.brainpack.ai/infrastructure/deployment/zdr)。在這個過程中，甚至可能不會產生任何會有外洩風險的「監視紀錄」[出處: Zero Data Retention AI: Same Models, No Retention | BrainPack](https://www.brainpack.ai/infrastructure/deployment/zdr)。
+這就像我們在白板上寫下重要資訊並說明後，對方（AI）一理解內容，我們就立刻將白板擦拭乾淨的過程。 [參考資料：零數據保留 AI：相同的模型，無保留 | BrainPack](https://www.brainpack.ai/infrastructure/deployment/zdr)
 
-## 我們該相信到什麼程度？
+很多人會擔心：「如果不給資料，AI 會不會變笨？」答案是不會。簡單來說，讓 AI 模型變聰明的方法並非只有偷看使用者的提問。AI 實驗室已透過最尖端的研究突破、人造的合成數據（Synthetic data，即 AI 自行生成的學習用數據），以及複雜的強化學習技術來優化模型。 [參考資料：零數據保留不會讓模型變笨 | Saram.io](https://saram.io/blog/zero-data-retention-frontier-llm-providers-2026/) 換句話說，即使沒有您的珍貴商業資料，AI 也能透過自身學習達到足夠的智慧。
 
-ZDR 並非萬靈丹。最需要注意的是，**ZDR 不是簡單的「開關」，而是一項法律「協議」** [出處: Zero data retention | Agentic Delivery Glossary](https://readysolutions.ai/glossary/zero-data-retention/)。
+## 現況 (Where We Stand)
 
-許多使用者誤以為只要簽署 ZDR 協議，所有功能就都能獲得完美保護。然而，若資料傳遞路徑中使用了 AI 的「有狀態功能 (stateful features，即需要記憶先前對話或任務脈絡的功能)」，該資料可能無法受到 ZDR 保護 [出處: Zero data retention | Agentic Delivery Glossary](https://readysolutions.ai/glossary/zero-data-retention/)。這就像助理雖然「當下」會刪除記憶，但若被指派了必須利用特定「記憶庫」才能完成的複雜任務，記錄仍然會留存於某處。
+近期，包含 OpenAI 在內的主要 AI 企業，皆針對 API 客戶重申 ZDR 政策，以強化企業級安全性。 [參考資料：為前沿模型提供零數據保留 | Koko Knows](https://kokoknows.ai/article/openai_leadership_our_commitment_to_zero_data_retention) [參考資料：OpenAI 前沿模型的零數據保留 - scalevise.com](https://scalevise.com/resources/openai-zero-data-retention-frontier-models/)
 
-此外，近期的安全政策變更也值得關注。Anthropic 為強化安全性，對部分模型引入了 30 天資料保留政策；以 Claude Fable 5 模型為例，便放棄了既有的零資料保留政策，轉而採納此 30 天保留政策 [出處: Data retention practices for Covered Models | Anthropic Help Center](https://support.claude.com/en/articles/15425996-data-retention-practices-for-covered-models) [出處: Fable 5's 30-Day Retention: The End of Zero Retention? | Digital Applied](https://www.digitalapplied.com/blog/fable-5-30-day-data-retention-zdr-enterprise-2026)。
+但有一點需要注意：ZDR 並非複雜的軟體設定（開關），而是企業間的**「合約」**。因此，它無法完美應用於所有功能。例如，簡單的問答受 ZDR 保護，但由 AI 自行判斷並執行業務的複雜「代理系統（Agent System，指 AI 自行判斷並執行任務的技術）」功能，可能處於政策保護範圍之外。 [參考資料：零數據保留 | 代理傳遞術語表](https://readysolutions.ai/glossary/zero-data-retention/) 此外，各企業的政策可能有所不同，有些模型會附帶必須保留資料 30 天的義務條款，因此務必仔細查閱合約。 [參考資料：Anthropic 涵蓋模型之數據保留實務 | Anthropic 客戶中心](https://support.claude.com/en/articles/15425996-data-retention-practices-for-covered-models)
 
-## 未來展望
+## 未來發展 (What's Next)
 
-未來的 AI 安全市場預計將進一步細分。企業將會採取更靈活的方式：在效能優異的 AI 與安全性之間權衡，根據重要性選擇適用 ZDR 的模型與不適用的模型。ZDR 正逐漸成為一種需要支付更高成本的高階安全服務 [出處: Zero Data Retention AI: Same Models, No Retention | BrainPack](https://www.brainpack.ai/infrastructure/deployment/zdr)。
+未來，企業導入 AI 將不再只是「使用」，而是標準化為「在何種安全合約下使用」。已經有企業即便成本比一般公有雲稍高，仍選擇透過受資安保障的獨立路徑，安心使用最強大的模型。 [參考資料：零數據保留 AI：相同的模型，無保留 | BrainPack](https://www.brainpack.ai/infrastructure/deployment/zdr)
 
-身為企業負責人，務必詳細確認我們使用的 AI 服務以何種路徑處理資料，以及 ZDR 協議的覆蓋範圍。與其盲目相信「AI 會處理好一切」，不如清楚理解資料處理的結構並簽訂協議，這才是明智之舉。
+使用者未來不再單純考量 AI 的效能，而是會選擇具備合理安全政策、能守護數據主權的 AI 解決方案。
 
-## MindTickleBytes AI 記者觀點
+## MindTickleBytes 的 AI 記者觀點
 
-安全性與效能就像蹺蹺板，一端上升，另一端必然下降。ZDR 展現了企業為了平衡這座蹺蹺板所做的努力。現在是時候培養我們仔細檢視技術便利性背後隱藏合約條件的眼光了。
+隨著 AI 模型的智慧提升，能讓這些智慧被安心使用的「安全合約」智慧也必須同步提升。ZDR 是一項兼顧技術發展與商業安全的精明折衷方案。如今，安全性已不再是 AI 導入的障礙，而是妥善運用 AI 之企業的基本禮儀。
 
 ## 參考資料
-1. [Zero data retention | Agentic Delivery Glossary](https://readysolutions.ai/glossary/zero-data-retention/)
-2. [Zero Data Retention AI: Same Models, No Retention | BrainPack](https://www.brainpack.ai/infrastructure/deployment/zdr)
-3. [Frontier Safety Roadmap Updates | Anthropic](https://www.anthropic.com/responsible-scaling-policy/updates)
-4. [Data retention practices for Covered Models | Anthropic Help Center](https://support.claude.com/en/articles/15425996-data-retention-practices-for-covered-models)
-5. [Fable 5's 30-Day Retention: The End of Zero Retention? | Digital Applied](https://www.digitalapplied.com/blog/fable-5-30-day-data-retention-zdr-enterprise-2026)
+
+1. [零數據保留 AI：相同的模型，無保留 | BrainPack](https://www.brainpack.ai/infrastructure/deployment/zdr)
+2. [Anthropic 前沿安全路徑圖更新](https://www.anthropic.com/responsible-scaling-policy/updates)
+3. [零數據保留 | 代理傳遞術語表](https://readysolutions.ai/glossary/zero-data-retention/)
+4. [Anthropic 涵蓋模型之數據保留實務 | Anthropic 客戶中心](https://support.claude.com/en/articles/15425996-data-retention-practices-for-covered-models)
+5. [為前沿模型提供零數據保留 | Koko Knows](https://kokoknows.ai/article/openai_leadership_our_commitment_to_zero_data_retention)
+6. [OpenAI 前沿模型的零數據保留 - scalevise.com](https://scalevise.com/resources/openai-zero-data-retention-frontier-models/)
+7. [零數據保留不會讓模型變笨 | Saram.io](https://saram.io/blog/zero-data-retention-frontier-llm-providers-2026/)
