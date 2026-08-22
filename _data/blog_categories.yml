@@ -4,3 +4,21 @@
 - slug: portfolio
   name: 포트폴리오
   order: 2
+- slug: books
+  name: Books
+  order: 3
+- slug: engineering
+  name: Engineering
+  order: 4
+- slug: projects
+  name: Projects
+  order: 5
+- slug: life
+  name: Life
+  order: 6
+- slug: finance
+  name: Finance
+  order: 7
+- slug: web3
+  name: Web3
+  order: 8

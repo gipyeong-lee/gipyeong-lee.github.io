@@ -1,0 +1,276 @@
+{
+  "source_root": "gipyeonglee-1-1",
+  "selected_count": 64,
+  "source_count": 176,
+  "category_counts": {
+    "books": 17,
+    "engineering": 24,
+    "essay": 9,
+    "finance": 3,
+    "life": 3,
+    "projects": 4,
+    "web3": 4
+  },
+  "duplicate_slugs": [],
+  "missing_images": [
+    {
+      "source": "10/10-[단기]-03.-Chrome-Extension-과-Facebook-API.html",
+      "path": "./img/스크린샷 2015-02-05 07.02.19.png"
+    },
+    {
+      "source": "10/10-[단기]-03.-Chrome-Extension-과-Facebook-API.html",
+      "path": "./img/스크린샷 2015-02-05 07.01.00.png"
+    },
+    {
+      "source": "11/11-[단기]-04.-Feature-IMAGE-추출.html",
+      "path": "./img/스크린샷 2015-02-10 11.08.21.png"
+    },
+    {
+      "source": "166/166-[Bootstrap,JQuery]-Table을-이쁘게-정리하기.html",
+      "path": "./img/DataTable 적용하기전.PNG"
+    },
+    {
+      "source": "166/166-[Bootstrap,JQuery]-Table을-이쁘게-정리하기.html",
+      "path": "./img/DataTable 적용 후.PNG"
+    },
+    {
+      "source": "20/20-[Algorithm]-Selection-sort,-Insertion-sort.html",
+      "path": "./img/graph_1.png"
+    },
+    {
+      "source": "20/20-[Algorithm]-Selection-sort,-Insertion-sort.html",
+      "path": "./img/log_graph_1.png"
+    },
+    {
+      "source": "20/20-[Algorithm]-Selection-sort,-Insertion-sort.html",
+      "path": "./img/081011_1127_codeda3.jpg"
+    },
+    {
+      "source": "20/20-[Algorithm]-Selection-sort,-Insertion-sort.html",
+      "path": "./img/memoryLayout.jpg"
+    },
+    {
+      "source": "226/226-Spring-WebFlux---(1)-Mono와-Flux.html",
+      "path": "./img/tfile.svg"
+    },
+    {
+      "source": "226/226-Spring-WebFlux---(1)-Mono와-Flux.html",
+      "path": "./img/img.jpg"
+    },
+    {
+      "source": "242/242.html",
+      "path": "./img/img.png"
+    },
+    {
+      "source": "242/242.html",
+      "path": "./img/img_1.png"
+    },
+    {
+      "source": "243/243-2018-티볼리-에어---차박-준비.html",
+      "path": "./img/img.jpg"
+    },
+    {
+      "source": "243/243-2018-티볼리-에어---차박-준비.html",
+      "path": "./img/img_1.jpg"
+    },
+    {
+      "source": "243/243-2018-티볼리-에어---차박-준비.html",
+      "path": "./img/img_2.jpg"
+    },
+    {
+      "source": "243/243-2018-티볼리-에어---차박-준비.html",
+      "path": "./img/img_3.jpg"
+    },
+    {
+      "source": "243/243-2018-티볼리-에어---차박-준비.html",
+      "path": "./img/img_4.jpg"
+    },
+    {
+      "source": "243/243-2018-티볼리-에어---차박-준비.html",
+      "path": "./img/img_5.jpg"
+    },
+    {
+      "source": "250/250-Kubernetes---10.-고가용성과-확장성을-위한-설계.html",
+      "path": "./img/img.png"
+    },
+    {
+      "source": "257/257-The-Cap-Theorem.html",
+      "path": "./img/img.png"
+    },
+    {
+      "source": "266/266-2021.-09.-13.-계약금-천만원을-날리다.html",
+      "path": "./img/img.png"
+    },
+    {
+      "source": "268/268-2021.-09.-15-~29일.-집-계약.-이사.-제주에서의-하루-하루.html",
+      "path": "./img/img.jpg"
+    },
+    {
+      "source": "268/268-2021.-09.-15-~29일.-집-계약.-이사.-제주에서의-하루-하루.html",
+      "path": "./img/img_1.jpg"
+    },
+    {
+      "source": "27/27.html",
+      "path": "./img/scrum.png"
+    },
+    {
+      "source": "27/27.html",
+      "path": "./img/2000px-Scrum_process.svg.png"
+    },
+    {
+      "source": "27/27.html",
+      "path": "./img/diagram02.png"
+    },
+    {
+      "source": "323/323-2024,-STEPN-시작을-하는-뉴비들을-위한-지침서.html",
+      "path": "./img/img.png"
+    },
+    {
+      "source": "339/339-생태농업이란-무엇인가_.html",
+      "path": "./img/worldmap.jpg"
+    },
+    {
+      "source": "352/352-오스트랄로-스테프니쿠스-ep.-05-우도.html",
+      "path": "./img/img.jpg"
+    },
+    {
+      "source": "352/352-오스트랄로-스테프니쿠스-ep.-05-우도.html",
+      "path": ""
+    },
+    {
+      "source": "352/352-오스트랄로-스테프니쿠스-ep.-05-우도.html",
+      "path": "./img/img_1.jpg"
+    },
+    {
+      "source": "352/352-오스트랄로-스테프니쿠스-ep.-05-우도.html",
+      "path": "./img/img_2.jpg"
+    },
+    {
+      "source": "352/352-오스트랄로-스테프니쿠스-ep.-05-우도.html",
+      "path": "./img/img_3.jpg"
+    },
+    {
+      "source": "352/352-오스트랄로-스테프니쿠스-ep.-05-우도.html",
+      "path": "./img/img_4.jpg"
+    },
+    {
+      "source": "352/352-오스트랄로-스테프니쿠스-ep.-05-우도.html",
+      "path": "./img/img_5.jpg"
+    },
+    {
+      "source": "352/352-오스트랄로-스테프니쿠스-ep.-05-우도.html",
+      "path": "./img/IMG_7248.JPG"
+    },
+    {
+      "source": "352/352-오스트랄로-스테프니쿠스-ep.-05-우도.html",
+      "path": "./img/IMG_7260.JPG"
+    },
+    {
+      "source": "352/352-오스트랄로-스테프니쿠스-ep.-05-우도.html",
+      "path": "./img/img_6.jpg"
+    },
+    {
+      "source": "352/352-오스트랄로-스테프니쿠스-ep.-05-우도.html",
+      "path": "./img/img_7.jpg"
+    },
+    {
+      "source": "352/352-오스트랄로-스테프니쿠스-ep.-05-우도.html",
+      "path": "./img/img_8.jpg"
+    },
+    {
+      "source": "352/352-오스트랄로-스테프니쿠스-ep.-05-우도.html",
+      "path": "./img/IMG_7309.JPG"
+    },
+    {
+      "source": "391/391-생애-첫-번째-Dapp-을-완성하였습니다.html",
+      "path": "./img/ChatGPT Image 2025년 10월 18일 오후 09_07_04.png"
+    },
+    {
+      "source": "7/7-크롬-확장-API-리스트-정리.html",
+      "path": "./img/images.jpg"
+    }
+  ],
+  "external_images": [
+    {
+      "source": "105/105-[node.js]-forever.html",
+      "url": "http://blog.outsider.ne.kr/attach/1/1154848314.gif.pagespeed.ce.t4pwqQMTlL.gif"
+    },
+    {
+      "source": "105/105-[node.js]-forever.html",
+      "url": "http://blog.outsider.ne.kr/attach/1/1122859785.gif.pagespeed.ce.brAyzYu1ox.gif"
+    },
+    {
+      "source": "69/69-[PHP]-All-PHP-Framework-Suck-!!!.html",
+      "url": "http://files.phpclasses.org/files/blog/file/Rasmus-Lerdorf.jpg"
+    }
+  ],
+  "copied_images": [],
+  "generated_posts": [
+    "_posts/2015-02-05-legacy-10-projects-03-chrome-extension-facebook-api.md",
+    "_posts/2015-08-27-legacy-102-engineering-sparc.md",
+    "_posts/2015-08-27-legacy-103-engineering-sparc.md",
+    "_posts/2015-08-27-legacy-104-engineering-node-js-node-js-apache.md",
+    "_posts/2015-08-27-legacy-105-engineering-node-js-forever.md",
+    "_posts/2015-02-06-legacy-11-projects-04-feature-image.md",
+    "_posts/2015-11-04-legacy-134-engineering-jenkins-yosemite-10-10-jenkins.md",
+    "_posts/2015-12-18-legacy-145-essay-unity-4-6-9p2.md",
+    "_posts/2016-02-24-legacy-166-engineering-bootstrap-jquery-table.md",
+    "_posts/2015-03-03-legacy-17-essay-mission-statement.md",
+    "_posts/2016-05-25-legacy-181-essay-unity-prime31-iap-iab.md",
+    "_posts/2016-08-28-legacy-192-engineering-02-cssuntitled-document-md.md",
+    "_posts/2017-01-05-legacy-194-engineering-03-untitled-document-md.md",
+    "_posts/2015-03-04-legacy-20-engineering-algorithm-selection-sort-insertion-sort.md",
+    "_posts/2019-10-20-legacy-220-web3-xcode-failedtogetinstalledapplicationinfoafterinstalling.md",
+    "_posts/2020-02-11-legacy-226-engineering-spring-webflux-1-mono-flux.md",
+    "_posts/2020-08-02-legacy-242-engineering-kubernetes-01-minikube.md",
+    "_posts/2020-08-08-legacy-243-essay-2018.md",
+    "_posts/2020-10-23-legacy-250-engineering-kubernetes-10.md",
+    "_posts/2021-03-25-legacy-256-engineering-webflux-exchange-retrieve.md",
+    "_posts/2021-03-25-legacy-257-engineering-the-cap-theorem.md",
+    "_posts/2021-08-05-legacy-260-essay-effective-kotlin.md",
+    "_posts/2021-08-19-legacy-261-engineering-effective-kotlin-properties-should-represent-state-not-behavior.md",
+    "_posts/2021-09-16-legacy-266-life-2021-09-13.md",
+    "_posts/2021-09-30-legacy-268-life-2021-09-15-29.md",
+    "_posts/2015-03-10-legacy-27-engineering-scrum-agile-software-development-with-scrum.md",
+    "_posts/2021-10-28-legacy-274-engineering-effective-kotlin-prefer-sequence-for-big-collections-with-more-than-one-processing-step.md",
+    "_posts/2015-03-12-legacy-29-essay.md",
+    "_posts/2022-10-06-legacy-306-engineering-issue-with-using-reflect-in-kotlin.md",
+    "_posts/2023-12-07-legacy-313-finance-pine-script-slow-stochastic.md",
+    "_posts/2023-12-07-legacy-314-finance-pine-script-ema.md",
+    "_posts/2023-12-07-legacy-315-finance-pine-script-rsi.md",
+    "_posts/2015-03-17-legacy-32-engineering-mergesort.md",
+    "_posts/2024-01-22-legacy-323-web3-2024-stepn.md",
+    "_posts/2024-07-28-legacy-336-projects.md",
+    "_posts/2024-07-28-legacy-338-essay.md",
+    "_posts/2024-08-04-legacy-339-projects.md",
+    "_posts/2024-08-10-legacy-340-books.md",
+    "_posts/2024-08-10-legacy-341-books.md",
+    "_posts/2024-09-22-legacy-346-engineering-swiftui-combine.md",
+    "_posts/2024-09-22-legacy-347-engineering-swift-identifiable-codable-hashable-protocol.md",
+    "_posts/2024-11-16-legacy-352-web3-ep-05.md",
+    "_posts/2025-08-02-legacy-378-life-renovation-2-planning-your-renovation.md",
+    "_posts/2025-08-14-legacy-379-books.md",
+    "_posts/2025-08-29-legacy-384-essay.md",
+    "_posts/2025-10-18-legacy-391-web3-dapp.md",
+    "_posts/2015-07-25-legacy-45-books.md",
+    "_posts/2015-07-29-legacy-50-books.md",
+    "_posts/2015-07-29-legacy-51-books.md",
+    "_posts/2015-08-01-legacy-56-books.md",
+    "_posts/2015-08-01-legacy-57-books.md",
+    "_posts/2015-08-02-legacy-58-books.md",
+    "_posts/2015-08-02-legacy-59-books.md",
+    "_posts/2015-08-03-legacy-61-books.md",
+    "_posts/2015-08-05-legacy-66-books.md",
+    "_posts/2015-08-05-legacy-67-books.md",
+    "_posts/2015-08-06-legacy-68-essay-php.md",
+    "_posts/2015-08-06-legacy-69-engineering-php-all-php-framework-suck.md",
+    "_posts/2015-01-30-legacy-7-engineering-api.md",
+    "_posts/2015-08-07-legacy-73-books.md",
+    "_posts/2015-08-09-legacy-74-books.md",
+    "_posts/2015-08-09-legacy-75-books.md",
+    "_posts/2015-08-11-legacy-80-books.md",
+    "_posts/2015-02-02-legacy-9-engineering-html5.md"
+  ],
+  "removed_obsolete_posts": [],
+  "missing_descriptions": []
+}

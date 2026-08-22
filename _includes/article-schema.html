@@ -2,7 +2,7 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "NewsArticle",
+  "@type": "{% if page.section == 'blog' %}BlogPosting{% else %}NewsArticle{% endif %}",
   "headline": {{ page.title | jsonify }},
   "description": {{ page.description | strip_html | strip_newlines | truncate: 160 | jsonify }},
   {% if page.image %}"image": "{{ site.url }}{{ site.baseurl }}/images/{{ page.image }}",{% endif %}
