@@ -1,7 +1,7 @@
 ---
 title: "tags"
 layout: default
-permalink: "/tags"
+permalink: "/tags/"
 order: 1
 ---
 

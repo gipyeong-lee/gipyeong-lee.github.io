@@ -31,6 +31,7 @@
     content_tag:  {{ page.tags | first | default: "" | jsonify }},
     ref_family:   {{ page.ref | default: "" | jsonify }}
   };
+  var IS_NOT_FOUND = {% if page.title == "Page not found" %}true{% else %}false{% endif %};
 
   // ---- First-touch attribution capture (sessionStorage) ----------------
   // GA4 already attributes the session, but we also stamp every custom
@@ -77,6 +78,13 @@
     } catch (e) { /* swallow — analytics must never break the page */ }
   }
   window.__gaTrack = track;
+
+  if (IS_NOT_FOUND) {
+    track('page_not_found', {
+      not_found_path: window.location.pathname,
+      not_found_referrer: document.referrer || ''
+    });
+  }
 
   // ---- Click delegation: share / language / tag / outbound -------------
   document.addEventListener('click', function (e) {
