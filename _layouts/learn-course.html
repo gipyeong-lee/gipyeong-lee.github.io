@@ -1,0 +1,78 @@
+---
+layout: default
+---
+{% assign course = site.data.learn[page.course_slug] %}
+{% assign sponsor = site.data.learn_settings.sponsorship %}
+<article class="learn-shell learn-course" data-learn-course data-course-slug="{{ page.course_slug }}" data-curriculum-version="{{ course.curriculum_version }}" data-module-ids="{% for module in course.modules %}{{ module.id }}{% unless forloop.last %},{% endunless %}{% endfor %}">
+  <nav class="learn-breadcrumb" aria-label="Learn 탐색"><a href="{{ '/learn/' | relative_url }}">Learn</a><span>/</span><span>{{ course.course.title }}</span></nav>
+  <header class="learn-course-hero">
+    <p class="learn-eyebrow">CURRICULUM {{ course.curriculum_version }} · {{ course.course.level }}</p>
+    <h1>{{ course.course.title }}</h1>
+    <p class="learn-lede">{{ course.course.outcome }}</p>
+    <div class="learn-facts">
+      <div><span>TIME</span><strong>{{ course.course.estimated_hours }}h</strong></div>
+      <div><span>MODULES</span><strong>{{ course.modules.size }}</strong></div>
+      <div><span>BUDGET</span><strong>₩{{ course.course.budget_krw.min }}–{{ course.course.budget_krw.max }}</strong></div>
+      <div><span>REVIEWED</span><strong>{{ course.course.last_reviewed }}</strong></div>
+    </div>
+  </header>
+
+  <section class="learn-progress-panel" aria-labelledby="progress-title">
+    <div><p class="learn-kicker">YOUR FIELD LOG</p><h2 id="progress-title">학습 진도</h2></div>
+    <div class="learn-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span data-learn-progress-bar></span></div>
+    <strong data-learn-progress-text>0% 완료</strong>
+    <div class="learn-progress-actions">
+      <button type="button" class="learn-button learn-button--quiet" data-learn-export>진도 내보내기</button>
+      <label class="learn-button learn-button--quiet">진도 가져오기<input type="file" accept="application/json" data-learn-import></label>
+    </div>
+    <p class="learn-status" data-learn-status aria-live="polite"></p>
+  </section>
+
+  {% if sponsor.enabled %}
+  <aside class="learn-sponsor" data-sponsorship="start">
+    <div><p class="learn-kicker">OPTIONAL SUPPORT</p><h2>시작을 함께 축하해주세요</h2><p>모든 과정은 무료이며 후원 여부와 관계없이 바로 시작할 수 있습니다. 커피 한 잔 {{ sponsor.amount_krw }}원은 서비스 유지비에 쓰입니다.</p></div>
+    <div class="learn-sponsor__actions">
+      {% if sponsor.stripe_payment_link != blank %}<a class="learn-button" data-sponsorship-link data-moment="start" href="{{ sponsor.stripe_payment_link }}" target="_blank" rel="noopener">{{ sponsor.label }} · {{ sponsor.amount_krw }}원</a>{% else %}<span class="learn-button learn-button--disabled" aria-disabled="true">후원 창구 준비 중</span>{% endif %}
+      <button type="button" class="learn-text-button" data-sponsorship-skip>건너뛰고 학습 시작</button>
+    </div>
+  </aside>
+  {% endif %}
+
+  <section class="learn-notes">
+    <div class="learn-prose">{{ content }}</div>
+    <aside class="learn-note-card"><span>AUDIENCE</span><p>{{ course.course.audience }}</p><span>SAFETY</span><ul>{% for item in course.course.safety_summary %}<li>{{ item }}</li>{% endfor %}</ul></aside>
+  </section>
+
+  <section class="learn-section" aria-labelledby="curriculum-title">
+    <div class="learn-section__heading"><p class="learn-kicker">STUDY MAP</p><h2 id="curriculum-title">교과과정</h2></div>
+    {% for phase in course.phases %}
+    <div class="learn-phase">
+      <header><span>{{ forloop.index }}</span><h3>{{ phase.title }}</h3></header>
+      <ol>
+        {% for module_id in phase.module_ids %}{% for module in course.modules %}{% if module.id == module_id %}
+        <li data-learn-module-row="{{ module.id }}"><span class="learn-module-check" aria-hidden="true"></span><div><a href="{{ '/learn/' | append: page.course_slug | append: '/' | append: module.slug | append: '/' | relative_url }}">{{ module.title }}</a><small>{{ module.estimated_hours }}시간 · {{ module.objectives.first }}</small></div></li>
+        {% endif %}{% endfor %}{% endfor %}
+      </ol>
+    </div>
+    {% endfor %}
+  </section>
+
+  <section class="learn-section learn-bom" aria-labelledby="bom-title">
+    <div class="learn-section__heading"><p class="learn-kicker">BILL OF MATERIALS</p><h2 id="bom-title">부품과 도구</h2></div>
+    <div class="learn-table-wrap"><table><thead><tr><th>부품</th><th>모델 / 제조사</th><th>수량</th><th>선정 이유</th></tr></thead><tbody>{% for item in course.bom %}<tr><td><strong>{{ item.name }}</strong><small>{{ item.function }}</small></td><td>{{ item.model }}<small>{{ item.manufacturer }}</small></td><td>{{ item.quantity }}</td><td>{{ item.rationale }}</td></tr>{% endfor %}</tbody></table></div>
+  </section>
+
+  <section class="learn-section learn-capstone" aria-labelledby="capstone-title">
+    <div class="learn-section__heading"><p class="learn-kicker">FINAL BUILD</p><h2 id="capstone-title">{{ course.capstone.title }}</h2></div>
+    <div class="learn-columns"><div><h3>제출물</h3><ul>{% for item in course.capstone.deliverables %}<li>{{ item }}</li>{% endfor %}</ul></div><div><h3>평가 기준</h3><ul>{% for item in course.capstone.rubric %}<li>{{ item }}</li>{% endfor %}</ul></div></div>
+  </section>
+
+  {% if sponsor.enabled %}
+  <aside class="learn-sponsor" data-sponsorship="complete" hidden>
+    <div><p class="learn-kicker">COURSE COMPLETE</p><h2>완주를 함께 기념해주세요</h2><p>후원은 선택입니다. 완주 기록과 과정 이용에는 아무 영향이 없습니다.</p></div>
+    <div class="learn-sponsor__actions">{% if sponsor.stripe_payment_link != blank %}<a class="learn-button" data-sponsorship-link data-moment="complete" href="{{ sponsor.stripe_payment_link }}" target="_blank" rel="noopener">{{ sponsor.label }} · {{ sponsor.amount_krw }}원</a>{% else %}<span class="learn-button learn-button--disabled" aria-disabled="true">후원 창구 준비 중</span>{% endif %}<button type="button" class="learn-text-button" data-sponsorship-skip>후원 없이 마치기</button></div>
+  </aside>
+  {% endif %}
+
+  <section class="learn-section learn-sources"><div class="learn-section__heading"><p class="learn-kicker">RESEARCH LEDGER</p><h2>근거 자료</h2></div><ol>{% for source in course.sources %}<li id="source-{{ source.id }}"><a href="{{ source.url }}" target="_blank" rel="noopener">{{ source.title }}</a><span>{{ source.organization }} · {{ source.type }} · {{ source.accessed_at }}</span></li>{% endfor %}</ol></section>
+</article>

@@ -62,15 +62,19 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+  {% unless page.no_ads %}
   <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
+  {% endunless %}
   <link rel="dns-prefetch" href="https://unpkg.com">
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&family=Noto+Serif+KR:wght@600;700&family=Noto+Sans+KR:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
   <!-- Ionicons -->
   <link href="https://unpkg.com/ionicons@4.2.2/dist/css/ionicons.min.css" rel="stylesheet">
+  {% unless page.no_ads %}
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ site.data.settings.google.adsense_id }}"
   crossorigin="anonymous"></script>
+  {% endunless %}
   <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
   <meta name="google-site-verification" content="a-ooQbWI49ahFL0LACl3xJhMzt9ZtWqDVqNoZo4yOYo" />
   {% include article-schema.html %}

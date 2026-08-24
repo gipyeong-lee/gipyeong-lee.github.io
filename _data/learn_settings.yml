@@ -1,0 +1,5 @@
+sponsorship:
+  enabled: true
+  amount_krw: 5900
+  label: "커피 한 잔 후원"
+  stripe_payment_link: ""

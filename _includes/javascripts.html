@@ -18,3 +18,6 @@
 <script src="{{ site.baseurl }}/js/audio-player.js"></script>
 <script src="{{ site.baseurl }}/js/quiz.js"></script>
 <script src="{{ site.baseurl }}/js/scroll-reveal.js"></script>
+{% if page.course_slug %}
+<script src="{{ '/js/learn-progress.js' | relative_url }}"></script>
+{% endif %}

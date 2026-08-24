@@ -9,6 +9,10 @@ future: true
 plugins:
   - jekyll-paginate
 
+collections:
+  learn:
+    output: true
+
 # Tag pages come from _plugins/tag_pages.rb (jekyll/tagging was dropped:
 # it generated a page for every one of ~5,700 mostly-unique LLM tags).
 tag_min_posts: 5
@@ -54,6 +58,11 @@ defaults:
       path: "images"
     values:
       image: true
+  - scope:
+      path: "_learn"
+      type: "learn"
+    values:
+      no_ads: true
 include:
   - _pages
 

@@ -1,0 +1,37 @@
+---
+layout: default
+---
+<section class="learn-shell learn-catalogue">
+  <header class="learn-hero">
+    <p class="learn-eyebrow">OPEN LABORATORY · 광고 없는 학습 공간</p>
+    <h1>Learn</h1>
+    <p class="learn-lede">논문, 특허, 대학 교과과정, 기술 문서를 실제 제작 프로젝트로 연결합니다.</p>
+    <div class="learn-rule" aria-hidden="true"><span>01</span><span>관찰 · 설계 · 제작 · 검증</span></div>
+  </header>
+
+  {% assign courses = site.data.learn.courses %}
+  {% if courses and courses.size > 0 %}
+  <div class="learn-course-grid">
+    {% for course in courses %}
+    <article class="learn-course-card">
+      <div class="learn-course-card__index">COURSE {{ forloop.index }}</div>
+      <h2><a href="{{ course.url | relative_url }}">{{ course.title }}</a></h2>
+      <p>{{ course.summary }}</p>
+      <dl class="learn-course-card__meta">
+        <div><dt>난이도</dt><dd>{{ course.level }}</dd></div>
+        <div><dt>예상 시간</dt><dd>{{ course.estimated_hours }}시간</dd></div>
+        <div><dt>모듈</dt><dd>{{ course.module_count }}개</dd></div>
+        <div><dt>예산</dt><dd>₩{{ course.budget_krw.min }}–₩{{ course.budget_krw.max }}</dd></div>
+      </dl>
+      <a class="learn-text-link" href="{{ course.url | relative_url }}">과정 살펴보기 <span aria-hidden="true">→</span></a>
+    </article>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="learn-empty">
+    <span class="learn-empty__mark">LAB / 00</span>
+    <h2>첫 교과과정 준비 중</h2>
+    <p>AI Blog Studio에서 조사·검증한 과정이 이곳에 공개됩니다.</p>
+  </div>
+  {% endif %}
+</section>
