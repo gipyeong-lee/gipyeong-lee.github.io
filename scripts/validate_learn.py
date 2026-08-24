@@ -4,9 +4,11 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import subprocess
 from pathlib import Path
 from typing import Any, Optional
+from urllib.parse import urlparse
 
 
 AD_MARKERS = ("adsbygoogle", "pagead2.googlesyndication.com", "ad-slot")
@@ -19,6 +21,168 @@ SOURCE_TYPES = {
     "textbook",
     "technical_documentation",
 }
+BOM_CATEGORIES = {
+    "actuator",
+    "bearing",
+    "controller",
+    "fastener",
+    "power",
+    "safety",
+    "sensor",
+    "structure",
+    "transmission",
+    "wiring",
+}
+OFFICIAL_STANDARD_HOSTS = (
+    "astm.org",
+    "bsigroup.com",
+    "din.de",
+    "iec.ch",
+    "ieee.org",
+    "iso.org",
+    "kats.go.kr",
+    "nist.gov",
+    "osha.gov",
+    "ul.com",
+)
+PAPER_HOSTS = (
+    "acm.org",
+    "alliedacademies.org",
+    "arxiv.org",
+    "doi.org",
+    "frontiersin.org",
+    "ieee.org",
+    "intechopen.com",
+    "mdpi.com",
+    "nature.com",
+    "ncbi.nlm.nih.gov",
+    "sciencedirect.com",
+    "springer.com",
+    "wiley.com",
+    "wseas.org",
+)
+PATENT_HOSTS = (
+    "epo.org",
+    "espacenet.com",
+    "google.com",
+    "patentscope.wipo.int",
+    "uspto.gov",
+    "wipo.int",
+)
+TEXTBOOK_HOSTS = (
+    "books.google.com",
+    "doabooks.org",
+    "intechopen.com",
+    "libretexts.org",
+    "openstax.org",
+    "springer.com",
+)
+BLOCKED_REFERENCE_HOSTS = (
+    "aliexpress.com",
+    "amazon.com",
+    "arxiv.org",
+    "bing.com",
+    "digikey.com",
+    "ebay.com",
+    "element14.com",
+    "farnell.com",
+    "github.com",
+    "github.io",
+    "gitlab.com",
+    "google.com",
+    "mcmaster.com",
+    "mouser.com",
+    "researchgate.net",
+    "robotshop.com",
+    "rs-online.com",
+    "thingiverse.com",
+    "tribotix.com",
+    "wikipedia.org",
+)
+GENERIC_MANUFACTURER_TOKENS = {
+    "co",
+    "company",
+    "com",
+    "corp",
+    "corporation",
+    "custom",
+    "generic",
+    "inc",
+    "industries",
+    "industry",
+    "ltd",
+    "manufacturer",
+    "net",
+    "org",
+    "standard",
+}
+
+
+def _hostname(url: str) -> str:
+    return (urlparse(url).hostname or "").lower().rstrip(".")
+
+
+def _host_matches(host: str, suffixes: tuple[str, ...]) -> bool:
+    return any(host == suffix or host.endswith(f".{suffix}") for suffix in suffixes)
+
+
+def _source_type_authoritative(url: str, source_type: str) -> bool:
+    parsed = urlparse(url)
+    host = (parsed.hostname or "").lower().rstrip(".")
+    if not host or parsed.path in {"", "/"} and source_type in {"paper", "patent"}:
+        return False
+    if source_type == "paper":
+        return _host_matches(host, PAPER_HOSTS)
+    if source_type == "patent":
+        path = parsed.path.lower()
+        if host == "patents.google.com":
+            return path.startswith("/patent/")
+        if _host_matches(host, ("patentscope.wipo.int",)):
+            return "detail.jsf" in path and "docid=" in parsed.query.lower()
+        if _host_matches(host, ("espacenet.com",)):
+            return "publication" in path or "family" in path
+        if _host_matches(host, ("epo.org", "uspto.gov")):
+            return "downloadpdf" in path or path.endswith(".pdf")
+        return False
+    if source_type == "standard":
+        return _host_matches(host, OFFICIAL_STANDARD_HOSTS)
+    if source_type == "university":
+        labels = set(host.split("."))
+        return "edu" in labels or "ac" in labels
+    if source_type == "textbook":
+        return _host_matches(host, TEXTBOOK_HOSTS)
+    return source_type in {"datasheet", "technical_documentation"}
+
+
+def _bom_source_authority_error(item: dict[str, Any], source: dict[str, Any]) -> Optional[str]:
+    source_type = str(source.get("type") or "")
+    parsed = urlparse(str(source.get("url") or ""))
+    host = (parsed.hostname or "").lower().rstrip(".")
+    if not host or _host_matches(host, BLOCKED_REFERENCE_HOSTS):
+        return "source host is not authoritative"
+    if host.split(".", 1)[0] in {"community", "e2e", "forum", "forums"}:
+        return "community attachments are not official product documents"
+    if parsed.path in {"", "/"}:
+        return "source must link to a specific document or product page"
+    if source_type == "standard":
+        if not _host_matches(host, OFFICIAL_STANDARD_HOSTS):
+            return "standard source is not an official standards-body URL"
+        return None
+    if source_type not in {"datasheet", "technical_documentation"}:
+        return "source is not specification material"
+
+    manufacturer = str(item.get("manufacturer") or "").lower()
+    tokens = {
+        token
+        for token in re.findall(r"[a-z0-9]+", manufacturer)
+        if len(token) >= 2 and token not in GENERIC_MANUFACTURER_TOKENS
+    }
+    host_key = re.sub(r"[^a-z0-9]", "", host)
+    if not tokens:
+        return "item needs a specific manufacturer or official standard"
+    if not any(token in host_key for token in tokens):
+        return "source host does not match item manufacturer"
+    return None
 
 
 def _load_yaml(path: Path) -> Any:
@@ -101,6 +265,8 @@ def _validate_manifest(repo: Path, slug: str, manifest: Any) -> list[str]:
 
     source_ids: set[str] = set()
     source_types: dict[str, str] = {}
+    source_rows: dict[str, dict[str, Any]] = {}
+    present_source_types: set[str] = set()
     for source in sources:
         if not isinstance(source, dict):
             errors.append(f"{label}: source must be a mapping")
@@ -112,12 +278,19 @@ def _validate_manifest(repo: Path, slug: str, manifest: Any) -> list[str]:
         if source_id in source_ids:
             errors.append(f"{label}: duplicate source {source_id}")
         source_ids.add(source_id)
+        source_rows[source_id] = source
         source_type = source.get("type")
         source_types[source_id] = str(source_type or "")
+        present_source_types.add(str(source_type or ""))
         if source_type not in SOURCE_TYPES:
             errors.append(f"{label}: source {source_id} has invalid type")
-        if not str(source.get("url") or "").startswith(("https://", "http://")):
+        source_url = str(source.get("url") or "")
+        if not source_url.startswith(("https://", "http://")):
             errors.append(f"{label}: source {source_id} URL missing")
+        elif not _source_type_authoritative(source_url, str(source_type or "")):
+            errors.append(
+                f"{label}: source {source_id} URL does not match {source_type} family"
+            )
 
     module_ids: set[str] = set()
     module_slugs: set[str] = set()
@@ -164,17 +337,65 @@ def _validate_manifest(repo: Path, slug: str, manifest: Any) -> list[str]:
         datasheet_id = item.get("datasheet_source_id")
         if datasheet_id not in source_ids:
             errors.append(f"{label}: BOM {item_id} references unknown datasheet")
-        elif source_types.get(str(datasheet_id)) != "datasheet":
-            errors.append(f"{label}: BOM {item_id} source is not a datasheet")
-        specifications = item.get("specifications")
-        if not isinstance(specifications, list) or not specifications:
-            errors.append(f"{label}: BOM {item_id} specifications missing")
+        elif source_types.get(str(datasheet_id)) not in {
+            "datasheet",
+            "standard",
+            "technical_documentation",
+        }:
+            errors.append(f"{label}: BOM {item_id} lacks authoritative specification source")
         else:
+            if (
+                item.get("category") == "safety"
+                and source_types.get(str(datasheet_id)) == "standard"
+            ):
+                errors.append(
+                    f"{label}: BOM {item_id} safety cutoff requires a product document"
+                )
+            authority_error = _bom_source_authority_error(
+                item, source_rows[str(datasheet_id)]
+            )
+            if authority_error:
+                errors.append(
+                    f"{label}: BOM {item_id} has invalid specification source: "
+                    f"{authority_error}"
+                )
+        specifications = item.get("specifications")
+        if not isinstance(specifications, list) or len(specifications) < 2:
+            errors.append(f"{label}: BOM {item_id} requires at least two specifications")
+        else:
+            quantitative = 0
             for specification in specifications:
                 if not isinstance(specification, dict) or not all(
                     str(specification.get(key) or "").strip() for key in ("name", "value", "unit")
                 ):
                     errors.append(f"{label}: BOM {item_id} has incomplete specification")
+                    continue
+                value = str(specification.get("value") or "")
+                unit = str(specification.get("unit") or "").strip().lower()
+                if re.search(r"\d", value) and unit not in {
+                    "n/a",
+                    "na",
+                    "none",
+                    "-",
+                    "unitless",
+                }:
+                    quantitative += 1
+            if quantitative < 2:
+                errors.append(
+                    f"{label}: BOM {item_id} requires two numeric specifications with real units"
+                )
+
+    if len(bom) < 10:
+        errors.append(f"{label}: buildable BOM requires at least 10 item types")
+    present_categories = {
+        str(item.get("category") or "") for item in bom if isinstance(item, dict)
+    }
+    for category in sorted(BOM_CATEGORIES - present_categories):
+        errors.append(f"{label}: buildable BOM missing category {category}")
+
+    for source_type in ("university", "paper", "patent"):
+        if source_type not in present_source_types:
+            errors.append(f"{label}: sources missing required family {source_type}")
 
     _check_generated_front_matter(
         repo / "_learn" / slug / "index.md",
