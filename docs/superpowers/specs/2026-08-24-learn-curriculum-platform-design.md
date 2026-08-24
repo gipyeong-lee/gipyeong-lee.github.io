@@ -12,7 +12,9 @@ reviewable curriculum grounded in university course material, papers, patents,
 standards, and manufacturer documentation.
 
 The first complete curriculum teaches the learner to design, build, control,
-and validate a precise five-finger robotic hand.
+and validate a precise five-finger robotic hand. It must be created by entering
+that goal through the completed AI Blog Studio Learn workflow. It must not be
+hand-authored directly in the public repository.
 
 ## Repositories
 
@@ -323,6 +325,28 @@ modules, and non-blocking optional equipment gaps.
 
 ## First Curriculum: Precise Five-Finger Robotic Hand
 
+### Generation provenance requirement
+
+The robotic-hand curriculum is the first production run of the Learn authoring
+system, not fixture content written before or outside that system. Delivery
+order is mandatory:
+
+1. implement and test the Studio Learn research, generation, validation,
+   preview, and publishing workflow;
+2. enter the robotic-hand learning goal and constraints through the same Learn
+   input used for any future course;
+3. run real source research and Gemini generation from Studio;
+4. inspect the generated validation report and preview;
+5. publish the validated generated payload through Studio;
+6. retain generation metadata and source provenance so the run is auditable.
+
+If the first output is incomplete or invalid, implementation corrects the
+research queries, prompt, schema, or deterministic validator and runs the
+course generation again. It does not repair curriculum prose, BOM entries,
+assignments, citations, or module files by hand. Human action is limited to
+the same brief input, review, approval, and publish controls available for all
+future courses.
+
 The initial course produces a benchtop five-finger robotic hand capable of
 independent digit movement, controlled grasping, bounded force, calibration,
 and repeatability testing. It does not claim human equivalence, autonomous body
@@ -395,7 +419,9 @@ No test or build contacts Stripe or Gemini.
 
 This release includes one complete course, Studio generation and review,
 static public learning, local progress, optional Stripe sponsorship prompts,
-and reproducible validation.
+and reproducible validation. The complete course must be generated and
+published by Studio after the generator exists; pre-seeding hand-written course
+files is outside scope.
 
 This release does not include accounts, cloud progress sync, instructor
 grading, accredited certificates, discussion forums, tax receipts, recurring
@@ -417,3 +443,6 @@ translations; the Korean curriculum is the canonical first release.
    completion, while both prompts can be skipped immediately.
 7. No Learn HTML loads or renders advertising resources.
 8. Automated tests and Jekyll build pass without real Stripe or Gemini calls.
+9. The robotic-hand course has a recorded Studio generation run and source
+   provenance, and no course content is hand-authored directly in the public
+   repository.
