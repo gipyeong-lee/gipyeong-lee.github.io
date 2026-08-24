@@ -89,10 +89,15 @@ layout: default
                     <div class="sidebar-section">
                         <h4 class="section-title">Trending Topics</h4>
                         <div class="tags-cloud">
-                            {% for tag in site.tags limit:10 %}
-                            <a href="{{ site.baseurl }}/tag/{{ tag[0] | slugify }}"
+                            {%- comment -%}
+                              site.linkable_tags only — and the slug scheme must match
+                              _plugins/tag_pages.rb (downcase, space→dash), not `slugify`
+                              which strips dots/CJK and produced dead URLs.
+                            {%- endcomment -%}
+                            {% for tag in site.linkable_tags limit:10 %}
+                            <a href="{{ site.baseurl }}/tag/{{ tag | downcase | replace: " ", "-" }}/"
                                 style="display:inline-block; background:#f1f3f4; padding: 4px 10px; margin: 3px; border-radius: 4px; font-size: 0.85em; color: #333; text-decoration: none;">#{{
-                                tag[0] }}</a>
+                                tag }}</a>
                             {% endfor %}
                         </div>
                     </div>

@@ -6,11 +6,14 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarsExplore">
     <ul class="navbar-nav categories" style="flex-wrap:wrap;">
-    {% assign tags = site.tags %}
-        {% for tag in tags %}
-          <li class="nav-item"><a class="nav-link" href="{{site.baseurl}}/tag/{{ tag[0] | downcase | replace: " ", "-" }}/">{{ tag[0] }}</a></li>
+    {%- comment -%}
+      site.linkable_tags (from _plugins/tag_pages.rb) — only tags that
+      actually have a /tag/<slug>/ page; linking every site.tags entry
+      produced thousands of 404 links.
+    {%- endcomment -%}
+        {% for tag in site.linkable_tags %}
+          <li class="nav-item"><a class="nav-link" href="{{site.baseurl}}/tag/{{ tag | downcase | replace: " ", "-" }}/">{{ tag }}</a></li>
         {% endfor %}
-    {% assign tags = nil %}
     </ul>    
     </div>
 </nav>

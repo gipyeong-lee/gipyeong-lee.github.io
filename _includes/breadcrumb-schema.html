@@ -1,5 +1,10 @@
 {% if page.layout == 'post' %}
-{% assign first_tag = page.tags | first %}
+{%- comment -%}
+  Only reference a tag whose /tag/<slug>/ page actually exists
+  (page.linkable_tags, set by _plugins/tag_pages.rb) — advertising dead
+  tag URLs in structured data feeds Google a steady stream of 404s.
+{%- endcomment -%}
+{% assign first_tag = page.linkable_tags | first %}
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
