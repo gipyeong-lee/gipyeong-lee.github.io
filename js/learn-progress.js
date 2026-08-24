@@ -11,6 +11,7 @@
       courseSlug: courseSlug,
       curriculumVersion: curriculumVersion,
       completedModuleIds: [],
+      assignmentChecks: {},
       quizScores: {},
       sponsorshipDismissed: { start: false, complete: false },
     };
@@ -20,6 +21,17 @@
     var ids = state.completedModuleIds.slice();
     if (!ids.includes(moduleId)) ids.push(moduleId);
     return Object.assign({}, state, { completedModuleIds: ids });
+  }
+
+  function setAssignmentCheck(state, moduleId, itemIndex, checked) {
+    var assignments = Object.assign({}, state.assignmentChecks);
+    var checkedItems = (assignments[moduleId] || []).slice();
+    var position = checkedItems.indexOf(itemIndex);
+    if (checked && position === -1) checkedItems.push(itemIndex);
+    if (!checked && position !== -1) checkedItems.splice(position, 1);
+    checkedItems.sort(function (left, right) { return left - right; });
+    assignments[moduleId] = checkedItems;
+    return Object.assign({}, state, { assignmentChecks: assignments });
   }
 
   function importState(raw, contract) {
@@ -52,12 +64,26 @@
       }
       scores[moduleId] = score;
     });
+    var assignments = {};
+    var importedAssignments = parsed.assignmentChecks || {};
+    if (typeof importedAssignments !== "object" || Array.isArray(importedAssignments)) {
+      throw new Error("Invalid assignment data");
+    }
+    Object.keys(importedAssignments).forEach(function (moduleId) {
+      var indices = importedAssignments[moduleId];
+      if (!allowed.has(moduleId)) throw new Error("Unknown module assignment");
+      if (!Array.isArray(indices) || indices.some(function (index) { return !Number.isInteger(index) || index < 0; })) {
+        throw new Error("Invalid assignment data");
+      }
+      assignments[moduleId] = Array.from(new Set(indices)).sort(function (left, right) { return left - right; });
+    });
     var dismissed = parsed.sponsorshipDismissed || {};
     return {
       schemaVersion: 1,
       courseSlug: contract.courseSlug,
       curriculumVersion: contract.curriculumVersion,
       completedModuleIds: completed,
+      assignmentChecks: assignments,
       quizScores: scores,
       sponsorshipDismissed: {
         start: dismissed.start === true,
@@ -111,6 +137,9 @@
       document.querySelectorAll("[data-learn-progress-text]").forEach(function (text) { text.textContent = percent + "% 완료"; });
       document.querySelectorAll("[data-learn-module-row]").forEach(function (row) {
         row.classList.toggle("is-complete", state.completedModuleIds.includes(row.dataset.learnModuleRow));
+      });
+      document.querySelectorAll("[data-assignment-check]").forEach(function (checkbox, index) {
+        checkbox.checked = (state.assignmentChecks[currentModule] || []).includes(index);
       });
       var completeButton = document.querySelector("[data-complete-module]");
       if (completeButton && state.completedModuleIds.includes(currentModule)) {
@@ -171,6 +200,14 @@
       if (status) status.textContent = correct + "/" + questions.length + " 정답 · " + score + "점";
     });
 
+    document.querySelectorAll("[data-assignment-check]").forEach(function (checkbox, index) {
+      checkbox.checked = (state.assignmentChecks[currentModule] || []).includes(index);
+      checkbox.addEventListener("change", function () {
+        state = setAssignmentCheck(state, currentModule, index, checkbox.checked);
+        save();
+      });
+    });
+
     var exportButton = document.querySelector("[data-learn-export]");
     if (exportButton) exportButton.addEventListener("click", function () {
       var blob = new Blob([JSON.stringify(state, null, 2)], { type: "application/json" });
@@ -206,5 +243,11 @@
     else initBrowser();
   }
 
-  return { initialState: initialState, completeModule: completeModule, importState: importState, sponsorshipUrl: sponsorshipUrl };
+  return {
+    initialState: initialState,
+    completeModule: completeModule,
+    setAssignmentCheck: setAssignmentCheck,
+    importState: importState,
+    sponsorshipUrl: sponsorshipUrl,
+  };
 });

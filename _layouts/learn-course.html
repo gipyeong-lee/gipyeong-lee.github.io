@@ -59,7 +59,7 @@ layout: default
 
   <section class="learn-section learn-bom" aria-labelledby="bom-title">
     <div class="learn-section__heading"><p class="learn-kicker">BILL OF MATERIALS</p><h2 id="bom-title">부품과 도구</h2></div>
-    <div class="learn-table-wrap"><table><thead><tr><th>부품</th><th>모델 / 제조사</th><th>수량</th><th>선정 이유</th></tr></thead><tbody>{% for item in course.bom %}<tr><td><strong>{{ item.name }}</strong><small>{{ item.function }}</small></td><td>{{ item.model }}<small>{{ item.manufacturer }}</small></td><td>{{ item.quantity }}</td><td>{{ item.rationale }}</td></tr>{% endfor %}</tbody></table></div>
+    <div class="learn-table-wrap"><table><thead><tr><th>부품</th><th>모델 / 제조사</th><th>수량</th><th>핵심 사양</th><th>선정 이유</th></tr></thead><tbody>{% for item in course.bom %}<tr><td><strong>{{ item.name }}</strong><small>{{ item.function }}</small></td><td>{{ item.model }}<small>{{ item.manufacturer }}</small></td><td>{{ item.quantity }}</td><td><dl class="learn-specs">{% for specification in item.specifications %}<div><dt>{{ specification.name }}</dt><dd>{{ specification.value }} {{ specification.unit }}</dd></div>{% endfor %}</dl></td><td>{{ item.rationale }}</td></tr>{% endfor %}</tbody></table></div>
   </section>
 
   <section class="learn-section learn-capstone" aria-labelledby="capstone-title">

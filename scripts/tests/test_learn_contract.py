@@ -40,6 +40,8 @@ class LearnFoundationContractTest(unittest.TestCase):
         self.assertIn("site.data.learn.courses", catalogue)
         self.assertIn("site.data.learn[page.course_slug]", course)
         self.assertIn("page.module_id", module)
+        self.assertIn("item.specifications", course)
+        self.assertIn("learn-module-nav", module)
         self.assertNotIn("adsense.html", combined)
         self.assertNotIn("ad-slot", combined)
 

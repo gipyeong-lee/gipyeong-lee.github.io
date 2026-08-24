@@ -12,11 +12,21 @@ test("initial progress stores curriculum identity without payment data", () => {
     courseSlug: "precision-robot-hand",
     curriculumVersion: "1.0.0",
     completedModuleIds: [],
+    assignmentChecks: {},
     quizScores: {},
     sponsorshipDismissed: { start: false, complete: false },
   });
   assert.equal("payment" in state, false);
   assert.equal("sponsored" in state, false);
+});
+
+test("assignment checks stay local to course module", () => {
+  const state = progress.initialState("course", "1");
+  const checked = progress.setAssignmentCheck(state, "m01", 1, true);
+  const unchecked = progress.setAssignmentCheck(checked, "m01", 1, false);
+  assert.deepEqual(checked.assignmentChecks, { m01: [1] });
+  assert.deepEqual(unchecked.assignmentChecks, { m01: [] });
+  assert.deepEqual(state.assignmentChecks, {});
 });
 
 test("completing module is immutable and idempotent", () => {

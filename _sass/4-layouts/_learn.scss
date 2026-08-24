@@ -70,6 +70,10 @@
 .learn-table-wrap table { width:100%; border-collapse:collapse; }
 .learn-table-wrap th,.learn-table-wrap td { padding:14px; border-bottom:1px solid var(--learn-rule); text-align:left; vertical-align:top; }
 .learn-table-wrap th { font:11px "IBM Plex Mono",monospace; color:var(--learn-accent); }
+.learn-specs { min-width:170px; margin:0; }
+.learn-specs div { display:flex; justify-content:space-between; gap:12px; padding:3px 0; }
+.learn-specs dt { color:var(--learn-green); }
+.learn-specs dd { margin:0; font-family:"IBM Plex Mono",monospace; font-size:12px; text-align:right; }
 .learn-columns { display:grid; grid-template-columns:1fr 1fr; gap:40px; }
 .learn-sources ol { padding-left:22px; }
 .learn-sources li { margin:14px 0; padding-left:8px; }
@@ -94,7 +98,11 @@
 .learn-quiz fieldset label { display:block; padding:7px 0; }
 .learn-quiz [data-quiz-explanation] { color:var(--learn-green); }
 .learn-completion { padding:30px; border:2px solid var(--learn-ink); }
-.learn-module-footer { margin-top:70px; padding-top:24px; border-top:1px solid var(--learn-rule); }
+.learn-module-nav { display:grid; grid-template-columns:1fr 1fr; gap:1px; margin-top:70px; border:1px solid var(--learn-rule); background:var(--learn-rule); }
+.learn-module-nav>a,.learn-module-nav>span { min-height:110px; padding:22px; background:var(--learn-paper); }
+.learn-module-nav a:last-child { text-align:right; }
+.learn-module-nav a span { display:block; margin-bottom:10px; color:var(--learn-accent); font:11px "IBM Plex Mono",monospace; }
+.learn-module-nav a strong { color:var(--learn-ink); }
 @media (max-width:760px) {
   .learn-shell { width:min(100% - 24px,1120px); }
   .learn-hero,.learn-course-hero,.learn-module-hero { padding-top:48px; }
@@ -104,4 +112,6 @@
   .learn-module-outline ol { columns:1; padding-left:20px; }
   .learn-example-list { grid-template-columns:1fr; }
   .learn-course-card { min-height:0; padding:26px; }
+  .learn-module-nav { grid-template-columns:1fr; }
+  .learn-module-nav>span:empty { display:none; }
 }
