@@ -49,6 +49,13 @@ class LearnFoundationContractTest(unittest.TestCase):
         self.assertNotIn("adsense.html", combined)
         self.assertNotIn("ad-slot", combined)
 
+    def test_unconfigured_sponsorship_never_renders_a_self_link(self):
+        course = (ROOT / "_layouts/learn-course.html").read_text(encoding="utf-8")
+        module = (ROOT / "_layouts/learn-module.html").read_text(encoding="utf-8")
+        self.assertGreaterEqual(
+            (course + module).count("contains 'https://buy.stripe.com'"), 3
+        )
+
     def test_shared_head_omits_all_ad_resources_on_no_ads_pages(self):
         head = (ROOT / "_includes/head.html").read_text(encoding="utf-8")
         self.assertIn("{% unless page.no_ads %}", head)
