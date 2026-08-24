@@ -2,6 +2,9 @@ from __future__ import annotations
 
 import unittest
 from pathlib import Path
+from tempfile import TemporaryDirectory
+
+from scripts.validate_learn import validate_repo
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -56,6 +59,30 @@ class LearnFoundationContractTest(unittest.TestCase):
         self.assertIn("{% if page.course_slug %}", scripts)
         self.assertIn("/js/learn-progress.js", scripts)
         self.assertTrue((ROOT / "_sass/4-layouts/_learn.scss").is_file())
+
+    def test_empty_generated_index_is_valid(self):
+        self.assertEqual(validate_repo(ROOT), [])
+
+    def test_generated_index_requires_manifest(self):
+        with TemporaryDirectory() as directory:
+            repo = Path(directory)
+            data_dir = repo / "_data" / "learn"
+            data_dir.mkdir(parents=True)
+            (data_dir / "courses.yml").write_text("- slug: missing-course\n", encoding="utf-8")
+            errors = validate_repo(repo)
+            self.assertTrue(any("missing-course.yml" in error for error in errors), errors)
+
+    def test_built_learn_html_rejects_ad_markers(self):
+        with TemporaryDirectory() as directory:
+            repo = Path(directory) / "repo"
+            data_dir = repo / "_data" / "learn"
+            data_dir.mkdir(parents=True)
+            (data_dir / "courses.yml").write_text("[]\n", encoding="utf-8")
+            site = Path(directory) / "site" / "learn"
+            site.mkdir(parents=True)
+            (site / "index.html").write_text("<script>adsbygoogle</script>", encoding="utf-8")
+            errors = validate_repo(repo, site_dir=site.parent)
+            self.assertTrue(any("advertising marker adsbygoogle" in error for error in errors), errors)
 
 
 if __name__ == "__main__":
