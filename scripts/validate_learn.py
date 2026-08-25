@@ -12,6 +12,10 @@ from urllib.parse import urlparse
 
 
 AD_MARKERS = ("adsbygoogle", "pagead2.googlesyndication.com", "ad-slot")
+UNSAFE_GENERATED_MARKUP = re.compile(
+    r"<\s*/?\s*[a-z][^>]*>|\bon[a-z]+\s*=|(?:javascript|vbscript|data)\s*:",
+    re.IGNORECASE,
+)
 SOURCE_TYPES = {
     "university",
     "paper",
@@ -223,6 +227,8 @@ def _check_generated_front_matter(path: Path, run_id: str, values: tuple[str, ..
         errors.append(f"{path}: generated page missing")
         return
     text = path.read_text(encoding="utf-8")
+    if UNSAFE_GENERATED_MARKUP.search(text):
+        errors.append(f"{path}: unsafe generated markup")
     required = (
         "generated_by: mindtickle-studio",
         f"generation_run_id: {run_id}",
@@ -235,6 +241,52 @@ def _check_generated_front_matter(path: Path, run_id: str, values: tuple[str, ..
     for marker in AD_MARKERS:
         if marker in text:
             errors.append(f"{path}: advertising marker {marker}")
+
+
+def _front_matter(path: Path) -> dict[str, Any]:
+    try:
+        text = path.read_text(encoding="utf-8")
+        if not text.startswith("---\n"):
+            return {}
+        closing = text.find("\n---\n", 4)
+        if closing < 0:
+            return {}
+        loaded = _load_yaml_text(text[4:closing])
+        return loaded if isinstance(loaded, dict) else {}
+    except (OSError, ValueError):
+        return {}
+
+
+def _load_yaml_text(text: str) -> Any:
+    result = subprocess.run(
+        ["ruby", "-ryaml", "-rjson", "-e", "puts JSON.generate(YAML.safe_load(STDIN.read, aliases: true))"],
+        input=text,
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode:
+        return {}
+    return json.loads(result.stdout)
+
+
+def _current_amps(item: dict[str, Any]) -> Optional[float]:
+    values: list[float] = []
+    for specification in item.get("specifications") or []:
+        if not isinstance(specification, dict):
+            continue
+        name = str(specification.get("name") or "").lower()
+        unit = str(specification.get("unit") or "").strip().lower()
+        if ("current" not in name and "전류" not in name) or unit not in {
+            "a", "amp", "amps", "ampere", "amperes", "ma",
+        }:
+            continue
+        match = re.search(r"-?\d+(?:\.\d+)?", str(specification.get("value") or "").replace(",", ""))
+        if match:
+            value = float(match.group()) / (1000 if unit == "ma" else 1)
+            if value > 0:
+                values.append(value)
+    return max(values) if values else None
 
 
 def _validate_manifest(repo: Path, slug: str, manifest: Any) -> list[str]:
@@ -385,6 +437,65 @@ def _validate_manifest(repo: Path, slug: str, manifest: Any) -> list[str]:
                     f"{label}: BOM {item_id} requires two numeric specifications with real units"
                 )
 
+    actuator_peak = 0.0
+    missing_actuator_current = False
+    power_capacity = 0.0
+    missing_power_current = False
+    for item in bom:
+        if not isinstance(item, dict):
+            continue
+        category = item.get("category")
+        if category not in {"actuator", "power"}:
+            continue
+        current = _current_amps(item)
+        if current is None:
+            if category == "actuator":
+                missing_actuator_current = True
+            else:
+                missing_power_current = True
+            continue
+        aggregate = current * int(item.get("quantity") or 0)
+        if category == "actuator":
+            actuator_peak += aggregate
+        else:
+            power_capacity += aggregate
+    if missing_actuator_current:
+        errors.append(f"{label}: actuator peak/stall current specification missing")
+    if missing_power_current:
+        errors.append(f"{label}: power rated output current specification missing")
+    if actuator_peak and power_capacity and power_capacity < actuator_peak:
+        errors.append(
+            f"{label}: aggregate power {power_capacity:g} A below actuator peak {actuator_peak:g} A"
+        )
+    safety_capacity = max(
+        (
+            (_current_amps(item) or 0.0) * int(item.get("quantity") or 0)
+            for item in bom
+            if isinstance(item, dict) and item.get("category") == "safety"
+        ),
+        default=0.0,
+    )
+    if actuator_peak and safety_capacity < actuator_peak:
+        errors.append(
+            f"{label}: emergency cutoff {safety_capacity:g} A below actuator peak {actuator_peak:g} A"
+        )
+
+    tools = " ".join(str(tool) for tool in course.get("required_tools") or []).lower()
+    for item in bom:
+        if not isinstance(item, dict) or item.get("category") != "structure":
+            continue
+        material = " ".join(
+            [
+                str(item.get("name") or ""),
+                str(item.get("model") or ""),
+                " ".join(str(row) for row in item.get("compatibility") or []),
+            ]
+        ).lower()
+        if ("resin" in material or "레진" in material) and not any(
+            token in tools for token in ("sla", "msla", "광경화", "resin")
+        ):
+            errors.append(f"{label}: resin structure material lacks SLA/MSLA required tool")
+
     if len(bom) < 10:
         errors.append(f"{label}: buildable BOM requires at least 10 item types")
     present_categories = {
@@ -403,6 +514,14 @@ def _validate_manifest(repo: Path, slug: str, manifest: Any) -> list[str]:
         ("layout: learn-course", f"course_slug: {slug}"),
         errors,
     )
+    expected_pages = {"index.md", *(f"{slug}.md" for slug in module_slugs)}
+    course_dir = repo / "_learn" / slug
+    if course_dir.is_dir():
+        for page_path in course_dir.glob("*.md"):
+            if page_path.name in expected_pages:
+                continue
+            if _front_matter(page_path).get("generated_by") == "mindtickle-studio":
+                errors.append(f"{page_path}: orphan Studio-generated module")
     return errors
 
 

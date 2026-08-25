@@ -45,6 +45,12 @@ class LearnFoundationContractTest(unittest.TestCase):
         self.assertIn("site.data.learn[page.course_slug]", course)
         self.assertIn("page.module_id", module)
         self.assertIn("item.specifications", course)
+        self.assertIn("course.course.required_tools", course)
+        self.assertIn("item.alternatives", course)
+        self.assertIn("item.compatibility", course)
+        self.assertIn("course.capstone.safety", course)
+        self.assertIn("page.lab.deliverables", module)
+        self.assertIn("data-complete-capstone", course)
         self.assertIn("learn-module-nav", module)
         self.assertNotIn("adsense.html", combined)
         self.assertNotIn("ad-slot", combined)
@@ -52,9 +58,8 @@ class LearnFoundationContractTest(unittest.TestCase):
     def test_unconfigured_sponsorship_never_renders_a_self_link(self):
         course = (ROOT / "_layouts/learn-course.html").read_text(encoding="utf-8")
         module = (ROOT / "_layouts/learn-module.html").read_text(encoding="utf-8")
-        self.assertGreaterEqual(
-            (course + module).count("contains 'https://buy.stripe.com'"), 3
-        )
+        self.assertGreaterEqual((course + module).count("slice: 0, 23"), 2)
+        self.assertNotIn("contains 'https://buy.stripe.com'", course + module)
 
     def test_shared_head_omits_all_ad_resources_on_no_ads_pages(self):
         head = (ROOT / "_includes/head.html").read_text(encoding="utf-8")

@@ -7,12 +7,14 @@
 
   function initialState(courseSlug, curriculumVersion) {
     return {
-      schemaVersion: 1,
+      schemaVersion: 2,
       courseSlug: courseSlug,
       curriculumVersion: curriculumVersion,
       completedModuleIds: [],
       assignmentChecks: {},
       quizScores: {},
+      capstoneChecks: [],
+      capstoneCompleted: false,
       sponsorshipDismissed: { start: false, complete: false },
     };
   }
@@ -34,6 +36,44 @@
     return Object.assign({}, state, { assignmentChecks: assignments });
   }
 
+  function setQuizScore(state, moduleId, score) {
+    return Object.assign({}, state, {
+      quizScores: Object.assign({}, state.quizScores, { [moduleId]: score }),
+    });
+  }
+
+  function canCompleteModule(state, moduleId, assignmentCount, quizThreshold) {
+    var threshold = quizThreshold == null ? 80 : quizThreshold;
+    var checked = new Set(state.assignmentChecks[moduleId] || []);
+    var allAssignments = assignmentCount > 0 && checked.size === assignmentCount;
+    return allAssignments && Number(state.quizScores[moduleId] || 0) >= threshold;
+  }
+
+  function setCapstoneCheck(state, itemIndex, checked) {
+    var checks = (state.capstoneChecks || []).slice();
+    var position = checks.indexOf(itemIndex);
+    if (checked && position === -1) checks.push(itemIndex);
+    if (!checked && position !== -1) checks.splice(position, 1);
+    checks.sort(function (left, right) { return left - right; });
+    return Object.assign({}, state, { capstoneChecks: checks, capstoneCompleted: false });
+  }
+
+  function canCompleteCapstone(state, moduleIds, capstoneCount) {
+    return moduleIds.every(function (moduleId) {
+      return state.completedModuleIds.includes(moduleId);
+    }) && capstoneCount > 0 && new Set(state.capstoneChecks || []).size === capstoneCount;
+  }
+
+  function completeCapstone(state) {
+    return Object.assign({}, state, { capstoneCompleted: true });
+  }
+
+  function progressPercent(state, moduleIds) {
+    var total = moduleIds.length + 1;
+    var completed = state.completedModuleIds.length + (state.capstoneCompleted ? 1 : 0);
+    return total ? Math.round((completed / total) * 100) : 0;
+  }
+
   function importState(raw, contract) {
     var parsed;
     try {
@@ -41,7 +81,7 @@
     } catch (_error) {
       throw new Error("Invalid progress JSON");
     }
-    if (!parsed || parsed.schemaVersion !== 1) throw new Error("Unsupported schema version");
+    if (!parsed || parsed.schemaVersion !== 2) throw new Error("Unsupported schema version");
     if (parsed.courseSlug !== contract.courseSlug || parsed.curriculumVersion !== contract.curriculumVersion) {
       throw new Error("Progress belongs to another curriculum");
     }
@@ -78,13 +118,22 @@
       assignments[moduleId] = Array.from(new Set(indices)).sort(function (left, right) { return left - right; });
     });
     var dismissed = parsed.sponsorshipDismissed || {};
+    var capstoneChecks = parsed.capstoneChecks || [];
+    var capstoneCount = Number(contract.capstoneCount || 0);
+    if (!Array.isArray(capstoneChecks) || capstoneChecks.some(function (index) {
+      return !Number.isInteger(index) || index < 0 || index >= capstoneCount;
+    })) {
+      throw new Error("Invalid capstone data");
+    }
     return {
-      schemaVersion: 1,
+      schemaVersion: 2,
       courseSlug: contract.courseSlug,
       curriculumVersion: contract.curriculumVersion,
       completedModuleIds: completed,
       assignmentChecks: assignments,
       quizScores: scores,
+      capstoneChecks: Array.from(new Set(capstoneChecks)).sort(function (left, right) { return left - right; }),
+      capstoneCompleted: parsed.capstoneCompleted === true,
       sponsorshipDismissed: {
         start: dismissed.start === true,
         complete: dismissed.complete === true,
@@ -108,6 +157,7 @@
       courseSlug: shell.dataset.courseSlug,
       curriculumVersion: shell.dataset.curriculumVersion,
       moduleIds: (shell.dataset.moduleIds || "").split(",").filter(Boolean),
+      capstoneCount: Number(shell.dataset.capstoneCount || 0),
     };
     var currentModule = shell.dataset.currentModule || "";
     var storageKey = "learn-progress:" + contract.courseSlug + ":" + contract.curriculumVersion;
@@ -130,8 +180,7 @@
     }
 
     function render() {
-      var total = contract.moduleIds.length;
-      var percent = total ? Math.round((state.completedModuleIds.length / total) * 100) : 0;
+      var percent = progressPercent(state, contract.moduleIds);
       document.querySelectorAll("[data-learn-progress-bar]").forEach(function (bar) { bar.style.width = percent + "%"; });
       document.querySelectorAll(".learn-progress[role='progressbar']").forEach(function (bar) { bar.setAttribute("aria-valuenow", String(percent)); });
       document.querySelectorAll("[data-learn-progress-text]").forEach(function (text) { text.textContent = percent + "% 완료"; });
@@ -142,9 +191,19 @@
         checkbox.checked = (state.assignmentChecks[currentModule] || []).includes(index);
       });
       var completeButton = document.querySelector("[data-complete-module]");
-      if (completeButton && state.completedModuleIds.includes(currentModule)) {
-        completeButton.textContent = "완료됨";
-        completeButton.disabled = true;
+      if (completeButton) {
+        var completed = state.completedModuleIds.includes(currentModule);
+        var assignmentCount = document.querySelectorAll("[data-assignment-check]").length;
+        completeButton.textContent = completed ? "완료됨" : "이 모듈 완료하기";
+        completeButton.disabled = completed || !canCompleteModule(state, currentModule, assignmentCount, 80);
+      }
+      document.querySelectorAll("[data-capstone-check]").forEach(function (checkbox, index) {
+        checkbox.checked = (state.capstoneChecks || []).includes(index);
+      });
+      var capstoneButton = document.querySelector("[data-complete-capstone]");
+      if (capstoneButton) {
+        capstoneButton.textContent = state.capstoneCompleted ? "최종 프로젝트 완료됨" : "최종 프로젝트 완료하기";
+        capstoneButton.disabled = state.capstoneCompleted || !canCompleteCapstone(state, contract.moduleIds, contract.capstoneCount);
       }
       var startCard = document.querySelector("[data-sponsorship='start']");
       if (startCard) startCard.hidden = state.sponsorshipDismissed.start || state.completedModuleIds.length > 0;
@@ -169,6 +228,11 @@
     });
     var completeButton = document.querySelector("[data-complete-module]");
     if (completeButton) completeButton.addEventListener("click", function () {
+      var assignmentCount = document.querySelectorAll("[data-assignment-check]").length;
+      if (!canCompleteModule(state, currentModule, assignmentCount, 80)) {
+        announce("모든 과제를 확인하고 퀴즈 80점 이상을 받아야 완료할 수 있습니다.");
+        return;
+      }
       state = completeModule(state, currentModule);
       save();
       render();
@@ -195,9 +259,10 @@
         return;
       }
       var score = questions.length ? Math.round((correct / questions.length) * 100) : 0;
-      state = Object.assign({}, state, { quizScores: Object.assign({}, state.quizScores, { [currentModule]: score }) });
+      state = setQuizScore(state, currentModule, score);
       save();
       if (status) status.textContent = correct + "/" + questions.length + " 정답 · " + score + "점";
+      render();
     });
 
     document.querySelectorAll("[data-assignment-check]").forEach(function (checkbox, index) {
@@ -205,7 +270,27 @@
       checkbox.addEventListener("change", function () {
         state = setAssignmentCheck(state, currentModule, index, checkbox.checked);
         save();
+        render();
       });
+    });
+
+    document.querySelectorAll("[data-capstone-check]").forEach(function (checkbox, index) {
+      checkbox.addEventListener("change", function () {
+        state = setCapstoneCheck(state, index, checkbox.checked);
+        save();
+        render();
+      });
+    });
+    var capstoneButton = document.querySelector("[data-complete-capstone]");
+    if (capstoneButton) capstoneButton.addEventListener("click", function () {
+      if (!canCompleteCapstone(state, contract.moduleIds, contract.capstoneCount)) {
+        announce("모든 모듈과 최종 제출물을 먼저 완료해주세요.");
+        return;
+      }
+      state = completeCapstone(state);
+      save();
+      render();
+      announce("최종 프로젝트 완료 기록을 저장했습니다.");
     });
 
     var exportButton = document.querySelector("[data-learn-export]");
@@ -247,6 +332,12 @@
     initialState: initialState,
     completeModule: completeModule,
     setAssignmentCheck: setAssignmentCheck,
+    setQuizScore: setQuizScore,
+    canCompleteModule: canCompleteModule,
+    setCapstoneCheck: setCapstoneCheck,
+    canCompleteCapstone: canCompleteCapstone,
+    completeCapstone: completeCapstone,
+    progressPercent: progressPercent,
     importState: importState,
     sponsorshipUrl: sponsorshipUrl,
   };
