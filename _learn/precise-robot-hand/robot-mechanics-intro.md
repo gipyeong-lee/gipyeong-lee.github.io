@@ -89,7 +89,7 @@ source_ids:
 로봇의 각 관절은 좌표계(Coordinate Frame)로 표현됩니다. 한 좌표계에서 다른 좌표계로의 위치와 방향 변화는 회전 행렬(Rotation Matrix)과 이동 벡터(Translation Vector)로 구성된 동차 변환 행렬(Homogeneous Transformation Matrix)을 사용하여 기술합니다 [S1].
 
 ## 3. 순기구학 및 역기구학
-* **순기구학(Forward Kinematics):** 관절의 각도($\theta$)로부터 로봇 끝단(End-effector)의 위치와 방향을 계산합니다. 
+* **순기구학(Forward Kinematics):** 관절의 각도($\theta$)로부터 로봇 끝단(End-effector)의 위치와 방향을 계산합니다.
 * **역기구학(Inverse Kinematics):** 로봇 끝단이 목표 위치에 도달하기 위해 필요한 각 관절의 각도를 역산합니다. 다관절 로봇손에서는 해가 유일하지 않거나(Redundancy) 없을 수 있어 최적화 기법이 필수적입니다 [S1].
 
 ## 4. 야코비안과 자유도
