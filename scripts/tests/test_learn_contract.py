@@ -1,12 +1,19 @@
 from __future__ import annotations
 
+import copy
 import unittest
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
 from scripts.validate_learn import (
+    _load_yaml,
+    _measurement_in_evidence,
+    _module_bom_consistency_errors,
     _bom_source_authority_error,
+    _specification_unit_issue,
     _source_type_authoritative,
+    _unsafe_generated_values,
+    _validate_manifest,
     validate_repo,
 )
 
@@ -26,6 +33,7 @@ class LearnFoundationContractTest(unittest.TestCase):
         self.assertIn("sponsorship:", settings)
         self.assertIn("enabled: true", settings)
         self.assertIn("amount_krw: 5900", settings)
+        self.assertIn('amount_display: "5,900원"', settings)
         self.assertIn('stripe_payment_link: ""', settings)
 
     def test_catalogue_route_and_index_exist(self):
@@ -54,6 +62,9 @@ class LearnFoundationContractTest(unittest.TestCase):
         self.assertIn("learn-module-nav", module)
         self.assertNotIn("adsense.html", combined)
         self.assertNotIn("ad-slot", combined)
+        self.assertIn("{{ source.url | escape }}", module)
+        self.assertIn("{{ source.title | escape }}", module)
+        self.assertIn("{{ source.organization | escape }}", module)
 
     def test_unconfigured_sponsorship_never_renders_a_self_link(self):
         course = (ROOT / "_layouts/learn-course.html").read_text(encoding="utf-8")
@@ -80,6 +91,69 @@ class LearnFoundationContractTest(unittest.TestCase):
 
     def test_generated_index_is_valid(self):
         self.assertEqual(validate_repo(ROOT), [])
+
+    def test_academic_course_allows_empty_bom(self):
+        manifest = copy.deepcopy(
+            _load_yaml(ROOT / "_data" / "learn" / "precise-robot-hand.yml")
+        )
+        manifest["course"]["course_type"] = "academic"
+        manifest["bom"] = []
+        errors = _validate_manifest(ROOT, "precise-robot-hand", manifest)
+        self.assertFalse(any("BOM" in error or "actuator peak" in error for error in errors), errors)
+
+    def test_bom_specification_requires_correct_unit_and_grounded_excerpt(self):
+        coefficient = {
+            "name": "friction coefficient",
+            "value": "0.20",
+            "unit": "N",
+            "evidence_excerpt": "Friction coefficient 0.20 N",
+        }
+        grounded = {
+            "name": "rated current",
+            "value": "2.3",
+            "unit": "A",
+            "evidence_excerpt": "Rated current is 2.3 A at 12 V.",
+        }
+        self.assertIsNotNone(_specification_unit_issue(coefficient))
+        self.assertTrue(_measurement_in_evidence(grounded))
+        grounded["evidence_excerpt"] = "Rated current is listed in the manual."
+        self.assertFalse(_measurement_in_evidence(grounded))
+
+    def test_module_electrical_claims_must_match_bom(self):
+        specifications = [
+            {"name": "rated current", "value": "2.3", "unit": "A"},
+            {"name": "rated voltage", "value": "12", "unit": "V"},
+        ]
+        bom = [
+            {
+                "category": "actuator",
+                "name": "Smart Servo",
+                "model": "XM430",
+                "quantity": 11,
+                "specifications": specifications,
+            },
+            {
+                "category": "wiring",
+                "name": "Micro-Fit connector",
+                "model": "MF-8A",
+                "quantity": 1,
+                "specifications": [
+                    {"name": "rated current", "value": "8.5", "unit": "A"}
+                ],
+            },
+        ]
+        modules = [{
+            "id": "M1",
+            "content": "로봇손 모터 5개, 총 전류 7.5 A. XM430은 12 V~24 V이며 MF-8A를 메인 전원에 쓴다.",
+        }]
+        errors = _module_bom_consistency_errors(modules, bom, "course")
+        self.assertEqual(len(errors), 4, errors)
+
+    def test_generated_source_fields_reject_unsafe_markup(self):
+        errors = _unsafe_generated_values(
+            {"sources": [{"title": "<img src=x onerror=alert(1)>"}]}
+        )
+        self.assertTrue(any("manifest.sources.0.title" in error for error in errors), errors)
 
     def test_generated_index_requires_manifest(self):
         with TemporaryDirectory() as directory:

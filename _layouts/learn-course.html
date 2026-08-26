@@ -31,9 +31,9 @@ layout: default
 
   {% if sponsor.enabled %}
   <aside class="learn-sponsor" data-sponsorship="start">
-    <div><p class="learn-kicker">OPTIONAL SUPPORT</p><h2>시작을 함께 축하해주세요</h2><p>모든 과정은 무료이며 후원 여부와 관계없이 바로 시작할 수 있습니다. 커피 한 잔 {{ sponsor.amount_krw }}원은 서비스 유지비에 쓰입니다.</p></div>
+    <div><p class="learn-kicker">OPTIONAL SUPPORT</p><h2>시작을 함께 축하해주세요</h2><p>모든 과정은 무료이며 후원 여부와 관계없이 바로 시작할 수 있습니다. 커피 한 잔 {{ sponsor.amount_display | escape }}은 서비스 유지비에 쓰입니다.</p></div>
     <div class="learn-sponsor__actions">
-      {% if stripe_prefix == 'https://buy.stripe.com/' %}<a class="learn-button" data-sponsorship-link data-moment="start" href="{{ sponsor.stripe_payment_link | escape }}" target="_blank" rel="noopener">{{ sponsor.label | escape }} · {{ sponsor.amount_krw }}원</a>{% else %}<span class="learn-button learn-button--disabled" aria-disabled="true">후원 창구 준비 중</span>{% endif %}
+      {% if stripe_prefix == 'https://buy.stripe.com/' %}<a class="learn-button" data-sponsorship-link data-moment="start" href="{{ sponsor.stripe_payment_link | escape }}" target="_blank" rel="noopener">{{ sponsor.label | escape }} · {{ sponsor.amount_display | escape }}</a>{% else %}<span class="learn-button learn-button--disabled" aria-disabled="true">후원 창구 준비 중</span>{% endif %}
       <button type="button" class="learn-text-button" data-sponsorship-skip>건너뛰고 학습 시작</button>
     </div>
   </aside>
@@ -58,10 +58,10 @@ layout: default
     {% endfor %}
   </section>
 
-  <section class="learn-section learn-bom" aria-labelledby="bom-title">
+  {% if course.bom.size > 0 %}<section class="learn-section learn-bom" aria-labelledby="bom-title">
     <div class="learn-section__heading"><p class="learn-kicker">BILL OF MATERIALS</p><h2 id="bom-title">부품과 도구</h2></div>
     <div class="learn-table-wrap"><table><thead><tr><th>부품</th><th>모델 / 제조사</th><th>수량</th><th>핵심 사양</th><th>선정·호환 정보</th></tr></thead><tbody>{% for item in course.bom %}<tr><td><strong>{{ item.name | escape }}</strong><small>{{ item.function | escape }}</small></td><td>{{ item.model | escape }}<small>{{ item.manufacturer | escape }}</small></td><td>{{ item.quantity }}</td><td><dl class="learn-specs">{% for specification in item.specifications %}<div><dt>{{ specification.name | escape }}</dt><dd>{{ specification.value | escape }} {{ specification.unit | escape }}</dd></div>{% endfor %}</dl></td><td><p>{{ item.rationale | escape }}</p><small>대안: {% for alternative in item.alternatives %}{{ alternative | escape }}{% unless forloop.last %}, {% endunless %}{% endfor %}</small><small>호환: {% for compatibility in item.compatibility %}{{ compatibility | escape }}{% unless forloop.last %}, {% endunless %}{% endfor %}</small></td></tr>{% endfor %}</tbody></table></div>
-  </section>
+  </section>{% endif %}
 
   <section class="learn-section learn-capstone" aria-labelledby="capstone-title">
     <div class="learn-section__heading"><p class="learn-kicker">FINAL BUILD</p><h2 id="capstone-title">{{ course.capstone.title | escape }}</h2></div>
@@ -72,7 +72,7 @@ layout: default
   {% if sponsor.enabled %}
   <aside class="learn-sponsor" data-sponsorship="complete" hidden>
     <div><p class="learn-kicker">COURSE COMPLETE</p><h2>완주를 함께 기념해주세요</h2><p>후원은 선택입니다. 완주 기록과 과정 이용에는 아무 영향이 없습니다.</p></div>
-    <div class="learn-sponsor__actions">{% if stripe_prefix == 'https://buy.stripe.com/' %}<a class="learn-button" data-sponsorship-link data-moment="complete" href="{{ sponsor.stripe_payment_link | escape }}" target="_blank" rel="noopener">{{ sponsor.label | escape }} · {{ sponsor.amount_krw }}원</a>{% else %}<span class="learn-button learn-button--disabled" aria-disabled="true">후원 창구 준비 중</span>{% endif %}<button type="button" class="learn-text-button" data-sponsorship-skip>후원 없이 마치기</button></div>
+    <div class="learn-sponsor__actions">{% if stripe_prefix == 'https://buy.stripe.com/' %}<a class="learn-button" data-sponsorship-link data-moment="complete" href="{{ sponsor.stripe_payment_link | escape }}" target="_blank" rel="noopener">{{ sponsor.label | escape }} · {{ sponsor.amount_display | escape }}</a>{% else %}<span class="learn-button learn-button--disabled" aria-disabled="true">후원 창구 준비 중</span>{% endif %}<button type="button" class="learn-text-button" data-sponsorship-skip>후원 없이 마치기</button></div>
   </aside>
   {% endif %}
 

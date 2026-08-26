@@ -289,11 +289,165 @@ def _current_amps(item: dict[str, Any]) -> Optional[float]:
     return max(values) if values else None
 
 
+def _voltage_volts(item: dict[str, Any]) -> Optional[float]:
+    values: list[float] = []
+    for specification in item.get("specifications") or []:
+        if not isinstance(specification, dict):
+            continue
+        name = str(specification.get("name") or "").lower()
+        unit = str(specification.get("unit") or "").strip().lower()
+        if ("voltage" not in name and "전압" not in name) or unit not in {
+            "v", "vdc", "volt", "volts",
+        }:
+            continue
+        match = re.search(r"-?\d+(?:\.\d+)?", str(specification.get("value") or ""))
+        if match and float(match.group()) > 0:
+            values.append(float(match.group()))
+    return max(values) if values else None
+
+
+def _string_values(value: Any) -> list[str]:
+    if isinstance(value, dict):
+        return [text for child in value.values() for text in _string_values(child)]
+    if isinstance(value, list):
+        return [text for child in value for text in _string_values(child)]
+    return [value] if isinstance(value, str) else []
+
+
+def _unsafe_generated_values(value: Any, path: str = "manifest") -> list[str]:
+    errors: list[str] = []
+    if isinstance(value, dict):
+        for key, child in value.items():
+            errors.extend(_unsafe_generated_values(child, f"{path}.{key}"))
+    elif isinstance(value, list):
+        for index, child in enumerate(value):
+            errors.extend(_unsafe_generated_values(child, f"{path}.{index}"))
+    elif isinstance(value, str) and UNSAFE_GENERATED_MARKUP.search(value):
+        errors.append(f"{path}: unsafe generated markup")
+    return errors
+
+
+def _specification_unit_issue(specification: dict[str, Any]) -> Optional[str]:
+    name = str(specification.get("name") or "").strip().lower()
+    unit = str(specification.get("unit") or "").strip().lower()
+    if any(
+        token in name
+        for token in ("coefficient", "ratio", "efficiency", "마찰계수", "비율", "효율")
+    ) and unit not in {"1", "%", "dimensionless", "무차원"}:
+        return "coefficient, ratio, and efficiency must be dimensionless or percent"
+    return None
+
+
+def _measurement_in_evidence(specification: dict[str, Any]) -> bool:
+    excerpt = str(specification.get("evidence_excerpt") or "").lower()
+    if not excerpt.strip():
+        return False
+    value = str(specification.get("value") or "").replace(",", "").strip().lower()
+    unit = str(specification.get("unit") or "").strip().lower()
+    compact = re.sub(r"\s+", "", excerpt.replace(",", ""))
+    compact = compact.replace("·", "").replace("×", "x")
+    compact_unit = re.sub(r"\s+", "", unit).replace("·", "").replace("×", "x")
+    compact_value = re.sub(r"\s+", "", value)
+    if unit in {"1", "dimensionless", "무차원"}:
+        return compact_value in compact
+    return f"{compact_value}{compact_unit}" in compact
+
+
+def _module_bom_consistency_errors(
+    modules: list[Any], bom: list[Any], label: str
+) -> list[str]:
+    errors: list[str] = []
+    actuators = [
+        item for item in bom
+        if isinstance(item, dict) and item.get("category") == "actuator"
+    ]
+    if not actuators:
+        return errors
+    actuator_count = sum(int(item.get("quantity") or 0) for item in actuators)
+    actuator_peak = sum(
+        (_current_amps(item) or 0.0) * int(item.get("quantity") or 0)
+        for item in actuators
+    )
+    actuator_voltages = [
+        value for item in actuators if (value := _voltage_volts(item))
+    ]
+    max_voltage = max(actuator_voltages) if actuator_voltages else 0.0
+    actuator_tokens = {
+        token.lower()
+        for item in actuators
+        for token in (str(item.get("name") or ""), str(item.get("model") or ""))
+        if len(token.strip()) >= 3
+    }
+    undersized_paths = [
+        item
+        for item in bom
+        if isinstance(item, dict)
+        and item.get("category") == "wiring"
+        and (_current_amps(item) or 0.0) < actuator_peak
+    ]
+
+    for index, module in enumerate(modules):
+        if not isinstance(module, dict):
+            continue
+        module_id = str(module.get("id") or index)
+        text = "\n".join(_string_values(module))
+        lowered = text.lower()
+        for match in re.finditer(
+            r"(?:로봇손|전체|총)\s*(?:의\s*)?(?:모터|액추에이터)\s*(\d+)\s*개",
+            text,
+        ):
+            claimed = int(match.group(1))
+            if actuator_count and claimed != actuator_count:
+                errors.append(
+                    f"{label}: module {module_id} claims {claimed} actuators but BOM contains {actuator_count}"
+                )
+                break
+        if actuator_peak:
+            totals = [
+                float(value)
+                for value in re.findall(
+                    r"(?:총|전체|합산)(?:\s*(?:소비)?\s*전류)?[^\d]{0,20}(\d+(?:\.\d+)?)\s*A\b",
+                    text,
+                    flags=re.IGNORECASE,
+                )
+            ]
+            if totals and max(totals) < actuator_peak:
+                errors.append(
+                    f"{label}: module {module_id} aggregate current {max(totals):g} A below BOM peak {actuator_peak:g} A"
+                )
+        if max_voltage and (
+            any(token in lowered for token in actuator_tokens)
+            or "모터" in text
+            or "액추에이터" in text
+        ):
+            ranges = re.findall(
+                r"(\d+(?:\.\d+)?)\s*V\s*[~\-–]\s*(\d+(?:\.\d+)?)\s*V",
+                text,
+                flags=re.IGNORECASE,
+            )
+            if any(max(float(left), float(right)) > max_voltage for left, right in ranges):
+                errors.append(
+                    f"{label}: module {module_id} permits voltage above BOM actuator rating {max_voltage:g} V"
+                )
+        if actuator_peak and "메인 전원" in text:
+            for item in undersized_paths:
+                identifiers = (str(item.get("name") or ""), str(item.get("model") or ""))
+                if any(identifier and identifier.lower() in lowered for identifier in identifiers):
+                    errors.append(
+                        f"{label}: module {module_id} uses {item.get('model')} below BOM peak {actuator_peak:g} A as main power path"
+                    )
+                    break
+    return errors
+
+
 def _validate_manifest(repo: Path, slug: str, manifest: Any) -> list[str]:
     errors: list[str] = []
     label = f"_data/learn/{slug}.yml"
     if not isinstance(manifest, dict):
         return [f"{label}: manifest must be a mapping"]
+    errors.extend(
+        f"{label}: {error}" for error in _unsafe_generated_values(manifest)
+    )
     if manifest.get("schema_version") != 1:
         errors.append(f"{label}: schema_version must be 1")
     if not manifest.get("curriculum_version"):
@@ -311,7 +465,12 @@ def _validate_manifest(repo: Path, slug: str, manifest: Any) -> list[str]:
     phases = _require_list(manifest, "phases", label, errors)
     modules = _require_list(manifest, "modules", label, errors)
     sources = _require_list(manifest, "sources", label, errors)
-    bom = _require_list(manifest, "bom", label, errors)
+    raw_bom = manifest.get("bom")
+    if not isinstance(raw_bom, list):
+        errors.append(f"{label}: bom must be a list")
+        bom: list[Any] = []
+    else:
+        bom = raw_bom
     if not isinstance(manifest.get("capstone"), dict):
         errors.append(f"{label}: capstone must be a mapping")
 
@@ -424,6 +583,15 @@ def _validate_manifest(repo: Path, slug: str, manifest: Any) -> list[str]:
                     continue
                 value = str(specification.get("value") or "")
                 unit = str(specification.get("unit") or "").strip().lower()
+                unit_issue = _specification_unit_issue(specification)
+                if unit_issue:
+                    errors.append(
+                        f"{label}: BOM {item_id} has incompatible unit: {unit_issue}"
+                    )
+                if not _measurement_in_evidence(specification):
+                    errors.append(
+                        f"{label}: BOM {item_id} specification needs evidence excerpt with exact value and unit"
+                    )
                 if re.search(r"\d", value) and unit not in {
                     "n/a",
                     "na",
@@ -496,17 +664,24 @@ def _validate_manifest(repo: Path, slug: str, manifest: Any) -> list[str]:
         ):
             errors.append(f"{label}: resin structure material lacks SLA/MSLA required tool")
 
-    if len(bom) < 10:
+    course_type = str(course.get("course_type") or "build_project")
+    requires_bom = course_type == "build_project"
+    if course_type not in {"academic", "build_project"}:
+        errors.append(f"{label}: invalid course_type {course_type}")
+    if requires_bom and len(bom) < 10:
         errors.append(f"{label}: buildable BOM requires at least 10 item types")
     present_categories = {
         str(item.get("category") or "") for item in bom if isinstance(item, dict)
     }
-    for category in sorted(BOM_CATEGORIES - present_categories):
+    for category in sorted(BOM_CATEGORIES - present_categories) if requires_bom else ():
         errors.append(f"{label}: buildable BOM missing category {category}")
 
-    for source_type in ("university", "paper", "patent"):
+    required_source_types = ("university", "paper", "patent") if requires_bom else ("university", "paper")
+    for source_type in required_source_types:
         if source_type not in present_source_types:
             errors.append(f"{label}: sources missing required family {source_type}")
+
+    errors.extend(_module_bom_consistency_errors(modules, bom, label))
 
     _check_generated_front_matter(
         repo / "_learn" / slug / "index.md",
