@@ -13,7 +13,7 @@ from urllib.parse import urlparse
 
 AD_MARKERS = ("adsbygoogle", "pagead2.googlesyndication.com", "ad-slot")
 UNSAFE_GENERATED_MARKUP = re.compile(
-    r"<\s*/?\s*[a-z][^>]*>|\bon[a-z]+\s*=|(?:javascript|vbscript|data)\s*:",
+    r"(?:\{\{|\{%|\{#)|<\s*/?\s*[a-z][^>]*>|\bon[a-z]+\s*=|(?:javascript|vbscript|data)\s*:",
     re.IGNORECASE,
 )
 SOURCE_TYPES = {
@@ -359,6 +359,66 @@ def _unsafe_generated_values(value: Any, path: str = "manifest") -> list[str]:
     return errors
 
 
+def _unsupported_module_estop_reference(value: str) -> bool:
+    return bool(
+        re.search(r"비상\s*(?:정지|차단)|E[- ]?stop|emergency\s+(?:stop|cutoff)", value, re.I)
+        and not re.search(
+            r"금지|하지\s*않|아니|범위\s*밖|별도|자격.{0,12}전문|대신하지|오인하지|"
+            r"never|do\s+not|must\s+not|out\s+of\s+scope|qualified|not\s+an?",
+            value,
+            re.I,
+        )
+    )
+
+
+def _unsafe_safety_system_requirement(value: str) -> bool:
+    return bool(
+        re.search(r"안전\s*(?:회로|시스템)|safety\s+(?:circuit|system)", value, re.I)
+        and re.search(
+            r"배선|설계|제작|구현|조립|작동|동작|시험|검증|완결|"
+            r"wire|design|build|implement|assembl|operate|test|verify|complete",
+            value,
+            re.I,
+        )
+        and not re.search(
+            r"금지|하지\s*않|아니|범위\s*밖|별도|자격.{0,12}전문|"
+            r"never|do\s+not|out\s+of\s+scope|qualified",
+            value,
+            re.I,
+        )
+    )
+
+
+def _unsafe_live_fault_injection(value: str) -> bool:
+    return bool(
+        re.search(r"퓨즈|fuse", value, re.I)
+        and re.search(r"단락|합선|short[- ]?circuit", value, re.I)
+        and re.search(
+            r"시험|실험|기록|검증|확인|유도|재현|주입|test|record|verify|inject|induce",
+            value,
+            re.I,
+        )
+        and not re.search(
+            r"금지|하지\s*않|데이터시트|시간[- ]전류\s*곡선|시뮬레이션|전류\s*제한.{0,12}(?:지그|치구)|"
+            r"never|do\s+not|datasheet|time[- ]current\s+curve|simulation|current[- ]limited.{0,12}fixture",
+            value,
+            re.I,
+        )
+    )
+
+
+def _reversed_fsr_pulldown_formula(value: str) -> bool:
+    compact = re.sub(r"[\s{}()_*\\]", "", value).lower()
+    return bool(
+        "fsr" in compact
+        and "10k" in compact
+        and (
+            "fracrfsrrfsr+10k" in compact
+            or "rfsr/rfsr+10k" in compact
+        )
+    )
+
+
 def _specification_unit_issue(specification: dict[str, Any]) -> Optional[str]:
     name = str(specification.get("name") or "").strip().lower()
     unit = str(specification.get("unit") or "").strip().lower()
@@ -563,6 +623,7 @@ def _module_bom_consistency_errors(
         for item in quiz:
             if not isinstance(item, dict):
                 continue
+            engineering_values.append(str(item.get("question") or ""))
             engineering_values.append(str(item.get("explanation") or ""))
             choices = item.get("choices")
             answer_index = item.get("answer_index")
@@ -661,6 +722,22 @@ def _module_bom_consistency_errors(
                     f"{label}: module {module_id} includes learner E-stop assembly instruction"
                 )
                 break
+        for sentence in re.split(r"[.!?\n]", text):
+            if _unsupported_module_estop_reference(sentence):
+                errors.append(
+                    f"{label}: module {module_id} has unsupported module E-stop reference; use planned shutdown and physical isolation"
+                )
+                break
+        for sentence in re.split(r"[.!?\n]", text):
+            if _unsafe_live_fault_injection(sentence):
+                errors.append(
+                    f"{label}: module {module_id} requires unsafe live fault injection; use datasheet curve analysis, simulation, or certified current-limited fixture"
+                )
+                break
+        if _reversed_fsr_pulldown_formula(text):
+            errors.append(
+                f"{label}: module {module_id} has reversed FSR pulldown formula; use Vref x 10 kΩ / (R_FSR + 10 kΩ)"
+            )
         for sentence in re.split(r"[.!?\n]", text):
             if (
                 re.search(r"EV200", sentence, re.I)
@@ -975,11 +1052,17 @@ def _validate_manifest(repo: Path, slug: str, manifest: Any) -> list[str]:
     if not isinstance(capstone, dict):
         errors.append(f"{label}: capstone must be a mapping")
     else:
-        for index, criterion in enumerate(capstone.get("safety") or []):
-            if _unsafe_estop_requirement(str(criterion)):
-                errors.append(
-                    f"{label}: capstone requires learner E-stop hardware at item {index}"
-                )
+        for field in ("deliverables", "rubric", "safety"):
+            for index, criterion in enumerate(capstone.get(field) or []):
+                criterion = str(criterion)
+                if _unsafe_estop_requirement(criterion):
+                    errors.append(
+                        f"{label}: capstone requires learner E-stop hardware at {field} item {index}"
+                    )
+                if _unsafe_safety_system_requirement(criterion):
+                    errors.append(
+                        f"{label}: capstone requires learner safety-system work at {field} item {index}"
+                    )
 
     source_ids: set[str] = set()
     source_types: dict[str, str] = {}

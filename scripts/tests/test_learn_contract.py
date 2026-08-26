@@ -687,6 +687,37 @@ class LearnFoundationContractTest(unittest.TestCase):
 
         self.assertTrue(any("capstone requires learner E-stop" in error for error in errors), errors)
 
+    def test_capstone_rejects_learner_safety_system_build_and_grading(self):
+        manifest = copy.deepcopy(
+            _load_yaml(ROOT / "_data" / "learn" / "precise-robot-hand.yml")
+        )
+        manifest["capstone"]["deliverables"] = ["안전 회로 배선도"]
+        manifest["capstone"]["rubric"] = ["안전 시스템(비상 차단) 동작 완결성"]
+
+        errors = _validate_manifest(ROOT, "precise-robot-hand", manifest)
+
+        self.assertTrue(
+            any("capstone requires learner safety-system work" in error for error in errors),
+            errors,
+        )
+
+    def test_module_rejects_estop_label_live_fuse_fault_and_reversed_fsr_formula(self):
+        manifest = copy.deepcopy(
+            _load_yaml(ROOT / "_data" / "learn" / "precise-robot-hand.yml")
+        )
+        module = manifest["modules"][0]
+        module["theory_markdown"] = (
+            "펌웨어는 비상 정지 상태를 항상 감시한다. "
+            r"10 kΩ 풀다운에서 $V_{ADC}=V_{ref}\frac{R_{FSR}}{R_{FSR}+10k\Omega}$이다."
+        )
+        module["lab"]["deliverables"] = ["퓨즈 단락 시 전류 차단 기록"]
+
+        errors = _validate_manifest(ROOT, "precise-robot-hand", manifest)
+
+        self.assertTrue(any("unsupported module E-stop reference" in error for error in errors), errors)
+        self.assertTrue(any("unsafe live fault injection" in error for error in errors), errors)
+        self.assertTrue(any("reversed FSR pulldown formula" in error for error in errors), errors)
+
     def test_safety_summary_eye_protection_must_be_a_required_tool(self):
         manifest = copy.deepcopy(
             _load_yaml(ROOT / "_data" / "learn" / "precise-robot-hand.yml")
@@ -710,6 +741,19 @@ class LearnFoundationContractTest(unittest.TestCase):
             {"sources": [{"title": "<img src=x onerror=alert(1)>"}]}
         )
         self.assertTrue(any("manifest.sources.0.title" in error for error in errors), errors)
+
+    def test_generated_values_reject_liquid_execution(self):
+        for generated_text in (
+            "{% include adsense.html %}",
+            "{{ site.data.learn_settings.sponsorship.stripe_payment_link }}",
+        ):
+            errors = _unsafe_generated_values(
+                {"modules": [{"theory_markdown": generated_text}]}
+            )
+            self.assertTrue(
+                any("manifest.modules.0.theory_markdown" in error for error in errors),
+                errors,
+            )
 
     def test_generated_index_requires_manifest(self):
         with TemporaryDirectory() as directory:
