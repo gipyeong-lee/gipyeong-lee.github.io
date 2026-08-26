@@ -552,6 +552,16 @@ class LearnFoundationContractTest(unittest.TestCase):
         self.assertTrue(any("safety compliance" in error for error in errors), errors)
         self.assertTrue(any("E-stop assembly" in error for error in errors), errors)
 
+    def test_module_rejects_resistance_as_deenergized_proof(self):
+        modules = [{
+            "id": "M1",
+            "content": "멀티미터로 출력측 무전원 상태를 저항 무한대로 확인한다.",
+        }]
+
+        errors = _module_bom_consistency_errors(modules, [], "course")
+
+        self.assertTrue(any("DC voltage" in error for error in errors), errors)
+
     def test_course_safety_summary_rejects_learner_estop_requirement(self):
         manifest = copy.deepcopy(
             _load_yaml(ROOT / "_data" / "learn" / "precise-robot-hand.yml")

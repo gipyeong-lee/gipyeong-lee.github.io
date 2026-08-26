@@ -582,6 +582,16 @@ def _module_bom_consistency_errors(
             )
         for sentence in re.split(r"[.!?\n]", text):
             if (
+                re.search(r"무전원|무전압|de[- ]?energized|zero\s+voltage", sentence, re.I)
+                and re.search(r"저항|무한대|resistan|ohm", sentence, re.I)
+                and re.search(r"확인|검증|측정|verify|confirm|measure", sentence, re.I)
+            ):
+                errors.append(
+                    f"{label}: module {module_id} must verify de-energized state in DC voltage mode, not by resistance"
+                )
+                break
+        for sentence in re.split(r"[.!?\n]", text):
+            if (
                 re.search(
                     r"(?:IEC|ISO|EN|기계\s*안전|안전\s*(?:표준|규격))",
                     sentence,
