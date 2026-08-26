@@ -348,7 +348,10 @@ def _measurement_in_evidence(specification: dict[str, Any]) -> bool:
     compact = compact.replace("·", "").replace("×", "x")
     compact_unit = re.sub(r"\s+", "", unit).replace("·", "").replace("×", "x")
     compact_value = re.sub(r"\s+", "", value)
-    if unit in {"1", "dimensionless", "무차원"}:
+    if unit in {
+        "1", "dimensionless", "무차원", "pin", "pins", "gpio", "gpios",
+        "channel", "channels", "piece", "pieces", "pcs", "ea", "개",
+    }:
         return compact_value in compact
     return compact_value in compact and compact_unit in compact
 

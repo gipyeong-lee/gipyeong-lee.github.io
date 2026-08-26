@@ -118,6 +118,8 @@ class LearnFoundationContractTest(unittest.TestCase):
         self.assertTrue(_measurement_in_evidence(grounded))
         grounded["evidence_excerpt"] = "Unit: A; rated current: 2.3"
         self.assertTrue(_measurement_in_evidence(grounded))
+        grounded.update({"value": "34", "unit": "pins", "evidence_excerpt": "34 programmable GPIOs"})
+        self.assertTrue(_measurement_in_evidence(grounded))
         grounded["evidence_excerpt"] = "Rated current is listed in the manual."
         self.assertFalse(_measurement_in_evidence(grounded))
 
