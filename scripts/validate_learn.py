@@ -350,7 +350,7 @@ def _measurement_in_evidence(specification: dict[str, Any]) -> bool:
     compact_value = re.sub(r"\s+", "", value)
     if unit in {"1", "dimensionless", "무차원"}:
         return compact_value in compact
-    return f"{compact_value}{compact_unit}" in compact
+    return compact_value in compact and compact_unit in compact
 
 
 def _module_bom_consistency_errors(

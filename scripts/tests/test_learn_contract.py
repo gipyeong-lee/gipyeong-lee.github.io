@@ -116,6 +116,8 @@ class LearnFoundationContractTest(unittest.TestCase):
         }
         self.assertIsNotNone(_specification_unit_issue(coefficient))
         self.assertTrue(_measurement_in_evidence(grounded))
+        grounded["evidence_excerpt"] = "Unit: A; rated current: 2.3"
+        self.assertTrue(_measurement_in_evidence(grounded))
         grounded["evidence_excerpt"] = "Rated current is listed in the manual."
         self.assertFalse(_measurement_in_evidence(grounded))
 
