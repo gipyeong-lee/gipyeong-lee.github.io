@@ -762,9 +762,14 @@ def _module_bom_consistency_errors(
         )
         claimed_counts = {
             int(match.group(1))
-            for pattern in count_patterns
+            for pattern in count_patterns[:2]
             for match in re.finditer(pattern, text)
         }
+        claimed_counts.update(
+            claimed
+            for match in re.finditer(count_patterns[2], text)
+            if (claimed := int(match.group(1))) != 1
+        )
         for claimed in claimed_counts:
             if actuator_count and claimed != actuator_count:
                 errors.append(

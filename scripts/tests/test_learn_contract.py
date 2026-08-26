@@ -262,6 +262,23 @@ class LearnFoundationContractTest(unittest.TestCase):
         errors = _module_bom_consistency_errors(modules, bom, "course")
         self.assertFalse(any("actuators but BOM" in error for error in errors), errors)
 
+    def test_single_named_actuator_lab_does_not_claim_total_system_count(self):
+        bom = [{
+            "category": "actuator",
+            "name": "Smart Servo",
+            "model": "XM430-W350-T",
+            "quantity": 11,
+            "specifications": [],
+        }]
+        modules = [{
+            "id": "M1",
+            "content": "XM430-W350-T 액추에이터 1대를 무부하 상태로 시험한다.",
+        }]
+
+        errors = _module_bom_consistency_errors(modules, bom, "course")
+
+        self.assertFalse(any("actuators but BOM" in error for error in errors), errors)
+
     def test_opencr_fsr_divider_rejects_actuator_rail_voltage(self):
         bom = [{
             "category": "actuator",
