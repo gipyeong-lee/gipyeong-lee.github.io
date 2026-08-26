@@ -422,6 +422,19 @@ def _module_bom_consistency_errors(
     allowed_source_ids: Optional[set[str]] = None,
 ) -> list[str]:
     errors: list[str] = []
+    architecture_text = " ".join(
+        text
+        for item in bom
+        if isinstance(item, dict)
+        for text in _string_values(item)
+    )
+    if any(
+        re.search(token, architecture_text, re.I)
+        for token in (r"\bA22E\b", r"\bG7SA\b", r"\bG2R-1\b", r"\bEV200\b")
+    ):
+        errors.append(
+            f"{label}: learner-built E-stop hardware is outside scope; human-accessible use needs qualified dual-channel, manual-reset, EDM validation"
+        )
     ev200_parts = [
         item for item in bom
         if isinstance(item, dict) and "ev200" in str(item.get("model") or "").lower()
@@ -477,12 +490,6 @@ def _module_bom_consistency_errors(
             errors.append(
                 f"{label}: safety relay contact {safety_capacity:g} A below interposing coil {interposing_coil:g} A"
             )
-        architecture_text = " ".join(
-            text
-            for item in bom
-            if isinstance(item, dict)
-            for text in _string_values(item)
-        )
         if (
             re.search(r"A22E[^.\n]{0,100}EV200", architecture_text, re.I)
             and re.search(r"직접|direct", architecture_text, re.I)
@@ -573,6 +580,38 @@ def _module_bom_consistency_errors(
             errors.append(
                 f"{label}: module {module_id} has invalid citation token [{invalid_citations[0]}]"
             )
+        for sentence in re.split(r"[.!?\n]", text):
+            if (
+                re.search(
+                    r"(?:IEC|ISO|EN|기계\s*안전|안전\s*(?:표준|규격))",
+                    sentence,
+                    re.I,
+                )
+                and re.search(r"준수|충족|인증|compli(?:ant|es)|certif", sentence, re.I)
+                and not re.search(
+                    r"아니|않|미인증|불충족|보장하지|not|non[- ]?certified|does\s+not",
+                    sentence,
+                    re.I,
+                )
+            ):
+                errors.append(
+                    f"{label}: module {module_id} makes unsubstantiated machinery-safety compliance claim"
+                )
+                break
+        for sentence in re.split(r"[.!?\n]", text):
+            if (
+                re.search(r"비상\s*정지|E[- ]?stop|emergency\s+stop", sentence, re.I)
+                and re.search(r"배선|연결|조립|구성|시운전|wire|connect|assembl|commission", sentence, re.I)
+                and not re.search(
+                    r"금지|하지\s*않|범위\s*밖|별도|자격.{0,12}전문|never|do\s+not|out\s+of\s+scope|qualified",
+                    sentence,
+                    re.I,
+                )
+            ):
+                errors.append(
+                    f"{label}: module {module_id} includes learner E-stop assembly instruction"
+                )
+                break
         for sentence in re.split(r"[.!?\n]", text):
             if (
                 re.search(r"EV200", sentence, re.I)
@@ -1027,6 +1066,8 @@ def _validate_manifest(repo: Path, slug: str, manifest: Any) -> list[str]:
         if int(item.get("quantity") or 0) > 1
     )
     if power_branch_count:
+        branch_peak_limits: list[float] = []
+        branch_supply_limits: list[float] = []
         for item in power_parts:
             if int(item.get("quantity") or 0) <= 1:
                 continue
@@ -1060,6 +1101,10 @@ def _validate_manifest(repo: Path, slug: str, manifest: Any) -> list[str]:
                         f"{label}: branch allocation covers {sum(branch_loads)} actuators but BOM contains {actuator_count}"
                     )
                 per_supply_current = _current_amps(item) or 0.0
+                if branch_loads and actuator_unit_peak:
+                    branch_peak_limits.append(max(branch_loads) * actuator_unit_peak)
+                if per_supply_current:
+                    branch_supply_limits.append(per_supply_current)
                 overloaded = [
                     load
                     for load in branch_loads
@@ -1071,8 +1116,8 @@ def _validate_manifest(repo: Path, slug: str, manifest: Any) -> list[str]:
                     errors.append(
                         f"{label}: branch load {max(overloaded)} x {actuator_unit_peak:g} A exceeds per-supply capacity {per_supply_current:g} A"
                     )
-        fuse_count = sum(
-            int(item.get("quantity") or 0)
+        fuse_parts = [
+            item
             for item in bom
             if isinstance(item, dict)
             and (
@@ -1093,20 +1138,48 @@ def _validate_manifest(repo: Path, slug: str, manifest: Any) -> list[str]:
                     re.I,
                 )
             )
-        )
+        ]
+        fuse_count = sum(int(item.get("quantity") or 0) for item in fuse_parts)
         if fuse_count < power_branch_count:
             errors.append(
                 f"{label}: {power_branch_count} independent power branches lack matching fuse BOM units"
             )
+        fuse_ratings = [
+            rating for item in fuse_parts if (rating := _current_amps(item))
+        ]
+        if fuse_parts and len(fuse_ratings) != len(fuse_parts):
+            errors.append(f"{label}: every branch fuse needs an explicit current rating")
+        if fuse_ratings and branch_peak_limits:
+            branch_peak = max(branch_peak_limits)
+            if any(rating <= branch_peak for rating in fuse_ratings):
+                errors.append(
+                    f"{label}: fuse rating must exceed branch peak {branch_peak:g} A"
+                )
+        if fuse_ratings and branch_supply_limits:
+            supply_limit = min(branch_supply_limits)
+            if any(rating >= supply_limit for rating in fuse_ratings):
+                errors.append(
+                    f"{label}: fuse rating must stay below per-supply capacity {supply_limit:g} A"
+                )
+    cutoff_parts = [
+        item
+        for item in bom
+        if isinstance(item, dict)
+        and item.get("category") == "safety"
+        and re.search(
+            r"비상\s*정지|emergency\s+stop|E[- ]?stop|비상\s*차단|emergency\s+cutoff",
+            " ".join(str(item.get(field) or "") for field in ("name", "function", "model")),
+            re.I,
+        )
+    ]
     safety_capacity = max(
         (
             (_current_amps(item) or 0.0) * int(item.get("quantity") or 0)
-            for item in bom
-            if isinstance(item, dict) and item.get("category") == "safety"
+            for item in cutoff_parts
         ),
         default=0.0,
     )
-    if actuator_peak and safety_capacity < actuator_peak:
+    if actuator_peak and cutoff_parts and safety_capacity < actuator_peak:
         errors.append(
             f"{label}: emergency cutoff {safety_capacity:g} A below actuator peak {actuator_peak:g} A"
         )

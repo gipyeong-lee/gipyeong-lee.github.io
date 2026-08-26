@@ -61,6 +61,8 @@ class LearnFoundationContractTest(unittest.TestCase):
         self.assertIn("page.lab.deliverables", module)
         self.assertIn("data-complete-capstone", course)
         self.assertIn("learn-module-nav", module)
+        self.assertIn("learn-safety-boundary", module)
+        self.assertIn("course.course.safety_summary", module)
         self.assertNotIn("adsense.html", combined)
         self.assertNotIn("ad-slot", combined)
         self.assertIn("{{ source.url | escape }}", module)
@@ -429,6 +431,7 @@ class LearnFoundationContractTest(unittest.TestCase):
             },
         ]
         errors = _module_bom_consistency_errors([], bom, "course")
+        self.assertTrue(any("outside scope" in error for error in errors), errors)
         self.assertTrue(any("safety relay" in error for error in errors), errors)
         self.assertTrue(any("interposing relay" in error for error in errors), errors)
         self.assertTrue(any("must not directly drive" in error for error in errors), errors)
@@ -514,6 +517,40 @@ class LearnFoundationContractTest(unittest.TestCase):
         power["compatibility"].append("3개 분기는 액추에이터 4대/4대/3대로 배분")
         errors = _validate_manifest(ROOT, "precise-robot-hand", manifest)
         self.assertTrue(any("branch load" in error for error in errors), errors)
+
+    def test_branch_fuse_rating_must_sit_between_peak_and_supply(self):
+        manifest = copy.deepcopy(
+            _load_yaml(ROOT / "_data" / "learn" / "precise-robot-hand.yml")
+        )
+        fuse = next(item for item in manifest["bom"] if item.get("model") == "0287010.U")
+        rating = next(
+            specification
+            for specification in fuse["specifications"]
+            if "전류" in specification["name"]
+        )
+        rating.update(value="1", evidence_excerpt="1 A")
+        errors = _validate_manifest(ROOT, "precise-robot-hand", manifest)
+        self.assertTrue(any("fuse rating" in error and "branch peak" in error for error in errors), errors)
+
+        rating.update(value="100", evidence_excerpt="100 A")
+        errors = _validate_manifest(ROOT, "precise-robot-hand", manifest)
+        self.assertTrue(any("fuse rating" in error and "per-supply" in error for error in errors), errors)
+
+        rating.update(value="10", evidence_excerpt="10 A")
+        errors = _validate_manifest(ROOT, "precise-robot-hand", manifest)
+        self.assertFalse(any("fuse rating" in error for error in errors), errors)
+
+    def test_module_rejects_safety_compliance_claim_and_estop_assembly(self):
+        modules = [{
+            "id": "M1",
+            "content": (
+                "이 회로는 IEC 60204-1 기계 안전 표준을 준수한다. "
+                "비상정지 버튼과 릴레이를 배선해 정지 회로를 조립한다."
+            ),
+        }]
+        errors = _module_bom_consistency_errors(modules, [], "course")
+        self.assertTrue(any("safety compliance" in error for error in errors), errors)
+        self.assertTrue(any("E-stop assembly" in error for error in errors), errors)
 
     def test_generated_source_fields_reject_unsafe_markup(self):
         errors = _unsafe_generated_values(
