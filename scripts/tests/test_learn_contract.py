@@ -378,6 +378,18 @@ class LearnFoundationContractTest(unittest.TestCase):
 
         self.assertTrue(any("time-current curve" in error for error in errors), errors)
 
+    def test_fuse_delayed_timing_explanation_passes(self):
+        modules = [{
+            "id": "M1",
+            "content": (
+                "퓨즈는 즉각적인 차단이 아닌 시간-전류 곡선에 따른 지연 반응을 보인다."
+            ),
+        }]
+
+        errors = _module_bom_consistency_errors(modules, [], "course")
+
+        self.assertFalse(any("time-current curve" in error for error in errors), errors)
+
     def test_correct_nc_contact_attribution_is_not_rejected(self):
         modules = [{
             "id": "M1",

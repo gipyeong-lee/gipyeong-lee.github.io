@@ -666,6 +666,14 @@ def _module_bom_consistency_errors(
                 and re.search(
                     r"차단|보호|보장|open|interrupt|protect|guarantee", sentence, re.I
                 )
+                and not re.search(
+                    r"(?:즉시|즉각|immediate(?:ly)?|instant(?:ly)?)"
+                    r"[^.!?\n]{0,40}(?:아닌|아니|않|not)|"
+                    r"(?:아닌|아니|않|not)[^.!?\n]{0,40}"
+                    r"(?:즉시|즉각|immediate(?:ly)?|instant(?:ly)?)",
+                    sentence,
+                    re.I,
+                )
             ):
                 errors.append(
                     f"{label}: module {module_id} claims immediate fuse opening instead of using time-current curve"
