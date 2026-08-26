@@ -552,6 +552,18 @@ class LearnFoundationContractTest(unittest.TestCase):
         self.assertTrue(any("safety compliance" in error for error in errors), errors)
         self.assertTrue(any("E-stop assembly" in error for error in errors), errors)
 
+    def test_course_safety_summary_rejects_learner_estop_requirement(self):
+        manifest = copy.deepcopy(
+            _load_yaml(ROOT / "_data" / "learn" / "precise-robot-hand.yml")
+        )
+        manifest["course"]["safety_summary"].append(
+            "회로당 퓨즈 보호 및 비상 차단기 적용"
+        )
+
+        errors = _validate_manifest(ROOT, "precise-robot-hand", manifest)
+
+        self.assertTrue(any("safety summary requires learner E-stop" in error for error in errors), errors)
+
     def test_generated_source_fields_reject_unsafe_markup(self):
         errors = _unsafe_generated_values(
             {"sources": [{"title": "<img src=x onerror=alert(1)>"}]}
