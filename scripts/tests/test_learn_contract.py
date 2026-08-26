@@ -378,6 +378,22 @@ class LearnFoundationContractTest(unittest.TestCase):
 
         self.assertTrue(any("time-current curve" in error for error in errors), errors)
 
+    def test_fuse_guarantee_fails_despite_unrelated_earlier_negation(self):
+        modules = [{
+            "id": "M1",
+            "content": (
+                "퓨즈는 액추에이터 전류가 정격을 초과하지 않도록 설계하며, 배선 오류 시 "
+                "즉각적인 보호를 보장합니다 [S1]."
+            ),
+            "source_ids": ["S1"],
+        }]
+
+        errors = _module_bom_consistency_errors(
+            modules, [], "course", allowed_source_ids={"S1"}
+        )
+
+        self.assertTrue(any("time-current curve" in error for error in errors), errors)
+
     def test_fuse_delayed_timing_explanation_passes(self):
         modules = [{
             "id": "M1",

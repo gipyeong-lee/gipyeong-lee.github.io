@@ -669,8 +669,7 @@ def _module_bom_consistency_errors(
                 and not re.search(
                     r"(?:즉시|즉각|immediate(?:ly)?|instant(?:ly)?)"
                     r"[^.!?\n]{0,40}(?:아닌|아니|않|not)|"
-                    r"(?:아닌|아니|않|not)[^.!?\n]{0,40}"
-                    r"(?:즉시|즉각|immediate(?:ly)?|instant(?:ly)?)",
+                    r"\bnot\b[^.!?\n]{0,20}(?:immediate(?:ly)?|instant(?:ly)?)",
                     sentence,
                     re.I,
                 )
