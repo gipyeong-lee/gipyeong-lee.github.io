@@ -365,6 +365,19 @@ class LearnFoundationContractTest(unittest.TestCase):
         self.assertTrue(any("time-current curve" in error for error in errors), errors)
         self.assertTrue(any("coil has no NC contact" in error for error in errors), errors)
 
+    def test_fuse_immediate_protection_guarantee_fails(self):
+        modules = [{
+            "id": "M1",
+            "content": "퓨즈는 배선 오류 시 즉각적인 보호를 보장합니다 [S1].",
+            "source_ids": ["S1"],
+        }]
+
+        errors = _module_bom_consistency_errors(
+            modules, [], "course", allowed_source_ids={"S1"}
+        )
+
+        self.assertTrue(any("time-current curve" in error for error in errors), errors)
+
     def test_correct_nc_contact_attribution_is_not_rejected(self):
         modules = [{
             "id": "M1",
