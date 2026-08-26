@@ -730,6 +730,18 @@ class LearnFoundationContractTest(unittest.TestCase):
         self.assertTrue(any("unsafe live fault injection" in error for error in errors), errors)
         self.assertTrue(any("reversed FSR pulldown formula" in error for error in errors), errors)
 
+    def test_module_rejects_plain_reversed_fsr_formula_with_reordered_denominator(self):
+        manifest = copy.deepcopy(
+            _load_yaml(ROOT / "_data" / "learn" / "precise-robot-hand.yml")
+        )
+        manifest["modules"][0]["worked_examples"] = [
+            "V_out = V_ref * (R_FSR / (R_fixed + R_FSR))"
+        ]
+
+        errors = _validate_manifest(ROOT, "precise-robot-hand", manifest)
+
+        self.assertTrue(any("reversed FSR pulldown formula" in error for error in errors), errors)
+
     def test_safety_summary_eye_protection_must_be_a_required_tool(self):
         manifest = copy.deepcopy(
             _load_yaml(ROOT / "_data" / "learn" / "precise-robot-hand.yml")

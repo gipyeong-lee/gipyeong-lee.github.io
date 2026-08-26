@@ -422,6 +422,10 @@ def _reversed_fsr_pulldown_formula(value: str) -> bool:
             or "fracrfsrrfsr+rfix" in compact
             or "rfsr/rfsr+rfix" in compact
         )
+        or re.search(
+            r"(?:fracrfsr|rfsr/)(?:rfsr\+(?:10k|rfix(?:ed)?)|(?:10k|rfix(?:ed)?)\+rfsr)",
+            compact,
+        )
     )
 
 
