@@ -121,6 +121,14 @@ class LearnFoundationContractTest(unittest.TestCase):
         self.assertTrue(_measurement_in_evidence(grounded))
         grounded.update({"value": "34", "unit": "pins", "evidence_excerpt": "34 programmable GPIOs"})
         self.assertTrue(_measurement_in_evidence(grounded))
+        grounded.update(
+            {
+                "value": "3",
+                "unit": "A",
+                "evidence_excerpt": "Pitch is 3 mm; available in size A",
+            }
+        )
+        self.assertFalse(_measurement_in_evidence(grounded))
         grounded["evidence_excerpt"] = "Rated current is listed in the manual."
         self.assertFalse(_measurement_in_evidence(grounded))
 
@@ -153,6 +161,35 @@ class LearnFoundationContractTest(unittest.TestCase):
         }]
         errors = _module_bom_consistency_errors(modules, bom, "course")
         self.assertEqual(len(errors), 4, errors)
+
+    def test_module_electrical_variants_and_parallel_supplies_are_rejected(self):
+        bom = [
+            {
+                "category": "actuator",
+                "name": "Smart Servo",
+                "model": "XM430",
+                "quantity": 11,
+                "specifications": [
+                    {"name": "stall current", "value": "2.3", "unit": "A"},
+                    {"name": "rated voltage", "value": "12", "unit": "V"},
+                ],
+            }
+        ]
+        modules = [
+            {
+                "id": "M1",
+                "content": (
+                    "액추에이터 5대의 총 전류는 7.5 amperes다. "
+                    "XM430 액추에이터 구동 전원으로 24 V를 인가한다. "
+                    "3개 전원 어댑터 출력을 병렬로 연결한다."
+                ),
+            }
+        ]
+        errors = _module_bom_consistency_errors(modules, bom, "course")
+        self.assertTrue(any("5 actuators" in error for error in errors), errors)
+        self.assertTrue(any("7.5 A" in error for error in errors), errors)
+        self.assertTrue(any("24" in error or "voltage" in error for error in errors), errors)
+        self.assertTrue(any("parallels" in error for error in errors), errors)
 
     def test_generated_source_fields_reject_unsafe_markup(self):
         errors = _unsafe_generated_values(

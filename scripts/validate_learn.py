@@ -353,7 +353,12 @@ def _measurement_in_evidence(specification: dict[str, Any]) -> bool:
         "channel", "channels", "piece", "pieces", "pcs", "ea", "개",
     }:
         return compact_value in compact
-    return compact_value in compact and compact_unit in compact
+    if re.search(rf"\bunit\s*:\s*{re.escape(unit)}\b", excerpt, re.I):
+        return compact_value in compact
+    return (
+        f"{compact_value}{compact_unit}" in compact
+        or f"{compact_unit}{compact_value}" in compact
+    )
 
 
 def _module_bom_consistency_errors(
@@ -381,6 +386,13 @@ def _module_bom_consistency_errors(
         for token in (str(item.get("name") or ""), str(item.get("model") or ""))
         if len(token.strip()) >= 3
     }
+    bom_component_text = "\n".join(
+        " ".join(
+            str(item.get(field) or "") for field in ("name", "model", "function")
+        ).lower()
+        for item in bom
+        if isinstance(item, dict)
+    )
     undersized_paths = [
         item
         for item in bom
@@ -396,7 +408,8 @@ def _module_bom_consistency_errors(
         text = "\n".join(_string_values(module))
         lowered = text.lower()
         for match in re.finditer(
-            r"(?:로봇손|전체|총)\s*(?:의\s*)?(?:모터|액추에이터)\s*(\d+)\s*개",
+            r"(?:(?:로봇손|전체|총)\s*(?:의\s*)?)?"
+            r"(?:모터|액추에이터)\s*(\d+)\s*(?:개|대)",
             text,
         ):
             claimed = int(match.group(1))
@@ -409,7 +422,8 @@ def _module_bom_consistency_errors(
             totals = [
                 float(value)
                 for value in re.findall(
-                    r"(?:총|전체|합산)(?:\s*(?:소비)?\s*전류)?[^\d]{0,20}(\d+(?:\.\d+)?)\s*A\b",
+                    r"(?:총|전체|합산)(?:\s*(?:소비)?\s*전류)?[^\d]{0,20}"
+                    r"(\d+(?:\.\d+)?)\s*(?:A|amps?|amperes?)(?![A-Za-z])",
                     text,
                     flags=re.IGNORECASE,
                 )
@@ -432,6 +446,36 @@ def _module_bom_consistency_errors(
                 errors.append(
                     f"{label}: module {module_id} permits voltage above BOM actuator rating {max_voltage:g} V"
                 )
+            voltage_issue = False
+            for sentence in re.split(r"[.!?\n]", text):
+                sentence_lower = sentence.lower()
+                has_actuator_context = any(
+                    token in sentence_lower for token in actuator_tokens
+                ) or any(token in sentence for token in ("모터", "액추에이터"))
+                has_supply_context = bool(
+                    re.search(r"전원|전압|공급|인가|구동|input\s+voltage|supply", sentence, re.I)
+                )
+                is_prohibition = bool(
+                    re.search(r"금지|사용하지|연결하지|인가하지|초과하지|넘지|아니", sentence)
+                )
+                if not (has_actuator_context and has_supply_context) or is_prohibition:
+                    continue
+                claimed_voltages = [
+                    float(value)
+                    for value in re.findall(
+                        r"(?<![\d.])(\d+(?:\.\d+)?)\s*V(?:DC)?(?![A-Za-z])",
+                        sentence,
+                        flags=re.IGNORECASE,
+                    )
+                ]
+                if any(value > max_voltage for value in claimed_voltages):
+                    voltage_issue = True
+                    break
+            voltage_error = (
+                f"{label}: module {module_id} permits voltage above BOM actuator rating {max_voltage:g} V"
+            )
+            if voltage_issue and voltage_error not in errors:
+                errors.append(voltage_error)
         if actuator_peak and "메인 전원" in text:
             for item in undersized_paths:
                 identifiers = (str(item.get("name") or ""), str(item.get("model") or ""))
@@ -440,6 +484,34 @@ def _module_bom_consistency_errors(
                         f"{label}: module {module_id} uses {item.get('model')} below BOM peak {actuator_peak:g} A as main power path"
                     )
                     break
+        for sentence in re.split(r"[.!?\n]", text):
+            if not re.search(r"어댑터|전원|출력|power\s*supply|adapter", sentence, re.I):
+                continue
+            if not re.search(r"병렬|parallel", sentence, re.I):
+                continue
+            if re.search(r"금지|하지\s*않|연결하지|묶지|never|do\s+not|must\s+not", sentence, re.I):
+                continue
+            if re.search(r"병렬(?:로)?\s*(?:묶|연결|합산|구성)|parallel(?:ed|ly)?\s+(?:connect|combine|wire)", sentence, re.I):
+                errors.append(
+                    f"{label}: module {module_id} parallels independent power-supply outputs"
+                )
+                break
+
+        required_components = (
+            (r"(?:RS[- ]?485|TTL)[^\n.]{0,20}(?:브리지|bridge)|통신\s*브리지", ("브리지", "bridge"), "communication bridge"),
+            (r"(?:10\s*k(?:Ω|ohm)?[^\n.]{0,16})?(?:저항|resistor)", ("저항", "resistor"), "resistor"),
+            (r"(?:퓨즈|fuse)", ("퓨즈", "fuse"), "fuse"),
+            (r"(?:나사산\s*)?인서트|threaded\s+insert|heat[- ]set\s+insert", ("인서트", "insert"), "threaded insert"),
+            (r"(?:\d+(?:\.\d+)?\s*mm\s*)?(?:샤프트|shaft)", ("샤프트", "shaft"), "shaft"),
+        )
+        for pattern, bom_tokens, component_label in required_components:
+            if not re.search(pattern, text, re.I):
+                continue
+            if any(token in bom_component_text for token in bom_tokens):
+                continue
+            errors.append(
+                f"{label}: module {module_id} requires {component_label} absent from BOM"
+            )
     return errors
 
 
@@ -601,6 +673,9 @@ def _validate_manifest(repo: Path, slug: str, manifest: Any) -> list[str]:
                     "none",
                     "-",
                     "unitless",
+                    "1",
+                    "dimensionless",
+                    "무차원",
                 }:
                     quantitative += 1
             if quantitative < 2:
@@ -638,6 +713,43 @@ def _validate_manifest(repo: Path, slug: str, manifest: Any) -> list[str]:
         errors.append(
             f"{label}: aggregate power {power_capacity:g} A below actuator peak {actuator_peak:g} A"
         )
+    power_parts = [
+        item
+        for item in bom
+        if isinstance(item, dict) and item.get("category") == "power"
+    ]
+    power_branch_count = sum(
+        int(item.get("quantity") or 0)
+        for item in power_parts
+        if int(item.get("quantity") or 0) > 1
+    )
+    if power_branch_count:
+        for item in power_parts:
+            if int(item.get("quantity") or 0) <= 1:
+                continue
+            compatibility = " ".join(
+                str(value) for value in item.get("compatibility") or []
+            ).lower()
+            if "독립" not in compatibility or not re.search(
+                r"병렬.{0,12}(?:금지|않)|never.{0,12}parallel", compatibility, re.I
+            ):
+                errors.append(
+                    f"{label}: multiple power supplies must use isolated branches and prohibit output paralleling"
+                )
+        fuse_count = sum(
+            int(item.get("quantity") or 0)
+            for item in bom
+            if isinstance(item, dict)
+            and re.search(
+                r"퓨즈|fuse",
+                " ".join(str(item.get(field) or "") for field in ("name", "model", "function")),
+                re.I,
+            )
+        )
+        if fuse_count < power_branch_count:
+            errors.append(
+                f"{label}: {power_branch_count} independent power branches lack matching fuse BOM units"
+            )
     safety_capacity = max(
         (
             (_current_amps(item) or 0.0) * int(item.get("quantity") or 0)
