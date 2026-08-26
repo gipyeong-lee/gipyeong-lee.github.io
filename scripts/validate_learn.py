@@ -289,6 +289,28 @@ def _current_amps(item: dict[str, Any]) -> Optional[float]:
     return max(values) if values else None
 
 
+def _named_current_amps(
+    item: dict[str, Any], required_tokens: tuple[str, ...]
+) -> Optional[float]:
+    values: list[float] = []
+    for specification in item.get("specifications") or []:
+        if not isinstance(specification, dict):
+            continue
+        name = str(specification.get("name") or "").lower()
+        if not all(token.lower() in name for token in required_tokens):
+            continue
+        unit = str(specification.get("unit") or "").strip().lower()
+        if unit not in {"a", "amp", "amps", "ampere", "amperes", "ma"}:
+            continue
+        match = re.search(r"-?\d+(?:\.\d+)?", str(specification.get("value") or "").replace(",", ""))
+        if not match:
+            continue
+        value = float(match.group()) / 1000 if unit == "ma" else float(match.group())
+        if value > 0:
+            values.append(value)
+    return max(values) if values else None
+
+
 def _voltage_volts(item: dict[str, Any]) -> Optional[float]:
     values: list[float] = []
     for specification in item.get("specifications") or []:
@@ -338,12 +360,20 @@ def _specification_unit_issue(specification: dict[str, Any]) -> Optional[str]:
     return None
 
 
+_EVIDENCE_LABEL_ALIASES = {
+    "호칭 나사 지름": ("nominal diameter", "diameter of thread"),
+    "나사 피치": ("pitch of screw thread", "pitch"),
+    "기본 머리 지름": ("basic size", "dk max"),
+}
+
+
 def _measurement_in_evidence(specification: dict[str, Any]) -> bool:
     excerpt = str(specification.get("evidence_excerpt") or "").lower()
     if not excerpt.strip():
         return False
     value = str(specification.get("value") or "").replace(",", "").strip().lower()
     unit = str(specification.get("unit") or "").strip().lower()
+    name = str(specification.get("name") or "").strip().lower()
     compact = re.sub(r"\s+", "", excerpt.replace(",", ""))
     compact = compact.replace("·", "").replace("×", "x")
     compact_unit = re.sub(r"\s+", "", unit).replace("·", "").replace("×", "x")
@@ -371,16 +401,94 @@ def _measurement_in_evidence(specification: dict[str, Any]) -> bool:
         r"^\s*(?:mm|cm|km|m|ma|a|vdc|vac|v|w|kw|n(?:[·.]?m)?|kg|g|hz|rpm|ohms?|Ω|°c|deg(?:rees?)?|denier)\b",
         re.I,
     )
+    labels = {
+        name,
+        *_EVIDENCE_LABEL_ALIASES.get(name, ()),
+    }
     return any(
         not conflicting_unit.search(nearby[match.end() : match.end() + 16])
+        and any(
+            label and label in nearby[max(0, match.start() - 100) : match.start()]
+            for label in labels
+        )
         for match in value_pattern.finditer(nearby)
     )
 
 
 def _module_bom_consistency_errors(
-    modules: list[Any], bom: list[Any], label: str
+    modules: list[Any],
+    bom: list[Any],
+    label: str,
+    allowed_source_ids: Optional[set[str]] = None,
 ) -> list[str]:
     errors: list[str] = []
+    ev200_parts = [
+        item for item in bom
+        if isinstance(item, dict) and "ev200" in str(item.get("model") or "").lower()
+    ]
+    if ev200_parts:
+        for item in ev200_parts:
+            for specification in item.get("specifications") or []:
+                if not isinstance(specification, dict):
+                    continue
+                if (
+                    re.search(r"차단\s*전압|breaking\s+voltage|interrupt(?:ing)?\s+voltage", str(specification.get("name") or ""), re.I)
+                    and re.search(r"900", str(specification.get("value") or ""))
+                ):
+                    errors.append(
+                        f"{label}: EV200 900 VDC is switching operating voltage, not standalone breaking voltage"
+                    )
+        safety_relays = [
+            item for item in bom
+            if isinstance(item, dict) and "g7sa" in str(item.get("model") or "").lower()
+        ]
+        interposing_relays = [
+            item for item in bom
+            if isinstance(item, dict) and "g2r-1" in str(item.get("model") or "").lower()
+        ]
+        ev200_count = sum(int(item.get("quantity") or 0) for item in ev200_parts)
+        if any(str(item.get("model") or "").strip().lower() == "ev200" for item in ev200_parts):
+            errors.append(f"{label}: EV200 family name is ambiguous; exact EV200AAANA model required")
+        if not safety_relays:
+            errors.append(f"{label}: EV200 E-stop architecture missing low-current safety relay")
+        if sum(int(item.get("quantity") or 0) for item in interposing_relays) < ev200_count:
+            errors.append(f"{label}: EV200 E-stop architecture needs one interposing relay per coil")
+        ev200_inrush = max(
+            (_named_current_amps(item, ("코일", "돌입")) or 0.0)
+            for item in ev200_parts
+        )
+        interposing_capacity = max(
+            (_named_current_amps(item, ("접점", "전류")) or 0.0)
+            for item in interposing_relays
+        ) if interposing_relays else 0.0
+        if ev200_inrush and interposing_capacity < ev200_inrush:
+            errors.append(
+                f"{label}: interposing relay contact {interposing_capacity:g} A below EV200 coil inrush {ev200_inrush:g} A"
+            )
+        interposing_coil = max(
+            (_named_current_amps(item, ("코일", "전류")) or 0.0)
+            for item in interposing_relays
+        ) if interposing_relays else 0.0
+        safety_capacity = max(
+            (_named_current_amps(item, ("접점", "전류")) or 0.0)
+            for item in safety_relays
+        ) if safety_relays else 0.0
+        if interposing_coil and safety_capacity < interposing_coil:
+            errors.append(
+                f"{label}: safety relay contact {safety_capacity:g} A below interposing coil {interposing_coil:g} A"
+            )
+        architecture_text = " ".join(
+            text
+            for item in bom
+            if isinstance(item, dict)
+            for text in _string_values(item)
+        )
+        if (
+            re.search(r"A22E[^.\n]{0,100}EV200", architecture_text, re.I)
+            and re.search(r"직접|direct", architecture_text, re.I)
+            and not re.search(r"직접\s*(?:구동|연결)[^.\n]{0,30}(?:금지|하지\s*않)|must\s+not\s+direct", architecture_text, re.I)
+        ):
+            errors.append(f"{label}: A22E must not directly drive EV200 coils")
     actuators = [
         item for item in bom
         if isinstance(item, dict) and item.get("category") == "actuator"
@@ -425,6 +533,14 @@ def _module_bom_consistency_errors(
             continue
         module_id = str(module.get("id") or index)
         module_data = dict(module)
+        module_source_ids = {
+            str(source_id) for source_id in (module_data.get("source_ids") or [])
+        }
+        valid_source_ids = (
+            module_source_ids & allowed_source_ids
+            if allowed_source_ids is not None and module_source_ids
+            else set(allowed_source_ids or module_source_ids)
+        )
         quiz = module_data.pop("quiz", [])
         engineering_values = _string_values(module_data)
         for item in quiz:
@@ -447,7 +563,7 @@ def _module_bom_consistency_errors(
                 token.strip() for token in re.split(r"\s*,\s*", raw_token)
             ]
             if citation_ids and all(
-                re.fullmatch(r"S[A-Za-z0-9-]*", token)
+                token in valid_source_ids
                 or token.upper() in bom_citation_ids
                 for token in citation_ids
             ):
@@ -457,6 +573,45 @@ def _module_bom_consistency_errors(
             errors.append(
                 f"{label}: module {module_id} has invalid citation token [{invalid_citations[0]}]"
             )
+        for sentence in re.split(r"[.!?\n]", text):
+            if (
+                re.search(r"EV200", sentence, re.I)
+                and re.search(r"900\s*VDC", sentence, re.I)
+                and re.search(r"차단\s*전압|breaking\s+voltage|interrupt(?:ing)?\s+voltage", sentence, re.I)
+            ):
+                errors.append(
+                    f"{label}: module {module_id} treats 900 VDC as breaking voltage instead of switching operating voltage"
+                )
+                break
+        for sentence in re.split(r"[.!?\n]", text):
+            if (
+                re.search(r"ATOF|퓨즈|fuse", sentence, re.I)
+                and re.search(r"즉시|immediate(?:ly)?", sentence, re.I)
+                and re.search(r"차단|보호|open|interrupt", sentence, re.I)
+            ):
+                errors.append(
+                    f"{label}: module {module_id} claims immediate fuse opening instead of using time-current curve"
+                )
+                break
+        for sentence in re.split(r"[.!?\n]", text):
+            if (
+                re.search(r"EV200", sentence, re.I)
+                and re.search(r"코일|coil", sentence, re.I)
+                and re.search(r"NC\s*접점|normally[- ]closed\s+contact", sentence, re.I)
+            ):
+                errors.append(
+                    f"{label}: module {module_id} says EV200 coil has no NC contact attribution correctly required"
+                )
+                break
+        for sentence in re.split(r"[.!?\n]", text):
+            if (
+                re.search(r"A22E", sentence, re.I)
+                and re.search(r"EV200", sentence, re.I)
+                and re.search(r"직접|direct", sentence, re.I)
+                and not re.search(r"금지|하지\s*않|must\s+not|never", sentence, re.I)
+            ):
+                errors.append(f"{label}: module {module_id} directly drives EV200 coils from A22E")
+                break
         for sentence in re.split(r"[.!?\n]", text):
             if (
                 re.search(r"비상\s*정지|E[- ]?stop|emergency\s+stop", sentence, re.I)
@@ -514,6 +669,8 @@ def _module_bom_consistency_errors(
             r"(\d+)\s*(?:개|대)",
             r"(?:본\s*(?:프로젝트|과정)|로봇손|전체|총)[^\n.]{0,24}?"
             r"(\d+)\s*(?:개|대)(?:의)?[^\n.]{0,36}?(?:모터|액추에이터)",
+            r"(?:[A-Za-z][A-Za-z0-9-]{2,})\s+(?:모터|액추에이터)\s*"
+            r"(\d+)\s*(?:개|대)",
         )
         claimed_counts = {
             int(match.group(1))
@@ -984,7 +1141,11 @@ def _validate_manifest(repo: Path, slug: str, manifest: Any) -> list[str]:
         if source_type not in present_source_types:
             errors.append(f"{label}: sources missing required family {source_type}")
 
-    errors.extend(_module_bom_consistency_errors(modules, bom, label))
+    errors.extend(
+        _module_bom_consistency_errors(
+            modules, bom, label, allowed_source_ids=source_ids
+        )
+    )
 
     _check_generated_front_matter(
         repo / "_learn" / slug / "index.md",

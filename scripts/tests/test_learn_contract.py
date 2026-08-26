@@ -149,8 +149,34 @@ class LearnFoundationContractTest(unittest.TestCase):
             "Unit: A; pitch is 3 mm; rated current is documented elsewhere."
         )
         self.assertFalse(_measurement_in_evidence(grounded))
+        grounded["evidence_excerpt"] = (
+            "Unit: A; contact positions: 3; rated current: 8.5"
+        )
+        self.assertFalse(_measurement_in_evidence(grounded))
         grounded["evidence_excerpt"] = "Rated current is listed in the manual."
         self.assertFalse(_measurement_in_evidence(grounded))
+
+        for specification in (
+            {
+                "name": "호칭 나사 지름",
+                "value": "3",
+                "unit": "mm",
+                "evidence_excerpt": "Unit:mm Nominal diameter of thread(d)(15) M3",
+            },
+            {
+                "name": "나사 피치",
+                "value": "0.5",
+                "unit": "mm",
+                "evidence_excerpt": "Unit:mm Nominal diameter of thread(d)(15) M3 Pitch of screw thread(P) 0.5",
+            },
+            {
+                "name": "기본 머리 지름",
+                "value": "5.5",
+                "unit": "mm",
+                "evidence_excerpt": "Unit:mm M3 dk Max.(Basic size) 5.5",
+            },
+        ):
+            self.assertTrue(_measurement_in_evidence(specification), specification)
 
     def test_module_electrical_claims_must_match_bom(self):
         specifications = [
@@ -308,6 +334,35 @@ class LearnFoundationContractTest(unittest.TestCase):
         self.assertTrue(any("continuous-carry" in error for error in errors), errors)
         self.assertTrue(any("invalid citation token" in error for error in errors), errors)
 
+    def test_inline_citation_must_reference_exact_existing_source(self):
+        modules = [{"id": "M1", "content": "검증된 값 [S999] [S]."}]
+        errors = _module_bom_consistency_errors(
+            modules, [], "course", allowed_source_ids={"S1"}
+        )
+        self.assertTrue(any("invalid citation token [S999]" in error for error in errors), errors)
+
+    def test_academic_module_safety_validation_does_not_require_actuator_bom(self):
+        modules = [{
+            "id": "M1",
+            "content": "비상정지 버튼을 누르고 전원 라인이 단락되는지 확인한다.",
+        }]
+        errors = _module_bom_consistency_errors(modules, [], "course")
+        self.assertTrue(any("short-circuit" in error for error in errors), errors)
+
+    def test_ev200_voltage_fuse_timing_and_nc_contact_misstatements_fail(self):
+        modules = [{
+            "id": "M1",
+            "content": (
+                "EV200의 최대 DC 차단 전압은 900 VDC다. "
+                "10 A ATOF 퓨즈가 과전류를 즉시 차단한다. "
+                "EV200 접촉기 코일의 NC 접점을 점검한다."
+            ),
+        }]
+        errors = _module_bom_consistency_errors(modules, [], "course")
+        self.assertTrue(any("switching operating voltage" in error for error in errors), errors)
+        self.assertTrue(any("time-current curve" in error for error in errors), errors)
+        self.assertTrue(any("coil has no NC contact" in error for error in errors), errors)
+
     def test_actuator_count_before_model_is_system_count(self):
         bom = [{
             "category": "actuator",
@@ -324,6 +379,105 @@ class LearnFoundationContractTest(unittest.TestCase):
                 [{"id": "M1", "content": claim}], bom, "course"
             )
             self.assertTrue(any("5 actuators" in error for error in errors), errors)
+
+    def test_actuator_count_after_model_is_system_count(self):
+        bom = [{
+            "category": "actuator",
+            "name": "Smart Servo",
+            "model": "XM430-W350-T",
+            "quantity": 11,
+            "specifications": [],
+        }]
+        errors = _module_bom_consistency_errors(
+            [{"id": "M1", "content": "XM430-W350-T 액추에이터 5대를 사용한다."}],
+            bom,
+            "course",
+        )
+        self.assertTrue(any("5 actuators" in error for error in errors), errors)
+
+    def test_ev200_requires_safe_low_current_relay_chain(self):
+        bom = [
+            {
+                "id": "B-SAFETY-ESTOP",
+                "category": "safety",
+                "name": "비상정지 버튼",
+                "model": "A22E-M-12-EMO",
+                "quantity": 1,
+                "function": "EV200 코일 3개 직접 구동",
+                "compatibility": ["A22E NC 접점이 EV200 코일을 직접 구동"],
+                "specifications": [],
+            },
+            {
+                "id": "B-SAFETY-CUTOFF",
+                "category": "safety",
+                "name": "DC 접촉기",
+                "model": "EV200AAANA",
+                "quantity": 3,
+                "function": "분기 전원 차단",
+                "compatibility": ["A22E NC 접점이 EV200 코일을 직접 구동"],
+                "specifications": [
+                    {"name": "코일 최대 돌입 전류", "value": "3.8", "unit": "A"},
+                ],
+            },
+        ]
+        errors = _module_bom_consistency_errors([], bom, "course")
+        self.assertTrue(any("safety relay" in error for error in errors), errors)
+        self.assertTrue(any("interposing relay" in error for error in errors), errors)
+        self.assertTrue(any("must not directly drive" in error for error in errors), errors)
+
+    def test_ev200_interposing_contact_must_cover_coil_inrush(self):
+        bom = [
+            {
+                "id": "B-SAFETY-RELAY",
+                "category": "safety",
+                "name": "강제 유도 접점 릴레이",
+                "model": "G7SA-3A1B DC12",
+                "quantity": 1,
+                "specifications": [
+                    {"name": "코일 정격 전류", "value": "30", "unit": "mA"},
+                    {"name": "DC13 유도 부하 접점 전류", "value": "1", "unit": "A"},
+                ],
+            },
+            {
+                "id": "B-SAFETY-COIL-RELAY",
+                "category": "safety",
+                "name": "코일 중계 릴레이",
+                "model": "G2R-1-SND DC12(S)",
+                "quantity": 3,
+                "specifications": [
+                    {"name": "코일 정격 전류", "value": "43.2", "unit": "mA"},
+                    {"name": "유도 부하 접점 전류", "value": "2", "unit": "A"},
+                ],
+            },
+            {
+                "id": "B-SAFETY-CUTOFF",
+                "category": "safety",
+                "name": "DC 접촉기",
+                "model": "EV200AAANA",
+                "quantity": 3,
+                "specifications": [
+                    {"name": "코일 최대 돌입 전류", "value": "3.8", "unit": "A"},
+                    {"name": "코일 돌입 시간 상한", "value": "130", "unit": "ms"},
+                ],
+            },
+        ]
+        errors = _module_bom_consistency_errors([], bom, "course")
+        self.assertTrue(any("2 A" in error and "3.8 A" in error for error in errors), errors)
+
+    def test_ev200_bom_cannot_call_900_vdc_a_breaking_voltage(self):
+        bom = [{
+            "id": "B-SAFETY-CUTOFF",
+            "category": "safety",
+            "name": "DC 접촉기",
+            "model": "EV200AAANA",
+            "quantity": 1,
+            "specifications": [
+                {"name": "최대 DC 차단 전압", "value": "900", "unit": "VDC"},
+                {"name": "코일 최대 돌입 전류", "value": "3.8", "unit": "A"},
+            ],
+        }]
+        errors = _module_bom_consistency_errors([], bom, "course")
+        self.assertTrue(any("900 VDC" in error and "breaking" in error for error in errors), errors)
 
     def test_power_branch_allocation_capacity_and_real_fuses_fail_closed(self):
         manifest = copy.deepcopy(
