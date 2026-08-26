@@ -363,6 +363,14 @@ class LearnFoundationContractTest(unittest.TestCase):
         self.assertTrue(any("time-current curve" in error for error in errors), errors)
         self.assertTrue(any("coil has no NC contact" in error for error in errors), errors)
 
+    def test_correct_nc_contact_attribution_is_not_rejected(self):
+        modules = [{
+            "id": "M1",
+            "content": "NC 접점은 E-stop 안전 제어 경로에 속하며 EV200 코일에는 NC 접점이 없다.",
+        }]
+        errors = _module_bom_consistency_errors(modules, [], "course")
+        self.assertFalse(any("coil has no NC contact" in error for error in errors), errors)
+
     def test_actuator_count_before_model_is_system_count(self):
         bom = [{
             "category": "actuator",

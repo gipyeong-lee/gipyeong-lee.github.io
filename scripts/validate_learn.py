@@ -595,12 +595,15 @@ def _module_bom_consistency_errors(
                 break
         for sentence in re.split(r"[.!?\n]", text):
             if (
-                re.search(r"EV200", sentence, re.I)
-                and re.search(r"코일|coil", sentence, re.I)
-                and re.search(r"NC\s*접점|normally[- ]closed\s+contact", sentence, re.I)
+                re.search(
+                    r"EV200[^.\n]{0,60}(?:코일의\s*NC\s*접점|coil(?:'s|\s+has)\s+(?:an?\s+)?(?:NC|normally[- ]closed)\s+contact)",
+                    sentence,
+                    re.I,
+                )
+                and not re.search(r"없|아니|not|no\s+NC", sentence, re.I)
             ):
                 errors.append(
-                    f"{label}: module {module_id} says EV200 coil has no NC contact attribution correctly required"
+                    f"{label}: module {module_id} misattributes an NC contact to EV200 coil; coil has no NC contact"
                 )
                 break
         for sentence in re.split(r"[.!?\n]", text):
