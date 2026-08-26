@@ -36,6 +36,18 @@ class LearnFoundationContractTest(unittest.TestCase):
         self.assertIn('amount_display: "5,900원"', settings)
         self.assertIn('stripe_payment_link: ""', settings)
 
+    def test_completion_sponsorship_copy_displays_fixed_amount(self):
+        for relative_path in ("_layouts/learn-course.html", "_layouts/learn-module.html"):
+            layout = (ROOT / relative_path).read_text(encoding="utf-8")
+            completion_card = layout.split('data-sponsorship="complete"', 1)[1].split(
+                "</aside>", 1
+            )[0]
+            self.assertIn(
+                "커피 한 잔 {{ sponsor.amount_display | escape }}",
+                completion_card,
+                relative_path,
+            )
+
     def test_catalogue_route_and_index_exist(self):
         page = (ROOT / "_pages/learn.md").read_text(encoding="utf-8")
         self.assertIn("layout: learn-catalogue", page)

@@ -71,7 +71,7 @@ layout: default
 
   {% if sponsor.enabled %}
   <aside class="learn-sponsor" data-sponsorship="complete" hidden>
-    <div><p class="learn-kicker">COURSE COMPLETE</p><h2>완주를 함께 기념해주세요</h2><p>후원은 선택입니다. 완주 기록과 과정 이용에는 아무 영향이 없습니다.</p></div>
+    <div><p class="learn-kicker">COURSE COMPLETE</p><h2>완주를 함께 기념해주세요</h2><p>후원은 선택입니다. 커피 한 잔 {{ sponsor.amount_display | escape }}은 서비스 유지비에 쓰이며, 완주 기록과 과정 이용에는 아무 영향이 없습니다.</p></div>
     <div class="learn-sponsor__actions">{% if stripe_prefix == 'https://buy.stripe.com/' %}<a class="learn-button" data-sponsorship-link data-moment="complete" href="{{ sponsor.stripe_payment_link | escape }}" target="_blank" rel="noopener">{{ sponsor.label | escape }} · {{ sponsor.amount_display | escape }}</a>{% else %}<span class="learn-button learn-button--disabled" aria-disabled="true">후원 창구 준비 중</span>{% endif %}<button type="button" class="learn-text-button" data-sponsorship-skip>후원 없이 마치기</button></div>
   </aside>
   {% endif %}
