@@ -995,7 +995,7 @@ def _unsafe_estop_requirement(value: str) -> bool:
             re.I,
         )
         and re.search(
-            r"적용|설치|사용|구성|배선|연결|조립|시운전|작동|시험|검증|확인|"
+            r"적용|설치|사용|구성|배선|연결|조립|시운전|작동|동작|시험|검증|확인|"
             r"apply|install|use|wire|connect|assembl|commission|operate|test|verify|check",
             value,
             re.I,
