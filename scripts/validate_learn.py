@@ -740,6 +740,12 @@ def _module_bom_consistency_errors(
                 )
                 break
         for sentence in re.split(r"[.!?\n]", text):
+            if _unsafe_safety_system_requirement(sentence):
+                errors.append(
+                    f"{label}: module {module_id} requires learner safety-system work"
+                )
+                break
+        for sentence in re.split(r"[.!?\n]", text):
             if _unsafe_live_fault_injection(sentence):
                 errors.append(
                     f"{label}: module {module_id} requires unsafe live fault injection; use datasheet curve analysis, simulation, or certified current-limited fixture"

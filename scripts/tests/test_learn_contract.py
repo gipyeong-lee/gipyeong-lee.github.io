@@ -736,12 +736,14 @@ class LearnFoundationContractTest(unittest.TestCase):
             r"$V_{ADC}=V_{ref}\frac{R_{FSR}}{R_{FSR}+R_{fix}}$이다."
         )
         module["lab"]["deliverables"] = ["퓨즈 단락 시 전류 차단 기록"]
+        module["assignment"]["rubric"] = ["안전 회로 설계 및 구현 완성도"]
 
         errors = _validate_manifest(ROOT, "precise-robot-hand", manifest)
 
         self.assertTrue(any("unsupported module E-stop reference" in error for error in errors), errors)
         self.assertTrue(any("unsafe live fault injection" in error for error in errors), errors)
         self.assertTrue(any("reversed FSR pulldown formula" in error for error in errors), errors)
+        self.assertTrue(any("requires learner safety-system work" in error for error in errors), errors)
 
     def test_module_rejects_plain_reversed_fsr_formula_with_reordered_denominator(self):
         manifest = copy.deepcopy(
