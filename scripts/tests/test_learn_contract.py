@@ -562,6 +562,19 @@ class LearnFoundationContractTest(unittest.TestCase):
 
         self.assertTrue(any("DC voltage" in error for error in errors), errors)
 
+    def test_module_rejects_resistance_check_after_connecting_power_adapter(self):
+        modules = [{
+            "id": "M1",
+            "content": (
+                "전원 인가 전, 물리적으로 전원 어댑터를 연결하고 각 분기별 저항 "
+                "상태를 점검한다(전원 차단 상태 확인)."
+            ),
+        }]
+
+        errors = _module_bom_consistency_errors(modules, [], "course")
+
+        self.assertTrue(any("DC voltage" in error for error in errors), errors)
+
     def test_course_safety_summary_rejects_learner_estop_requirement(self):
         manifest = copy.deepcopy(
             _load_yaml(ROOT / "_data" / "learn" / "precise-robot-hand.yml")

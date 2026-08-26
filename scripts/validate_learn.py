@@ -581,10 +581,28 @@ def _module_bom_consistency_errors(
                 f"{label}: module {module_id} has invalid citation token [{invalid_citations[0]}]"
             )
         for sentence in re.split(r"[.!?\n]", text):
+            resistance_check = re.search(
+                r"저항|무한대|도통|resistan|ohm|continuity", sentence, re.I
+            )
+            verifies_state = re.search(
+                r"확인|검증|측정|점검|verify|confirm|measure|check", sentence, re.I
+            )
+            claims_deenergized = re.search(
+                r"무전원|무전압|전원\s*(?:차단|분리)\s*상태|"
+                r"de[- ]?energized|zero\s+voltage",
+                sentence,
+                re.I,
+            )
+            connects_power_source = re.search(
+                r"(?:전원\s*(?:어댑터|공급기|공급장치)|power\s*(?:adapter|supply))"
+                r"[^.!?\n]{0,60}(?:연결|접속|connect|plug)",
+                sentence,
+                re.I,
+            )
             if (
-                re.search(r"무전원|무전압|de[- ]?energized|zero\s+voltage", sentence, re.I)
-                and re.search(r"저항|무한대|resistan|ohm", sentence, re.I)
-                and re.search(r"확인|검증|측정|verify|confirm|measure", sentence, re.I)
+                resistance_check
+                and verifies_state
+                and (claims_deenergized or connects_power_source)
             ):
                 errors.append(
                     f"{label}: module {module_id} must verify de-energized state in DC voltage mode, not by resistance"
