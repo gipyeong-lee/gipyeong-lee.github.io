@@ -857,6 +857,14 @@ def _validate_manifest(repo: Path, slug: str, manifest: Any) -> list[str]:
     if not isinstance(course, dict) or course.get("slug") != slug:
         errors.append(f"{label}: course slug mismatch")
         course = {}
+    safety_text = " ".join(str(item) for item in course.get("safety_summary") or [])
+    required_tools_text = " ".join(str(item) for item in course.get("required_tools") or [])
+    if re.search(r"보안경|eye\s+protection|safety\s+(?:glasses|goggles)", safety_text, re.I) and not re.search(
+        r"보안경|eye\s+protection|safety\s+(?:glasses|goggles)",
+        required_tools_text,
+        re.I,
+    ):
+        errors.append(f"{label}: safety summary eye protection is missing from required tools")
     for index, summary in enumerate(course.get("safety_summary") or []):
         summary = str(summary)
         if (

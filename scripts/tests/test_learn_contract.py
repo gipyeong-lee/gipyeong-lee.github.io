@@ -564,6 +564,24 @@ class LearnFoundationContractTest(unittest.TestCase):
 
         self.assertTrue(any("safety summary requires learner E-stop" in error for error in errors), errors)
 
+    def test_safety_summary_eye_protection_must_be_a_required_tool(self):
+        manifest = copy.deepcopy(
+            _load_yaml(ROOT / "_data" / "learn" / "precise-robot-hand.yml")
+        )
+        manifest["course"]["safety_summary"].append("절삭 작업 중 보안경 착용")
+        manifest["course"]["required_tools"] = [
+            tool
+            for tool in manifest["course"]["required_tools"]
+            if "보안경" not in tool
+        ]
+
+        errors = _validate_manifest(ROOT, "precise-robot-hand", manifest)
+        self.assertTrue(any("eye protection" in error for error in errors), errors)
+
+        manifest["course"]["required_tools"].append("충격 방지 작업용 보안경")
+        errors = _validate_manifest(ROOT, "precise-robot-hand", manifest)
+        self.assertFalse(any("eye protection" in error for error in errors), errors)
+
     def test_generated_source_fields_reject_unsafe_markup(self):
         errors = _unsafe_generated_values(
             {"sources": [{"title": "<img src=x onerror=alert(1)>"}]}
