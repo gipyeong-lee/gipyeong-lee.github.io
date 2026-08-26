@@ -414,7 +414,8 @@ def _unsafe_live_fault_injection(value: str) -> bool:
 def _reversed_fsr_pulldown_formula(value: str) -> bool:
     compact = re.sub(r"[\s{}()_*\\]", "", value).lower()
     return bool(
-        "fsr" in compact
+        "rfsrfixed" in compact
+        or "fsr" in compact
         and "10k" in compact
         and (
             "fracrfsrrfsr+10k" in compact
