@@ -692,12 +692,13 @@ class LearnFoundationContractTest(unittest.TestCase):
             _load_yaml(ROOT / "_data" / "learn" / "precise-robot-hand.yml")
         )
         manifest["capstone"]["deliverables"] = ["안전 회로 배선도"]
-        manifest["capstone"]["rubric"] = ["안전 시스템(비상 차단) 동작 완결성"]
+        manifest["capstone"]["rubric"] = ["시스템 안전 기능의 동작 여부"]
 
         errors = _validate_manifest(ROOT, "precise-robot-hand", manifest)
 
-        self.assertTrue(
-            any("capstone requires learner safety-system work" in error for error in errors),
+        self.assertEqual(
+            sum("capstone requires learner safety-system work" in error for error in errors),
+            2,
             errors,
         )
 
@@ -708,7 +709,8 @@ class LearnFoundationContractTest(unittest.TestCase):
         module = manifest["modules"][0]
         module["theory_markdown"] = (
             "펌웨어는 비상 정지 상태를 항상 감시한다. "
-            r"10 kΩ 풀다운에서 $V_{ADC}=V_{ref}\frac{R_{FSR}}{R_{FSR}+10k\Omega}$이다."
+            "3.3 V에는 10 kΩ 고정 저항을, 접지에는 FSR을 연결한다. "
+            r"$V_{ADC}=V_{ref}\frac{R_{FSR}}{R_{FSR}+R_{fix}}$이다."
         )
         module["lab"]["deliverables"] = ["퓨즈 단락 시 전류 차단 기록"]
 

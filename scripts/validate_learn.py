@@ -373,7 +373,11 @@ def _unsupported_module_estop_reference(value: str) -> bool:
 
 def _unsafe_safety_system_requirement(value: str) -> bool:
     return bool(
-        re.search(r"안전\s*(?:회로|시스템)|safety\s+(?:circuit|system)", value, re.I)
+        re.search(
+            r"안전\s*(?:회로|시스템|기능)|시스템\s*안전\s*기능|safety\s+(?:circuit|system|function)",
+            value,
+            re.I,
+        )
         and re.search(
             r"배선|설계|제작|구현|조립|작동|동작|시험|검증|완결|"
             r"wire|design|build|implement|assembl|operate|test|verify|complete",
@@ -415,6 +419,8 @@ def _reversed_fsr_pulldown_formula(value: str) -> bool:
         and (
             "fracrfsrrfsr+10k" in compact
             or "rfsr/rfsr+10k" in compact
+            or "fracrfsrrfsr+rfix" in compact
+            or "rfsr/rfsr+rfix" in compact
         )
     )
 
