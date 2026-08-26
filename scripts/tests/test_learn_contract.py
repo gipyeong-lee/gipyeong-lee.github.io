@@ -145,6 +145,10 @@ class LearnFoundationContractTest(unittest.TestCase):
             }
         )
         self.assertFalse(_measurement_in_evidence(grounded))
+        grounded["evidence_excerpt"] = (
+            "Unit: A; pitch is 3 mm; rated current is documented elsewhere."
+        )
+        self.assertFalse(_measurement_in_evidence(grounded))
         grounded["evidence_excerpt"] = "Rated current is listed in the manual."
         self.assertFalse(_measurement_in_evidence(grounded))
 
@@ -274,6 +278,80 @@ class LearnFoundationContractTest(unittest.TestCase):
         }]
         errors = _module_bom_consistency_errors(modules, bom, "course")
         self.assertFalse(any("parallels" in error for error in errors), errors)
+
+    def test_unsafe_quiz_correct_answer_is_build_instruction(self):
+        modules = [{
+            "id": "M1",
+            "quiz": [{
+                "question": "안전한 전원 구성은 무엇인가?",
+                "choices": [
+                    "모든 어댑터 출력을 병렬로 연결한다.",
+                    "각 출력은 독립 분기로 유지한다.",
+                ],
+                "answer_index": 0,
+                "explanation": "선택한 방법으로 배선한다.",
+            }],
+        }]
+        errors = _module_bom_consistency_errors(modules, [], "course")
+        self.assertTrue(any("parallels" in error for error in errors), errors)
+
+    def test_estop_short_circuit_ev200_breaking_rating_and_prompt_tokens_fail(self):
+        modules = [{
+            "id": "M1",
+            "content": (
+                "비상정지 버튼을 누르고 전원 라인이 단락되는지 확인한다. "
+                "EV200의 500 A 차단 정격을 적용한다. [bom_system_truth] [BOM]"
+            ),
+        }]
+        errors = _module_bom_consistency_errors(modules, [], "course")
+        self.assertTrue(any("short-circuit" in error for error in errors), errors)
+        self.assertTrue(any("continuous-carry" in error for error in errors), errors)
+        self.assertTrue(any("invalid citation token" in error for error in errors), errors)
+
+    def test_actuator_count_before_model_is_system_count(self):
+        bom = [{
+            "category": "actuator",
+            "name": "Smart Servo",
+            "model": "XM430",
+            "quantity": 11,
+            "specifications": [],
+        }]
+        for claim in (
+            "본 프로젝트는 5대의 XM430-W350-T 액추에이터를 사용한다.",
+            "총 5개의 스마트 액추에이터로 로봇손을 구성한다.",
+        ):
+            errors = _module_bom_consistency_errors(
+                [{"id": "M1", "content": claim}], bom, "course"
+            )
+            self.assertTrue(any("5 actuators" in error for error in errors), errors)
+
+    def test_power_branch_allocation_capacity_and_real_fuses_fail_closed(self):
+        manifest = copy.deepcopy(
+            _load_yaml(ROOT / "_data" / "learn" / "precise-robot-hand.yml")
+        )
+        actuator = next(item for item in manifest["bom"] if item["category"] == "actuator")
+        actuator["quantity"] = 11
+        power = next(item for item in manifest["bom"] if item["category"] == "power")
+        power["quantity"] = 3
+        power["specifications"] = [
+            {"name": "output voltage", "value": "12", "unit": "V", "evidence_excerpt": "12 V"},
+            {"name": "rated output current", "value": "5", "unit": "A", "evidence_excerpt": "5 A"},
+        ]
+        power["compatibility"] = [
+            "각 출력은 독립 분기로 유지하고 양(+) 출력 병렬 연결은 절대 금지"
+        ]
+        for item in manifest["bom"]:
+            text = " ".join(str(item.get(field) or "") for field in ("name", "model", "function"))
+            if "퓨즈" in text or "fuse" in text.lower():
+                item["name"] = "퓨즈 홀더"
+                item["model"] = "Fuse holder"
+        errors = _validate_manifest(ROOT, "precise-robot-hand", manifest)
+        self.assertTrue(any("allocation missing" in error for error in errors), errors)
+        self.assertTrue(any("fuse BOM units" in error for error in errors), errors)
+
+        power["compatibility"].append("3개 분기는 액추에이터 4대/4대/3대로 배분")
+        errors = _validate_manifest(ROOT, "precise-robot-hand", manifest)
+        self.assertTrue(any("branch load" in error for error in errors), errors)
 
     def test_generated_source_fields_reject_unsafe_markup(self):
         errors = _unsafe_generated_values(

@@ -353,11 +353,27 @@ def _measurement_in_evidence(specification: dict[str, Any]) -> bool:
         "channel", "channels", "piece", "pieces", "pcs", "ea", "개",
     }:
         return compact_value in compact
-    if re.search(rf"\bunit\s*:\s*{re.escape(unit)}\b", excerpt, re.I):
-        return compact_value in compact
-    return (
+    if (
         f"{compact_value}{compact_unit}" in compact
         or f"{compact_unit}{compact_value}" in compact
+    ):
+        return True
+    unit_header = re.search(
+        rf"\bunit\s*:\s*{re.escape(unit)}\b", excerpt, re.I
+    )
+    if not unit_header:
+        return False
+    nearby = excerpt[unit_header.end() : unit_header.end() + 120]
+    value_pattern = re.compile(
+        rf"(?<![\d.]){re.escape(value)}(?![\d.])", re.I
+    )
+    conflicting_unit = re.compile(
+        r"^\s*(?:mm|cm|km|m|ma|a|vdc|vac|v|w|kw|n(?:[·.]?m)?|kg|g|hz|rpm|ohms?|Ω|°c|deg(?:rees?)?|denier)\b",
+        re.I,
+    )
+    return any(
+        not conflicting_unit.search(nearby[match.end() : match.end() + 16])
+        for match in value_pattern.finditer(nearby)
     )
 
 
@@ -369,8 +385,6 @@ def _module_bom_consistency_errors(
         item for item in bom
         if isinstance(item, dict) and item.get("category") == "actuator"
     ]
-    if not actuators:
-        return errors
     actuator_count = sum(int(item.get("quantity") or 0) for item in actuators)
     actuator_peak = sum(
         (_current_amps(item) or 0.0) * int(item.get("quantity") or 0)
@@ -393,6 +407,11 @@ def _module_bom_consistency_errors(
         for item in bom
         if isinstance(item, dict)
     )
+    bom_citation_ids = {
+        str(item.get("id") or "").strip().upper()
+        for item in bom
+        if isinstance(item, dict) and str(item.get("id") or "").strip()
+    }
     undersized_paths = [
         item
         for item in bom
@@ -408,13 +427,64 @@ def _module_bom_consistency_errors(
         module_data = dict(module)
         quiz = module_data.pop("quiz", [])
         engineering_values = _string_values(module_data)
-        engineering_values.extend(
-            str(item.get("explanation") or "")
-            for item in quiz
-            if isinstance(item, dict)
-        )
+        for item in quiz:
+            if not isinstance(item, dict):
+                continue
+            engineering_values.append(str(item.get("explanation") or ""))
+            choices = item.get("choices")
+            answer_index = item.get("answer_index")
+            if (
+                isinstance(choices, list)
+                and isinstance(answer_index, int)
+                and 0 <= answer_index < len(choices)
+            ):
+                engineering_values.append(str(choices[answer_index]))
         text = "\n".join(engineering_values)
         lowered = text.lower()
+        invalid_citations = []
+        for raw_token in re.findall(r"\[([^\]\n]{1,80})\]", text):
+            citation_ids = [
+                token.strip() for token in re.split(r"\s*,\s*", raw_token)
+            ]
+            if citation_ids and all(
+                re.fullmatch(r"S[A-Za-z0-9-]*", token)
+                or token.upper() in bom_citation_ids
+                for token in citation_ids
+            ):
+                continue
+            invalid_citations.append(raw_token)
+        if invalid_citations:
+            errors.append(
+                f"{label}: module {module_id} has invalid citation token [{invalid_citations[0]}]"
+            )
+        for sentence in re.split(r"[.!?\n]", text):
+            if (
+                re.search(r"비상\s*정지|E[- ]?stop|emergency\s+stop", sentence, re.I)
+                and re.search(r"단락|short[- ]?circuit", sentence, re.I)
+                and not re.search(
+                    r"금지|하지\s*않|아니|없어야|never|do\s+not|must\s+not",
+                    sentence,
+                    re.I,
+                )
+            ):
+                errors.append(
+                    f"{label}: module {module_id} instructs E-stop short-circuit verification instead of open/de-energized verification"
+                )
+                break
+        for sentence in re.split(r"[.!?\n]", text):
+            if (
+                "ev200" in lowered
+                and re.search(r"500\s*A", sentence, re.I)
+                and re.search(
+                    r"차단\s*정격|차단\s*(?:용량|성능)|breaking\s+(?:rating|capacity)|interrupt(?:ing|ion)?\s+rating",
+                    sentence,
+                    re.I,
+                )
+            ):
+                errors.append(
+                    f"{label}: module {module_id} misstates EV200 500 A continuous-carry rating as breaking rating"
+                )
+                break
         for sentence in re.split(r"[.!?\n]", text):
             if not re.search(r"FSR|분압|voltage\s+divider", sentence, re.I):
                 continue
@@ -438,13 +508,19 @@ def _module_bom_consistency_errors(
                     f"{re.sub(r'\s+', ' ', sentence).strip()[:160]}"
                 )
                 break
-        for match in re.finditer(
+        count_patterns = (
             r"(?:(?:로봇손|전체|총)\s*(?:의\s*)?(?:모터|액추에이터)\s*"
             r"|(?:모터|액추에이터)(?:는|가|의)?\s*(?:전체|총)\s*)"
             r"(\d+)\s*(?:개|대)",
-            text,
-        ):
-            claimed = int(match.group(1))
+            r"(?:본\s*(?:프로젝트|과정)|로봇손|전체|총)[^\n.]{0,24}?"
+            r"(\d+)\s*(?:개|대)(?:의)?[^\n.]{0,36}?(?:모터|액추에이터)",
+        )
+        claimed_counts = {
+            int(match.group(1))
+            for pattern in count_patterns
+            for match in re.finditer(pattern, text)
+        }
+        for claimed in claimed_counts:
             if actuator_count and claimed != actuator_count:
                 errors.append(
                     f"{label}: module {module_id} claims {claimed} actuators but BOM contains {actuator_count}"
@@ -733,6 +809,7 @@ def _validate_manifest(repo: Path, slug: str, manifest: Any) -> list[str]:
                 )
 
     actuator_peak = 0.0
+    actuator_unit_peak = 0.0
     actuator_count = 0
     missing_actuator_current = False
     power_capacity = 0.0
@@ -754,6 +831,7 @@ def _validate_manifest(repo: Path, slug: str, manifest: Any) -> list[str]:
         if category == "actuator":
             actuator_peak += aggregate
             actuator_count += int(item.get("quantity") or 0)
+            actuator_unit_peak = max(actuator_unit_peak, current)
         else:
             power_capacity += aggregate
     if missing_actuator_current:
@@ -769,6 +847,18 @@ def _validate_manifest(repo: Path, slug: str, manifest: Any) -> list[str]:
         for item in bom
         if isinstance(item, dict) and item.get("category") == "power"
     ]
+    for item in bom:
+        if not isinstance(item, dict) or "ev200" not in str(item.get("model") or "").lower():
+            continue
+        compatibility = " ".join(str(value) for value in item.get("compatibility") or [])
+        if re.search(r"500\s*A", compatibility, re.I) and re.search(
+            r"차단\s*정격|차단\s*(?:용량|성능)|breaking\s+(?:rating|capacity)|interrupt(?:ing|ion)?\s+rating",
+            compatibility,
+            re.I,
+        ):
+            errors.append(
+                f"{label}: EV200 500 A is continuous-carry current, not breaking rating"
+            )
     power_branch_count = sum(
         int(item.get("quantity") or 0)
         for item in power_parts
@@ -790,7 +880,11 @@ def _validate_manifest(repo: Path, slug: str, manifest: Any) -> list[str]:
             allocations = re.search(
                 r"(?:\d+\s*대\s*/\s*)+\d+\s*대", compatibility
             )
-            if allocations:
+            if not allocations:
+                errors.append(
+                    f"{label}: power branch actuator allocation missing for multiple supplies"
+                )
+            else:
                 branch_loads = [
                     int(value) for value in re.findall(r"\d+", allocations.group())
                 ]
@@ -803,14 +897,39 @@ def _validate_manifest(repo: Path, slug: str, manifest: Any) -> list[str]:
                     errors.append(
                         f"{label}: branch allocation covers {sum(branch_loads)} actuators but BOM contains {actuator_count}"
                     )
+                per_supply_current = _current_amps(item) or 0.0
+                overloaded = [
+                    load
+                    for load in branch_loads
+                    if actuator_unit_peak
+                    and per_supply_current
+                    and load * actuator_unit_peak > per_supply_current
+                ]
+                if overloaded:
+                    errors.append(
+                        f"{label}: branch load {max(overloaded)} x {actuator_unit_peak:g} A exceeds per-supply capacity {per_supply_current:g} A"
+                    )
         fuse_count = sum(
             int(item.get("quantity") or 0)
             for item in bom
             if isinstance(item, dict)
-            and re.search(
-                r"퓨즈|fuse",
-                " ".join(str(item.get(field) or "") for field in ("name", "model", "function")),
-                re.I,
+            and (
+                re.search(
+                    r"퓨즈|fuse",
+                    " ".join(
+                        str(item.get(field) or "")
+                        for field in ("name", "model", "function")
+                    ),
+                    re.I,
+                )
+                and not re.search(
+                    r"퓨즈\s*홀더|fuse\s*holder",
+                    " ".join(
+                        str(item.get(field) or "")
+                        for field in ("name", "model", "function")
+                    ),
+                    re.I,
+                )
             )
         )
         if fuse_count < power_branch_count:
