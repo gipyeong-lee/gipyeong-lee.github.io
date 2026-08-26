@@ -5,11 +5,11 @@ course_slug: precise-robot-hand
 permalink: /learn/precise-robot-hand/
 no_ads: true
 generated_by: mindtickle-studio
-generation_run_id: ca4b0e25920a41ad92a16da990566600
+generation_run_id: 3ca2965e61714873a61aae4a38b18a0d
 ---
 
-부품 선택부터 설계, 제작, 제어, 검증까지 따라 하면 정교한 5지 로봇손을 완성할 수 있는 대학·대학원 수준의 교과과정.
+부품 선택부터 설계, 제작, 제어, 검증까지 따라 하며 5지 로봇손을 완성하는 대학 수준의 프로젝트 기반 교육 과정.
 
 ## 과정 완료 목표
 
-로봇손의 기구학적 설계, 텐션 구동 제어, 임베디드 제어 시스템 통합 및 성능 검증 능력 확보.
+로봇 매커니즘 이해, 정밀 제어 구현, 로봇손 시스템 설계 및 제작 역량 확보.
