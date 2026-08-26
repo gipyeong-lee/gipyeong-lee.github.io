@@ -575,6 +575,16 @@ class LearnFoundationContractTest(unittest.TestCase):
 
         self.assertTrue(any("DC voltage" in error for error in errors), errors)
 
+    def test_module_allows_warning_not_to_use_resistance_for_deenergized_state(self):
+        modules = [{
+            "id": "M1",
+            "content": "저항/연속성 모드를 전원 차단 상태 확인용으로 사용하지 않는다.",
+        }]
+
+        errors = _module_bom_consistency_errors(modules, [], "course")
+
+        self.assertFalse(any("DC voltage" in error for error in errors), errors)
+
     def test_course_safety_summary_rejects_learner_estop_requirement(self):
         manifest = copy.deepcopy(
             _load_yaml(ROOT / "_data" / "learn" / "precise-robot-hand.yml")

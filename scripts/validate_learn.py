@@ -599,10 +599,19 @@ def _module_bom_consistency_errors(
                 sentence,
                 re.I,
             )
+            rejects_resistance_check = re.search(
+                r"(?:저항|무한대|도통|resistan|ohm|continuity)"
+                r"[^.!?\n]{0,100}(?:사용하지\s*않|사용\s*금지|쓰지\s*않|"
+                r"증명할\s*수\s*없|금지|do\s+not\s+use|never\s+use|"
+                r"cannot\s+(?:verify|confirm|prove)|not\s+(?:proof|evidence))",
+                sentence,
+                re.I,
+            )
             if (
                 resistance_check
                 and verifies_state
                 and (claims_deenergized or connects_power_source)
+                and not rejects_resistance_check
             ):
                 errors.append(
                     f"{label}: module {module_id} must verify de-energized state in DC voltage mode, not by resistance"
