@@ -179,7 +179,7 @@ class LearnFoundationContractTest(unittest.TestCase):
             {
                 "id": "M1",
                 "content": (
-                    "액추에이터 5대의 총 전류는 7.5 amperes다. "
+                    "로봇손 액추에이터 5대의 총 전류는 7.5 amperes다. "
                     "XM430 액추에이터 구동 전원으로 24 V를 인가한다. "
                     "3개 전원 어댑터 출력을 병렬로 연결한다."
                 ),
@@ -198,6 +198,18 @@ class LearnFoundationContractTest(unittest.TestCase):
         }]
         errors = _module_bom_consistency_errors(modules, [], "course")
         self.assertFalse(any("parallels" in error for error in errors), errors)
+
+    def test_single_actuator_lab_does_not_claim_total_system_count(self):
+        bom = [{
+            "category": "actuator",
+            "name": "Smart Servo",
+            "model": "XM430",
+            "quantity": 11,
+            "specifications": [],
+        }]
+        modules = [{"id": "M1", "content": "액추에이터 1개를 무부하 상태로 시험한다."}]
+        errors = _module_bom_consistency_errors(modules, bom, "course")
+        self.assertFalse(any("actuators but BOM" in error for error in errors), errors)
 
     def test_generated_source_fields_reject_unsafe_markup(self):
         errors = _unsafe_generated_values(

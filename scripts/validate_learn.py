@@ -408,8 +408,9 @@ def _module_bom_consistency_errors(
         text = "\n".join(_string_values(module))
         lowered = text.lower()
         for match in re.finditer(
-            r"(?:(?:로봇손|전체|총)\s*(?:의\s*)?)?"
-            r"(?:모터|액추에이터)\s*(\d+)\s*(?:개|대)",
+            r"(?:(?:로봇손|전체|총)\s*(?:의\s*)?(?:모터|액추에이터)\s*"
+            r"|(?:모터|액추에이터)(?:는|가|의)?\s*(?:전체|총)\s*)"
+            r"(\d+)\s*(?:개|대)",
             text,
         ):
             claimed = int(match.group(1))
@@ -501,7 +502,13 @@ def _module_bom_consistency_errors(
                 r"위험|순환\s*전류|역류|화재|손상|고장|과열", sentence
             ):
                 continue
-            if re.search(r"병렬(?:로)?\s*(?:묶|연결|합산|구성)|parallel(?:ed|ly)?\s+(?:connect|combine|wire)", sentence, re.I):
+            if re.search(
+                r"병렬(?:로)?\s*(?:묶|연결|합산|구성)"
+                r"(?:한다|하여|하고|해\s*(?:사용|공급|운용|합산)|하도록|한다는)"
+                r"|parallel(?:ed|ly)?\s+(?:connect|combine|wire)",
+                sentence,
+                re.I,
+            ):
                 errors.append(
                     f"{label}: module {module_id} parallels independent power-supply outputs"
                 )
