@@ -630,6 +630,8 @@ def _module_bom_consistency_errors(
             (r"(?:\d+(?:\.\d+)?\s*mm\s*)?(?:샤프트|shaft)", ("샤프트", "shaft"), "shaft"),
         )
         for pattern, bom_tokens, component_label in required_components:
+            if not bom:
+                continue
             if not re.search(pattern, text, re.I):
                 continue
             if any(token in bom_component_text for token in bom_tokens):
