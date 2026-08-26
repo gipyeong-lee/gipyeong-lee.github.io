@@ -638,6 +638,16 @@ class LearnFoundationContractTest(unittest.TestCase):
 
         self.assertTrue(any("safety summary requires learner E-stop" in error for error in errors), errors)
 
+    def test_capstone_rejects_learner_estop_button_check(self):
+        manifest = copy.deepcopy(
+            _load_yaml(ROOT / "_data" / "learn" / "precise-robot-hand.yml")
+        )
+        manifest["capstone"]["safety"] = ["비상 정지 버튼 작동 여부 확인"]
+
+        errors = _validate_manifest(ROOT, "precise-robot-hand", manifest)
+
+        self.assertTrue(any("capstone requires learner E-stop" in error for error in errors), errors)
+
     def test_safety_summary_eye_protection_must_be_a_required_tool(self):
         manifest = copy.deepcopy(
             _load_yaml(ROOT / "_data" / "learn" / "precise-robot-hand.yml")

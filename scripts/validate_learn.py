@@ -887,6 +887,28 @@ def _module_bom_consistency_errors(
     return errors
 
 
+def _unsafe_estop_requirement(value: str) -> bool:
+    return bool(
+        re.search(
+            r"비상\s*(?:정지|차단기?)|E[- ]?stop|emergency\s+(?:stop|cutoff)",
+            value,
+            re.I,
+        )
+        and re.search(
+            r"적용|설치|사용|구성|배선|연결|조립|시운전|작동|시험|검증|확인|"
+            r"apply|install|use|wire|connect|assembl|commission|operate|test|verify|check",
+            value,
+            re.I,
+        )
+        and not re.search(
+            r"금지|하지\s*않|아니|범위\s*밖|별도|자격.{0,12}전문|"
+            r"never|do\s+not|out\s+of\s+scope|qualified",
+            value,
+            re.I,
+        )
+    )
+
+
 def _validate_manifest(repo: Path, slug: str, manifest: Any) -> list[str]:
     errors: list[str] = []
     label = f"_data/learn/{slug}.yml"
@@ -913,23 +935,7 @@ def _validate_manifest(repo: Path, slug: str, manifest: Any) -> list[str]:
         errors.append(f"{label}: safety summary eye protection is missing from required tools")
     for index, summary in enumerate(course.get("safety_summary") or []):
         summary = str(summary)
-        if (
-            re.search(
-                r"비상\s*(?:정지|차단기?)|E[- ]?stop|emergency\s+(?:stop|cutoff)",
-                summary,
-                re.I,
-            )
-            and re.search(
-                r"적용|설치|사용|구성|배선|연결|조립|시운전|apply|install|use|wire|connect|assembl|commission",
-                summary,
-                re.I,
-            )
-            and not re.search(
-                r"금지|하지\s*않|아니|범위\s*밖|별도|자격.{0,12}전문|never|do\s+not|out\s+of\s+scope|qualified",
-                summary,
-                re.I,
-            )
-        ):
+        if _unsafe_estop_requirement(summary):
             errors.append(
                 f"{label}: safety summary requires learner E-stop hardware at item {index}"
             )
@@ -948,8 +954,15 @@ def _validate_manifest(repo: Path, slug: str, manifest: Any) -> list[str]:
         bom: list[Any] = []
     else:
         bom = raw_bom
-    if not isinstance(manifest.get("capstone"), dict):
+    capstone = manifest.get("capstone")
+    if not isinstance(capstone, dict):
         errors.append(f"{label}: capstone must be a mapping")
+    else:
+        for index, criterion in enumerate(capstone.get("safety") or []):
+            if _unsafe_estop_requirement(str(criterion)):
+                errors.append(
+                    f"{label}: capstone requires learner E-stop hardware at item {index}"
+                )
 
     source_ids: set[str] = set()
     source_types: dict[str, str] = {}
