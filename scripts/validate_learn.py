@@ -1344,6 +1344,26 @@ def _validate_manifest(repo: Path, slug: str, manifest: Any) -> list[str]:
             errors.append(
                 f"{label}: {power_branch_count} independent power branches lack matching fuse BOM units"
             )
+        fuse_holder_parts = [
+            item
+            for item in bom
+            if isinstance(item, dict)
+            and re.search(
+                r"퓨즈\s*홀더|fuse\s*holder",
+                " ".join(
+                    str(item.get(field) or "")
+                    for field in ("name", "model", "function")
+                ),
+                re.I,
+            )
+        ]
+        fuse_holder_count = sum(
+            int(item.get("quantity") or 0) for item in fuse_holder_parts
+        )
+        if fuse_holder_count < power_branch_count:
+            errors.append(
+                f"{label}: {power_branch_count} independent power branches lack matching fuse-holder BOM units"
+            )
         fuse_ratings = [
             rating for item in fuse_parts if (rating := _current_amps(item))
         ]

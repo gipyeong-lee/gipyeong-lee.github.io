@@ -598,6 +598,19 @@ class LearnFoundationContractTest(unittest.TestCase):
         errors = _validate_manifest(ROOT, "precise-robot-hand", manifest)
         self.assertTrue(any("branch load" in error for error in errors), errors)
 
+    def test_each_power_branch_requires_its_own_fuse_holder(self):
+        manifest = copy.deepcopy(
+            _load_yaml(ROOT / "_data" / "learn" / "precise-robot-hand.yml")
+        )
+        power = next(item for item in manifest["bom"] if item["category"] == "power")
+        power["quantity"] = 3
+        holder = next(item for item in manifest["bom"] if item.get("model") == "0AFH0001Z")
+        holder["quantity"] = 2
+
+        errors = _validate_manifest(ROOT, "precise-robot-hand", manifest)
+
+        self.assertTrue(any("fuse-holder BOM units" in error for error in errors), errors)
+
     def test_branch_fuse_rating_must_sit_between_peak_and_supply(self):
         manifest = copy.deepcopy(
             _load_yaml(ROOT / "_data" / "learn" / "precise-robot-hand.yml")
