@@ -492,7 +492,7 @@ def _module_bom_consistency_errors(
                 continue
             if re.search(
                 r"금지|하지\s*않|연결하지|묶지|(?:허용|사용)하지\s*않|"
-                r"안\s*(?:됨|된다)|불가|말아야|"
+                r"안\s*(?:됨|된다)|불가|말아야|아니|잘못|오해|피하|방지|"
                 r"never|do\s+not|must\s+not|shall\s+not|forbidden|prohibited|avoid",
                 sentence,
                 re.I,
@@ -510,7 +510,8 @@ def _module_bom_consistency_errors(
                 re.I,
             ):
                 errors.append(
-                    f"{label}: module {module_id} parallels independent power-supply outputs"
+                    f"{label}: module {module_id} parallels independent power-supply outputs: "
+                    f"{re.sub(r'\s+', ' ', sentence).strip()[:160]}"
                 )
                 break
 

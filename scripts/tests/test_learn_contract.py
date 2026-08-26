@@ -194,7 +194,10 @@ class LearnFoundationContractTest(unittest.TestCase):
     def test_parallel_supply_hazard_warning_is_not_assembly_instruction(self):
         modules = [{
             "id": "M1",
-            "content": "독립 전원 어댑터 출력을 병렬로 연결하면 순환 전류와 화재 위험이 생긴다.",
+            "content": (
+                "독립 전원 어댑터 출력을 병렬로 연결하면 순환 전류와 화재 위험이 생긴다. "
+                "각 출력을 병렬로 구성한다는 뜻이 아니라 전기적으로 분리한다."
+            ),
         }]
         errors = _module_bom_consistency_errors(modules, [], "course")
         self.assertFalse(any("parallels" in error for error in errors), errors)
