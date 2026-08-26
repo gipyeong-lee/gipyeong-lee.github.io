@@ -360,6 +360,16 @@ class LearnFoundationContractTest(unittest.TestCase):
         )
         self.assertTrue(any("invalid citation token [S999]" in error for error in errors), errors)
 
+    def test_bracketed_branch_allocation_is_not_treated_as_citation(self):
+        modules = [{
+            "id": "M1",
+            "content": "세 전원 분기의 배분은 [4대, 4대, 3대]이다.",
+        }]
+
+        errors = _module_bom_consistency_errors(modules, [], "course")
+
+        self.assertFalse(any("invalid citation token" in error for error in errors), errors)
+
     def test_academic_module_safety_validation_does_not_require_actuator_bom(self):
         modules = [{
             "id": "M1",

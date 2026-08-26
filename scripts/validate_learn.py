@@ -336,6 +336,16 @@ def _string_values(value: Any) -> list[str]:
     return [value] if isinstance(value, str) else []
 
 
+def _citation_like_token(raw_token: str) -> bool:
+    return any(
+        re.fullmatch(
+            r"(?:[SB](?:\d[A-Za-z0-9_-]*|-[A-Za-z0-9_-]+)?|BOM|bom_system_truth)",
+            token.strip(),
+        )
+        for token in re.split(r"\s*,\s*", raw_token)
+    )
+
+
 def _unsafe_generated_values(value: Any, path: str = "manifest") -> list[str]:
     errors: list[str] = []
     if isinstance(value, dict):
@@ -566,6 +576,8 @@ def _module_bom_consistency_errors(
         lowered = text.lower()
         invalid_citations = []
         for raw_token in re.findall(r"\[([^\]\n]{1,80})\]", text):
+            if not _citation_like_token(raw_token):
+                continue
             citation_ids = [
                 token.strip() for token in re.split(r"\s*,\s*", raw_token)
             ]
