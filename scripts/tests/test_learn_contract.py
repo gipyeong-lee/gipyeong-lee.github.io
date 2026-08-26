@@ -236,6 +236,29 @@ class LearnFoundationContractTest(unittest.TestCase):
         errors = _module_bom_consistency_errors(safe, bom, "course")
         self.assertFalse(any("FSR divider above 3.3 V" in error for error in errors), errors)
 
+    def test_unsafe_quiz_distractor_is_not_build_instruction(self):
+        bom = [{
+            "category": "actuator",
+            "name": "Smart Servo",
+            "model": "XM430",
+            "quantity": 11,
+            "specifications": [],
+        }]
+        modules = [{
+            "id": "M1",
+            "quiz": [{
+                "question": "안전한 전원 구성은 무엇인가?",
+                "choices": [
+                    "각 출력은 독립 분기로 유지한다.",
+                    "배터리를 추가하여 모든 어댑터 출력을 병렬로 연결한다.",
+                ],
+                "answer_index": 0,
+                "explanation": "각 전원 출력은 전기적으로 분리해야 한다.",
+            }],
+        }]
+        errors = _module_bom_consistency_errors(modules, bom, "course")
+        self.assertFalse(any("parallels" in error for error in errors), errors)
+
     def test_generated_source_fields_reject_unsafe_markup(self):
         errors = _unsafe_generated_values(
             {"sources": [{"title": "<img src=x onerror=alert(1)>"}]}

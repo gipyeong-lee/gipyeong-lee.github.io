@@ -405,7 +405,15 @@ def _module_bom_consistency_errors(
         if not isinstance(module, dict):
             continue
         module_id = str(module.get("id") or index)
-        text = "\n".join(_string_values(module))
+        module_data = dict(module)
+        quiz = module_data.pop("quiz", [])
+        engineering_values = _string_values(module_data)
+        engineering_values.extend(
+            str(item.get("explanation") or "")
+            for item in quiz
+            if isinstance(item, dict)
+        )
+        text = "\n".join(engineering_values)
         lowered = text.lower()
         for sentence in re.split(r"[.!?\n]", text):
             if not re.search(r"FSR|분압|voltage\s+divider", sentence, re.I):
