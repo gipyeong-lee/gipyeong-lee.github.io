@@ -53,6 +53,7 @@ class LearnFoundationContractTest(unittest.TestCase):
         self.assertIn("site.data.learn[page.course_slug]", course)
         self.assertIn("page.module_id", module)
         self.assertIn("item.specifications", course)
+        self.assertIn("specification.unit == 'dimensionless'", course)
         self.assertIn("course.course.required_tools", course)
         self.assertIn("item.alternatives", course)
         self.assertIn("item.compatibility", course)
