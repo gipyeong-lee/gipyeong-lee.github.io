@@ -489,7 +489,17 @@ def _module_bom_consistency_errors(
                 continue
             if not re.search(r"병렬|parallel", sentence, re.I):
                 continue
-            if re.search(r"금지|하지\s*않|연결하지|묶지|never|do\s+not|must\s+not", sentence, re.I):
+            if re.search(
+                r"금지|하지\s*않|연결하지|묶지|(?:허용|사용)하지\s*않|"
+                r"안\s*(?:됨|된다)|불가|말아야|"
+                r"never|do\s+not|must\s+not|shall\s+not|forbidden|prohibited|avoid",
+                sentence,
+                re.I,
+            ):
+                continue
+            if re.search(r"(?:하면|할\s*(?:경우|때)|했을\s*때|시)", sentence) and re.search(
+                r"위험|순환\s*전류|역류|화재|손상|고장|과열", sentence
+            ):
                 continue
             if re.search(r"병렬(?:로)?\s*(?:묶|연결|합산|구성)|parallel(?:ed|ly)?\s+(?:connect|combine|wire)", sentence, re.I):
                 errors.append(

@@ -191,6 +191,14 @@ class LearnFoundationContractTest(unittest.TestCase):
         self.assertTrue(any("24" in error or "voltage" in error for error in errors), errors)
         self.assertTrue(any("parallels" in error for error in errors), errors)
 
+    def test_parallel_supply_hazard_warning_is_not_assembly_instruction(self):
+        modules = [{
+            "id": "M1",
+            "content": "독립 전원 어댑터 출력을 병렬로 연결하면 순환 전류와 화재 위험이 생긴다.",
+        }]
+        errors = _module_bom_consistency_errors(modules, [], "course")
+        self.assertFalse(any("parallels" in error for error in errors), errors)
+
     def test_generated_source_fields_reject_unsafe_markup(self):
         errors = _unsafe_generated_values(
             {"sources": [{"title": "<img src=x onerror=alert(1)>"}]}
