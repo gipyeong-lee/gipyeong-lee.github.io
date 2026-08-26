@@ -733,6 +733,7 @@ def _validate_manifest(repo: Path, slug: str, manifest: Any) -> list[str]:
                 )
 
     actuator_peak = 0.0
+    actuator_count = 0
     missing_actuator_current = False
     power_capacity = 0.0
     missing_power_current = False
@@ -752,6 +753,7 @@ def _validate_manifest(repo: Path, slug: str, manifest: Any) -> list[str]:
         aggregate = current * int(item.get("quantity") or 0)
         if category == "actuator":
             actuator_peak += aggregate
+            actuator_count += int(item.get("quantity") or 0)
         else:
             power_capacity += aggregate
     if missing_actuator_current:
@@ -785,6 +787,22 @@ def _validate_manifest(repo: Path, slug: str, manifest: Any) -> list[str]:
                 errors.append(
                     f"{label}: multiple power supplies must use isolated branches and prohibit output paralleling"
                 )
+            allocations = re.search(
+                r"(?:\d+\s*대\s*/\s*)+\d+\s*대", compatibility
+            )
+            if allocations:
+                branch_loads = [
+                    int(value) for value in re.findall(r"\d+", allocations.group())
+                ]
+                supply_count = int(item.get("quantity") or 0)
+                if len(branch_loads) != supply_count:
+                    errors.append(
+                        f"{label}: power BOM has {supply_count} supplies but allocation declares {len(branch_loads)} branches"
+                    )
+                if actuator_count and sum(branch_loads) != actuator_count:
+                    errors.append(
+                        f"{label}: branch allocation covers {sum(branch_loads)} actuators but BOM contains {actuator_count}"
+                    )
         fuse_count = sum(
             int(item.get("quantity") or 0)
             for item in bom

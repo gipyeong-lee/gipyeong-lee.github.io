@@ -102,6 +102,22 @@ class LearnFoundationContractTest(unittest.TestCase):
         errors = _validate_manifest(ROOT, "precise-robot-hand", manifest)
         self.assertFalse(any("BOM" in error or "actuator peak" in error for error in errors), errors)
 
+    def test_power_branch_allocation_matches_supply_and_actuator_counts(self):
+        manifest = copy.deepcopy(
+            _load_yaml(ROOT / "_data" / "learn" / "precise-robot-hand.yml")
+        )
+        actuator = next(item for item in manifest["bom"] if item["category"] == "actuator")
+        actuator["quantity"] = 10
+        power = next(item for item in manifest["bom"] if item["category"] == "power")
+        power["quantity"] = 2
+        power["compatibility"] = [
+            "각 출력은 독립 분기로 유지하고 양(+) 출력 병렬 연결은 절대 금지",
+            "3개 분기는 액추에이터 4대/4대/3대로 배분",
+        ]
+        errors = _validate_manifest(ROOT, "precise-robot-hand", manifest)
+        self.assertTrue(any("2 supplies" in error and "3 branches" in error for error in errors), errors)
+        self.assertTrue(any("11 actuators" in error and "10" in error for error in errors), errors)
+
     def test_bom_specification_requires_correct_unit_and_grounded_excerpt(self):
         coefficient = {
             "name": "friction coefficient",
