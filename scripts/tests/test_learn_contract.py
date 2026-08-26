@@ -214,6 +214,28 @@ class LearnFoundationContractTest(unittest.TestCase):
         errors = _module_bom_consistency_errors(modules, bom, "course")
         self.assertFalse(any("actuators but BOM" in error for error in errors), errors)
 
+    def test_opencr_fsr_divider_rejects_actuator_rail_voltage(self):
+        bom = [{
+            "category": "actuator",
+            "name": "Smart Servo",
+            "model": "XM430",
+            "quantity": 11,
+            "specifications": [],
+        }]
+        unsafe = [{
+            "id": "M1",
+            "content": "12 V 입력 전원 하에서 FSR과 10 kΩ 저항으로 분압기를 구성한다.",
+        }]
+        errors = _module_bom_consistency_errors(unsafe, bom, "course")
+        self.assertTrue(any("FSR divider above 3.3 V" in error for error in errors), errors)
+
+        safe = [{
+            "id": "M1",
+            "content": "3.3 V 센서 전원으로 FSR과 10 kΩ 저항 분압기를 구성한다.",
+        }]
+        errors = _module_bom_consistency_errors(safe, bom, "course")
+        self.assertFalse(any("FSR divider above 3.3 V" in error for error in errors), errors)
+
     def test_generated_source_fields_reject_unsafe_markup(self):
         errors = _unsafe_generated_values(
             {"sources": [{"title": "<img src=x onerror=alert(1)>"}]}

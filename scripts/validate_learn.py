@@ -407,6 +407,29 @@ def _module_bom_consistency_errors(
         module_id = str(module.get("id") or index)
         text = "\n".join(_string_values(module))
         lowered = text.lower()
+        for sentence in re.split(r"[.!?\n]", text):
+            if not re.search(r"FSR|분압|voltage\s+divider", sentence, re.I):
+                continue
+            if re.search(
+                r"초과하지|연결하지|사용하지|분리|금지|never|do\s+not|must\s+not",
+                sentence,
+                re.I,
+            ):
+                continue
+            context_voltages = [
+                float(value)
+                for value in re.findall(
+                    r"(?<![\d.])(\d+(?:\.\d+)?)\s*V(?![A-Za-z])",
+                    sentence,
+                    re.I,
+                )
+            ]
+            if any(value > 3.3 for value in context_voltages):
+                errors.append(
+                    f"{label}: module {module_id} drives an OpenCR FSR divider above 3.3 V: "
+                    f"{re.sub(r'\s+', ' ', sentence).strip()[:160]}"
+                )
+                break
         for match in re.finditer(
             r"(?:(?:로봇손|전체|총)\s*(?:의\s*)?(?:모터|액추에이터)\s*"
             r"|(?:모터|액추에이터)(?:는|가|의)?\s*(?:전체|총)\s*)"
