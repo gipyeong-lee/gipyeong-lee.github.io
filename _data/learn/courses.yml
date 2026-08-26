@@ -1,13 +1,14 @@
 - slug: precise-robot-hand
   title: 정교한 5지 로봇손 만들기
-  summary: 로봇 공학의 기초부터 시작하여 5지 로봇손의 설계, 제작, 제어 및 검증 과정을 체계적으로 학습하는 프로젝트 중심 교육과정입니다.
-  outcome: 학습자는 5지 로봇손의 메커니즘을 설계하고, 액추에이터 및 센서를 제어하여 실제 작동하는 프로토타입을 완성할 수 있습니다.
-  level: beginner
+  summary: 로봇손의 기구학 기초부터 부품 선정, 3D 프린팅, 텐던 구동 시스템 제작, 임베디드 제어까지 전 과정을 아우르는 실습 중심의
+    통합 커리큘럼입니다.
+  outcome: 독립적인 5지 로봇손 설계 및 제어 시스템 구현 능력 확보
+  level: intermediate
   estimated_hours: 100.0
   budget_krw:
     min: 1000000
     max: 1500000
-  module_count: 10
+  module_count: 8
   last_reviewed: '2026-08-26'
-  curriculum_version: 1.0.0+8eed1e2f2af9
+  curriculum_version: 1.0.0+54fa2f394082
   url: /learn/precise-robot-hand/
