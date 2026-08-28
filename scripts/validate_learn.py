@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import html as html_lib
 import json
 import re
 import subprocess
@@ -1937,7 +1938,7 @@ def validate_repo(repo: Path, site_dir: Optional[Path] = None) -> list[str]:
 
     localized_languages: list[str] = []
     for language in LEARN_TARGET_LANGUAGES:
-        locale_index_path = repo / "_data" / "learn" / f"courses.{language}.yml"
+        locale_index_path = repo / "_data" / "learn" / f"courses-{language}.yml"
         if not locale_index_path.is_file():
             continue
         localized_languages.append(language)
@@ -1948,9 +1949,9 @@ def validate_repo(repo: Path, site_dir: Optional[Path] = None) -> list[str]:
             catalogue_front = _front_matter(catalogue_path)
             if catalogue_front.get("lang") != language:
                 errors.append(f"{catalogue_path}: expected lang {language}")
-            if catalogue_front.get("learn_index_key") != f"courses.{language}":
+            if catalogue_front.get("learn_index_key") != f"courses-{language}":
                 errors.append(
-                    f"{catalogue_path}: expected learn_index_key courses.{language}"
+                    f"{catalogue_path}: expected learn_index_key courses-{language}"
                 )
         try:
             loaded_locale_index = _load_yaml(locale_index_path)
@@ -1971,7 +1972,7 @@ def validate_repo(repo: Path, site_dir: Optional[Path] = None) -> list[str]:
             if locale_entry.get("url") != expected_url:
                 errors.append(f"{locale_index_path}: {slug} URL must be {expected_url}")
             locale_manifest_path = (
-                repo / "_data" / "learn" / f"{slug}.{language}.yml"
+                repo / "_data" / "learn" / f"{slug}-{language}.yml"
             )
             if not locale_manifest_path.is_file():
                 errors.append(f"{locale_manifest_path}: localized manifest missing")
@@ -2014,9 +2015,9 @@ def validate_repo(repo: Path, site_dir: Optional[Path] = None) -> list[str]:
                 front = _front_matter(page_path)
                 if front.get("lang") != language:
                     errors.append(f"{page_path}: expected lang {language}")
-                if front.get("course_data_key") != f"{slug}.{language}":
+                if front.get("course_data_key") != f"{slug}-{language}":
                     errors.append(
-                        f"{page_path}: expected course_data_key {slug}.{language}"
+                        f"{page_path}: expected course_data_key {slug}-{language}"
                     )
                 if front.get("permalink") != expected_permalink:
                     errors.append(
@@ -2079,7 +2080,7 @@ def validate_repo(repo: Path, site_dir: Optional[Path] = None) -> list[str]:
                 if not catalogue_html.is_file():
                     errors.append(f"{catalogue_html}: built localized catalogue missing")
                 locale_index = _load_yaml(
-                    repo / "_data" / "learn" / f"courses.{language}.yml"
+                    repo / "_data" / "learn" / f"courses-{language}.yml"
                 )
                 for locale_entry in locale_index or []:
                     if not isinstance(locale_entry, dict):
@@ -2090,6 +2091,27 @@ def validate_repo(repo: Path, site_dir: Optional[Path] = None) -> list[str]:
                     built_course = site_dir.resolve() / url.lstrip("/") / "index.html"
                     if not built_course.is_file():
                         errors.append(f"{built_course}: built localized course missing")
+                        continue
+                    manifest_path = (
+                        repo / "_data" / "learn" / f"{locale_entry.get('slug')}-{language}.yml"
+                    )
+                    try:
+                        manifest = _load_yaml(manifest_path)
+                    except (OSError, ValueError, json.JSONDecodeError):
+                        continue
+                    title = str(
+                        ((manifest or {}).get("course") or {}).get("title") or ""
+                    )
+                    built_text = built_course.read_text(encoding="utf-8")
+                    escaped_title = html_lib.escape(title, quote=True)
+                    if title and not re.search(
+                        rf"<h1\b[^>]*>\s*{re.escape(escaped_title)}\s*</h1>",
+                        built_text,
+                        re.IGNORECASE,
+                    ):
+                        errors.append(
+                            f"{built_course}: localized course title did not render from manifest"
+                        )
     return errors
 
 

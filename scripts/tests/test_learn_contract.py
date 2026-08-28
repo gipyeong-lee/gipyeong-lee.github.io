@@ -1256,14 +1256,14 @@ class LearnFoundationContractTest(unittest.TestCase):
             data_dir = repo / "_data" / "learn"
             data_dir.mkdir(parents=True)
             (data_dir / "courses.yml").write_text("[]\n", encoding="utf-8")
-            (data_dir / "courses.en.yml").write_text(
+            (data_dir / "courses-en.yml").write_text(
                 "- slug: robot-hand\n  url: /learn/en/robot-hand/\n",
                 encoding="utf-8",
             )
 
             errors = validate_repo(repo)
 
-            self.assertTrue(any("robot-hand.en.yml" in error for error in errors), errors)
+            self.assertTrue(any("robot-hand-en.yml" in error for error in errors), errors)
             self.assertTrue(any("_pages/learn.en.md" in error for error in errors), errors)
 
     def test_built_locale_route_requires_matching_html_language(self):
@@ -1279,6 +1279,44 @@ class LearnFoundationContractTest(unittest.TestCase):
             errors = validate_repo(repo, site_dir=page.parents[2])
 
             self.assertTrue(any("expected html lang ja" in error for error in errors), errors)
+
+    def test_built_localized_course_requires_manifest_title_in_h1(self):
+        with TemporaryDirectory() as directory:
+            repo = Path(directory) / "repo"
+            data_dir = repo / "_data" / "learn"
+            data_dir.mkdir(parents=True)
+            (data_dir / "courses.yml").write_text("[]\n", encoding="utf-8")
+            (data_dir / "courses-en.yml").write_text(
+                "- slug: robot-hand\n  url: /learn/en/robot-hand/\n",
+                encoding="utf-8",
+            )
+            (data_dir / "robot-hand-en.yml").write_text(
+                "course:\n  title: English Robot Hand\nmodules: []\n"
+                "localization:\n  language: en\n",
+                encoding="utf-8",
+            )
+            page = repo / "_pages" / "learn.en.md"
+            page.parent.mkdir(parents=True)
+            page.write_text(
+                "---\nlang: en\nlearn_index_key: courses-en\n---\n",
+                encoding="utf-8",
+            )
+            site = Path(directory) / "site"
+            catalogue = site / "learn" / "en" / "index.html"
+            catalogue.parent.mkdir(parents=True)
+            catalogue.write_text('<html lang="en"></html>', encoding="utf-8")
+            built_course = site / "learn" / "en" / "robot-hand" / "index.html"
+            built_course.parent.mkdir(parents=True)
+            built_course.write_text(
+                '<html lang="en"><body><h1></h1></body></html>', encoding="utf-8"
+            )
+
+            errors = validate_repo(repo, site_dir=site)
+
+            self.assertTrue(
+                any("localized course title did not render" in error for error in errors),
+                errors,
+            )
 
 
 if __name__ == "__main__":
