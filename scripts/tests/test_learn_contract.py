@@ -245,7 +245,10 @@ class LearnFoundationContractTest(unittest.TestCase):
         ]
         modules = [{
             "id": "M1",
-            "content": "각 독립 12 V 분기의 양(+) 출력과 전원 제어기를 Micro-Fit 3.0으로 연결한다.",
+            "content": (
+                "액추에이터 4대 배분에 맞춰 Micro-Fit 3.0 커넥터로 "
+                "독립 분기 전원 하네스를 제작한다."
+            ),
         }]
 
         errors = _module_bom_consistency_errors(modules, bom, "course")
