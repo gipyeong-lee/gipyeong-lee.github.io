@@ -138,6 +138,25 @@ def _host_matches(host: str, suffixes: tuple[str, ...]) -> bool:
     return any(host == suffix or host.endswith(f".{suffix}") for suffix in suffixes)
 
 
+def _valid_sponsorship_url(url: str) -> bool:
+    if not url:
+        return True
+    try:
+        parsed = urlparse(url)
+        port = parsed.port
+    except ValueError:
+        return False
+    return (
+        parsed.scheme == "https"
+        and parsed.hostname in {"buy.stripe.com", "donate.stripe.com"}
+        and parsed.username is None
+        and parsed.password is None
+        and port is None
+        and bool(parsed.path.strip("/"))
+        and not any(character.isspace() for character in url)
+    )
+
+
 def _source_type_authoritative(url: str, source_type: str) -> bool:
     parsed = urlparse(url)
     host = (parsed.hostname or "").lower().rstrip(".")
@@ -1862,6 +1881,27 @@ def _validate_manifest(repo: Path, slug: str, manifest: Any) -> list[str]:
 def validate_repo(repo: Path, site_dir: Optional[Path] = None) -> list[str]:
     repo = repo.resolve()
     errors: list[str] = []
+    sponsorship_path = repo / "_data" / "learn_settings.yml"
+    if sponsorship_path.is_file():
+        try:
+            sponsorship_settings = _load_yaml(sponsorship_path)
+            sponsorship = (
+                sponsorship_settings.get("sponsorship")
+                if isinstance(sponsorship_settings, dict)
+                else None
+            )
+            if isinstance(sponsorship, dict):
+                sponsorship_url = str(sponsorship.get("stripe_payment_link") or "")
+                if not _valid_sponsorship_url(sponsorship_url):
+                    errors.append(
+                        f"{sponsorship_path}: invalid Stripe Payment Link"
+                    )
+                if sponsorship.get("amount_krw") != 5900:
+                    errors.append(
+                        f"{sponsorship_path}: sponsorship amount must be 5900 KRW"
+                    )
+        except (OSError, ValueError, json.JSONDecodeError) as error:
+            errors.append(f"{sponsorship_path}: cannot parse YAML: {error}")
     index_path = repo / "_data" / "learn" / "courses.yml"
     if not index_path.is_file():
         errors.append(f"{index_path}: course index missing")

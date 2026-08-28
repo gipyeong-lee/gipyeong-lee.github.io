@@ -3,4 +3,4 @@ sponsorship:
   amount_krw: 5900
   amount_display: "5,900원"
   label: "커피 한 잔 후원"
-  stripe_payment_link: ""
+  stripe_payment_link: "https://donate.stripe.com/aFa8wP1Fk9jA9eH3Eog3601"

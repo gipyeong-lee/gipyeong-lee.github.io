@@ -7,7 +7,10 @@ layout: default
 {% assign course = site.data.learn[course_data_key] %}
 {% if learn_language == 'ko' %}{% assign learn_root = '/learn/' %}{% else %}{% assign learn_root = '/learn/' | append: learn_language | append: '/' %}{% endif %}
 {% assign sponsor = site.data.learn_settings.sponsorship %}
-{% assign stripe_prefix = sponsor.stripe_payment_link | slice: 0, 23 %}
+{% assign stripe_buy_prefix = sponsor.stripe_payment_link | slice: 0, 23 %}
+{% assign stripe_donate_prefix = sponsor.stripe_payment_link | slice: 0, 26 %}
+{% assign stripe_configured = false %}
+{% if stripe_buy_prefix == 'https://buy.stripe.com/' or stripe_donate_prefix == 'https://donate.stripe.com/' %}{% assign stripe_configured = true %}{% endif %}
 {% assign initial_progress = ui.progress_complete | replace: '%{percent}', '0' %}
 {% assign support_start_body = ui.support_start_body | replace: '%{amount}', sponsor.amount_display %}
 {% assign support_complete_body = ui.support_complete_body | replace: '%{amount}', sponsor.amount_display %}
@@ -62,7 +65,7 @@ layout: default
   <aside class="learn-sponsor" data-sponsorship="start">
     <div><p class="learn-kicker">{{ ui.support_kicker | escape }}</p><h2>{{ ui.support_start_title | escape }}</h2><p>{{ support_start_body | escape }}</p></div>
     <div class="learn-sponsor__actions">
-      {% if stripe_prefix == 'https://buy.stripe.com/' %}<a class="learn-button" data-sponsorship-link data-moment="start" href="{{ sponsor.stripe_payment_link | escape }}" target="_blank" rel="noopener">{{ ui.support_button | escape }} · {{ sponsor.amount_display | escape }}</a>{% else %}<span class="learn-button learn-button--disabled" aria-disabled="true">{{ ui.support_unavailable | escape }}</span>{% endif %}
+      {% if stripe_configured %}<a class="learn-button" data-sponsorship-link data-moment="start" href="{{ sponsor.stripe_payment_link | escape }}" target="_blank" rel="noopener">{{ ui.support_button | escape }} · {{ sponsor.amount_display | escape }}</a>{% else %}<span class="learn-button learn-button--disabled" aria-disabled="true">{{ ui.support_unavailable | escape }}</span>{% endif %}
       <button type="button" class="learn-text-button" data-sponsorship-skip>{{ ui.support_start_skip | escape }}</button>
     </div>
   </aside>
@@ -101,7 +104,7 @@ layout: default
   {% if sponsor.enabled %}
   <aside class="learn-sponsor" data-sponsorship="complete" hidden>
     <div><p class="learn-kicker">{{ ui.support_complete_kicker | escape }}</p><h2>{{ ui.support_complete_title | escape }}</h2><p>{{ support_complete_body | escape }}</p></div>
-    <div class="learn-sponsor__actions">{% if stripe_prefix == 'https://buy.stripe.com/' %}<a class="learn-button" data-sponsorship-link data-moment="complete" href="{{ sponsor.stripe_payment_link | escape }}" target="_blank" rel="noopener">{{ ui.support_button | escape }} · {{ sponsor.amount_display | escape }}</a>{% else %}<span class="learn-button learn-button--disabled" aria-disabled="true">{{ ui.support_unavailable | escape }}</span>{% endif %}<button type="button" class="learn-text-button" data-sponsorship-skip>{{ ui.support_complete_skip | escape }}</button></div>
+    <div class="learn-sponsor__actions">{% if stripe_configured %}<a class="learn-button" data-sponsorship-link data-moment="complete" href="{{ sponsor.stripe_payment_link | escape }}" target="_blank" rel="noopener">{{ ui.support_button | escape }} · {{ sponsor.amount_display | escape }}</a>{% else %}<span class="learn-button learn-button--disabled" aria-disabled="true">{{ ui.support_unavailable | escape }}</span>{% endif %}<button type="button" class="learn-text-button" data-sponsorship-skip>{{ ui.support_complete_skip | escape }}</button></div>
   </aside>
   {% endif %}
 

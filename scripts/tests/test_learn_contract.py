@@ -123,13 +123,16 @@ class LearnFoundationContractTest(unittest.TestCase):
         navigation = (ROOT / "_data/navigation.yml").read_text(encoding="utf-8")
         self.assertIn("- title: Learn\n  url: /learn/", navigation)
 
-    def test_sponsorship_is_optional_fixed_5900_and_unconfigured(self):
+    def test_sponsorship_is_optional_fixed_5900_and_uses_isolated_live_link(self):
         settings = (ROOT / "_data/learn_settings.yml").read_text(encoding="utf-8")
         self.assertIn("sponsorship:", settings)
         self.assertIn("enabled: true", settings)
         self.assertIn("amount_krw: 5900", settings)
         self.assertIn('amount_display: "5,900원"', settings)
-        self.assertIn('stripe_payment_link: ""', settings)
+        self.assertIn(
+            'stripe_payment_link: "https://donate.stripe.com/aFa8wP1Fk9jA9eH3Eog3601"',
+            settings,
+        )
 
     def test_completion_sponsorship_copy_displays_fixed_amount(self):
         for relative_path in ("_layouts/learn-course.html", "_layouts/learn-module.html"):
@@ -212,6 +215,10 @@ class LearnFoundationContractTest(unittest.TestCase):
         course = (ROOT / "_layouts/learn-course.html").read_text(encoding="utf-8")
         module = (ROOT / "_layouts/learn-module.html").read_text(encoding="utf-8")
         self.assertGreaterEqual((course + module).count("slice: 0, 23"), 2)
+        self.assertGreaterEqual((course + module).count("slice: 0, 26"), 2)
+        self.assertIn("https://buy.stripe.com/", course + module)
+        self.assertIn("https://donate.stripe.com/", course + module)
+        self.assertIn("stripe_configured", course + module)
         self.assertNotIn("contains 'https://buy.stripe.com'", course + module)
 
     def test_shared_head_omits_all_ad_resources_on_no_ads_pages(self):
@@ -1164,6 +1171,24 @@ class LearnFoundationContractTest(unittest.TestCase):
             (data_dir / "courses.yml").write_text("- slug: missing-course\n", encoding="utf-8")
             errors = validate_repo(repo)
             self.assertTrue(any("missing-course.yml" in error for error in errors), errors)
+
+    def test_public_settings_reject_stripe_lookalike_host(self):
+        with TemporaryDirectory() as directory:
+            repo = Path(directory)
+            data_dir = repo / "_data" / "learn"
+            data_dir.mkdir(parents=True)
+            (data_dir / "courses.yml").write_text("[]\n", encoding="utf-8")
+            (repo / "_data" / "learn_settings.yml").write_text(
+                "sponsorship:\n"
+                "  enabled: true\n"
+                "  amount_krw: 5900\n"
+                "  stripe_payment_link: https://donate.stripe.com.evil.example/pay\n",
+                encoding="utf-8",
+            )
+
+            errors = validate_repo(repo)
+
+            self.assertTrue(any("invalid Stripe Payment Link" in error for error in errors), errors)
 
     def test_bom_source_authority_rejects_wikipedia_and_wrong_manufacturer(self):
         item = {"manufacturer": "ROBOTIS"}
