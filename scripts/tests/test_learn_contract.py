@@ -243,17 +243,15 @@ class LearnFoundationContractTest(unittest.TestCase):
                 ],
             },
         ]
-        modules = [{
-            "id": "M1",
-            "content": (
-                "액추에이터 4대 배분에 맞춰 Micro-Fit 3.0 커넥터로 "
-                "독립 분기 전원 하네스를 제작한다."
-            ),
-        }]
+        for instruction in (
+            "액추에이터 4대 배분에 맞춰 Micro-Fit 3.0 커넥터로 독립 분기 전원 하네스를 제작한다.",
+            "각 어댑터 분기별로 Micro-Fit 3.0 커넥터를 사용해 전원 하네스를 연결한다.",
+        ):
+            modules = [{"id": "M1", "content": instruction}]
 
-        errors = _module_bom_consistency_errors(modules, bom, "course")
+            errors = _module_bom_consistency_errors(modules, bom, "course")
 
-        self.assertTrue(any("below BOM peak" in error for error in errors), errors)
+            self.assertTrue(any("below BOM peak" in error for error in errors), errors)
 
     def test_module_electrical_variants_and_parallel_supplies_are_rejected(self):
         bom = [
@@ -800,6 +798,7 @@ class LearnFoundationContractTest(unittest.TestCase):
     def test_module_rejects_manual_isolation_as_emergency_or_all_stop_action(self):
         for instruction in (
             "비상시 물리적 전원 분리 절차 숙지 증빙",
+            "이상 발열이나 냄새 발생 시 즉시 모든 어댑터를 물리적으로 분리한다.",
             "실험 중 정지는 3개 절연 전원 어댑터를 물리적으로 분리한다.",
             (
                 "실험 중 모든 정지는 3개 절연 전원 어댑터를 물리적으로 "
@@ -814,6 +813,39 @@ class LearnFoundationContractTest(unittest.TestCase):
                 any("manual isolation as emergency stop" in error for error in errors),
                 errors,
             )
+
+    def test_quiz_torque_release_answer_requires_matching_explanation(self):
+        modules = [{
+            "id": "M1",
+            "quiz": [{
+                "question": "정상 정지의 첫 단계는?",
+                "choices": ["소프트웨어 토크 해제", "어댑터 즉시 분리"],
+                "answer_index": 0,
+                "explanation": "계획 정지 후 어댑터를 물리적으로 분리한다.",
+            }],
+        }]
+
+        errors = _module_bom_consistency_errors(modules, [], "course")
+
+        self.assertTrue(any("torque-release answer" in error for error in errors), errors)
+
+    def test_physical_dimensions_require_mechanical_gauge_not_multimeter(self):
+        manifest = copy.deepcopy(
+            _load_yaml(ROOT / "_data" / "learn" / "precise-robot-hand.yml")
+        )
+        manifest["modules"][0]["lab"]["steps"] = [
+            "8 mm 베어링의 유격과 보어 치수를 멀티미터로 측정한다."
+        ]
+        manifest["course"]["required_tools"] = [
+            tool
+            for tool in manifest["course"]["required_tools"]
+            if "캘리퍼" not in tool and "마이크로미터" not in tool
+        ]
+
+        errors = _validate_manifest(ROOT, "precise-robot-hand", manifest)
+
+        self.assertTrue(any("multimeter cannot measure physical dimensions" in error for error in errors), errors)
+        self.assertTrue(any("caliper or micrometer" in error for error in errors), errors)
 
     def test_module_rejects_plain_reversed_fsr_formula_with_reordered_denominator(self):
         manifest = copy.deepcopy(

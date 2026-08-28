@@ -429,7 +429,8 @@ def _unsafe_emergency_isolation_instruction(value: str) -> bool:
         return False
     return bool(
         re.search(
-            r"비상|긴급|정지|멈춤|emergency|(?:normal|all)\s+stops?|"
+            r"비상|긴급|정지|멈춤|발열|과열|냄새|연기|고장|화재|이상|"
+            r"emergency|overheat|odor|smell|smoke|fault|fire|(?:normal|all)\s+stops?|"
             r"when\s+(?:a\s+)?stop\s+is\s+needed|shutdown|stop(?:ping|ped)?",
             value,
             re.I,
@@ -532,9 +533,63 @@ def _undersized_power_path_claim(value: str) -> bool:
         and re.search(
             r"메인\s*전원|전원\s*제어기|"
             r"(?:독립\s*)?분기\s*전원|"
+            r"어댑터\s*분기(?:별)?|분기(?:별)?\s*(?:전원\s*)?하네스|"
             r"(?:독립\s*)?(?:\d+(?:\.\d+)?\s*V\s*)?분기.{0,40}(?:양\s*\(\+\)\s*)?출력|"
             r"main\s+power|power\s+controller|branch.{0,40}(?:power|output)",
             value,
+            re.I,
+        )
+    )
+
+
+def _physical_dimension_measurement_instruction(value: str) -> bool:
+    return bool(
+        re.search(
+            r"유격|보어|축경|직경|지름|길이|두께|치수|공차|간극|"
+            r"clearance|bore|shaft\s+diameter|diameter|length|thickness|dimension|tolerance|gap",
+            value,
+            re.I,
+        )
+        and re.search(
+            r"측정|확인|검증|재다|measure|check|verify|inspect",
+            value,
+            re.I,
+        )
+        and not re.search(
+            r"측정하지|사용하지|대체할\s*수\s*없|금지|"
+            r"do\s+not|must\s+not|cannot|never",
+            value,
+            re.I,
+        )
+    )
+
+
+def _invalid_dimension_measurement_with_multimeter(value: str) -> bool:
+    return bool(
+        _physical_dimension_measurement_instruction(value)
+        and re.search(r"멀티미터|multimeter", value, re.I)
+    )
+
+
+def _mismatched_stop_quiz_explanation(question: dict) -> bool:
+    choices = question.get("choices")
+    answer_index = question.get("answer_index")
+    if not (
+        isinstance(choices, list)
+        and isinstance(answer_index, int)
+        and 0 <= answer_index < len(choices)
+    ):
+        return False
+    answer = str(choices[answer_index])
+    explanation = str(question.get("explanation") or "")
+    torque_release = r"토크\s*해제|torque\s*(?:release|disable)"
+    return bool(
+        re.search(torque_release, answer, re.I)
+        and not re.search(torque_release, explanation, re.I)
+        and re.search(
+            r"(?:어댑터|전원|에너지).{0,24}(?:분리|격리)|"
+            r"(?:adapter|power|energy).{0,24}(?:disconnect|isolat)",
+            explanation,
             re.I,
         )
     )
@@ -741,9 +796,13 @@ def _module_bom_consistency_errors(
         )
         quiz = module_data.pop("quiz", [])
         engineering_values = _string_values(module_data)
-        for item in quiz:
+        for quiz_index, item in enumerate(quiz):
             if not isinstance(item, dict):
                 continue
+            if _mismatched_stop_quiz_explanation(item):
+                errors.append(
+                    f"{label}: module {module_id} quiz {quiz_index} torque-release answer has mismatched isolation explanation"
+                )
             engineering_values.append(str(item.get("question") or ""))
             engineering_values.append(str(item.get("explanation") or ""))
             choices = item.get("choices")
@@ -859,6 +918,12 @@ def _module_bom_consistency_errors(
             if _unsafe_emergency_isolation_instruction(sentence):
                 errors.append(
                     f"{label}: module {module_id} describes manual isolation as emergency stop; use only planned shutdown and maintenance isolation"
+                )
+                break
+        for sentence in re.split(r"[.!?\n]", text):
+            if _invalid_dimension_measurement_with_multimeter(sentence):
+                errors.append(
+                    f"{label}: module {module_id} multimeter cannot measure physical dimensions; use a caliper or micrometer"
                 )
                 break
         for sentence in re.split(r"[.!?\n]", text):
@@ -1199,6 +1264,23 @@ def _validate_manifest(repo: Path, slug: str, manifest: Any) -> list[str]:
     phases = _require_list(manifest, "phases", label, errors)
     modules = _require_list(manifest, "modules", label, errors)
     sources = _require_list(manifest, "sources", label, errors)
+    module_text = "\n".join(
+        value
+        for module in modules
+        if isinstance(module, dict)
+        for value in _string_values(module)
+    )
+    if any(
+        _physical_dimension_measurement_instruction(sentence)
+        for sentence in re.split(r"[.!?\n]", module_text)
+    ) and not re.search(
+        r"캘리퍼|마이크로미터|caliper|micrometer",
+        required_tools_text,
+        re.I,
+    ):
+        errors.append(
+            f"{label}: physical dimension work requires a caliper or micrometer in required tools"
+        )
     raw_bom = manifest.get("bom")
     if not isinstance(raw_bom, list):
         errors.append(f"{label}: bom must be a list")
