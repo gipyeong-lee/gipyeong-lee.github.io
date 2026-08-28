@@ -1,6 +1,6 @@
 ---
 layout: learn-course
-title: 构建精密的 5 级机器人手
+title: 制作精密的 5 仿生机器人手
 course_slug: precise-robot-hand
 course_data_key: precise-robot-hand.zh-cn
 course_locale: zh-cn
@@ -21,9 +21,9 @@ permalink: /learn/zh-cn/precise-robot-hand/
 no_ads: true
 generated_by: mindtickle-studio
 generation_run_id: b409b9219ba4488bb342aac4eb8f5a73
-translation_run_id: 2b7c146b08954623a88a715bf8cc7d0e
+translation_run_id: e8f8435646734ebd8e061d010c356c2d
 ---
 
-这是一门大学及研究生水平的实践型课程，从机器人基础开始，指导学生亲自设计、制造、控制和验证 5 级机器人手。
+这是一个大学及研究生水平的实践型课程，从机器人工程基础出发，指导学生自行设计、制作、控制和验证 5 仿生机器人手。
 
 学生将理解执行器、控制器、传感器集成及肌腱驱动机制，并能够对精密机器人手进行原型制作。

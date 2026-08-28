@@ -21,9 +21,9 @@ permalink: /learn/ja/precise-robot-hand/
 no_ads: true
 generated_by: mindtickle-studio
 generation_run_id: b409b9219ba4488bb342aac4eb8f5a73
-translation_run_id: 75a701fd44954c3a8681a8f795bedc7d
+translation_run_id: 541c3acee16e441bbae3b5125876cfe4
 ---
 
-ロボット工学の基礎から始まり、5 指ロボットハンドを自ら設計、製作、制御、および検証する大学・大学院レベルの実習型カリキュラムです。
+ロボット工学の基礎から始まり、5 指ロボットハンドを直接設計、製作、制御、および検証する大学・大学院レベルの実習型カリキュラムです。
 
-学生は、アクチュエータ、コントローラ、センサ統合、腱駆動メカニズムを理解し、精密ロボットハンドをプロトタイピングできるようになります。
+学生は駆動系、制御系、センサ統合、腱駆動メカニズムを理解し、精密ロボットハンドをプロトタイピングできます。

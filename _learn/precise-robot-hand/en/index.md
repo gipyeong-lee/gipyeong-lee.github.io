@@ -21,9 +21,9 @@ permalink: /learn/en/precise-robot-hand/
 no_ads: true
 generated_by: mindtickle-studio
 generation_run_id: b409b9219ba4488bb342aac4eb8f5a73
-translation_run_id: a92b78cca3164206863047b59d2f6ac9
+translation_run_id: 0886d1415b8d413b8654c2195ac9ac00
 ---
 
-A university/graduate-level hands-on curriculum that starts from the basics of robotics and guides you through the design, fabrication, control, and validation of an 5-finger robotic hand.
+A university-level practical curriculum starting from the fundamentals of robotics to designing, manufacturing, controlling, and verifying an 5-finger robotic hand.
 
 Students will understand actuators, controllers, sensor integration, and tendon-driven mechanisms, and be able to prototype a precision robotic hand.
