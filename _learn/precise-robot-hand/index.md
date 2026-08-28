@@ -5,11 +5,11 @@ course_slug: precise-robot-hand
 permalink: /learn/precise-robot-hand/
 no_ads: true
 generated_by: mindtickle-studio
-generation_run_id: a31c540d33454e5489bdd6fde7912c13
+generation_run_id: 6107198626784e959dfcf1327da4f9c8
 ---
 
-로봇 공학의 기초부터 정교한 5지 로봇손의 설계, 제어 및 제작까지 전 과정을 다루는 실습 중심 교과과정입니다.
+로봇 공학의 기초부터 시작하여 5지 로봇손을 직접 설계, 제작, 제어하고 검증하는 대학 수준의 프로젝트 기반 교과과정입니다.
 
 ## 과정 완료 목표
 
-독립적으로 정교한 5지 로봇손을 설계하고 제작하며, 펌웨어 제어 및 내구성을 검증할 수 있는 능력을 갖춥니다.
+로봇 기구학, 전자 제어, 펌웨어 작성 및 로봇 손 제작 능력을 습득하여 정교한 파지 시스템을 구현할 수 있습니다.
