@@ -74,6 +74,10 @@
     return total ? Math.round((completed / total) * 100) : 0;
   }
 
+  function storageKey(courseSlug, curriculumVersion) {
+    return "learn-progress:" + courseSlug + ":" + curriculumVersion;
+  }
+
   function importState(raw, contract) {
     var parsed;
     try {
@@ -141,9 +145,11 @@
     };
   }
 
-  function sponsorshipUrl(base, moment) {
+  function sponsorshipUrl(base, moment, language) {
     if (!base) return "";
     var url = new URL(base);
+    var stripeLocales = { "zh-cn": "zh", "zh-tw": "zh-TW" };
+    url.searchParams.set("locale", stripeLocales[language] || language || "ko");
     url.searchParams.set("utm_source", "learn");
     url.searchParams.set("utm_medium", "sponsorship");
     url.searchParams.set("utm_campaign", moment === "complete" ? "learn_complete" : "learn_start");
@@ -160,8 +166,17 @@
       capstoneCount: Number(shell.dataset.capstoneCount || 0),
     };
     var currentModule = shell.dataset.currentModule || "";
-    var storageKey = "learn-progress:" + contract.courseSlug + ":" + contract.curriculumVersion;
+    var courseLocale = shell.dataset.courseLocale || "ko";
+    var courseStorageKey = storageKey(contract.courseSlug, contract.curriculumVersion);
     var state = initialState(contract.courseSlug, contract.curriculumVersion);
+
+    function message(name, replacements) {
+      var value = shell.dataset[name] || "";
+      Object.keys(replacements || {}).forEach(function (key) {
+        value = value.split("%{" + key + "}").join(String(replacements[key]));
+      });
+      return value;
+    }
 
     function announce(message) {
       document.querySelectorAll("[data-learn-status]").forEach(function (element) {
@@ -169,21 +184,21 @@
       });
     }
     function save() {
-      try { localStorage.setItem(storageKey, JSON.stringify(state)); } catch (_error) { announce("이 브라우저에서는 진도를 저장할 수 없습니다."); }
+      try { localStorage.setItem(courseStorageKey, JSON.stringify(state)); } catch (_error) { announce(message("uiStorageUnavailable")); }
     }
     try {
-      var saved = localStorage.getItem(storageKey);
+      var saved = localStorage.getItem(courseStorageKey);
       if (saved) state = importState(saved, contract);
     } catch (_error) {
       state = initialState(contract.courseSlug, contract.curriculumVersion);
-      announce("저장된 진도가 현재 교과과정과 맞지 않아 새로 시작합니다.");
+      announce(message("uiProgressReset"));
     }
 
     function render() {
       var percent = progressPercent(state, contract.moduleIds);
       document.querySelectorAll("[data-learn-progress-bar]").forEach(function (bar) { bar.style.width = percent + "%"; });
       document.querySelectorAll(".learn-progress[role='progressbar']").forEach(function (bar) { bar.setAttribute("aria-valuenow", String(percent)); });
-      document.querySelectorAll("[data-learn-progress-text]").forEach(function (text) { text.textContent = percent + "% 완료"; });
+      document.querySelectorAll("[data-learn-progress-text]").forEach(function (text) { text.textContent = message("uiProgressComplete", { percent: percent }); });
       document.querySelectorAll("[data-learn-module-row]").forEach(function (row) {
         row.classList.toggle("is-complete", state.completedModuleIds.includes(row.dataset.learnModuleRow));
       });
@@ -194,7 +209,7 @@
       if (completeButton) {
         var completed = state.completedModuleIds.includes(currentModule);
         var assignmentCount = document.querySelectorAll("[data-assignment-check]").length;
-        completeButton.textContent = completed ? "완료됨" : "이 모듈 완료하기";
+        completeButton.textContent = completed ? message("uiModuleCompleted") : message("uiModuleComplete");
         completeButton.disabled = completed || !canCompleteModule(state, currentModule, assignmentCount, 80);
       }
       document.querySelectorAll("[data-capstone-check]").forEach(function (checkbox, index) {
@@ -202,7 +217,7 @@
       });
       var capstoneButton = document.querySelector("[data-complete-capstone]");
       if (capstoneButton) {
-        capstoneButton.textContent = state.capstoneCompleted ? "최종 프로젝트 완료됨" : "최종 프로젝트 완료하기";
+        capstoneButton.textContent = state.capstoneCompleted ? message("uiCapstoneCompleted") : message("uiCapstoneComplete");
         capstoneButton.disabled = state.capstoneCompleted || !canCompleteCapstone(state, contract.moduleIds, contract.capstoneCount);
       }
       var startCard = document.querySelector("[data-sponsorship='start']");
@@ -212,7 +227,7 @@
     }
 
     document.querySelectorAll("[data-sponsorship-link]").forEach(function (link) {
-      link.href = sponsorshipUrl(link.href, link.dataset.moment);
+      link.href = sponsorshipUrl(link.href, link.dataset.moment, courseLocale);
       link.addEventListener("click", function () {
         state.sponsorshipDismissed[link.dataset.moment] = true;
         save();
@@ -230,13 +245,13 @@
     if (completeButton) completeButton.addEventListener("click", function () {
       var assignmentCount = document.querySelectorAll("[data-assignment-check]").length;
       if (!canCompleteModule(state, currentModule, assignmentCount, 80)) {
-        announce("모든 과제를 확인하고 퀴즈 80점 이상을 받아야 완료할 수 있습니다.");
+        announce(message("uiModuleRequirements"));
         return;
       }
       state = completeModule(state, currentModule);
       save();
       render();
-      announce("모듈 완료 기록을 이 브라우저에 저장했습니다.");
+      announce(message("uiModuleSaved"));
     });
 
     var quizButton = document.querySelector("[data-quiz-check]");
@@ -255,13 +270,13 @@
       });
       var status = document.querySelector("[data-quiz-status]");
       if (answered !== questions.length) {
-        if (status) status.textContent = "모든 문항에 답해주세요.";
+        if (status) status.textContent = message("uiQuizAnswerAll");
         return;
       }
       var score = questions.length ? Math.round((correct / questions.length) * 100) : 0;
       state = setQuizScore(state, currentModule, score);
       save();
-      if (status) status.textContent = correct + "/" + questions.length + " 정답 · " + score + "점";
+      if (status) status.textContent = message("uiQuizCorrect", { correct: correct, total: questions.length, score: score });
       render();
     });
 
@@ -284,13 +299,13 @@
     var capstoneButton = document.querySelector("[data-complete-capstone]");
     if (capstoneButton) capstoneButton.addEventListener("click", function () {
       if (!canCompleteCapstone(state, contract.moduleIds, contract.capstoneCount)) {
-        announce("모든 모듈과 최종 제출물을 먼저 완료해주세요.");
+        announce(message("uiCapstoneRequirements"));
         return;
       }
       state = completeCapstone(state);
       save();
       render();
-      announce("최종 프로젝트 완료 기록을 저장했습니다.");
+      announce(message("uiCapstoneSaved"));
     });
 
     var exportButton = document.querySelector("[data-learn-export]");
@@ -313,9 +328,9 @@
           state = importState(String(reader.result), contract);
           save();
           render();
-          announce("진도 파일을 가져왔습니다.");
+          announce(message("uiImportSuccess"));
         } catch (error) {
-          announce("진도 파일을 가져올 수 없습니다: " + error.message);
+          announce(message("uiImportFailure", { error: error.message }));
         }
       };
       reader.readAsText(file);
@@ -338,6 +353,7 @@
     canCompleteCapstone: canCompleteCapstone,
     completeCapstone: completeCapstone,
     progressPercent: progressPercent,
+    storageKey: storageKey,
     importState: importState,
     sponsorshipUrl: sponsorshipUrl,
   };

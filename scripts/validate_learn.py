@@ -12,6 +12,14 @@ from urllib.parse import urlparse
 
 
 AD_MARKERS = ("adsbygoogle", "pagead2.googlesyndication.com", "ad-slot")
+LEARN_TARGET_LANGUAGES = ("en", "ja", "zh-cn", "zh-tw")
+NON_KOREAN_UI_MARKERS = (
+    "학습 진도",
+    "과정 살펴보기",
+    "이번 모듈의 목표",
+    "이 모듈 완료하기",
+    "후원 없이 마치기",
+)
 UNSAFE_GENERATED_MARKUP = re.compile(
     r"(?:\{\{|\{%|\{#)|<\s*/?\s*[a-z][^>]*>|\bon[a-z]+\s*=|(?:javascript|vbscript|data)\s*:",
     re.IGNORECASE,
@@ -1189,9 +1197,10 @@ def _module_bom_consistency_errors(
                 )
             ]
             if any(value > 3.3 for value in context_voltages):
+                compact_sentence = re.sub(r"\s+", " ", sentence).strip()[:160]
                 errors.append(
                     f"{label}: module {module_id} drives an OpenCR FSR divider above 3.3 V: "
-                    f"{re.sub(r'\s+', ' ', sentence).strip()[:160]}"
+                    f"{compact_sentence}"
                 )
                 break
         count_patterns = (
@@ -1322,9 +1331,10 @@ def _module_bom_consistency_errors(
                 sentence,
                 re.I,
             ):
+                compact_sentence = re.sub(r"\s+", " ", sentence).strip()[:160]
                 errors.append(
                     f"{label}: module {module_id} parallels independent power-supply outputs: "
-                    f"{re.sub(r'\s+', ' ', sentence).strip()[:160]}"
+                    f"{compact_sentence}"
                 )
                 break
 
@@ -1885,6 +1895,110 @@ def validate_repo(repo: Path, site_dir: Optional[Path] = None) -> list[str]:
         except (OSError, ValueError, json.JSONDecodeError) as error:
             errors.append(f"{manifest_path}: cannot parse YAML: {error}")
 
+    localized_languages: list[str] = []
+    for language in LEARN_TARGET_LANGUAGES:
+        locale_index_path = repo / "_data" / "learn" / f"courses.{language}.yml"
+        if not locale_index_path.is_file():
+            continue
+        localized_languages.append(language)
+        catalogue_path = repo / "_pages" / f"learn.{language}.md"
+        if not catalogue_path.is_file():
+            errors.append(f"{catalogue_path}: localized catalogue page missing")
+        else:
+            catalogue_front = _front_matter(catalogue_path)
+            if catalogue_front.get("lang") != language:
+                errors.append(f"{catalogue_path}: expected lang {language}")
+            if catalogue_front.get("learn_index_key") != f"courses.{language}":
+                errors.append(
+                    f"{catalogue_path}: expected learn_index_key courses.{language}"
+                )
+        try:
+            loaded_locale_index = _load_yaml(locale_index_path)
+            locale_entries = (
+                loaded_locale_index if isinstance(loaded_locale_index, list) else []
+            )
+            if not isinstance(loaded_locale_index, list):
+                errors.append(f"{locale_index_path}: course index must be a list")
+        except (OSError, ValueError, json.JSONDecodeError) as error:
+            errors.append(f"{locale_index_path}: cannot parse YAML: {error}")
+            locale_entries = []
+        for locale_entry in locale_entries:
+            slug = locale_entry.get("slug") if isinstance(locale_entry, dict) else None
+            if not isinstance(slug, str) or not slug:
+                errors.append(f"{locale_index_path}: index entry slug missing")
+                continue
+            expected_url = f"/learn/{language}/{slug}/"
+            if locale_entry.get("url") != expected_url:
+                errors.append(f"{locale_index_path}: {slug} URL must be {expected_url}")
+            locale_manifest_path = (
+                repo / "_data" / "learn" / f"{slug}.{language}.yml"
+            )
+            if not locale_manifest_path.is_file():
+                errors.append(f"{locale_manifest_path}: localized manifest missing")
+                continue
+            try:
+                locale_manifest = _load_yaml(locale_manifest_path)
+            except (OSError, ValueError, json.JSONDecodeError) as error:
+                errors.append(f"{locale_manifest_path}: cannot parse YAML: {error}")
+                continue
+            if not isinstance(locale_manifest, dict):
+                errors.append(f"{locale_manifest_path}: manifest must be a mapping")
+                continue
+            localization = locale_manifest.get("localization")
+            if not isinstance(localization, dict) or localization.get("language") != language:
+                errors.append(
+                    f"{locale_manifest_path}: localization language must be {language}"
+                )
+            modules = locale_manifest.get("modules")
+            module_slugs = [
+                str(module.get("slug"))
+                for module in modules or []
+                if isinstance(module, dict) and module.get("slug")
+            ]
+            for page_path, expected_permalink in (
+                (
+                    repo / "_learn" / slug / language / "index.md",
+                    expected_url,
+                ),
+                *(
+                    (
+                        repo / "_learn" / slug / language / f"{module_slug}.md",
+                        f"{expected_url}{module_slug}/",
+                    )
+                    for module_slug in module_slugs
+                ),
+            ):
+                if not page_path.is_file():
+                    errors.append(f"{page_path}: localized generated page missing")
+                    continue
+                front = _front_matter(page_path)
+                if front.get("lang") != language:
+                    errors.append(f"{page_path}: expected lang {language}")
+                if front.get("course_data_key") != f"{slug}.{language}":
+                    errors.append(
+                        f"{page_path}: expected course_data_key {slug}.{language}"
+                    )
+                if front.get("permalink") != expected_permalink:
+                    errors.append(
+                        f"{page_path}: expected permalink {expected_permalink}"
+                    )
+
+    if localized_languages:
+        expected_translation_languages = {"ko", *localized_languages}
+        korean_catalogue = repo / "_pages" / "learn.md"
+        korean_front = _front_matter(korean_catalogue)
+        korean_translations = korean_front.get("translations") or []
+        actual_translation_languages = {
+            item.get("lang")
+            for item in korean_translations
+            if isinstance(item, dict)
+        }
+        if actual_translation_languages != expected_translation_languages:
+            errors.append(
+                f"{korean_catalogue}: catalogue translations must cover "
+                f"{sorted(expected_translation_languages)}"
+            )
+
     if site_dir is not None:
         learn_site = site_dir.resolve() / "learn"
         if not learn_site.is_dir():
@@ -1892,9 +2006,50 @@ def validate_repo(repo: Path, site_dir: Optional[Path] = None) -> list[str]:
         else:
             for html in learn_site.rglob("*.html"):
                 text = html.read_text(encoding="utf-8")
+                relative_parts = html.relative_to(learn_site).parts
+                route_language = (
+                    relative_parts[0]
+                    if relative_parts and relative_parts[0] in LEARN_TARGET_LANGUAGES
+                    else "ko"
+                )
+                if not re.search(
+                    rf"<html\s+[^>]*lang=[\"']{re.escape(route_language)}[\"']",
+                    text,
+                    re.IGNORECASE,
+                ):
+                    errors.append(f"{html}: expected html lang {route_language}")
+                if route_language != "ko":
+                    for marker in NON_KOREAN_UI_MARKERS:
+                        if marker in text:
+                            errors.append(
+                                f"{html}: Korean interface fallback {marker}"
+                            )
                 for marker in AD_MARKERS:
                     if marker in text:
                         errors.append(f"{html}: advertising marker {marker}")
+                if localized_languages:
+                    for language in ("ko", *localized_languages):
+                        if f'hreflang="{language}"' not in text:
+                            errors.append(f"{html}: missing hreflang {language}")
+                    if 'hreflang="x-default"' not in text:
+                        errors.append(f"{html}: missing hreflang x-default")
+
+            for language in localized_languages:
+                catalogue_html = learn_site / language / "index.html"
+                if not catalogue_html.is_file():
+                    errors.append(f"{catalogue_html}: built localized catalogue missing")
+                locale_index = _load_yaml(
+                    repo / "_data" / "learn" / f"courses.{language}.yml"
+                )
+                for locale_entry in locale_index or []:
+                    if not isinstance(locale_entry, dict):
+                        continue
+                    url = str(locale_entry.get("url") or "")
+                    if not url.startswith("/learn/") or not url.endswith("/"):
+                        continue
+                    built_course = site_dir.resolve() / url.lstrip("/") / "index.html"
+                    if not built_course.is_file():
+                        errors.append(f"{built_course}: built localized course missing")
     return errors
 
 

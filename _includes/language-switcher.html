@@ -1,21 +1,16 @@
-{% comment %}
-  Language switcher for multilingual posts.
-  Uses the `ref` field in front matter to find translations of the same post.
-{% endcomment %}
-
 {% if page.translations %}
-<div class="language-switcher">
+<nav class="language-switcher" aria-label="Language">
   {% assign translations = page.translations %}
   {% for lang in site.languages %}
     {% assign lang_name = site.language_names[lang] %}
     {% assign translation = translations | where: "lang", lang | first %}
     {% if translation %}
       {% if page.lang == lang %}
-        <span class="language-switcher__item language-switcher__item--active">{{ lang_name }}</span>
+        <span class="language-switcher__item language-switcher__item--active" lang="{{ lang | escape }}" aria-current="page">{{ lang_name | escape }}</span>
       {% else %}
-        <a href="{{ site.baseurl }}{{ translation.url }}" class="language-switcher__item">{{ lang_name }}</a>
+        <a href="{{ translation.url | relative_url }}" class="language-switcher__item" lang="{{ lang | escape }}" hreflang="{{ lang | escape }}">{{ lang_name | escape }}</a>
       {% endif %}
     {% endif %}
   {% endfor %}
-</div>
+</nav>
 {% endif %}

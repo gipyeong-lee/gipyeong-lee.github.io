@@ -22,6 +22,101 @@ ROOT = Path(__file__).resolve().parents[2]
 
 
 class LearnFoundationContractTest(unittest.TestCase):
+    def test_learn_i18n_has_complete_five_language_interface(self):
+        translations = _load_yaml(ROOT / "_data" / "learn_i18n.yml")
+        self.assertEqual(set(translations), {"ko", "en", "ja", "zh-cn", "zh-tw"})
+        required = {
+            "catalogue_eyebrow",
+            "catalogue_lede",
+            "catalogue_rule",
+            "level",
+            "estimated_time",
+            "modules",
+            "budget",
+            "hours_suffix",
+            "module_suffix",
+            "view_course",
+            "empty_title",
+            "empty_body",
+            "breadcrumb_label",
+            "time_label",
+            "modules_label",
+            "budget_label",
+            "reviewed_label",
+            "progress_kicker",
+            "progress_title",
+            "progress_complete",
+            "progress_export",
+            "progress_import",
+            "support_start_title",
+            "support_start_body",
+            "support_kicker",
+            "support_complete_kicker",
+            "support_complete_title",
+            "support_complete_body",
+            "support_button",
+            "support_unavailable",
+            "support_start_skip",
+            "support_complete_skip",
+            "curriculum",
+            "curriculum_kicker",
+            "parts_tools",
+            "bom_kicker",
+            "part",
+            "model_manufacturer",
+            "quantity",
+            "key_specs",
+            "selection_compatibility",
+            "alternative",
+            "compatibility",
+            "audience",
+            "required_tools",
+            "deliverables",
+            "rubric",
+            "safety",
+            "safety_criteria",
+            "capstone_kicker",
+            "capstone_complete",
+            "capstone_completed",
+            "sources",
+            "sources_kicker",
+            "objectives",
+            "objectives_kicker",
+            "worked_examples",
+            "worked_examples_kicker",
+            "lab_kicker",
+            "safety_check",
+            "lab_deliverables",
+            "assignment_kicker",
+            "quiz_title",
+            "quiz_kicker",
+            "quiz_check",
+            "completion_criteria",
+            "completion_kicker",
+            "module_complete",
+            "module_completed",
+            "module_sources",
+            "module_sources_kicker",
+            "prototype_safety",
+            "previous_module",
+            "next_module",
+            "back_to_course",
+            "storage_unavailable",
+            "progress_reset",
+            "module_requirements",
+            "module_saved",
+            "quiz_answer_all",
+            "quiz_correct",
+            "quiz_points",
+            "capstone_requirements",
+            "capstone_saved",
+            "import_success",
+            "import_failure",
+        }
+        for language, values in translations.items():
+            self.assertEqual(set(values), required, language)
+            self.assertTrue(all(isinstance(value, str) and value.strip() for value in values.values()))
+
     def test_jekyll_collection_and_navigation(self):
         config = (ROOT / "_config.yml").read_text(encoding="utf-8")
         self.assertIn("collections:\n  learn:\n    output: true", config)
@@ -42,11 +137,9 @@ class LearnFoundationContractTest(unittest.TestCase):
             completion_card = layout.split('data-sponsorship="complete"', 1)[1].split(
                 "</aside>", 1
             )[0]
-            self.assertIn(
-                "커피 한 잔 {{ sponsor.amount_display | escape }}",
-                completion_card,
-                relative_path,
-            )
+            self.assertIn("support_complete_body", layout, relative_path)
+            self.assertIn("sponsor.amount_display", layout, relative_path)
+            self.assertIn("{{ support_complete_body | escape }}", completion_card, relative_path)
 
     def test_catalogue_route_and_index_exist(self):
         page = (ROOT / "_pages/learn.md").read_text(encoding="utf-8")
@@ -61,8 +154,13 @@ class LearnFoundationContractTest(unittest.TestCase):
         course = (ROOT / "_layouts/learn-course.html").read_text(encoding="utf-8")
         module = (ROOT / "_layouts/learn-module.html").read_text(encoding="utf-8")
         combined = catalogue + course + module
-        self.assertIn("site.data.learn.courses", catalogue)
-        self.assertIn("site.data.learn[page.course_slug]", course)
+        self.assertIn("page.learn_index_key", catalogue)
+        self.assertIn("site.data.learn[course_data_key]", course)
+        self.assertIn("site.data.learn[course_data_key]", module)
+        self.assertIn("site.data.learn_i18n[learn_language]", combined)
+        self.assertEqual(combined.count("{% include language-switcher.html %}"), 3)
+        self.assertIn("learn_root", course)
+        self.assertIn("learn_root", module)
         self.assertIn("page.module_id", module)
         self.assertIn("item.specifications", course)
         self.assertIn("specification.unit == 'dimensionless'", course)
@@ -80,6 +178,35 @@ class LearnFoundationContractTest(unittest.TestCase):
         self.assertIn("{{ source.url | escape }}", module)
         self.assertIn("{{ source.title | escape }}", module)
         self.assertIn("{{ source.organization | escape }}", module)
+
+    def test_learn_shell_uses_page_language_and_hreflang_contract(self):
+        default_layout = (ROOT / "_layouts/default.html").read_text(encoding="utf-8")
+        head = (ROOT / "_includes/head.html").read_text(encoding="utf-8")
+        switcher = (ROOT / "_includes/language-switcher.html").read_text(encoding="utf-8")
+        self.assertIn("page.lang | default: site.default_lang", default_layout)
+        self.assertIn('hreflang="{{ translation.lang }}"', head)
+        self.assertIn('hreflang="x-default"', head)
+        self.assertIn("page.translations", switcher)
+        self.assertIn("language-switcher__item--active", switcher)
+
+    def test_learn_layout_ui_copy_comes_from_locale_dictionary(self):
+        combined = "\n".join(
+            (ROOT / path).read_text(encoding="utf-8")
+            for path in (
+                "_layouts/learn-catalogue.html",
+                "_layouts/learn-course.html",
+                "_layouts/learn-module.html",
+            )
+        )
+        for hard_coded_copy in (
+            "학습 진도",
+            "과정 살펴보기",
+            "이번 모듈의 목표",
+            "정답 확인",
+            "이 모듈 완료하기",
+            "후원 없이 마치기",
+        ):
+            self.assertNotIn(hard_coded_copy, combined)
 
     def test_unconfigured_sponsorship_never_renders_a_self_link(self):
         course = (ROOT / "_layouts/learn-course.html").read_text(encoding="utf-8")
@@ -1097,6 +1224,36 @@ class LearnFoundationContractTest(unittest.TestCase):
             (site / "index.html").write_text("<script>adsbygoogle</script>", encoding="utf-8")
             errors = validate_repo(repo, site_dir=site.parent)
             self.assertTrue(any("advertising marker adsbygoogle" in error for error in errors), errors)
+
+    def test_localized_index_requires_manifest_and_generated_catalogue(self):
+        with TemporaryDirectory() as directory:
+            repo = Path(directory)
+            data_dir = repo / "_data" / "learn"
+            data_dir.mkdir(parents=True)
+            (data_dir / "courses.yml").write_text("[]\n", encoding="utf-8")
+            (data_dir / "courses.en.yml").write_text(
+                "- slug: robot-hand\n  url: /learn/en/robot-hand/\n",
+                encoding="utf-8",
+            )
+
+            errors = validate_repo(repo)
+
+            self.assertTrue(any("robot-hand.en.yml" in error for error in errors), errors)
+            self.assertTrue(any("_pages/learn.en.md" in error for error in errors), errors)
+
+    def test_built_locale_route_requires_matching_html_language(self):
+        with TemporaryDirectory() as directory:
+            repo = Path(directory) / "repo"
+            data_dir = repo / "_data" / "learn"
+            data_dir.mkdir(parents=True)
+            (data_dir / "courses.yml").write_text("[]\n", encoding="utf-8")
+            page = Path(directory) / "site" / "learn" / "ja" / "index.html"
+            page.parent.mkdir(parents=True)
+            page.write_text('<html lang="ko"><body></body></html>', encoding="utf-8")
+
+            errors = validate_repo(repo, site_dir=page.parents[2])
+
+            self.assertTrue(any("expected html lang ja" in error for error in errors), errors)
 
 
 if __name__ == "__main__":

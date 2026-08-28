@@ -87,13 +87,21 @@ test("import rejects another curriculum, unknown modules, and invalid scores", (
   assert.throws(() => progress.importState(JSON.stringify({ ...base, quizScores: { m01: 101 } }), contract), /score/i);
 });
 
-test("Stripe sponsorship URL adds moment-specific UTM parameters", () => {
-  const start = new URL(progress.sponsorshipUrl("https://buy.stripe.com/example?locale=ko", "start"));
+test("Stripe sponsorship URL adds locale and moment-specific UTM parameters", () => {
+  const start = new URL(progress.sponsorshipUrl("https://buy.stripe.com/example", "start", "ko"));
   assert.equal(start.searchParams.get("locale"), "ko");
   assert.equal(start.searchParams.get("utm_source"), "learn");
   assert.equal(start.searchParams.get("utm_medium"), "sponsorship");
   assert.equal(start.searchParams.get("utm_campaign"), "learn_start");
-  const complete = new URL(progress.sponsorshipUrl("https://buy.stripe.com/example", "complete"));
+  const complete = new URL(progress.sponsorshipUrl("https://buy.stripe.com/example", "complete", "zh-cn"));
+  assert.equal(complete.searchParams.get("locale"), "zh");
   assert.equal(complete.searchParams.get("utm_campaign"), "learn_complete");
-  assert.equal(progress.sponsorshipUrl("", "start"), "");
+  const traditional = new URL(progress.sponsorshipUrl("https://donate.stripe.com/example", "start", "zh-tw"));
+  assert.equal(traditional.searchParams.get("locale"), "zh-TW");
+  assert.equal(progress.sponsorshipUrl("", "start", "en"), "");
+});
+
+test("browser progress key remains language-neutral", () => {
+  assert.equal(progress.storageKey("robot-hand", "1.0.0"), "learn-progress:robot-hand:1.0.0");
+  assert.equal(progress.storageKey("robot-hand", "1.0.0", "ja"), "learn-progress:robot-hand:1.0.0");
 });
