@@ -475,6 +475,40 @@ def _reversed_fsr_pulldown_formula(value: str) -> bool:
     )
 
 
+def _reversed_fsr_pulldown_behavior(value: str) -> bool:
+    high_resistance_near_supply = re.search(
+        r"R_?\{?FSR\}?.{0,30}(?:높|크|high|large)"
+        r".{0,60}V_?\{?out\}?.{0,30}(?:3\.3\s*V|V_?\{?ref\}?|공급\s*전압).{0,20}(?:가깝|near)",
+        value,
+        re.I,
+    )
+    low_resistance_near_zero = re.search(
+        r"R_?\{?FSR\}?.{0,30}(?:낮|작|low|small)"
+        r".{0,60}V_?\{?out\}?.{0,30}(?:0\s*V|영\s*볼트|zero).{0,20}(?:가깝|near)",
+        value,
+        re.I,
+    )
+    return bool(high_resistance_near_supply or low_resistance_near_zero)
+
+
+def _invalid_software_deenergization_instruction(sentence: str) -> bool:
+    return bool(
+        re.search(
+            r"(?:소프트웨어|software).{0,40}(?:전원|토크|power|torque)"
+            r".{0,20}(?:해제|차단|끄|release|disable|off)"
+            r".{0,100}(?:1\s*V|무전원|무전압|잔류\s*전압|de[- ]?energized|zero\s+voltage)",
+            sentence,
+            re.I,
+        )
+        and not re.search(
+            r"(?:어댑터|전원|에너지).{0,30}(?:물리적\s*)?(?:분리|격리)|"
+            r"(?:adapter|power|energy).{0,30}(?:physical(?:ly)?\s*)?(?:disconnect|isolat)",
+            sentence,
+            re.I,
+        )
+    )
+
+
 def _fsr_voltage_example_values(value: str) -> Optional[tuple[float, float]]:
     if not re.search(r"FSR", value, re.I):
         return None
@@ -929,6 +963,12 @@ def _module_bom_consistency_errors(
                 )
                 break
         for sentence in re.split(r"[.!?\n]", text):
+            if _invalid_software_deenergization_instruction(sentence):
+                errors.append(
+                    f"{label}: module {module_id} software command cannot prove de-energized state; physically isolate adapters before voltage measurement"
+                )
+                break
+        for sentence in re.split(r"[.!?\n]", text):
             if _unsafe_live_fault_injection(sentence):
                 errors.append(
                     f"{label}: module {module_id} requires unsafe live fault injection; use datasheet curve analysis, simulation, or certified current-limited fixture"
@@ -937,6 +977,10 @@ def _module_bom_consistency_errors(
         if _reversed_fsr_pulldown_formula(text):
             errors.append(
                 f"{label}: module {module_id} has reversed FSR pulldown formula; use Vref x 10 kΩ / (R_FSR + 10 kΩ)"
+            )
+        if _reversed_fsr_pulldown_behavior(text):
+            errors.append(
+                f"{label}: module {module_id} has reversed FSR pulldown behavior; high resistance approaches 0 V and low resistance approaches 3.3 V"
             )
         fsr_example = _fsr_voltage_example_values(text)
         if fsr_example is not None:

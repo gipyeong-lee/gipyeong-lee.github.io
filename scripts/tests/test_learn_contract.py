@@ -861,6 +861,23 @@ class LearnFoundationContractTest(unittest.TestCase):
 
         self.assertTrue(any("reversed FSR pulldown formula" in error for error in errors), errors)
 
+    def test_module_rejects_reversed_fsr_behavior_and_software_deenergization(self):
+        manifest = copy.deepcopy(
+            _load_yaml(ROOT / "_data" / "learn" / "precise-robot-hand.yml")
+        )
+        module = manifest["modules"][0]
+        module["worked_examples"] = [
+            "힘이 없을 때 R_FSR이 매우 높으므로 V_out은 3.3 V에 가깝고, 힘이 커져 R_FSR이 낮아지면 V_out은 0 V에 가까워진다."
+        ]
+        module["lab"]["steps"] = [
+            "소프트웨어를 통해 전원을 해제하고 멀티미터로 1 V 미만인지 확인한 후 배선한다."
+        ]
+
+        errors = _validate_manifest(ROOT, "precise-robot-hand", manifest)
+
+        self.assertTrue(any("reversed FSR pulldown behavior" in error for error in errors), errors)
+        self.assertTrue(any("software command cannot prove de-energized" in error for error in errors), errors)
+
     def test_module_rejects_inconsistent_fsr_voltage_example_result(self):
         manifest = copy.deepcopy(
             _load_yaml(ROOT / "_data" / "learn" / "precise-robot-hand.yml")
