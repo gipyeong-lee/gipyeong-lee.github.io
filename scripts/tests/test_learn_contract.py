@@ -879,6 +879,7 @@ class LearnFoundationContractTest(unittest.TestCase):
         errors = _module_bom_consistency_errors(modules, [], "course")
 
         self.assertFalse(any("unsafe fault response" in error for error in errors), errors)
+        self.assertFalse(any("manual isolation as emergency stop" in error for error in errors), errors)
 
     def test_module_rejects_unsubstantiated_fuse_adapter_precedence(self):
         modules = [{

@@ -401,6 +401,18 @@ def _unsafe_emergency_isolation_instruction(value: str) -> bool:
         re.I,
     ):
         return False
+    if (
+        re.search(r"발열|과열|냄새|연기|화재|고장|overheat|smoke|fire|fault", value, re.I)
+        and re.search(r"위험\s*구역\s*밖|outside.{0,20}(?:hazard|danger)", value, re.I)
+        and re.search(
+            r"건물\s*분전반\s*차단기|upstream\s+master\s+disconnect|"
+            r"upstream.{0,30}(?:차단|disconnect)",
+            value,
+            re.I,
+        )
+        and re.search(r"공급\s*전원.{0,20}차단|supply\s+power.{0,20}(?:cut|disconnect)", value, re.I)
+    ):
+        return False
     manual_isolation = bool(
         re.search(
             r"(?:물리적\s*)?(?:전원|에너지).{0,16}(?:분리|격리)|"
