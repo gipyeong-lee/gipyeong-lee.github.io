@@ -393,6 +393,42 @@ def _unsafe_safety_system_requirement(value: str) -> bool:
     )
 
 
+def _unsafe_emergency_isolation_instruction(value: str) -> bool:
+    return bool(
+        re.search(
+            r"비상\s*(?:시|상황)|모든\s*정지|정지가\s*필요|"
+            r"emergency|all\s+stops?|when\s+(?:a\s+)?stop\s+is\s+needed",
+            value,
+            re.I,
+        )
+        and (
+            re.search(
+                r"(?:물리적\s*)?(?:전원|에너지).{0,16}(?:분리|격리)|"
+                r"(?:physical\s+)?(?:power|energy).{0,16}(?:isolat|disconnect)",
+                value,
+                re.I,
+            )
+            or (
+                re.search(
+                    r"(?:\d+\s*개\s*)?(?:전원\s*)?(?:어댑터|플러그)|"
+                    r"(?:multiple|several|all)\s+(?:power\s+)?(?:adapters?|plugs?)",
+                    value,
+                    re.I,
+                )
+                and re.search(
+                    r"즉시|분리|뽑|immediate|unplug|disconnect", value, re.I
+                )
+            )
+        )
+        and not re.search(
+            r"금지|하지\s*않|사용하지|대신하지|오인하지|"
+            r"never|do\s+not|must\s+not|not\s+an?",
+            value,
+            re.I,
+        )
+    )
+
+
 def _unsafe_live_fault_injection(value: str) -> bool:
     return bool(
         re.search(r"퓨즈|fuse", value, re.I)
@@ -743,6 +779,12 @@ def _module_bom_consistency_errors(
             if _unsafe_safety_system_requirement(sentence):
                 errors.append(
                     f"{label}: module {module_id} requires learner safety-system work"
+                )
+                break
+        for sentence in re.split(r"[.!?\n]", text):
+            if _unsafe_emergency_isolation_instruction(sentence):
+                errors.append(
+                    f"{label}: module {module_id} describes manual isolation as emergency stop; use only planned shutdown and maintenance isolation"
                 )
                 break
         for sentence in re.split(r"[.!?\n]", text):

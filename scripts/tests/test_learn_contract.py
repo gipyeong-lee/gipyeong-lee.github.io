@@ -745,6 +745,23 @@ class LearnFoundationContractTest(unittest.TestCase):
         self.assertTrue(any("reversed FSR pulldown formula" in error for error in errors), errors)
         self.assertTrue(any("requires learner safety-system work" in error for error in errors), errors)
 
+    def test_module_rejects_manual_isolation_as_emergency_or_all_stop_action(self):
+        for instruction in (
+            "비상시 물리적 전원 분리 절차 숙지 증빙",
+            (
+                "실험 중 모든 정지는 3개 절연 전원 어댑터를 물리적으로 "
+                "분리하고 무전원을 확인한 뒤 접근한다."
+            ),
+        ):
+            modules = [{"id": "M1", "content": instruction}]
+
+            errors = _module_bom_consistency_errors(modules, [], "course")
+
+            self.assertTrue(
+                any("manual isolation as emergency stop" in error for error in errors),
+                errors,
+            )
+
     def test_module_rejects_plain_reversed_fsr_formula_with_reordered_denominator(self):
         manifest = copy.deepcopy(
             _load_yaml(ROOT / "_data" / "learn" / "precise-robot-hand.yml")
