@@ -2,7 +2,7 @@
 layout: learn-module
 title: 機器人機構學基礎
 course_slug: precise-robot-hand
-course_data_key: precise-robot-hand.zh-tw
+course_data_key: precise-robot-hand-zh-tw
 course_locale: zh-tw
 lang: zh-tw
 ref: learn:precise-robot-hand:robot-mechanics-fundamentals

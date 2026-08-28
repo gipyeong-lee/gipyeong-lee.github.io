@@ -2,7 +2,7 @@
 layout: learn-catalogue
 title: Learn
 lang: ja
-learn_index_key: courses.ja
+learn_index_key: courses-ja
 permalink: /learn/ja/
 no_ads: true
 generated_by: mindtickle-studio

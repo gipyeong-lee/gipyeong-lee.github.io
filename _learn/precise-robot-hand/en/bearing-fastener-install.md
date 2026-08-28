@@ -2,7 +2,7 @@
 layout: learn-module
 title: Bearing and Fastening Part Installation
 course_slug: precise-robot-hand
-course_data_key: precise-robot-hand.en
+course_data_key: precise-robot-hand-en
 course_locale: en
 lang: en
 ref: learn:precise-robot-hand:bearing-fastener-install

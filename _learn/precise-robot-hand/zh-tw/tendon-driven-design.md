@@ -2,7 +2,7 @@
 layout: learn-module
 title: 肌腱驅動機制設計
 course_slug: precise-robot-hand
-course_data_key: precise-robot-hand.zh-tw
+course_data_key: precise-robot-hand-zh-tw
 course_locale: zh-tw
 lang: zh-tw
 ref: learn:precise-robot-hand:tendon-driven-design

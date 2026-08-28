@@ -2,7 +2,7 @@
 layout: learn-module
 title: 3D 打印及零部件加工
 course_slug: precise-robot-hand
-course_data_key: precise-robot-hand.zh-cn
+course_data_key: precise-robot-hand-zh-cn
 course_locale: zh-cn
 lang: zh-cn
 ref: learn:precise-robot-hand:3d-printing-assembly

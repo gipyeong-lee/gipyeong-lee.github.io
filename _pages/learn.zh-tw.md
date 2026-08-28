@@ -2,7 +2,7 @@
 layout: learn-catalogue
 title: Learn
 lang: zh-tw
-learn_index_key: courses.zh-tw
+learn_index_key: courses-zh-tw
 permalink: /learn/zh-tw/
 no_ads: true
 generated_by: mindtickle-studio

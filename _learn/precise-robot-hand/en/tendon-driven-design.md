@@ -2,7 +2,7 @@
 layout: learn-module
 title: Tendon-Driven Mechanism Design
 course_slug: precise-robot-hand
-course_data_key: precise-robot-hand.en
+course_data_key: precise-robot-hand-en
 course_locale: en
 lang: en
 ref: learn:precise-robot-hand:tendon-driven-design

@@ -2,7 +2,7 @@
 layout: learn-course
 title: 制作精密的 5 仿生机器人手
 course_slug: precise-robot-hand
-course_data_key: precise-robot-hand.zh-cn
+course_data_key: precise-robot-hand-zh-cn
 course_locale: zh-cn
 lang: zh-cn
 ref: learn:precise-robot-hand

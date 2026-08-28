@@ -2,7 +2,7 @@
 layout: learn-module
 title: 性能測試與驗證
 course_slug: precise-robot-hand
-course_data_key: precise-robot-hand.zh-tw
+course_data_key: precise-robot-hand-zh-tw
 course_locale: zh-tw
 lang: zh-tw
 ref: learn:precise-robot-hand:testing-validation

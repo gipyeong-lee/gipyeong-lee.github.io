@@ -2,7 +2,7 @@
 layout: learn-module
 title: 駆動器および制御器選定
 course_slug: precise-robot-hand
-course_data_key: precise-robot-hand.ja
+course_data_key: precise-robot-hand-ja
 course_locale: ja
 lang: ja
 ref: learn:precise-robot-hand:actuator-controller-selection

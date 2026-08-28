@@ -2,7 +2,7 @@
 layout: learn-module
 title: 軸承與緊固零件安裝
 course_slug: precise-robot-hand
-course_data_key: precise-robot-hand.zh-tw
+course_data_key: precise-robot-hand-zh-tw
 course_locale: zh-tw
 lang: zh-tw
 ref: learn:precise-robot-hand:bearing-fastener-install

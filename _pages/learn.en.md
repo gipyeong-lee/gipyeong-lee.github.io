@@ -2,7 +2,7 @@
 layout: learn-catalogue
 title: Learn
 lang: en
-learn_index_key: courses.en
+learn_index_key: courses-en
 permalink: /learn/en/
 no_ads: true
 generated_by: mindtickle-studio

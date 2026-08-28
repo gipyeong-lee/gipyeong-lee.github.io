@@ -2,7 +2,7 @@
 layout: learn-course
 title: 精巧な 5 指ロボットハンド製作
 course_slug: precise-robot-hand
-course_data_key: precise-robot-hand.ja
+course_data_key: precise-robot-hand-ja
 course_locale: ja
 lang: ja
 ref: learn:precise-robot-hand

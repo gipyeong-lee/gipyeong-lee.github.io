@@ -2,7 +2,7 @@
 layout: learn-module
 title: センサー統合およびフィードバック制御
 course_slug: precise-robot-hand
-course_data_key: precise-robot-hand.ja
+course_data_key: precise-robot-hand-ja
 course_locale: ja
 lang: ja
 ref: learn:precise-robot-hand:sensor-integration

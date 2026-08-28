@@ -2,7 +2,7 @@
 layout: learn-module
 title: 传感器集成与反馈控制
 course_slug: precise-robot-hand
-course_data_key: precise-robot-hand.zh-cn
+course_data_key: precise-robot-hand-zh-cn
 course_locale: zh-cn
 lang: zh-cn
 ref: learn:precise-robot-hand:sensor-integration

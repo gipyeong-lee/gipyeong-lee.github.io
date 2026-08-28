@@ -2,7 +2,7 @@
 layout: learn-module
 title: 配线与安全断电构建
 course_slug: precise-robot-hand
-course_data_key: precise-robot-hand.zh-cn
+course_data_key: precise-robot-hand-zh-cn
 course_locale: zh-cn
 lang: zh-cn
 ref: learn:precise-robot-hand:wiring-safety-system
