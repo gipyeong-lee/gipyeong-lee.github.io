@@ -222,6 +222,36 @@ class LearnFoundationContractTest(unittest.TestCase):
         errors = _module_bom_consistency_errors(modules, bom, "course")
         self.assertEqual(len(errors), 4, errors)
 
+    def test_module_rejects_undersized_connector_on_independent_branch_power_path(self):
+        bom = [
+            {
+                "category": "actuator",
+                "name": "Smart Servo",
+                "model": "XM430",
+                "quantity": 4,
+                "specifications": [
+                    {"name": "stall current", "value": "2.3", "unit": "A"}
+                ],
+            },
+            {
+                "category": "wiring",
+                "name": "Micro-Fit connector",
+                "model": "Micro-Fit 3.0",
+                "quantity": 1,
+                "specifications": [
+                    {"name": "maximum current", "value": "8.5", "unit": "A"}
+                ],
+            },
+        ]
+        modules = [{
+            "id": "M1",
+            "content": "각 독립 12 V 분기의 양(+) 출력과 전원 제어기를 Micro-Fit 3.0으로 연결한다.",
+        }]
+
+        errors = _module_bom_consistency_errors(modules, bom, "course")
+
+        self.assertTrue(any("below BOM peak" in error for error in errors), errors)
+
     def test_module_electrical_variants_and_parallel_supplies_are_rejected(self):
         bom = [
             {
@@ -725,6 +755,25 @@ class LearnFoundationContractTest(unittest.TestCase):
             errors,
         )
 
+    def test_course_and_capstone_reject_manual_isolation_described_as_stop(self):
+        manifest = copy.deepcopy(
+            _load_yaml(ROOT / "_data" / "learn" / "precise-robot-hand.yml")
+        )
+        manifest["course"]["safety_summary"] = [
+            "실험 중 정지는 3개 절연 전원 어댑터를 물리적으로 분리한다."
+        ]
+        manifest["capstone"]["rubric"] = [
+            "정지 후 물리적 전원 분리 절차의 완결성"
+        ]
+
+        errors = _validate_manifest(ROOT, "precise-robot-hand", manifest)
+
+        self.assertEqual(
+            sum("manual isolation as stop" in error for error in errors),
+            2,
+            errors,
+        )
+
     def test_module_rejects_estop_label_live_fuse_fault_and_reversed_fsr_formula(self):
         manifest = copy.deepcopy(
             _load_yaml(ROOT / "_data" / "learn" / "precise-robot-hand.yml")
@@ -748,6 +797,7 @@ class LearnFoundationContractTest(unittest.TestCase):
     def test_module_rejects_manual_isolation_as_emergency_or_all_stop_action(self):
         for instruction in (
             "비상시 물리적 전원 분리 절차 숙지 증빙",
+            "실험 중 정지는 3개 절연 전원 어댑터를 물리적으로 분리한다.",
             (
                 "실험 중 모든 정지는 3개 절연 전원 어댑터를 물리적으로 "
                 "분리하고 무전원을 확인한 뒤 접근한다."
@@ -773,6 +823,19 @@ class LearnFoundationContractTest(unittest.TestCase):
         errors = _validate_manifest(ROOT, "precise-robot-hand", manifest)
 
         self.assertTrue(any("reversed FSR pulldown formula" in error for error in errors), errors)
+
+    def test_module_rejects_inconsistent_fsr_voltage_example_result(self):
+        manifest = copy.deepcopy(
+            _load_yaml(ROOT / "_data" / "learn" / "precise-robot-hand.yml")
+        )
+        manifest["modules"][0]["worked_examples"] = [
+            "FSR 저항이 1 kΩ이고 R_fixed = 10 kΩ인 3.3 V 풀다운 분압기다. "
+            "V_out = V_ref * R_fixed / (R_FSR + R_fixed). 결과: 0.3 V."
+        ]
+
+        errors = _validate_manifest(ROOT, "precise-robot-hand", manifest)
+
+        self.assertTrue(any("FSR example states" in error for error in errors), errors)
 
     def test_module_rejects_malformed_fsr_fixed_formula_token(self):
         manifest = copy.deepcopy(

@@ -394,35 +394,43 @@ def _unsafe_safety_system_requirement(value: str) -> bool:
 
 
 def _unsafe_emergency_isolation_instruction(value: str) -> bool:
-    return bool(
+    if re.search(
+        r"금지|하지\s*않|사용하지|대신하지|오인하지|"
+        r"never|do\s+not|must\s+not|not\s+an?",
+        value,
+        re.I,
+    ):
+        return False
+    manual_isolation = bool(
         re.search(
-            r"비상\s*(?:시|상황)|모든\s*정지|정지가\s*필요|"
-            r"emergency|all\s+stops?|when\s+(?:a\s+)?stop\s+is\s+needed",
+            r"(?:물리적\s*)?(?:전원|에너지).{0,16}(?:분리|격리)|"
+            r"(?:physical\s+)?(?:power|energy).{0,16}(?:isolat|disconnect)",
             value,
             re.I,
         )
-        and (
+        or (
             re.search(
-                r"(?:물리적\s*)?(?:전원|에너지).{0,16}(?:분리|격리)|"
-                r"(?:physical\s+)?(?:power|energy).{0,16}(?:isolat|disconnect)",
+                r"(?:\d+\s*개\s*)?(?:절연\s*)?(?:전원\s*)?(?:어댑터|플러그)|"
+                r"(?:multiple|several|all)\s+(?:power\s+)?(?:adapters?|plugs?)",
                 value,
                 re.I,
             )
-            or (
-                re.search(
-                    r"(?:\d+\s*개\s*)?(?:전원\s*)?(?:어댑터|플러그)|"
-                    r"(?:multiple|several|all)\s+(?:power\s+)?(?:adapters?|plugs?)",
-                    value,
-                    re.I,
-                )
-                and re.search(
-                    r"즉시|분리|뽑|immediate|unplug|disconnect", value, re.I
-                )
-            )
+            and re.search(r"즉시|분리|뽑|immediate|unplug|disconnect", value, re.I)
         )
-        and not re.search(
-            r"금지|하지\s*않|사용하지|대신하지|오인하지|"
-            r"never|do\s+not|must\s+not|not\s+an?",
+    )
+    if not manual_isolation:
+        return False
+    if re.search(
+        r"계획\s*정지\s*후.{0,40}(?:정비|접근)|"
+        r"planned\s+shutdown.{0,40}(?:before|prior\s+to).{0,20}(?:maintenance|access)",
+        value,
+        re.I,
+    ):
+        return False
+    return bool(
+        re.search(
+            r"비상|긴급|정지|멈춤|emergency|(?:normal|all)\s+stops?|"
+            r"when\s+(?:a\s+)?stop\s+is\s+needed|shutdown|stop(?:ping|ped)?",
             value,
             re.I,
         )
@@ -462,6 +470,67 @@ def _reversed_fsr_pulldown_formula(value: str) -> bool:
         or re.search(
             r"(?:fracrfsr|rfsr/)(?:rfsr\+(?:10k|rfix(?:ed)?)|(?:10k|rfix(?:ed)?)\+rfsr)",
             compact,
+        )
+    )
+
+
+def _fsr_voltage_example_values(value: str) -> Optional[tuple[float, float]]:
+    if not re.search(r"FSR", value, re.I):
+        return None
+    fsr_match = re.search(
+        r"(?:FSR.{0,80}?저항(?:이|은)?|R_?\{?FSR\}?\s*=?)\s*"
+        r"(\d+(?:\.\d+)?)\s*kΩ",
+        value,
+        re.I | re.S,
+    )
+    fixed_match = re.search(
+        r"(?:R_?\{?fixed\}?\s*=\s*|분압\s*회로\s*\()"
+        r"(\d+(?:\.\d+)?)\s*kΩ",
+        value,
+        re.I,
+    )
+    reference_match = re.search(
+        r"(?:V_?\{?ref\}?\s*=\s*|센서\s*전원(?:은|이)?\s*)"
+        r"(\d+(?:\.\d+)?)\s*V",
+        value,
+        re.I,
+    )
+    has_opencr_reference = bool(re.search(r"(?<![\d.])3\.3\s*V", value, re.I))
+    result_match = re.search(
+        r"(?:결과|result)\s*:\s*(\d+(?:\.\d+)?)\s*V",
+        value,
+        re.I,
+    )
+    if not all((fsr_match, fixed_match, result_match)) or not (
+        reference_match or has_opencr_reference
+    ):
+        return None
+    fsr_kohm = float(fsr_match.group(1))
+    fixed_kohm = float(fixed_match.group(1))
+    reference_volts = 3.3 if has_opencr_reference else float(reference_match.group(1))
+    stated_volts = float(result_match.group(1))
+    if fsr_kohm <= 0 or fixed_kohm <= 0 or reference_volts <= 0:
+        return None
+    expected_volts = reference_volts * fixed_kohm / (fsr_kohm + fixed_kohm)
+    return expected_volts, stated_volts
+
+
+def _undersized_power_path_claim(value: str) -> bool:
+    if re.search(
+        r"메인\s*전원\s*경로가\s*아닌|손가락별\s*퓨즈\s*분기|"
+        r"not\s+(?:on|for)\s+(?:the\s+)?main\s+power|finger.{0,20}fused\s+branch",
+        value,
+        re.I,
+    ):
+        return False
+    return bool(
+        re.search(r"사용|적합|연결|배치|use|suit|connect|place", value, re.I)
+        and re.search(
+            r"메인\s*전원|전원\s*제어기|"
+            r"(?:독립\s*)?(?:\d+(?:\.\d+)?\s*V\s*)?분기.{0,40}(?:양\s*\(\+\)\s*)?출력|"
+            r"main\s+power|power\s+controller|branch.{0,40}(?:power|output)",
+            value,
+            re.I,
         )
     )
 
@@ -797,6 +866,13 @@ def _module_bom_consistency_errors(
             errors.append(
                 f"{label}: module {module_id} has reversed FSR pulldown formula; use Vref x 10 kΩ / (R_FSR + 10 kΩ)"
             )
+        fsr_example = _fsr_voltage_example_values(text)
+        if fsr_example is not None:
+            expected_volts, stated_volts = fsr_example
+            if abs(expected_volts - stated_volts) > max(0.05, expected_volts * 0.05):
+                errors.append(
+                    f"{label}: module {module_id} FSR example states {stated_volts:g} V but calculates to {expected_volts:.1f} V"
+                )
         for sentence in re.split(r"[.!?\n]", text):
             if (
                 re.search(r"EV200", sentence, re.I)
@@ -982,13 +1058,26 @@ def _module_bom_consistency_errors(
             )
             if voltage_issue and voltage_error not in errors:
                 errors.append(voltage_error)
-        if actuator_peak and "메인 전원" in text:
-            for item in undersized_paths:
-                identifiers = (str(item.get("name") or ""), str(item.get("model") or ""))
-                if any(identifier and identifier.lower() in lowered for identifier in identifiers):
-                    errors.append(
-                        f"{label}: module {module_id} uses {item.get('model')} below BOM peak {actuator_peak:g} A as main power path"
+        if actuator_peak:
+            undersized_issue = False
+            for sentence in re.split(r"(?<!\d)[.!?](?!\d)|\n", text):
+                if not _undersized_power_path_claim(sentence):
+                    continue
+                for item in undersized_paths:
+                    identifiers = (
+                        str(item.get("name") or ""),
+                        str(item.get("model") or ""),
                     )
+                    if any(
+                        identifier and identifier.lower() in sentence.lower()
+                        for identifier in identifiers
+                    ):
+                        errors.append(
+                            f"{label}: module {module_id} uses {item.get('model')} below BOM peak {actuator_peak:g} A as main or branch power path"
+                        )
+                        undersized_issue = True
+                        break
+                if undersized_issue:
                     break
         for sentence in re.split(r"[.!?\n]", text):
             if not re.search(r"어댑터|전원|출력|power\s*supply|adapter", sentence, re.I):
@@ -1092,6 +1181,10 @@ def _validate_manifest(repo: Path, slug: str, manifest: Any) -> list[str]:
             errors.append(
                 f"{label}: safety summary requires learner E-stop hardware at item {index}"
             )
+        if _unsafe_emergency_isolation_instruction(summary):
+            errors.append(
+                f"{label}: safety summary describes manual isolation as stop at item {index}"
+            )
     generation = manifest.get("generation")
     if not isinstance(generation, dict) or not generation.get("run_id"):
         errors.append(f"{label}: generation provenance missing")
@@ -1121,6 +1214,10 @@ def _validate_manifest(repo: Path, slug: str, manifest: Any) -> list[str]:
                 if _unsafe_safety_system_requirement(criterion):
                     errors.append(
                         f"{label}: capstone requires learner safety-system work at {field} item {index}"
+                    )
+                if _unsafe_emergency_isolation_instruction(criterion):
+                    errors.append(
+                        f"{label}: capstone describes manual isolation as stop at {field} item {index}"
                     )
 
     source_ids: set[str] = set()
