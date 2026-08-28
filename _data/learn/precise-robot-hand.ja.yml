@@ -1,0 +1,1487 @@
+schema_version: 1
+curriculum_version: 1.0.0+2c09fe34d0b1
+course:
+  course_type: build_project
+  slug: precise-robot-hand
+  title: 精巧な5知ロボットハンドの製作
+  summary: ロボット工学の基礎から5知ロボットハンドの設計、機構学、電子回路、制御アルゴリズム、およびシステム統合までの全工程を行うプロジェクト中心のコースです。
+  outcome: 独立動作可能な5知ロボットハンドのプロトタイプ製作、機構設計能力、組み込み制御システムの実装能力の獲得。
+  audience: ロボット工学入門の大学生およびメイカー
+  level: beginner
+  estimated_hours: 100.0
+  budget_krw:
+    min: 4500000
+    max: 6500000
+  required_tools:
+  - FDM 3Dプリンター
+  - マルチメーター
+  - はんだごて
+  - 一般的な手工具
+  - PC-CF用硬化鋼ノズル
+  - 耐衝撃用保護メガネ
+  - バーニヤキャリパー
+  safety_summary:
+  - 低電圧教育用プロトタイプであり、認証された機械安全システムではありません
+  - 学習者が作成した停止回路を安全機能や非常停止として使用しないこと
+  - 通常停止はソフトウェアによるトルクオフで実行し、計画停止後の整備・接近前には3個の絶縁電源アダプターを物理的に分離して無電源状態を計測確認すること
+  - 電源投入中は可動範囲に手を入れず、固定治具で無負荷から試験すること
+  - 切断・ドリル・テンドン張力試験中は耐衝撃用保護メガネを着用すること
+  - 異常発熱・臭気・煙を感知した場合は接近せず、危険区域外の事前指定された建物分電盤ブレーカー、または認証されたupstream master disconnectで3個のアダプター供給電源を遮断した後に退避する。危険区域外で操作可能なupstream遮断手段がない場合、システムの通電を禁ずる。トルクオフは電源遮断の代わりにはならない
+  - 人間が接近する環境へ投入する前には、有資格の安全専門家の検討のもと、二重チャンネル・手動リセット・EDM・フィードバック可能な二重接触器を別途設計および検証しなければならない
+  last_reviewed: '2026-08-28'
+phases:
+- id: p1
+  title: 基礎理論および機構設計
+  module_ids:
+  - m1
+  - m2
+  - m3
+- id: p2
+  title: 電気システムおよび組み立て
+  module_ids:
+  - m4
+  - m5
+  - m6
+- id: p3
+  title: 制御および検証
+  module_ids:
+  - m7
+  - m8
+modules:
+- id: m1
+  slug: intro-robotics
+  phase_id: p1
+  title: ロボット工学概論
+  estimated_hours: 10.0
+  prerequisites: []
+  objectives:
+  - ロボット工学の定義とシステム構成要素を理解する。
+  - 5知ロボットハンドのプロトタイプに使用されるアクチュエーターとコントローラーの役割を把握する。
+  - ロボットシステムの安全な電源分岐構成と物理的遮断原理を学習する。
+  - 力覚センサー(FSR)の動作原理とADCデータ取得方法を習得する。
+  theory_markdown: '## ロボットシステムの構成要素
+
+    ロボットは感覚(Sensor)、思考(Controller)、動作(Actuator)の三つの核心要素で構成されます [S1]。本課程の5本指ロボットハンドはDYNAMIXEL
+    XM430-W350-Tアクチュエータを使用し、腱駆動方式で関節を制御します [S14]。また、OpenCR 1.0コントローラを通じてこれらアクチュエータと指先のFSRセンサ信号を処理します
+    [S16]。
+
+
+    ## 電力システムの安全な設計
+
+    アクチュエータは12 Vの電圧でストール電流2.3 Aを要求するため [S14]、システム全体の負荷を考慮してMEAN WELL GST160A12-R7Bアダプタを3個使用します
+    [S17]。各アダプタは4台/4台/3台のアクチュエータを担当する独立した12 V分岐として運用され、これら分岐の陽(+)出力は互いに結合せず、物理的に隔離されます。各分岐には10
+    A ATOFヒューズをインラインホルダ(0AFH0001Z)経由で設置し、過電流発生時に配線を保護します [S25, S26]。これは単純な停止機能を超えた電気的安全の基礎です。
+
+
+    ## センサインターフェース
+
+    FSR 402センサは接触力に応じて抵抗が減少する特性を持ちます [S15]。これを10 kΩ抵抗と共に分圧回路で構成し、OpenCRの12ビットADCポートに接続することで接触力を電圧に換算します
+    [S16, S27]。この際、センサ回路は3.3 Vセンサ電源レールからのみ供給を受ける必要があり、アクチュエータ用12 Vレールと混用してはいけません。'
+  worked_examples:
+  - アクチュエータ負荷計算：XM430-W350-Tを4台、1個の分岐に配置する場合、ピーク電流は4 * 2.3 A = 9.2 Aとなります [S14]。これは10
+    Aヒューズの定格内であり、電源アダプタの11.5 A出力定格よりも小さいため安定した運用が可能です [S17, S26]。
+  - FSR電圧分圧器の設計：センサと10 kΩ抵抗を直列接続した分圧器において、3.3 V入力時、センサが押圧を受けず高抵抗状態のとき、ADCは0 Vに近い値を出力し、強い力を受けて抵抗が急減するとADCは3.3
+    Vに近い値を出力します [S15, S27]。
+  lab:
+    title: 電源分岐構成およびシステム基本通電試験
+    steps:
+    - 各MEAN WELLアダプタの陽(+)端子にATOインラインホルダと10 Aヒューズを接続し、3個の独立した分岐を生成する [S17, S25, S26]。
+    - マルチメータをDC電圧モードに設定し、各分岐の出力電圧が12 Vであることを確認する。
+    - OpenCRコントローラを3.3 Vセンサ電源レールに接続し、FSRセンサと10 kΩ抵抗を活用した分圧回路を構成する [S16, S27]。
+    - コントローラーに電源を投入した後、各テンドンアクチュエーターが正常に通信しているかDYNAMIXEL Wizardで確認する [S14, S16]。
+    safety:
+    - 電源投入前、すべての結線をマルチメーターの抵抗モードではなく、目視と図面で再検証する。
+    - 通電中はシステムへの接近を禁じ、必ず非通電状態(物理的なアダプター分離)で配線する。
+    - 異常発熱・臭気・煙を感知した場合は接近せず、危険区域外の事前指定された建物分電盤ブレーカーまたは認証されたupstream master disconnectで3個のアダプターの供給電源を遮断した後に退避する。危険区域外で操作可能なupstream遮断手段がない場合、システムの通電を禁ずる。トルクオフは電源遮断の代わりにはならない。整備・接近は計画停止後、物理的分離および無電源計測確認後にのみ行う。
+    - 保護メガネを常時着用し、可動範囲に身体の一部を入れない。
+    deliverables:
+    - 各分岐別の12 V測定記録写真
+    - OpenCR ADCセンサーデータ取得コード
+    - 独立分岐結線配線図
+  assignment:
+    title: ロボットシステム安全設計レポート
+    deliverables:
+    - 独立電源分岐構成図
+    - アクチュエーターピーク電流対ヒューズ定格妥当性分析
+    - FSR電圧分圧回路設計値算出式
+    rubric:
+    - アクチュエーター11台と電源分岐3個の割り当てが明確か？
+    - 3.3 Vセンサレールと12 Vアクチュエータレールの分離が正しく説明されているか？
+    - 電源遮断手順(物理的分離)が正確に記述されているか？
+  quiz:
+  - question: システム電源設計時、12 V出力端子の陽(+)極を並列接続することが禁止される理由は何か？
+    choices:
+    - 電圧が24 Vに上昇するため
+    - アダプター間の電位差による逆電流の発生および独立分岐保護破壊の危険
+    - アクチュエーターの通信速度が低下するため
+    - ソフトウェアによるトルクオフ機能を使用できないため
+    answer_index: 1
+    explanation: 各電源アダプターは独立した分岐として運用されなければならず、出力端子を結合する場合、故障したり独立ヒューズによる安全保護機能が無効化される危険があります。
+  - question: OpenCRのADCポートでFSR信号を読み取る際の適切な供給電圧は？
+    choices:
+    - 12 Vアクチュエータレール
+    - 3.3 Vセンサレール
+    - 24 V入力電源
+    - 非接触式無線電力
+    answer_index: 1
+    explanation: OpenCRのADCは0~3.3 V範囲を使用し、センサ保護のために必ず専用の3.3 Vセンサレールから供給を受ける必要があります。
+  - question: システム点検および整備のために電源を遮断する最も安全な方法は？
+    choices:
+    - ソフトウェア命令でアクチュエーターのトルクをオフにする
+    - ヒューズを取り外す
+    - 3個の電源アダプターを物理的に分離した後、電圧を計測する
+    - コントローラーの電源スイッチのみを切る
+    answer_index: 2
+    explanation: ソフトウェアコマンドやヒューズは完全な無電源状態を保証しません。必ずアダプタを物理的に分離し、マルチメータで1 V未満であることを計測しなければなりません。
+  completion_criteria:
+  - 各分岐別の12 V電圧が正常範囲内であることをマルチメータで確認し、写真を提出する
+  - FSRセンサーの接触力に応じたADC値の変化をコントローラーで確認し、正当な値を取得すること
+  - 物理的電源遮断および電圧計測を通じた安全停止手順を理解し、遵守すること
+  source_ids:
+  - S1
+  - S14
+  - S16
+  - S17
+  - S25
+  - S26
+  - S15
+  - S27
+- id: m2
+  slug: mechanism-design
+  phase_id: p1
+  title: ロボット機構設計
+  estimated_hours: 15.0
+  prerequisites:
+  - m1
+  objectives:
+  - ロボットハンド機構設計の核心原理であるアンダーアクチュエート(Underactuated)システムを理解する。
+  - テンドン駆動方式の動力学的特性と摩擦および伸長率管理の重要性を学習する。
+  - 剛性と寸法安定性を考慮したエンジニアリング素材(PC-CF)の選択および設計技法を習得する。
+  - 熱圧入インサートとベアリングを活用した精密組み立て設計の基礎を固める。
+  theory_markdown: '## ロボット機構設計原理
+
+
+    精巧な5本指ロボットハンド設計の核心は、駆動器(Actuator)数より多い自由度(DoF)を効率的に制御するアンダーアクチュエイテッドシステムの実現にあります
+    [S11]。これにより、関節数を無理に増やさなくても多様な形状の物体を安定して把持できます [S3]。
+
+
+    ### 腱駆動動動力学
+
+    腱(Tendon)駆動は、遠隔モータの張力を関節に伝達する方式です。このとき、腱の物理的特性が制御の精密さを決定します。本課程では`Dyneema SK78`繊維を使用しており、これは直径1.5
+    mmで230 daNの高い破断荷重に耐え、作動伸率(Working stretch)が1%未満と非常に低いため繰り返し精度が優れています [S18]。
+
+
+    ### 素材および構造設計
+
+    ロボットハンドのフレームとリンクには高い剛性と寸法安定性が求められます。FDM方式の`Prusament PC Blend Carbon Fiber`は炭素繊維が含まれたPC素材で、高温耐性と優れた強度を提供し、エンジニアリンググレードの部品製作に適しています
+    [S21]。組み立て時、繰り返しの分解と再組み立てのために直接ねじ山を締結する代わりに、M3真鍮熱圧入インサート(外径4.4 mm、長さ5.8 mm)を使用してねじ山の耐久性を確保します
+    [S23]。回転軸には無給油ポリマースリーブベアリング(JSM-0810-10)を使用し、メンテナンス不要で滑らかな回転と摩擦管理を実現します [S19]。'
+  worked_examples:
+  - 例題1：腱張力伝達分析。腱の作動伸率が1%の場合、100 mmの距離で1 mmの誤差が発生します。精密制御のためにはアクチュエータの電流フィードバックとセンサデータを活用した閉ループ制御が必須です
+    [S14]。
+  - 例題2：インサート締結部設計。PC-CF出力物にHTBI-M3-BRインサートを挿入する際、推奨パイロットホール直径である4 mmをCAD設計時に必ず遵守しなければ、遊びのない組み立ては不可能です
+    [S23]。
+  lab:
+    title: ロボット関節およびテンドンモジュールの組み立て実習
+    steps:
+    - 保護メガネを着用し、作業台を整理します。
+    - PC-CF出力物のパイロットホールの状態を確認し、必要に応じて加工します。
+    - 熱圧入インサートをはんだごてで加熱し、出力物に垂直に圧入します。
+    - igusベアリングを手首および関節ハウジングに装着します。
+    - アルミシャフトをベアリングに通し、ガタを確認します。
+    - Dyneemaテンドンをキャプスタンに巻き、組み立てられた関節に固定します。
+    safety:
+    - はんだごて使用時は高温に注意し、保護メガネを必ず着用します。
+    - テンドン張力試験中、テンドン破断時の跳ね返り事故を防ぐため、可動範囲に手を入れません。
+    - システム組み立て完了後、電源投入前に物理的分離状態を計測器で確認します。
+    deliverables:
+    - 組み立てられたロボット関節モジュール
+    - ベアリングおよびシャフトのガタ測定記録
+  assignment:
+    title: 5知ロボットハンド機構設計プロジェクト
+    deliverables:
+    - ロボットハンド全体のCAD組み立て図
+    - 部品リスト(BOM)および選定根拠レポート
+    - テンドン経路最適化設計図
+    rubric:
+    - 使用された部品が規格(BOM)を遵守しているか？
+    - 熱圧入インサートおよびベアリング設計が適切か？
+    - 機構的な干渉なしに自由な動きが実現されているか？
+  quiz:
+  - question: テンドン駆動でDyneema SK78を使用する主な理由は何ですか？
+    choices:
+    - 伸長率が大きく、価格が安いため
+    - 低い伸長率と高い破断荷重を提供し、精度の確保が可能なため
+    answer_index: 1
+    explanation: Dyneema SK78は伸長率が1%未満と非常に低く、ロボット制御の繰り返し精度を高めてくれます [S18]。
+  - question: PC-CF出力物に繰り返しのねじ組み立てをするために推奨される方法は？
+    choices:
+    - 出力物に直接ねじ山を加工する
+    - 真鍮熱圧入インサートを挿入する
+    answer_index: 1
+    explanation: 熱圧入インサートはPC-CFのようなエンジニアリングプラスチックにおいて、ねじ山の耐久性を大幅に向上させます [S23]。
+  completion_criteria:
+  - 各部品の規格と仕様をBOMに合わせて文書化完了
+  - 組み立て完了した関節モジュールの機能的な動きを確認
+  - 安全指針を遵守し、実習を完遂した
+  source_ids:
+  - S3
+  - S11
+  - S18
+  - S21
+  - S23
+  - S19
+  - S14
+- id: m3
+  slug: cad-modeling
+  phase_id: p1
+  title: 3D CADモデリング
+  estimated_hours: 15.0
+  prerequisites:
+  - m2
+  objectives:
+  - 3D CADモデリングの設計制約事項と製造プロセス(FDM)を理解する。
+  - 構造的な剛性を高めるPC-CFフィラメントの活用技法を学習する。
+  - 熱圧入インサートとベアリング公差を考慮した精密組み立て設計を行う。
+  theory_markdown: '### 3D CADモデリングと製造設計
+
+
+    精巧な5本指ロボットハンド製作のためには、FDM方式の積層造形特性を考慮した設計(Design for Additive Manufacturing, DfAM)が必須です。炭素繊維が含まれたPC-CFフィラメントは機械的剛性と寸法安定性が優れており、精密リンクの製作に適しています
+    [S21]。
+
+
+    #### 核心設計考慮事項
+
+    1. **公差管理およびベアリング装着**：8mm精密アルミニウムシャフトとigus JSM-0810-10ベアリング使用時、ハウジングボア公差を設計に反映しなければなりません。ベアリングは圧入(Press-fit)方式で固定されるため、ボア内径はベアリング外径(10mm)より微細に小さく設計し、強固な組み立てを誘導します
+    [S19, S20]。
+
+    2. **締結部品設計**：PC-CF出力物は直接ねじ山を切るには不適合です。繰り返しの分解・組み立ての再現性のため、HTBI-M3-BR真鍮熱圧入ねじ山インサートを使用します。そのために設計時、4mm直径のパイロットホールを配置しなければなりません
+    [S23]。
+
+    3. **構造最適化**：腱駆動方式では張力によりリンクが変形する可能性があります。応力が集中する関節部位は壁厚を確保し、積層方向が引張強度に有利になるようモデルを配置します。
+
+
+    ### システム統合および安全
+
+    本プロジェクトの電気システムは3個の独立した12V電源分岐で構成されます。アクチュエータ駆動時、過電流保護のために分岐ごとに10A ATOFヒューズを必ず装着しなければならず、アクチュエータは4/4/3台の比率で分配してピーク電流を管理します
+    [S17, S26]。センサ信号取得時、FSR 402センサは3.3Vセンサ電源レールから分圧抵抗を通じてADC入力値を生成しなければならず、12Vアクチュエータ電源とは完全に分離されなければなりません
+    [S15, S16, S27]。'
+  worked_examples:
+  - '**インサートホール設計**: Accu-componentsのM3インサート外径が4.4mmであるため、3D CADにおいて出力物に4.0mmのパイロットホールをモデリングします
+    [S23]。出力後、インサートを加熱して挿入すれば真鍮素材がプラスチック内部に安定して収まり、強固なM3雌ねじが形成されます。'
+  - '**ベアリングハウジング公差**: igusベアリングJSM-0810-10を使用するとき、10mmハウジング穴は圧入後、内径が8mm精密シャフトとガタなく密着するように設計します。広すぎると軸のガタが発生し、狭すぎるとベアリングが破損するため、試験出力を行って公差を調整します
+    [S19, S20]。'
+  lab:
+    title: 精密リンク設計および組み立て検証
+    steps:
+    - 提供されたテンドン経路と関節メカニズムを3D CADで設計しシミュレーションする。
+    - PC-CFフィラメントをFDMプリンターにロードし、硬化鋼ノズルを使用して試片を出力する [S21]。
+    - 出力物に4mmパイロットホールを確認した後、熱圧入インサートを挿入する [S23]。
+    - 8mmアルミシャフトとベアリングを組み立て、リンクの回転自由度を確認してガタを測定する [S19, S20]。
+    - マルチメーターを使用して独立した3個の電源分岐のヒューズホルダー接続状態を確認し、通電前にヒューズが正常に装着されているか検査する [S25, S26]。
+    safety:
+    - 耐衝撃用保護メガネを常時着用する。
+    - 熱圧入作業時は火傷に注意し、換気の良い場所で作業する。
+    - 電源投入時は必ず固定治具を使用し、回転部位に手を絶対に入れない。
+    - システムを整備または接近するときは、必ず3個の電源アダプターを物理的に分離し、マルチメーターで1V未満であることを確認する。
+    deliverables:
+    - ロボットハンド全体組み立て3D CADモデルファイル
+    - インサートおよびベアリング公差調整を含む設計検証レポート
+    - 電源分岐別の独立接続状態およびヒューズ装着検査写真
+  assignment:
+    title: ロボットハンド機構設計および統合配線計画
+    deliverables:
+    - すべてのリンクと関節が含まれた詳細3D CAD設計ファイル
+    - BOMと設計一致性の確認レポート
+    - 3個の独立分岐およびヒューズ配置図が含まれた配線図
+    rubric:
+    - 3D設計が積層製造公差と真鍮インサート規格(4.4mm OD)を遵守しているか？
+    - ベアリングハウジングとシャフト間のガタが適切か？
+    - 電気配線図で12Vアクチュエーター電源とセンサー回路が分離されており、各分岐ごとに10Aヒューズが設計されているか？
+  quiz:
+  - question: PC-CFフィラメントで出力されたモデルにねじ山が必要な場合、最も適切な方法は？
+    choices:
+    - 出力時、ねじ山を直接モデリングして出力する。
+    - 真鍮熱圧入インサートを加熱して挿入する。
+    answer_index: 1
+    explanation: PC-CF素材に直接ねじ山をモデリングするよりも、繰り返し組み立ての再現性のために真鍮熱圧入インサートを使用することが推奨されます
+      [S23]。
+  - question: 3個の独立した12V電源分岐を構成する際の注意事項は？
+    choices:
+    - アダプターの陽(+)出力を並列に接続して電流容量を増やす。
+    - 各分岐は独立した10Aヒューズを通じて過電流を保護する。
+    answer_index: 1
+    explanation: 独立電源アダプターの陽(+)出力は並列接続が禁じられ、各分岐別に独立ヒューズを装着して保護しなければなりません [S17, S26]。
+  - question: FSR力覚センサー駆動のための電圧源は何を使用しなければならないか？
+    choices:
+    - OpenCRの3.3Vセンサー電源レール
+    - 12Vアクチュエーター電源レール
+    answer_index: 0
+    explanation: FSR分圧回路は必ず3.3Vセンサー電源レールから電力を供給されなければならず、アクチュエーター電源とは分離されていなければなりません
+      [S16]。
+  completion_criteria:
+  - 3D CAD設計ファイルがインサートとベアリング規格に合わせて正確に作成されていること。
+  - 配線図で3個の独立電源分岐とヒューズ構成が確認されていること。
+  - 設計および検証レポートを含む課題物が提出され、基準ルブリックを通過したこと。
+  source_ids:
+  - S12
+  - S21
+  - S19
+  - S20
+  - S23
+  - S17
+  - S26
+  - S15
+  - S16
+  - S27
+  - S25
+- id: m4
+  slug: electronics-fundamentals
+  phase_id: p2
+  title: 電子回路基礎
+  estimated_hours: 12.0
+  prerequisites:
+  - m3
+  objectives:
+  - DYNAMIXELスマートアクチュエーターの電気的特性と電源システムの理解
+  - FSR 402センサを活用した電圧分圧回路設計およびADC信号取得
+  - システム過電流保護のためのヒューズベース電源分岐設計
+  - 電気回路の絶縁および物理的安全分離原則の熟知
+  theory_markdown: 異常発熱・臭気・煙を感知した場合は接近せず、危険区域外の事前指定された建物分電盤ブレーカー、または認証されたupstream
+    master disconnectで3個のアダプターの供給電源を遮断した後に退避する。危険区域外で操作可能なupstream遮断手段がない場合、システムの通電を禁ずる。トルクオフは電源遮断の代わりにはならない。整備・接近は計画停止後、物理的分離および無電源計測確認後にのみ行う
+    [S14] [S17] [S26, S25] [S26] [S15] [S27] [S16]
+  worked_examples:
+  - 例題1：分岐電源電流合計計算。一分岐に4台のアクチュエータ(ストール電流各2.3 A)が割り当てられた場合、最大理論電流は9.2 Aです。これは10 Aヒューズの定格内であり、アダプタの11.5
+    A出力限度を超えないため安全に駆動可能です [S14, S17, S26]。
+  - 例題2：FSR分圧器出力計算。FSRに力が加わりセンサ抵抗が10 kΩになったとき、分圧ノードの電圧は3.3 V * (10 kΩ / (10 kΩ + 10
+    kΩ)) = 1.65 Vとなります。これはOpenCR 12ビットADCの有効範囲内であるため精密な力フィードバックが可能です [S15, S16, S27]。
+  lab:
+    title: 電源分岐構成およびセンサー入力試験
+    steps:
+    - 各MEAN WELLアダプタ出力線に0AFH0001Zインラインホルダと10 A ATOFヒューズを直列に設置します [S17, S25, S26]。
+    - 各分岐の12 V電圧が正常範囲内であるかマルチメータで測定します。
+    - OpenCR 3.3 Vピンと10 kΩ抵抗、FSR 402を使用して分圧回路をブレッドボードに構成します [S16, S27]。
+    - センサ電圧が0~3.3 V範囲内にあるか確認し、力を加える際、電圧変化を観察します。
+    safety:
+    - 整備および接近前、3個の電源アダプタを物理的に分離した後、各分岐のDC電圧が1 V未満であることをマルチメータで必ず確認します。
+    - 回路構成中、電源投入禁止。電圧測定はすべての結線完了後、固定治具状態で行います。
+    - 耐衝撃用保護メガネを常時着用します。
+    - アクチュエータ電源(12 V)とセンサ電源(3.3 V)を絶対に混線させないでください。
+    deliverables:
+    - 回路別電圧測定データシート
+    - FSR力センサーの力-電圧反応曲線プロット
+    - 過電流保護のための分岐別ヒューズ結線写真
+  assignment:
+    title: 電源配分およびセンサーデータ収集設計
+    deliverables:
+    - アクチュエーター分岐別電力割り当て計画書
+    - OpenCR ADC回路図を含む配線図
+    - ヒューズ定格選定論理レポート
+    rubric:
+    - 電源分岐合計電流が各アダプターの許容範囲を遵守している
+    - FSR回路が3.3 Vセンサレールのみに接続されていること
+    - ヒューズが過電流保護を適切に遂行できる定格で選定されている
+  quiz:
+  - question: 次の中で電源分岐構成時に禁じられる行為は何ですか？
+    choices:
+    - 分岐ごとに10 Aヒューズを直列に設置すること
+    - 独立したアダプターの陽(+)端子を並列に接続すること
+    - アクチュエーターを4:4:3で配分すること
+    - FSRセンサを3.3 Vレールに接続すること
+    answer_index: 1
+    explanation: 各アダプター出力は独立した分岐として使用しなければならず、電源アダプター出力間の並列接続はシステム故障および火災の危険を招く恐れがあるため、絶対禁じられます。
+  - question: FSR 402センサ電圧分圧回路構成時の注意事項として正しいものは？
+    choices:
+    - 12 Vアクチュエータ電源レールを使用しなければならない。
+    - 5 V電源を使用してADC解像度を高めなければならない。
+    - OpenCRの3.3 Vセンサ電源を使用しなければならない。
+    - 抵抗なしにFSRのみを接続しなければならない。
+    answer_index: 2
+    explanation: FSRセンサの電圧信号はOpenCR ADC入力範囲(0~3.3 V)を超えてはいけないため、必ず3.3 Vセンサ電源を使用しなければなりません。
+  completion_criteria:
+  - すべての電源分岐回路の電圧が1 V未満に物理的に分離されていることをマルチメータで立証
+  - ヒューズ装着および3.3 V電源分圧回路構成完了
+  - FSRセンサ信号がOpenCR ADCで0~3.3 V内で正常に取得されることを確認
+  source_ids:
+  - S6
+  - S9
+  - S14
+  - S17
+  - S26
+  - S25
+  - S15
+  - S27
+  - S16
+- id: m5
+  slug: actuators-sensors
+  phase_id: p2
+  title: アクチュエーターおよびセンサー統合
+  estimated_hours: 13.0
+  prerequisites:
+  - m4
+  objectives:
+  - DYNAMIXELスマートアクチュエーターの制御信号と電源配分構造を理解する。
+  - FSR(力感応抵抗)センサーの動作原理を把握し、OpenCRコントローラーで電圧分圧回路を設計する。
+  - アクチュエーター電源分岐および個別ヒューズ保護の重要性を習得する。
+  - テンドン駆動システムの機構的特性と電子制御フィードバックの連動方法を習得する。
+  theory_markdown: 異常発熱・臭気・煙を感知した場合は接近せず、危険区域外の事前指定された建物分電盤ブレーカー、または認証されたupstream
+    master disconnectで3個のアダプターの供給電源を遮断した後に退避する。危険区域外で操作可能なupstream遮断手段がない場合、システムの通電を禁ずる。トルクオフは電源遮断の代わりにはならない。整備・接近は計画停止後、物理的分離および無電源計測確認後にのみ行う
+    [S14] [S16] [S17] [S15] [S27] [S26]
+  worked_examples:
+  - 例題1：アクチュエータ分岐別最大負荷計算。1台のアクチュエータストール電流2.3 Aの場合[S14]、4台のアクチュエータが配置された分岐の最大ピーク電流は4
+    * 2.3 A = 9.2 Aである。これは10 Aヒューズの定格内であり[S26]、11.5 Aアダプタ出力仕様を超えないため安全である[S17]。
+  - 例題2：FSR分圧回路のADC電圧算出。センサ抵抗をR_fsr、固定抵抗をR_fixed(10 kΩ)とする時、ADC入力電圧V_adc = 3.3V *
+    (R_fixed / (R_fsr + R_fixed))である[S16, S27]。接触力がない時(無限大抵抗) V_adcは0 V、最大接触時、センサ抵抗が固定抵抗より小さくなるとV_adcは3.3
+    Vに近づき、力データをデジタル化する。
+  lab:
+    title: アクチュエーターおよびFSRセンサー統合試験
+    steps:
+    - 各アダプタ出力端にATOインラインヒューズホルダを接続し、10 Aヒューズを挿入する[S25, S26]。
+    - DYNAMIXELアクチュエーターハーネスをヒューズ以降の電源分岐に接続する [S9]。
+    - FSRセンサと10 kΩ抵抗を使用して電圧分圧回路を構成し、OpenCRの3.3 V ADCポートに接続する[S16, S27]。
+    - マルチメータをDC電圧モードに設定し、各分岐の出力電圧が12 Vであることを確認する。
+    - ソフトウェアでアクチュエーターを低速無負荷回転させ、通信状態を点検する。
+    safety:
+    - 整備前、3個の電源アダプタを物理的に分離した後、1 V未満であることを測定して無電源状態を確認する。
+    - 電源投入中は手をアクチュエーターの可動範囲に入れない。
+    - 回路試験時は保護メガネを必ず着用する。
+    - 異常発熱・臭気・煙を感知した場合は接近せず、危険区域外の事前指定された建物分電盤ブレーカー、または認証されたupstream master disconnectで3個のアダプターの供給電源を遮断した後に退避する。危険区域外で操作可能なupstream遮断手段がない場合、システムの通電を禁ずる。トルクオフは電源遮断の代わりにはならない。整備・接近は計画停止後、物理的分離および無電源計測確認後にのみ行う
+    deliverables:
+    - 分岐別電圧測定校正記録用紙
+    - FSRセンサー圧力-ADC値特性曲線グラフ
+    - 正常作動状態のロボットハンドハーネス写真および配線図
+  assignment:
+    title: 電源システム設計およびフィードバックロジック実装
+    deliverables:
+    - アクチュエーター分岐別負荷配分およびヒューズ保護計算書
+    - FSRセンサーデータを利用した把持力制御アルゴリズム(擬似コード)
+    - 最終配線および電源統合設計レポート
+    rubric:
+    - 12 Vアクチュエータと3.3 Vセンサレールが正しく分離されているか？
+    - 分岐別最大ピーク電流がヒューズ定格を超えないか？
+    - 教育用プロトタイプは機械安全標準遵守や認証を主張せず、人間が接近する環境へ投入前には有資格の安全専門家の別途検討が必要であるか？
+    - 安全規則に従った電源物理分離手順を理解したか？
+  quiz:
+  - question: FSR電圧分圧回路の供給電源として適切なものは？
+    choices:
+    - 12 Vアクチュエータ電源
+    - OpenCR 3.3 Vセンサ電源
+    answer_index: 1
+    explanation: FSRセンサのADC信号はOpenCRの3.3 Vセンサレールを使用しなければならず、12 Vアクチュエータ電源とは電気的に完全に分離されなければならない。
+  - question: 分岐別ヒューズ保護の主な目的は何ですか？
+    choices:
+    - 電圧を12 Vに強制固定するため
+    - 異常発熱・臭気・煙を感知した場合は接近せず、危険区域外の事前指定された建物分電盤ブレーカー、または認証されたupstream master disconnectで3個のアダプターの供給電源を遮断した後に退避する。危険区域外で操作可能なupstream遮断手段がない場合、システムの通電を禁ずる。トルクオフは電源遮断の代わりにはならない。整備・接近は計画停止後、物理的分離および無電源計測確認後にのみ行う
+    answer_index: 1
+    explanation: 各分岐に配置された10 Aヒューズは、アクチュエータのピーク電流を許容しながら、配線ショート等の故障発生時、過電流からシステムを保護する。
+  - question: 絶縁型電源アダプターの独立した陽(+)出力同士を接続してもよいか？
+    choices:
+    - 分岐電流合計のために必ず接続しなければならない
+    - 絶対禁じられ、各分岐を独立的に維持しなければならない
+    answer_index: 1
+    explanation: 独立型分岐構造のため、陽(+)出力並列接続は絶対禁じられ、各出力は物理的に分離された電源ハーネスとして運営されなければならない。
+  completion_criteria:
+  - 各アクチュエータ分岐で12 V電圧が正常に計測されることを確認した。
+  - FSRセンサーデータをコントローラーで正常に取得し、接触力変化によるADC値変化を立証した。
+  - システム電源を物理的に遮断し、1 V未満の状態において安全に整備接近を遂行できる。
+  - すべての実習課題および安全遵守誓約書を提出した。
+  source_ids:
+  - S14
+  - S15
+  - S16
+  - S17
+  - S27
+  - S26
+  - S25
+  - S9
+- id: m6
+  slug: assembly
+  phase_id: p2
+  title: ロボットハンド組み立て
+  estimated_hours: 15.0
+  prerequisites:
+  - m5
+  objectives:
+  - ロボットハンド機構組み立てのための精密部品締結原理を理解する。
+  - テンドン(Dyneema)駆動システムの張力伝達構造を把握する。
+  - 独立電源分岐構成と物理的配線安全を学習する。
+  - FSRセンサーと分圧回路の正しい統合方法を習得する。
+  theory_markdown: '### 精密組み立ておよびハーネスシステム
+
+
+    ロボットハンド組み立ては機械的剛性と電子的な信頼性を同時に確保しなければならない精密工程です。主要構造物は剛性と寸法安定性が高い炭素繊維充填PCフィラメント(PC-CF)で製作され
+    [S21]、M3真鍮熱圧入インサートを通じて繰り返しの分解と組み立てが可能なように設計されました [S23]。
+
+
+    #### 腱駆動原理
+
+    腱はアクチュエータの回転運動を指関節の屈曲運動に変換します。Dyneema SK78素材は直径1.5 mmで230 daNの高い破断荷重と1%未満の低い作動伸率を提供し、張力伝達効率を最大化します
+    [S18]。組み立て時、キャプスタン縁の丸め処理は、腱の摩耗を防止する必須要素です。
+
+
+    #### 独立電源および安全分岐
+
+    本システムは3個の独立した12 V電源分岐を使用します [S17]。各分岐はアダプタ別に電気的に絶縁され、絶対に陽(+)出力を並列に連結しません。各分岐には10
+    A ATOFヒューズが直列に配置され、配線欠陥から保護します [S26]。これはアクチュエータのストール電流合計が安全に収容されるように設計されました。
+
+
+    #### センサインターフェース
+
+    指先のFSR 402センサは圧力に応じて抵抗が変わる可変抵抗体です [S15]。教育用プロトタイプは機械安全標準遵守や認証を主張しておらず、人接近環境投入前、資格のある安全専門家の別途検討が必要です
+    [S27] [S16]。'
+  worked_examples:
+  - 例示1：ヒューズ容量計算。XM430アクチュエータ11台(ストール電流合計9.2 A)を1個の12 V分岐に接続する場合、10 Aヒューズを使用することが適切です。これは正常運転範囲を収容しながら、配線過負荷時、回路を保護する標準規格です
+    [S14, S26]。
+  - 例示2：熱圧入インサート深さ。M3真鍮インサートはPC-CF出力物に垂直に正確に熱圧入されなければならず、4.4 mm外径に合わせた4 mmパイロットホールが必要です
+    [S23]。傾きはねじ山組み立て精度を低下させるため注意しなければなりません。
+  lab:
+    title: ロボットハンド機構組み立ておよび配線実習
+    steps:
+    - M3熱圧入インサートを指リンクと手のひらフレームに設置します。
+    - igus JSM-0810-10ベアリングと8 mmアルミニウムシャフトを手首および関節軸に装着します。
+    - Dyneemaテンドンをキャプスタンに巻き、適正張力で指に連結します。
+    - Micro-Fit 3.0コネクタを使用して各アクチュエータと指先センサハーネスを配線します [S9]。
+    - 各独立12 V分岐に10 Aヒューズを設置し、個別電源接続を確認します [S26, S25]。
+    safety:
+    - 電源投入前には必ずマルチメーターで3個の電源分岐の絶縁状態を確認してください。
+    - テンドン張力試験中、テンドン破断時の跳ね返り防止のため常に保護メガネを着用してください。
+    - 整備および部品接近前、3個の電源アダプタを物理的に分離し、各分岐の電圧が1 V未満であることを計測確認してください。
+    - 絶対に二つ以上の電源アダプタ陽(+)出力を並列に連結しないでください。
+    deliverables:
+    - 関節別摩擦のない駆動確認映像
+    - 各電源分岐別ヒューズ設置写真
+    - 組み立て完了したロボットハンドの配線図および締結トルク記録
+  assignment:
+    title: ロボットハンドシステム統合レポート
+    deliverables:
+    - 完成された組み立て体3面図および締結点詳細図(CAD)
+    - 電源分岐別負荷配分表およびヒューズ容量検証結果
+    - 指屈曲時のテンドン張力データ記録
+    rubric:
+    - 機構組み立て精度およびベアリング摩擦最小化(40%)
+    - 独立分岐別の独立的な電源配線および安全指針遵守(40%)
+    - 提出物の技術仕様の正確性(20%)
+  quiz:
+  - question: 次の中で電源供給方式に対する説明として正しいものは？
+    choices:
+    - 3個の電源アダプターの陽(+)端子を並列に接続して電流容量を大きくする。
+    - 各電源アダプターは独立した分岐として使用し、陽(+)端子は電気的に絶縁する。
+    answer_index: 1
+    explanation: システム安全のために各電源アダプターは独立した分岐として使用し、陽(+)出力を並列に接続することは絶対禁じられます。
+  - question: FSR 402センサをOpenCRボードに接続する際に使用しなければならない電圧は？
+    choices:
+    - 3.3 Vセンサ電源レール
+    - 12 Vアクチュエータ電源レール
+    answer_index: 0
+    explanation: FSRセンサ分圧回路はADC信号を0-3.3 V範囲内に維持するために必ず3.3 Vセンサレールに接続しなければなりません。
+  - question: テンドン素材としてDyneema SK78を使用する主な理由は？
+    choices:
+    - 安い価格と簡単な加工性
+    - 小さな直径対比高い破断荷重と非常に低い作業伸長率
+    answer_index: 1
+    explanation: Dyneema SK78は非常に高い強度と低い伸長率を提供し、精密な張力伝達に適しています。
+  completion_criteria:
+  - すべての5個の指関節の物理的組み立て完了
+  - 独立的な3個の電源分岐のヒューズ設置確認
+  - 組み立て完了後、3個の分岐それぞれ無電源状態(1 V未満)確認
+  source_ids:
+  - S19
+  - S20
+  - S21
+  - S23
+  - S18
+  - S17
+  - S26
+  - S15
+  - S27
+  - S16
+  - S14
+  - S9
+  - S25
+- id: m7
+  slug: firmware-control
+  phase_id: p3
+  title: ファームウェアおよび制御
+  estimated_hours: 10.0
+  prerequisites:
+  - m6
+  objectives:
+  - DYNAMIXELスマートアクチュエータの動作原理と制御プロトコル(Protocol 2.0)を理解する。
+  - OpenCRコントローラーの構造を把握し、センサーおよびアクチュエーターインターフェースを構成する。
+  - FSR電圧分圧回路を設計し、ADC信号処理過程を実装する。
+  - 状態機械(State Machine)を活用してロボットハンドの把持および制御ロジックをファームウェアで作成する。
+  theory_markdown: '## DYNAMIXELスマートアクチュエータ制御
+
+    ロボットハンドの各関節はXM430-W350-Tアクチュエータを使用して駆動される [S14]。このアクチュエータは位置、速度、電流フィードバックをリアルタイムで提供し、DYNAMIXEL
+    Protocol 2.0を通じて制御される [S14]。コントローラであるOpenCR 1.0は216MHz ARM Cortex-M7プロセッサを搭載し、別途の通信ブリッジなしに直接アクチュエータと通信する
+    [S16]。
+
+
+    ## ADCおよびセンサインターフェース
+
+    指先の接触力はFSR 402センサを使用して測定する [S15]。FSRは印加された力が強まるにつれて抵抗が減少する特性を持つ [S15]。OpenCRのADC入力解像度は12ビットであり
+    [S16]、3.3Vセンサ電源レールを使用して電圧分圧回路を構成する [S16, S27]。
+
+
+    10 kΩプルダウン分圧器は$V_{out}=V_{ref}\frac{R_{fixed}}{R_{FSR}+R_{fixed}}$を使用する
+
+
+    ここで$R_{fixed}$は10kΩ抵抗を使用する [S27]。安全のためにすべてのアナログ信号は0-3.3V範囲を超えないように設計されなければならない
+    [S16]。
+
+
+    ## ファームウェア構造
+
+    ロボットハンドの制御システムは「待機」、「把持遂行」、「把持維持」、「解除」の状態機械で具現する。ファームウェアはループ内でセンサ値を周期的にポーリングし、アクチュエータの電流および位置データを分析して安定した把持力を維持する。'
+  worked_examples:
+  - '例題1: FSR ADC値の正規化。FSRセンサーがOpenCR ADCに接続され、0～4095(12ビット)範囲の値をするとき、これを0.0～1.0の力比率へ変換するコードを作成せよ。(式:
+    `normalized = adc_value / 4095.0`)'
+  - '例題2: XM430位置制御命令。DYNAMIXEL SDKを使用して1番関節を2048(中央値)へ移動させる命令を構成せよ。 `packetHandler->write2ByteTxRx(portHandler,
+    1, ADDR_GOAL_POSITION, 2048, &error);` のような呼び出し体系を使用する。'
+  lab:
+    title: ロボットハンドファームウェア実装およびセンサー補正
+    steps:
+    - OpenCR 1.0ボードをPCとUSBで接続し、基本通信環境を設定する [S16]。
+    - 各指に接続されたFSR分圧回路をOpenCRの3.3Vセンサー電源レールにはんだ付けして接続する [S16, S27]。
+    - マルチメーターを使用してFSR無負荷時および加圧時に電圧が0-3.3V範囲内にあるか確認する。
+    - ファームウェアからセンサー値を読み取ってシリアルモニターに出力し、物理的接触時の変化を確認する。
+    - 単一アクチュエーターを固定治具に接続し、制御コードを通じて精密移動を試験する。
+    safety:
+    - 絶対に5Vまたは12Vアクチュエーター電源レールをADCセンサー回路に直接接続しない [S16]。
+    - 電源投入前に配線図を再確認し、短絡の有無をマルチメーターで確認する。
+    - アクチュエーター無負荷状態で初期稼働試験を遂行する。
+    - 異常発熱・臭気・煙を感知した場合は接近せず、危険区域外の事前指定された建物分電盤ブレーカー、または認証されたupstream master disconnectで3個のアダプターの供給電源を遮断した後に退避する。危険区域外で操作可能なupstream遮断手段がない場合、システムの通電を禁ずる。トルクオフは電源遮断の代わりにはならない。整備・接近は計画停止後、物理的分離および無電源計測確認後にのみ行う
+      [S17]
+    - 接近する前に3個の電源アダプターを物理的に取り外し、DC電圧モードで各分岐の電圧が1V未満であることを確認する。
+    deliverables:
+    - センサーデータ出力シリアルログ
+    - 動作試験および校正済みのファームウェアソースコード
+    - ADC正規化数式定義書
+  assignment:
+    title: 5指ロボットハンドシステム統合制御報告書
+    deliverables:
+    - 状態機械設計図およびロジック詳細技術書
+    - 全11個のアクチュエーターおよび5個のセンサー統合制御ファームウェア
+    - 動作検証動画および把持力分析グラフ
+    rubric:
+    - 状態機械が安全に把持および解除ループを実行しているか？
+    - センサーデータがノイズなく安定的に取得されているか？
+    - 電源分岐ごとの設計がBOMの独立分岐原則を遵守しているか？
+    - 安全規則（物理的な電源分離など）を遵守し、記録しているか？
+  quiz:
+  - question: OpenCRコントローラーでFSR電圧分圧回路のために使用しなければならない電源レールは？
+    choices:
+    - 12Vアクチュエーター電源
+    - 3.3Vセンサー電源
+    - 5V電源
+    - USB 5V
+    answer_index: 1
+    explanation: OpenCRマニュアルと互換性基準に従い、FSR電圧分圧は3.3Vセンサー電源レールのみを使用しなければならない [S16]。
+  - question: アクチュエーター電源分岐アダプターが3個である状況において、正しい電源接続方法は？
+    choices:
+    - 3個のアダプターの正(+)出力を並列に接続して電流容量を増やす。
+    - 各アダプターを独立した分岐として構成し、ヒューズを通す。
+    - 1個のアダプターにすべてのアクチュエーターを接続し、残りは予備とする。
+    - アダプターの出力を組み合わせて36Vに昇圧して使用する。
+    answer_index: 1
+    explanation: 正(+)出力の並列接続は禁止されており、各アダプターは独立した分岐として維持し、ヒューズを通じて過電流を保護しなければならない [S17]。
+  - question: ロボットハンドシステムの整備または接近前に実行しなければならない必須ステップは？
+    choices:
+    - ソフトウェアのトルク解除命令のみを行う。
+    - ヒューズを取り外す。
+    - 3個の電源を物理的に分離し、マルチメーターで各分岐の1V未満の電圧を確認する。
+    - コントローラーのResetボタンを押す。
+    answer_index: 2
+    explanation: トルク解除は電源遮断の代わりにはならず、必ず3個のアダプターを取り外し、DC電圧計測で確認しなければならない。
+  completion_criteria:
+  - 統合制御ファームウェアが5指ロボットハンドの把持動作をループ内で実行していること。
+  - すべてのセンサーがADC信号を0-3.3Vの範囲内で正常に取得していること。
+  - すべての電気的接続が、ヒューズを含む独立分岐設計基準を満たしていること。
+  - 安全レビュー報告書に、無電源計測確認の記録が含まれていること。
+  source_ids:
+  - S16
+  - S14
+  - S15
+  - S27
+  - S17
+- id: m8
+  slug: testing-validation
+  phase_id: p3
+  title: 試験および検証
+  estimated_hours: 10.0
+  prerequisites:
+  - m7
+  objectives:
+  - ロボットハンドの駆動システム性能を評価するための体系的な試験手順を確立する。
+  - データに基づく精密検証のために、センサーデータとアクチュエーターフィードバックを分析する。
+  - ロボットハンドの機構的な耐久性および繰り返し精度を検証する。
+  - システム統合後の安全な運用のための運用ガイドラインを作成する。
+  theory_markdown: '### 1. ロボットハンド性能評価の主要指標
+
+    ロボットハンドの性能検証は、機構設計の忠実度と制御アルゴリズムの効果を立証する過程です [S1]。主な評価指標は以下の通りです。
+
+    - **繰り返し精度(Repeatability):** 同一の目標位置に到達する際の誤差範囲で、`XM430-W350-T`アクチュエーターの高解像度エンコーダーフィードバックを通じて計算されます
+    [S14]。
+
+    - **把持安定性(Grasp Stability):** `FSR 402`センサーで測定される接触力分布を分析し、物体を滑らせることなく把持しているかを評価します
+    [S15]。
+
+    - **耐久性(Durability):** テンドン(`Dyneema SK78`)およびリンク(`PC-CF`)構造の疲労破壊の有無を確認するため、繰り返し負荷試験を行います
+    [S18, S21]。
+
+
+    ### 2. データ取得および分析
+
+    `OpenCR`制御ボードのADCを通じてFSRデータをリアルタイムで収集します。3.3 Vセンサー電源を使用し、0~3.3 Vの範囲内で最大12-bit解像度で力信号を変換します
+    [S16]。データ取得時、ノイズを低減するために移動平均フィルターなどを適用し、把持力の変化を平滑化します。
+
+
+    ### 3. 電気的安全検証
+
+    各アクチュエーターグループは独立した`12 V`アダプター分岐で構成され、`10 A` ATOFヒューズで過電流から保護されます [S17, S26]。システムの無電源状態の確認は、常にDC電圧モード（1
+    V未満）で計測して行います。'
+  worked_examples:
+  - '**例題1: 繰り返し精度誤差分析**
+
+    目標地点50度から100回繰り返し移動した後にエンコーダー値を収集した結果、平均50.02度、標準偏差0.05度であることが確認されました。これは要求される精度範囲内です。'
+  - '**例題2: FSRに基づく把持力校正**
+
+    圧力がかかっていない時のADC値が50、最大把持(20 N)時に3800である場合、線形補間式を使用してADC値から力(N)をリアルタイム推定します [S15]。'
+  lab:
+    title: ロボットハンド可動範囲および把持力検証
+    steps:
+    - 各独立分岐の電源アダプター接続部で電圧が12 Vであることを確認する。
+    - ソフトウェアトルク解除状態で、ロボットハンドのリンク間に干渉がないか機構的に点検する。
+    - 無負荷状態で各指の可動範囲を段階的に確認する。
+    - FSRセンサーにかかる圧力を段階的(0.5 N、1 N、5 N)に印加し、ADC信号をログする。
+    - 通電検査を終了した後、すべての電源アダプターを物理的に取り外す。
+    - マルチメーターを使用して3個の分岐の電圧が1 V未満まで放電されたことを確認する。
+    safety:
+    - 整備および接近前に3個の絶縁電源アダプターを物理的に取り外し、無電源状態を計測確認する。
+    - 電源印加中は絶対に手を可動範囲に入れないこと。また、固定ジグを用いて試験を行う。
+    - 異常発熱・臭気・煙を検知した場合、接近せず危険区域外から指定された建物分電盤の遮断器、または認証されたupstream master disconnectで3個のアダプターの供給電源を遮断した後に退避する。危険区域外で操作可能なupstream遮断手段がない場合、システムの通電を禁じる。トルク解除は電源遮断の代わりにはならない。整備・接近は計画停止後、物理的分離および無電源計測確認を行った後でのみ行う。
+    - 作業時は衝撃防止用の保護メガネを必ず着用する。
+    deliverables:
+    - 可動範囲および把持力試験ログデータファイル
+    - 繰り返し精度統計分析報告書
+    - 電源分岐ごとの計測安全確認書
+  assignment:
+    title: 最終性能検証報告書の作成
+    deliverables:
+    - システム統合検証報告書(PDF)
+    - 性能指標数値データおよび可視化グラフ
+    - 運用ガイドラインおよびトラブルシューティング手順書
+    rubric:
+    - 可動範囲および繰り返し精度測定データの一貫性確認
+    - FSRセンサーデータを活用した力制御アルゴリズムの有効性検証
+    - 機構的な耐久性試験を通じた破損の有無および組立安定性評価
+    - 安全ガイドライン遵守および手続きの妥当性
+  quiz:
+  - question: システム安全整備手順のうち、正しくないものは？
+    choices:
+    - ソフトウェアトルク解除を実行する。
+    - 計画停止後、整備・接近前に3個の電源アダプターを物理的に取り外し、各分岐の無電源状態を計測確認する。
+    - 3個の電源アダプターを物理的に取り外し、マルチメーターのDC電圧モードで各分岐の残留電圧が1 V未満であることを確認する。
+    - DC電圧モードで各分岐が1 V未満であることを計測確認する。
+    answer_index: 2
+    explanation: 抵抗モードは、通電中の回路を測定したり、放電されていないコンデンサによって装置の損傷や誤読を誘発する可能性があります。無電源状態の確認は必ずDC電圧モードを使用しなければなりません。
+  - question: FSR 402 センサーと OpenCR ボードを活用した回路構成時の注意点は？
+    choices:
+    - FSR電圧分圧器は3.3 Vセンサー電源のみを使用し、アナログ入力信号を0~3.3 V範囲に維持する。
+    - FSR分圧回路は3.3 Vセンサー電源のみを使用しなければならない。
+    answer_index: 1
+    explanation: OpenCRのADC入力は0~3.3 Vの範囲を超えてはならないため、必ず安定した3.3 Vセンサー電源を使用しなければなりません。
+  completion_criteria:
+  - 試験および検証段階のすべての実験データを提出し、ログ分析を完了すること。
+  - 3個の独立電源分岐の物理的分離および安全電圧計測手順を遵守すること。
+  - 繰り返し精度と把持力に関する定量的な評価指標が目標範囲を達成すること。
+  - すべての機構部品と電子回路が安全に動作することを最終報告書で立証すること。
+  source_ids:
+  - S1
+  - S12
+  - S14
+  - S15
+  - S18
+  - S21
+  - S16
+  - S17
+  - S26
+sources:
+- id: S1
+  title: Introduction to Robotics | Mechanical Engineering | MIT ...
+  organization: ocw.mit.edu
+  url: https://ocw.mit.edu/courses/2-12-introduction-to-robotics-fall-2005/
+  type: university
+  published_at: null
+  accessed_at: '2026-08-28'
+  primary: true
+  supports:
+  - m1
+  - m8
+- id: S3
+  title: CN101500764B - multi-fingered robotic hand - Google Patents
+  organization: patents.google.com
+  url: https://patents.google.com/patent/CN101500764B/en
+  type: patent
+  published_at: null
+  accessed_at: '2026-08-28'
+  primary: true
+  supports:
+  - m2
+- id: S6
+  title: Using the TPS 5430 As An Inverting Buck Boost Converter (Rev. A
+  organization: ti.com
+  url: https://www.ti.com/lit/an/slva257a/slva257a.pdf?ts=1764683272530&ref_url=https%3A%2F%2Fwww.google.com%2F
+  type: datasheet
+  published_at: null
+  accessed_at: '2026-08-28'
+  primary: true
+  supports:
+  - m4
+- id: S7
+  title: IEC 60204-1:2016 Safety of Machinery
+  organization: webstore.iec.ch
+  url: https://webstore.iec.ch/en/publication/26037
+  type: standard
+  published_at: null
+  accessed_at: '2026-08-28'
+  primary: true
+  supports:
+  - course
+- id: S9
+  title: Micro-Fit 3.0 Connector Family Specification
+  organization: content.molex.com
+  url: https://www.content.molex.com/dxdam/literature/987650-5984.pdf
+  type: datasheet
+  published_at: null
+  accessed_at: '2026-08-28'
+  primary: true
+  supports:
+  - bom
+  - m4
+  - m5
+  - m6
+- id: S11
+  title: Underactuated Robotics
+  organization: underactuated.mit.edu
+  url: https://underactuated.mit.edu/
+  type: university
+  published_at: null
+  accessed_at: '2026-08-28'
+  primary: true
+  supports:
+  - m2
+- id: S12
+  title: 'Ruka-v2: Tendon Driven Open-Source Dexterous Hand with Wrist'
+  organization: arxiv.org
+  url: https://arxiv.org/abs/2603.26660
+  type: paper
+  published_at: null
+  accessed_at: '2026-08-28'
+  primary: true
+  supports:
+  - m3
+  - m8
+- id: S14
+  title: XM430-W350 e-Manual
+  organization: emanual.robotis.com
+  url: https://emanual.robotis.com/docs/en/dxl/x/xm430-w350/
+  type: datasheet
+  published_at: null
+  accessed_at: '2026-08-28'
+  primary: true
+  supports:
+  - bom
+  - m1
+  - m2
+  - m4
+  - m5
+  - m6
+  - m7
+  - m8
+- id: S15
+  title: FSR Model 402
+  organization: interlinkelectronics.com
+  url: https://www.interlinkelectronics.com/products/fsr-model-402
+  type: datasheet
+  published_at: null
+  accessed_at: '2026-08-28'
+  primary: true
+  supports:
+  - bom
+  - m1
+  - m3
+  - m4
+  - m5
+  - m6
+  - m7
+  - m8
+- id: S16
+  title: OpenCR 1.0
+  organization: emanual.robotis.com
+  url: https://emanual.robotis.com/docs/en/parts/controller/opencr10/
+  type: technical_documentation
+  published_at: null
+  accessed_at: '2026-08-28'
+  primary: true
+  supports:
+  - bom
+  - m1
+  - m3
+  - m4
+  - m5
+  - m6
+  - m7
+  - m8
+- id: S17
+  title: GST160A12-R7B Enclosed Desktop Power Adapter
+  organization: meanwell.com
+  url: https://www.meanwell.com/Upload/PDF/GST160A/GST160A-SPEC.PDF
+  type: datasheet
+  published_at: null
+  accessed_at: '2026-08-28'
+  primary: true
+  supports:
+  - bom
+  - m1
+  - m3
+  - m4
+  - m5
+  - m6
+  - m7
+  - m8
+- id: S18
+  title: D-Pro 1.5 mm
+  organization: liros.com
+  url: https://www.liros.com/catalog/en/d-pro-1-5mm-p1850/
+  type: technical_documentation
+  published_at: null
+  accessed_at: '2026-08-28'
+  primary: true
+  supports:
+  - bom
+  - m2
+  - m6
+  - m8
+- id: S19
+  title: iglide J JSM-0810-10 Sleeve Bearing
+  organization: igus.com
+  url: https://www.igus.com/product?artNr=JSM-0810-10
+  type: technical_documentation
+  published_at: null
+  accessed_at: '2026-08-28'
+  primary: true
+  supports:
+  - bom
+  - m2
+  - m3
+  - m6
+- id: S20
+  title: drylin R Metric Aluminum Precision Shaft AWMP
+  organization: igus.com
+  url: https://www.igus.com/product/drylin_AWMP
+  type: technical_documentation
+  published_at: null
+  accessed_at: '2026-08-28'
+  primary: true
+  supports:
+  - bom
+  - m3
+  - m6
+- id: S21
+  title: Prusament PC Blend Carbon Fiber
+  organization: prusa3d.com
+  url: https://www.prusa3d.com/product/prusament-pc-blend-carbon-fiber-black-2kg-nfc/
+  type: technical_documentation
+  published_at: null
+  accessed_at: '2026-08-28'
+  primary: true
+  supports:
+  - bom
+  - m2
+  - m3
+  - m6
+  - m8
+- id: S22
+  title: Socket Head Cap Screws Technical Data
+  organization: in.misumi-ec.com
+  url: https://in.misumi-ec.com/pdf/tech/press/pr1177_1178.pdf
+  type: technical_documentation
+  published_at: null
+  accessed_at: '2026-08-28'
+  primary: true
+  supports:
+  - bom
+- id: S23
+  title: M3 Heat-Fix Threaded Inserts HTBI-M3-BR
+  organization: accu-components.com
+  url: https://accu-components.com/api/product-datasheet?id=845137
+  type: datasheet
+  published_at: null
+  accessed_at: '2026-08-28'
+  primary: true
+  supports:
+  - bom
+  - m2
+  - m3
+  - m6
+- id: S25
+  title: ATO AFH Series In-Line Fuse Holder
+  organization: littelfuse.com
+  url: https://www.littelfuse.com/assetdocs/ato-afh-datasheet?assetguid=cbbb6f1c-c57a-4b2e-b955-39ecde7c4b16
+  type: datasheet
+  published_at: null
+  accessed_at: '2026-08-28'
+  primary: true
+  supports:
+  - bom
+  - m1
+  - m3
+  - m4
+  - m5
+  - m6
+- id: S26
+  title: ATOF 287 Series 10 A Blade Fuse
+  organization: littelfuse.com
+  url: https://www.littelfuse.com/assetdocs/littelfuse-datasheet-287-atof?assetguid=43dcdce8-8ca2-426f-8998-7e566f048d40
+  type: datasheet
+  published_at: null
+  accessed_at: '2026-08-28'
+  primary: true
+  supports:
+  - bom
+  - m1
+  - m3
+  - m4
+  - m5
+  - m6
+  - m8
+- id: S27
+  title: 10K Ohm 5 Percent 1/4W Through-Hole Resistors
+  organization: adafruit.com
+  url: https://www.adafruit.com/product/2784
+  type: technical_documentation
+  published_at: null
+  accessed_at: '2026-08-28'
+  primary: true
+  supports:
+  - bom
+  - m1
+  - m3
+  - m4
+  - m5
+  - m6
+  - m7
+bom:
+- id: ACT1
+  category: actuator
+  name: DYNAMIXELスマートアクチュエーター
+  function: テンドンおよび関節駆動
+  quantity: 11
+  model: XM430-W350-T
+  manufacturer: robotis
+  specifications:
+  - name: ストール電流
+    value: '2.3'
+    unit: A
+    evidence_excerpt: Stall Current 2.3 A
+  - name: ストールトルク
+    value: '4.1'
+    unit: N·m
+    evidence_excerpt: Stall Torque 4.1 N·m
+  - name: 基準電圧
+    value: '12'
+    unit: V
+    evidence_excerpt: Input Voltage 12 V
+  alternatives:
+  - 同一通信規格のDYNAMIXEL Xシリーズ
+  compatibility:
+  - DYNAMIXEL Protocol 2.0
+  - 12 V電源分岐
+  rationale: 位置・速度・電流フィードバックを統合した精密駆動機
+  datasheet_source_id: S14
+- id: CON1
+  category: controller
+  name: DYNAMIXELポート内蔵ロボット制御ボード
+  function: 別途の通信ブリッジなしにアクチュエーター命令、センサー取得、運転状態機械を実行
+  quantity: 1
+  model: OpenCR 1.0
+  manufacturer: robotis
+  specifications:
+  - name: CPU周波数
+    value: '216'
+    unit: MHz
+    evidence_excerpt: 216MHz
+  - name: 最大入力電圧
+    value: '24'
+    unit: V
+    evidence_excerpt: 5-24 V
+  - name: ADC解像度
+    value: '12'
+    unit: bit
+    evidence_excerpt: Max 12bit
+  alternatives:
+  - DYNAMIXEL TTLポートが内蔵された同級のROBOTISコントローラー
+  compatibility:
+  - DYNAMIXEL TTL x 3内蔵
+  - DYNAMIXEL RS-485 x 3内蔵
+  - XM430-W350-T直接接続
+  - FSR 402分圧回路は3.3 Vセンサー電源のみ使用
+  - アナログ入力信号は0~3.3 Vの範囲を超えない
+  - 12 Vアクチュエーター電源はADC・センサー回路と分離
+  rationale: 外付けRS-485/TTLブリッジと終端・プルアップ回路を除去し、再現性と安全性を向上
+  datasheet_source_id: S16
+- id: PWR1
+  category: power
+  name: 絶縁型デスクトップ電源アダプター
+  function: アクチュエーター12 V分岐電源供給
+  quantity: 3
+  model: GST160A12-R7B
+  manufacturer: meanwell
+  specifications:
+  - name: 出力電圧
+    value: '12'
+    unit: V
+    evidence_excerpt: 12 V
+  - name: 定格出力電流
+    value: '11.5'
+    unit: A
+    evidence_excerpt: 11.5 A
+  - name: 定格出力
+    value: '138'
+    unit: W
+    evidence_excerpt: 138 W
+  alternatives:
+  - 同級絶縁型12 Vアダプター - 分岐ごとに11.5 A以上
+  compatibility:
+  - 各アダプター出力は独立ヒューズ分岐として使用
+  - 正(+)出力の並列接続は絶対禁止
+  - 独立分岐合計定格34.5 A >= アクチュエーターピーク25.3 A
+  - 各出力は独立分岐として維持し、正(+)出力の並列接続は絶対禁止
+  - 3個の分岐はアクチュエーター4台/4台/3台に配分
+  - 分岐ごとに10 Aヒューズとアクセス可能な物理的電源分離手段を使用
+  rationale: 露出したAC端子なしで4台/4台/3台のアクチュエーター用に独立低電圧DC分岐を構成
+  datasheet_source_id: S17
+- id: SEN1
+  category: sensor
+  name: 指先力感知センサー
+  function: 指先接触力測定および把持力フィードバック
+  quantity: 5
+  model: FSR Model 402
+  manufacturer: interlinkelectronics
+  specifications:
+  - name: 感知部直径
+    value: '12.7'
+    unit: mm
+    evidence_excerpt: Its active area is 12.7 mm diameter
+  - name: 感知範囲下限
+    value: '0.2'
+    unit: N
+    evidence_excerpt: Sensing range from 0.2N to 20N
+  - name: 感知範囲上限
+    value: '20'
+    unit: N
+    evidence_excerpt: Sensing range from 0.2N to 20N
+  alternatives:
+  - 公式データシートがある薄膜型力センサー
+  compatibility:
+  - 指先パッドの下に配置
+  - ADC入力分圧回路が必要
+  rationale: 薄い指先構造で接触力フィードバックを確保
+  datasheet_source_id: S15
+- id: WIR1
+  category: wiring
+  name: 分岐用ロックコネクタ
+  function: 指ごとの電源・信号ハーネスの脱着式分岐
+  quantity: 12
+  model: Micro-Fit 3.0
+  manufacturer: molex
+  specifications:
+  - name: ピッチ
+    value: '3.00'
+    unit: mm
+    evidence_excerpt: offer a 3.00mm pitch
+  - name: 最大接点電流
+    value: '8.5'
+    unit: A
+    evidence_excerpt: 'Current (max.): 8.5A'
+  - name: 最大電圧
+    value: '600'
+    unit: V
+    evidence_excerpt: 'Voltage (max.): 600V'
+  alternatives:
+  - 公式定格のある同級ロック型分岐コネクタ
+  compatibility:
+  - 10 Aアダプター分岐ヒューズ下流の個別アクチュエーター・指ハーネスにのみ使用
+  - コネクタごとの最大電流はXM430 1台の2.3 Aに制限
+  - 9.2 A集合分岐には使用しない
+  rationale: 振動中の離脱を減らし、指モジュールの交換を単純化
+  datasheet_source_id: S9
+- id: TRN1
+  category: transmission
+  name: Dyneema SK78高強度繊維テンドン
+  function: アクチュエーター張力を指関節に伝達
+  quantity: 1
+  model: D-Pro 1.5 mm / 01505-0150-010
+  manufacturer: liros
+  specifications:
+  - name: 直径
+    value: '1.50'
+    unit: mm
+    evidence_excerpt: Diameter 1.50 mm
+  - name: 破断荷重
+    value: '230'
+    unit: daN
+    evidence_excerpt: Breaking Strength daN 230
+  - name: 作動伸び率上限
+    value: '1'
+    unit: '%'
+    evidence_excerpt: working stretch < 1 %
+  alternatives:
+  - 直径1.5 mm、破断荷重230 daN以上の追跡可能なDyneema SK78ライン
+  compatibility:
+  - キャプスタン角の丸め加工
+  - 繰り返し屈曲試験必須
+  rationale: 実際の直径・破断荷重・伸び率が明示された製品でテンドン交換の再現性を確保
+  datasheet_source_id: S18
+- id: STR1
+  category: structure
+  name: FDM構造用カーボンファイバーPCフィラメント
+  function: 指リンクと手のひらフレームの製作
+  quantity: 1
+  model: Prusament PC Blend Carbon Fiber
+  manufacturer: prusa3d
+  specifications:
+  - name: フィラメント直径
+    value: '1.75'
+    unit: mm
+    evidence_excerpt: 1.75 mm
+  - name: 推奨ノズル温度
+    value: '285'
+    unit: °C
+    evidence_excerpt: 285 °C
+  - name: 推奨ベッド温度
+    value: '110'
+    unit: °C
+    evidence_excerpt: 110 °C
+  alternatives:
+  - 公式物性表があるFDM用エンジニアリングフィラメント
+  compatibility:
+  - FDM 3Dプリンター
+  - 硬化鋼ノズル必須
+  rationale: 保有するFDM装置で剛性と寸法安定性が必要な構造を製作
+  datasheet_source_id: S21
+- id: BRG1
+  category: bearing
+  name: 無給油ポリマースリーブベアリング
+  function: 手首および高荷重回転軸の摩擦とガタツキ管理
+  quantity: 4
+  model: JSM-0810-10
+  manufacturer: igus
+  specifications:
+  - name: 内径 d1
+    value: '8'
+    unit: mm
+    evidence_excerpt: 'Dimensions : d1 8 mm d2 10 mm b1 10 mm'
+  - name: 外径 d2
+    value: '10'
+    unit: mm
+    evidence_excerpt: 'Dimensions : d1 8 mm d2 10 mm b1 10 mm'
+  - name: 長さ b1
+    value: '10'
+    unit: mm
+    evidence_excerpt: 'Dimensions : d1 8 mm d2 10 mm b1 10 mm'
+  alternatives:
+  - 同一8×10×10 mm規格の公式スリーブベアリング
+  compatibility:
+  - 8 mm軸
+  - 10 mm推奨公差ハウジングボア
+  rationale: 無給油構造でメンテナンスと汚染を低減
+  datasheet_source_id: S19
+- id: FST1
+  category: fastener
+  name: M3真鍮熱圧入ねじ山インサート
+  function: PC-CF出力物に繰り返し組立可能なM3めねじを形成
+  quantity: 40
+  model: HTBI-M3-BR
+  manufacturer: accu-components
+  specifications:
+  - name: 外径
+    value: '4.4'
+    unit: mm
+    evidence_excerpt: Diameter over Knurls (OD) 4.4mm
+  - name: 長さ
+    value: '5.8'
+    unit: mm
+    evidence_excerpt: Length (L) 5.8mm
+  - name: 推奨穴直径
+    value: '4'
+    unit: mm
+    evidence_excerpt: Recommended Hole Size 4mm
+  alternatives:
+  - 同一4.4×5.8 mm規格のM3真鍮熱圧入インサート
+  compatibility:
+  - M3×0.5キャップスクリュー
+  - PC-CF出力物4.0 mmパイロット穴
+  rationale: 出力物に直接ねじ締めするよりも、繰り返し分解組み立ての再現性を向上
+  datasheet_source_id: S23
+- id: SAF1
+  category: safety
+  name: 10 A ATOF分岐ヒューズ
+  function: 4台/4台/3台のアクチュエーター独立分岐の過電流保護
+  quantity: 3
+  model: 0287010.U
+  manufacturer: littelfuse
+  specifications:
+  - name: 電流定格
+    value: '10'
+    unit: A
+    evidence_excerpt: 0287010._ 10 A
+  - name: 電圧定格
+    value: '32'
+    unit: V
+    evidence_excerpt: Blade Fuses – Rated 32V
+  - name: 代表冷間抵抗
+    value: '7.70'
+    unit: mΩ
+    evidence_excerpt: 7.70 mΩ
+  alternatives:
+  - 同一ATO規格10 A、32 VDC以上のヒューズ
+  compatibility:
+  - 0AFH0001Zホルダー
+  - 分岐あたりアクチュエーター最大4台、ストール合計9.2 A
+  rationale: 11.5 A電源分岐より低く、9.2 Aピークより高い定格で配線故障を保護
+  datasheet_source_id: S26
+- id: B-SHAFT
+  category: bearing
+  name: 8 mm精密アルミニウムシャフト
+  function: JSM-0810-10ベアリングの手首・関節回転軸
+  quantity: 2
+  model: AWMP-08
+  manufacturer: igus
+  specifications:
+  - name: シャフト直径
+    value: '8'
+    unit: mm
+    evidence_excerpt: Shaft aluminium AWMP-08, ø 8 mm
+  - name: 切断長さ公差
+    value: '1'
+    unit: mm
+    evidence_excerpt: cut to a tolerance of +/- 1 mm
+  alternatives:
+  - JSM-0810-10と互換性のある公差明示8 mmシャフト
+  compatibility:
+  - JSM-0810-10内径8 mm
+  - 組立長さに合わせて切断後、面取り
+  rationale: ベアリング内径と軸直径を購入段階で固定し、ガタツキエラーを低減
+  datasheet_source_id: S20
+- id: B-FASTENER
+  category: fastener
+  name: M3ソケットヘッドキャップスクリュー
+  function: 指リンク、センサーブラケット、手のひらフレームの締結
+  quantity: 40
+  model: M3×10 JIS B 1176
+  manufacturer: misumi
+  specifications:
+  - name: 呼びねじ直径
+    value: '3'
+    unit: mm
+    evidence_excerpt: Unit:mm Nominal diameter of thread(d)(15) M3
+  - name: ねじピッチ
+    value: '0.5'
+    unit: mm
+    evidence_excerpt: Unit:mm Nominal diameter of thread(d)(15) M3 Pitch of screw
+      thread(P) 0.5
+  - name: 基本頭部直径
+    value: '5.5'
+    unit: mm
+    evidence_excerpt: Unit:mm M3 dk Max.(Basic size) 5.5
+  alternatives:
+  - 同一M3×0.5規格の追跡可能なキャップスクリュー
+  compatibility:
+  - M3×0.5インサートナット
+  - 2.5 mm六角レンチ
+  rationale: 標準規格を固定し、CADの穴と組立工具を一致
+  datasheet_source_id: S22
+- id: B-WIRING-FUSE-HOLDER
+  category: wiring
+  name: ATOインライン分岐ヒューズホルダー
+  function: 各12 Vアダプターの正(+)出力に10 A分岐ヒューズを装着
+  quantity: 3
+  model: 0AFH0001Z
+  manufacturer: littelfuse
+  specifications:
+  - name: 連続電流定格
+    value: '15'
+    unit: A
+    evidence_excerpt: 'Continuous Current Rating: 15A'
+  - name: 最大電圧
+    value: '32'
+    unit: VDC
+    evidence_excerpt: 'Max Voltage Rating: 32V DC'
+  - name: リード線規格
+    value: '14'
+    unit: AWG
+    evidence_excerpt: 'Wire Size: 14 AWG'
+  alternatives:
+  - 32 VDC以上、連続15 A以上のATOインラインホルダー
+  compatibility:
+  - 0287010 ATOF 10 Aヒューズ
+  - GST160A12-R7B独立分岐
+  rationale: 分岐ごとの過電流保護部品を配線図と購入リストに固定
+  datasheet_source_id: S25
+- id: B-SENSOR-RESISTOR
+  category: sensor
+  name: FSR分圧用10 kΩ抵抗
+  function: FSR 402と電圧分圧器を構成し、OpenCR ADCで力信号を取得
+  quantity: 5
+  model: Adafruit Product 2784
+  manufacturer: adafruit
+  specifications:
+  - name: 抵抗値
+    value: '10'
+    unit: kΩ
+    evidence_excerpt: 10K Ω Resistors
+  - name: 最大電力
+    value: 1/4
+    unit: Watt
+    evidence_excerpt: 1/4 Watt max dissipation
+  - name: 最大電圧
+    value: '300'
+    unit: V
+    evidence_excerpt: 300V max voltage
+  alternatives:
+  - 10 kΩ、0.25 W以上、5%以下の軸形抵抗
+  compatibility:
+  - FSR 402 1個につき抵抗 1個
+  - OpenCR ADC入力
+  rationale: 実習に要求される分圧抵抗の数量と電気定格を明示
+  datasheet_source_id: S27
+capstone:
+  title: ロボットハンド最終組立および把持試験
+  deliverables:
+  - 最終組立済みのロボットハンド
+  - 制御ファームウェアソースコード
+  - 把持試験データ記録
+  - 最終プロジェクト報告書
+  rubric:
+  - 機構的精度および動作範囲
+  - 把持成功率（様々な対象物）
+  - 制御システム反応速度
+  - 電気的および機構的安全遵守
+  safety:
+  - 計画停止後、整備・接近前に3個の絶縁電源アダプターを物理的に取り外し、各分岐の残留電圧がDC電圧モードで1 V未満であることを記録
+  - 各独立電源分岐の10 Aヒューズ定格と時間-電流特性を点検
+  - 固定ジグで無負荷試験後、段階的に把持荷重を増加
+  - 切断・ドリル・テンドン張力および把持試験中は、衝撃防止用の保護メガネを着用
+generation:
+  run_id: e40f5b399c3a49a386d28778db2b6fc5
+  generated_at: '2026-08-28T13:24:03.941808Z'
+  generator: gemini
+localization:
+  source_language: ko
+  language: ja
+  source_hash: dee3a1ffeb11ca3a6b48b2f8643277384dc6355eae8977be4db24eba8162444b
+  translator: gemini-cli
+  translated_at: '2026-08-28T22:29:44.958837Z'
+  translation_run_id: 6887538d0dce4b0bbbe63a75ae59d8c4

@@ -1,9 +1,9 @@
 ---
 layout: learn-catalogue
 title: Learn
-lang: ko
-learn_index_key: courses
-permalink: /learn/
+lang: zh-cn
+learn_index_key: courses.zh-cn
+permalink: /learn/zh-cn/
 no_ads: true
 generated_by: mindtickle-studio
 ref: learn-catalogue

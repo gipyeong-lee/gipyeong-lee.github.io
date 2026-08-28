@@ -1,9 +1,9 @@
 ---
 layout: learn-catalogue
 title: Learn
-lang: ko
-learn_index_key: courses
-permalink: /learn/
+lang: ja
+learn_index_key: courses.ja
+permalink: /learn/ja/
 no_ads: true
 generated_by: mindtickle-studio
 ref: learn-catalogue

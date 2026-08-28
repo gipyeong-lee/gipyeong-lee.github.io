@@ -1,0 +1,14 @@
+- slug: precise-robot-hand
+  title: 构建精密的 5 级机器人手
+  summary: 这是一个以项目为导向的课程，涵盖了从机器人基础到 5 级机器人手设计、运动学、电子电路、控制算法及系统集成全过程。
+  outcome: 制作可独立运行的 5 级机器人手原型，掌握机构设计能力，并具备实现嵌入式控制系统的能力。
+  level: beginner
+  estimated_hours: 100.0
+  budget_krw:
+    min: 4500000
+    max: 6500000
+  module_count: 8
+  last_reviewed: '2026-08-28'
+  curriculum_version: 1.0.0+2c09fe34d0b1
+  url: /learn/zh-cn/precise-robot-hand/
+  lang: zh-cn

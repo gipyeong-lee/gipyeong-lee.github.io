@@ -2,6 +2,21 @@
 layout: learn-module
 title: 3D CAD 모델링
 course_slug: precise-robot-hand
+course_data_key: precise-robot-hand
+course_locale: ko
+lang: ko
+ref: learn:precise-robot-hand:cad-modeling
+translations:
+- lang: ko
+  url: /learn/precise-robot-hand/cad-modeling/
+- lang: en
+  url: /learn/en/precise-robot-hand/cad-modeling/
+- lang: ja
+  url: /learn/ja/precise-robot-hand/cad-modeling/
+- lang: zh-cn
+  url: /learn/zh-cn/precise-robot-hand/cad-modeling/
+- lang: zh-tw
+  url: /learn/zh-tw/precise-robot-hand/cad-modeling/
 module_id: m3
 permalink: /learn/precise-robot-hand/cad-modeling/
 no_ads: true

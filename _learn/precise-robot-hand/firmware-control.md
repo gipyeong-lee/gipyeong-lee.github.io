@@ -2,6 +2,21 @@
 layout: learn-module
 title: 펌웨어 및 제어
 course_slug: precise-robot-hand
+course_data_key: precise-robot-hand
+course_locale: ko
+lang: ko
+ref: learn:precise-robot-hand:firmware-control
+translations:
+- lang: ko
+  url: /learn/precise-robot-hand/firmware-control/
+- lang: en
+  url: /learn/en/precise-robot-hand/firmware-control/
+- lang: ja
+  url: /learn/ja/precise-robot-hand/firmware-control/
+- lang: zh-cn
+  url: /learn/zh-cn/precise-robot-hand/firmware-control/
+- lang: zh-tw
+  url: /learn/zh-tw/precise-robot-hand/firmware-control/
 module_id: m7
 permalink: /learn/precise-robot-hand/firmware-control/
 no_ads: true

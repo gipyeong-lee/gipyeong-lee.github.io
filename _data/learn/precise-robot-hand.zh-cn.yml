@@ -1,0 +1,1479 @@
+schema_version: 1
+curriculum_version: 1.0.0+2c09fe34d0b1
+course:
+  course_type: build_project
+  slug: precise-robot-hand
+  title: 构建精密的 5 级机器人手
+  summary: 这是一个以项目为导向的课程，涵盖了从机器人基础到 5 级机器人手设计、运动学、电子电路、控制算法及系统集成全过程。
+  outcome: 制作可独立运行的 5 级机器人手原型，掌握机构设计能力，并具备实现嵌入式控制系统的能力。
+  audience: 机器人工程入门大学生及创客
+  level: beginner
+  estimated_hours: 100.0
+  budget_krw:
+    min: 4500000
+    max: 6500000
+  required_tools:
+  - FDM 3D 打印机
+  - 万用表
+  - 电烙铁
+  - 通用手动工具
+  - PC-CF 用硬化钢喷嘴
+  - 防冲击护目镜
+  - 游标卡尺
+  safety_summary:
+  - 这是低压教育原型，并非认证的机器安全系统
+  - 学习者制作的停机电路不得用作安全功能或紧急停止
+  - 正常停机应通过软件扭矩释放执行。计划停机维护或接近前，必须物理断开 3 个绝缘电源适配器，并通过测量确认处于无电状态
+  - 通电时请勿将手放入工作范围内，并在固定夹具上从空载开始测试
+  - 在切割、钻孔或进行肌腱张力测试时，必须佩戴防冲击护目镜
+  - 若发现异常发热、异味或冒烟，请勿接近。应通过危险区域外预先指定的建筑配电盘断路器或认证的上游主断路器切断 3 个适配器的供电电源后再撤离。若危险区域外没有可操作的上游断路手段，则禁止系统通电。扭矩释放不能代替电源切断
+  - 在将机器人投入人员接近环境前，必须在合格安全专家的审查下，另行设计并验证双通道、手动复位、EDM（外部设备监控）和可反馈的双接触器
+  last_reviewed: '2026-08-28'
+phases:
+- id: p1
+  title: 基础理论及机构设计
+  module_ids:
+  - m1
+  - m2
+  - m3
+- id: p2
+  title: 电气系统及组装
+  module_ids:
+  - m4
+  - m5
+  - m6
+- id: p3
+  title: 控制及验证
+  module_ids:
+  - m7
+  - m8
+modules:
+- id: m1
+  slug: intro-robotics
+  phase_id: p1
+  title: 机器人工程概论
+  estimated_hours: 10.0
+  prerequisites: []
+  objectives:
+  - 理解机器人工程的定义与系统组成要素。
+  - 掌握 5 级机器人手原型所用执行器与控制器的作用。
+  - 学习机器人系统的安全电源分支配置与物理断开原理。
+  - 掌握力传感器 (FSR) 的工作原理与 ADC 数据获取方法。
+  theory_markdown: '## 机器人系统组成要素
+
+    机器人由感知 (Sensor)、思维 (Controller)、动作 (Actuator) 三个核心要素组成 [S1]。本课程的 5 级机器人手使用 DYNAMIXEL
+    XM430-W350-T 执行器，通过肌腱驱动方式控制关节 [S14]，并由 OpenCR 1.0 控制器处理这些执行器及指尖 FSR 传感器的信号 [S16]。
+
+
+    ## 电力系统的安全设计
+
+    执行器在 12 V 电压下需要 2.3 A 的堵转电流 [S14]，因此考虑到系统总负载，使用了 3 个 MEAN WELL GST160A12-R7B 适配器
+    [S17]。每个适配器负责 4 台/4 台/3 台执行器的独立 12 V 分支，这些分支的阳极 (+) 输出互不连接，在物理上是隔离的。各分支通过内联保险丝座
+    (0AFH0001Z) 安装 10 A ATOF 保险丝，以在发生过电流时保护配线 [S25, S26]。这是超越简单停机功能的电气安全基础。
+
+
+    ## 传感器接口
+
+    FSR 402 传感器具有电阻随接触力增加而减小的特性 [S15]。将其与 10 kΩ 电阻构成电压分压电路，并连接至 OpenCR 的 12 位 ADC
+    端口，从而将接触力转换为电压 [S16, S27]。此时，传感器电路必须仅由 3.3 V 传感器电源轨供电，不得与执行器用的 12 V 电源轨混用。'
+  worked_examples:
+  - 执行器负载计算：将 4 台 XM430-W350-T 分配到 1 个分支时，峰值电流为 4 * 2.3 A = 9.2 A [S14]。这在 10 A 保险丝的额定范围内，且小于电源适配器的
+    11.5 A 输出额定值，可稳定运行 [S17, S26]。
+  - FSR 电压分压器设计：在传感器与 10 kΩ 电阻串联的分压器中，输入 3.3 V 时，传感器未受压处于高阻态，ADC 输出接近 0 V；受到强力导致电阻骤减时，ADC
+    输出接近 3.3 V [S15, S27]。
+  lab:
+    title: 电源分支配置及系统基本通电测试
+    steps:
+    - 在各 MEAN WELL 适配器的阳极 (+) 端子上连接 ATO 内联保险丝座和 10 A 保险丝，创建 3 个独立分支 [S17, S25, S26]。
+    - 将万用表设置为 DC 电压模式，确认各分支的输出电压为 12 V。
+    - 将 OpenCR 控制器连接至 3.3 V 传感器电源轨，并利用 FSR 传感器和 10 kΩ 电阻构成分压电路 [S16, S27]。
+    - 给控制器通电后，使用 DYNAMIXEL Wizard 确认各肌腱执行器是否正常通信 [S14, S16]。
+    safety:
+    - 通电前，不要使用万用表的电阻模式，而应通过肉眼和电路图重新验证所有连接。
+    - 通电期间禁止接近系统，必须在非通电状态（物理断开适配器）下进行配线。
+    - 若发现异常发热、异味或冒烟，请勿接近，并从危险区域外通过预先指定的建筑配电盘断路器或认证的上游主断路器切断 3 个适配器的供电电源后再撤离。若危险区域外无上游断路手段，则禁止系统通电。扭矩释放不能代替电源切断。维护和接近必须在计划停机后通过物理断开并确认无电状态下进行。
+    - 全程佩戴护目镜，身体部位不得进入活动范围。
+    deliverables:
+    - 各分支 12 V 测量记录照片
+    - OpenCR ADC 传感器数据获取代码
+    - 独立分支连接配线图
+  assignment:
+    title: 机器人系统安全设计报告
+    deliverables:
+    - 独立电源分支配置图
+    - 执行器峰值电流与保险丝额定值合理性分析
+    - FSR 电压分压电路设计计算公式
+    rubric:
+    - 是否明确分配了 11 台执行器与 3 个电源分支？
+    - 是否正确说明了 3.3 V 传感器轨与 12 V 执行器轨的分离？
+    - 是否准确叙述了电源切断程序（物理断开）？
+  quiz:
+  - question: 在系统电源设计中，为何禁止将 12 V 输出端子的阳极 (+) 极并联连接？
+    choices:
+    - 因为电压会升高至 24 V
+    - 存在因适配器间电位差导致逆电流及破坏独立分支保护的风险
+    - 因为会导致执行器的通信速度下降
+    - 因为无法使用软件扭矩释放功能
+    answer_index: 1
+    explanation: 各电源适配器应作为独立分支运行，若连接输出端子，可能会发生故障或导致独立保险丝提供的安全保护功能失效。
+  - question: 读取 FSR 信号至 OpenCR 的 ADC 端口时，合适的供电电压是？
+    choices:
+    - 12 V 执行器轨道
+    - 3.3 V 传感器轨道
+    - 24 V 输入电源
+    - 非接触式无线电力
+    answer_index: 1
+    explanation: OpenCR 的 ADC 使用 0~3.3 V 范围，为保护传感器，必须使用专用的 3.3 V 传感器轨供电。
+  - question: 进行系统检查和维护时，切断电源的最安全方法是？
+    choices:
+    - 通过软件指令释放执行器扭矩
+    - 移除保险丝
+    - 物理断开 3 个电源适配器并测量电压
+    - 仅关闭控制器电源开关
+    answer_index: 2
+    explanation: 软件指令或保险丝不能保证完全的无电状态。必须物理断开适配器并用万用表测量确认电压低于 1 V。
+  completion_criteria:
+  - 通过万用表确认各分支 12 V 电压在正常范围内并提交照片
+  - 通过控制器确认 FSR 传感器随接触力变化的 ADC 值变化并获取有效数据
+  - 理解并遵守物理切断电源及通过电压测量进行安全停机的程序
+  source_ids:
+  - S1
+  - S14
+  - S16
+  - S17
+  - S25
+  - S26
+  - S15
+  - S27
+- id: m2
+  slug: mechanism-design
+  phase_id: p1
+  title: 机器人机构设计
+  estimated_hours: 15.0
+  prerequisites:
+  - m1
+  objectives:
+  - 理解欠驱动系统这一机器人手机构设计的核心原理。
+  - 学习肌腱驱动方式的动力学特性以及摩擦力与伸长率管理的重要性。
+  - 掌握考虑刚性与尺寸稳定性的工程材料 (PC-CF) 选择及设计技巧。
+  - 夯实利用热压嵌入螺母与轴承进行精密组装设计的基础。
+  theory_markdown: '## 机器人机构设计原理
+
+
+    精密 5 级机器人手设计的核心在于实现欠驱动系统，该系统能有效控制比执行器 (Actuator) 数量更多的自由度 (DoF) [S11]。这使得机器人无需盲目增加关节数量即可稳定抓取各种形状的物体
+    [S3]。
+
+
+    ### 肌腱驱动动力学
+
+    肌腱 (Tendon) 驱动是将远程电机的张力传递至关节的方式。肌腱的物理特性决定了控制精度。本课程使用 `Dyneema SK78` 纤维，其在 1.5
+    mm 直径下可承受 230 daN 的高断裂载荷，工作伸长率低于 1%，重复精度极高 [S18]。
+
+
+    ### 材料与结构设计
+
+    机器人手的框架与连杆要求高刚性与尺寸稳定性。FDM 方式的 `Prusament PC Blend Carbon Fiber` 是一种含有碳纤维的 PC 材料，提供耐高温性与出色的强度，适合制作工程级零件
+    [S21]。为实现多次拆装，组装时避免直接切削螺纹，而是使用 M3 黄铜热压嵌入螺母（外径 4.4 mm，长度 5.8 mm）来确保螺纹耐久性 [S23]。旋转轴使用无油聚合物衬套轴承
+    (JSM-0810-10)，实现无需维护的顺畅旋转与摩擦管理 [S19]。'
+  worked_examples:
+  - 示例 1：肌腱张力传递分析。若肌腱工作伸长率为 1%，在 100 mm 距离下会产生 1 mm 的误差。为实现精密控制，利用执行器电流反馈与传感器数据的闭环控制至关重要
+    [S14]。
+  - 示例 2：嵌入件连接处设计。将 HTBI-M3-BR 螺母插入 PC-CF 打印件时，必须在 CAD 设计中遵守 4 mm 的建议导向孔直径，以实现无间隙组装
+    [S23]。
+  lab:
+    title: 机器人关节及肌腱模块组装实践
+    steps:
+    - 佩戴护目镜并整理工作台。
+    - 确认 PC-CF 打印件导向孔状态，必要时进行加工。
+    - 用电烙铁加热热压嵌入螺母，将其垂直压入打印件。
+    - 将 igus 轴承安装至腕部及关节外壳。
+    - 将铝轴穿过轴承并确认间隙。
+    - 将 Dyneema 肌腱缠绕在绞盘上并固定在组装好的关节上。
+    safety:
+    - 使用电烙铁时注意高温，务必佩戴护目镜。
+    - 肌腱张力测试时，为防止肌腱断裂导致的反弹事故，不得将手放入活动范围。
+    - 系统组装完成后，通电前务必使用仪表确认物理断开状态。
+    deliverables:
+    - 已组装的机器人关节模块
+    - 轴承与轴的间隙测量记录
+  assignment:
+    title: 5 级机器人手机构设计项目
+    deliverables:
+    - 机器人手整体 CAD 装配图
+    - 材料清单 (BOM) 及选型依据报告
+    - 肌腱路径优化设计图
+    rubric:
+    - 使用的部件是否符合规格 (BOM)？
+    - 热压嵌入螺母与轴承设计是否合理？
+    - 是否实现了无机械干涉的自由运动？
+  quiz:
+  - question: 肌腱驱动中使用 Dyneema SK78 的主要原因是什么？
+    choices:
+    - 伸长率大且价格便宜
+    - 提供低伸长率和高断裂载荷，能够确保精度
+    answer_index: 1
+    explanation: Dyneema SK78 的伸长率低于 1%，极低，可提高机器人控制的重复精度 [S18]。
+  - question: 针对 PC-CF 打印件进行重复螺纹组装，推荐的方法是什么？
+    choices:
+    - 直接在打印件上加工螺纹
+    - 插入黄铜热压嵌入螺母
+    answer_index: 1
+    explanation: 对于 PC-CF 等工程塑料，热压嵌入螺母可大幅提高螺纹耐久性 [S23]。
+  completion_criteria:
+  - 完成各零件规格与参数的 BOM 文档化
+  - 确认组装完成的关节模块的功能性运动
+  - 遵守安全指引并完成实践
+  source_ids:
+  - S3
+  - S11
+  - S18
+  - S21
+  - S23
+  - S19
+  - S14
+- id: m3
+  slug: cad-modeling
+  phase_id: p1
+  title: 3D CAD 建模
+  estimated_hours: 15.0
+  prerequisites:
+  - m2
+  objectives:
+  - 理解 3D CAD 建模的设计限制及制造工艺 (FDM)。
+  - 学习利用 PC-CF 丝材提高结构刚性的技巧。
+  - 执行考虑热压嵌入螺母与轴承公差的精密组装设计。
+  theory_markdown: '### 3D CAD建模与制造设计
+
+
+    为制作精密的 5 机械手，必须考虑FDM方式增材制造特性的设计(Design for Additive Manufacturing, DfAM)。碳纤维增强PC-CF长丝具有优异的机械刚性和尺寸稳定性，适合制作精密连杆
+    [S21]。
+
+
+    #### 核心设计注意事项
+
+    1. **公差管理及轴承安装**：使用8mm精密铝轴和igus JSM-0810-10 轴承时，需在设计中反映外壳孔径公差。由于轴承采用压入式(Press-fit)固定，孔内径应设计得比轴承外径(10mm)略小，以实现坚固的装配
+    [S19, S20]。
+
+    2. **紧固件设计**：PC-CF打印件不适合直接攻丝。为确保反复拆卸装配的重现性，使用HTBI-M3-BR黄铜热压螺纹嵌件。为此，设计时需布置4mm直径的引孔
+    [S23]。
+
+    3. **结构优化**：在肌腱驱动方式中，连杆可能会因张力而变形。应确保应力集中的关节部位壁厚，并将模型放置在有利于拉伸强度的层积方向上。
+
+
+    ### 系统集成及安全
+
+    本项目的电气系统由 3 个独立的12V电源分支组成。为防止驱动执行器时出现过流，必须在每个分支安装10A ATOF保险丝，并按 4/4/3 的比例分配执行器以管理峰值电流
+    [S17, S26]。采集传感器信号时，FSR 402 传感器必须通过 3.3V 传感器电源轨的分压电阻生成ADC输入值，且必须与12V执行器电源完全分离
+    [S15, S16, S27]。'
+  worked_examples:
+  - '**嵌件孔设计**：由于Accu-components的M3嵌件外径为 4.4mm，在3D CAD中需为打印件建模 4.0mm 的引孔 [S23]。打印后加热插入嵌件，黄铜材料会嵌入塑料内部，形成牢固的M3内螺纹。'
+  - '**轴承外壳公差**：使用igus轴承JSM-0810-10时，10mm外壳孔应设计为在压入后内径与8mm精密轴紧密配合且无间隙。若过宽会产生轴向间隙，过窄则会导致轴承损坏，因此需通过试打印来调整公差
+    [S19, S20]。'
+  lab:
+    title: 精密连杆设计及组装验证
+    steps:
+    - 在 3D CAD 中设计提供的肌腱路径与关节机构并进行仿真。
+    - 将 PC-CF 丝材加载至 FDM 打印机，使用硬化钢喷嘴进行打印 [S21]。
+    - 确认打印件上的4mm引孔后，插入热压嵌件 [S23]。
+    - 装配8mm铝轴与轴承，确认连杆的旋转自由度并测量间隙 [S19, S20]。
+    - 使用万用表确认 3 个独立电源分支的保险丝座连接状态，并检查通电前保险丝安装是否正常 [S25, S26]。
+    safety:
+    - 全程佩戴防冲击护目镜。
+    - 热压操作时注意烫伤，并在通风良好的地方作业。
+    - 通电时务必使用固定夹具，绝对不要将手放入旋转部位。
+    - 维护系统或接近系统时，必须物理断开 3 个电源适配器，并用万用表确认电压低于1V。
+    deliverables:
+    - 机器人手整体组装 3D CAD 模型文件
+    - 包含嵌入件及轴承公差调整的设计验证报告
+    - 各电源分支独立连接状态及保险丝安装检查照片
+  assignment:
+    title: 机器人手机构设计与集成配线计划
+    deliverables:
+    - 包含所有连杆与关节的详细 3D CAD 设计文件
+    - BOM 与设计一致性确认报告
+    - 包含 3 个独立分支及保险丝布置的配线图
+    rubric:
+    - 3D设计是否遵守了增材制造公差及黄铜嵌件规格(4.4mm OD)？
+    - 轴承外壳与轴之间的间隙是否合理？
+    - 电气接线图中12V执行器电源与传感器电路是否分离，且每个分支是否设计了10A保险丝？
+  quiz:
+  - question: 针对 PC-CF 打印件模型，若需要螺纹，最合适的方法是什么？
+    choices:
+    - 直接在建模中输出螺纹。
+    - 通过加热插入黄铜热压嵌入螺母。
+    answer_index: 1
+    explanation: 相比直接对 PC-CF 材料建模螺纹，为确保重复组装的再现性，建议使用黄铜热压嵌入螺母 [S23]。
+  - question: 配置 3 个独立12V电源分支时的注意事项是？
+    choices:
+    - 并联连接适配器的阳极 (+) 输出以增加电流容量。
+    - 每个分支通过独立的10A保险丝保护以防过流。
+    answer_index: 1
+    explanation: 禁止并联独立电源适配器的阳极 (+) 输出，必须通过各分支独立保险丝进行保护 [S17, S26]。
+  - question: FSR 力传感器驱动应使用什么电源？
+    choices:
+    - OpenCR的 3.3V 传感器电源轨
+    - 12V执行器电源轨
+    answer_index: 0
+    explanation: FSR分压电路必须从 3.3V 传感器电源轨获取电力，且必须与执行器电源分离 [S16]。
+  completion_criteria:
+  - 3D CAD 设计文件已按嵌入件与轴承规格准确编写。
+  - 配线图中确认了 3 个独立电源分支与保险丝配置。
+  - 提交了包含设计与验证报告的作业，并通过标准评分标准。
+  source_ids:
+  - S12
+  - S21
+  - S19
+  - S20
+  - S23
+  - S17
+  - S26
+  - S15
+  - S16
+  - S27
+  - S25
+- id: m4
+  slug: electronics-fundamentals
+  phase_id: p2
+  title: 电子电路基础
+  estimated_hours: 12.0
+  prerequisites:
+  - m3
+  objectives:
+  - 理解 DYNAMIXEL 智能执行器的电气特性与电源系统。
+  - 使用 FSR 402 传感器设计电压分压电路并获取 ADC 信号。
+  - 为系统过电流保护设计基于保险丝的电源分支。
+  - 掌握电气电路绝缘与物理隔离原则。
+  theory_markdown: 若发现异常发热、异味或冒烟，请勿接近，并从危险区域外通过预先指定的建筑配电盘断路器或认证的上游主断路器切断 3 个适配器的供电电源后再撤离。若危险区域外无上游断路手段，则禁止系统通电。扭矩释放不能代替电源切断。维护和接近必须在计划停机后通过物理断开并确认无电状态下进行
+    [S14] [S17] [S26, S25] [S26] [S15] [S27] [S16]
+  worked_examples:
+  - 示例 1：分支电源电流总和计算。若一个分支分配有 4 台执行器（各堵转电流 2.3 A），最大理论电流为 9.2 A。这在 10 A 保险丝额定范围内，且未超过适配器
+    11.5 A 的输出限值，可安全运行 [S14, S17, S26]。
+  - 示例 2：FSR 分压器输出计算。对 FSR 施加力导致传感器电阻变为 10 kΩ 时，分压节点电压为 3.3 V * (10 kΩ / (10 kΩ +
+    10 kΩ)) = 1.65 V。这在 OpenCR 12 位 ADC 有效范围内，因此可进行精密力反馈 [S15, S16, S27]。
+  lab:
+    title: 电源分支配置及传感器输入测试
+    steps:
+    - 在每个MEAN WELL适配器输出线上串联安装0AFH0001Z在线支架和 10 A ATOF保险丝 [S17, S25, S26]。
+    - 利用万用表测量各分支 12 V 电压是否在正常范围内。
+    - 使用 OpenCR 3.3 V 引脚、10 kΩ 电阻和 FSR 402 在面包板上构建分压电路 [S16, S27]。
+    - 确认传感器电压是否在 0~3.3 V 范围内，并观察施力时的电压变化。
+    safety:
+    - 维护及接近前，物理断开 3 个电源适配器，并必须使用万用表确认各分支 DC 电压低于 1 V。
+    - 电路配置中禁止通电。所有连接完成后，仅在固定夹具状态下测量电压。
+    - 全程佩戴防冲击护目镜。
+    - 绝不混用执行器电源 (12 V) 与传感器电源 (3.3 V)。
+    deliverables:
+    - 各电路电压测量数据表
+    - FSR 力传感器力-电压响应曲线图
+    - 用于过电流保护的各分支保险丝连接照片
+  assignment:
+    title: 电源分配与传感器数据采集设计
+    deliverables:
+    - 执行器分支电源分配计划书
+    - 包含 OpenCR ADC 电路图的配线图
+    - 保险丝选型逻辑报告
+    rubric:
+    - 分支电源合计电流是否遵守各适配器允许范围？
+    - FSR 电路是否仅连接至 3.3 V 传感器轨？
+    - 是否选用了能适当进行过电流保护的保险丝额定值？
+  quiz:
+  - question: 下列哪项是配置电源分支时禁止的行为？
+    choices:
+    - 分分支串联安装 10 A 保险丝
+    - 并联连接独立适配器的阳极 (+) 端子
+    - 以 4:4:3 分配执行器
+    - 将 FSR 传感器连接至 3.3 V 轨道
+    answer_index: 1
+    explanation: 必须将各适配器输出作为独立分支使用，严禁并联连接电源适配器输出，否则会导致系统故障及火灾隐患。
+  - question: 配置 FSR 402 传感器电压分压电路时，注意事项正确的是？
+    choices:
+    - 必须使用 12 V 执行器电源轨。
+    - 必须使用 5 V 电源以提高 ADC 分辨率。
+    - 必须使用 OpenCR 的 3.3 V 传感器电源。
+    - 不带电阻，仅连接 FSR。
+    answer_index: 2
+    explanation: FSR 传感器的电压信号不应超过 OpenCR ADC 输入范围 (0~3.3 V)，因此必须使用 3.3 V 传感器电源。
+  completion_criteria:
+  - 通过万用表验证所有电源分支电路均物理断开至电压低于 1 V
+  - 完成保险丝安装及 3.3 V 电源分压电路配置
+  - 确认 FSR 传感器信号在 OpenCR ADC 中正常获取，范围为 0~3.3 V
+  source_ids:
+  - S6
+  - S9
+  - S14
+  - S17
+  - S26
+  - S25
+  - S15
+  - S27
+  - S16
+- id: m5
+  slug: actuators-sensors
+  phase_id: p2
+  title: 执行器及传感器集成
+  estimated_hours: 13.0
+  prerequisites:
+  - m4
+  objectives:
+  - 理解 DYNAMIXEL 智能执行器的控制信号与电源分配结构。
+  - 掌握 FSR（力感应电阻）传感器的工作原理，并设计 OpenCR 控制器中的分压电路。
+  - 习得执行器电源分支与个别保险丝保护的重要性。
+  - 掌握肌腱驱动系统的机构特性与电子控制反馈的联动方法。
+  theory_markdown: 若发现异常发热、异味或冒烟，请勿接近，并从危险区域外通过预先指定的建筑配电盘断路器或认证的上游主断路器切断 3 个适配器的供电电源后再撤离。若危险区域外无上游断路手段，则禁止系统通电。扭矩释放不能代替电源切断。维护和接近必须在计划停机后通过物理断开并确认无电状态下进行
+    [S14] [S16] [S17] [S15] [S27] [S26]
+  worked_examples:
+  - 示例 1：执行器分支最大负载计算。若 1 台执行器，堵转电流为 2.3 A [S14]，配置有 4 台执行器的分支最大峰值电流为 4 * 2.3 A = 9.2
+    A。这在 10 A 保险丝额定范围内 [S26]，且未超过 11.5 A 适配器输出规范，是安全的 [S17]。
+  - 示例 2：FSR分压电路的ADC电压计算。设传感器电阻为R_fsr，固定电阻为R_fixed(10 kΩ)，则ADC输入电压 V_adc = 3.3V *
+    (R_fixed / (R_fsr + R_fixed)) [S16, S27]。无接触力时(电阻无穷大) V_adc 为 0 V，最大接触时若传感器电阻小于固定电阻，V_adc
+    趋近于 3.3 V，从而将力数据数字化。
+  lab:
+    title: 执行器及 FSR 传感器集成测试
+    steps:
+    - 在各适配器输出端连接 ATO 内联保险丝座并插入 10 A 保险丝 [S25, S26]。
+    - 将 DYNAMIXEL 执行器线束连接至保险丝后的电源分支 [S9]。
+    - 利用 FSR 传感器和 10 kΩ 电阻构成电压分压电路，并连接至 OpenCR 的 3.3 V ADC 端口 [S16, S27]。
+    - 设置万用表为 DC 电压模式，确认各分支输出电压为 12 V。
+    - 通过软件以低速空载旋转执行器，检查通信状态。
+    safety:
+    - 维护前物理断开 3 个电源适配器，测量低于 1 V 后确认处于无电状态。
+    - 通电期间，不得将手放入执行器活动范围。
+    - 电路测试时务必佩戴护目镜。
+    - 若发现异常发热、异味或冒烟，请勿接近，并从危险区域外通过预先指定的建筑配电盘断路器或认证的上游主断路器切断 3 个适配器的供电电源后再撤离。若危险区域外无上游断路手段，则禁止系统通电。扭矩释放不能代替电源切断。维护和接近必须在计划停机后通过物理断开并确认无电状态下进行。
+    deliverables:
+    - 各分支电压校准记录表
+    - FSR 传感器压力-ADC 值特性曲线图
+    - 正常运行状态下的机器人手线束照片及配线图
+  assignment:
+    title: 电源系统设计与反馈逻辑实现
+    deliverables:
+    - 执行器分支负荷分配及保险丝保护计算书
+    - 利用 FSR 传感器数据的抓取力控制算法（伪代码）
+    - 最终配线及电源集成设计报告
+    rubric:
+    - 12 V 执行器与 3.3 V 传感器轨是否正确分离？
+    - 各分支最大峰值电流是否未超过保险丝额定值？
+    - 教育原型不主张遵守机器安全标准或认证，在投入人员接近环境前是否需要合格安全专家的单独审查？
+    - 是否理解遵循安全守则的电源物理断开程序？
+  quiz:
+  - question: 适合 FSR 电压分压电路的电源是？
+    choices:
+    - 12 V 执行器电源
+    - OpenCR 3.3 V 传感器电源
+    answer_index: 1
+    explanation: FSR 传感器的 ADC 信号必须使用 OpenCR 的 3.3 V 传感器轨，并与 12 V 执行器电源在电气上完全分离。
+  - question: 分支保险丝保护的主要目的是什么？
+    choices:
+    - 为了强制固定电压为 12 V
+    - 发现异常发热、异味或冒烟时，应通过危险区域外预先指定的建筑配电盘断路器或认证的上游主断路器切断 3 个适配器的供电电源后再撤离。若无上游断路手段，则禁止系统通电。扭矩释放不能代替电源切断。维护必须在物理断开并确认无电后进行
+    answer_index: 1
+    explanation: 部署在各分支的 10 A 保险丝在允许执行器峰值电流的同时，能在配线短路等故障发生时保护系统免受过电流危害。
+  - question: 绝缘电源适配器的独立阳极 (+) 输出可以连接吗？
+    choices:
+    - 为合计分支电流必须连接
+    - 严禁连接，各分支必须保持独立
+    answer_index: 1
+    explanation: 为实现独立分支结构，严禁并联阳极 (+) 输出，各输出必须以物理隔离的电源线束运行。
+  completion_criteria:
+  - 确认在各执行器分支正常测量到 12 V 电压。
+  - 通过控制器正常获取 FSR 传感器数据，并证实随接触力变化的 ADC 值变化。
+  - 能够物理切断系统电源并在小于 1 V 的状态下安全进行维护接近。
+  - 提交了所有实践作业及安全合规承诺书。
+  source_ids:
+  - S14
+  - S15
+  - S16
+  - S17
+  - S27
+  - S26
+  - S25
+  - S9
+- id: m6
+  slug: assembly
+  phase_id: p2
+  title: 机器人手组装
+  estimated_hours: 15.0
+  prerequisites:
+  - m5
+  objectives:
+  - 理解用于机器人手机构组装的精密零件连接原理。
+  - 掌握肌腱 (Dyneema) 驱动系统的张力传递结构。
+  - 学习独立电源分支配置与物理配线安全。
+  - 掌握 FSR 传感器与分压电路的正确集成方法。
+  theory_markdown: '### 精密组装及线束系统
+
+
+    机器人手组装是必须同时确保机构刚性与电子可靠性的精密工序。主体结构采用高刚性与高尺寸稳定性的碳纤维填充 PC 丝材 (PC-CF) 制作 [S21]，并设计为可通过
+    M3 黄铜热压嵌入螺母进行多次拆装 [S23]。
+
+
+    #### 肌腱驱动原理
+
+    肌腱将执行器的旋转运动转换为手指关节的弯曲运动。Dyneema SK78 材料在 1.5 mm 直径下提供 230 daN 的高断裂载荷与低于 1% 的低工作伸长率，使张力传递效率最大化
+    [S18]。组装时绞盘边缘的倒圆处理是防止肌腱磨损的必备要素。
+
+
+    #### 独立电源及安全分支
+
+    本系统使用 3 个独立的 12 V 电源分支 [S17]。各分支在适配器间电气隔离，绝对不得并联阳极 (+) 输出。各分支串联配置 10 A ATOF 保险丝，以防配线缺陷
+    [S26]。设计确保了执行器堵转电流合计可被安全接纳。
+
+
+    #### 传感器接口
+
+    指尖的 FSR 402 传感器是随压力变化而电阻改变的可变电阻体 [S15]。教育原型不主张遵守机器安全标准或认证，在投入人员接近环境前是否需要合格安全专家的单独审查
+    [S27] [S16]。'
+  worked_examples:
+  - 示例 1：保险丝容量计算。若 XM430 执行器 11 台（堵转电流合计 9.2 A）连接至 1 个 12 V 分支，使用 10 A 保险丝是恰当的。这在承载正常运行范围的同时，可在配线过载时保护电路
+    [S14, S26]。
+  - 示例 2：热压嵌入螺母深度。M3 黄铜嵌入件必须垂直准确热压入 PC-CF 打印件，需要与 4.4 mm 外径匹配的 4 mm 导向孔 [S23]。歪斜会降低螺纹组装精度，需注意。
+  lab:
+    title: 机器人手机构组装及配线练习
+    steps:
+    - 在手指连杆与手掌框架上安装 M3 热压嵌入螺母。
+    - 将 igus JSM-0810-10 轴承与 8 mm 铝轴安装至腕部及关节轴。
+    - 将 Dyneema 肌腱缠绕在绞盘上，以适当张力连接至手指。
+    - 使用 Micro-Fit 3.0 连接器为各执行器及手指传感器进行配线 [S9]。
+    - 在各独立 12 V 分支安装 10 A 保险丝，并确认单独电源连接 [S26, S25]。
+    safety:
+    - 通电前务必使用万用表确认 3 个电源分支的绝缘状态。
+    - 肌腱张力测试时，为防断裂反弹，务必佩戴护目镜。
+    - 维护及接近零件前，物理断开 3 个电源适配器，并测量确认各分支电压低于 1 V。
+    - 绝不并联连接两个及以上电源适配器的阳极 (+) 输出。
+    deliverables:
+    - 确认各关节无摩擦运行的视频
+    - 各电源分支保险丝安装照片
+    - 已组装机器人手的配线图及紧固扭矩记录
+  assignment:
+    title: 机器人手系统集成报告
+    deliverables:
+    - 完成后的组装体 3 面图及连接点详图 (CAD)
+    - 各电源分支负载分配表及保险丝容量验证结果
+    - 手指弯曲时肌腱张力数据记录
+    rubric:
+    - 机构组装精度及轴承摩擦最小化 (40%)
+    - 各独立分支的独立电源配线及遵守安全守则 (40%)
+    - 提交物技术规格准确性 (20%)
+  quiz:
+  - question: 下列关于电源供应方式的说明中，正确的是？
+    choices:
+    - 并联连接 3 个电源适配器的阳极 (+) 端子以增加电流容量。
+    - 各电源适配器作为独立分支使用，阳极 (+) 端子电气绝缘。
+    answer_index: 1
+    explanation: 为保障系统安全，各电源适配器均作独立分支，严禁并联连接阳极 (+) 输出。
+  - question: 将 FSR 402 传感器连接至 OpenCR 板时，应使用的电压是？
+    choices:
+    - 3.3 V 传感器电源轨
+    - 12 V 执行器电源轨
+    answer_index: 0
+    explanation: FSR传感器分压电路必须连接到 3.3 V 传感器导轨，以将 ADC 信号保持在 0-3.3 V 的范围内。
+  - question: 肌腱使用 Dyneema SK78 的主要原因是？
+    choices:
+    - 低廉的价格和容易加工
+    - 小直径下的高断裂载荷与极低的工作伸长率
+    answer_index: 1
+    explanation: Dyneema SK78 提供极高的强度与低伸长率，适合精密张力传递。
+  completion_criteria:
+  - 完成所有 5 个手指关节的物理组装
+  - 确认独立 3 个电源分支的保险丝安装
+  - 组装完成后，确认 3 个分支均为非通电状态（低于 1 V）
+  source_ids:
+  - S19
+  - S20
+  - S21
+  - S23
+  - S18
+  - S17
+  - S26
+  - S15
+  - S27
+  - S16
+  - S14
+  - S9
+  - S25
+- id: m7
+  slug: firmware-control
+  phase_id: p3
+  title: 固件及控制
+  estimated_hours: 10.0
+  prerequisites:
+  - m6
+  objectives:
+  - 理解 DYNAMIXEL 智能执行器的工作原理与控制协议 (Protocol 2.0)。
+  - 掌握 OpenCR 控制器结构，并配置传感器与执行器接口。
+  - 设计 FSR 电压分压电路并实现 ADC 信号处理过程。
+  - 利用状态机 (State Machine) 在固件中编写机器人手的抓取与控制逻辑。
+  theory_markdown: '## DYNAMIXEL 智能执行器控制
+
+    机械手的每个关节使用XM430-W350-T执行器驱动 [S14]。该执行器实时提供位置、速度、电流反馈，并通过DYNAMIXEL Protocol 2.0
+    进行控制 [S14]。控制器OpenCR 1.0 搭载216MHz ARM Cortex-M7处理器，无需额外的通信桥接器，直接与执行器通信 [S16]。
+
+
+    ## ADC 及传感器接口
+
+    指尖的接触力使用FSR 402 传感器测量 [S15]。FSR具有随着施加力增大电阻减小的特性 [S15]。OpenCR的ADC输入分辨率为 12 位 [S16]，使用
+    3.3V 传感器电源轨构成电压分压电路 [S16, S27]。
+
+
+    10 kΩ 下拉分压器使用 $V_{out}=V_{ref}\frac{R_{fixed}}{R_{FSR}+R_{fixed}}$
+
+
+    此处 $R_{fixed}$ 使用10kΩ电阻 [S27]。为安全起见，所有模拟信号的设计范围必须不超过 0-3.3V [S16]。
+
+
+    ## 固件结构
+
+    机械手的控制系统由‘待机’、‘执行抓取’、‘保持抓取’、‘释放’的状态机实现。固件在循环中周期性轮询传感器值，分析执行器的电流及位置数据，以保持稳定的抓取力。'
+  worked_examples:
+  - 示例 1：FSR ADC 值归一化。若 FSR 传感器连接至 OpenCR ADC 并输出 0~4095 (12 位) 范围的值，编写代码将其转换为 0.0~1.0
+    的力比率。（公式：`normalized = adc_value / 4095.0`）
+  - 示例 2：XM430 位置控制指令。使用 DYNAMIXEL SDK 构建指令，将 1 号关节移动至 2048 (中心值)。使用 `packetHandler->write2ByteTxRx(portHandler,
+    1, ADDR_GOAL_POSITION, 2048, &error);` 这样的调用体系。
+  lab:
+    title: 机器人手固件实现及传感器校准
+    steps:
+    - 将 OpenCR 1.0 板通过 USB 连接至 PC 并设置基础通信环境 [S16]。
+    - 将连接到每个手指的FSR分压电路焊接连接到OpenCR的 3.3V 传感器电源轨 [S16, S27]。
+    - 使用万用表确认FSR无负载和加压时的电压是否在 0-3.3V 范围内。
+    - 在固件中读取传感器值并输出至串口监视器，确认物理接触时的变化。
+    - 将单台执行器连接至固定夹具，并通过控制代码测试精密运动。
+    safety:
+    - 绝对禁止将5V或12V执行器电源轨直接连接到ADC传感器电路 [S16]。
+    - 通电前重新确认配线图，并用万用表检查是否短路。
+    - 在执行器空载状态下执行初步启动测试。
+    - 若检测到异常发热、异味或烟雾，请勿靠近，应在危险区域外通过预设的建筑物配电盘断路器或经认证的 upstream master disconnect 切断
+      3 个适配器的供电电源，然后撤离。若危险区域外没有可操作的 upstream 断路手段，则严禁系统通电。扭矩释放不能代替断电。维护与接触操作仅可在计划停机后，经物理隔离并确认处于无电状态后方可进行
+      [S17]。
+    - 接近前物理断开 3 个电源适配器，然后在直流电压模式下确认各分支电压低于1V。
+    deliverables:
+    - 传感器数据输出串行日志
+    - 完成运行测试及校准的固件源代码
+    - ADC 归一化公式定义书
+  assignment:
+    title: 5 指机械手系统集成控制报告
+    deliverables:
+    - 状态机设计图及逻辑详细技术文档
+    - 总计 11 个执行器及 5 个传感器集成控制固件
+    - 动作验证视频及抓取力分析图表
+    rubric:
+    - 状态机是否安全地执行了抓取和释放循环？
+    - 传感器数据采集是否稳定且无噪声？
+    - 各电源分支设计是否遵循 BOM 的独立分支原则？
+    - 是否遵守并记录了安全守则（物理断电等）？
+  quiz:
+  - question: 在 OpenCR 控制器中，用于 FSR 分压电路的电源轨应为？
+    choices:
+    - 12V执行器电源
+    - 3.3V 传感器电源
+    - 5V电源
+    - USB 5V
+    answer_index: 1
+    explanation: 根据OpenCR手册和兼容性标准，FSR电压分压必须仅使用 3.3V 传感器电源轨 [S16]。
+  - question: 当执行器电源分支适配器有 3 个时，正确的电源连接方法是？
+    choices:
+    - 将 3 个适配器的正 (+) 输出并联以增加电流容量。
+    - 将每个适配器配置为独立分支并经过保险丝。
+    - 将所有执行器连接到 1 个适配器，其余作为备用。
+    - 组合适配器输出，升压至36V使用。
+    answer_index: 1
+    explanation: 严禁并联正 (+) 输出，每个适配器应保持为独立分支，并必须通过保险丝进行过流保护 [S17]。
+  - question: 在维护或接触机械手系统前必须执行的必要步骤是？
+    choices:
+    - 仅下达软件扭矩释放指令。
+    - 移除保险丝。
+    - 物理断开 3 个电源，并用万用表确认各分支电压低于1V。
+    - 按下控制器的 Reset 按钮。
+    answer_index: 2
+    explanation: 扭矩释放不能代替断电，必须物理断开 3 个适配器，并通过直流电压测量进行确认。
+  completion_criteria:
+  - 集成控制固件在循环内执行 5 指机械手的抓取动作。
+  - 所有传感器均能正常采集 0-3.3V 范围内的ADC信号。
+  - 所有电气连接符合包含保险丝的独立分支设计标准。
+  - 安全评估报告中包含无电测量确认记录。
+  source_ids:
+  - S16
+  - S14
+  - S15
+  - S27
+  - S17
+- id: m8
+  slug: testing-validation
+  phase_id: p3
+  title: 测试与验证
+  estimated_hours: 10.0
+  prerequisites:
+  - m7
+  objectives:
+  - 制定系统的机械手驱动性能评估测试流程。
+  - 为数据驱动的精密验证分析传感器数据与执行器反馈。
+  - 验证机械手的机构耐久性及重复精度。
+  - 编写系统集成后的安全操作指南。
+  theory_markdown: '### 1. 机械手性能评估的核心指标
+
+    机械手性能验证是证明机构设计保真度和控制算法有效性的过程 [S1]。主要评估指标如下：
+
+    - **重复精度 (Repeatability)：** 到达相同目标位置时的误差范围，通过 `XM430-W350-T` 执行器的高分辨率编码器反馈进行计算
+    [S14]。
+
+    - **抓取稳定性 (Grasp Stability)：** 通过分析 `FSR 402` 传感器测量的接触力分布，评估物体抓取是否平稳无滑动 [S15]。
+
+    - **耐久性 (Durability)：** 执行重复负载测试，确认腱 (`Dyneema SK78`) 和连杆 (`PC-CF`) 结构的疲劳破坏情况
+    [S18, S21]。
+
+
+    ### 2. 数据采集与分析
+
+    通过 `OpenCR` 控制板的 ADC 实时采集 FSR 数据。使用 3.3 V 传感器电源，将力信号转换为 0~3.3 V 范围内最大 12-bit 分辨率的信号
+    [S16]。数据采集时，为减少噪声，应应用移动平均滤波器等来平滑抓取力的变化。
+
+
+    ### 3. 电气安全验证
+
+    每个执行器组配置为独立的 `12 V` 适配器分支，并使用 `10 A` ATOF 保险丝进行过流保护 [S17, S26]。系统无电状态的确认始终通过 DC-电压模式（低于
+    1 V）进行测量。'
+  worked_examples:
+  - '**示例 1：重复精度误差分析**
+
+    在目标点 50 度处重复移动 100 次后收集编码器值，结果显示平均值为 50.02 度，标准差为 0.05 度。符合要求的精度范围。'
+  - '**示例 2：基于 FSR 的抓取力校准**
+
+    当无压力时 ADC 值为 50，最大抓取（20 N）时为 3800，使用线性插值公式从 ADC 值实时估算力 (N) [S15]。'
+  lab:
+    title: 机械手工作范围及抓取力验证
+    steps:
+    - 确认各独立分支电源适配器连接处的电压为 12 V。
+    - 在软件扭矩释放状态下，进行机械机构检查，确保各连杆无干涉。
+    - 在空载状态下，逐步确认各手指的工作范围。
+    - 分阶段（0.5 N, 1 N, 5 N）向 FSR 传感器施加压力并记录 ADC 信号。
+    - 结束通电测试后，物理断开所有电源适配器。
+    - 使用万用表确认 3 个分支的电压已放电至低于 1 V。
+    safety:
+    - 维护及接触前，物理断开 3 个绝缘电源适配器，并测量确认处于无电状态。
+    - 通电过程中严禁将手伸入工作范围，并须固定在测试夹具上。
+    - 若检测到异常发热、异味或烟雾，请勿靠近，应在危险区域外通过预设的建筑物配电盘断路器或经认证的 upstream master disconnect 切断
+      3 个适配器的供电电源，然后撤离。若危险区域外没有可操作的 upstream 断路手段，则严禁系统通电。扭矩释放不能代替断电。维护与接触操作仅可在计划停机后，经物理隔离并确认处于无电状态后方可进行。
+    - 操作时必须佩戴防冲击安全防护眼镜。
+    deliverables:
+    - 工作范围及抓取力测试日志数据文件
+    - 重复精度统计分析报告
+    - 各电源分支测量安全确认书
+  assignment:
+    title: 编写最终性能验证报告
+    deliverables:
+    - 系统集成验证报告 (PDF)
+    - 性能指标数值数据及可视化图表
+    - 操作指南及故障排除程序手册
+    rubric:
+    - 确认工作范围及重复精度测量数据的一致性
+    - 基于 FSR 传感器数据的力控制算法验证
+    - 通过机械耐久性测试评估是否存在破损及装配稳定性
+    - 安全指南遵守情况及程序合理性
+  quiz:
+  - question: 下列关于系统安全维护程序的说法中不正确的是？
+    choices:
+    - 执行软件扭矩释放。
+    - 计划停机后，维护/接触前物理断开 3 个电源适配器，并测量确认各分支处于无电状态。
+    - 物理断开 3 个电源适配器，并使用万用表直流电压模式确认各分支剩余电压低于 1 V。
+    - 用直流电压模式测量确认各分支低于 1 V。
+    answer_index: 2
+    explanation: 电阻模式可能会测量带电电路或因未放电的电容器导致设备损坏及读数错误。必须始终使用直流电压模式确认无电状态。
+  - question: 在使用 FSR 402 传感器和 OpenCR 板进行电路构建时需要注意什么？
+    choices:
+    - FSR 分压器仅使用 3.3 V 传感器电源，并将模拟输入信号保持在 0~3.3 V 范围内。
+    - FSR 分压电路必须仅使用 3.3 V 传感器电源。
+    answer_index: 1
+    explanation: OpenCR 的 ADC 输入不得超过 0~3.3 V 范围，因此必须使用稳定的 3.3 V 传感器电源。
+  completion_criteria:
+  - 提交测试验证阶段的所有实验数据并完成日志分析。
+  - 遵守 3 个独立电源分支的物理隔离及安全电压测量程序。
+  - 重复精度和抓取力的定量评估指标达到目标范围。
+  - 通过最终报告证明所有机械部件和电子电路运行安全。
+  source_ids:
+  - S1
+  - S12
+  - S14
+  - S15
+  - S18
+  - S21
+  - S16
+  - S17
+  - S26
+sources:
+- id: S1
+  title: Introduction to Robotics | Mechanical Engineering | MIT ...
+  organization: ocw.mit.edu
+  url: https://ocw.mit.edu/courses/2-12-introduction-to-robotics-fall-2005/
+  type: university
+  published_at: null
+  accessed_at: '2026-08-28'
+  primary: true
+  supports:
+  - m1
+  - m8
+- id: S3
+  title: CN101500764B - multi-fingered robotic hand - Google Patents
+  organization: patents.google.com
+  url: https://patents.google.com/patent/CN101500764B/en
+  type: patent
+  published_at: null
+  accessed_at: '2026-08-28'
+  primary: true
+  supports:
+  - m2
+- id: S6
+  title: Using the TPS 5430 As An Inverting Buck Boost Converter (Rev. A
+  organization: ti.com
+  url: https://www.ti.com/lit/an/slva257a/slva257a.pdf?ts=1764683272530&ref_url=https%3A%2F%2Fwww.google.com%2F
+  type: datasheet
+  published_at: null
+  accessed_at: '2026-08-28'
+  primary: true
+  supports:
+  - m4
+- id: S7
+  title: IEC 60204-1:2016 Safety of Machinery
+  organization: webstore.iec.ch
+  url: https://webstore.iec.ch/en/publication/26037
+  type: standard
+  published_at: null
+  accessed_at: '2026-08-28'
+  primary: true
+  supports:
+  - course
+- id: S9
+  title: Micro-Fit 3.0 Connector Family Specification
+  organization: content.molex.com
+  url: https://www.content.molex.com/dxdam/literature/987650-5984.pdf
+  type: datasheet
+  published_at: null
+  accessed_at: '2026-08-28'
+  primary: true
+  supports:
+  - bom
+  - m4
+  - m5
+  - m6
+- id: S11
+  title: Underactuated Robotics
+  organization: underactuated.mit.edu
+  url: https://underactuated.mit.edu/
+  type: university
+  published_at: null
+  accessed_at: '2026-08-28'
+  primary: true
+  supports:
+  - m2
+- id: S12
+  title: 'Ruka-v2: Tendon Driven Open-Source Dexterous Hand with Wrist'
+  organization: arxiv.org
+  url: https://arxiv.org/abs/2603.26660
+  type: paper
+  published_at: null
+  accessed_at: '2026-08-28'
+  primary: true
+  supports:
+  - m3
+  - m8
+- id: S14
+  title: XM430-W350 e-Manual
+  organization: emanual.robotis.com
+  url: https://emanual.robotis.com/docs/en/dxl/x/xm430-w350/
+  type: datasheet
+  published_at: null
+  accessed_at: '2026-08-28'
+  primary: true
+  supports:
+  - bom
+  - m1
+  - m2
+  - m4
+  - m5
+  - m6
+  - m7
+  - m8
+- id: S15
+  title: FSR Model 402
+  organization: interlinkelectronics.com
+  url: https://www.interlinkelectronics.com/products/fsr-model-402
+  type: datasheet
+  published_at: null
+  accessed_at: '2026-08-28'
+  primary: true
+  supports:
+  - bom
+  - m1
+  - m3
+  - m4
+  - m5
+  - m6
+  - m7
+  - m8
+- id: S16
+  title: OpenCR 1.0
+  organization: emanual.robotis.com
+  url: https://emanual.robotis.com/docs/en/parts/controller/opencr10/
+  type: technical_documentation
+  published_at: null
+  accessed_at: '2026-08-28'
+  primary: true
+  supports:
+  - bom
+  - m1
+  - m3
+  - m4
+  - m5
+  - m6
+  - m7
+  - m8
+- id: S17
+  title: GST160A12-R7B Enclosed Desktop Power Adapter
+  organization: meanwell.com
+  url: https://www.meanwell.com/Upload/PDF/GST160A/GST160A-SPEC.PDF
+  type: datasheet
+  published_at: null
+  accessed_at: '2026-08-28'
+  primary: true
+  supports:
+  - bom
+  - m1
+  - m3
+  - m4
+  - m5
+  - m6
+  - m7
+  - m8
+- id: S18
+  title: D-Pro 1.5 mm
+  organization: liros.com
+  url: https://www.liros.com/catalog/en/d-pro-1-5mm-p1850/
+  type: technical_documentation
+  published_at: null
+  accessed_at: '2026-08-28'
+  primary: true
+  supports:
+  - bom
+  - m2
+  - m6
+  - m8
+- id: S19
+  title: iglide J JSM-0810-10 Sleeve Bearing
+  organization: igus.com
+  url: https://www.igus.com/product?artNr=JSM-0810-10
+  type: technical_documentation
+  published_at: null
+  accessed_at: '2026-08-28'
+  primary: true
+  supports:
+  - bom
+  - m2
+  - m3
+  - m6
+- id: S20
+  title: drylin R Metric Aluminum Precision Shaft AWMP
+  organization: igus.com
+  url: https://www.igus.com/product/drylin_AWMP
+  type: technical_documentation
+  published_at: null
+  accessed_at: '2026-08-28'
+  primary: true
+  supports:
+  - bom
+  - m3
+  - m6
+- id: S21
+  title: Prusament PC Blend Carbon Fiber
+  organization: prusa3d.com
+  url: https://www.prusa3d.com/product/prusament-pc-blend-carbon-fiber-black-2kg-nfc/
+  type: technical_documentation
+  published_at: null
+  accessed_at: '2026-08-28'
+  primary: true
+  supports:
+  - bom
+  - m2
+  - m3
+  - m6
+  - m8
+- id: S22
+  title: Socket Head Cap Screws Technical Data
+  organization: in.misumi-ec.com
+  url: https://in.misumi-ec.com/pdf/tech/press/pr1177_1178.pdf
+  type: technical_documentation
+  published_at: null
+  accessed_at: '2026-08-28'
+  primary: true
+  supports:
+  - bom
+- id: S23
+  title: M3 Heat-Fix Threaded Inserts HTBI-M3-BR
+  organization: accu-components.com
+  url: https://accu-components.com/api/product-datasheet?id=845137
+  type: datasheet
+  published_at: null
+  accessed_at: '2026-08-28'
+  primary: true
+  supports:
+  - bom
+  - m2
+  - m3
+  - m6
+- id: S25
+  title: ATO AFH Series In-Line Fuse Holder
+  organization: littelfuse.com
+  url: https://www.littelfuse.com/assetdocs/ato-afh-datasheet?assetguid=cbbb6f1c-c57a-4b2e-b955-39ecde7c4b16
+  type: datasheet
+  published_at: null
+  accessed_at: '2026-08-28'
+  primary: true
+  supports:
+  - bom
+  - m1
+  - m3
+  - m4
+  - m5
+  - m6
+- id: S26
+  title: ATOF 287 Series 10 A Blade Fuse
+  organization: littelfuse.com
+  url: https://www.littelfuse.com/assetdocs/littelfuse-datasheet-287-atof?assetguid=43dcdce8-8ca2-426f-8998-7e566f048d40
+  type: datasheet
+  published_at: null
+  accessed_at: '2026-08-28'
+  primary: true
+  supports:
+  - bom
+  - m1
+  - m3
+  - m4
+  - m5
+  - m6
+  - m8
+- id: S27
+  title: 10K Ohm 5 Percent 1/4W Through-Hole Resistors
+  organization: adafruit.com
+  url: https://www.adafruit.com/product/2784
+  type: technical_documentation
+  published_at: null
+  accessed_at: '2026-08-28'
+  primary: true
+  supports:
+  - bom
+  - m1
+  - m3
+  - m4
+  - m5
+  - m6
+  - m7
+bom:
+- id: ACT1
+  category: actuator
+  name: DYNAMIXEL 智能执行器
+  function: 腱绳与关节驱动
+  quantity: 11
+  model: XM430-W350-T
+  manufacturer: robotis
+  specifications:
+  - name: 堵转电流
+    value: '2.3'
+    unit: A
+    evidence_excerpt: Stall Current 2.3 A
+  - name: 堵转扭矩
+    value: '4.1'
+    unit: N·m
+    evidence_excerpt: Stall Torque 4.1 N·m
+  - name: 参考电压
+    value: '12'
+    unit: V
+    evidence_excerpt: Input Voltage 12 V
+  alternatives:
+  - 同通信协议的 DYNAMIXEL X 系列
+  compatibility:
+  - DYNAMIXEL Protocol 2.0
+  - 12 V 电源分支
+  rationale: 集成了位置、速度、电流反馈的精密驱动器
+  datasheet_source_id: S14
+- id: CON1
+  category: controller
+  name: 内置 DYNAMIXEL 端口机器人控制板
+  function: 无需额外的通信桥接即可进行执行器指令、传感器采集、运行状态机
+  quantity: 1
+  model: OpenCR 1.0
+  manufacturer: robotis
+  specifications:
+  - name: CPU 频率
+    value: '216'
+    unit: MHz
+    evidence_excerpt: 216MHz
+  - name: 最大输入电压
+    value: '24'
+    unit: V
+    evidence_excerpt: 5-24 V
+  - name: ADC 分辨率
+    value: '12'
+    unit: bit
+    evidence_excerpt: Max 12bit
+  alternatives:
+  - 内置 DYNAMIXEL TTL 端口的同级 ROBOTIS 控制器
+  compatibility:
+  - 内置 DYNAMIXEL TTL x 3
+  - 内置 DYNAMIXEL RS-485 x 3
+  - 与 XM430-W350-T 直接连接
+  - FSR 402 分压电路仅使用 3.3 V 传感器电源
+  - 模拟输入信号不超过 0~3.3 V 范围
+  - 12 V 执行器电源与 ADC/传感器电路隔离
+  rationale: 去除了外部 RS-485/TTL 桥接及终端/上拉电路，提高了重现性和安全性
+  datasheet_source_id: S16
+- id: PWR1
+  category: power
+  name: 隔离型桌面电源适配器
+  function: 执行器 12 V 分支电源供电
+  quantity: 3
+  model: GST160A12-R7B
+  manufacturer: meanwell
+  specifications:
+  - name: 输出电压
+    value: '12'
+    unit: V
+    evidence_excerpt: 12 V
+  - name: 额定输出电流
+    value: '11.5'
+    unit: A
+    evidence_excerpt: 11.5 A
+  - name: 额定输出
+    value: '138'
+    unit: W
+    evidence_excerpt: 138 W
+  alternatives:
+  - 同级隔离型 12 V 适配器 - 每个分支至少 11.5 A
+  compatibility:
+  - 每个适配器输出用作独立保险丝分支
+  - 严禁并联正 (+) 输出
+  - 独立分支累计额定 34.5 A >= 执行器峰值 25.3 A
+  - 各输出保持为独立分支，严禁并联正 (+) 输出
+  - 3 个分支按 4 台/4 台/3 台分配
+  - 每个分支使用 10 A 保险丝及可接触的物理断电手段
+  rationale: 无需暴露交流端子，为 4 台/4 台/3 台执行器配置独立低压直流分支
+  datasheet_source_id: S17
+- id: SEN1
+  category: sensor
+  name: 指尖力传感传感器
+  function: 测量指尖接触力及提供抓取力反馈
+  quantity: 5
+  model: FSR Model 402
+  manufacturer: interlinkelectronics
+  specifications:
+  - name: 感应区直径
+    value: '12.7'
+    unit: mm
+    evidence_excerpt: Its active area is 12.7 mm diameter
+  - name: 感应范围下限
+    value: '0.2'
+    unit: N
+    evidence_excerpt: Sensing range from 0.2N to 20N
+  - name: 感应范围上限
+    value: '20'
+    unit: N
+    evidence_excerpt: Sensing range from 0.2N to 20N
+  alternatives:
+  - 带有正式数据表的薄膜压力传感器
+  compatibility:
+  - 放置在指尖垫下方
+  - 需要 ADC 输入分压电路
+  rationale: 确保在狭窄指尖结构中获取接触力反馈
+  datasheet_source_id: S15
+- id: WIR1
+  category: wiring
+  name: 分支用锁定连接器
+  function: 各手指电源/信号线束的可拆卸分支
+  quantity: 12
+  model: Micro-Fit 3.0
+  manufacturer: molex
+  specifications:
+  - name: 间距
+    value: '3.00'
+    unit: mm
+    evidence_excerpt: offer a 3.00mm pitch
+  - name: 最大接触电流
+    value: '8.5'
+    unit: A
+    evidence_excerpt: 'Current (max.): 8.5A'
+  - name: 最大电压
+    value: '600'
+    unit: V
+    evidence_excerpt: 'Voltage (max.): 600V'
+  alternatives:
+  - 具有官方额定值的同级锁定型分支连接器
+  compatibility:
+  - 仅用于 10 A 适配器分支保险丝下游的单个执行器/手指线束
+  - 每个连接器的最大电流限制为 XM430 1 台的 2.3 A
+  - 不用于 9.2 A 的集合分支
+  rationale: 减少振动期间的脱落，简化手指模块的更换
+  datasheet_source_id: S9
+- id: TRN1
+  category: transmission
+  name: Dyneema SK78 高强度纤维腱绳
+  function: 将执行器张力传递至手指关节
+  quantity: 1
+  model: D-Pro 1.5 mm / 01505-0150-010
+  manufacturer: liros
+  specifications:
+  - name: 直径
+    value: '1.50'
+    unit: mm
+    evidence_excerpt: Diameter 1.50 mm
+  - name: 断裂强度
+    value: '230'
+    unit: daN
+    evidence_excerpt: Breaking Strength daN 230
+  - name: 工作延伸率上限
+    value: '1'
+    unit: '%'
+    evidence_excerpt: working stretch < 1 %
+  alternatives:
+  - 直径 1.5 mm、断裂强度至少 230 daN 的可追溯 Dyneema SK78 线
+  compatibility:
+  - 绞盘边缘倒角
+  - 必须进行重复弯曲测试
+  rationale: 通过使用标明实际直径、断裂强度和延伸率的产品，确保腱绳更换的可重复性
+  datasheet_source_id: S18
+- id: STR1
+  category: structure
+  name: 用于 FDM 的碳纤维 PC 线材
+  function: 制作手指连杆及手掌框架
+  quantity: 1
+  model: Prusament PC Blend Carbon Fiber
+  manufacturer: prusa3d
+  specifications:
+  - name: 线材直径
+    value: '1.75'
+    unit: mm
+    evidence_excerpt: 1.75 mm
+  - name: 推荐喷嘴温度
+    value: '285'
+    unit: °C
+    evidence_excerpt: 285 °C
+  - name: 推荐热床温度
+    value: '110'
+    unit: °C
+    evidence_excerpt: 110 °C
+  alternatives:
+  - 具有官方物性表的 FDM 用工程塑料
+  compatibility:
+  - FDM 3D 打印机
+  - 必须使用硬化钢喷嘴
+  rationale: 利用现有 FDM 设备制造具有所需刚性和尺寸稳定性的结构件
+  datasheet_source_id: S21
+- id: BRG1
+  category: bearing
+  name: 免维护聚合物滑动轴承
+  function: 手腕及高负载旋转轴的摩擦与间隙管理
+  quantity: 4
+  model: JSM-0810-10
+  manufacturer: igus
+  specifications:
+  - name: 内径 d1
+    value: '8'
+    unit: mm
+    evidence_excerpt: 'Dimensions : d1 8 mm d2 10 mm b1 10 mm'
+  - name: 外径 d2
+    value: '10'
+    unit: mm
+    evidence_excerpt: 'Dimensions : d1 8 mm d2 10 mm b1 10 mm'
+  - name: 长度 b1
+    value: '10'
+    unit: mm
+    evidence_excerpt: 'Dimensions : d1 8 mm d2 10 mm b1 10 mm'
+  alternatives:
+  - 同规格 8×10×10 mm 的正式滑动轴承
+  compatibility:
+  - 8 mm 轴
+  - 10 mm 推荐公差壳体孔
+  rationale: 通过免维护结构减少维护频率和污染
+  datasheet_source_id: S19
+- id: FST1
+  category: fastener
+  name: M3 黄铜热熔螺纹嵌件
+  function: 在 PC-CF 打印件中形成可重复装配的 M3 内螺纹
+  quantity: 40
+  model: HTBI-M3-BR
+  manufacturer: accu-components
+  specifications:
+  - name: 外径
+    value: '4.4'
+    unit: mm
+    evidence_excerpt: Diameter over Knurls (OD) 4.4mm
+  - name: 长度
+    value: '5.8'
+    unit: mm
+    evidence_excerpt: Length (L) 5.8mm
+  - name: 建议孔径
+    value: '4'
+    unit: mm
+    evidence_excerpt: Recommended Hole Size 4mm
+  alternatives:
+  - 同规格 4.4×5.8 mm 的 M3 黄铜热熔嵌件
+  compatibility:
+  - M3×0.5 帽头螺丝
+  - PC-CF 打印件 4.0 mm 导孔
+  rationale: 提高重复拆卸和组装的精度，优于在打印件上直接攻丝
+  datasheet_source_id: S23
+- id: SAF1
+  category: safety
+  name: 10 A ATOF 分支保险丝
+  function: 4 台/4 台/3 台执行器独立分支的过流保护
+  quantity: 3
+  model: 0287010.U
+  manufacturer: littelfuse
+  specifications:
+  - name: 电流额定值
+    value: '10'
+    unit: A
+    evidence_excerpt: 0287010._ 10 A
+  - name: 电压额定值
+    value: '32'
+    unit: V
+    evidence_excerpt: Blade Fuses – Rated 32V
+  - name: 代表冷电阻
+    value: '7.70'
+    unit: mΩ
+    evidence_excerpt: 7.70 mΩ
+  alternatives:
+  - 同 ATO 规格，额定 10 A，电压 32 VDC 及以上的保险丝
+  compatibility:
+  - 0AFH0001Z 支架
+  - 每个分支最多 4 台执行器，堵转电流总和 9.2 A
+  rationale: 额定值低于 11.5 A 电源分支且高于 9.2 A 峰值，从而保护配线故障
+  datasheet_source_id: S26
+- id: B-SHAFT
+  category: bearing
+  name: 8 mm 精密铝轴
+  function: 用于 JSM-0810-10 轴承的腕部及关节旋转轴
+  quantity: 2
+  model: AWMP-08
+  manufacturer: igus
+  specifications:
+  - name: 轴直径
+    value: '8'
+    unit: mm
+    evidence_excerpt: Shaft aluminium AWMP-08, ø 8 mm
+  - name: 切割长度公差
+    value: '1'
+    unit: mm
+    evidence_excerpt: cut to a tolerance of +/- 1 mm
+  alternatives:
+  - 与 JSM-0810-10 兼容、公差明确的 8 mm 轴
+  compatibility:
+  - JSM-0810-10 内径 8 mm
+  - 按装配长度切割后倒角
+  rationale: 在采购阶段固定轴承内径与轴直径，减少间隙误差
+  datasheet_source_id: S20
+- id: B-FASTENER
+  category: fastener
+  name: M3 内六角圆柱头螺丝
+  function: 手指连杆、传感器支架、手掌框架的固定
+  quantity: 40
+  model: M3×10 JIS B 1176
+  manufacturer: misumi
+  specifications:
+  - name: 标称螺纹直径
+    value: '3'
+    unit: mm
+    evidence_excerpt: Unit:mm Nominal diameter of thread(d)(15) M3
+  - name: 螺纹螺距
+    value: '0.5'
+    unit: mm
+    evidence_excerpt: Unit:mm Nominal diameter of thread(d)(15) M3 Pitch of screw
+      thread(P) 0.5
+  - name: 基本头部直径
+    value: '5.5'
+    unit: mm
+    evidence_excerpt: Unit:mm M3 dk Max.(Basic size) 5.5
+  alternatives:
+  - 同 M3×0.5 规格且可追溯的圆柱头螺丝
+  compatibility:
+  - M3×0.5 螺纹嵌件
+  - 2.5 mm 内六角扳手
+  rationale: 统一标准规格，使 CAD 孔位与装配工具相匹配
+  datasheet_source_id: S22
+- id: B-WIRING-FUSE-HOLDER
+  category: wiring
+  name: ATO 直列分支保险丝座
+  function: 在各 12 V 适配器的正 (+) 输出端安装 10 A 分支保险丝
+  quantity: 3
+  model: 0AFH0001Z
+  manufacturer: littelfuse
+  specifications:
+  - name: 连续电流额定值
+    value: '15'
+    unit: A
+    evidence_excerpt: 'Continuous Current Rating: 15A'
+  - name: 最大电压
+    value: '32'
+    unit: VDC
+    evidence_excerpt: 'Max Voltage Rating: 32V DC'
+  - name: 引线规格
+    value: '14'
+    unit: AWG
+    evidence_excerpt: 'Wire Size: 14 AWG'
+  alternatives:
+  - 额定电压 32 VDC 以上，连续电流 15 A 以上的 ATO 直列座
+  compatibility:
+  - 0287010 ATOF 10 A 保险丝
+  - GST160A12-R7B 独立分支
+  rationale: 将各分支过流保护部件固定在布线图和采购清单中
+  datasheet_source_id: S25
+- id: B-SENSOR-RESISTOR
+  category: sensor
+  name: FSR 分压用 10 kΩ 电阻
+  function: 与 FSR 402 构成电压分压器，通过 OpenCR ADC 获取力信号
+  quantity: 5
+  model: Adafruit Product 2784
+  manufacturer: adafruit
+  specifications:
+  - name: 电阻值
+    value: '10'
+    unit: kΩ
+    evidence_excerpt: 10K Ω Resistors
+  - name: 最大功率
+    value: 1/4
+    unit: Watt
+    evidence_excerpt: 1/4 Watt max dissipation
+  - name: 最大电压
+    value: '300'
+    unit: V
+    evidence_excerpt: 300V max voltage
+  alternatives:
+  - 10 kΩ, 0.25 W 及以上，公差 5% 以下的轴向电阻
+  compatibility:
+  - 每个 FSR 402 需要 1 个 1 kΩ 电阻
+  - OpenCR ADC 输入
+  rationale: 明确了实验室所需的分压电阻数量和电气等级
+  datasheet_source_id: S27
+capstone:
+  title: 机械手最终装配及抓取测试
+  deliverables:
+  - 最终装配完成的机械手
+  - 控制固件源代码
+  - 抓取测试数据记录
+  - 最终项目报告
+  rubric:
+  - 机械精度及运行范围
+  - 抓取成功率（针对多种物体）
+  - 控制系统反应速度
+  - 遵守电气及机械安全性
+  safety:
+  - 计划停机后，维护/接触前物理断开 3 个绝缘电源适配器，并记录各分支剩余电压在直流电压模式下低于 1 V
+  - 检查各独立电源分支的 10 A 保险丝额定值及时间-电流特性
+  - 在固定夹具上完成空载测试后，分阶段增加抓取负载
+  - 在切割、钻孔、腱绳张力及抓取测试期间必须佩戴防冲击安全防护眼镜
+generation:
+  run_id: e40f5b399c3a49a386d28778db2b6fc5
+  generated_at: '2026-08-28T13:24:03.941808Z'
+  generator: gemini
+localization:
+  source_language: ko
+  language: zh-cn
+  source_hash: dee3a1ffeb11ca3a6b48b2f8643277384dc6355eae8977be4db24eba8162444b
+  translator: gemini-cli
+  translated_at: '2026-08-28T22:33:00.326957Z'
+  translation_run_id: caccbaa06fab4625ac40bf6e780cd0cb

@@ -1,0 +1,14 @@
+- slug: precise-robot-hand
+  title: 精巧な5知ロボットハンドの製作
+  summary: ロボット工学の基礎から5知ロボットハンドの設計、機構学、電子回路、制御アルゴリズム、およびシステム統合までの全工程を行うプロジェクト中心のコースです。
+  outcome: 独立動作可能な5知ロボットハンドのプロトタイプ製作、機構設計能力、組み込み制御システムの実装能力の獲得。
+  level: beginner
+  estimated_hours: 100.0
+  budget_krw:
+    min: 4500000
+    max: 6500000
+  module_count: 8
+  last_reviewed: '2026-08-28'
+  curriculum_version: 1.0.0+2c09fe34d0b1
+  url: /learn/ja/precise-robot-hand/
+  lang: ja

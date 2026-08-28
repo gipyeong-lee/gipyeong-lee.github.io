@@ -1,0 +1,14 @@
+- slug: precise-robot-hand
+  title: 打造精密的 5 機器手臂
+  summary: 這是一門以專案為導向的課程，帶領學員完成從機器人學基礎到 5 機器手臂設計、運動學、電子電路、控制演算法及系統整合的全過程。
+  outcome: 具備製作獨立運作 5 機器手臂原型機的能力，並掌握機構設計與嵌入式控制系統的實作技巧。
+  level: beginner
+  estimated_hours: 100.0
+  budget_krw:
+    min: 4500000
+    max: 6500000
+  module_count: 8
+  last_reviewed: '2026-08-28'
+  curriculum_version: 1.0.0+2c09fe34d0b1
+  url: /learn/zh-tw/precise-robot-hand/
+  lang: zh-tw

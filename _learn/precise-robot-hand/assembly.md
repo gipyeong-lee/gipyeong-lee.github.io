@@ -2,6 +2,21 @@
 layout: learn-module
 title: 로봇손 조립
 course_slug: precise-robot-hand
+course_data_key: precise-robot-hand
+course_locale: ko
+lang: ko
+ref: learn:precise-robot-hand:assembly
+translations:
+- lang: ko
+  url: /learn/precise-robot-hand/assembly/
+- lang: en
+  url: /learn/en/precise-robot-hand/assembly/
+- lang: ja
+  url: /learn/ja/precise-robot-hand/assembly/
+- lang: zh-cn
+  url: /learn/zh-cn/precise-robot-hand/assembly/
+- lang: zh-tw
+  url: /learn/zh-tw/precise-robot-hand/assembly/
 module_id: m6
 permalink: /learn/precise-robot-hand/assembly/
 no_ads: true

@@ -2,6 +2,21 @@
 layout: learn-module
 title: 액추에이터 및 센서 통합
 course_slug: precise-robot-hand
+course_data_key: precise-robot-hand
+course_locale: ko
+lang: ko
+ref: learn:precise-robot-hand:actuators-sensors
+translations:
+- lang: ko
+  url: /learn/precise-robot-hand/actuators-sensors/
+- lang: en
+  url: /learn/en/precise-robot-hand/actuators-sensors/
+- lang: ja
+  url: /learn/ja/precise-robot-hand/actuators-sensors/
+- lang: zh-cn
+  url: /learn/zh-cn/precise-robot-hand/actuators-sensors/
+- lang: zh-tw
+  url: /learn/zh-tw/precise-robot-hand/actuators-sensors/
 module_id: m5
 permalink: /learn/precise-robot-hand/actuators-sensors/
 no_ads: true

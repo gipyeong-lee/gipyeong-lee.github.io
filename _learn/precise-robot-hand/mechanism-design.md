@@ -2,6 +2,21 @@
 layout: learn-module
 title: 로봇 기구 설계
 course_slug: precise-robot-hand
+course_data_key: precise-robot-hand
+course_locale: ko
+lang: ko
+ref: learn:precise-robot-hand:mechanism-design
+translations:
+- lang: ko
+  url: /learn/precise-robot-hand/mechanism-design/
+- lang: en
+  url: /learn/en/precise-robot-hand/mechanism-design/
+- lang: ja
+  url: /learn/ja/precise-robot-hand/mechanism-design/
+- lang: zh-cn
+  url: /learn/zh-cn/precise-robot-hand/mechanism-design/
+- lang: zh-tw
+  url: /learn/zh-tw/precise-robot-hand/mechanism-design/
 module_id: m2
 permalink: /learn/precise-robot-hand/mechanism-design/
 no_ads: true

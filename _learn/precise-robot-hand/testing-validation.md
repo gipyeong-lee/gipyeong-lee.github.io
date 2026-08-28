@@ -2,6 +2,21 @@
 layout: learn-module
 title: 시험 및 검증
 course_slug: precise-robot-hand
+course_data_key: precise-robot-hand
+course_locale: ko
+lang: ko
+ref: learn:precise-robot-hand:testing-validation
+translations:
+- lang: ko
+  url: /learn/precise-robot-hand/testing-validation/
+- lang: en
+  url: /learn/en/precise-robot-hand/testing-validation/
+- lang: ja
+  url: /learn/ja/precise-robot-hand/testing-validation/
+- lang: zh-cn
+  url: /learn/zh-cn/precise-robot-hand/testing-validation/
+- lang: zh-tw
+  url: /learn/zh-tw/precise-robot-hand/testing-validation/
 module_id: m8
 permalink: /learn/precise-robot-hand/testing-validation/
 no_ads: true

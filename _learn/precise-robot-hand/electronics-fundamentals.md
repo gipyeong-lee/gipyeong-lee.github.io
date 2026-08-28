@@ -2,6 +2,21 @@
 layout: learn-module
 title: 전자 회로 기초
 course_slug: precise-robot-hand
+course_data_key: precise-robot-hand
+course_locale: ko
+lang: ko
+ref: learn:precise-robot-hand:electronics-fundamentals
+translations:
+- lang: ko
+  url: /learn/precise-robot-hand/electronics-fundamentals/
+- lang: en
+  url: /learn/en/precise-robot-hand/electronics-fundamentals/
+- lang: ja
+  url: /learn/ja/precise-robot-hand/electronics-fundamentals/
+- lang: zh-cn
+  url: /learn/zh-cn/precise-robot-hand/electronics-fundamentals/
+- lang: zh-tw
+  url: /learn/zh-tw/precise-robot-hand/electronics-fundamentals/
 module_id: m4
 permalink: /learn/precise-robot-hand/electronics-fundamentals/
 no_ads: true
