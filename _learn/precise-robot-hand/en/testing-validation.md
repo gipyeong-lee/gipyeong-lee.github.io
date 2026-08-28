@@ -1,6 +1,6 @@
 ---
 layout: learn-module
-title: Testing and Verification
+title: Performance Testing and Verification
 course_slug: precise-robot-hand
 course_data_key: precise-robot-hand.en
 course_locale: en
@@ -17,130 +17,133 @@ translations:
   url: /learn/zh-cn/precise-robot-hand/testing-validation/
 - lang: zh-tw
   url: /learn/zh-tw/precise-robot-hand/testing-validation/
-module_id: m8
+module_id: M9
 permalink: /learn/en/precise-robot-hand/testing-validation/
 no_ads: true
 generated_by: mindtickle-studio
-generation_run_id: e40f5b399c3a49a386d28778db2b6fc5
-translation_run_id: c0ec26655d01411d99ed334066b74cb0
-id: m8
+generation_run_id: b409b9219ba4488bb342aac4eb8f5a73
+translation_run_id: a92b78cca3164206863047b59d2f6ac9
+id: M9
 slug: testing-validation
-phase_id: p3
+phase_id: P3
 estimated_hours: 10.0
 prerequisites:
-- m7
+- M8
 objectives:
-- Establish systematic testing procedures to evaluate the performance of the robot
-  hand drive system.
-- Analyze sensor data and actuator feedback for data-driven precision verification.
-- Verify mechanical durability and repetitive precision of the robot hand.
-- Draft operating guidelines for safe operation after system integration.
+- Design quantitative test metrics to verify robot hand precision and repeatability
+- Evaluate the stability of grasp force control algorithms utilizing FSR sensor data
+- Analyze errors between DYNAMIXEL actuator feedback data and actual physical motion
+- Acquire procedure for verifying mechanical defects and tendon drive mechanism durability
 worked_examples:
-- '**Example 1: Repetitive Precision Error Analysis**
-
-  As a result of collecting encoder values after 100 repeated movements to the target
-  point of 50 degrees, it was confirmed to be 50.02 degrees on average, with a standard
-  deviation of 0.05 degrees. This is within the required precision range.'
-- '**Example 2: FSR-based Gripping Force Calibration**
-
-  When the ADC value is 50 with no pressure and 3800 at maximum grip (20 N), force
-  (N) is estimated in real-time from the ADC value using a linear interpolation formula
-  [S15].'
+- 'Example 1: Calculating OpenCR ADC voltage. When FSR resistance is 10 kΩ and serial
+  resistance is 10 kΩ, the 3.3 V voltage divider output V_out = 3.3 * (10k / (10k
+  + 10k)) = 1.65 V. This is suitable within the 12-bit ADC range [S13, S26].'
+- 'Example 2: Fuse protection coordination. When 4 actuators are in a stall state,
+  the sum of current is 9.2 A [S11]. Since the cold resistance of a 10 A fuse is 7.7
+  mΩ [S25], the voltage drop during normal operation is about 0.07 V and can be ignored,
+  but for precise response during overcurrent, refer to the fuse manufacturer''s time-current
+  curve.'
 lab:
-  title: Robot Hand Workspace and Gripping Force Verification
+  title: Robot Hand Integrated Function Test
   steps:
-  - Verify that the voltage is 12 V at the power adapter connection of each independent
-    branch.
-  - Mechanically check that there is no link interference of the robot hand in the
-    software torque release state.
-  - Gradually check the workspace of each finger in an unloaded state.
-  - Log ADC signals while applying pressure to the FSR sensor in stages (0.5 N, 1
-    N, 5 N).
-  - After finishing the continuity test, physically disconnect all power adapters.
-  - Use a multimeter to confirm that the voltage of the 3 branch(es) has discharged
-    to less than 1 V.
+  - With each power branch physically disconnected, measure the output of 3 adapters
+    in DC voltage mode to verify that 12 V is output.
+  - Fix the robot hand in a safety jig, connect the controller (OpenCR) to the PC,
+    and release actuator torque to 0.
+  - Record ADC data changes by manually applying pressure to the FSR sensor for each
+    finger.
+  - Repeatedly operate each finger to its maximum range of motion (ROM) 5 times in
+    a no-load state to check for tendon interference.
+  - After the test, always disconnect 3 power adapters from the wall outlet and verify
+    residual voltage.
   safety:
-  - Before maintenance and access, physically disconnect the 3 isolated power adapter(s)
-    and verify the zero-energy state by measurement.
-  - Never place hands within the workspace while power is applied; test on a fixed
-    jig.
-  - If abnormal heating, odor, or smoke is detected, do not approach. Evacuate after
-    cutting off the supply power of 3 adapter(s) from outside the hazardous zone using
-    a pre-designated building distribution board circuit breaker or a certified upstream
-    master disconnect. If there is no upstream disconnecting means operable from outside
-    the hazardous zone, energizing the system is prohibited. Torque release does not
-    replace power disconnection. Maintenance/access shall only be performed after
-    a planned shutdown, physical disconnection, and confirmation of zero-energy measurement.
-  - Always wear impact-resistant safety goggles when working.
+  - Always wear safety glasses during the test.
+  - Do not put your hands within the range of motion while power is applied.
+  - If abnormal heat, odor, or smoke is detected, do not approach. Evacuate after
+    cutting off supply power to 3 adapters using a designated building distribution
+    board circuit breaker or a certified upstream master disconnect outside the hazard
+    zone. Do not energize the system if no upstream disconnecting means is operable
+    outside the hazard zone. Torque release does not replace power disconnection.
+    Maintenance and access must only be performed after planned shutdown, physical
+    disconnection, and verified measurement of a de-energized state.
+  - Do not touch the system without voltage measurement. DC verification of less than
+    1 V is mandatory.
   deliverables:
-  - Workspace and gripping force test logging data file
-  - Repetitive precision statistical analysis report
-  - Measurement safety confirmation certificate by power branch
+  - Fingertip grasp force sensor calibration records
+  - Repeatability precision measurement data
+  - Load current measurements per power branch
 assignment:
-  title: Writing Final Performance Verification Report
+  title: Final Robot Hand Performance Analysis Report
   deliverables:
-  - System integration verification report (PDF)
-  - Performance index numerical data and visualization graphs
-  - Operating guidelines and troubleshooting procedures manual
+  - Performance test result analysis report
+  - Data-driven grasp control algorithm code
   rubric:
-  - Verification of consistency in workspace and repetitive precision measurement
-    data
-  - Verification of the effectiveness of the force control algorithm utilizing FSR
-    sensor data
-  - Evaluation of breakage and assembly stability through mechanical durability tests
-  - Adherence to safety guidelines and procedural validity
+  - Appropriateness of sensor data signal-to-noise ratio (SNR) analysis
+  - Quantification of precision in repeatability testing
+  - Theoretical reflection on whether the protection design (fuse) satisfies the system
+    protection intent
+  - Comparison of design specifications and performance indicators of the final product
 quiz:
-- question: Which of the following is incorrect regarding the system safety maintenance
-    procedure?
+- question: When configuring a force measurement circuit using an FSR 402 sensor and
+    OpenCR ADC, what is correct?
   choices:
-  - Perform software torque release.
-  - After a planned shutdown and before maintenance/access, physically disconnect
-    3 power adapter(s) and verify the zero-energy state of each branch by measurement.
-  - Physically disconnect 3 power adapter(s) and verify with a multimeter in DC voltage
-    mode that the residual voltage of each branch is less than 1 V.
-  - Verify by measurement in DC voltage mode that each branch is less than 1 V.
-  answer_index: 2
-  explanation: Resistance mode can cause equipment damage and misreadings if measuring
-    a circuit being energized or by capacitors that have not discharged. Zero-energy
-    state verification must always use DC-voltage mode.
-- question: What should be noted when configuring a circuit utilizing an FSR 402 sensor
-    and an OpenCR board?
-  choices:
-  - The FSR voltage divider must use only 3.3 V sensor power and maintain analog input
-    signals in the 0~3.3 V range.
-  - The FSR divider circuit must use only 3.3 V sensor power.
+  - The FSR voltage divider uses only the 3.3 V sensor power and keeps the analog
+    input signal in the 0~3.3 V range.
+  - Construct a voltage divider with an FSR and a 10 kΩ resistor and use the 3.3 V
+    sensor rail.
+  - The ADC signal must always be in the 0~5 V range.
+  - An FSR has constant resistance, so no separate divider resistor is needed.
   answer_index: 1
-  explanation: Since the OpenCR ADC input must not exceed the 0~3.3 V range, a stable
-    3.3 V sensor power must be used.
+  explanation: Use the OpenCR sensor rail (3.3 V) to limit the ADC input to the 0~3.3
+    V range, and configure a divider circuit to read resistance changes as voltage
+    changes [S13, S26].
+- question: What is the correct way to manage the 12 V power branch of a DYNAMIXEL
+    XM430-W350-T actuator?
+  choices:
+  - Bundle the positive (+) outputs of 3 adapters together to sum the power.
+  - Equip each adapter with a 10 A fuse and use it as an individual independent branch.
+  - It can be used without safety verification because the current is below the fuse
+    rating.
+  - Connect power adapter outputs directly in parallel without fuses.
+  answer_index: 1
+  explanation: Each adapter output must be maintained independently, and overcurrent
+    must be protected by installing a fuse suitable for the independent branch [S15].
+- question: What is the most important safety procedure in the robot hand verification
+    stage?
+  choices:
+  - Releasing torque via software is equivalent to cutting off power.
+  - Always approach maintenance after checking for less than 1 V DC with a multimeter.
+  - The fuse acts as a planned shutdown device, so you can pull the fuse out.
+  - Confirm that power is disconnected with continuity mode.
+  answer_index: 1
+  explanation: Software release does not replace physical power cutoff; it is essential
+    to verify that there is no residual energy by measuring in DC voltage mode after
+    physical disconnection.
 completion_criteria:
-- Submit all experimental data from the testing and verification stage and complete
-  log analysis.
-- Adhere to the physical disconnection and safety voltage measurement procedure of
-  3 independent power branch(es).
-- Quantitative evaluation indices for repetitive precision and gripping force must
-  achieve target ranges.
-- Prove in the final report that all mechanical parts and electronic circuits operate
-  safely.
+- Submission of performance test result report and achieving 70 points or more
+- Compliance with safety guidelines and verification of physical power disconnection
+  completed in all Lab steps
+- Verification of sensor data filtering function implementation in control code
 source_ids:
 - S1
-- S12
-- S14
-- S15
-- S18
-- S21
+- S11
 - S16
-- S17
+- S12
+- S13
 - S26
+- S15
+- S25
 ---
 
-### 1. Key Indices of Robot Hand Performance Evaluation
-Robot hand performance verification is the process of proving the fidelity of mechanical design and the effectiveness of control algorithms [S1]. Major evaluation indices are as follows:
-- **Repeatability:** The error range when reaching the same target position, calculated via high-resolution encoder feedback of the `XM430-W350-T` actuator [S14].
-- **Grasp Stability:** Evaluates whether an object is gripped without slipping by analyzing the contact force distribution measured by the `FSR 402` sensor [S15].
-- **Durability:** Repeated load tests are performed to check for fatigue failure of tendon (`Dyneema SK78`) and link (`PC-CF`) structures [S18, S21].
+## Performance Testing and Verification Theory
 
-### 2. Data Acquisition and Analysis
-FSR data is collected in real-time via the ADC of the `OpenCR` control board. It converts force signals with up to 12-bit resolution within a 0~3.3 V range using 3.3 V sensor power [S16]. During data acquisition, a moving average filter, etc., is applied to smooth changes in gripping force to reduce noise.
+Robot hand performance verification is the process of confirming the correspondence between design specifications and actual physical behavior [S1]. The main indicators are as follows.
 
-### 3. Electrical Safety Verification
-Each actuator group is configured as an independent `12 V` adapter branch and protected from overcurrent with a `10 A` ATOF fuse [S17, S26]. Verification of the system's zero-energy state is always performed by measuring in DC-voltage mode (less than 1 V).
+### 1. Position and Grasp Precision
+Repeatability refers to the error range of the position reached by the robot hand when performing the same command. The XM430-W350-T actuator provides precise position feedback via internal encoders [S11], but errors occur in the final fingertip position due to tendon elongation and friction. Dyneema tendons have very low elongation, less than 1%, which is advantageous for securing repeatability [S16].
+
+### 2. Force Control and FSR Sensor Signal Processing
+The FSR 402 sensor is characterized by its resistance decreasing according to the applied force [S12]. This is configured with a 10 kΩ resistor and a voltage divider circuit to be measured by OpenCR's 12-bit ADC [S13, S26]. Since sensor data has significant noise, a Moving Average Filter must be applied to form a stable grasp force feedback loop.
+
+### 3. Overcurrent Protection and Power Stability
+The system uses 3 independent 12 V power branches [S15]. Each branch is protected by a 10 A ATOF fuse [S25], and distribution must be done so that the sum of actuator peak currents does not exceed protection ratings. Protection coordination must be verified using the time-current curves of the fuses provided by the manufacturer.

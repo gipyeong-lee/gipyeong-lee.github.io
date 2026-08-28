@@ -1,6 +1,6 @@
 ---
 layout: learn-course
-title: Sophisticated 5-fingered robotic hand fabrication
+title: Building a Sophisticated 5-Finger Robotic Hand
 course_slug: precise-robot-hand
 course_data_key: precise-robot-hand.en
 course_locale: en
@@ -20,10 +20,10 @@ translations:
 permalink: /learn/en/precise-robot-hand/
 no_ads: true
 generated_by: mindtickle-studio
-generation_run_id: e40f5b399c3a49a386d28778db2b6fc5
-translation_run_id: c0ec26655d01411d99ed334066b74cb0
+generation_run_id: b409b9219ba4488bb342aac4eb8f5a73
+translation_run_id: a92b78cca3164206863047b59d2f6ac9
 ---
 
-A project-based course covering the entire process from fundamentals of robotics to 5-fingered robotic hand design, kinematics, electronic circuitry, control algorithms, and system integration.
+A university/graduate-level hands-on curriculum that starts from the basics of robotics and guides you through the design, fabrication, control, and validation of an 5-finger robotic hand.
 
-Production of an independently operable 5-fingered robotic hand prototype, acquisition of mechanical design competencies, and implementation capabilities for embedded control systems.
+Students will understand actuators, controllers, sensor integration, and tendon-driven mechanisms, and be able to prototype a precision robotic hand.

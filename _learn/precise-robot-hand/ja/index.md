@@ -1,6 +1,6 @@
 ---
 layout: learn-course
-title: 精巧な5知ロボットハンドの製作
+title: 精巧な 5 指ロボットハンド製作
 course_slug: precise-robot-hand
 course_data_key: precise-robot-hand.ja
 course_locale: ja
@@ -20,10 +20,10 @@ translations:
 permalink: /learn/ja/precise-robot-hand/
 no_ads: true
 generated_by: mindtickle-studio
-generation_run_id: e40f5b399c3a49a386d28778db2b6fc5
-translation_run_id: 6887538d0dce4b0bbbe63a75ae59d8c4
+generation_run_id: b409b9219ba4488bb342aac4eb8f5a73
+translation_run_id: 75a701fd44954c3a8681a8f795bedc7d
 ---
 
-ロボット工学の基礎から5知ロボットハンドの設計、機構学、電子回路、制御アルゴリズム、およびシステム統合までの全工程を行うプロジェクト中心のコースです。
+ロボット工学の基礎から始まり、5 指ロボットハンドを自ら設計、製作、制御、および検証する大学・大学院レベルの実習型カリキュラムです。
 
-独立動作可能な5知ロボットハンドのプロトタイプ製作、機構設計能力、組み込み制御システムの実装能力の獲得。
+学生は、アクチュエータ、コントローラ、センサ統合、腱駆動メカニズムを理解し、精密ロボットハンドをプロトタイピングできるようになります。

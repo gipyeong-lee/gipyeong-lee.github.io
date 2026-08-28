@@ -20,10 +20,10 @@ translations:
 permalink: /learn/zh-cn/precise-robot-hand/
 no_ads: true
 generated_by: mindtickle-studio
-generation_run_id: e40f5b399c3a49a386d28778db2b6fc5
-translation_run_id: caccbaa06fab4625ac40bf6e780cd0cb
+generation_run_id: b409b9219ba4488bb342aac4eb8f5a73
+translation_run_id: 2b7c146b08954623a88a715bf8cc7d0e
 ---
 
-这是一个以项目为导向的课程，涵盖了从机器人基础到 5 级机器人手设计、运动学、电子电路、控制算法及系统集成全过程。
+这是一门大学及研究生水平的实践型课程，从机器人基础开始，指导学生亲自设计、制造、控制和验证 5 级机器人手。
 
-制作可独立运行的 5 级机器人手原型，掌握机构设计能力，并具备实现嵌入式控制系统的能力。
+学生将理解执行器、控制器、传感器集成及肌腱驱动机制，并能够对精密机器人手进行原型制作。

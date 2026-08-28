@@ -20,9 +20,9 @@ translations:
 permalink: /learn/precise-robot-hand/
 no_ads: true
 generated_by: mindtickle-studio
-generation_run_id: e40f5b399c3a49a386d28778db2b6fc5
+generation_run_id: b409b9219ba4488bb342aac4eb8f5a73
 ---
 
-로봇 공학의 기초부터 5지 로봇손 설계, 기구학, 전자 회로, 제어 알고리즘 및 시스템 통합까지 전 과정을 수행하는 프로젝트 중심 과정입니다.
+로봇 공학의 기초부터 시작하여 5지 로봇손을 직접 설계, 제작, 제어 및 검증하는 대학·대학원 수준의 실습형 교과과정입니다.
 
-독립적으로 작동 가능한 5지 로봇손 프로토타입 제작, 기구 설계 역량, 임베디드 제어 시스템 구현 능력 확보.
+학생들은 구동기, 제어기, 센서 통합, 텐던 구동 메커니즘을 이해하고 정밀 로봇 손을 프로토타이핑할 수 있습니다.
