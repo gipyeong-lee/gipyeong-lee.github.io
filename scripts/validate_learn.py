@@ -526,14 +526,16 @@ def _undersized_power_path_claim(value: str) -> bool:
         return False
     return bool(
         re.search(
-            r"사용|쓰|쓴|썼|적합|연결|배치|제작|구성|use|used|suit|connect|place|build|fabricat",
+            r"사용|쓰|쓴|썼|적합|연결|배치|제작|구성|조립|"
+            r"use|used|suit|connect|place|build|fabricat|assembl",
             value,
             re.I,
         )
         and re.search(
             r"메인\s*전원|전원\s*제어기|"
             r"(?:독립\s*)?분기\s*전원|"
-            r"어댑터\s*분기(?:별)?|분기(?:별)?\s*(?:전원\s*)?하네스|"
+            r"(?:독립\s*)?전원\s*분기|어댑터\s*분기(?:별)?|"
+            r"분기(?:별)?\s*(?:전원\s*)?하네스|전원\s*하네스|"
             r"(?:독립\s*)?(?:\d+(?:\.\d+)?\s*V\s*)?분기.{0,40}(?:양\s*\(\+\)\s*)?출력|"
             r"main\s+power|power\s+controller|branch.{0,40}(?:power|output)",
             value,

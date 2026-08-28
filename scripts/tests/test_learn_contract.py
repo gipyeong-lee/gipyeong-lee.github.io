@@ -246,6 +246,8 @@ class LearnFoundationContractTest(unittest.TestCase):
         for instruction in (
             "액추에이터 4대 배분에 맞춰 Micro-Fit 3.0 커넥터로 독립 분기 전원 하네스를 제작한다.",
             "각 어댑터 분기별로 Micro-Fit 3.0 커넥터를 사용해 전원 하네스를 연결한다.",
+            "Micro-Fit 3.0 커넥터를 사용하여 3개 독립 전원 분기를 구성한다.",
+            "모든 액추에이터 통신 및 전원 하네스를 Micro-Fit 3.0 커넥터로 조립한다.",
         ):
             modules = [{"id": "M1", "content": instruction}]
 
