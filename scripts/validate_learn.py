@@ -525,7 +525,7 @@ def _undersized_power_path_claim(value: str) -> bool:
         return False
     return bool(
         re.search(
-            r"사용|적합|연결|배치|제작|구성|use|suit|connect|place|build|fabricat",
+            r"사용|쓰|쓴|썼|적합|연결|배치|제작|구성|use|used|suit|connect|place|build|fabricat",
             value,
             re.I,
         )
