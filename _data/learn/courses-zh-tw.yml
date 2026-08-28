@@ -1,0 +1,14 @@
+- slug: precise-robot-hand
+  title: 製作精密的 5 機器手
+  summary: 這是一門大學及研究所程度的實作課程，從機器人學的基礎開始，帶領學生親自設計、製作、控制及驗證 5 機器手。
+  outcome: 學生將了解致動器、控制器、感測器整合及肌腱驅動機制，並能對精密機器手進行原型開發。
+  level: beginner
+  estimated_hours: 100.0
+  budget_krw:
+    min: 4500000
+    max: 6500000
+  module_count: 9
+  last_reviewed: '2026-08-29'
+  curriculum_version: 1.0.0+bc95463f48e6
+  url: /learn/zh-tw/precise-robot-hand/
+  lang: zh-tw

@@ -1,0 +1,14 @@
+- slug: precise-robot-hand
+  title: 精巧な 5 指ロボットハンド製作
+  summary: ロボット工学の基礎から始まり、5 指ロボットハンドを直接設計、製作、制御、および検証する大学・大学院レベルの実習型カリキュラムです。
+  outcome: 学生は駆動系、制御系、センサ統合、腱駆動メカニズムを理解し、精密ロボットハンドをプロトタイピングできます。
+  level: beginner
+  estimated_hours: 100.0
+  budget_krw:
+    min: 4500000
+    max: 6500000
+  module_count: 9
+  last_reviewed: '2026-08-29'
+  curriculum_version: 1.0.0+bc95463f48e6
+  url: /learn/ja/precise-robot-hand/
+  lang: ja

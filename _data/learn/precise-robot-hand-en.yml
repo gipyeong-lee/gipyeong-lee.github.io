@@ -1,0 +1,1917 @@
+schema_version: 1
+curriculum_version: 1.0.0+bc95463f48e6
+course:
+  course_type: build_project
+  slug: precise-robot-hand
+  title: Building a Sophisticated 5-Finger Robotic Hand
+  summary: A university-level practical curriculum starting from the fundamentals
+    of robotics to designing, manufacturing, controlling, and verifying an 5-finger
+    robotic hand.
+  outcome: Students will understand actuators, controllers, sensor integration, and
+    tendon-driven mechanisms, and be able to prototype a precision robotic hand.
+  audience: Engineering aspirants and students beginning in robotics
+  level: beginner
+  estimated_hours: 100.0
+  budget_krw:
+    min: 4500000
+    max: 6500000
+  required_tools:
+  - FDM 3D printer
+  - Multimeter
+  - Soldering iron
+  - General hand tools
+  - Hardened steel nozzle for PC-CF
+  - Impact-resistant work goggles
+  - Vernier calipers
+  safety_summary:
+  - Low-voltage educational prototype, not a certified machine safety system
+  - Do not use stop circuits created by learners as safety functions or emergency
+    stops
+  - Perform normal stops by software torque release; after planned stops, physically
+    disconnect the 3 insulated power adapters and verify the de-energized state by
+    measurement before maintenance or access
+  - Do not place hands in the operating range while power is applied; test from no-load
+    in a fixture
+  - Wear impact-resistant work goggles during cutting, drilling, and tendon tension
+    testing
+  - In case of abnormal heat, odor, or smoke, do not approach; cut the power supply
+    to the 3 adapters via a pre-designated building panel breaker outside the hazard
+    zone or a certified upstream master disconnect and evacuate. If no upstream disconnect
+    is available outside the hazard zone, do not energize the system. Torque release
+    is not a substitute for power disconnection
+  - Before introducing to environments with human access, a dual-channel, manual reset,
+    EDM, feedback-capable dual contactor must be separately designed and verified
+    under the review of a qualified safety expert
+  last_reviewed: '2026-08-29'
+phases:
+- id: P1
+  title: Foundations of Theory and Design
+  module_ids:
+  - M1
+  - M2
+  - M3
+- id: P2
+  title: Fabrication and Assembly
+  module_ids:
+  - M4
+  - M5
+  - M6
+- id: P3
+  title: Control and Verification
+  module_ids:
+  - M7
+  - M8
+  - M9
+modules:
+- id: M1
+  slug: robot-mechanics-fundamentals
+  phase_id: P1
+  title: Fundamentals of Robot Kinematics
+  estimated_hours: 10.0
+  prerequisites: []
+  objectives:
+  - Understand the basic definitions of robot kinematics and the concept of rigid-body
+    transformation.
+  - Learn how to mathematically describe the position and orientation of a robot using
+    coordinate system transformations and rotation matrices.
+  - Acquire basic kinematic theories for designing an 5-finger robotic hand and learn
+    analytical approaches.
+  theory_markdown: '## Fundamentals of Robot Kinematics
+
+
+    Robot kinematics is the study of robot motion in terms of position, velocity,
+    and acceleration without considering forces or torques [S1]. The starting point
+    for designing a manipulator, such as a robotic hand, is to describe the state
+    of each joint as coordinates in space.
+
+
+    ### 1. Rigid-body Transformation
+
+    Each link of a robot is considered a rigid body, and the transformation from one
+    coordinate system to another is represented as a combination of rotation and translation.
+    In 3-dimensional space, the rotation matrix $R$ is an orthogonal matrix, through
+    which the orientation between two coordinate systems is defined [S1].
+
+
+    ### 2. Forward Kinematics
+
+    Forward kinematics is the process of calculating the position and orientation
+    of the end-effector when the joint variables (angles or positions) are known.
+    For an 5-finger robotic hand, the position of the fingertips is obtained through
+    the finger joint angles ($\theta_1, \theta_2, \dots, \theta_n$).
+
+
+    ### 3. Inverse Kinematics
+
+    Inverse kinematics is the process of finding the joint variables required to achieve
+    a desired fingertip position. It consists of non-linear equations, and solutions
+    may not exist or multiple solutions may occur [S1].'
+  worked_examples:
+  - 'Example 1: Find the end position $(x, y)$ of a robot link with 1 rotation joints
+    in a 2-dimensional plane. When the joint angle is $\theta$ and link length is
+    $L$, $x = L \cos(\theta)$ and $y = L \sin(\theta)$ [S1].'
+  - 'Example 2: Describe a 2-dimensional rotation matrix $R$ that rotates by $\theta$
+    about the $x$-axis. $R = \begin{bmatrix} \cos(\theta) & -\sin(\theta) \\ \sin(\theta)
+    \\ \cos(\theta) \end{bmatrix}$ [S1].'
+  lab:
+    title: Coordinate System Transformation Simulation and Basic Kinematic Analysis
+    steps:
+    - Create an 2-link planar manipulator model using kinematic analysis software.
+    - Observe the trajectory of the end position while changing the joint angles.
+    - Derive inverse kinematic equations manually and compare them with the simulation
+      results.
+    safety:
+    - Adjust screen brightness and take periodic breaks when working on computers.
+    - This practice is simulation-based, so hardware energization is not required.
+    deliverables:
+    - Summary report including the kinematic analysis process
+    - Trajectory simulation result images
+  assignment:
+    title: Kinematic Modeling of 5-Finger Robotic Hand Joint Structure
+    deliverables:
+    - Forward kinematics equation derivation results for 1 robot fingers
+    - Fingertip position change prediction data according to joint angle changes
+    rubric:
+    - Mathematical accuracy of rotation matrices
+    - Physical validity of forward kinematics equations
+    - Logical structure of the report
+  quiz:
+  - question: What is the discipline in robot kinematics that describes only motion
+      without considering forces or torques?
+    choices:
+    - Dynamics
+    - Kinematics
+    - Control Theory
+    - Material Mechanics
+    answer_index: 1
+    explanation: Kinematics is the study of motion focused on position, velocity,
+      and acceleration, excluding force and torque [S1].
+  - question: In 3-dimensional space, what matrix defines the orientation between
+      two coordinate systems?
+    choices:
+    - Rotation Matrix
+    - Mass Matrix
+    - Stiffness Matrix
+    - Damping Matrix
+    answer_index: 0
+    explanation: A rotation matrix is an orthogonal matrix that mathematically transforms
+      orientation between two coordinate systems [S1].
+  completion_criteria:
+  - Completion of theory lectures
+  - Submission of kinematic analysis result report
+  - Achieve 100 points on the theory quiz
+  source_ids:
+  - S1
+- id: M2
+  slug: tendon-driven-design
+  phase_id: P1
+  title: Tendon-Driven Mechanism Design
+  estimated_hours: 10.0
+  prerequisites:
+  - M1
+  objectives:
+  - Understand the basic mechanical structure of tendon-driven mechanisms and the
+    principles of joint simulation.
+  - Learn the characteristics of tendon material (Dyneema SK78) for sophisticated
+    robotic hands.
+  - Learn tendon tension transmission paths and methods to prevent friction and wear
+    in capstan design.
+  - Calculate the stall torque of actuators and mechanical gain during tendon driving.
+  theory_markdown: '## Fundamentals of Tendon-Driven Mechanisms
+
+
+    A tendon-driven system is a method of driving by transmitting tension from remotely
+    located actuators to joints via tendons (cables) [S9]. By mimicking the tendon
+    structure of biological fingers and moving actuators to the palm or forearm, the
+    mass of the fingers themselves is reduced, enabling sophisticated movements [S10].
+
+
+    ### 1. Selection and Tension Transmission of Tendons
+
+    Dyneema SK78, a high-strength, low-elongation fiber, is used in this design [S16].
+    This material has a breaking load of 230 daN (approx. 230 kgf) at a diameter of
+    1.5 mm, with an operating elongation of less than 1%, making it suitable for precision
+    position control [S16].
+
+
+    ### 2. Mechanical Gain and Actuator Selection
+
+    The XM430-W350-T smart actuator provides a stall torque of 4.1 N·m [S11]. Since
+    the tendon transforms force through the capstan radius from the axis of rotation,
+    the actuator''s torque output is replaced by tendon tension. The entire system
+    uses 11 actuators, and the peak current total can reach approximately 25.3 A [S11].
+    Comparing fuse and load/power ratings alone does not guarantee safety or operating
+    sequences. Review the fuse manufacturer''s time-current curves and power supply
+    OCP characteristics together to verify protection coordination [S15, S24, S25].
+
+
+    ### 3. Safety and Protection Design
+
+    Each 12 V power branch is operated through an independent fuse [S15, S24]. The
+    3 power adapters are each rated at 11.5 A, with a combined current capacity reaching
+    34.5 A, which sufficiently accommodates the system peak current of 25.3 A [S11,
+    S15]. Design such that the sum of branch ratings exceeds the total actuator peak
+    current to ensure operational safety.'
+  worked_examples:
+  - 'Example 1: Calculating tendon tension during driving
+
+    When actuator torque (τ) is 1 N·m and capstan radius (r) is 0.01 m, tendon tension
+    (T) is T = τ/r = 1/0.01 = 100 N. Design considering the safety factor against
+    Dyneema SK78''s breaking load of 230 daN (approx. 2300 N) [S16].'
+  - 'Example 2: Power branch distribution and protection
+
+    The sum of stall currents for all 11 actuators is 25.3 A [S11]. If distributed
+    into 3 branches with 4, 4, and 3 units, the maximum load for each branch is 9.2
+    A, 9.2 A, and 6.9 A respectively. Comparing fuse and load/power ratings alone
+    does not guarantee safety or operating sequences. Review the fuse manufacturer''s
+    time-current curves and power supply OCP characteristics together to verify protection
+    coordination. Review the fuse manufacturer''s time-current curves and adapter
+    OCP characteristics together to verify protection coordination [S24, S25].'
+  lab:
+    title: Tendon Tension and Joint Friction Measurement Practice
+    steps:
+    - Assemble the finger joint model using the provided links and bearings.
+    - Connect the tendons and set initial tension using the tensioner.
+    - Set the multimeter to DC voltage mode and physically verify the 12 V power adapter
+      output for each branch.
+    - Manually measure and record the rotational friction of the joint before energizing.
+    safety:
+    - Before maintenance/access, physically disconnect the 3 insulated power adapters
+      and verify DC voltage of less than 1 V using a multimeter.
+    - Never approach the operating range of the fingers while power is applied.
+    - Always wear impact-resistant work goggles.
+    deliverables:
+    - Tendon tension measurement data according to joint rotation angle
+    - Friction analysis report
+    - Final safety measurement records
+  assignment:
+    title: 5-Finger Robotic Hand Tendon Path Design
+    deliverables:
+    - CAD drawings of robotic finger tendon paths
+    - Tendon friction and loss calculation sheet
+    - Branch-specific power load distribution and fuse protection design
+    rubric:
+    - Is the tendon path designed to minimize friction at bends?
+    - Are the physical characteristics of Dyneema SK78 considered?
+    - Does the load distribution of the 3 power branches appropriately reflect actuator
+      stall current?
+    - Do the fuse and power short-circuit protection designs comply with BOM specifications?
+  quiz:
+  - question: What is the main advantage of using Dyneema SK78 tendons?
+    choices:
+    - Shock absorption due to high elongation
+    - Very low operating elongation and high breaking load
+    - Lighter weight and lower tensile strength than metal
+    - Electrical conductivity
+    answer_index: 1
+    explanation: Dyneema SK78 has very low elongation of less than 1%, improving precision
+      of position control, and is a high-performance fiber with a very high breaking
+      load [S16].
+  - question: What is the appropriate reason for using 3 power adapters (11.5 A each)
+      with 12 V?
+    choices:
+    - To drive all actuators with a single power source
+    - To boost voltage to 36 V to increase torque
+    - To distribute and accommodate total peak current of actuators and protect with
+      individual branch fuses
+    - To eliminate power noise
+    answer_index: 2
+    explanation: Comparing fuse and load/power ratings alone does not guarantee safety
+      or operating sequences. Review the fuse manufacturer's time-current curves and
+      power supply OCP characteristics together to verify protection coordination
+      [S11, S15, S25].
+  completion_criteria:
+  - All lab data and drawings must be included in the final report.
+  - Must prove via measurement that the DC voltage of 3 branches is less than 1 V
+    after physical power disconnection.
+  - Tendon path design must include analysis considering capstan friction.
+  source_ids:
+  - S9
+  - S10
+  - S16
+  - S11
+  - S15
+  - S24
+  - S25
+- id: M3
+  slug: actuator-controller-selection
+  phase_id: P1
+  title: Actuator and Controller Selection
+  estimated_hours: 10.0
+  prerequisites:
+  - M2
+  objectives:
+  - Understand the rated voltage, current, and communication characteristics of DYNAMIXEL
+    XM430-W350-T actuators.
+  - Master the DYNAMIXEL port configuration and 12V power isolation structure of the
+    OpenCR 1.0 controller.
+  - Design voltage divider circuits using FSR 402 sensors and 10kΩ resistors.
+  - Calculate system power requirements and establish independent branch fuse protection
+    designs.
+  theory_markdown: '### Actuator and Controller System Design Theory
+
+
+    #### 1. Actuator Selection and Power Characteristics
+
+    Use DYNAMIXEL XM430-W350-T for precision robotic hand actuation. This actuator
+    operates at a nominal voltage of 12V, with a stall current of 2.3A [S11]. The
+    complete robotic hand consists of 11 actuators, so the total stall current sum
+    reaches approximately 25.3A. Therefore, an independent power supply system is
+    required for stable operation.
+
+
+    #### 2. Controller Architecture
+
+    OpenCR 1.0 is equipped with a 216MHz ARM Cortex-M7 processor, making it suitable
+    for real-time control [S13]. This controller supports a structure that can physically
+    separate the 12V actuator power from the logic/sensor power. Analog inputs such
+    as FSR sensors must be processed within the 0~3.3V range, so the sensor voltage
+    divider circuit must be powered by the OpenCR''s 3.3V sensor rail [S13].
+
+
+    #### 3. Overcurrent Protection and Power Branch Design
+
+    Use 3 MEAN WELL GST160A12-R7B adapters with 138W output [S15]. The rated current
+    for each adapter is 11.5A, which creates 3 independent 12V branches. Each branch
+    is equipped with an in-line 10A ATOF fuse to protect the circuit in the event
+    of an overcurrent [S24, S25]. The fuse is set lower than the rated current of
+    11.5A to achieve protection coordination.
+
+
+    #### 4. Sensor Signal Acquisition
+
+    FSR 402 exhibits the characteristic that resistance decreases as pressure increases
+    [S12]. Connect this to a 10kΩ fixed resistor and a voltage divider to convert
+    the change in force into a voltage signal, and input it to the OpenCR 12bit ADC
+    port [S12, S13, S26].'
+  worked_examples:
+  - 'Example 1: Verify maximum current per branch. When connecting 4 XM430 actuators
+    to one branch, the sum of stall current is 4 * 2.3A = 9.2A. This satisfies the
+    11.5A rating of the adapter and the 10A rating of the in-line fuse, maintaining
+    a safe range [S11, S15, S25].'
+  - 'Example 2: Calculate FSR divider circuit voltage. Under 3.3V supply voltage,
+    when FSR resistance is R_fsr, ADC input voltage V_adc = 3.3 * (10k / (10k + R_fsr))
+    V. Check resistance changes according to sensor range (0.2N~20N) and calibrate
+    so as not to exceed the 0~3.3V range [S12, S13, S26].'
+  lab:
+    title: Power Branch Configuration and ADC Sensor Interface Practice
+    steps:
+    - Connect an 0AFH0001Z fuse holder to each MEAN WELL adapter output and insert
+      an 0287010 10A fuse.
+    - Set the multimeter to DC voltage mode and verify that the voltage of each branch
+      is a stable 12V.
+    - Configure a divider circuit using a 10kΩ resistor and FSR 402 on OpenCR's 3.3V
+      sensor rail.
+    - Verify that the output voltage of the divider circuit is within the 0~3.3V range
+      in a non-powered state.
+    safety:
+    - Physically disconnect the AC power of the 3 adapters before starting work and
+      verify 0V using a multimeter.
+    - Always wear impact-resistant work goggles.
+    - Never modify circuits or touch wiring while power is applied.
+    - Clearly state that fuses are for overcurrent cutoff and not for planned stops.
+    deliverables:
+    - Records of 12V output measurements for each branch
+    - Photos of assembled FSR divider circuit
+    - Configured wiring diagrams
+  assignment:
+    title: Power Branch and Protection Design Review
+    deliverables:
+    - Current branch distribution table for the entire robotic hand (actuator allocation
+      per branch)
+    - Calculation sheet proving selected fuses protect against actuator stall current
+      without exceeding adapter capacity
+    rubric:
+    - Are independent fuses correctly placed in each branch?
+    - Is the actuator branch distribution 4/4/3 in compliance with regulations?
+    - Is sensor power supplied from the 3.3V sensor rail instead of 12V?
+  quiz:
+  - question: What is the correct power connection for a divider circuit using FSR
+      402 sensors and 10kΩ resistors?
+    choices:
+    - 12V actuator power
+    - OpenCR 3.3V sensor rail
+    - 5V general power
+    - OpenCR 12V output
+    answer_index: 1
+    explanation: OpenCR's ADC input operates based on 3.3V, so the voltage divider
+      circuit must be supplied from the 3.3V sensor rail [S13].
+  - question: What is the stall current value of the XM430-W350-T actuator?
+    choices:
+    - 1.0A
+    - 2.3A
+    - 4.1A
+    - 11.5A
+    answer_index: 1
+    explanation: According to the datasheet, the stall current of the actuator is
+      2.3A [S11].
+  - question: What is the action strictly prohibited in power branch design?
+    choices:
+    - Install fuses on each adapter output
+    - Parallel connection of adapter positive (+) outputs
+    - Use 10A fuses per branch
+    - Use isolated adapters
+    answer_index: 1
+    explanation: The positive (+) outputs of adapters must be maintained as independent
+      branches, and parallel connection is strictly prohibited [B3].
+  completion_criteria:
+  - Verification of 12V voltage of 3 independent branches completed via multimeter
+    in lab
+  - Completed wiring and ADC input voltage range verification of FSR 402 sensor divider
+    circuit
+  - Submission and passing of power branch and protection design report
+  source_ids:
+  - S4
+  - S5
+  - S11
+  - S13
+  - S15
+  - S24
+  - S25
+  - S12
+  - S26
+- id: M4
+  slug: 3d-printing-assembly
+  phase_id: P2
+  title: 3D Printing and Part Machining
+  estimated_hours: 15.0
+  prerequisites:
+  - M3
+  objectives:
+  - Understand part fabrication using carbon-fiber-reinforced PC filament (PC-CF)
+    and optimization of printing settings
+  - Acquire precision assembly tolerance management for heat-set inserts and sleeve
+    bearings
+  - Understand handling of Dyneema lines and capstan design structure for tendon-driven
+    mechanisms
+  - Master machining and fastening techniques to ensure dimensional stability and
+    rigidity of robotic structures
+  theory_markdown: '### 3D Printing and Part Machining Theory
+
+
+    #### Carbon Fiber Reinforced Engineering Material (PC-CF)
+
+    PC (Polycarbonate) has excellent rigidity and heat resistance, and PC-CF filament
+    added with carbon fiber maximizes rigidity, making it suitable for structural
+    parts [S19]. However, due to the abrasiveness of carbon fiber, a hardened steel
+    nozzle must be used [S19], and high-temperature printing of around 285°C is required
+    [S19].
+
+
+    #### Inserts and Fastening for Precision Assembly
+
+    Heat-set threaded inserts are used to allow repetitive assembly/disassembly in
+    plastic prints [S21]. For M3 inserts, a 4.0mm diameter pilot hole must be pre-placed
+    in CAD design to ensure accurate seating [S21]. Also, maintenance-free polymer
+    sleeve bearings (iglide J) are designed to have optimal clearance after being
+    press-fitted when assembled with 8mm aluminum shafts [S17], and tolerance management
+    with the 8mm shaft diameter is essential [S17, S18].
+
+
+    #### Tendon Driving Structure
+
+    Dyneema SK78 fiber shows a high breaking load of 230 daN and elongation of less
+    than 1% at a 1.5mm diameter [S16], making it an excellent alternative to steel
+    cables. Since the tendon is repeatedly bent at the rotation axis, structural design
+    that rounds capstan corners to prevent breakage due to friction is important.'
+  worked_examples:
+  - 'Example 1: PC-CF filament nozzle selection - Considering the high abrasiveness
+    of carbon fiber, confirm that a Brass nozzle must be avoided as it wears quickly,
+    causing printing quality degradation and nozzle clogging, and a Hardened steel
+    nozzle must be selected [S19].'
+  - 'Example 2: Insert hole design - Since the outer diameter of the Accu HTBI-M3-BR
+    insert is 4.4mm but the official recommended hole diameter is 4.0mm [S21], fix
+    the hole diameter to 4.0mm in CAD design so that plastic sufficiently penetrates
+    between insert knurling during heat-setting [S21].'
+  lab:
+    title: Finger Structure Fabrication and Assembly Practice
+    steps:
+    - Configure FDM 3D printing environment for carbon-fiber PC filament with a hardened
+      steel nozzle [S19].
+    - Remove supports and finish surfaces after printing finger links and palm frame.
+    - Vertically seat heat-set inserts into 4.0mm pilot holes using a hot tool [S21].
+    - Cut IGUS precision aluminum shafts according to bearing specifications and deburr
+      the ends [S18].
+    - Press-fit sleeve bearings into housing, insert shafts, and check clearance [S17].
+    - Fasten structure and sensor brackets with M3 cap screws [S20].
+    safety:
+    - Beware of burns from high-temperature nozzles (285°C) and beds (110°C) [S19].
+    - Always wear goggles when finishing and deburring prints.
+    - Operate ventilation facilities as smoke may be generated during insert heating.
+    - Check all mechanical fastening states before applying power.
+    deliverables:
+    - Fabricated 5-finger robotic hand structure (links, palm).
+    - Records of heat-set insert perpendicularity and bearing clearance measurements.
+    - Final fastening visual inspection completion report.
+  assignment:
+    title: Robotic Hand Fabrication Precision Verification
+    deliverables:
+    - Comparison table of CAD data and actual dimensional measurements of completed
+      structures
+    - Assembly tolerance management plan
+    - Manual for friction-reducing design of tendon routing structure
+    rubric:
+    - Vertical seating of heat-set inserts (High/Medium/Low)
+    - Smooth rotational movement after shaft-bearing assembly (Pass/Fail)
+    - Compliance with part ratings and model specifications specified in BOM [B10,
+      B11, B12, B13, B14]
+  quiz:
+  - question: What is the main reason for using a hardened steel nozzle when using
+      PC-CF filament?
+    choices:
+    - Prevent rapid wear of brass nozzles due to carbon fiber abrasiveness
+    - Filament melting point is too low for ordinary nozzles
+    - Increase surface gloss of prints
+    - Increase extrusion speed
+    answer_index: 0
+    explanation: Carbon fiber is highly abrasive and quickly damages ordinary brass
+      nozzles, making a hardened steel nozzle essential [S19].
+  - question: What is the recommended pilot hole diameter when using M3 heat-set inserts
+      (Accu HTBI-M3-BR)?
+    choices:
+    - 3.0mm
+    - 4.0mm
+    - 4.4mm
+    - 5.0mm
+    answer_index: 1
+    explanation: The hole diameter recommended by the official datasheet is 4.0mm
+      [S21].
+  completion_criteria:
+  - All structural parts fabricated with FDM 3D printer [B10]
+  - Heat-set inserts seated accurately in all designated holes [B14]
+  - Assembly clearance of aluminum shaft and sleeve bearing satisfies standard [B11,
+    B12]
+  - M3 spec cap screws correctly used when fastening [B13]
+  source_ids:
+  - S19
+  - S21
+  - S17
+  - S18
+  - S16
+  - S20
+- id: M5
+  slug: bearing-fastener-install
+  phase_id: P2
+  title: Bearing and Fastening Part Installation
+  estimated_hours: 10.0
+  prerequisites:
+  - M4
+  objectives:
+  - Understand mechanical tolerances and installation principles of bearings and shafts
+    for precision robotic hand fabrication.
+  - Master methods to secure fastening strength of engineering plastic parts using
+    heat-set inserts.
+  - Minimize assembly clearance using appropriate torque and fastening specifications.
+  theory_markdown: '### Tolerance Management of Bearings and Shafts
+
+    For smooth movement and rigidity of precision robotic joints, we use iglide® J
+    sleeve bearings (JSM-0810-10) and 8 mm aluminum precision shafts (AWMP-08). Sleeve
+    bearings are designed to adjust their inner diameter when press-fitted into housings,
+    and complying with the recommended housing inner diameter tolerance is key [S17,
+    S18]. If clearance occurs, joint precision drops; if too narrow, friction increases,
+    reducing the current efficiency of the actuator (DYNAMIXEL XM430).
+
+
+    ### Heat-set Insert Installation
+
+    PC-CF (carbon fiber reinforced PC) prints are prone to thread wear due to material
+    characteristics when metal screws are directly fastened. To prevent this, brass
+    heat-set inserts (HTBI-M3-BR) are used [S21]. Inserts are inserted into 4.0 mm
+    pilot holes and heated to melt surrounding resin for fastening, maintaining high
+    mechanical strength even after repetitive disassembly/reassembly [S21]. If the
+    insert tilts, the alignment of the assembled link becomes misaligned, so maintaining
+    perpendicularity is essential.'
+  worked_examples:
+  - 'Example 1: Housing inner diameter check - The outer diameter of iglide® JSM-0810-10
+    bearing is 10 mm. Therefore, the housing bore must be designed to 10 mm, and if
+    the pilot hole 4.0 mm is not maintained during insert insertion, the insert may
+    spin or the housing may be damaged [S17, S21].'
+  - 'Example 2: M3 screw assembly - M3x10 cap screws are fastened using a 2.5 mm hex
+    wrench, and since excessive torque can cause cracks in the resin around the insert,
+    fix it with minimum force at the ''point where it no longer turns'' [S20].'
+  lab:
+    title: Robotic Hand Joint Precision Assembly
+    steps:
+    - 1. Verify the 4.0 mm pilot hole in the PC-CF print housing is clean and align
+      the insert vertically.
+    - 2. Heat the soldering iron to an appropriate temperature and slowly press the
+      insert vertically to press-fit parallel to the housing surface.
+    - 3. Press-fit iglide® bearing into the bore, insert 8 mm aluminum shaft, and
+      check clearance and resistance.
+    - 4. Complete fastening between links using M3 screws and verify that friction
+      is uniform by moving the joint.
+    safety:
+    - Soldering iron is high temperature, so beware of burns and place on stand immediately
+      after heating.
+    - Ventilate thoroughly so as not to inhale fine dust generated during insert press-fitting.
+    - Proceed with work while wearing goggles.
+    - In case of abnormal heat, odor, or smoke, do not approach; cut power supply
+      to the 3 adapters via a pre-designated building panel breaker outside the hazard
+      zone or a certified upstream master disconnect and evacuate. If no upstream
+      disconnect is available outside the hazard zone, do not energize the system.
+      Torque release is not a substitute for power disconnection. Maintenance/access
+      must only be performed after planned stops, physical disconnection, and verifying
+      the de-energized state by measurement
+    deliverables:
+    - Friction test logs per joint
+    - Photos verifying vertical alignment of inserts
+    - Records of degrees of freedom and clearance of assembled links
+  assignment:
+    title: Assembly Tolerance and Fastening Force Analysis Report
+    deliverables:
+    - Joint assembly sequence and torque management plan
+    - Techniques for solving clearance issues (using shims or modifying tolerances)
+    - Preliminary grip test data for assembled robotic hand links
+    rubric:
+    - Is the verticality of insert insertion clearly described?
+    - Did you correctly explain the concept of bearing and shaft tolerance?
+    - Were safety rules followed during the assembly phase?
+  quiz:
+  - question: Why does the inner diameter of an iglide® J bearing adjust after being
+      press-fitted into a housing?
+    choices:
+    - Inner diameter automatically increases due to elasticity of bearing material
+      during press-fit.
+    - It is designed so the bearing inner diameter is precisely adjusted to the tolerance
+      of the housing bore during the press-fit process.
+    - The inner diameter before press-fit is always manufactured smaller than standard.
+    answer_index: 1
+    explanation: iglide® sleeve bearings are manufactured larger than standard before
+      press-fitting and are designed to have an inner diameter within the designed
+      tolerance when press-fitted into the correct housing bore [S17].
+  - question: What is the appropriate pilot hole size when using brass heat-set inserts
+      in PC-CF prints?
+    choices:
+    - 3.5 mm
+    - 4.0 mm
+    - 4.4 mm
+    answer_index: 1
+    explanation: According to the datasheet, the recommended pilot hole size for HTBI-M3-BR
+      inserts is 4.0 mm [S21].
+  completion_criteria:
+  - Verify uniform friction resistance of 5 assembled finger joints and submit measurement
+    records.
+  - Visual and dimensional inspection to ensure all inserts are flush with the PC-CF
+    housing.
+  - Pledge to follow safety rules during assembly and submit work log.
+  source_ids:
+  - S17
+  - S18
+  - S20
+  - S21
+- id: M6
+  slug: wiring-safety-system
+  phase_id: P2
+  title: Wiring and Building Safe Power Isolation
+  estimated_hours: 10.0
+  prerequisites:
+  - M5
+  objectives:
+  - Understand how to configure independent 12 V power branches for actuator driving.
+  - Learn the role and selection principles of ATOF fuses for overcurrent protection.
+  - Master safe power management and physical disconnection protocols.
+  - Configure safe voltage divider circuits for OpenCR controllers and FSR sensors.
+  theory_markdown: '## Principles of Safe Wiring and Power Isolation
+
+
+    The 5-finger robotic hand system uses multiple high-torque actuators, so efficient
+    and safe power distribution is essential. This project uses 11 power adapters
+    to separately arrange actuators in units of 4/4/3, which distributes current load
+    per branch and increases power stability [S15].
+
+
+    ### 1. Ensuring Power Independence
+
+    The positive (+) output of each adapter must be maintained as an independent branch,
+    and the act of arbitrarily joining or bundling them is strictly prohibited. Design
+    to accommodate peak current (2.3 A per 1 XM430-W350-T actuator) within the rated
+    output current (11.5 A) of the adapters specified in [S15] [S11]. The sum of peak
+    currents for units of 4 branches is 9.2 A, which is within the allowable continuous
+    output range of the adapters.
+
+
+    ### 2. Overcurrent Protection (Protection Coordination)
+
+    Place an 10 A ATOF fuse per branch to protect the system from overcurrent in case
+    of wiring or actuator error [S25]. Comparing fuse and load/power ratings alone
+    does not guarantee safety or operating sequences. Review the fuse manufacturer''s
+    time-current curves and power supply OCP characteristics together to verify protection
+    coordination. However, fuse selection must refer to the ''Time-Current Curve''
+    provided by the manufacturer; low load current does not guarantee safety [S25].
+
+
+    ### 3. Control Circuit Isolation
+
+    We increase reproducibility by eliminating complex external bridge circuits using
+    an OpenCR control board with a built-in DYNAMIXEL port [S13]. FSR force sensors
+    use a divider circuit supplied from the 3.3 V sensor rail to convert voltage for
+    ADC input and must be electrically isolated from the 12 V actuator power [S13].
+
+
+    ### 4. Work Safety Rules
+
+    Since the bench prototype is not a certified machine safety system, you must physically
+    disconnect the 3 power adapters before maintenance or modification, and measure
+    and verify that residual voltage of each branch is less than 1 V using the multimeter
+    DC voltage mode [S7].'
+  worked_examples:
+  - In case of abnormal heat, odor, or smoke, do not approach; cut the power supply
+    to the 3 adapters via a pre-designated building panel breaker outside the hazard
+    zone or a certified upstream master disconnect and evacuate. If no upstream disconnect
+    is available outside the hazard zone, do not energize the system. Torque release
+    is not a substitute for power disconnection. Maintenance/access must only be performed
+    after planned stops, physical disconnection, and verifying the de-energized state
+    by measurement [S11] [S25]
+  - 'Example 2: FSR ADC circuit voltage - Connect 10 kΩ divider resistors and FSR
+    402 using OpenCR''s 3.3 V sensor rail [S13, S26]. The sensor signal voltage must
+    be within the 0~3.3 V range, and this circuit must be physically/electrically
+    isolated from the 12 V actuator power circuit.'
+  lab:
+    title: Power Branch Harness Fabrication and Safety Inspection
+    steps:
+    - Solder ATO in-line fuse holders to each adapter output line and insert 10 A
+      ATOF fuses [S24, S25].
+    - Fabricate actuator and sensor connection harnesses using Molex Micro-Fit 3.0
+      connectors [S14].
+    - Distribute and wire the OpenCR board and each actuator into 3 branches and connect
+      to each power adapter [S13].
+    - Verify insulation state of each adapter output terminal using multimeter resistance
+      mode before applying power.
+    - Verify that each branch is 12 V in voltage mode after applying power, and always
+      remove 3 adapters when disconnecting.
+    safety:
+    - Physically disconnect 3 power adapters before maintenance.
+    - Replace parts after verifying residual voltage is less than 1 V using a multimeter.
+    - Do not place hands inside operating range while power is applied.
+    - Insulate all connection points and wear goggles when soldering.
+    deliverables:
+    - Photos of fabricated power branch harness
+    - Voltage measurement records per branch
+    - Wiring diagram review confirmation
+  assignment:
+    title: Safety Wiring Design Report
+    deliverables:
+    - Actuator allocation design for 3 power branches (4/4/3 units per branch)
+    - Calculation sheet for overcurrent protection per branch (comparison of peak
+      current and fuse rating)
+    - Physically disconnect 3 power adapters before maintenance/access after planned
+      stops and verify de-energized state of each branch by measurement
+    rubric:
+    - Was power independence and isolation principle followed?
+    - Were fuse and connector ratings appropriately selected for the load?
+    - Does the power disconnection and residual voltage verification protocol follow
+      safety guidelines?
+  quiz:
+  - question: Is it permissible to connect the 12 V output (+) of each power adapter
+      in parallel?
+    choices:
+    - Possible, current supply capacity increases.
+    - Impossible, must maintain as independent branches.
+    - Possible if voltage matches.
+    - Possible if fuses are added.
+    answer_index: 1
+    explanation: Each adapter output must be maintained independently, and parallel
+      connection is strictly prohibited [S15].
+  - question: What is the most prioritized safety measure before robotic hand maintenance?
+    choices:
+    - Software torque release
+    - Multimeter resistance measurement
+    - Physical disconnection of 3 power adapters and residual voltage verification
+    - Press planned stop button
+    answer_index: 2
+    explanation: Before maintenance, you must physically disconnect the 3 power adapters
+      and verify that residual voltage of each branch is less than 1 V using a multimeter.
+  - question: Which power rail should be used for FSR force sensor ADC circuit?
+    choices:
+    - 12 V actuator rail
+    - 5 V power rail
+    - 3.3 V sensor rail
+    - 24 V power rail
+    answer_index: 2
+    explanation: To protect OpenCR's ADC circuit, the 3.3 V sensor rail must be used
+      [S13].
+  completion_criteria:
+  - Configuration of 3 independent branch harness and fuse installation completed
+  - Voltage measured as 12 V at no-load per branch
+  - Recorded that residual voltage of all measurement nodes is less than 1 V after
+    physical power disconnection
+  - Submission and passing of wiring safety design report
+  source_ids:
+  - S14
+  - S24
+  - S25
+  - S7
+  - S15
+  - S11
+  - S13
+  - S26
+- id: M7
+  slug: firmware-development
+  phase_id: P3
+  title: Firmware Development and Control
+  estimated_hours: 15.0
+  prerequisites:
+  - M6
+  objectives:
+  - Understand DYNAMIXEL smart actuator communication and control framework.
+  - Implement actuator and FSR sensor signal acquisition using OpenCR control board.
+  - Design real-time robot control state machine and closed-loop feedback loop.
+  - Program safe power management and torque release sequences.
+  theory_markdown: '### Firmware Architecture and DYNAMIXEL Control
+
+    The robotic hand firmware acquires sensor data and processes actuator commands
+    within a high-speed loop. The `OpenCR 1.0` controller is based on a 216MHz ARM
+    Cortex-M7 processor [S13] and processes DYNAMIXEL protocol 2.0 without a separate
+    bridge [S11], minimizing latency. Each actuator supports current, velocity, and
+    position modes, and the robotic hand uses a current-control-based torque grip
+    strategy.
+
+
+    ### FSR Force Feedback System
+
+    The FSR 402 sensor has a resistance characteristic inversely proportional to the
+    force applied [S12]. A voltage divider circuit is configured with a 10kΩ resistor
+    on the 3.3V sensor rail using OpenCR''s 12-bit ADC [S13]. The divided voltage
+    is normalized via `ADC value = (V_in * R_fsr) / (R_fsr + R_ref)`, and this value
+    is linked with the tendon tension of the fingers and used as grip force feedback.
+
+
+    ### Safe Control Routine
+
+    System stop is divided into two stages for safety. In the software stage, actuator
+    torque is released (Torque Off) to immediately remove physical driving force.
+    Before maintenance, you must physically disconnect the 3 independent power adapters
+    and verify that all branches are less than 1V using multimeter DC mode.'
+  worked_examples:
+  - '1. Setting actuator goal position/current: An example of using DYNAMIXEL SDK
+    to set current limit (Goal Current) for XM430 actuator and updating finger joint
+    final position via a PID loop based on sensor values.'
+  - '2. FSR voltage data filtering: Code implementation for applying a Moving Average
+    Filter to remove noise from raw data collected from ADC and normalizing the range
+    with upper (20N) and lower (0.2N) limits [S12].'
+  lab:
+    title: Robotic Hand Integrated Control and Precision Grip Practice
+    steps:
+    - Verify that the voltage of each independent branch is less than 1V using multimeter
+      DC mode before starting assembly.
+    - Solder FSR voltage divider circuit to OpenCR's 3.3V sensor rail and connect
+      to ADC port.
+    - Scan IDs of 11 actuators using DYNAMIXEL SDK and set initial positions.
+    - Test finger joint drive commands in no-load state and adjust tendon elongation
+      and tension.
+    - Visualize FSR sensor data via serial monitor and tune grip force response.
+    safety:
+    - Never use 5V or 12V actuator power as supply for FSR sensor circuit.
+    - Never approach the operating range of fingers while system is energized; use
+      fixtures.
+    - Never connect positive (+) terminals of power branch adapters to each other.
+    - Before maintenance/assembly access, physically disconnect the 3 power adapters
+      and verify that it is less than 1V in all branches by measurement.
+    deliverables:
+    - Firmware source code including real-time sensor data feedback
+    - Data sheet for normalization and calibration of voltage divider data
+    - Actuator feedback loop normal operation logs
+  assignment:
+    title: Grip State Machine Design and Implementation
+    deliverables:
+    - Grip and release state machine diagram
+    - Code implementing current-based torque control
+    - Final performance evaluation report
+    rubric:
+    - Is the current limit range (0-2.3A) according to sensor values stably controlled?
+    - Does the physical tension dissipate immediately upon the torque release command?
+    - Is a safe hardware disconnection procedure explicitly stated in the code?
+  quiz:
+  - question: What is the recommended power rail when configuring an FSR 402 sensor
+      and a voltage divider circuit?
+    choices:
+    - 12V actuator power rail
+    - 5V general-purpose power rail
+    - OpenCR 3.3V sensor rail
+    - 24V external input rail
+    answer_index: 2
+    explanation: For system safety and OpenCR ADC protection, the FSR voltage divider
+      circuit must be connected to the 3.3V sensor power rail.
+  - question: What is the correct way to confirm that the system is in a 'de-energized
+      state' when performing robot hand maintenance?
+    choices:
+    - Send a torque release command via software.
+    - Check the wiring status with a multimeter in resistance mode.
+    - Measure with a multimeter in DC voltage mode to ensure it is under 1V in all
+      branches.
+    - Remove the power branch fuses.
+    answer_index: 2
+    explanation: After physically disconnecting the power, you must verify with a
+      multimeter in DC voltage mode that the residual voltage in all branches is less
+      than 1V.
+  - question: Is it permissible to connect the positive (+) terminals of multiple
+      independent power adapter outputs in parallel?
+    choices:
+    - It is necessary for current summation.
+    - It is strictly prohibited.
+    - It is possible if the rated output currents are the same.
+    - It is possible if fuses are installed.
+    answer_index: 1
+    explanation: The positive (+) outputs of power adapters configured as independent
+      branches must never be connected or integrated with each other.
+  completion_criteria:
+  - Multimeter verification completed that independent power supply and fuse protection
+    for each branch are configured according to BOM specifications
+  - Confirmed precision force signal acquisition and filtering of 5 FSR sensors via
+    OpenCR ADC
+  - Successfully performed the software torque release routine and post-physical power
+    disconnection measurement procedure
+  - The grasping state machine processes actuator and sensor data as intended, and
+    the final report is submitted
+  source_ids:
+  - S13
+  - S11
+  - S12
+- id: M8
+  slug: sensor-integration
+  phase_id: P3
+  title: Sensor Integration and Feedback Control
+  estimated_hours: 10.0
+  prerequisites:
+  - M7
+  objectives:
+  - Understand the configuration principle of a voltage divider circuit using an FSR
+    402 sensor and a 10 kΩ resistor
+  - Master the ADC function of the OpenCR controller and its input range (0-3.3 V)
+    constraints
+  - Acquire sensor data filtering and calibration techniques
+  - Implement feedback-based grasping control algorithms and practice robot hand contact
+    force control
+  theory_markdown: '## Sensor Integration and Contact Force Feedback
+
+
+    Precise grasping control of a robot hand begins with accurately measuring the
+    force applied to the fingertips. The FSR 402 sensor is a Force-Sensing Resistor
+    whose resistance value decreases as the applied pressure increases [S12]. To convert
+    this into a voltage signal that a microcontroller can read, a voltage divider
+    circuit is required.
+
+
+    ### 1. Voltage Divider Circuit
+
+    Connect the FSR sensor and a 10 kΩ divider resistor in series and supply 3.3 V
+    sensor power [B4, B5, B2]. The ADC pin is connected to the junction of the sensor
+    and the resistor, and the output voltage $V_{out}$ is calculated as follows:
+
+    For a 10 kΩ pull-down voltage divider, $V_{out}=V_{ref}\frac{R_{fixed}}{R_{FSR}+R_{fixed}}$
+    is used.
+
+
+    - The OpenCR controller''s ADC has a 12-bit resolution, and the input range is
+    limited to 0~3.3 V [B2]. Inputs outside this range can damage circuit components,
+    so you must use only the specified sensor power rail (3.3 V) [B2].
+
+
+    ### 2. Control Loop and Feedback
+
+    Measured force data is used as an input for PID control algorithms or adaptive
+    control strategies [S3]. When the robot hand grasps an object, the tendon-driven
+    motor (DYNAMIXEL XM430-W350-T) refers to sensor values and fine-tunes the torque
+    until the target contact force is reached [B1, B4].'
+  worked_examples:
+  - 'Example 1: FSR output calculation. When $R_{FSR}$ is 5 kΩ and $R_{fixed}$ is
+    10 kΩ, given a 3.3 V input, $V_{out} = 3.3 \times (5 / (5 + 10)) = 1.1 V. This
+    is normally within the ADC input range (0-3.3 V).'
+  - 'Example 2: Grasping force calibration. If sensor values fluctuate due to noise,
+    applying a simple moving average filter can reduce rapid variations in sensor
+    readings and maintain stable grasping force.'
+  lab:
+    title: Fingertip FSR Sensor Circuit Configuration and Calibration
+    steps:
+    - Connect the OpenCR's 3.3 V sensor rail and GND to the breadboard.
+    - Configure a voltage divider circuit by connecting the FSR 402 and a 10 kΩ resistor
+      in series [B4, B5].
+    - Connect the voltage divider junction to an OpenCR ADC pin [B2].
+    - Connect the PC to the OpenCR and run the test code to read sensor values.
+    - Record ADC values in no-load and target force-applied states to create a calibration
+      table.
+    safety:
+    - Before applying power, you must verify with a multimeter that there is no short
+      circuit between the 3.3 V rail and the 12 V actuator rail [B2].
+    - Always wear safety glasses and do not place your hands within the robot hand's
+      range of motion while it is powered.
+    - If abnormal heat, odor, or smoke is detected, do not approach; evacuate after
+      cutting the supply power to the 3 adapters at the pre-designated building distribution
+      panel breaker or an authorized upstream master disconnect outside the hazardous
+      zone. If there is no accessible upstream disconnection means outside the zone,
+      do not energize the system. Torque release is not a substitute for power disconnection.
+      Maintenance/access must only be performed after a planned shutdown, physical
+      disconnection, and confirmation by de-energized measurement.
+    - Before maintenance or sensor access, physically disconnect the 3 isolated power
+      adapters and verify by measurement that the voltage in all branches is less
+      than 1 V.
+    deliverables:
+    - ADC sensor reading test result data
+    - Sensor calibration table (ADC value vs. physical force)
+    - Sensor data filtering implementation code
+  assignment:
+    title: Grasping Force Feedback Control Algorithm Implementation
+    deliverables:
+    - Feedback control code (sensor reading, target comparison, motor torque adjustment)
+    - Grasping test result graph (Force over time)
+    - Final report (control logic explanation and grasping stability analysis)
+    rubric:
+    - Is the ADC data measured stably within the 0-3.3 V range?
+    - Does the motor appropriately release or maintain torque when the sensor value
+      reaches the target?
+    - Does the torque release function work normally in software during an emergency?
+    - Is the power disconnection verification procedure described in the report?
+  quiz:
+  - question: What must be strictly observed when inputting an FSR voltage divider
+      signal to an OpenCR controller ADC pin?
+    choices:
+    - Use the 12 V actuator power rail.
+    - Use only the 3.3 V sensor power rail.
+    - Use the 5 V power rail.
+    - Supply power separately from an external source.
+    answer_index: 1
+    explanation: The OpenCR ADC input range is 0-3.3 V, so you must use only the 3.3
+      V sensor power rail to ensure no voltage exceeding this is applied.
+  - question: What is the relationship between the FSR sensor's resistance change
+      and physical force?
+    choices:
+    - Resistance increases as pressure increases.
+    - Resistance decreases as pressure increases.
+    - There is no relationship between pressure change and resistance.
+    - Resistance is amplified at a constant rate as pressure increases.
+    answer_index: 1
+    explanation: An FSR is a pressure-sensing resistor characterized by a decrease
+      in sensor resistance when pressure is applied.
+  - question: What is the safety state that must be verified after disconnecting power
+      for maintenance or access while working on the robot hand prototype?
+    choices:
+    - Confirm that torque has been released via software.
+    - Measure if the fuse is blown using a multimeter.
+    - Physically disconnect the 3 power adapters and measure with a multimeter in
+      DC voltage mode to ensure the voltage in each branch is less than 1 V.
+    - Turn off the power switch and measure the wire continuity in resistance mode.
+    answer_index: 2
+    explanation: Power disconnection refers to physically disconnecting the 3 power
+      sources, and for safety, it is essential to personally verify with a multimeter
+      in DC voltage mode that all branches are less than 1 V.
+  completion_criteria:
+  - Passed ADC-based FSR value reading lab
+  - Grasping force feedback control code reaches at least 90% of the target
+  - Proof of compliance with all safety rules (physical power disconnection and voltage
+    measurement)
+  - Final results report submission
+  source_ids:
+  - S3
+  - S12
+  - S26
+- id: M9
+  slug: testing-validation
+  phase_id: P3
+  title: Performance Testing and Verification
+  estimated_hours: 10.0
+  prerequisites:
+  - M8
+  objectives:
+  - Design quantitative test metrics to verify the robot hand's precision and repeatability
+  - Evaluate the stability of the grasping force control algorithm utilizing FSR sensor
+    data
+  - Analyze the error between DYNAMIXEL actuator feedback data and actual physical
+    motion
+  - Learn procedures for verifying mechanical defects and the durability of the tendon
+    drive mechanism
+  theory_markdown: '## Performance Testing and Verification Theory
+
+
+    Robot hand performance verification is the process of confirming the consistency
+    between design specifications and actual physical behavior [S1]. Key metrics include
+    the following:
+
+
+    ### 1. Positioning and Grasping Precision
+
+    Repeatability refers to the range of error in the position reached by the robot
+    hand when performing the same command. While the XM430-W350-T actuator provides
+    precise position feedback via its internal encoder [S11], the final position of
+    the fingertip incurs errors due to tendon elongation and friction. Dyneema tendons
+    have very low elongation (less than 1%), which is advantageous for ensuring repeatability
+    [S16].
+
+
+    ### 2. Force Control and FSR Sensor Signal Processing
+
+    The FSR 402 sensor is characterized by a decrease in resistance as the applied
+    force increases [S12]. This is configured with a 10 kΩ resistor in a voltage divider
+    circuit and measured with the OpenCR''s 12-bit ADC [S13, S26]. Since sensor data
+    is noisy, a Moving Average Filter must be applied to form a stable grasping force
+    feedback loop.
+
+
+    ### 3. Overcurrent Protection and Power Stability
+
+    The system uses 3 independent 12 V power branches [S15]. Each branch is protected
+    by a 10 A ATOF fuse [S25], and distribution must be managed so that the sum of
+    the actuator peak currents does not exceed the protection rating. This must be
+    verified by coordinating protection via the time-current curves provided by the
+    manufacturer.'
+  worked_examples:
+  - 'Example 1: OpenCR ADC voltage calculation. When the FSR resistance is 10 kΩ and
+    the series resistor is 10 kΩ, the 3.3 V voltage divider output is $V_{out} = 3.3
+    * (10k / (10k + 10k)) = 1.65 V. This is suitable for the 12-bit ADC range [S13,
+    S26].'
+  - 'Example 2: Fuse protection coordination. When 4 actuators are in a stall state,
+    the sum of currents is 9.2 A [S11]. Since the cold resistance of a 10 A fuse is
+    7.7 mΩ [S25], the voltage drop during normal operation is approximately 0.07 V,
+    which can be neglected; however, for overcurrent, refer to the fuse manufacturer''s
+    time-current curve for the exact response.'
+  lab:
+    title: Robot Hand Integrated Functional Testing
+    steps:
+    - With each power branch physically disconnected, measure the output of the 3
+      adapters in DC voltage mode to confirm it reads 12 V.
+    - Fix the robot hand in a safety jig and connect the controller (OpenCR) to a
+      PC to release the actuator torque to 0.
+    - Record the ADC data changes while manually applying pressure to the FSR sensor
+      of each finger.
+    - Repeat the maximum range of motion (ROM) for each finger 5 times in a no-load
+      state to check for tendon interference.
+    - After the test is complete, you must unplug the 3 power adapters from the wall
+      outlet and check for residual voltage.
+    safety:
+    - Always wear safety glasses during testing.
+    - Do not place your hands within the range of motion while power is applied.
+    - If abnormal heat, odor, or smoke is detected, do not approach; evacuate after
+      cutting the supply power to the 3 adapters at the pre-designated building distribution
+      panel breaker or an authorized upstream master disconnect outside the hazardous
+      zone. If there is no accessible upstream disconnection means outside the zone,
+      do not energize the system. Torque release is not a substitute for power disconnection.
+      Maintenance/access must only be performed after a planned shutdown, physical
+      disconnection, and confirmation by de-energized measurement.
+    - Do not touch the system without measuring voltage. Verifying DC is less than
+      1 V is mandatory.
+    deliverables:
+    - Fingertip grasping force sensor calibration records
+    - Repeatability precision measurement data
+    - Load current measurements per power branch
+  assignment:
+    title: Robot Hand Performance Analysis Final Report
+    deliverables:
+    - Performance test result analysis report
+    - Data-driven grasping control algorithm code
+    rubric:
+    - Appropriateness of the Signal-to-Noise Ratio (SNR) analysis of sensor data
+    - Quantification of precision in repeatability tests
+    - Theoretical reflection on whether the protection design (fuses) satisfies the
+      intended system protection
+    - Comparison of design specifications and actual built performance metrics
+  quiz:
+  - question: Which of the following is correct when configuring a force measurement
+      circuit using an FSR 402 sensor and OpenCR ADC?
+    choices:
+    - The FSR voltage divider uses only the 3.3 V sensor power and keeps the analog
+      input signal in the 0~3.3 V range.
+    - Configure a voltage divider with an FSR and a 10 kΩ resistor, and use a 3.3
+      V sensor rail.
+    - The ADC signal must always be in the 0~5 V range.
+    - Since the FSR resistance is constant, no separate divider resistor is needed.
+    answer_index: 1
+    explanation: Use the OpenCR sensor rail (3.3 V) to limit the ADC input to the
+      0~3.3 V range and configure a voltage divider circuit to read the resistance
+      change as a voltage change [S13, S26].
+  - question: Which of the following is correct for managing the 12 V power branch
+      of a DYNAMIXEL XM430-W350-T actuator?
+    choices:
+    - Combine the positive (+) outputs of 3 adapters to sum the power.
+    - Install a 10 A fuse for each adapter and use them as separate, independent branches.
+    - Use it without safety verification since the current is below the fuse rating.
+    - Connect the power adapter outputs directly in parallel without fuses.
+    answer_index: 1
+    explanation: Each adapter output must remain independent, and you must protect
+      against overcurrent by installing a fuse suitable for the independent branch
+      [S15].
+  - question: What is the most important safety procedure during the robot hand verification
+      stage?
+    choices:
+    - Releasing torque via software is equivalent to cutting power.
+    - Always verify that DC is less than 1 V with a multimeter before approaching
+      for maintenance.
+    - Remove the fuse, as it acts as a planned shutdown device.
+    - Verify that power is cut using 'Continuity' mode.
+    answer_index: 1
+    explanation: Software release cannot substitute for physical power disconnection;
+      it is essential to verify by measurement that there is no residual energy using
+      DC voltage mode after physical disconnection.
+  completion_criteria:
+  - Submitted performance test result report and obtained at least 70 points
+  - Complied with safety guidelines in all Lab steps and confirmed physical power
+    disconnection
+  - Confirmed implementation of the sensor data filtering function in the control
+    code
+  source_ids:
+  - S1
+  - S11
+  - S16
+  - S12
+  - S13
+  - S26
+  - S15
+  - S25
+sources:
+- id: S1
+  title: 'Introduction to Robotics: Mechanics and Control - John J ... John J.Craig-Introduction
+    to Robotics Mechanics and Control ... Introduction to robotics : mechanics and
+    control : Craig ... Introduction to Robotics: Mechanics and Control (3rd Edition)
+    Introduction to robotics : mechanics and control : Craig ... Introduction to Robotics:
+    Mechanics and Control - John J ...'
+  organization: books.google.com
+  url: https://books.google.com/books/about/Introduction_to_Robotics.html?id=bhYyvgAACAAJ
+  type: textbook
+  published_at: null
+  accessed_at: '2026-08-29'
+  primary: true
+  supports:
+  - M1
+  - M9
+- id: S3
+  title: Intelligent soft robotic gripper for non-destructive grasping ...
+  organization: nature.com
+  url: https://www.nature.com/articles/s41378-026-01364-4
+  type: paper
+  published_at: null
+  accessed_at: '2026-08-29'
+  primary: true
+  supports:
+  - M8
+- id: S4
+  title: DCX 10 L 10 mm, precious metal brushes, DC motor DCX
+  organization: maxongroup.com
+  url: https://www.maxongroup.com/medias/sys_master/root/8992244170782/EN-22-96.pdf
+  type: datasheet
+  published_at: null
+  accessed_at: '2026-08-29'
+  primary: true
+  supports:
+  - M3
+- id: S5
+  title: ESP32 Wi-Fi & Bluetooth SoC | Espressif Systems
+  organization: espressif.com
+  url: https://www.espressif.com/en/products/socs/esp32
+  type: datasheet
+  published_at: null
+  accessed_at: '2026-08-29'
+  primary: true
+  supports:
+  - M3
+- id: S7
+  title: 1910.212 - General requirements for all machines ...
+  organization: osha.gov
+  url: https://www.osha.gov/laws-regs/regulations/standardnumber/1910/1910.212
+  type: standard
+  published_at: null
+  accessed_at: '2026-08-29'
+  primary: true
+  supports:
+  - M6
+- id: S8
+  title: Underactuated Robotics
+  organization: underactuated.mit.edu
+  url: https://underactuated.mit.edu/
+  type: university
+  published_at: null
+  accessed_at: '2026-08-29'
+  primary: true
+  supports:
+  - course
+- id: S9
+  title: 'Ruka-v2: Tendon Driven Open-Source Dexterous Hand with Wrist'
+  organization: arxiv.org
+  url: https://arxiv.org/abs/2603.26660
+  type: paper
+  published_at: null
+  accessed_at: '2026-08-29'
+  primary: true
+  supports:
+  - M2
+- id: S10
+  title: US11325264B1 - Tendon-driven robotic hand
+  organization: patents.google.com
+  url: https://patents.google.com/patent/US11325264B1/en
+  type: patent
+  published_at: null
+  accessed_at: '2026-08-29'
+  primary: true
+  supports:
+  - M2
+- id: S11
+  title: XM430-W350 e-Manual
+  organization: emanual.robotis.com
+  url: https://emanual.robotis.com/docs/en/dxl/x/xm430-w350/
+  type: datasheet
+  published_at: null
+  accessed_at: '2026-08-29'
+  primary: true
+  supports:
+  - M2
+  - M3
+  - M6
+  - M7
+  - M9
+  - bom
+- id: S12
+  title: FSR Model 402
+  organization: interlinkelectronics.com
+  url: https://www.interlinkelectronics.com/products/fsr-model-402
+  type: datasheet
+  published_at: null
+  accessed_at: '2026-08-29'
+  primary: true
+  supports:
+  - M3
+  - M7
+  - M8
+  - M9
+  - bom
+- id: S13
+  title: OpenCR 1.0
+  organization: emanual.robotis.com
+  url: https://emanual.robotis.com/docs/en/parts/controller/opencr10/
+  type: technical_documentation
+  published_at: null
+  accessed_at: '2026-08-29'
+  primary: true
+  supports:
+  - M3
+  - M6
+  - M7
+  - M9
+  - bom
+- id: S14
+  title: Micro-Fit 3.0 Connector Family Specification
+  organization: content.molex.com
+  url: https://www.content.molex.com/dxdam/literature/987650-5984.pdf
+  type: datasheet
+  published_at: null
+  accessed_at: '2026-08-29'
+  primary: true
+  supports:
+  - M6
+  - bom
+- id: S15
+  title: GST160A12-R7B Enclosed Desktop Power Adapter
+  organization: meanwell.com
+  url: https://www.meanwell.com/Upload/PDF/GST160A/GST160A-SPEC.PDF
+  type: datasheet
+  published_at: null
+  accessed_at: '2026-08-29'
+  primary: true
+  supports:
+  - M2
+  - M3
+  - M6
+  - M9
+  - bom
+- id: S16
+  title: D-Pro 1.5 mm
+  organization: liros.com
+  url: https://www.liros.com/catalog/en/d-pro-1-5mm-p1850/
+  type: technical_documentation
+  published_at: null
+  accessed_at: '2026-08-29'
+  primary: true
+  supports:
+  - M2
+  - M4
+  - M9
+  - bom
+- id: S17
+  title: iglide J JSM-0810-10 Sleeve Bearing
+  organization: igus.com
+  url: https://www.igus.com/product?artNr=JSM-0810-10
+  type: technical_documentation
+  published_at: null
+  accessed_at: '2026-08-29'
+  primary: true
+  supports:
+  - M4
+  - M5
+  - bom
+- id: S18
+  title: drylin R Metric Aluminum Precision Shaft AWMP
+  organization: igus.com
+  url: https://www.igus.com/product/drylin_AWMP
+  type: technical_documentation
+  published_at: null
+  accessed_at: '2026-08-29'
+  primary: true
+  supports:
+  - M4
+  - M5
+  - bom
+- id: S19
+  title: Prusament PC Blend Carbon Fiber
+  organization: prusa3d.com
+  url: https://www.prusa3d.com/product/prusament-pc-blend-carbon-fiber-black-2kg-nfc/
+  type: technical_documentation
+  published_at: null
+  accessed_at: '2026-08-29'
+  primary: true
+  supports:
+  - M4
+  - bom
+- id: S20
+  title: Socket Head Cap Screws Technical Data
+  organization: in.misumi-ec.com
+  url: https://in.misumi-ec.com/pdf/tech/press/pr1177_1178.pdf
+  type: technical_documentation
+  published_at: null
+  accessed_at: '2026-08-29'
+  primary: true
+  supports:
+  - M4
+  - M5
+  - bom
+- id: S21
+  title: M3 Heat-Fix Threaded Inserts HTBI-M3-BR
+  organization: accu-components.com
+  url: https://accu-components.com/api/product-datasheet?id=845137
+  type: datasheet
+  published_at: null
+  accessed_at: '2026-08-29'
+  primary: true
+  supports:
+  - M4
+  - M5
+  - bom
+- id: S24
+  title: ATO AFH Series In-Line Fuse Holder
+  organization: littelfuse.com
+  url: https://www.littelfuse.com/assetdocs/ato-afh-datasheet?assetguid=cbbb6f1c-c57a-4b2e-b955-39ecde7c4b16
+  type: datasheet
+  published_at: null
+  accessed_at: '2026-08-29'
+  primary: true
+  supports:
+  - M2
+  - M3
+  - M6
+  - bom
+- id: S25
+  title: ATOF 287 Series 10 A Blade Fuse
+  organization: littelfuse.com
+  url: https://www.littelfuse.com/assetdocs/littelfuse-datasheet-287-atof?assetguid=43dcdce8-8ca2-426f-8998-7e566f048d40
+  type: datasheet
+  published_at: null
+  accessed_at: '2026-08-29'
+  primary: true
+  supports:
+  - M2
+  - M3
+  - M6
+  - M9
+  - bom
+- id: S26
+  title: 10K Ohm 5 Percent 1/4W Through-Hole Resistors
+  organization: adafruit.com
+  url: https://www.adafruit.com/product/2784
+  type: technical_documentation
+  published_at: null
+  accessed_at: '2026-08-29'
+  primary: true
+  supports:
+  - M3
+  - M6
+  - M8
+  - M9
+  - bom
+bom:
+- id: B1
+  category: actuator
+  name: DYNAMIXEL Smart Actuator
+  function: Tendon and joint actuation
+  quantity: 11
+  model: XM430-W350-T
+  manufacturer: robotis
+  specifications:
+  - name: Stall Current
+    value: '2.3'
+    unit: A
+    evidence_excerpt: Stall Current 2.3 A
+  - name: Stall Torque
+    value: '4.1'
+    unit: N·m
+    evidence_excerpt: Stall Torque 4.1 N·m
+  - name: Standard Voltage
+    value: '12'
+    unit: V
+    evidence_excerpt: Input Voltage 12 V
+  alternatives:
+  - DYNAMIXEL X series with identical communication protocol
+  compatibility:
+  - DYNAMIXEL Protocol 2.0
+  - 12 V Power Branch
+  rationale: Precision actuator integrating position, velocity, and current feedback
+  datasheet_source_id: S11
+- id: B2
+  category: controller
+  name: DYNAMIXEL Port-Integrated Robot Control Board
+  function: Actuator commands, sensor acquisition, and operating state machine execution
+    without a separate communication bridge
+  quantity: 1
+  model: OpenCR 1.0
+  manufacturer: robotis
+  specifications:
+  - name: CPU Frequency
+    value: '216'
+    unit: MHz
+    evidence_excerpt: 216MHz
+  - name: Max Input Voltage
+    value: '24'
+    unit: V
+    evidence_excerpt: 5-24 V
+  - name: ADC Resolution
+    value: '12'
+    unit: bit
+    evidence_excerpt: Max 12bit
+  alternatives:
+  - Equivalent ROBOTIS controller with built-in DYNAMIXEL TTL port
+  compatibility:
+  - Built-in DYNAMIXEL TTL x 3
+  - Built-in DYNAMIXEL RS-485 x 3
+  - Direct XM430-W350-T connection
+  - FSR 402 divider circuit uses only 3.3 V sensor power
+  - Analog input signal does not exceed 0~3.3 V range
+  - 12 V actuator power separated from ADC/sensor circuit
+  rationale: Improves reproducibility and safety by removing external RS-485/TTL bridge
+    and termination/pull-up circuits
+  datasheet_source_id: S13
+- id: B3
+  category: power
+  name: Isolated Desktop Power Adapter
+  function: Supply power to actuator 12 V branch
+  quantity: 3
+  model: GST160A12-R7B
+  manufacturer: meanwell
+  specifications:
+  - name: Output Voltage
+    value: '12'
+    unit: V
+    evidence_excerpt: 12 V
+  - name: Rated Output Current
+    value: '11.5'
+    unit: A
+    evidence_excerpt: 11.5 A
+  - name: Rated Output
+    value: '138'
+    unit: W
+    evidence_excerpt: 138 W
+  alternatives:
+  - Equivalent isolated 12 V adapter - at least 11.5 A per branch
+  compatibility:
+  - Each adapter output used as an independent fused branch
+  - Parallel connection of positive (+) outputs is strictly prohibited
+  - Independent branch total rating 34.5 A >= actuator peak 25.3 A
+  - Keep each output as an independent branch; never parallel positive (+) outputs
+  - 3 branches allocated for 4/4/3 actuators
+  - Use a 10 A fuse and an accessible physical power disconnection means per branch
+  rationale: Constructs independent low-voltage DC branches for 4/4/3 actuators without
+    exposed AC terminals
+  datasheet_source_id: S15
+- id: B4
+  category: sensor
+  name: Fingertip Force Sensing Sensor
+  function: Measure fingertip contact force and grasping force feedback
+  quantity: 5
+  model: FSR Model 402
+  manufacturer: interlinkelectronics
+  specifications:
+  - name: Active Area Diameter
+    value: '12.7'
+    unit: mm
+    evidence_excerpt: Its active area is 12.7 mm diameter
+  - name: Lower Sensing Limit
+    value: '0.2'
+    unit: N
+    evidence_excerpt: Sensing range from 0.2N to 20N
+  - name: Upper Sensing Limit
+    value: '20'
+    unit: N
+    evidence_excerpt: Sensing range from 0.2N to 20N
+  alternatives:
+  - Thin-film force sensor with official datasheet
+  compatibility:
+  - Placed under fingertip pad
+  - Requires ADC input divider circuit
+  rationale: Secures contact force feedback within thin fingertip structure
+  datasheet_source_id: S12
+- id: B5
+  category: sensor
+  name: 10 kΩ Resistor for FSR Divider
+  function: Configure a voltage divider with FSR 402 to acquire force signal via OpenCR
+    ADC
+  quantity: 5
+  model: Adafruit Product 2784
+  manufacturer: adafruit
+  specifications:
+  - name: Resistance Value
+    value: '10'
+    unit: kΩ
+    evidence_excerpt: 10K Ω Resistors
+  - name: Maximum Power
+    value: 1/4
+    unit: Watt
+    evidence_excerpt: 1/4 Watt max dissipation
+  - name: Maximum Voltage
+    value: '300'
+    unit: V
+    evidence_excerpt: 300V max voltage
+  alternatives:
+  - 10 kΩ, at least 0.25 W, 5% or less axial resistor
+  compatibility:
+  - FSR 402 1 per unit resistance 1 units
+  - OpenCR ADC input
+  rationale: Specifies quantity and electrical rating of divider resistors required
+    for lab
+  datasheet_source_id: S26
+- id: B6
+  category: wiring
+  name: Branch Locking Connector
+  function: Detachable branch for finger-specific power/signal harness
+  quantity: 12
+  model: Micro-Fit 3.0
+  manufacturer: molex
+  specifications:
+  - name: Pitch
+    value: '3.00'
+    unit: mm
+    evidence_excerpt: offer a 3.00mm pitch
+  - name: Maximum Contact Current
+    value: '8.5'
+    unit: A
+    evidence_excerpt: 'Current (max.): 8.5A'
+  - name: Maximum Voltage
+    value: '600'
+    unit: V
+    evidence_excerpt: 'Voltage (max.): 600V'
+  alternatives:
+  - Equivalent locking branch connector with official rating
+  compatibility:
+  - Use only for individual actuator/finger harness downstream of 10 A adapter branch
+    fuse
+  - Current per connector limited to 1 A for XM430 2.3 units
+  - Do not use for 9.2 A aggregate branches
+  rationale: Reduces disconnection during vibration and simplifies finger module replacement
+  datasheet_source_id: S14
+- id: B7
+  category: wiring
+  name: ATO Inline Branch Fuse Holder
+  function: Install 10 A branch fuse on positive (+) output of each 12 V adapter
+  quantity: 3
+  model: 0AFH0001Z
+  manufacturer: littelfuse
+  specifications:
+  - name: Continuous Current Rating
+    value: '15'
+    unit: A
+    evidence_excerpt: 'Continuous Current Rating: 15A'
+  - name: Maximum Voltage
+    value: '32'
+    unit: VDC
+    evidence_excerpt: 'Max Voltage Rating: 32V DC'
+  - name: Lead Wire Gauge
+    value: '14'
+    unit: AWG
+    evidence_excerpt: 'Wire Size: 14 AWG'
+  alternatives:
+  - At least 32 VDC, at least 15 A ATO inline holder
+  compatibility:
+  - 0287010 ATOF 10 A fuse
+  - GST160A12-R7B independent branch
+  rationale: Fixes overcurrent protection component per branch in wiring diagram and
+    purchase list
+  datasheet_source_id: S24
+- id: B8
+  category: safety
+  name: 10 A ATOF Branch Fuse
+  function: Overcurrent protection for independent branch of 4/4/3 actuators
+  quantity: 3
+  model: 0287010.U
+  manufacturer: littelfuse
+  specifications:
+  - name: Current Rating
+    value: '10'
+    unit: A
+    evidence_excerpt: 0287010._ 10 A
+  - name: Voltage Rating
+    value: '32'
+    unit: V
+    evidence_excerpt: Blade Fuses – Rated 32V
+  - name: Typical Cold Resistance
+    value: '7.70'
+    unit: mΩ
+    evidence_excerpt: 7.70 mΩ
+  alternatives:
+  - Fuse with same ATO specification, 10 A, at least 32 VDC
+  compatibility:
+  - 0AFH0001Z holder
+  - Up to 4 actuators per branch, stall sum 9.2 A
+  rationale: Protects against wiring faults with a rating lower than the 11.5 A power
+    branch and higher than the 9.2 A peak
+  datasheet_source_id: S25
+- id: B9
+  category: transmission
+  name: Dyneema SK78 High-Strength Fiber Tendon
+  function: Transmit actuator tension to finger joints
+  quantity: 1
+  model: D-Pro 1.5 mm / 01505-0150-010
+  manufacturer: liros
+  specifications:
+  - name: Diameter
+    value: '1.50'
+    unit: mm
+    evidence_excerpt: Diameter 1.50 mm
+  - name: Breaking Strength
+    value: '230'
+    unit: daN
+    evidence_excerpt: Breaking Strength daN 230
+  - name: Working Stretch Limit
+    value: '1'
+    unit: '%'
+    evidence_excerpt: working stretch < 1 %
+  alternatives:
+  - Traceable Dyneema SK78 line with diameter 1.5 mm, breaking strength at least 230
+    daN
+  compatibility:
+  - Capstan edge rounding
+  - Repetitive bending test required
+  rationale: Ensures reproducibility of tendon replacement with products specifying
+    actual diameter, breaking strength, and stretch
+  datasheet_source_id: S16
+- id: B10
+  category: structure
+  name: FDM Structural Carbon Fiber PC Filament
+  function: Fabrication of finger links and palm frame
+  quantity: 1
+  model: Prusament PC Blend Carbon Fiber
+  manufacturer: prusa3d
+  specifications:
+  - name: Filament Diameter
+    value: '1.75'
+    unit: mm
+    evidence_excerpt: 1.75 mm
+  - name: Recommended Nozzle Temperature
+    value: '285'
+    unit: °C
+    evidence_excerpt: 285 °C
+  - name: Recommended Bed Temperature
+    value: '110'
+    unit: °C
+    evidence_excerpt: 110 °C
+  alternatives:
+  - Engineering filament for FDM with official material property sheet
+  compatibility:
+  - FDM 3D printer
+  - Hardened steel nozzle required
+  rationale: Fabricates structures requiring stiffness and dimensional stability with
+    possessed FDM equipment
+  datasheet_source_id: S19
+- id: B11
+  category: bearing
+  name: Maintenance-Free Polymer Sleeve Bearing
+  function: Friction and clearance management for wrist and high-load rotation axes
+  quantity: 4
+  model: JSM-0810-10
+  manufacturer: igus
+  specifications:
+  - name: Inner Diameter d1
+    value: '8'
+    unit: mm
+    evidence_excerpt: 'Dimensions : d1 8 mm d2 10 mm b1 10 mm'
+  - name: Outer Diameter d2
+    value: '10'
+    unit: mm
+    evidence_excerpt: 'Dimensions : d1 8 mm d2 10 mm b1 10 mm'
+  - name: Length b1
+    value: '10'
+    unit: mm
+    evidence_excerpt: 'Dimensions : d1 8 mm d2 10 mm b1 10 mm'
+  alternatives:
+  - Official sleeve bearing with identical 8×10×10 mm specification
+  compatibility:
+  - 8 mm shaft
+  - 10 mm recommended housing bore tolerance
+  rationale: Reduces maintenance and contamination with maintenance-free structure
+  datasheet_source_id: S17
+- id: B12
+  category: bearing
+  name: 8 mm Precision Aluminum Shaft
+  function: Wrist/joint rotation axis for JSM-0810-10 bearing
+  quantity: 2
+  model: AWMP-08
+  manufacturer: igus
+  specifications:
+  - name: Shaft Diameter
+    value: '8'
+    unit: mm
+    evidence_excerpt: Shaft aluminium AWMP-08, ø 8 mm
+  - name: Cutting Length Tolerance
+    value: '1'
+    unit: mm
+    evidence_excerpt: cut to a tolerance of +/- 1 mm
+  alternatives:
+  - Tolerance-specified 8 mm shaft compatible with JSM-0810-10
+  compatibility:
+  - JSM-0810-10 inner diameter 8 mm
+  - Chamfer after cutting to assembly length
+  rationale: Reduces clearance errors by fixing bearing inner diameter and shaft diameter
+    at purchase stage
+  datasheet_source_id: S18
+- id: B13
+  category: fastener
+  name: M3 Socket Head Cap Screw
+  function: Fastening finger links, sensor brackets, and palm frame
+  quantity: 40
+  model: M3×10 JIS B 1176
+  manufacturer: misumi
+  specifications:
+  - name: Nominal Thread Diameter
+    value: '3'
+    unit: mm
+    evidence_excerpt: Unit:mm Nominal diameter of thread(d)(15) M3
+  - name: Thread Pitch
+    value: '0.5'
+    unit: mm
+    evidence_excerpt: Unit:mm Nominal diameter of thread(d)(15) M3 Pitch of screw
+      thread(P) 0.5
+  - name: Standard Head Diameter
+    value: '5.5'
+    unit: mm
+    evidence_excerpt: Unit:mm M3 dk Max.(Basic size) 5.5
+  alternatives:
+  - Traceable cap screw of identical M3×0.5 specification
+  compatibility:
+  - M3×0.5 insert nut
+  - 2.5 mm hex key
+  rationale: Fixes standard specifications to match CAD holes and assembly tools
+  datasheet_source_id: S20
+- id: B14
+  category: fastener
+  name: M3 Brass Heat-Set Threaded Insert
+  function: Form M3 female threads in PC-CF prints for repetitive assembly
+  quantity: 40
+  model: HTBI-M3-BR
+  manufacturer: accu-components
+  specifications:
+  - name: Outer Diameter
+    value: '4.4'
+    unit: mm
+    evidence_excerpt: Diameter over Knurls (OD) 4.4mm
+  - name: Length
+    value: '5.8'
+    unit: mm
+    evidence_excerpt: Length (L) 5.8mm
+  - name: Recommended Hole Size
+    value: '4'
+    unit: mm
+    evidence_excerpt: Recommended Hole Size 4mm
+  alternatives:
+  - M3 brass heat-set insert with identical 4.4×5.8 mm specification
+  compatibility:
+  - M3×0.5 cap screw
+  - PC-CF print 4.0 mm pilot hole
+  rationale: Increases repeatability of disassembly and reassembly compared to fastening
+    screws directly into prints
+  datasheet_source_id: S21
+capstone:
+  title: Intelligent 5-fingered Robot Hand Final Production and Testing
+  deliverables:
+  - Final design CAD files
+  - Integrated firmware and control code
+  - Grasping performance and durability test data
+  - System safety assessment
+  - Final project results report
+  rubric:
+  - Mechanical precision and operability evaluation
+  - Level of real-time control algorithm implementation
+  - Completeness of documentation on physical power disconnection and de-energized
+    measurement procedures before maintenance/access after planned shutdown
+  - Completeness of documentation (BOM, drawings)
+  - Analysis of test data and performance verification
+  safety:
+  - Physically disconnect the 3 isolated power adapters after planned shutdown, and
+    record that the residual voltage in each branch is less than 1 V in DC voltage
+    mode
+  - Check the 10 A fuse rating and time-current characteristics for each independent
+    power branch
+  - Increase grasping load incrementally after no-load testing in the fixed jig
+  - Wear safety glasses to prevent impact during cutting, drilling, tendon tensioning,
+    and grasping tests
+generation:
+  run_id: b409b9219ba4488bb342aac4eb8f5a73
+  generated_at: '2026-08-28T22:44:06.473586Z'
+  generator: gemini
+localization:
+  source_language: ko
+  language: en
+  source_hash: 04a6aee1d1826674a78ef6415ded8556a375532ce6b7fcbe206123ddeb41ffdb
+  translator: gemini-cli
+  translated_at: '2026-08-28T23:06:19.965642Z'
+  translation_run_id: 0886d1415b8d413b8654c2195ac9ac00

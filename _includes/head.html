@@ -16,11 +16,11 @@
 
   {% if page.translations %}
     {% for translation in page.translations %}
-  <link rel="alternate" hreflang="{{ translation.lang }}" href="{{ site.url }}{{ site.baseurl }}{{ translation.url }}" />
+  <link rel="alternate" hreflang="{{ translation.lang }}" href="{{ translation.url | absolute_url }}" />
     {% endfor %}
     {% assign ko_post = page.translations | where: "lang", "ko" | first %}
     {% if ko_post %}
-  <link rel="alternate" hreflang="x-default" href="{{ site.url }}{{ site.baseurl }}{{ ko_post.url }}" />
+  <link rel="alternate" hreflang="x-default" href="{{ ko_post.url | absolute_url }}" />
     {% endif %}
   {% endif %}
 
@@ -43,7 +43,7 @@
   <meta property="og:image" content="{{ site.url }}{{ site.baseurl }}/images/{{ page.image }}">
   {% endif %}
   {% if page.ref %}
-    {% for translation in translations %}
+    {% for translation in page.translations %}
       {% unless translation.lang == page.lang %}
   <meta property="og:locale:alternate" content="{% case translation.lang %}{% when 'ko' %}ko_KR{% when 'en' %}en_US{% when 'ja' %}ja_JP{% when 'zh-cn' %}zh_CN{% when 'zh-tw' %}zh_TW{% endcase %}">
       {% endunless %}
@@ -62,15 +62,19 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+  {% unless page.no_ads %}
   <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
+  {% endunless %}
   <link rel="dns-prefetch" href="https://unpkg.com">
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&family=Noto+Serif+KR:wght@600;700&family=Noto+Sans+KR:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
   <!-- Ionicons -->
   <link href="https://unpkg.com/ionicons@4.2.2/dist/css/ionicons.min.css" rel="stylesheet">
+  {% unless page.no_ads %}
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ site.data.settings.google.adsense_id }}"
   crossorigin="anonymous"></script>
+  {% endunless %}
   <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
   <meta name="google-site-verification" content="a-ooQbWI49ahFL0LACl3xJhMzt9ZtWqDVqNoZo4yOYo" />
   {% include article-schema.html %}

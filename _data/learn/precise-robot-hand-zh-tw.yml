@@ -1,0 +1,1603 @@
+schema_version: 1
+curriculum_version: 1.0.0+bc95463f48e6
+course:
+  course_type: build_project
+  slug: precise-robot-hand
+  title: 製作精密的 5 機器手
+  summary: 這是一門大學及研究所程度的實作課程，從機器人學的基礎開始，帶領學生親自設計、製作、控制及驗證 5 機器手。
+  outcome: 學生將了解致動器、控制器、感測器整合及肌腱驅動機制，並能對精密機器手進行原型開發。
+  audience: 機器人工程初學者及相關科系學生
+  level: beginner
+  estimated_hours: 100.0
+  budget_krw:
+    min: 4500000
+    max: 6500000
+  required_tools:
+  - FDM 3D 列印機
+  - 三用電表
+  - 烙鐵
+  - 一般手工具
+  - 適用於 PC-CF 的硬化鋼噴嘴
+  - 耐衝擊防護眼鏡
+  - 游標卡尺
+  safety_summary:
+  - 此為低電壓教學原型，並非經過認證的機械安全系統
+  - 學員製作的停止電路不得作為安全功能或緊急停止使用
+  - 正常停止應透過軟體扭力解除執行，計畫停止後，在維修或接近設備前，須將 3 個絕緣電源轉接器物理斷開，並使用儀器確認處於無電狀態
+  - 電源開啟時，請勿將手置於移動範圍內，並應在固定夾具上從無負載開始測試
+  - 進行切割、鑽孔、肌腱張力測試時，必須佩戴耐衝擊防護眼鏡
+  - 若偵測到異常發熱、氣味或煙霧，請勿靠近，並應切斷危險區域外的指定建築配電盤斷路器或經認證的 upstream master disconnect，以中斷 3
+    個轉接器的供電電源，隨後撤離。若危險區域外無可操作的 upstream 斷電手段，則禁止系統通電。扭力解除不能代替切斷電源
+  - 在導入人員接觸環境前，必須在具資格的安全專家審查下，獨立設計並驗證具備雙通道、手動重置、EDM 及可回饋功能的雙接觸器
+  last_reviewed: '2026-08-29'
+phases:
+- id: P1
+  title: 理論與設計基礎
+  module_ids:
+  - M1
+  - M2
+  - M3
+- id: P2
+  title: 製作與組裝
+  module_ids:
+  - M4
+  - M5
+  - M6
+- id: P3
+  title: 控制與驗證
+  module_ids:
+  - M7
+  - M8
+  - M9
+modules:
+- id: M1
+  slug: robot-mechanics-fundamentals
+  phase_id: P1
+  title: 機器人機構學基礎
+  estimated_hours: 10.0
+  prerequisites: []
+  objectives:
+  - 理解機器人機構學的基本定義與剛體變換 (Rigid-body transformation) 概念。
+  - 學會使用座標系變換與旋轉矩陣，以數學方式描述機器人的位置與方向。
+  - 習得 5 機器手設計所需的機構學基礎理論與解析方法。
+  theory_markdown: '## 機器人機構學基礎
+
+
+    機器人機構學是一門探討機器人運動的學科，不考慮力或力矩，僅從位置、速度、加速度的角度進行研究 [S1]。設計機器手等機械手臂的起點，在於將每個關節的狀態以空間座標描述出來。
+
+
+    ### 1. 剛體變換 (Rigid-body Transformation)
+
+    機器人的每個連桿皆視為剛體，從一個座標系變換至另一個座標系的過程，表現為旋轉 (Rotation) 與平移 (Translation) 的組合。在 3 維空間中，旋轉矩陣
+    (Rotation Matrix) $R$ 為正交矩陣，藉此定義兩個座標系間的方向 [S1]。
+
+
+    ### 2. 正向運動學 (Forward Kinematics)
+
+    正向運動學是在已知關節變數（角度或位置）時，計算機器人末端執行器 (End-effector) 位置與方向的過程。在 5 機器手中，透過手指關節角度 ($\theta_1,
+    \theta_2, \dots, \theta_n$) 求取指尖位置。
+
+
+    ### 3. 逆向運動學 (Inverse Kinematics)
+
+    逆向運動學是在將期望的指尖位置設為目標值時，求取達成該目標所需的各關節變數的過程。由於由非線性方程式組成，可能存在無解或多重解的情況 [S1]。'
+  worked_examples:
+  - 範例 1：求取在 2 維平面上，具有 1 個旋轉關節 (Rotation Joint) 的機器連桿末端位置 $(x, y)$。當關節角度為 $\theta$
+    且連桿長度為 $L$ 時，$x = L \cos(\theta)$, $y = L \sin(\theta)$ [S1]。
+  - 範例 2：描述繞著 $x$ 軸旋轉 $\theta$ 角的 2 維旋轉矩陣 $R$。$R = \begin{bmatrix} \cos(\theta) &
+    -\sin(\theta) \\ \sin(\theta) & \cos(\theta) \end{bmatrix}$ [S1]。
+  lab:
+    title: 座標系變換模擬與基礎機構學解析
+    steps:
+    - 使用機構學解析軟體建立 2 連桿平面機械手臂模型。
+    - 變更關節角度，確認末端位置的軌跡。
+    - 手動推導逆向運動學計算公式，並與模擬結果進行比較。
+    safety:
+    - 電腦操作時請調整螢幕亮度並定期休息。
+    - 本實習為模擬基礎，無需硬體通電。
+    deliverables:
+    - 包含機構學解析過程的總結報告
+    - 軌跡模擬結果影像
+  assignment:
+    title: 5 機器手關節結構機構學建模
+    deliverables:
+    - 機器手指 1 根的正向運動學方程式推導結果
+    - 隨關節角度變化之指尖位置變化預測數據
+    rubric:
+    - 旋轉矩陣的數學準確性
+    - 正向運動學方程式的物理合理性
+    - 報告的邏輯架構
+  quiz:
+  - question: 在機器人機構學中，不考慮力或力矩，僅描述運動的學科為何？
+    choices:
+    - 動力學 (Dynamics)
+    - 機構學 (Kinematics)
+    - 控制理論 (Control Theory)
+    - 材料力學 (Material Mechanics)
+    answer_index: 1
+    explanation: 機構學是不包含力與力矩，以位置、速度、加速度為中心的運動理論 [S1]。
+  - question: 在 3 維空間中，定義兩個座標系間方向的矩陣為何？
+    choices:
+    - 旋轉矩陣 (Rotation Matrix)
+    - 質量矩陣 (Mass Matrix)
+    - 剛性矩陣 (Stiffness Matrix)
+    - 阻尼矩陣 (Damping Matrix)
+    answer_index: 0
+    explanation: 旋轉矩陣是將兩個座標系間的方向進行數學變換的正交矩陣 [S1]。
+  completion_criteria:
+  - 完成理論課程學習
+  - 提交機構學解析結果報告
+  - 達到理論測驗 100 分
+  source_ids:
+  - S1
+- id: M2
+  slug: tendon-driven-design
+  phase_id: P1
+  title: 肌腱驅動機制設計
+  estimated_hours: 10.0
+  prerequisites:
+  - M1
+  objectives:
+  - 理解肌腱驅動機制的基本動力結構與關節模擬原理。
+  - 學習用於精密機器手的肌腱材料 (Dyneema SK78) 特性。
+  - 熟悉肌腱的張力傳遞路徑與絞盤設計時的摩擦及磨損防護方法。
+  - 計算致動器的失速扭力與肌腱驅動時的機械增益。
+  theory_markdown: '## 肌腱驅動機制基礎
+
+
+    肌腱驅動 (Tendon-driven) 系統是一種透過肌腱（繩索）將遠端致動器的張力傳遞至關節來驅動的方式 [S9]。模仿生物手指的肌腱結構，將致動器移動至手掌或前臂，可減輕手指本身的質量，並實現精密的動作
+    [S10]。
+
+
+    ### 1. 肌腱的選擇與張力傳遞
+
+    本設計採用高強度、低延伸率的纖維 Dyneema SK78 [S16]。此材料在直徑 1.5 mm 時具有 230 daN（約 230 kgf）的斷裂負載，運作延伸率低於
+    1%，適合精密的位置控制 [S16]。
+
+
+    ### 2. 機械增益與致動器選型
+
+    XM430-W350-T 智慧致動器可提供 4.1 N·m 的失速扭力 [S11]。肌腱透過旋轉軸的絞盤半徑進行力轉換，因此致動器的扭力輸出會置換為肌腱的張力。整個系統使用
+    11 台致動器，峰值電流總和可達約 25.3 A [S11]。僅比較保險絲與負載/電源額定值無法保證安全性或動作順序。請務必審閱保險絲製造商的時間-電流曲線與電源
+    OCP 特性，以確認保護協調性 [S15, S24, S25]。
+
+
+    ### 3. 安全與保護設計
+
+    每個 12 V 電源分路均透過獨立保險絲運作 [S15, S24]。 3 個電源轉接器額定皆為 11.5 A，總電流容量達 34.5 A，足以負載系統峰值電流
+    25.3 A [S11, S15]。設計時應確保分路總額定值高於致動器總峰值電流，以確保操作安全性。'
+  worked_examples:
+  - '範例 1：肌腱驅動時的張力計算
+
+    當致動器扭力 (τ) 為 1 N·m，絞盤半徑 (r) 為 0.01 m 時，肌腱張力 (T) 為 T = τ/r = 1/0.01 = 100 N。設計時須考慮
+    Dyneema SK78 相對於斷裂負載 230 daN（約 2300 N）的安全係數 [S16]。'
+  - '範例 2：電源分路分配與保護
+
+    總共 11 台致動器的失速電流合計為 25.3 A [S11]。若分配至 3 個分路，分別為 4 台、 4 台、 3 台，各分路的最大負載分別為 9.2 A、
+    9.2 A、 6.9 A。僅比較保險絲與負載/電源額定值無法保證安全性或動作順序。請審閱保險絲製造商的時間-電流曲線與電源 OCP 特性，以確認保護協調性
+    [S24, S25]。'
+  lab:
+    title: 肌腱張力與關節摩擦測量實習
+    steps:
+    - 使用提供的連桿與軸承組裝手指關節模型。
+    - 連接肌腱並使用張力調整器設定初始張力。
+    - 將三用電表設為 DC 電壓模式，物理斷開各分路的 12 V 電源轉接器輸出進行確認。
+    - 電源開啟前，手動測量並記錄關節旋轉摩擦力。
+    safety:
+    - 在維修或接近設備前，須將 3 個絕緣電源轉接器物理斷開，並使用三用電表確認 DC 電壓低於 1 V。
+    - 電源開啟時，絕不可接近手指的可移動範圍。
+    - 必須佩戴耐衝擊防護眼鏡。
+    deliverables:
+    - 隨關節旋轉角度的肌腱張力測量數據
+    - 摩擦力分析報告
+    - 最終安全測量紀錄
+  assignment:
+    title: 5 機器手肌腱路徑設計
+    deliverables:
+    - 機器手指肌腱路徑 CAD 圖檔
+    - 肌腱摩擦與損失計算書
+    - 各分路電源負載分配與保險絲保護設計圖
+    rubric:
+    - 肌腱路徑設計是否已將彎曲處的摩擦最小化？
+    - 是否考量了 Dyneema SK78 的物理特性？
+    - 3 個電源分路的負載分配是否適當反映了致動器失速電流？
+    - 保險絲及電源短路防護設計是否符合 BOM 規格？
+  quiz:
+  - question: 使用 Dyneema SK78 肌腱的主要優點為何？
+    choices:
+    - 因高延伸率產生的衝擊吸收
+    - 極低的運作延伸率與高斷裂負載
+    - 比金屬輕的重量與低抗拉強度
+    - 導電性
+    answer_index: 1
+    explanation: Dyneema SK78 的延伸率低於 1%，運作極為精確，且為斷裂負載極高的高性能纖維 [S16]。
+  - question: 使用 3 個 12 V 電源轉接器（各 11.5 A）的原因何者最為適當？
+    choices:
+    - 為了用單一電源驅動所有致動器
+    - 為了將電壓增幅至 36 V 以提高扭力
+    - 為了分散並承載致動器的總峰值電流，並透過個別分路保險絲進行保護
+    - 為了消除電源雜訊
+    answer_index: 2
+    explanation: 僅比較保險絲與負載/電源額定值無法保證安全性或動作順序。請審閱保險絲製造商的時間-電流曲線與電源 OCP 特性，以確認保護協調性
+      [S11, S15, S25]。
+  completion_criteria:
+  - 所有實習數據與圖檔必須包含於最終報告中。
+  - 物理斷開電源後，須以測量證明 3 個分路的 DC 電壓皆低於 1 V。
+  - 肌腱路徑設計必須包含考量絞盤摩擦的解析。
+  source_ids:
+  - S9
+  - S10
+  - S16
+  - S11
+  - S15
+  - S24
+  - S25
+- id: M3
+  slug: actuator-controller-selection
+  phase_id: P1
+  title: 致動器與控制器選型
+  estimated_hours: 10.0
+  prerequisites:
+  - M2
+  objectives:
+  - 理解 DYNAMIXEL XM430-W350-T 致動器的額定電壓、電流與通訊特性。
+  - 熟悉 OpenCR 1.0 控制器的 DYNAMIXEL 連接埠架構與 12V 電源分離結構。
+  - 設計使用 FSR 402 感測器與 10kΩ 電阻的分壓電路。
+  - 計算系統電源需求並建立獨立分路保險絲保護設計。
+  theory_markdown: '### 致動器與控制器系統設計理論
+
+
+    #### 1. 致動器選型與電源特性
+
+    為了機器手的精密驅動，採用 DYNAMIXEL XM430-W350-T。此致動器於 12V 額定電壓下運作，失速 (Stall) 電流為 2.3A [S11]。整個機器手由
+    11 台致動器組成，總失速電流合計約達 25.3A。因此，為了穩定驅動，需要獨立的電源供應體系。
+
+
+    #### 2. 控制器架構
+
+    OpenCR 1.0 搭載 216MHz ARM Cortex-M7 處理器，適合即時控制 [S13]。此控制器支援將 12V 致動器電源與邏輯/感測器電源進行物理分離的架構。由於
+    FSR 感測器等類比輸入必須在 0~3.3V 範圍內處理，感測器分壓電路務必由 OpenCR 的 3.3V 感測器軌供電 [S13]。
+
+
+    #### 3. 過電流保護與電源分路設計
+
+    使用輸出 138W 的 MEAN WELL GST160A12-R7B 轉接器 3 台 [S15]。各轉接器額定電流為 11.5A，據此建立 3 個獨立的
+    12V 分路。每個分路均安裝 10A ATOF 串聯式保險絲，以在發生過電流時保護電路 [S24, S25]。保險絲應設定低於額定電流 11.5A，以達成保護協調性。
+
+
+    #### 4. 感測器訊號獲取
+
+    FSR 402 具有壓力增加時電阻降低的特性 [S12]。將其與 10kΩ 固定電阻以電壓分壓器連接，將力變化轉換為電壓訊號，並輸入至 OpenCR 的 12bit
+    ADC 埠 [S12, S13, S26]。'
+  worked_examples:
+  - 範例 1：確認各分路最大電流。若單一分路連接 4 台 XM430 致動器，失速電流合計為 4 * 2.3A = 9.2A。此數值滿足轉接器 11.5A 額定與串聯式保險絲
+    10A 額定，維持在安全範圍內 [S11, S15, S25]。
+  - 範例 2：FSR 分壓電路電壓計算。在 3.3V 供應電壓下，當 FSR 電阻為 R_fsr 時，ADC 輸入電壓 V_adc = 3.3 * (10k /
+    (10k + R_fsr)) V。依據感測器範圍 (0.2N~20N) 確認電阻變化，以校準確保不超過 0~3.3V 範圍 [S12, S13, S26]。
+  lab:
+    title: 電源分路建構與 ADC 感測器介面實習
+    steps:
+    - 於每個 MEAN WELL 轉接器輸出端連接 0AFH0001Z 保險絲座並插入 0287010 10A 保險絲。
+    - 將三用電表設為 DC 電壓模式，確認各分路電壓皆為穩定的 12V。
+    - 使用 10kΩ 電阻與 FSR 402 在 OpenCR 的 3.3V 感測器軌上架設分壓電路。
+    - 在無電源狀態下，確認分壓電路輸出電壓位於 0~3.3V 範圍內。
+    safety:
+    - 作業開始前，請物理斷開 3 台轉接器的 AC 電源，並確認三用電表顯示為 0V。
+    - 必須隨時佩戴耐衝擊防護眼鏡。
+    - 電源開啟時，絕不可更改電路或觸碰線路。
+    - 明示保險絲僅用於過電流截斷，不得作為計畫停止手段。
+    deliverables:
+    - 各分路 12V 輸出測量紀錄表
+    - FSR 分壓電路組裝完成照
+    - 配置好的線路圖
+  assignment:
+    title: 電源分路與保護設計審核
+    deliverables:
+    - 整個機器手的電流分路分配表（各分路致動器分配）
+    - 證明選用保險絲在保護致動器失速電流的同時，不超過轉接器容量的計算書
+    rubric:
+    - 獨立保險絲是否已準確配置於各分路？
+    - 致動器分路分配是否符合 4/4/3 之規定？
+    - 感測器電源是否由 3.3V 感測器軌（而非 12V）供應？
+  quiz:
+  - question: 使用 FSR 402 感測器與 10kΩ 電阻的分壓電路，正確的電源連接為何？
+    choices:
+    - 12V 致動器電源
+    - OpenCR 3.3V 感測器軌
+    - 5V 通用電源
+    - OpenCR 12V 輸出
+    answer_index: 1
+    explanation: 由於 OpenCR 的 ADC 輸入基於 3.3V 運作，電壓分壓電路務必由 3.3V 感測器軌供電 [S13]。
+  - question: XM430-W350-T 致動器的失速電流值為何？
+    choices:
+    - 1.0A
+    - 2.3A
+    - 4.1A
+    - 11.5A
+    answer_index: 1
+    explanation: 根據資料手冊，該致動器的失速電流為 2.3A [S11]。
+  - question: 電源分路設計中絕對禁止的行為為何？
+    choices:
+    - 各轉接器輸出加裝保險絲
+    - 轉接器的陽極(+)輸出並聯
+    - 每分路使用 10A 保險絲
+    - 使用絕緣型轉接器
+    answer_index: 1
+    explanation: 轉接器的陽極(+)輸出必須維持獨立分路，絕對禁止並聯 [B3]。
+  completion_criteria:
+  - 實習中已用三用電表驗證 3 個獨立分路的 12V 電壓
+  - 已完成 FSR 402 感測器分壓電路配線與 ADC 輸入電壓範圍確認
+  - 提交電源分路與保護設計報告並通過
+  source_ids:
+  - S4
+  - S5
+  - S11
+  - S13
+  - S15
+  - S24
+  - S25
+  - S12
+  - S26
+- id: M4
+  slug: 3d-printing-assembly
+  phase_id: P2
+  title: 3D 列印與零件加工
+  estimated_hours: 15.0
+  prerequisites:
+  - M3
+  objectives:
+  - 理解使用碳纖維強化 PC 線材 (PC-CF) 進行零件製作與最佳化列印設定。
+  - 習得熱壓入嵌件 (Heat-set insert) 與套筒軸承的精密組裝公差管理。
+  - 理解用於肌腱驅動機制的 Dyneema 線材處理與絞盤設計結構。
+  - 熟練確保機器人結構尺寸穩定性與剛性的加工與緊固技術。
+  theory_markdown: '### 3D 列印與零件加工理論
+
+
+    #### 碳纖維強化工程材料 (PC-CF)
+
+    PC (Polycarbonate) 具備優異的剛性與耐熱性，添加碳纖維後的 PC-CF 線材更能將剛性最大化，適合製作結構用零件 [S19]。然而，由於碳纖維的磨蝕性，務必使用硬化鋼噴嘴
+    [S19]，且需在 285°C 左右的高溫下輸出 [S19]。
+
+
+    #### 為了精密組裝的嵌件與緊固
+
+    為了讓塑膠輸出件能進行重複的組裝與拆卸，採用熱壓入螺紋嵌件 [S21]。針對 M3 嵌件，CAD 設計時需預留 4.0mm 直徑的導引孔，以確保安放於精確位置
+    [S21]。此外，免潤滑聚合物套筒軸承 (iglide J) 與 8mm 鋁合金軸組裝時，壓入後內徑需達到最佳間隙，且與軸徑 8mm 的公差管理至關重要 [S17,
+    S18]。
+
+
+    #### 肌腱驅動結構
+
+    Dyneema SK78 纖維在直徑 1.5mm 時具有 230 daN 的高斷裂負載與低於 1% 的延伸率 [S16]，是鋼纜的優質替代品。由於肌腱在旋轉軸上會反覆彎曲，絞盤邊緣需進行圓角處理，以防止因摩擦導致斷裂的結構設計至關重要。'
+  worked_examples:
+  - 範例 1：PC-CF 線材噴嘴選擇 - 考量碳纖維的高磨蝕性，Brass (黃銅) 噴嘴會迅速磨損導致輸出品質下降與噴嘴阻塞，因此必須確認選用硬化鋼 (Hardened
+    steel) 噴嘴 [S19]。
+  - 範例 2：嵌件孔設計 - Accu HTBI-M3-BR 嵌件外徑為 4.4mm，但官方推薦孔徑為 4.0mm [S21]，故 CAD 設計時將孔徑固定為
+    4.0mm，以利熱壓入時塑膠能充分滲入嵌件紋路 (knurling) [S21]。
+  lab:
+    title: 手指結構製作與組裝實習
+    steps:
+    - 設定配備硬化鋼噴嘴的 FDM 3D 列印機進行碳纖維 PC 線材列印環境 [S19]。
+    - 輸出手指連桿與手掌框架後，進行支撐去除與表面整理。
+    - 使用熱工具將熱壓入嵌件垂直安放於 4.0mm 導引孔 [S21]。
+    - 依照軸承規格切割 IGUS 精密鋁合金軸並進行末端倒角 [S18]。
+    - 將套筒軸承壓入殼體後，插入軸以確認間隙 [S17]。
+    - 使用 M3 帽頭螺絲鎖固結構件與感測器支架 [S20]。
+    safety:
+    - 注意高溫噴嘴 (285°C) 與底板 (110°C) 造成的燙傷風險 [S19]。
+    - 進行輸出件後加工與倒角時，務必佩戴防護眼鏡。
+    - 嵌件加熱時可能產生煙霧，請啟動通風設備。
+    - 通電前請確認所有機械緊固狀態。
+    deliverables:
+    - 製作完成的 5 機器手結構件（連桿、手掌）。
+    - 熱壓入嵌件垂直度與軸承間隙測量紀錄。
+    - 最終緊固部位肉眼檢測完成報告。
+  assignment:
+    title: 機器手製作精度驗證
+    deliverables:
+    - 完成結構件的 CAD 數據與實際尺寸測量比較表
+    - 組裝公差管理計畫書
+    - 肌腱繞線結構的減摩擦設計說明書
+    rubric:
+    - 熱壓入嵌件是否垂直安放（優/良/差）
+    - 軸-軸承組裝後是否能平順旋轉（合格/不合格）
+    - 是否遵守 BOM 表中所列零件額定與型號規格 [B10, B11, B12, B13, B14]
+  quiz:
+  - question: 使用 PC-CF 線材時，必須使用硬化鋼噴嘴的主要原因為何？
+    choices:
+    - 為了防止碳纖維磨蝕性導致黃銅噴嘴快速磨損
+    - 因線材熔點低，一般噴嘴無法列印
+    - 為了增加輸出件表面光澤
+    - 為了提高擠出速度
+    answer_index: 0
+    explanation: 碳纖維具有極高的磨蝕性，會迅速破壞一般黃銅噴嘴，故必須使用硬化鋼噴嘴 [S19]。
+  - question: 使用 M3 熱壓入嵌件 (Accu HTBI-M3-BR) 時，推薦的導引孔直徑為何？
+    choices:
+    - 3.0mm
+    - 4.0mm
+    - 4.4mm
+    - 5.0mm
+    answer_index: 1
+    explanation: 根據官方資料手冊，推薦的孔徑為 4.0mm [S21]。
+  completion_criteria:
+  - 所有結構零件皆已使用 FDM 3D 列印機製作完成 [B10]
+  - 熱壓入嵌件皆準確安放於所有指定孔位 [B14]
+  - 鋁合金軸與套筒軸承的組裝間隙符合基準值 [B11, B12]
+  - 緊固時正確使用了 BOM 規定的 M3 帽頭螺絲 [B13]
+  source_ids:
+  - S19
+  - S21
+  - S17
+  - S18
+  - S16
+  - S20
+- id: M5
+  slug: bearing-fastener-install
+  phase_id: P2
+  title: 軸承與緊固零件安裝
+  estimated_hours: 10.0
+  prerequisites:
+  - M4
+  objectives:
+  - 理解製作精密機器手時，軸承與軸的機械公差及安裝原理。
+  - 習得使用熱壓入嵌件 (Heat-set insert) 確保工程塑膠零件緊固強度的方法。
+  - 使用適當的扭力與緊固規格，以將組裝間隙最小化。
+  theory_markdown: '### 軸承與軸的公差管理
+
+    為了確保精密機器手關節的平順運動與剛性，採用 iglide® J 套筒軸承 (JSM-0810-10) 與 8 mm 鋁合金精密軸 (AWMP-08)。套筒軸承設計為在壓入
+    (press-fit) 殼體時內徑會隨之調整，關鍵在於遵守殼體的建議內徑公差 [S17, S18]。若出現間隙，將導致關節精度下降；若過緊，則會增加摩擦力，降低致動器
+    (DYNAMIXEL XM430) 的電流效率。
+
+
+    ### 熱壓入嵌件安裝
+
+    PC-CF (碳纖維強化 PC) 輸出件因材料特性，若直接鎖入金屬螺絲，螺紋易磨損。為此採用黃銅材質的熱壓入嵌件 (HTBI-M3-BR) [S21]。嵌件置入
+    4.0 mm 導引孔後加熱，熔化周邊樹脂進行緊固，即使反覆拆裝也能保持高度機械強度 [S21]。此時若嵌件傾斜，將導致組裝後的連桿對齊失準，故垂直度維持至關重要。'
+  worked_examples:
+  - 範例 1：確認殼體內徑 - iglide® JSM-0810-10 軸承外徑為 10 mm。因此殼體孔徑須設計為 10 mm；若未遵守嵌件插入導引孔 4.0
+    mm，將導致嵌件晃動或殼體破裂 [S17, S21]。
+  - 範例 2：M3 螺絲組裝 - M3x10 帽頭螺絲使用 2.5 mm 六角扳手鎖固。過大扭力會導致嵌件周邊樹脂龜裂，故應在「螺絲無法再轉動的瞬間」以最小力道固定
+    [S20]。
+  lab:
+    title: 機器手關節精密組裝
+    steps:
+    - 1. 確認 PC-CF 輸出件殼體內的 4.0 mm 導引孔潔淨無虞，並將嵌件垂直對齊。
+    - 2. 將烙鐵加熱至適當溫度，緩慢垂直壓入嵌件，確保其與殼體表面平行。
+    - 3. 將 iglide® 軸承壓入孔位，插入 8 mm 鋁合金軸確認間隙與阻力。
+    - 4. 使用 M3 螺絲完成連桿間的鎖固，並測試關節運動，驗證摩擦力是否均勻。
+    safety:
+    - 烙鐵溫度極高，小心燙傷，加熱後應立即置於架上。
+    - 嵌件壓入時產生的微細粉塵請勿吸入，務必徹底通風。
+    - 作業時務必佩戴防護眼鏡。
+    - 若偵測到異常發熱、氣味或煙霧，請勿靠近，並由危險區域外透過指定的建築配電盤斷路器或經認證的 upstream master disconnect 切斷
+      3 個轉接器的供電並撤離。若危險區域外無可操作的 upstream 斷電手段，禁止系統通電。扭力解除不能代替切斷電源。維修與接近須在計畫停止後，確認物理斷開並驗證無電狀態下執行。
+    deliverables:
+    - 各關節摩擦測試紀錄
+    - 嵌件垂直對齊照片
+    - 組裝後的連桿自由度與間隙測量紀錄
+  assignment:
+    title: 組裝公差與緊固力分析報告
+    deliverables:
+    - 關節組裝順序與扭力管理計畫書
+    - 間隙出現時的解決方案（使用墊片 Shim 或修正公差）說明
+    - 組裝完成的機器手連桿夾持測試預備數據
+    rubric:
+    - 是否明確描述了嵌件插入的垂直度？
+    - 是否正確解釋了軸承與軸的公差概念？
+    - 是否遵守組裝階段的安全規則？
+  quiz:
+  - question: 為何 iglide® J 軸承在壓入殼體後會調整內徑？
+    choices:
+    - 因軸承材料彈性，壓入時內徑會自動變大。
+    - 因壓入過程設計為讓軸承內徑精確配合殼體孔徑公差。
+    - 因壓入前的內徑製作得總是小於基準值。
+    answer_index: 1
+    explanation: iglide® 套筒軸承在壓入前製作得比基準值大，當壓入正確的殼體孔徑時，會形成符合設計公差的內徑 [S17]。
+  - question: 在 PC-CF 輸出件使用黃銅熱壓入嵌件時，適當的導引孔大小為何？
+    choices:
+    - 3.5 mm
+    - 4.0 mm
+    - 4.4 mm
+    answer_index: 1
+    explanation: 根據資料手冊，HTBI-M3-BR 嵌件的建議導引孔大小為 4.0 mm [S21]。
+  completion_criteria:
+  - 已確認 5 根手指關節的摩擦阻力均勻，並提交測量紀錄。
+  - 已完成所有嵌件是否與 PC-CF 殼體水平的肉眼與尺寸檢查。
+  - 誓約遵守組裝安全守則並提交作業紀錄簿。
+  source_ids:
+  - S17
+  - S18
+  - S20
+  - S21
+- id: M6
+  slug: wiring-safety-system
+  phase_id: P2
+  title: 配線與安全電源分路建構
+  estimated_hours: 10.0
+  prerequisites:
+  - M5
+  objectives:
+  - 理解為驅動致動器配置獨立 12 V 電源分路的方法。
+  - 學習 ATOF 保險絲在過電流保護中的角色與選用原理。
+  - 習得安全電源管理與物理斷電協定。
+  - 建構 OpenCR 控制器與 FSR 感測器的安全電壓分壓電路。
+  theory_markdown: '## 安全配線與電源分離原理
+
+
+    5 機器手系統使用了多個高扭力致動器，因此高效且安全的電源分配至關重要。本專案使用 11 個電源轉接器，將致動器以 4 台/4 台/3 台為單位分路佈置，旨在分散各分路的電流負載並提升電源穩定性
+    [S15]。
+
+
+    ### 1. 電源獨立性確保
+
+    各轉接器的陽極(+)輸出必須維持獨立分路，嚴禁任意合線或綑綁。請在 [S15] 明示的轉接器額定輸出電流 (11.5 A) 範圍內，承載致動器峰值電流（XM430-W350-T
+    每 1 台 2.3 A）[S11]。 4 台單位分路的峰值電流合計為 9.2 A，在轉接器的連續輸出允許範圍內。
+
+
+    ### 2. 過電流保護 (Protection Coordination)
+
+    於每個分路配置 10 A ATOF 保險絲，以保護線路或致動器異常時的過電流 [S25]。僅比較保險絲與負載/電源額定值無法保證安全性或動作順序。請審閱保險絲製造商的時間-電流曲線與電源
+    OCP 特性，以確認保護協調性。保險絲選用務必參考製造商提供的「Time-Current Curve」，且非負載電流低即代表安全 [S25]。
+
+
+    ### 3. 控制電路分離
+
+    使用 DYNAMIXEL 連接埠內建的 OpenCR 控制板，藉由移除複雜的外部橋接電路來提升重現性 [S13]。FSR 力感測器為將電壓轉換為 ADC 輸入，須使用
+    3.3 V 感測器軌的供電分壓電路，並須與 12 V 致動器電源電氣分離 [S13]。
+
+
+    ### 4. 作業安全守則
+
+    由於工作檯原型並非經認證的機械安全系統，在維修或修正作業前，務必物理斷開 3 個電源轉接器，並以三用電表 DC 電壓模式確認各分路殘留電壓低於 1 V [S7]。'
+  worked_examples:
+  - 若偵測到異常發熱、氣味或煙霧，請勿靠近，並由危險區域外透過指定的建築配電盤斷路器或經認證的 upstream master disconnect 切斷 3
+    個轉接器的電源後撤離。若危險區域外無可操作的 upstream 斷電手段，禁止系統通電。扭力解除不能代替切斷電源。維修與接近須在計畫停止後，確認物理斷開並驗證無電狀態下執行
+    [S11] [S25]。
+  - 範例 2：FSR ADC 電路電壓 - 使用 OpenCR 的 3.3 V 感測器軌連接 10 kΩ 分壓電阻與 FSR 402 [S13, S26]。感測器訊號電壓須保持在
+    0~3.3 V 範圍內，且此電路必須與 12 V 致動器電源電路物理/電氣分離以進行保護。
+  lab:
+    title: 電源分路線束製作與安全檢查
+    steps:
+    - 於每個轉接器輸出端烙接 ATO 串聯式保險絲座，並插入 10 A ATOF 保險絲 [S24, S25]。
+    - 使用 Molex Micro-Fit 3.0 連接器製作致動器與感測器連接線束 [S14]。
+    - 將 OpenCR 板與各致動器以 3 個分路分配佈線，並連接至各電源轉接器 [S13]。
+    - 電源開啟前，以三用電表電阻模式檢查各轉接器輸出端子的絕緣狀態。
+    - 電源開啟後，於電壓模式確認各分路皆為 12 V，斷電時務必移除所有 3 個轉接器。
+    safety:
+    - 維修前請將 3 個電源轉接器物理斷開。
+    - 確認殘留電壓低於 1 V 後，方可更換零件。
+    - 電源開啟時，手部勿置於可移動範圍內。
+    - 所有接線處皆需絕緣，烙鐵作業時請佩戴防護眼鏡。
+    deliverables:
+    - 製作完成的電源分路線束照片
+    - 各分路測量電壓紀錄表
+    - 配線圖審核確認書
+  assignment:
+    title: 安全配線設計報告
+    deliverables:
+    - 3 個電源分路的致動器配置設計方案（每分路 4 台/4 台/3 台）
+    - 各分路過電流截斷計算書（峰值電流與保險絲額定比較）
+    - 計畫停止後，維修與接近前將 3 個轉接器物理斷開，並確認各分路無電狀態的執行紀錄
+    rubric:
+    - 是否遵守電源獨立性與分離原則？
+    - 保險絲與連接器額定是否符合負載？
+    - 電源分離與殘留電壓確認協定是否符合安全指引？
+  quiz:
+  - question: 是否可將各電源轉接器的 12 V 輸出(+)並聯？
+    choices:
+    - 可以，電流供應能力會提高。
+    - 不行，必須維持獨立分路。
+    - 電壓一致時即可。
+    - 加裝保險絲即可。
+    answer_index: 1
+    explanation: 各轉接器輸出必須保持獨立，絕對禁止並聯 [S15]。
+  - question: 機器手維護前，最優先執行的安全措施為何？
+    choices:
+    - 軟體扭力解除
+    - 三用電表電阻測量
+    - 3 個電源轉接器的物理斷開與殘留電壓確認
+    - 按下計畫停止按鈕
+    answer_index: 2
+    explanation: 維修前務必物理斷開 3 個電源轉接器，並以三用電表確認殘留電壓低於 1 V。
+  - question: FSR 力感測器 ADC 電路應使用哪種電源軌？
+    choices:
+    - 12 V 致動器軌
+    - 5 V 電源軌
+    - 3.3 V 感測器軌
+    - 24 V 電源軌
+    answer_index: 2
+    explanation: 為了保護 OpenCR 的 ADC 電路，必須使用 3.3 V 感測器軌 [S13]。
+  completion_criteria:
+  - 3 個獨立分路線束建構及保險絲安裝完成
+  - 各分路無負載電壓實測為 12 V
+  - 物理斷開電源後，所有測量節點殘留電壓皆小於 1 V 並完成紀錄
+  - 配線安全設計報告提交並通過
+  source_ids:
+  - S14
+  - S24
+  - S25
+  - S7
+  - S15
+  - S11
+  - S13
+  - S26
+- id: M7
+  slug: firmware-development
+  phase_id: P3
+  title: 韌體開發與控制
+  estimated_hours: 15.0
+  prerequisites:
+  - M6
+  objectives:
+  - 理解 DYNAMIXEL 智慧致動器通訊與控制框架。
+  - 實現利用 OpenCR 控制板進行致動器與 FSR 感測器訊號獲取。
+  - 設計即時機器人控制狀態機與閉迴路回饋迴路。
+  - 編寫安全電源管理與扭力解除序列程式。
+  theory_markdown: '### 韌體架構與 DYNAMIXEL 控制
+
+    機器手的韌體於高速迴路中進行感測器數據採集並處理致動器指令。 `OpenCR 1.0` 控制器以 216MHz ARM Cortex-M7 處理器為核心 [S13]，無需外部橋接即可處理
+    DYNAMIXEL 協定 2.0 [S11]，將延遲減至最低。各致動器支援電流、速度、位置模式，機器手採用透過電流控制的扭力基礎抓握策略。
+
+
+    ### FSR 力回饋系統
+
+    FSR 402 感測器具有與施加力成反比的電阻特性 [S12]。利用 OpenCR 的 12 位元 ADC [S13]，在 3.3V 感測器軌上架設 10kΩ
+    電阻與分壓電路。分壓電壓透過 `ADC值 = (V_in * R_fsr) / (R_fsr + R_ref)` 進行正規化，此數值將與手指肌腱張力連動，作為抓握力回饋使用。
+
+
+    ### 安全控制例程
+
+    為確保安全，系統停止分為兩階段。軟體階段解除致動器扭力 (Torque Off) 以即時移除物理驅動力。維修前務必物理斷開 3 個獨立電源轉接器，並使用三用電表
+    DC 模式確認各分路皆低於 1V。'
+  worked_examples:
+  - 1. 致動器目標位置/電流設定：使用 DYNAMIXEL SDK 設定 XM430 致動器的電流限制 (Goal Current)，並透過根據感測器值產生的
+    PID 迴路來更新手指關節最終位置的範例。
+  - 2. FSR 電壓數據濾波：為去除 ADC 採集之原始數據雜訊，採用移動平均濾波器 (Moving Average Filter)，並將上限 (20N) 與下限
+    (0.2N) 範圍正規化的程式實作 [S12]。
+  lab:
+    title: 機器手整合控制與精密抓握實習
+    steps:
+    - 以三用電表 DC 模式確認各獨立分路電壓低於 1V 後，方可開始組裝。
+    - 於 OpenCR 的 3.3V 感測器軌上烙接 FSR 電壓分壓電路並連接至 ADC 埠。
+    - 使用 DYNAMIXEL SDK 掃描 11 台致動器 ID 並設定初始位置。
+    - 無負載狀態下測試手指關節驅動指令，調整肌腱延伸率與張力。
+    - 利用序列監控視窗視覺化 FSR 感測器數據，微調抓握力響應。
+    safety:
+    - 絕不可將 5V 或 12V 致動器電源作為 FSR 感測器電路的供電電源。
+    - 系統通電時，絕不可將手置於手指可移動範圍內，並務必使用固定夾具。
+    - 轉接器分路的陽極(+)端子絕不可彼此連接。
+    - 維修/組裝接近前，必須物理斷開 3 個電源轉接器，並以儀器確認各分路電壓低於 1V。
+    deliverables:
+    - 包含即時感測器數據回饋的韌體原始程式碼
+    - 電壓分壓數據正規化與校準數據表
+    - 致動器回饋迴路正常運作紀錄檔
+  assignment:
+    title: 抓握狀態機設計與實作
+    deliverables:
+    - 抓握與釋放狀態機圖表
+    - 電流基礎扭力控制實作程式碼
+    - 最終性能評估報告
+    rubric:
+    - 依據感測器數值，電流限制範圍 (0-2.3A) 是否穩定控制？
+    - 當發出扭矩釋放命令時，物理張力是否會立即解除？
+    - 代碼中是否明確規定了安全的硬件隔離程序？
+  quiz:
+  - question: 配置 FSR 402 傳感器和分壓電路時，推薦的電源軌是什麼？
+    choices:
+    - 12V 執行器電源軌
+    - 5V 通用電源軌
+    - OpenCR 3.3V 傳感器電源軌
+    - 24V 外部輸入電源軌
+    answer_index: 2
+    explanation: 為了系統安全和保護 OpenCR ADC，FSR 分壓電路必須連接到 3.3V 傳感器電源軌。
+  - question: 維護機器手時，確認系統處於「無電狀態」的正確方法是什麼？
+    choices:
+    - 通過軟件發送扭矩釋放命令。
+    - 使用萬用表電阻模式檢查接線狀態。
+    - 使用萬用表直流電壓模式測量所有分支，確認電壓低於 1V。
+    - 拆除電源分支保險絲。
+    answer_index: 2
+    explanation: 物理斷電後，必須使用萬用表直流電壓模式直接確認所有分支的殘餘電壓低於 1V。
+  - question: 可以將多個獨立電源適配器的正極(+)輸出並聯連接嗎？
+    choices:
+    - 為了電流疊加，這是必要的。
+    - 絕對禁止。
+    - 如果額定輸出電流相同，則可以。
+    - 如果安裝了保險絲，則可以。
+    answer_index: 1
+    explanation: 絕對禁止將構成獨立分支的電源適配器的正極(+)輸出互相連接或集成。
+  completion_criteria:
+  - 使用萬用表驗證各分支獨立供電及保險絲保護已按 BOM 規範配置完成
+  - 確認通過 OpenCR ADC 精確獲取並過濾 5 個 FSR 傳感器的力信號
+  - 完全執行軟件扭矩釋放程序及物理斷電後的測量程序
+  - 抓取狀態機按預期處理執行器與傳感器數據，並提交最終報告
+  source_ids:
+  - S13
+  - S11
+  - S12
+- id: M8
+  slug: sensor-integration
+  phase_id: P3
+  title: 傳感器集成與反饋控制
+  estimated_hours: 10.0
+  prerequisites:
+  - M7
+  objectives:
+  - 理解使用 FSR 402 傳感器和 10 kΩ 電阻構成分壓電路的原理
+  - 熟悉 OpenCR 控制器的 ADC 功能及輸入範圍（0-3.3 V）限制條件
+  - 掌握傳感器數據的過濾與校準技術
+  - 實現基於反饋的抓取控制算法，並進行機器手接觸力控制實踐
+  theory_markdown: '## 感測器整合與接觸力回饋
+
+
+    機器手精密抓取控制，始於準確測量作用於指尖的力。FSR 402 感測器是一種壓力感測電阻器，其電阻值會隨著施加壓力增加而減少 [S12]。為將其轉換為微控制器可讀取的電壓訊號，需要電壓分壓電路。
+
+
+    ### 1。電壓分壓電路
+
+    將 FSR 感測器與 10 kΩ 分壓電阻串聯，並供應 3.3 V 感測器電源 [B4, B5, B2]。ADC 接腳連接至感測器與電阻的接觸點，輸出電壓
+    $V_{out}$ 計算方式如下：
+
+    10 kΩ 下拉分壓器使用 $V_{out}=V_{ref}\frac{R_{fixed}}{R_{FSR}+R_{fixed}}$
+
+
+    - OpenCR 控制器的 ADC 具有 12 位元解析度，且輸入範圍限制為 0~3.3 V [B2]。超出此範圍的輸入可能會損壞電路元件，因此必須僅使用指定的感測器電源軌
+    (3.3 V) [B2]。
+
+
+    ### 2。控制迴路與回饋
+
+    測得的力數據將作為 PID 控制演算法或適應性控制策略的輸入值 [S3]。當機器手抓取物體時，腱驅動馬達 (DYNAMIXEL XM430-W350-T)
+    會參考感測器數值，微調扭矩直至達到設定的目標接觸力 [B1, B4]。'
+  worked_examples:
+  - 範例 1：FSR 輸出計算。當 $R_{FSR}$ 為 5 kΩ，$R_{fixed}$ 為 10 kΩ，且以 3.3 V 輸入為基準時，$V_{out}
+    = 3.3 \times (5 / (5 + 10)) = 1.1 V。此值正常處於 ADC 輸入範圍（0-3.3 V）內。
+  - 範例 2：抓取力校準。若傳感器值因噪聲而波動，可應用簡單移動平均濾波器，以減少傳感器值的劇烈波動並穩定保持抓取力。
+  lab:
+    title: 指尖 FSR 傳感器電路構建與校準
+    steps:
+    - 將 OpenCR 的 3.3 V 傳感器軌和 GND 連接到麵包板。
+    - 將 FSR 402 與 10 kΩ 電阻串聯，構建分壓電路 [B4, B5]。
+    - 將分壓節點連接到 OpenCR 的 ADC 引腳 [B2]。
+    - 連接 PC 與 OpenCR，並執行讀取傳感器值的測試代碼。
+    - 記錄無負載狀態和施加目標力時的 ADC 值，編寫校準表。
+    safety:
+    - 接通電源前，務必使用萬用表確認 3.3 V 軌與 12 V 執行器軌之間是否存在短路 [B2]。
+    - 務必隨時佩戴護目鏡；通電期間，切勿將手放入機器手的運動範圍內。
+    - 若偵測到異常發熱、氣味或煙霧，請勿靠近。在危險區域外，請斷開預先指定的建築配電盤斷路器或認證的上游主斷路器，切斷 3 個適配器的電源後撤離。若危險區域外無可操作的上游斷電手段，則禁止對系統通電。扭矩釋放不能替代切斷電源。維護與接近操作僅能在規劃停機後，經過物理斷電及確認無電狀態後方可進行。
+    - 維修或接近傳感器前，請物理斷開 3 個絕緣電源適配器，並測量確認所有分支的電壓低於 1 V。
+    deliverables:
+    - ADC 傳感器讀取測試結果數據
+    - 傳感器校準表（ADC 值 vs 物理力）
+    - 傳感器數據過濾實現代碼
+  assignment:
+    title: 抓取力反饋控制算法實現
+    deliverables:
+    - 反饋控制代碼（傳感器讀取、目標值比較、電機扭矩調整）
+    - 抓取試驗結果圖表（時間與力）
+    - 最終報告（控制邏輯說明及抓取穩定性分析）
+    rubric:
+    - ADC 數據是否在 0-3.3 V 範圍內穩定測量？
+    - 當傳感器值達到目標值時，電機是否適當地釋放或保持扭矩？
+    - 緊急情況下的扭矩釋放功能是否能通過軟件正常運作？
+    - 報告中是否技術性描述了斷電確認程序？
+  quiz:
+  - question: 將 FSR 分壓信號輸入到 OpenCR 控制器的 ADC 引腳時，必須遵守的事項是什麼？
+    choices:
+    - 使用 12 V 執行器電源軌。
+    - 僅使用 3.3 V 傳感器電源軌。
+    - 使用 5 V 電源軌。
+    - 另外從外部供應電源。
+    answer_index: 1
+    explanation: OpenCR 的 ADC 輸入範圍為 0-3.3 V，因此為了確保不施加超過此範圍的電壓，必須僅使用 3.3 V 傳感器電源軌。
+  - question: FSR 傳感器的電阻值變化與物理力之間有什麼關係？
+    choices:
+    - 壓力增加時電阻值增加。
+    - 壓力增加時電阻值減小。
+    - 壓力變化與電阻值無關。
+    - 壓力增加時電阻值按固定比例放大。
+    answer_index: 1
+    explanation: FSR 是一種壓力感應電阻器，具有受壓時電阻值減小的特性。
+  - question: 在機器手原型開發過程中，為了維護或接近而切斷電源後，需要確認的安全狀態是什麼？
+    choices:
+    - 確認是否通過軟件釋放了扭矩。
+    - 使用萬用表測量保險絲是否斷路。
+    - 物理斷開 3 個電源適配器，並使用直流電壓模式測量確認各分支電壓低於 1 V。
+    - 關閉電源開關後，使用電阻模式測量導線狀態。
+    answer_index: 2
+    explanation: 切斷電源是指物理斷開 3 個電源，為了安全，必須使用萬用表的直流電壓模式直接測量確認所有分支電壓低於 1 V。
+  completion_criteria:
+  - 通過 ADC 讀取 FSR 值的實驗練習
+  - 抓取力反饋控制代碼達到目標值的 90% 以上
+  - 證明遵守所有安全守則（物理斷電及測量電壓）
+  - 提交最終結果報告
+  source_ids:
+  - S3
+  - S12
+  - S26
+- id: M9
+  slug: testing-validation
+  phase_id: P3
+  title: 性能測試與驗證
+  estimated_hours: 10.0
+  prerequisites:
+  - M8
+  objectives:
+  - 設計用於驗證機器手精度與重複性的定量測試指標
+  - 評估利用 FSR 傳感器數據的抓取力控制算法的穩定性
+  - 分析 DYNAMIXEL 執行器反饋數據與實際物理動作之間的誤差
+  - 掌握機械缺陷及腱驅動機制的耐久性驗證程序
+  theory_markdown: '## 性能測試與驗證理論
+
+
+    機器手的性能驗證是確認設計規格與實際物理行為之間一致性的過程 [S1]。主要指標如下：
+
+
+    ### 1. 位置與抓取精度
+
+    重複性（Repeatability）是指機器手執行相同命令時，到達位置的誤差範圍。XM430-W350-T 執行器通過內部編碼器提供精確的位置反饋 [S11]，但最終指尖位置會因腱的伸長和摩擦而產生誤差。Dyneema
+    腱的伸長率低於 1%，這對確保重複性非常有利 [S16]。
+
+
+    ### 2. 力控制與 FSR 傳感器信號處理
+
+    FSR 402 傳感器具有電阻隨所施加力減小的特性 [S12]。通過將其與 10 kΩ 電阻構成分壓電路，並用 OpenCR 的 12 位 ADC 測量 [S13,
+    S26]。傳感器數據噪聲較大，因此需要應用移動平均濾波器（Moving Average Filter）來形成穩定的抓取力反饋迴路。
+
+
+    ### 3. 過電流保護與電源穩定性
+
+    系統使用 3 個獨立的 12 V 電源分支 [S15]。每個分支由 10 A ATOF 保險絲保護 [S25]，必須分配電源以確保執行器峰值電流總和不超過保護額定值。這必須通過供應商提供的保險絲時間-電流曲線來驗證保護協調性。'
+  worked_examples:
+  - 範例 1：OpenCR ADC 電壓計算。當 FSR 電阻為 10 kΩ，串聯電阻為 10 kΩ 時，3.3 V 分壓器輸出為 V_out = 3.3 *
+    (10k / (10k + 10k)) = 1.65 V。這適合 12 位 ADC 的範圍 [S13, S26]。
+  - 範例 2：保險絲保護協調。當執行器 4 台處於堵轉狀態時，電流總和為 9.2 A [S11]。由於 10 A 保險絲的冷電阻為 7.7 mΩ [S25]，正常運行時電壓降約為
+    0.07 V，屬於可忽略水平；但在過電流情況下，精確響應需參考保險絲製造商的時間-電流曲線。
+  lab:
+    title: 機器手集成功能測試
+    steps:
+    - 在每個電源分支物理隔離的狀態下，使用直流電壓模式測量 3 個適配器的輸出，確認輸出為 12 V。
+    - 將機器手固定在安全夾具上，並將控制器（OpenCR）連接至 PC，將執行器扭矩釋放為 0。
+    - 手動對每個手指的 FSR 傳感器施加壓力，並記錄 ADC 數據變化。
+    - 在無負載狀態下，將各手指的最大運動範圍（ROM）重複動作 5 次，以確認是否存在腱干涉。
+    - 測試結束後，務必將 3 個電源適配器從牆面插座斷開，並確認殘餘電壓。
+    safety:
+    - 測試時務必佩戴護目鏡。
+    - 通電期間，請勿將手放入運動範圍內。
+    - 若偵測到異常發熱、氣味或煙霧，請勿靠近。在危險區域外，請斷開預先指定的建築配電盤斷路器或認證的上游主斷路器，切斷 3 個適配器的電源後撤離。若危險區域外無可操作的上游斷電手段，則禁止對系統通電。扭矩釋放不能替代切斷電源。維護與接近操作僅能在規劃停機後，經過物理斷電及確認無電狀態後方可進行。
+    - 未經電壓測量不得接觸系統。必須確認 DC 電壓低於 1 V。
+    deliverables:
+    - 手指抓取力傳感器校準記錄
+    - 重複動作精度測量數據
+    - 各電源分支的負載電流測量值
+  assignment:
+    title: 機器手性能分析最終報告
+    deliverables:
+    - 性能測試結果分析報告
+    - 基於數據的抓取控制算法代碼
+    rubric:
+    - 傳感器數據信噪比（SNR）分析的適當性
+    - 重複動作測試中精度的定量化
+    - 保護設計（保險絲）是否滿足系統保護意圖的理論思考
+    - 設計規格與實際成品性能指標的比較
+  quiz:
+  - question: 在使用 FSR 402 傳感器和 OpenCR ADC 組成力測量電路時，下列哪項是正確的？
+    choices:
+    - FSR 分壓器僅使用 3.3 V 傳感器電源，並將模擬輸入信號保持在 0~3.3 V 範圍內
+    - 由 FSR 和 10 kΩ 電阻組成分壓器，並使用 3.3 V 傳感器軌
+    - ADC 信號必須始終在 0~5 V 範圍內
+    - 由於 FSR 電阻恆定，因此不需要額外的分壓電阻
+    answer_index: 1
+    explanation: 使用 OpenCR 傳感器軌（3.3 V）將 ADC 輸入限制在 0~3.3 V 範圍內，並構建分壓電路以將電阻變化讀取為電壓變化
+      [S13, S26]。
+  - question: 管理 DYNAMIXEL XM430-W350-T 執行器的 12 V 電源分支的正確方法是什麼？
+    choices:
+    - 將 3 個適配器的正極(+)輸出捆綁在一起以疊加電力
+    - 為每個適配器安裝 10 A 保險絲，並作為單獨的獨立分支使用
+    - 由於電流低於保險絲額定值，無需安全驗證即可使用
+    - 電源適配器輸出在沒有保險絲的情況下直接並聯連接
+    answer_index: 1
+    explanation: 各適配器輸出必須保持獨立，並安裝符合獨立分支要求的保險絲以防止過電流 [S15]。
+  - question: 在機器手驗證階段，最重要的安全程序是什麼？
+    choices:
+    - 通過軟件釋放扭矩等同於切斷電源
+    - 務必使用萬用表確認 DC 電壓低於 1 V 後，方可接近維修
+    - 保險絲充當計劃停機裝置，因此應拔掉保險絲
+    - 通過連續性（Continuity）模式確認電源已切斷
+    answer_index: 1
+    explanation: 軟件釋放不能替代物理切斷電源，物理隔離後使用直流電壓模式測量確認無殘餘能量是必不可少的。
+  completion_criteria:
+  - 性能測試結果報告提交及獲得 70 分以上
+  - 所有 Lab 階段皆遵守安全準則及確認物理斷電
+  - 確認控制代碼中傳感器數據過濾功能的實現
+  source_ids:
+  - S1
+  - S11
+  - S16
+  - S12
+  - S13
+  - S26
+  - S15
+  - S25
+sources:
+- id: S1
+  title: 'Introduction to Robotics: Mechanics and Control - John J ... John J.Craig-Introduction
+    to Robotics Mechanics and Control ... Introduction to robotics : mechanics and
+    control : Craig ... Introduction to Robotics: Mechanics and Control (3rd Edition)
+    Introduction to robotics : mechanics and control : Craig ... Introduction to Robotics:
+    Mechanics and Control - John J ...'
+  organization: books.google.com
+  url: https://books.google.com/books/about/Introduction_to_Robotics.html?id=bhYyvgAACAAJ
+  type: textbook
+  published_at: null
+  accessed_at: '2026-08-29'
+  primary: true
+  supports:
+  - M1
+  - M9
+- id: S3
+  title: Intelligent soft robotic gripper for non-destructive grasping ...
+  organization: nature.com
+  url: https://www.nature.com/articles/s41378-026-01364-4
+  type: paper
+  published_at: null
+  accessed_at: '2026-08-29'
+  primary: true
+  supports:
+  - M8
+- id: S4
+  title: DCX 10 L 10 mm, precious metal brushes, DC motor DCX
+  organization: maxongroup.com
+  url: https://www.maxongroup.com/medias/sys_master/root/8992244170782/EN-22-96.pdf
+  type: datasheet
+  published_at: null
+  accessed_at: '2026-08-29'
+  primary: true
+  supports:
+  - M3
+- id: S5
+  title: ESP32 Wi-Fi & Bluetooth SoC | Espressif Systems
+  organization: espressif.com
+  url: https://www.espressif.com/en/products/socs/esp32
+  type: datasheet
+  published_at: null
+  accessed_at: '2026-08-29'
+  primary: true
+  supports:
+  - M3
+- id: S7
+  title: 1910.212 - General requirements for all machines ...
+  organization: osha.gov
+  url: https://www.osha.gov/laws-regs/regulations/standardnumber/1910/1910.212
+  type: standard
+  published_at: null
+  accessed_at: '2026-08-29'
+  primary: true
+  supports:
+  - M6
+- id: S8
+  title: Underactuated Robotics
+  organization: underactuated.mit.edu
+  url: https://underactuated.mit.edu/
+  type: university
+  published_at: null
+  accessed_at: '2026-08-29'
+  primary: true
+  supports:
+  - course
+- id: S9
+  title: 'Ruka-v2: Tendon Driven Open-Source Dexterous Hand with Wrist'
+  organization: arxiv.org
+  url: https://arxiv.org/abs/2603.26660
+  type: paper
+  published_at: null
+  accessed_at: '2026-08-29'
+  primary: true
+  supports:
+  - M2
+- id: S10
+  title: US11325264B1 - Tendon-driven robotic hand
+  organization: patents.google.com
+  url: https://patents.google.com/patent/US11325264B1/en
+  type: patent
+  published_at: null
+  accessed_at: '2026-08-29'
+  primary: true
+  supports:
+  - M2
+- id: S11
+  title: XM430-W350 e-Manual
+  organization: emanual.robotis.com
+  url: https://emanual.robotis.com/docs/en/dxl/x/xm430-w350/
+  type: datasheet
+  published_at: null
+  accessed_at: '2026-08-29'
+  primary: true
+  supports:
+  - M2
+  - M3
+  - M6
+  - M7
+  - M9
+  - bom
+- id: S12
+  title: FSR Model 402
+  organization: interlinkelectronics.com
+  url: https://www.interlinkelectronics.com/products/fsr-model-402
+  type: datasheet
+  published_at: null
+  accessed_at: '2026-08-29'
+  primary: true
+  supports:
+  - M3
+  - M7
+  - M8
+  - M9
+  - bom
+- id: S13
+  title: OpenCR 1.0
+  organization: emanual.robotis.com
+  url: https://emanual.robotis.com/docs/en/parts/controller/opencr10/
+  type: technical_documentation
+  published_at: null
+  accessed_at: '2026-08-29'
+  primary: true
+  supports:
+  - M3
+  - M6
+  - M7
+  - M9
+  - bom
+- id: S14
+  title: Micro-Fit 3.0 Connector Family Specification
+  organization: content.molex.com
+  url: https://www.content.molex.com/dxdam/literature/987650-5984.pdf
+  type: datasheet
+  published_at: null
+  accessed_at: '2026-08-29'
+  primary: true
+  supports:
+  - M6
+  - bom
+- id: S15
+  title: GST160A12-R7B Enclosed Desktop Power Adapter
+  organization: meanwell.com
+  url: https://www.meanwell.com/Upload/PDF/GST160A/GST160A-SPEC.PDF
+  type: datasheet
+  published_at: null
+  accessed_at: '2026-08-29'
+  primary: true
+  supports:
+  - M2
+  - M3
+  - M6
+  - M9
+  - bom
+- id: S16
+  title: D-Pro 1.5 mm
+  organization: liros.com
+  url: https://www.liros.com/catalog/en/d-pro-1-5mm-p1850/
+  type: technical_documentation
+  published_at: null
+  accessed_at: '2026-08-29'
+  primary: true
+  supports:
+  - M2
+  - M4
+  - M9
+  - bom
+- id: S17
+  title: iglide J JSM-0810-10 Sleeve Bearing
+  organization: igus.com
+  url: https://www.igus.com/product?artNr=JSM-0810-10
+  type: technical_documentation
+  published_at: null
+  accessed_at: '2026-08-29'
+  primary: true
+  supports:
+  - M4
+  - M5
+  - bom
+- id: S18
+  title: drylin R Metric Aluminum Precision Shaft AWMP
+  organization: igus.com
+  url: https://www.igus.com/product/drylin_AWMP
+  type: technical_documentation
+  published_at: null
+  accessed_at: '2026-08-29'
+  primary: true
+  supports:
+  - M4
+  - M5
+  - bom
+- id: S19
+  title: Prusament PC Blend Carbon Fiber
+  organization: prusa3d.com
+  url: https://www.prusa3d.com/product/prusament-pc-blend-carbon-fiber-black-2kg-nfc/
+  type: technical_documentation
+  published_at: null
+  accessed_at: '2026-08-29'
+  primary: true
+  supports:
+  - M4
+  - bom
+- id: S20
+  title: Socket Head Cap Screws Technical Data
+  organization: in.misumi-ec.com
+  url: https://in.misumi-ec.com/pdf/tech/press/pr1177_1178.pdf
+  type: technical_documentation
+  published_at: null
+  accessed_at: '2026-08-29'
+  primary: true
+  supports:
+  - M4
+  - M5
+  - bom
+- id: S21
+  title: M3 Heat-Fix Threaded Inserts HTBI-M3-BR
+  organization: accu-components.com
+  url: https://accu-components.com/api/product-datasheet?id=845137
+  type: datasheet
+  published_at: null
+  accessed_at: '2026-08-29'
+  primary: true
+  supports:
+  - M4
+  - M5
+  - bom
+- id: S24
+  title: ATO AFH Series In-Line Fuse Holder
+  organization: littelfuse.com
+  url: https://www.littelfuse.com/assetdocs/ato-afh-datasheet?assetguid=cbbb6f1c-c57a-4b2e-b955-39ecde7c4b16
+  type: datasheet
+  published_at: null
+  accessed_at: '2026-08-29'
+  primary: true
+  supports:
+  - M2
+  - M3
+  - M6
+  - bom
+- id: S25
+  title: ATOF 287 Series 10 A Blade Fuse
+  organization: littelfuse.com
+  url: https://www.littelfuse.com/assetdocs/littelfuse-datasheet-287-atof?assetguid=43dcdce8-8ca2-426f-8998-7e566f048d40
+  type: datasheet
+  published_at: null
+  accessed_at: '2026-08-29'
+  primary: true
+  supports:
+  - M2
+  - M3
+  - M6
+  - M9
+  - bom
+- id: S26
+  title: 10K Ohm 5 Percent 1/4W Through-Hole Resistors
+  organization: adafruit.com
+  url: https://www.adafruit.com/product/2784
+  type: technical_documentation
+  published_at: null
+  accessed_at: '2026-08-29'
+  primary: true
+  supports:
+  - M3
+  - M6
+  - M8
+  - M9
+  - bom
+bom:
+- id: B1
+  category: actuator
+  name: DYNAMIXEL 智能執行器
+  function: 腱與關節驅動
+  quantity: 11
+  model: XM430-W350-T
+  manufacturer: robotis
+  specifications:
+  - name: 堵轉電流
+    value: '2.3'
+    unit: A
+    evidence_excerpt: Stall Current 2.3 A
+  - name: 堵轉扭矩
+    value: '4.1'
+    unit: N·m
+    evidence_excerpt: Stall Torque 4.1 N·m
+  - name: 基準電壓
+    value: '12'
+    unit: V
+    evidence_excerpt: Input Voltage 12 V
+  alternatives:
+  - 相同通信規格的 DYNAMIXEL X 系列
+  compatibility:
+  - DYNAMIXEL Protocol 2.0
+  - 12 V 電源分支
+  rationale: 集成位置、速度、電流反饋的精密驅動器
+  datasheet_source_id: S11
+- id: B2
+  category: controller
+  name: 內置 DYNAMIXEL 端口機器人控制板
+  function: 無需單獨通信橋接即可執行執行器命令、傳感器採集、運行狀態機
+  quantity: 1
+  model: OpenCR 1.0
+  manufacturer: robotis
+  specifications:
+  - name: CPU 頻率
+    value: '216'
+    unit: MHz
+    evidence_excerpt: 216MHz
+  - name: 最大輸入電壓
+    value: '24'
+    unit: V
+    evidence_excerpt: 5-24 V
+  - name: ADC 分辨率
+    value: '12'
+    unit: bit
+    evidence_excerpt: Max 12bit
+  alternatives:
+  - 內置 DYNAMIXEL TTL 端口的同等級 ROBOTIS 控制器
+  compatibility:
+  - 內置 DYNAMIXEL TTL x 3
+  - 內置 DYNAMIXEL RS-485 x 3
+  - XM430-W350-T 直接連接
+  - FSR 402 分壓電路僅使用 3.3 V 傳感器電源
+  - 模擬輸入信號不超過 0~3.3 V 範圍
+  - 12 V 執行器電源與 ADC/傳感器電路隔離
+  rationale: 移除外接 RS-485/TTL 橋接器及終端/上拉電路，提高再現性與安全性
+  datasheet_source_id: S13
+- id: B3
+  category: power
+  name: 絕緣型桌面電源適配器
+  function: 執行器 12 V 分支電源供應
+  quantity: 3
+  model: GST160A12-R7B
+  manufacturer: meanwell
+  specifications:
+  - name: 輸出電壓
+    value: '12'
+    unit: V
+    evidence_excerpt: 12 V
+  - name: 額定輸出電流
+    value: '11.5'
+    unit: A
+    evidence_excerpt: 11.5 A
+  - name: 額定輸出
+    value: '138'
+    unit: W
+    evidence_excerpt: 138 W
+  alternatives:
+  - 同等級絕緣型 12 V 適配器 - 分支每路 11.5 A 以上
+  compatibility:
+  - 每個適配器輸出用作獨立保險絲分支
+  - 絕對禁止並聯正極(+)輸出
+  - 獨立分支疊加額定 34.5 A >= 執行器峰值 25.3 A
+  - 每個輸出保持獨立分支，絕對禁止並聯正極(+)輸出
+  - 3 個分支按執行器 4 台/4 台/3 台分配
+  - 每個分支使用 10 A 保險絲及可接觸的物理斷電手段
+  rationale: 在無裸露 AC 端子的情況下，為 4 台/4 台/3 台執行器構成獨立低壓 DC 分支
+  datasheet_source_id: S15
+- id: B4
+  category: sensor
+  name: 指尖力感應傳感器
+  function: 指尖接觸力測量及抓取力反饋
+  quantity: 5
+  model: FSR Model 402
+  manufacturer: interlinkelectronics
+  specifications:
+  - name: 感應部直徑
+    value: '12.7'
+    unit: mm
+    evidence_excerpt: Its active area is 12.7 mm diameter
+  - name: 感應範圍下限
+    value: '0.2'
+    unit: N
+    evidence_excerpt: Sensing range from 0.2N to 20N
+  - name: 感應範圍上限
+    value: '20'
+    unit: N
+    evidence_excerpt: Sensing range from 0.2N to 20N
+  alternatives:
+  - 具有官方數據表的薄膜力傳感器
+  compatibility:
+  - 放置於指尖墊下方
+  - 需要 ADC 輸入分壓電路
+  rationale: 在纖細指尖結構中確保接觸力反饋
+  datasheet_source_id: S12
+- id: B5
+  category: sensor
+  name: FSR 分壓用 10 kΩ 電阻
+  function: 構成 FSR 402 與分壓器，通過 OpenCR ADC 獲取力信號
+  quantity: 5
+  model: Adafruit Product 2784
+  manufacturer: adafruit
+  specifications:
+  - name: 電阻值
+    value: '10'
+    unit: kΩ
+    evidence_excerpt: 10K Ω Resistors
+  - name: 最大功率
+    value: 1/4
+    unit: Watt
+    evidence_excerpt: 1/4 Watt max dissipation
+  - name: 最大電壓
+    value: '300'
+    unit: V
+    evidence_excerpt: 300V max voltage
+  alternatives:
+  - 10 kΩ，0.25 W 以上，5% 以下軸向電阻
+  compatibility:
+  - 每對 FSR 402 1 個對應電阻 1 個
+  - OpenCR ADC 輸入
+  rationale: 明確實驗所需的分壓電阻數量與電氣額定值
+  datasheet_source_id: S26
+- id: B6
+  category: wiring
+  name: 分支用鎖定連接器
+  function: 各手指電源/信號線束的可拆卸分支
+  quantity: 12
+  model: Micro-Fit 3.0
+  manufacturer: molex
+  specifications:
+  - name: 間距
+    value: '3.00'
+    unit: mm
+    evidence_excerpt: offer a 3.00mm pitch
+  - name: 最大接點電流
+    value: '8.5'
+    unit: A
+    evidence_excerpt: 'Current (max.): 8.5A'
+  - name: 最大電壓
+    value: '600'
+    unit: V
+    evidence_excerpt: 'Voltage (max.): 600V'
+  alternatives:
+  - 具有官方額定的同等級鎖定型分支連接器
+  compatibility:
+  - 僅用於 10 A 適配器分支保險絲下流的獨立執行器/手指線束
+  - 連接器最大電流限制為 XM430 1 台的 2.3 A
+  - 不用於 9.2 A 集合分支
+  rationale: 減少振動中的脫落並簡化手指模塊更換
+  datasheet_source_id: S14
+- id: B7
+  category: wiring
+  name: ATO 線上分支保險絲座
+  function: 在各 12 V 適配器的正極(+)輸出上安裝 10 A 分支保險絲
+  quantity: 3
+  model: 0AFH0001Z
+  manufacturer: littelfuse
+  specifications:
+  - name: 連續電流額定
+    value: '15'
+    unit: A
+    evidence_excerpt: 'Continuous Current Rating: 15A'
+  - name: 最大電壓
+    value: '32'
+    unit: VDC
+    evidence_excerpt: 'Max Voltage Rating: 32V DC'
+  - name: 導線規格
+    value: '14'
+    unit: AWG
+    evidence_excerpt: 'Wire Size: 14 AWG'
+  alternatives:
+  - 32 VDC 以上，連續 15 A 以上 ATO 線上座
+  compatibility:
+  - 0287010 ATOF 10 A 保險絲
+  - GST160A12-R7B 獨立分支
+  rationale: 將各分支的過電流保護組件固定在接線圖和採購清單中
+  datasheet_source_id: S24
+- id: B8
+  category: safety
+  name: 10 A ATOF 分支保險絲
+  function: 4 台/4 台/3 台執行器獨立分支的過電流保護
+  quantity: 3
+  model: 0287010.U
+  manufacturer: littelfuse
+  specifications:
+  - name: 電流額定
+    value: '10'
+    unit: A
+    evidence_excerpt: 0287010._ 10 A
+  - name: 電壓額定
+    value: '32'
+    unit: V
+    evidence_excerpt: Blade Fuses – Rated 32V
+  - name: 代表性冷電阻
+    value: '7.70'
+    unit: mΩ
+    evidence_excerpt: 7.70 mΩ
+  alternatives:
+  - 相同 ATO 規格 10 A，32 VDC 以上保險絲
+  compatibility:
+  - 0AFH0001Z 座
+  - 每分支最多執行器 4 台，堵轉總和 9.2 A
+  rationale: 額定值低於 11.5 A 電源分支，高於 9.2 A 峰值，以保護配線故障
+  datasheet_source_id: S25
+- id: B9
+  category: transmission
+  name: Dyneema SK78 高強度纖維腱
+  function: 將執行器張力傳遞至手指關節
+  quantity: 1
+  model: D-Pro 1.5 mm / 01505-0150-010
+  manufacturer: liros
+  specifications:
+  - name: 直徑
+    value: '1.50'
+    unit: mm
+    evidence_excerpt: Diameter 1.50 mm
+  - name: 斷裂負荷
+    value: '230'
+    unit: daN
+    evidence_excerpt: Breaking Strength daN 230
+  - name: 工作伸長率上限
+    value: '1'
+    unit: '%'
+    evidence_excerpt: working stretch < 1 %
+  alternatives:
+  - 直徑 1.5 mm，斷裂負荷 230 daN 以上的可追溯 Dyneema SK78 線
+  compatibility:
+  - 捲筒邊緣倒角
+  - 必須進行反覆彎曲測試
+  rationale: 通過明確直徑、斷裂負荷、伸長率的產品，確保腱更換的再現性
+  datasheet_source_id: S16
+- id: B10
+  category: structure
+  name: FDM 結構用碳纖維 PC 線材
+  function: 製造手指連桿和手掌框架
+  quantity: 1
+  model: Prusament PC Blend Carbon Fiber
+  manufacturer: prusa3d
+  specifications:
+  - name: 線材直徑
+    value: '1.75'
+    unit: mm
+    evidence_excerpt: 1.75 mm
+  - name: 建議噴嘴溫度
+    value: '285'
+    unit: °C
+    evidence_excerpt: 285 °C
+  - name: 建議底板溫度
+    value: '110'
+    unit: °C
+    evidence_excerpt: 110 °C
+  alternatives:
+  - 具有官方物性表的 FDM 用工程線材
+  compatibility:
+  - FDM 3D 打印機
+  - 必須使用硬化鋼噴嘴
+  rationale: 使用現有的 FDM 設備製作需要剛性和尺寸穩定性的結構
+  datasheet_source_id: S19
+- id: B11
+  category: bearing
+  name: 無油聚合物套筒軸承
+  function: 管理手腕和高負載旋轉軸的摩擦與間隙
+  quantity: 4
+  model: JSM-0810-10
+  manufacturer: igus
+  specifications:
+  - name: 內徑 d1
+    value: '8'
+    unit: mm
+    evidence_excerpt: 'Dimensions : d1 8 mm d2 10 mm b1 10 mm'
+  - name: 外徑 d2
+    value: '10'
+    unit: mm
+    evidence_excerpt: 'Dimensions : d1 8 mm d2 10 mm b1 10 mm'
+  - name: 長度 b1
+    value: '10'
+    unit: mm
+    evidence_excerpt: 'Dimensions : d1 8 mm d2 10 mm b1 10 mm'
+  alternatives:
+  - 相同 8×10×10 mm 規格的官方套筒軸承
+  compatibility:
+  - 8 mm 軸
+  - 10 mm 建議公差外殼孔
+  rationale: 無油結構減少維護需求與污染
+  datasheet_source_id: S17
+- id: B12
+  category: bearing
+  name: 8 mm 精密鋁軸
+  function: JSM-0810-10 軸承的手腕/關節旋轉軸
+  quantity: 2
+  model: AWMP-08
+  manufacturer: igus
+  specifications:
+  - name: 軸徑
+    value: '8'
+    unit: mm
+    evidence_excerpt: Shaft aluminium AWMP-08, ø 8 mm
+  - name: 切割長度公差
+    value: '1'
+    unit: mm
+    evidence_excerpt: cut to a tolerance of +/- 1 mm
+  alternatives:
+  - 與 JSM-0810-10 兼容的公差明確 8 mm 軸
+  compatibility:
+  - JSM-0810-10 內徑 8 mm
+  - 切割至組裝長度後進行倒角
+  rationale: 在採購階段固定軸承內徑和軸徑，減少間隙誤差
+  datasheet_source_id: S18
+- id: B13
+  category: fastener
+  name: M3 內六角圓柱頭螺釘
+  function: 緊固手指連桿、傳感器支架、手掌框架
+  quantity: 40
+  model: M3×10 JIS B 1176
+  manufacturer: misumi
+  specifications:
+  - name: 公稱螺紋直徑
+    value: '3'
+    unit: mm
+    evidence_excerpt: Unit:mm Nominal diameter of thread(d)(15) M3
+  - name: 螺紋節距
+    value: '0.5'
+    unit: mm
+    evidence_excerpt: Unit:mm Nominal diameter of thread(d)(15) M3 Pitch of screw
+      thread(P) 0.5
+  - name: 基本頭部直徑
+    value: '5.5'
+    unit: mm
+    evidence_excerpt: Unit:mm M3 dk Max.(Basic size) 5.5
+  alternatives:
+  - 相同 M3×0.5 規格的可追溯圓柱頭螺釘
+  compatibility:
+  - M3×0.5 嵌件螺母
+  - 2.5 mm 六角扳手
+  rationale: 固定標準規格，統一 CAD 孔位與組裝工具
+  datasheet_source_id: S20
+- id: B14
+  category: fastener
+  name: M3 黃銅熱壓螺紋嵌件
+  function: 在 PC-CF 打印件中形成可重複組裝的 M3 內螺紋
+  quantity: 40
+  model: HTBI-M3-BR
+  manufacturer: accu-components
+  specifications:
+  - name: 外徑
+    value: '4.4'
+    unit: mm
+    evidence_excerpt: Diameter over Knurls (OD) 4.4mm
+  - name: 長度
+    value: '5.8'
+    unit: mm
+    evidence_excerpt: Length (L) 5.8mm
+  - name: 建議孔徑
+    value: '4'
+    unit: mm
+    evidence_excerpt: Recommended Hole Size 4mm
+  alternatives:
+  - 相同 4.4×5.8 mm 規格的 M3 黃銅熱壓嵌件
+  compatibility:
+  - M3×0.5 圓柱頭螺釘
+  - PC-CF 打印件 4.0 mm 引導孔
+  rationale: 比直接在打印件上擰螺絲更具重複拆裝的再現性
+  datasheet_source_id: S21
+capstone:
+  title: 智能 5 指機器手最終製作與測試
+  deliverables:
+  - 最終設計 CAD 文件
+  - 集成固件與控制代碼
+  - 抓取性能與耐久性測試數據
+  - 系統安全評估報告
+  - 最終項目結果報告
+  rubric:
+  - 機械精度與運作性能評估
+  - 實時控制算法實現水平
+  - 規劃停機後維護/接近操作前，物理斷電與無電測量程序的文檔完整性
+  - 文檔（BOM、圖紙）的完整性
+  - 測試數據分析與性能驗證
+  safety:
+  - 規劃停機後維護/接近操作前，物理斷開 3 個絕緣電源適配器，並記錄各分支殘餘電壓在直流電壓模式下低於 1 V
+  - 檢查各獨立電源分支的 10 A 保險絲額定值與時間-電流特性
+  - 在固定夾具中完成無負載測試後，分階段增加抓取負荷
+  - 在切割、鑽孔、腱張力及抓取測試過程中，必須佩戴防衝擊安全作業護目鏡
+generation:
+  run_id: b409b9219ba4488bb342aac4eb8f5a73
+  generated_at: '2026-08-28T22:44:06.473586Z'
+  generator: gemini
+localization:
+  source_language: ko
+  language: zh-tw
+  source_hash: 04a6aee1d1826674a78ef6415ded8556a375532ce6b7fcbe206123ddeb41ffdb
+  translator: gemini-cli
+  translated_at: '2026-08-28T23:26:15.815303Z'
+  translation_run_id: 6d06f766b906424eb1f714f11e36dcf4

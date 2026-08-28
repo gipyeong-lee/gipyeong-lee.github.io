@@ -1,0 +1,41 @@
+---
+layout: default
+---
+{% assign learn_language = page.lang | default: site.default_lang | default: 'ko' %}
+{% assign ui = site.data.learn_i18n[learn_language] %}
+{% assign learn_index_key = page.learn_index_key | default: 'courses' %}
+{% assign courses = site.data.learn[learn_index_key] %}
+<section class="learn-shell learn-catalogue">
+  {% include language-switcher.html %}
+  <header class="learn-hero">
+    <p class="learn-eyebrow">{{ ui.catalogue_eyebrow | escape }}</p>
+    <h1>Learn</h1>
+    <p class="learn-lede">{{ ui.catalogue_lede | escape }}</p>
+    <div class="learn-rule" aria-hidden="true"><span>01</span><span>{{ ui.catalogue_rule | escape }}</span></div>
+  </header>
+
+  {% if courses and courses.size > 0 %}
+  <div class="learn-course-grid">
+    {% for course in courses %}
+    <article class="learn-course-card">
+      <div class="learn-course-card__index">COURSE {{ forloop.index }}</div>
+      <h2><a href="{{ course.url | relative_url }}">{{ course.title | escape }}</a></h2>
+      <p>{{ course.summary | escape }}</p>
+      <dl class="learn-course-card__meta">
+        <div><dt>{{ ui.level | escape }}</dt><dd>{{ course.level | escape }}</dd></div>
+        <div><dt>{{ ui.estimated_time | escape }}</dt><dd>{{ course.estimated_hours }} {{ ui.hours_suffix | escape }}</dd></div>
+        <div><dt>{{ ui.modules | escape }}</dt><dd>{{ course.module_count }}{{ ui.module_suffix | escape }}</dd></div>
+        <div><dt>{{ ui.budget | escape }}</dt><dd>₩{{ course.budget_krw.min }}–₩{{ course.budget_krw.max }}</dd></div>
+      </dl>
+      <a class="learn-text-link" href="{{ course.url | relative_url }}">{{ ui.view_course | escape }} <span aria-hidden="true">→</span></a>
+    </article>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="learn-empty">
+    <span class="learn-empty__mark">LAB / 00</span>
+    <h2>{{ ui.empty_title | escape }}</h2>
+    <p>{{ ui.empty_body | escape }}</p>
+  </div>
+  {% endif %}
+</section>

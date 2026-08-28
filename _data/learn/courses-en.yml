@@ -1,0 +1,17 @@
+- slug: precise-robot-hand
+  title: Building a Sophisticated 5-Finger Robotic Hand
+  summary: A university-level practical curriculum starting from the fundamentals
+    of robotics to designing, manufacturing, controlling, and verifying an 5-finger
+    robotic hand.
+  outcome: Students will understand actuators, controllers, sensor integration, and
+    tendon-driven mechanisms, and be able to prototype a precision robotic hand.
+  level: beginner
+  estimated_hours: 100.0
+  budget_krw:
+    min: 4500000
+    max: 6500000
+  module_count: 9
+  last_reviewed: '2026-08-29'
+  curriculum_version: 1.0.0+bc95463f48e6
+  url: /learn/en/precise-robot-hand/
+  lang: en

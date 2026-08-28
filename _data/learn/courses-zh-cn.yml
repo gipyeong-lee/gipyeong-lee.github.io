@@ -1,0 +1,14 @@
+- slug: precise-robot-hand
+  title: 制作精密的 5 仿生机器人手
+  summary: 这是一个大学及研究生水平的实践型课程，从机器人工程基础出发，指导学生自行设计、制作、控制和验证 5 仿生机器人手。
+  outcome: 学生将理解执行器、控制器、传感器集成及肌腱驱动机制，并能够对精密机器人手进行原型制作。
+  level: beginner
+  estimated_hours: 100.0
+  budget_krw:
+    min: 4500000
+    max: 6500000
+  module_count: 9
+  last_reviewed: '2026-08-29'
+  curriculum_version: 1.0.0+bc95463f48e6
+  url: /learn/zh-cn/precise-robot-hand/
+  lang: zh-cn
