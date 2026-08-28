@@ -438,6 +438,80 @@ def _unsafe_emergency_isolation_instruction(value: str) -> bool:
     )
 
 
+def _unsafe_fault_response(value: str) -> bool:
+    fault = r"(?:발열|과열|냄새|연기|화재|고장|overheat|odor|smell|smoke|fire|fault)"
+    response = (
+        r"(?:토크|접근|대피|차단|분리|끄|정지|torque|access|evacuat|"
+        r"cut\s*off|disconnect|shut\s*down|stop)"
+    )
+    has_fault_response = bool(
+        re.search(
+            rf"(?:{fault}).{{0,220}}(?:{response})|(?:{response}).{{0,120}}(?:{fault})",
+            value,
+            re.I | re.S,
+        )
+    )
+    if not has_fault_response:
+        return False
+    remote_upstream_cutoff = bool(
+        re.search(r"위험\s*구역\s*밖|outside.{0,20}(?:hazard|danger)", value, re.I)
+        and re.search(
+            r"건물\s*분전반\s*차단기|upstream\s+master\s+disconnect|"
+            r"upstream.{0,30}(?:차단|disconnect)|building.{0,30}(?:breaker|disconnect)",
+            value,
+            re.I,
+        )
+    )
+    fail_closed = bool(
+        re.search(
+            r"(?:없으면|없는\s*경우).{0,40}(?:시스템\s*)?통전.{0,20}(?:금지|하지\s*않)|"
+            r"(?:must\s+not|do\s+not|never).{0,30}energize.{0,50}(?:without|unless)",
+            value,
+            re.I,
+        )
+    )
+    rejects_torque_substitution = bool(
+        re.search(
+            r"토크\s*해제.{0,30}전원\s*차단.{0,20}(?:대신하지|대체하지)|"
+            r"torque\s+(?:release|disable).{0,40}(?:not|never).{0,20}(?:replace|substitute).{0,30}(?:power\s+)?(?:cutoff|disconnect)",
+            value,
+            re.I,
+        )
+    )
+    return not (remote_upstream_cutoff and fail_closed and rejects_torque_substitution)
+
+
+def _unsubstantiated_fuse_coordination_claim(sentence: str) -> bool:
+    has_claim = bool(
+        re.search(r"ATOF|퓨즈|fuse", sentence, re.I)
+        and re.search(
+            r"어댑터|전원\s*(?:공급기|공급장치)|PSU|power\s*(?:adapter|supply)",
+            sentence,
+            re.I,
+        )
+        and re.search(r"먼저|우선|선행|before|first|earlier|prior", sentence, re.I)
+        and re.search(r"반응|동작|차단|trip|open|operate|respond", sentence, re.I)
+    )
+    if not has_claim:
+        return False
+    states_uncertainty = bool(
+        re.search(
+            r"(?:동작\s*)?순서.{0,20}(?:보장하지|보장할\s*수\s*없|불확정)|"
+            r"(?:cannot|can\s*not|not)\s+(?:be\s+)?guarantee|order.{0,30}not\s+guaranteed",
+            sentence,
+            re.I,
+        )
+    )
+    has_coordination_evidence = bool(
+        re.search(r"시간[- ]전류\s*곡선|time[- ]current\s*curve", sentence, re.I)
+        and re.search(
+            r"OCP|과전류\s*보호|overcurrent\s+protection", sentence, re.I
+        )
+        and re.search(r"보호\s*협조|coordination", sentence, re.I)
+    )
+    return not (states_uncertainty and has_coordination_evidence)
+
+
 def _unsafe_live_fault_injection(value: str) -> bool:
     return bool(
         re.search(r"퓨즈|fuse", value, re.I)
@@ -551,12 +625,16 @@ def _fsr_voltage_example_values(value: str) -> Optional[tuple[float, float]]:
 
 
 def _undersized_power_path_claim(value: str) -> bool:
-    if re.search(
-        r"메인\s*전원\s*경로가\s*아닌|손가락별\s*퓨즈\s*분기|"
-        r"not\s+(?:on|for)\s+(?:the\s+)?main\s+power|finger.{0,20}fused\s+branch",
+    safe_single_load_downstream = re.search(
+        r"분기\s*퓨즈\s*하류.{0,100}(?:개별\s*)?(?:액추에이터|손가락).{0,160}"
+        r"(?:커넥터당.{0,50}2\.3\s*A|XM430\s*1대.{0,50}2\.3\s*A).{0,160}"
+        r"9\.2\s*A.{0,50}(?:사용하지|금지)|"
+        r"downstream.{0,50}branch\s+fuse.{0,100}(?:single|one).{0,30}actuator.{0,100}"
+        r"2\.3\s*A.{0,100}9\.2\s*A.{0,50}(?:not\s+use|prohibit)",
         value,
         re.I,
-    ):
+    )
+    if safe_single_load_downstream:
         return False
     return bool(
         re.search(
@@ -956,6 +1034,13 @@ def _module_bom_consistency_errors(
                     f"{label}: module {module_id} describes manual isolation as emergency stop; use only planned shutdown and maintenance isolation"
                 )
                 break
+        if any(
+            _unsafe_fault_response(value)
+            for value in _string_values(module_data)
+        ):
+            errors.append(
+                f"{label}: module {module_id} has unsafe fault response; require remote upstream cutoff and fail-closed energization"
+            )
         for sentence in re.split(r"[.!?\n]", text):
             if _invalid_dimension_measurement_with_multimeter(sentence):
                 errors.append(
@@ -997,6 +1082,12 @@ def _module_bom_consistency_errors(
             ):
                 errors.append(
                     f"{label}: module {module_id} treats 900 VDC as breaking voltage instead of switching operating voltage"
+                )
+                break
+        for sentence in re.split(r"(?<!\d)[.!?](?!\d)|\n", text):
+            if _unsubstantiated_fuse_coordination_claim(sentence):
+                errors.append(
+                    f"{label}: module {module_id} has unsubstantiated fuse coordination claim"
                 )
                 break
         for sentence in re.split(r"[.!?\n]", text):
@@ -1301,6 +1392,10 @@ def _validate_manifest(repo: Path, slug: str, manifest: Any) -> list[str]:
             errors.append(
                 f"{label}: safety summary describes manual isolation as stop at item {index}"
             )
+        if _unsafe_fault_response(summary):
+            errors.append(
+                f"{label}: safety summary has unsafe fault response at item {index}"
+            )
     generation = manifest.get("generation")
     if not isinstance(generation, dict) or not generation.get("run_id"):
         errors.append(f"{label}: generation provenance missing")
@@ -1351,6 +1446,10 @@ def _validate_manifest(repo: Path, slug: str, manifest: Any) -> list[str]:
                 if _unsafe_emergency_isolation_instruction(criterion):
                     errors.append(
                         f"{label}: capstone describes manual isolation as stop at {field} item {index}"
+                    )
+                if _unsafe_fault_response(criterion):
+                    errors.append(
+                        f"{label}: capstone has unsafe fault response at {field} item {index}"
                     )
 
     source_ids: set[str] = set()

@@ -255,6 +255,40 @@ class LearnFoundationContractTest(unittest.TestCase):
 
             self.assertTrue(any("below BOM peak" in error for error in errors), errors)
 
+    def test_microfit_is_allowed_only_downstream_for_one_actuator_load(self):
+        bom = [
+            {
+                "category": "actuator",
+                "name": "Smart Servo",
+                "model": "XM430",
+                "quantity": 4,
+                "specifications": [
+                    {"name": "stall current", "value": "2.3", "unit": "A"}
+                ],
+            },
+            {
+                "category": "wiring",
+                "name": "Micro-Fit connector",
+                "model": "Micro-Fit 3.0",
+                "quantity": 4,
+                "specifications": [
+                    {"name": "maximum current", "value": "8.5", "unit": "A"}
+                ],
+            },
+        ]
+        modules = [{
+            "id": "M1",
+            "content": (
+                "Micro-Fit 3.0은 10 A 어댑터 분기 퓨즈 하류의 개별 액추에이터·손가락 "
+                "하네스에만 사용하고, 커넥터당 최대 전류는 XM430 1대의 2.3 A로 "
+                "제한하며 9.2 A 집합 분기에는 사용하지 않는다."
+            ),
+        }]
+
+        errors = _module_bom_consistency_errors(modules, bom, "course")
+
+        self.assertFalse(any("below BOM peak" in error for error in errors), errors)
+
     def test_module_electrical_variants_and_parallel_supplies_are_rejected(self):
         bom = [
             {
@@ -815,6 +849,60 @@ class LearnFoundationContractTest(unittest.TestCase):
                 any("manual isolation as emergency stop" in error for error in errors),
                 errors,
             )
+
+    def test_module_rejects_fault_response_that_leaves_supply_energized(self):
+        modules = [{
+            "id": "M1",
+            "content": (
+                "이상 발열·냄새·연기 감지 시 접근하지 말고 소프트웨어 토크 해제를 "
+                "우선 수행하며, 화재 위험 시 즉시 대피한다. 전원 분리는 계획 정지 후 "
+                "정비·접근 전에만 수행한다."
+            ),
+        }]
+
+        errors = _module_bom_consistency_errors(modules, [], "course")
+
+        self.assertTrue(any("unsafe fault response" in error for error in errors), errors)
+
+    def test_module_allows_fail_closed_remote_upstream_fault_response(self):
+        modules = [{
+            "id": "M1",
+            "content": (
+                "이상 발열·냄새·연기 감지 시 접근하지 말고, 위험 구역 밖에서 사전 "
+                "지정된 건물 분전반 차단기 또는 인증된 upstream master disconnect로 "
+                "3개 어댑터의 공급 전원을 차단한 뒤 대피한다. 위험 구역 밖에서 작동 "
+                "가능한 upstream 차단 수단이 없으면 시스템 통전을 금지한다. 토크 "
+                "해제는 전원 차단을 대신하지 않는다."
+            ),
+        }]
+
+        errors = _module_bom_consistency_errors(modules, [], "course")
+
+        self.assertFalse(any("unsafe fault response" in error for error in errors), errors)
+
+    def test_module_rejects_unsubstantiated_fuse_adapter_precedence(self):
+        modules = [{
+            "id": "M1",
+            "content": "10 A ATOF 퓨즈가 배선 고장 시 11.5 A 전원 어댑터보다 먼저 반응한다.",
+        }]
+
+        errors = _module_bom_consistency_errors(modules, [], "course")
+
+        self.assertTrue(any("unsubstantiated fuse coordination" in error for error in errors), errors)
+
+    def test_module_allows_explicit_fuse_coordination_uncertainty(self):
+        modules = [{
+            "id": "M1",
+            "content": (
+                "10 A 퓨즈와 11.5 A 어댑터 OCP의 동작 순서는 보장하지 않으며, "
+                "퓨즈 제조사 시간-전류 곡선과 어댑터 과전류 보호 특성을 함께 "
+                "검토해 보호 협조를 확인한다."
+            ),
+        }]
+
+        errors = _module_bom_consistency_errors(modules, [], "course")
+
+        self.assertFalse(any("unsubstantiated fuse coordination" in error for error in errors), errors)
 
     def test_quiz_torque_release_answer_requires_matching_explanation(self):
         modules = [{
