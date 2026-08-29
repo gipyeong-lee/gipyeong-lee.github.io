@@ -22,6 +22,13 @@ no_ads: true
 generated_by: mindtickle-studio
 generation_run_id: b409b9219ba4488bb342aac4eb8f5a73
 translation_run_id: 0886d1415b8d413b8654c2195ac9ac00
+primary_category: robotics-hardware
+topics:
+- robot-hands
+- tendon-drive
+- embedded-control
+course_type: build_project
+published_at: '2026-08-29T08:34:02+09:00'
 ---
 
 A university-level practical curriculum starting from the fundamentals of robotics to designing, manufacturing, controlling, and verifying an 5-finger robotic hand.

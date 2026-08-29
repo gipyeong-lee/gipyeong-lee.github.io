@@ -1,0 +1,64 @@
+ai-software:
+  labels: {ko: "AI·소프트웨어", en: "AI & Software", ja: "AI・ソフトウェア", zh-cn: "AI 与软件", zh-tw: "AI 與軟體"}
+  descriptions:
+    ko: "AI와 소프트웨어를 설계하고 구현합니다."
+    en: "Design and build AI and software systems."
+    ja: "AIとソフトウェアを設計・実装します。"
+    zh-cn: "设计并构建 AI 与软件系统。"
+    zh-tw: "設計並建構 AI 與軟體系統。"
+data-mathematics:
+  labels: {ko: "데이터·수학", en: "Data & Mathematics", ja: "データ・数学", zh-cn: "数据与数学", zh-tw: "資料與數學"}
+  descriptions:
+    ko: "데이터 분석과 수학적 사고를 익힙니다."
+    en: "Learn data analysis and mathematical reasoning."
+    ja: "データ分析と数学的思考を学びます。"
+    zh-cn: "学习数据分析与数学推理。"
+    zh-tw: "學習資料分析與數學推理。"
+robotics-hardware:
+  labels: {ko: "로보틱스·하드웨어", en: "Robotics & Hardware", ja: "ロボティクス・ハードウェア", zh-cn: "机器人与硬件", zh-tw: "機器人與硬體"}
+  descriptions:
+    ko: "센서, 제어기, 기구를 통합해 작동하는 장치를 만듭니다."
+    en: "Integrate sensors, controls, and mechanisms into working machines."
+    ja: "センサー、制御、機構を統合して動く機械を作ります。"
+    zh-cn: "整合传感器、控制与机构，构建可运行设备。"
+    zh-tw: "整合感測器、控制與機構，建構可運作設備。"
+engineering-manufacturing:
+  labels: {ko: "공학·제조", en: "Engineering & Manufacturing", ja: "工学・製造", zh-cn: "工程与制造", zh-tw: "工程與製造"}
+  descriptions:
+    ko: "공학 설계와 실제 제작 공정을 연결합니다."
+    en: "Connect engineering design with practical manufacturing."
+    ja: "工学設計と実践的な製造を結びます。"
+    zh-cn: "连接工程设计与实际制造。"
+    zh-tw: "連結工程設計與實際製造。"
+science-biotechnology:
+  labels: {ko: "과학·바이오", en: "Science & Biotechnology", ja: "科学・バイオ", zh-cn: "科学与生物技术", zh-tw: "科學與生物技術"}
+  descriptions:
+    ko: "과학적 탐구와 생명기술 실습을 수행합니다."
+    en: "Practice scientific inquiry and biotechnology."
+    ja: "科学的探究とバイオ技術を実践します。"
+    zh-cn: "实践科学探究与生物技术。"
+    zh-tw: "實踐科學探究與生物技術。"
+business-economics:
+  labels: {ko: "비즈니스·경제", en: "Business & Economics", ja: "ビジネス・経済", zh-cn: "商业与经济", zh-tw: "商業與經濟"}
+  descriptions:
+    ko: "시장, 조직, 재무 의사결정을 학습합니다."
+    en: "Learn market, organizational, and financial decision-making."
+    ja: "市場、組織、財務の意思決定を学びます。"
+    zh-cn: "学习市场、组织与财务决策。"
+    zh-tw: "學習市場、組織與財務決策。"
+design-creative-technology:
+  labels: {ko: "디자인·크리에이티브 기술", en: "Design & Creative Technology", ja: "デザイン・クリエイティブ技術", zh-cn: "设计与创意技术", zh-tw: "設計與創意技術"}
+  descriptions:
+    ko: "디자인 원리와 창작 기술을 결과물로 연결합니다."
+    en: "Turn design principles and creative technology into artifacts."
+    ja: "デザイン原則と創作技術を成果物にします。"
+    zh-cn: "将设计原则与创意技术转化为作品。"
+    zh-tw: "將設計原則與創意技術轉化為作品。"
+society-humanities:
+  labels: {ko: "사회·인문", en: "Society & Humanities", ja: "社会・人文", zh-cn: "社会与人文", zh-tw: "社會與人文"}
+  descriptions:
+    ko: "사회와 인간을 근거 기반으로 이해합니다."
+    en: "Understand society and humanity through evidence."
+    ja: "社会と人間を根拠に基づいて理解します。"
+    zh-cn: "以证据理解社会与人类。"
+    zh-tw: "以證據理解社會與人類。"

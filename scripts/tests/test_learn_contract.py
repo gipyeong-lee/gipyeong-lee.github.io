@@ -36,6 +36,12 @@ class LearnFoundationContractTest(unittest.TestCase):
             "hours_suffix",
             "module_suffix",
             "view_course",
+            "all_categories",
+            "category",
+            "topics",
+            "course_type",
+            "build_project",
+            "academic",
             "empty_title",
             "empty_body",
             "breadcrumb_label",
@@ -152,6 +158,51 @@ class LearnFoundationContractTest(unittest.TestCase):
         courses = (ROOT / "_data/learn/courses.yml").read_text(encoding="utf-8")
         self.assertTrue(courses.strip())
 
+    def test_learn_taxonomy_has_eight_categories_and_five_locales(self):
+        categories = _load_yaml(ROOT / "_data" / "learn_categories.yml")
+        self.assertEqual(
+            list(categories),
+            [
+                "ai-software",
+                "data-mathematics",
+                "robotics-hardware",
+                "engineering-manufacturing",
+                "science-biotechnology",
+                "business-economics",
+                "design-creative-technology",
+                "society-humanities",
+            ],
+        )
+        for slug, category in categories.items():
+            self.assertEqual(
+                set(category["labels"]), {"ko", "en", "ja", "zh-cn", "zh-tw"}, slug
+            )
+            self.assertEqual(
+                set(category["descriptions"]),
+                {"ko", "en", "ja", "zh-cn", "zh-tw"},
+                slug,
+            )
+
+    def test_catalogue_renders_accessible_category_filters_and_metadata(self):
+        catalogue = (ROOT / "_layouts/learn-catalogue.html").read_text(
+            encoding="utf-8"
+        )
+        course = (ROOT / "_layouts/learn-course.html").read_text(encoding="utf-8")
+        plugin = (ROOT / "_plugins/learn_category_pages.rb").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn("site.data.learn_categories", catalogue)
+        self.assertIn("aria-current", catalogue)
+        self.assertIn("page.learn_category", catalogue)
+        self.assertIn("course.primary_category", catalogue)
+        self.assertIn("course.topics", catalogue)
+        self.assertIn("course.course_type", catalogue)
+        self.assertIn("course.course.primary_category", course)
+        self.assertIn("course.course.topics", course)
+        self.assertIn("PageWithoutAFile", plugin)
+        self.assertIn("/category/", plugin)
+        self.assertIn("no_ads", plugin)
+
     def test_learn_layouts_are_ad_free_and_use_generated_contract(self):
         catalogue = (ROOT / "_layouts/learn-catalogue.html").read_text(encoding="utf-8")
         course = (ROOT / "_layouts/learn-course.html").read_text(encoding="utf-8")
@@ -249,6 +300,16 @@ class LearnFoundationContractTest(unittest.TestCase):
         manifest["bom"] = []
         errors = _validate_manifest(ROOT, "precise-robot-hand", manifest)
         self.assertFalse(any("BOM" in error or "actuator peak" in error for error in errors), errors)
+
+    def test_manifest_rejects_unknown_category_and_invalid_topics(self):
+        manifest = copy.deepcopy(
+            _load_yaml(ROOT / "_data" / "learn" / "precise-robot-hand.yml")
+        )
+        manifest["course"]["primary_category"] = "robot"
+        manifest["course"]["topics"] = ["로봇손"]
+        errors = _validate_manifest(ROOT, "precise-robot-hand", manifest)
+        self.assertTrue(any("unknown primary_category" in error for error in errors), errors)
+        self.assertTrue(any("canonical slugs" in error for error in errors), errors)
 
     def test_power_branch_allocation_matches_supply_and_actuator_counts(self):
         manifest = copy.deepcopy(

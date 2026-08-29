@@ -3,6 +3,11 @@ curriculum_version: 1.0.0+bc95463f48e6
 course:
   course_type: build_project
   slug: precise-robot-hand
+  primary_category: robotics-hardware
+  topics:
+  - robot-hands
+  - tendon-drive
+  - embedded-control
   title: 制作精密的 5 仿生机器人手
   summary: 这是一个大学及研究生水平的实践型课程，从机器人工程基础出发，指导学生自行设计、制作、控制和验证 5 仿生机器人手。
   outcome: 学生将理解执行器、控制器、传感器集成及肌腱驱动机制，并能够对精密机器人手进行原型制作。
@@ -1593,10 +1598,12 @@ generation:
   run_id: b409b9219ba4488bb342aac4eb8f5a73
   generated_at: '2026-08-28T22:44:06.473586Z'
   generator: gemini
+selection: null
 localization:
   source_language: ko
   language: zh-cn
-  source_hash: 04a6aee1d1826674a78ef6415ded8556a375532ce6b7fcbe206123ddeb41ffdb
+  source_hash: dfcc9fc6b075785fdc26a282774cf2b764274dd3b6fff7572011708fe5db355b
   translator: gemini-cli
   translated_at: '2026-08-28T23:18:41.459242Z'
   translation_run_id: e8f8435646734ebd8e061d010c356c2d
+published_at: '2026-08-29T08:34:02+09:00'

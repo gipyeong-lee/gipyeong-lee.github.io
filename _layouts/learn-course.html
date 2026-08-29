@@ -5,6 +5,7 @@ layout: default
 {% assign ui = site.data.learn_i18n[learn_language] %}
 {% assign course_data_key = page.course_data_key | default: page.course_slug %}
 {% assign course = site.data.learn[course_data_key] %}
+{% assign course_category = site.data.learn_categories[course.course.primary_category] %}
 {% if learn_language == 'ko' %}{% assign learn_root = '/learn/' %}{% else %}{% assign learn_root = '/learn/' | append: learn_language | append: '/' %}{% endif %}
 {% assign sponsor = site.data.learn_settings.sponsorship %}
 {% assign stripe_buy_prefix = sponsor.stripe_payment_link | slice: 0, 23 %}
@@ -40,8 +41,10 @@ layout: default
   <nav class="learn-breadcrumb" aria-label="{{ ui.breadcrumb_label | escape }}"><a href="{{ learn_root | relative_url }}">Learn</a><span>/</span><span>{{ course.course.title | escape }}</span></nav>
   <header class="learn-course-hero">
     <p class="learn-eyebrow">CURRICULUM {{ course.curriculum_version | escape }} · {{ course.course.level | escape }}</p>
+    <a class="learn-category-badge" href="{{ learn_root | append: 'category/' | append: course.course.primary_category | append: '/' | relative_url }}">{{ course_category.labels[learn_language] | escape }}</a>
     <h1>{{ course.course.title | escape }}</h1>
     <p class="learn-lede">{{ course.course.outcome | escape }}</p>
+    <ul class="learn-topic-list" aria-label="{{ ui.topics | escape }}">{% for topic in course.course.topics %}<li>{{ topic | escape }}</li>{% endfor %}</ul>
     <div class="learn-facts">
       <div><span>{{ ui.time_label | escape }}</span><strong>{{ course.course.estimated_hours }}h</strong></div>
       <div><span>{{ ui.modules_label | escape }}</span><strong>{{ course.modules.size }}</strong></div>

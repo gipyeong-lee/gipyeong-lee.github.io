@@ -22,6 +22,13 @@ no_ads: true
 generated_by: mindtickle-studio
 generation_run_id: b409b9219ba4488bb342aac4eb8f5a73
 translation_run_id: 541c3acee16e441bbae3b5125876cfe4
+primary_category: robotics-hardware
+topics:
+- robot-hands
+- tendon-drive
+- embedded-control
+course_type: build_project
+published_at: '2026-08-29T08:34:02+09:00'
 ---
 
 ロボット工学の基礎から始まり、5 指ロボットハンドを直接設計、製作、制御、および検証する大学・大学院レベルの実習型カリキュラムです。

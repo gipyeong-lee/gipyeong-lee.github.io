@@ -1,5 +1,11 @@
 - slug: precise-robot-hand
   title: Building a Sophisticated 5-Finger Robotic Hand
+  primary_category: robotics-hardware
+  topics:
+  - robot-hands
+  - tendon-drive
+  - embedded-control
+  course_type: build_project
   summary: A university-level practical curriculum starting from the fundamentals
     of robotics to designing, manufacturing, controlling, and verifying an 5-finger
     robotic hand.
@@ -15,3 +21,5 @@
   curriculum_version: 1.0.0+bc95463f48e6
   url: /learn/en/precise-robot-hand/
   lang: en
+  published_at: '2026-08-29T08:34:02+09:00'
+  demand_score: null

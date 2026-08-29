@@ -14,6 +14,18 @@ from urllib.parse import urlparse
 
 AD_MARKERS = ("adsbygoogle", "pagead2.googlesyndication.com", "ad-slot")
 LEARN_TARGET_LANGUAGES = ("en", "ja", "zh-cn", "zh-tw")
+LEARN_LANGUAGES = ("ko", *LEARN_TARGET_LANGUAGES)
+LEARN_CATEGORY_SLUGS = (
+    "ai-software",
+    "data-mathematics",
+    "robotics-hardware",
+    "engineering-manufacturing",
+    "science-biotechnology",
+    "business-economics",
+    "design-creative-technology",
+    "society-humanities",
+)
+CANONICAL_TOPIC_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 NON_KOREAN_UI_MARKERS = (
     "학습 진도",
     "과정 살펴보기",
@@ -1416,6 +1428,34 @@ def _validate_manifest(repo: Path, slug: str, manifest: Any) -> list[str]:
     if not isinstance(course, dict) or course.get("slug") != slug:
         errors.append(f"{label}: course slug mismatch")
         course = {}
+    primary_category = str(course.get("primary_category") or "")
+    if primary_category not in LEARN_CATEGORY_SLUGS:
+        errors.append(f"{label}: unknown primary_category {primary_category or 'missing'}")
+    topics = course.get("topics")
+    if (
+        not isinstance(topics, list)
+        or not 2 <= len(topics) <= 5
+        or len(set(str(topic) for topic in topics)) != len(topics)
+        or any(not CANONICAL_TOPIC_RE.fullmatch(str(topic)) for topic in topics)
+    ):
+        errors.append(f"{label}: topics must contain 2 to 5 unique canonical slugs")
+    if not isinstance(manifest.get("published_at"), str) or not manifest.get(
+        "published_at"
+    ):
+        errors.append(f"{label}: published_at missing")
+    selection = manifest.get("selection")
+    if selection is not None:
+        if not isinstance(selection, dict) or not 70 <= int(
+            selection.get("demand_score") or 0
+        ) <= 100:
+            errors.append(f"{label}: invalid demand selection score")
+        elif selection.get("duplicate_verdict") != "unique":
+            errors.append(f"{label}: daily selection must have unique duplicate verdict")
+        evidence = selection.get("evidence") if isinstance(selection, dict) else None
+        if not isinstance(evidence, list) or len(evidence) < 3:
+            errors.append(f"{label}: daily selection requires at least 3 evidence links")
+        elif len({str(row.get("url") or "") for row in evidence if isinstance(row, dict)}) != len(evidence):
+            errors.append(f"{label}: daily selection evidence URLs must be unique")
     safety_text = " ".join(str(item) for item in course.get("safety_summary") or [])
     required_tools_text = " ".join(str(item) for item in course.get("required_tools") or [])
     if re.search(r"보안경|eye\s+protection|safety\s+(?:glasses|goggles)", safety_text, re.I) and not re.search(
@@ -1868,6 +1908,13 @@ def _validate_manifest(repo: Path, slug: str, manifest: Any) -> list[str]:
         ("layout: learn-course", f"course_slug: {slug}"),
         errors,
     )
+    overview_front = _front_matter(repo / "_learn" / slug / "index.md")
+    if overview_front.get("primary_category") != primary_category:
+        errors.append(f"{label}: course page primary_category mismatch")
+    if overview_front.get("topics") != topics:
+        errors.append(f"{label}: course page topics mismatch")
+    if overview_front.get("published_at") != manifest.get("published_at"):
+        errors.append(f"{label}: course page published_at mismatch")
     expected_pages = {"index.md", *(f"{slug}.md" for slug in module_slugs)}
     course_dir = repo / "_learn" / slug
     if course_dir.is_dir():
@@ -1882,6 +1929,24 @@ def _validate_manifest(repo: Path, slug: str, manifest: Any) -> list[str]:
 def validate_repo(repo: Path, site_dir: Optional[Path] = None) -> list[str]:
     repo = repo.resolve()
     errors: list[str] = []
+    taxonomy_path = repo / "_data" / "learn_categories.yml"
+    try:
+        taxonomy = _load_yaml(taxonomy_path)
+    except (OSError, ValueError, json.JSONDecodeError) as error:
+        taxonomy = {}
+        errors.append(f"{taxonomy_path}: cannot parse YAML: {error}")
+    if not isinstance(taxonomy, dict) or tuple(taxonomy) != LEARN_CATEGORY_SLUGS:
+        errors.append(f"{taxonomy_path}: must define the 8 stable Learn categories")
+        taxonomy = taxonomy if isinstance(taxonomy, dict) else {}
+    for category_slug, category in taxonomy.items():
+        labels = category.get("labels") if isinstance(category, dict) else None
+        descriptions = category.get("descriptions") if isinstance(category, dict) else None
+        if not isinstance(labels, dict) or set(labels) != set(LEARN_LANGUAGES):
+            errors.append(f"{taxonomy_path}: {category_slug} labels must cover 5 languages")
+        if not isinstance(descriptions, dict) or set(descriptions) != set(LEARN_LANGUAGES):
+            errors.append(
+                f"{taxonomy_path}: {category_slug} descriptions must cover 5 languages"
+            )
     sponsorship_path = repo / "_data" / "learn_settings.yml"
     if sponsorship_path.is_file():
         try:
@@ -1918,6 +1983,7 @@ def validate_repo(repo: Path, site_dir: Optional[Path] = None) -> list[str]:
             entries = []
 
     seen: set[str] = set()
+    canonical_entries: dict[str, dict[str, Any]] = {}
     for entry in entries:
         slug = entry.get("slug") if isinstance(entry, dict) else None
         if not isinstance(slug, str) or not slug:
@@ -1927,12 +1993,34 @@ def validate_repo(repo: Path, site_dir: Optional[Path] = None) -> list[str]:
             errors.append(f"{index_path}: duplicate course {slug}")
             continue
         seen.add(slug)
+        canonical_entries[slug] = entry
+        primary_category = entry.get("primary_category")
+        if primary_category not in taxonomy:
+            errors.append(f"{index_path}: {slug} has unknown primary_category")
+        topics = entry.get("topics")
+        if (
+            not isinstance(topics, list)
+            or not 2 <= len(topics) <= 5
+            or any(not CANONICAL_TOPIC_RE.fullmatch(str(topic)) for topic in topics)
+        ):
+            errors.append(f"{index_path}: {slug} has invalid canonical topics")
+        if entry.get("course_type") not in {"academic", "build_project"}:
+            errors.append(f"{index_path}: {slug} has invalid course_type")
+        if not entry.get("published_at"):
+            errors.append(f"{index_path}: {slug} published_at missing")
         manifest_path = repo / "_data" / "learn" / f"{slug}.yml"
         if not manifest_path.is_file():
             errors.append(f"{manifest_path}: manifest missing")
             continue
         try:
-            errors.extend(_validate_manifest(repo, slug, _load_yaml(manifest_path)))
+            manifest = _load_yaml(manifest_path)
+            errors.extend(_validate_manifest(repo, slug, manifest))
+            manifest_course = manifest.get("course") if isinstance(manifest, dict) else {}
+            for field in ("primary_category", "topics", "course_type"):
+                if entry.get(field) != manifest_course.get(field):
+                    errors.append(f"{index_path}: {slug} {field} differs from manifest")
+            if entry.get("published_at") != manifest.get("published_at"):
+                errors.append(f"{index_path}: {slug} published_at differs from manifest")
         except (OSError, ValueError, json.JSONDecodeError) as error:
             errors.append(f"{manifest_path}: cannot parse YAML: {error}")
 
@@ -1971,6 +2059,20 @@ def validate_repo(repo: Path, site_dir: Optional[Path] = None) -> list[str]:
             expected_url = f"/learn/{language}/{slug}/"
             if locale_entry.get("url") != expected_url:
                 errors.append(f"{locale_index_path}: {slug} URL must be {expected_url}")
+            canonical_entry = canonical_entries.get(slug)
+            if canonical_entry is None:
+                errors.append(f"{locale_index_path}: unknown canonical course {slug}")
+            else:
+                for field in (
+                    "primary_category",
+                    "topics",
+                    "course_type",
+                    "published_at",
+                ):
+                    if locale_entry.get(field) != canonical_entry.get(field):
+                        errors.append(
+                            f"{locale_index_path}: {slug} {field} differs from canonical index"
+                        )
             locale_manifest_path = (
                 repo / "_data" / "learn" / f"{slug}-{language}.yml"
             )
@@ -1989,6 +2091,19 @@ def validate_repo(repo: Path, site_dir: Optional[Path] = None) -> list[str]:
             if not isinstance(localization, dict) or localization.get("language") != language:
                 errors.append(
                     f"{locale_manifest_path}: localization language must be {language}"
+                )
+            locale_course = locale_manifest.get("course") or {}
+            canonical_entry = canonical_entries.get(slug) or {}
+            for field in ("primary_category", "topics", "course_type"):
+                if locale_course.get(field) != canonical_entry.get(field):
+                    errors.append(
+                        f"{locale_manifest_path}: {field} differs from canonical course"
+                    )
+            if locale_manifest.get("published_at") != canonical_entry.get(
+                "published_at"
+            ):
+                errors.append(
+                    f"{locale_manifest_path}: published_at differs from canonical course"
                 )
             modules = locale_manifest.get("modules")
             module_slugs = [
@@ -2023,6 +2138,12 @@ def validate_repo(repo: Path, site_dir: Optional[Path] = None) -> list[str]:
                     errors.append(
                         f"{page_path}: expected permalink {expected_permalink}"
                     )
+                if front.get("primary_category") != canonical_entry.get(
+                    "primary_category"
+                ):
+                    errors.append(f"{page_path}: primary_category mismatch")
+                if front.get("topics") != canonical_entry.get("topics"):
+                    errors.append(f"{page_path}: topics mismatch")
 
     if localized_languages:
         expected_translation_languages = {"ko", *localized_languages}
@@ -2111,6 +2232,36 @@ def validate_repo(repo: Path, site_dir: Optional[Path] = None) -> list[str]:
                     ):
                         errors.append(
                             f"{built_course}: localized course title did not render from manifest"
+                        )
+            for language in ("ko", *localized_languages):
+                language_prefix = Path("learn") if language == "ko" else Path("learn") / language
+                language_entries = entries if language == "ko" else _load_yaml(
+                    repo / "_data" / "learn" / f"courses-{language}.yml"
+                )
+                for category_slug in LEARN_CATEGORY_SLUGS:
+                    category_html = (
+                        site_dir.resolve()
+                        / language_prefix
+                        / "category"
+                        / category_slug
+                        / "index.html"
+                    )
+                    if not category_html.is_file():
+                        errors.append(f"{category_html}: built category route missing")
+                        continue
+                    expected_count = sum(
+                        1
+                        for entry in language_entries or []
+                        if isinstance(entry, dict)
+                        and entry.get("primary_category") == category_slug
+                    )
+                    rendered = category_html.read_text(encoding="utf-8")
+                    actual_count = rendered.count(
+                        f'data-learn-category="{category_slug}"'
+                    )
+                    if actual_count != expected_count:
+                        errors.append(
+                            f"{category_html}: expected {expected_count} category cards, found {actual_count}"
                         )
     return errors
 

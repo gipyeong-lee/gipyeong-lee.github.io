@@ -15,12 +15,21 @@
 .learn-eyebrow,.learn-kicker { color:var(--learn-accent); font:500 12px/1.4 "IBM Plex Mono",monospace; letter-spacing:.11em; text-transform:uppercase; }
 .learn-lede { max-width:760px; font:400 clamp(19px,2.2vw,28px)/1.55 "Newsreader","Noto Serif KR",serif; }
 .learn-rule { display:flex; justify-content:space-between; margin-top:50px; padding-top:12px; border-top:1px solid var(--learn-rule); font:12px "IBM Plex Mono",monospace; }
+.learn-category-description { max-width:720px; margin-top:22px; color:var(--learn-green); }
+.learn-category-filters { display:flex; flex-wrap:wrap; gap:8px; margin:38px 0 0; }
+.learn-category-filters a { display:inline-flex; gap:8px; align-items:center; padding:9px 12px; border:1px solid var(--learn-rule); color:var(--learn-ink); font:600 12px "IBM Plex Mono",monospace; }
+.learn-category-filters a[aria-current="page"] { border-color:var(--learn-ink); background:var(--learn-ink); color:var(--learn-paper); }
+.learn-category-filters span { opacity:.72; }
+.learn-category-badge { display:inline-flex; margin-top:18px; padding:6px 9px; background:var(--learn-green); color:var(--learn-paper); font:600 10px "IBM Plex Mono",monospace; letter-spacing:.06em; text-transform:uppercase; }
+.learn-category-badge:hover { color:var(--learn-paper); opacity:.86; }
+.learn-topic-list { display:flex; flex-wrap:wrap; gap:7px; margin:16px 0 0; padding:0; list-style:none; }
+.learn-topic-list li { padding:5px 8px; border:1px solid var(--learn-rule); font:11px "IBM Plex Mono",monospace; }
 .learn-breadcrumb { display:flex; flex-wrap:wrap; gap:9px; padding-top:28px; color:var(--learn-green); font:12px "IBM Plex Mono",monospace; }
 .learn-breadcrumb a { color:inherit; }
 .learn-course-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1px; margin-top:48px; background:var(--learn-rule); border:1px solid var(--learn-rule); }
 .learn-course-card { min-height:410px; padding:36px; background:var(--learn-paper); }
 .learn-course-card__index { font:12px "IBM Plex Mono",monospace; color:var(--learn-accent); }
-.learn-course-card h2 { margin:54px 0 16px; font:600 34px/1.1 "Newsreader","Noto Serif KR",serif; }
+.learn-course-card h2 { margin:28px 0 16px; font:600 34px/1.1 "Newsreader","Noto Serif KR",serif; }
 .learn-course-card h2 a { color:inherit; }
 .learn-course-card__meta { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin:28px 0; }
 .learn-course-card__meta div { border-top:1px solid var(--learn-rule); padding-top:8px; }

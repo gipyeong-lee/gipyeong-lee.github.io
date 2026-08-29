@@ -21,6 +21,13 @@ permalink: /learn/precise-robot-hand/
 no_ads: true
 generated_by: mindtickle-studio
 generation_run_id: b409b9219ba4488bb342aac4eb8f5a73
+primary_category: robotics-hardware
+topics:
+- robot-hands
+- tendon-drive
+- embedded-control
+course_type: build_project
+published_at: '2026-08-29T08:34:02+09:00'
 ---
 
 로봇 공학의 기초부터 시작하여 5지 로봇손을 직접 설계, 제작, 제어 및 검증하는 대학·대학원 수준의 실습형 교과과정입니다.

@@ -5,23 +5,42 @@ layout: default
 {% assign ui = site.data.learn_i18n[learn_language] %}
 {% assign learn_index_key = page.learn_index_key | default: 'courses' %}
 {% assign courses = site.data.learn[learn_index_key] %}
+{% assign displayed_courses = courses %}
+{% if page.learn_category %}{% assign displayed_courses = courses | where: 'primary_category', page.learn_category %}{% endif %}
+{% if learn_language == 'ko' %}{% assign learn_root = '/learn/' %}{% else %}{% assign learn_root = '/learn/' | append: learn_language | append: '/' %}{% endif %}
+{% assign active_category = site.data.learn_categories[page.learn_category] %}
 <section class="learn-shell learn-catalogue">
   {% include language-switcher.html %}
   <header class="learn-hero">
     <p class="learn-eyebrow">{{ ui.catalogue_eyebrow | escape }}</p>
     <h1>Learn</h1>
     <p class="learn-lede">{{ ui.catalogue_lede | escape }}</p>
+    {% if active_category %}<p class="learn-category-description">{{ active_category.descriptions[learn_language] | escape }}</p>{% endif %}
     <div class="learn-rule" aria-hidden="true"><span>01</span><span>{{ ui.catalogue_rule | escape }}</span></div>
   </header>
 
-  {% if courses and courses.size > 0 %}
+  <nav class="learn-category-filters" aria-label="{{ ui.category | escape }}">
+    <a href="{{ learn_root | relative_url }}"{% unless page.learn_category %} aria-current="page"{% endunless %}>{{ ui.all_categories | escape }} <span>{{ courses.size }}</span></a>
+    {% for category_entry in site.data.learn_categories %}
+      {% assign category_slug = category_entry[0] %}
+      {% assign category = category_entry[1] %}
+      {% assign category_courses = courses | where: 'primary_category', category_slug %}
+      <a href="{{ learn_root | append: 'category/' | append: category_slug | append: '/' | relative_url }}"{% if page.learn_category == category_slug %} aria-current="page"{% endif %}>{{ category.labels[learn_language] | escape }} <span>{{ category_courses.size }}</span></a>
+    {% endfor %}
+  </nav>
+
+  {% if displayed_courses and displayed_courses.size > 0 %}
   <div class="learn-course-grid">
-    {% for course in courses %}
-    <article class="learn-course-card">
+    {% for course in displayed_courses %}
+    {% assign course_category = site.data.learn_categories[course.primary_category] %}
+    <article class="learn-course-card" data-learn-category="{{ course.primary_category | escape }}">
       <div class="learn-course-card__index">COURSE {{ forloop.index }}</div>
+      <a class="learn-category-badge" href="{{ learn_root | append: 'category/' | append: course.primary_category | append: '/' | relative_url }}">{{ course_category.labels[learn_language] | escape }}</a>
       <h2><a href="{{ course.url | relative_url }}">{{ course.title | escape }}</a></h2>
       <p>{{ course.summary | escape }}</p>
+      <ul class="learn-topic-list" aria-label="{{ ui.topics | escape }}">{% for topic in course.topics %}<li>{{ topic | escape }}</li>{% endfor %}</ul>
       <dl class="learn-course-card__meta">
+        <div><dt>{{ ui.course_type | escape }}</dt><dd>{{ ui[course.course_type] | escape }}</dd></div>
         <div><dt>{{ ui.level | escape }}</dt><dd>{{ course.level | escape }}</dd></div>
         <div><dt>{{ ui.estimated_time | escape }}</dt><dd>{{ course.estimated_hours }} {{ ui.hours_suffix | escape }}</dd></div>
         <div><dt>{{ ui.modules | escape }}</dt><dd>{{ course.module_count }}{{ ui.module_suffix | escape }}</dd></div>
