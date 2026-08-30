@@ -1,0 +1,1082 @@
+schema_version: 1
+curriculum_version: 1.0.0+40bb735b5f50
+course:
+  course_type: academic
+  slug: rag-evaluation-reliability
+  primary_category: ai-software
+  topics:
+  - retrieval-augmented-generation
+  - rag-evaluation
+  - information-retrieval
+  - llm-reliability
+  title: RAG 평가와 신뢰성 실험
+  summary: 고정 문서 집합과 질문·정답 평가셋을 만들고 검색 품질, 근거 충실도, 인용 정확도, 실패 유형을 정량 측정해 재현 가능한 RAG
+    회귀 평가 보고서를 완성한다.
+  outcome: 학습자는 RAG 파이프라인의 검색 및 생성 단계를 분리하여 평가하고, Ragas 등 자동화된 평가 도구를 활용하여 환각을 줄이고
+    사실성을 검증하는 정량적인 회귀 테스트 프레임워크를 설계할 수 있다.
+  audience: 기초 Python과 통계 지식이 있고 Jupyter Notebook에서 데이터를 다룰 수 있는 학습자
+  level: intermediate
+  estimated_hours: 96.0
+  budget_krw:
+    min: 0
+    max: 100000
+  required_tools:
+  - Python 3.12 컴퓨터
+  - Jupyter Notebook
+  - Git
+  - 오픈 라이선스 문서 코퍼스
+  - 로컬 임베딩 모델 또는 비용 한도를 둔 API
+  safety_summary:
+  - 개인정보·비공개 문서·인증정보를 평가 코퍼스나 외부 API에 전송하지 않는다
+  - 프롬프트 인젝션 문자열은 비신뢰 데이터로 취급하고 실행 지시로 따르지 않는다
+  - 모델 자동 평가만으로 사실성을 확정하지 않고 표본 인간 검토와 출처 대조를 병행한다
+  - API 비용·요청 수 상한을 고정하고 재실행 가능한 캐시와 시드를 사용한다
+  - 평가셋 누출과 과적합을 막기 위해 개발·최종 평가 분할을 유지한다
+  last_reviewed: '2026-08-30'
+phases:
+- id: p1
+  title: RAG 기초 및 데이터셋 구축
+  module_ids:
+  - m1
+  - m2
+  - m3
+- id: p2
+  title: 검색 및 생성 품질 평가
+  module_ids:
+  - m4
+  - m5
+  - m6
+  - m7
+- id: p3
+  title: 신뢰성 검증 및 리포팅
+  module_ids:
+  - m8
+  - m9
+  - m10
+modules:
+- id: m1
+  slug: intro-rag-architecture
+  phase_id: p1
+  title: RAG 아키텍처 이해
+  estimated_hours: 8.0
+  prerequisites: []
+  objectives:
+  - RAG(Retrieval-Augmented Generation) 아키텍처의 핵심 구성 요소를 이해한다.
+  - 대규모 언어 모델(LLM)이 가진 지식 한계와 검색 기반 증강의 필요성을 파악한다.
+  - 검색-생성 파이프라인의 구조적 흐름을 설명할 수 있다.
+  theory_markdown: '## RAG(Retrieval-Augmented Generation) 아키텍처 개요
+
+
+    최신 자연어 처리(NLP) 및 딥러닝 모델은 방대한 텍스트 데이터를 학습하여 뛰어난 성능을 보이지만, 모델 학습 시점에 포함되지 않은 최신
+    정보나 특정 도메인의 비공개 데이터에 대해서는 환각(hallucination)을 보이거나 정보를 알지 못하는 한계가 있습니다 [S1].
+
+
+    ### 검색을 통한 LLM의 한계 극복
+
+    RAG는 모델이 모든 지식을 매개변수(parameter) 내부에 암기하게 하는 대신, 질문과 관련된 외부의 신뢰할 수 있는 문서를 ''적절한
+    시점(just-in-time)''에 검색하여 생성 단계의 입력으로 제공하는 방식입니다 [S2].
+
+
+    ### 핵심 구성 요소
+
+    1. **검색기(Retriever)**: 사용자의 질의(query)를 받아 벡터 데이터베이스 등에서 관련성이 높은 문서 조각(chunk)을
+    식별합니다.
+
+    2. **증강(Augmentation)**: 검색된 문서와 원래 질문을 조합하여 LLM에 전달할 프롬프트를 구성합니다.
+
+    3. **생성기(Generator)**: 증강된 정보를 바탕으로 사실 기반의 응답을 생성합니다.
+
+
+    이러한 구조는 모델의 지식을 최신 상태로 유지하고, 생성된 답변의 근거를 추적 가능하게 함으로써 신뢰성을 확보하는 데 기여합니다.'
+  worked_examples:
+  - '사례 1: 전통적인 LLM 방식 - ''오늘자 뉴스 알려줘''라고 질문할 경우 학습 데이터 이후의 사건을 인지하지 못해 잘못된 정보를 생성할
+    위험이 있음.'
+  - '사례 2: RAG 방식 - ''오늘자 뉴스 알려줘'' 질문 시, 1) 외부 검색 엔진이나 실시간 뉴스 API를 통해 검색기(Retriever)가
+    관련 기사를 수집하고, 2) 이를 문맥(context)으로 포함하여 LLM에 전달함으로써 정확한 최신 정보 응답을 생성.'
+  lab:
+    title: RAG 아키텍처 흐름 시각화 및 분석
+    steps:
+    - Jupyter Notebook을 열고 RAG 기본 파이프라인의 3단계(입력, 검색, 생성) 구조를 도식화한다.
+    - 오픈 라이선스 문서 코퍼스에서 5개의 짧은 텍스트를 추출하여 데이터셋 샘플을 만든다.
+    - 간단한 키워드 매칭 검색기(Retriever) 함수를 작성하여 질문에 맞는 문서를 반환하도록 구현한다.
+    - 검색된 문서를 프롬프트 템플릿에 주입하는 증강 단계를 코드로 작성한다.
+    safety:
+    - 실제 개인정보나 기밀문서를 절대 코퍼스 데이터로 사용하지 않는다.
+    - API 사용 시 호출 횟수 제한(Rate Limit)을 확인하고 테스트 코드에 시드(seed) 값을 설정하여 재현성을 확보한다.
+    deliverables:
+    - RAG 아키텍처 다이어그램 (Notebook 셀 내 포함)
+    - 간단한 키워드 기반 검색기 구현 코드
+    - 문서 주입형 프롬프트 생성 결과물
+  assignment:
+    title: RAG 기반 정보 검색 파이프라인 분석 보고서
+    deliverables:
+    - 구현한 RAG 파이프라인의 작동 원리를 설명하는 Notebook
+    - 검색기가 문서의 관련성을 판단할 때 발생할 수 있는 잠재적 실패 사례 3가지 기술
+    rubric:
+    - RAG의 3단계(검색, 증강, 생성)가 정확하게 구분되어 설명되었는가?
+    - 검색 단계에서 관련 없는 문서가 검색될 가능성에 대한 분석이 타당한가?
+    - 비공개 데이터 보안 지침을 준수하며 구현하였는가?
+  quiz:
+  - question: RAG가 LLM 학습 방식과 비교하여 가지는 주된 장점은 무엇입니까?
+    choices:
+    - LLM의 파라미터 크기를 줄일 수 있다.
+    - 모델의 지식을 최신 상태로 유지하고 근거를 제시할 수 있다.
+    - 모델의 학습 속도를 가속화한다.
+    - 모든 질문에 대해 100% 사실인 답변을 생성한다.
+    answer_index: 1
+    explanation: RAG는 외부 문서를 참조하므로 최신 정보를 반영할 수 있고, 생성된 답변의 근거를 문서에서 찾을 수 있어 신뢰성이
+      높습니다.
+  - question: 검색기(Retriever)의 역할로 올바른 것은 무엇입니까?
+    choices:
+    - 답변을 생성하는 역할을 한다.
+    - 학습 데이터를 다시 학습시키는 역할을 한다.
+    - 질문과 관련된 외부 문서 조각을 검색한다.
+    - 사용자 인터페이스를 관리한다.
+    answer_index: 2
+    explanation: 검색기는 사용자의 질문과 의미적으로 유사하거나 관련성이 높은 문서를 외부 데이터 소스에서 찾아오는 역할을 합니다.
+  completion_criteria:
+  - RAG 아키텍처의 구성 요소를 설명할 수 있다.
+  - 실습한 RAG 파이프라인 코드가 정상적으로 작동하여 관련 문서를 검색 및 증강하는 것을 확인한다.
+  - RAG 파이프라인의 한계점과 개선 방향을 분석 보고서에 기술한다.
+  source_ids:
+  - S1
+  - S2
+- id: m2
+  slug: corpus-curation
+  phase_id: p1
+  title: 평가용 문서 코퍼스 큐레이션
+  estimated_hours: 8.0
+  prerequisites:
+  - m1
+  objectives:
+  - RAG 평가를 위한 고정 문서 코퍼스의 중요성을 이해한다.
+  - 평가용 문서 데이터의 품질 결정 요소(정확성, 다양성, 중복 제거)를 학습한다.
+  - 정량적 평가를 위한 문서-질문-정답 쌍(QA Pair) 데이터셋 구축 전략을 익힌다.
+  - 데이터 누출(Data Leakage)을 방지하기 위한 학습/평가 분할 방법을 습득한다.
+  theory_markdown: '## RAG 평가를 위한 코퍼스 큐레이션
+
+
+    대규모 언어 모델(LLM)은 학습된 파라미터 내의 지식에 의존할 때 환각(Hallucination) 위험이 존재합니다. 검색 증강 생성(RAG)은
+    모델이 실시간으로 외부 지식에 접근하도록 하여 이러한 한계를 극복합니다 [S2]. 효과적인 RAG 시스템의 신뢰성을 정량적으로 평가하기 위해서는
+    **고정되고 제어 가능한 평가용 문서 코퍼스(Fixed Evaluation Corpus)**가 필수적입니다.
+
+
+    ### 1. 코퍼스 품질 결정 요소
+
+    - **정확성(Factuality):** 문서 내의 정보는 최신이고 사실적이어야 합니다. 잘못된 정보가 포함된 코퍼스는 잘못된 답변을 생성하게
+    합니다.
+
+    - **도메인 적합성:** 평가하고자 하는 실제 서비스 환경과 유사한 주제 및 어휘를 포함해야 합니다.
+
+    - **중복 제거(De-duplication):** 동일한 정보가 여러 문서에 중복될 경우, 검색 결과의 다양성이 저해되고 평가 통계에 편향을
+    줄 수 있습니다.
+
+
+    ### 2. QA 평가 데이터셋 구축
+
+    문서 코퍼스만으로는 평가가 불가능합니다. ''문서-질문-정답'' 쌍을 구축하여 검색기가 관련 문서를 가져오는지, 생성기가 이를 기반으로 정확한
+    답변을 하는지 측정해야 합니다.
+
+    - **질문 생성:** LLM을 사용하여 문서에서 질문을 자동으로 생성하거나, 도메인 전문가가 직접 작성합니다.
+
+    - **정답 정의:** 답변의 근거가 되는 문서 구간(Chunk)을 명확히 명시해야 합니다.
+
+
+    ### 3. 데이터 분할 및 무결성
+
+    평가셋의 신뢰성을 위해 **개발용(Development Set)**과 **최종 평가용(Hold-out Test Set)**을 엄격히 분할해야
+    합니다. 평가셋에 포함된 질문이 검색 대상 문서에 직접적으로 포함되어 노출되는 ''데이터 누출'' 현상을 방지해야 합니다.'
+  worked_examples:
+  - '예제 1: 문서 청킹(Chunking) 전략. 텍스트를 고정 크기로 나눌 때 문맥이 끊기지 않도록 문단 단위나 의미 단위로 나누는 파이썬
+    스크립트 작성법.'
+  - '예제 2: 질문-답변 데이터 구성. { ''question'': ''...'', ''ground_truth'': ''...'', ''context_chunk_id'':
+    ''...'' } 형식의 JSON 객체 생성 예시.'
+  lab:
+    title: 평가용 코퍼스 구축 실습
+    steps:
+    - 평가할 대상 도메인의 오픈 라이선스 텍스트 파일(.txt)을 확보한다.
+    - 파이썬을 사용하여 텍스트 파일을 읽고 청크 단위로 나누는 스크립트를 작성한다.
+    - 각 청크에 고유 식별자(ID)를 부여하고 메타데이터(제목, 소스)를 기록한다.
+    - 작성한 청크들 중에서 질문을 생성하고, 답변의 근거가 되는 청크 ID를 기록하여 50개의 QA 쌍을 구성한다.
+    - 전체 코퍼스를 8:2 비율로 개발셋과 테스트셋으로 나누어 저장한다.
+    safety:
+    - 개인정보가 포함된 문서는 평가 코퍼스에 포함하지 않는다.
+    - 외부 API 사용 시 요청 수 상한을 설정하여 비용을 제어한다.
+    - 작업 시 생성된 데이터는 Git을 통해 버전을 관리하여 재현성을 확보한다.
+    deliverables:
+    - 구축된 문서 코퍼스 파일(JSONL 형식)
+    - 질문과 정답이 포함된 QA 데이터셋(JSON 형식)
+    - 코퍼스 분할 기록이 담긴 Jupyter Notebook 파일
+  assignment:
+    title: 도메인 기반 RAG 데이터셋 완성
+    deliverables:
+    - 최소 100문항의 QA 데이터셋 파일
+    - 데이터셋 통계 분석 보고서(질문 길이, 청크 길이 등)
+    - 데이터 분할 과정이 포함된 Python 코드
+    rubric:
+    - 코퍼스 내 중복 청크 제거 완료 여부
+    - 테스트셋과 개발셋의 데이터 누출 여부 확인
+    - 답변의 근거가 되는 문서 구간(Chunk ID)의 정확한 매핑 여부
+  quiz:
+  - question: RAG 시스템에서 '데이터 누출(Data Leakage)'을 방지하는 가장 좋은 방법은 무엇인가요?
+    choices:
+    - 모든 문서에 대해 동일한 질문을 생성한다.
+    - 개발셋과 최종 평가용 테스트셋을 분리하여 관리한다.
+    - 학습 데이터에 검색 대상 문서 전체를 포함시킨다.
+    - 평가셋을 매번 새로 생성하여 관리한다.
+    answer_index: 1
+    explanation: 평가셋이 학습(또는 개발) 과정에서 검색 대상 문서에 노출되면 공정한 평가가 불가능하므로, 평가용 테스트셋을 엄격히
+      분리해야 합니다.
+  - question: 코퍼스 큐레이션 과정에서 '중복 제거'가 중요한 이유는 무엇인가요?
+    choices:
+    - LLM의 생성 속도를 높이기 위해서
+    - 디스크 저장 공간을 절약하기 위해서
+    - 검색 결과의 다양성을 확보하고 통계적 편향을 방지하기 위해서
+    - 문서의 의미론적 유사도를 낮추기 위해서
+    answer_index: 2
+    explanation: 중복된 정보는 검색 엔진이 특정 정보에 편향되게 검색 결과를 반환하게 만들며, 정량적 평가 지표를 왜곡시킬 수 있습니다.
+  completion_criteria:
+  - 평가용 문서 코퍼스(최소 100개 청크 이상) 구축 완료
+  - 검증 가능한 QA 데이터셋(최소 100문항) 생성 완료
+  - 데이터셋 분할 정책 준수 확인
+  - 결과물에 대한 동료 검토 또는 자기 평가 체크리스트 작성 완료
+  source_ids:
+  - S2
+- id: m3
+  slug: eval-set-generation
+  phase_id: p1
+  title: 질문-정답 평가셋 구축
+  estimated_hours: 8.0
+  prerequisites:
+  - m2
+  objectives:
+  - RAG 시스템 평가를 위한 고품질 질문-정답(QA) 평가셋의 필요성을 이해한다.
+  - 합성 데이터 생성 기법(Synthetic Data Generation)을 활용하여 평가셋을 구축하는 원리를 파악한다.
+  - TrueTeacher와 같은 방법론을 통해 모델 생성 답변의 사실적 일관성을 평가하는 논리를 습득한다.
+  - 평가셋의 품질을 유지하면서 도메인 변화에 강건한 데이터셋을 생성하는 프로세스를 설계한다.
+  theory_markdown: "## RAG 평가를 위한 질문-정답(QA) 평가셋 구축\n\nRAG(Retrieval-Augmented Generation)\
+    \ 시스템의 성능을 신뢰성 있게 측정하기 위해서는 정교하게 설계된 평가셋이 필수적입니다. 단순히 인간이 작성한 질문과 답변에만 의존하는 방식은\
+    \ 대규모 평가 시 비용과 확장성 측면에서 한계가 있습니다. \n\n### 합성 데이터 생성의 중요성\n최신 연구인 TrueTeacher 방법론에\
+    \ 따르면, LLM을 활용해 모델이 생성한 다양한 답변을 주석 처리하여 합성 훈련 데이터를 생성할 수 있습니다 [S5]. 이 방식은 다음과\
+    \ 같은 장점을 가집니다:\n1. **비용 효율성**: 인간이 직접 작성한 요약이나 답변에 의존하지 않으므로 대규모 데이터셋(예: 1.4M\
+    \ 예제) 생성이 가능합니다 [S5].\n2. **다국어 및 확장성**: 특정 언어에 국한되지 않으며, 도메인 전환(Domain-shift)에\
+    \ 대해서도 강건성을 보여줍니다 [S5].\n3. **사실적 일관성 평가**: 합성 데이터를 통해 학습된 소형 모델은 대형 LLM 교사 모델의\
+    \ 지식을 성공적으로 증류(Distillation)하여 효율적인 사실성 평가 도구로 활용될 수 있습니다 [S5].\n\n### 데이터셋 구성\
+    \ 전략\n평가셋을 구축할 때는 단순히 질문-정답 쌍을 만드는 것을 넘어, '검색 결과가 정답을 도출하는 데 필요한 근거를 포함하고 있는가?'와\
+    \ '모델이 해당 근거를 왜곡 없이 참조하는가?'를 측정할 수 있도록 구성해야 합니다. 이를 위해 데이터셋 생성 시 질문의 복잡도, 검색 결과와의\
+    \ 관련성, 답변의 사실적 일관성을 체계적으로 레이블링하거나 검증해야 합니다."
+  worked_examples:
+  - '예제 1: 문서 코퍼스에서 핵심 구절 추출하기. 주어진 문서에서 LLM을 사용하여 문맥상 중요한 사실 문장을 추출하고, 이를 기반으로 ''답변
+    가능한 질문''과 ''거짓 질문(Negative Sample)''을 생성하는 파이프라인 구성.'
+  - '예제 2: 사실성 검증 프롬프트 설계. 생성된 질문과 검색된 문서를 바탕으로 LLM에게 ''검색된 문서에 근거하여 질문에 답변하고, 답변이
+    사실적으로 일관적인지 True/False로 판단하라''고 지시하여 평가용 정답지(Ground Truth)를 정교화하는 과정.'
+  lab:
+    title: 합성 평가셋 생성 실습
+    steps:
+    - 준비된 오픈 라이선스 문서 코퍼스를 로드하고 텍스트 청크 단위로 분할한다.
+    - LLM API를 사용하여 각 청크에서 추출 가능한 고유 질문-답변 쌍을 100건 이상 생성한다.
+    - 생성된 질문에 대해 검색 시스템을 시뮬레이션하여 상위 k개의 문서를 검색한다.
+    - 검색된 문서와 생성된 답변 간의 사실적 일관성을 판단하는 평가 파이프라인을 구축한다.
+    - 결과 데이터를 JSONL 형식으로 저장하고, 샘플 30건을 수동으로 검토하여 데이터 품질을 기록한다.
+    safety:
+    - 평가셋 구축 과정에서 외부 API 사용 시 비용 상한선(API Key Limit)을 반드시 설정한다.
+    - 생성된 데이터셋 내에 원본 문서의 민감 정보나 개인정보가 포함되지 않았는지 정규 표현식으로 필터링한다.
+    - 모델 평가 결과만을 맹신하지 않고 표본에 대한 수동 대조를 반드시 병행한다.
+    deliverables:
+    - 구축된 100문항 이상의 질문-정답 평가셋(JSONL 파일)
+    - 데이터셋 생성 및 검증 코드가 포함된 Jupyter Notebook
+    - 인간 검토 기록이 포함된 품질 분석 리포트
+  assignment:
+    title: RAG 신뢰성 평가셋 회귀 보고서
+    deliverables:
+    - 생성된 평가셋의 통계적 분포(질문 길이, 답변 길이, 문서 참조 빈도 등)를 분석한 대시보드
+    - '두 가지 이상의 RAG 설정(예: 검색 알고리즘 변경, 모델 변경)을 동일한 평가셋으로 비교한 결과물'
+    - 오류 분류표(Hallucination, Contextual Irrelevance 등) 작성 및 사례 분석
+    rubric:
+    - 평가셋이 전체 문서 코퍼스의 내용을 고르게 반영하고 있는가?
+    - 합성 데이터 생성 파이프라인이 재현 가능한 형태로 작성되었는가?
+    - 오류 유형 분류가 구체적이고 정량적인 근거를 갖추었는가?
+    - 인간 검토를 통해 자동 평가 지표의 타당성을 입증하였는가?
+  quiz:
+  - question: TrueTeacher 방법론이 기존의 합성 데이터 생성 방식과 차별화되는 점은 무엇인가요?
+    choices:
+    - 인간이 작성한 요약에 전적으로 의존한다.
+    - 모델이 생성한 다양한 요약을 주석 처리하여 합성 데이터를 생성한다.
+    - 오직 소형 모델만을 학습용 교사로 사용한다.
+    - 데이터셋을 수동으로만 작성하여 정확도를 높인다.
+    answer_index: 1
+    explanation: TrueTeacher는 인간이 작성한 요약에 의존하지 않고, LLM을 사용하여 모델이 생성한 다양한 요약을 주석 처리함으로써
+      합성 데이터를 생성합니다 [S5].
+  - question: RAG 평가셋 구축 시 모델 자동 평가만으로 사실성을 확정하지 않는 이유는 무엇인가요?
+    choices:
+    - 모델 자동 평가가 인간보다 너무 느리기 때문입니다.
+    - 모델 자동 평가가 완벽하지 않으며 환각(Hallucination)을 완전히 걸러낼 수 없기 때문입니다.
+    - 인간 평가는 비용이 들지 않기 때문입니다.
+    - 사실성 평가에는 모델이 필요 없기 때문입니다.
+    answer_index: 1
+    explanation: 자동화된 평가 도구는 효율적이지만 완벽하지 않으므로, 사실성 검증을 위해 반드시 표본 인간 검토와 출처 대조를 병행해야
+      합니다.
+  completion_criteria:
+  - 100문항 이상의 질문-정답 평가셋 데이터셋 구축 완료
+  - 데이터셋 품질 분석 및 인간 검토 기록 제출
+  - RAG 파이프라인의 성능 평가를 위한 노트북 구현 및 결과 보고서 작성
+  - CI/CD 환경에서 재실행 가능한 형태의 평가 패키지 구성
+  source_ids:
+  - S5
+- id: m4
+  slug: retrieval-metrics
+  phase_id: p2
+  title: 검색 품질 지표(Recall@k, MRR, nDCG)
+  estimated_hours: 8.0
+  prerequisites:
+  - m3
+  objectives:
+  - 검색 증강 생성(RAG) 파이프라인에서 검색 단계의 중요성을 이해한다.
+  - Recall@k, MRR, nDCG 지표의 개념과 RAG 시스템 평가에서의 의미를 학습한다.
+  - 검색된 컨텍스트의 관련성이 이후 답변 생성 품질에 미치는 영향을 분석한다.
+  theory_markdown: '### RAG 검색 품질 평가의 중요성
+
+
+    RAG 시스템은 외부 데이터베이스에서 관련 정보를 검색하고, 이를 LLM에 전달하여 답변을 생성한다 [S3]. 따라서 검색 단계에서 관련성
+    높고 집중된 컨텍스트를 식별하지 못하면, 아무리 강력한 LLM이라도 정확한 답변을 생성하기 어렵다 [S3]. 검색 품질을 평가하는 것은 RAG
+    아키텍처의 전체 성능을 개선하는 첫걸음이다.
+
+
+    ### 주요 검색 평가 지표
+
+
+    1. **Recall@k (재현율)**: 검색된 상위 k개의 결과에 실제 정답이 포함되어 있는지 측정한다. 즉, 필요한 정보가 검색 시스템에
+    의해 포착되었는지 확인하는 지표이다.
+
+    2. **MRR (Mean Reciprocal Rank)**: 사용자의 질문에 대한 정답(관련 문서)이 검색 결과 리스트의 몇 번째 위치에
+    있는지를 측정한다. 가장 첫 번째 위치에 관련 문서가 등장할수록 MRR 값은 1에 가까워지며 높은 점수를 갖는다.
+
+    3. **nDCG (normalized Discounted Cumulative Gain)**: 검색 결과의 순서를 고려하는 지표로, 관련성
+    높은 문서가 상단에 위치할수록 높은 점수를 부여한다. 단순 포함 여부(Recall)보다 검색 결과의 ''순위 정확도''를 더 정밀하게 평가한다.
+
+
+    이러한 지표들은 참조 데이터(Ground Truth)가 있는 경우 시스템 개선을 위해 필수적이며, Ragas와 같은 프레임워크는 이러한 차원을
+    정량적으로 분석할 수 있는 도구를 제공한다 [S3, S4].'
+  worked_examples:
+  - '질문에 대해 시스템이 [DocB, DocA, DocC] 순서로 반환했고, 정답 관련 문서가 DocA라면? MRR 계산: DocA는 2번째이므로
+    Reciprocal Rank는 1/2 = 0.5이다.'
+  - k=3일 때 상위 3개 검색 결과에 정답 문서가 포함되어 있다면 Recall@3 = 1, 포함되어 있지 않다면 Recall@3 = 0이다.
+  lab:
+    title: 검색 품질 지표 정량 측정 실습
+    steps:
+    - 평가셋(질문, 정답 문서)을 사용하여 50개 샘플 데이터 준비하기.
+    - 검색 모듈을 실행하여 각 질문에 대한 상위 k(k=3, 5, 10)개의 문서 반환받기.
+    - Recall@k, MRR, nDCG 함수를 Python으로 직접 구현하거나 라이브러리를 사용하여 계산하기.
+    - 질문별 지표 결과를 데이터프레임으로 정리하여 시각화하기.
+    safety:
+    - 개인정보나 비공개 문서가 포함된 데이터셋을 외부 API에 전송하지 않는다.
+    - 실험 시 API 비용 제한을 설정하고 캐시를 활용하여 요청 수를 최적화한다.
+    deliverables:
+    - 각 질문별 Recall@k, MRR, nDCG 값이 포함된 결과 데이터프레임 CSV
+    - 지표 분포를 보여주는 히스토그램 및 박스플롯 이미지
+  assignment:
+    title: 검색기(Retriever) 성능 비교 리포트
+    deliverables:
+    - '두 가지 검색 설정(예: Sparse vs Dense Retrieval)을 적용한 평가 결과 보고서'
+    - 성능이 낮은 상위 5개 질문에 대한 원인 분석(오검색 유형 분류)
+    rubric:
+    - Recall@k, MRR, nDCG 지표를 정확하게 계산하였는가?
+    - 검색 성능 차이를 통계적으로 유의미하게 해석하였는가?
+    - 실패 유형을 체계적으로 분류하였는가?
+  quiz:
+  - question: RAG 시스템에서 검색 단계의 품질이 생성 단계에 미치는 영향은 무엇인가?
+    choices:
+    - 검색 품질은 생성 품질과 무관하다.
+    - 관련성 낮은 컨텍스트는 LLM의 환각을 유발할 위험을 높인다.
+    - 검색 단계는 LLM의 추론 능력만을 평가한다.
+    - 검색 결과가 많을수록 항상 생성 품질이 좋아진다.
+    answer_index: 1
+    explanation: 검색 단계에서 관련성 없는 정보가 전달되면 LLM은 이를 기반으로 잘못된 답변을 생성하거나 환각을 일으킬 수 있다 [S3].
+  - question: MRR 지표가 가장 높을 때는 언제인가?
+    choices:
+    - 관련 문서가 항상 마지막에 나올 때
+    - 관련 문서가 항상 가장 상단(1위)에 위치할 때
+    - 검색 결과가 전혀 없을 때
+    - 관련 문서가 항상 중간에 나올 때
+    answer_index: 1
+    explanation: MRR은 정답 문서의 순위 역수의 평균이므로, 1위에 위치할 때 값이 최대(1)가 된다.
+  completion_criteria:
+  - Recall@k, MRR, nDCG 계산 코드를 완성하고 샘플 데이터에 적용하였다.
+  - 두 가지 검색 전략을 비교하여 정량적 분석 결과를 도출하였다.
+  - 검색 실패 유형을 최소 3가지 이상 분류하고 보고서에 기재하였다.
+  source_ids:
+  - S3
+  - S4
+- id: m5
+  slug: generation-faithfulness
+  phase_id: p2
+  title: 근거 충실도 평가
+  estimated_hours: 8.0
+  prerequisites:
+  - m4
+  objectives:
+  - 근거 충실도(Faithfulness)의 개념을 이해하고 RAG 시스템에서의 중요성을 파악한다.
+  - Ragas 프레임워크를 활용하여 생성된 답변이 검색된 문맥(Context)에 기반하는지 정량적으로 평가한다.
+  - 자동화된 평가 지표를 활용하여 환각(Hallucination) 위험을 분석한다.
+  theory_markdown: '## 근거 충실도 (Faithfulness) 평가
+
+
+    RAG(Retrieval-Augmented Generation) 시스템의 핵심은 LLM이 외부 지식 데이터베이스에서 검색된 정보를 활용하여
+    답변을 생성하는 것이다. 근거 충실도(Faithfulness)는 생성된 답변이 검색된 문맥에 기술된 정보만을 충실히 반영하는지를 나타내는 지표이다
+    [S3].
+
+
+    ### 1. 왜 근거 충실도를 평가하는가?
+
+    LLM은 사전 학습된 지식을 바탕으로 답변하려는 경향이 있어, 검색된 문맥과 무관한 정보를 생성하거나 문맥을 왜곡할 수 있다. 이를 ''환각(Hallucination)''이라
+    하며, 근거 충실도 평가를 통해 이를 정량적으로 측정할 수 있다 [S4].
+
+
+    ### 2. 평가 프레임워크: Ragas
+
+    Ragas는 사용자 주석이 없는 상황에서도 참조 기반 없이(reference-free) 평가가 가능한 프레임워크를 제안한다 [S3]. 근거
+    충실도 평가 과정은 일반적으로 다음 단계를 따른다:
+
+    - **답변에서 진술 추출**: 답변으로부터 검증 가능한 사실적 진술들을 분리한다.
+
+    - **증거 검색**: 각 진술이 검색된 문맥의 어떤 부분에서 도출되었는지 확인한다.
+
+    - **검증**: 추출된 진술들이 문맥 정보와 일치하는지 판단한다.
+
+
+    Ragas는 LLM을 평가자로 사용하여 이 과정을 자동화한다 [S4].'
+  worked_examples:
+  - '예시 1: 문맥 ''사과는 비타민 C가 풍부하다''와 답변 ''사과는 비타민 C가 많아 면역력에 좋다''가 있을 경우, ''면역력에 좋다''는
+    문맥에 없는 정보이므로 근거 충실도 점수가 낮아진다.'
+  - '예시 2: 문맥 ''우리 회사의 창립일은 2020년 5월 1일이다''와 답변 ''당사는 2020년 5월에 설립되었다''는 정보가 일치하므로
+    높은 근거 충실도 점수를 가진다.'
+  lab:
+    title: Ragas를 활용한 생성 답변 근거 충실도 측정
+    steps:
+    - 평가 데이터셋(질문, 검색된 문맥, 생성된 답변)을 준비한다.
+    - Ragas 라이브러리를 설치하고 `Faithfulness` 메트릭을 임포트한다.
+    - 준비된 데이터셋을 Ragas의 데이터 구조로 변환한다.
+    - LLM 기반 평가자를 구성하여 데이터셋의 근거 충실도 점수를 산출한다.
+    - 점수가 낮은 답변들을 표본 추출하여 검색된 문맥과의 차이를 인간 검토로 분석한다.
+    safety:
+    - 비공개 문서나 개인정보가 포함된 데이터셋을 외부 LLM API로 전송하지 않는다.
+    - API 요청 수 제한을 확인하고 캐시(Cache)를 사용하여 비용을 통제한다.
+    - 인간 검토 시 표본 데이터의 보안을 유지한다.
+    deliverables:
+    - 전체 데이터셋의 평균 근거 충실도 점수 리포트
+    - 낮은 점수를 기록한 답변에 대한 분석 데이터셋
+    - 자동 평가 결과와 인간 검토 결과 비교 분석
+  assignment:
+    title: RAG 파이프라인 신뢰성 평가 보고서
+    deliverables:
+    - 근거 충실도 평가가 포함된 Jupyter Notebook
+    - 오류 분류 및 환각 발생 빈도 분석 보고서
+    rubric:
+    - 근거 충실도 메트릭 구현이 올바르게 되었는가?
+    - 생성 답변의 환각 사례를 정확히 분류했는가?
+    - 자동 평가 결과와 인간 검토의 정성적 일관성을 확보했는가?
+  quiz:
+  - question: RAG 시스템에서 근거 충실도(Faithfulness)란 무엇인가?
+    choices:
+    - 검색된 문맥이 질문과 관련성이 높은 정도
+    - 생성된 답변이 검색된 문맥의 정보에 기반하는 정도
+    - LLM이 사전 학습된 지식을 많이 활용하는 정도
+    - 사용자의 질문에 답변이 정확히 일치하는 정도
+    answer_index: 1
+    explanation: 근거 충실도는 생성된 답변이 외부에서 검색된 문맥의 사실에 의존하는지를 평가하는 지표입니다.
+  - question: Ragas 프레임워크의 특징으로 옳은 것은?
+    choices:
+    - 반드시 인간 주석(Ground Truth)이 있어야만 평가가 가능하다.
+    - 참조 기반이 없는(reference-free) 평가 방식을 지원한다.
+    - 검색 효율성만 평가하며 생성 품질은 평가하지 않는다.
+    - LLM을 평가자로 활용하지 않고 통계적 방식만 사용한다.
+    answer_index: 1
+    explanation: Ragas는 참조 기반 없이 평가 가능한 프레임워크를 목표로 하며 LLM을 평가자로 적극 활용합니다 [S3, S4].
+  completion_criteria:
+  - Ragas 라이브러리를 사용하여 생성 답변의 근거 충실도를 정량 측정할 수 있다.
+  - 평가 결과에서 환각 발생 유형을 최소 3가지 이상 분류할 수 있다.
+  - 자동화된 평가 파이프라인의 결과와 실제 답변의 일관성을 검증할 수 있다.
+  source_ids:
+  - S3
+  - S4
+- id: m6
+  slug: citation-accuracy
+  phase_id: p2
+  title: 인용 정확도 및 출처 추적
+  estimated_hours: 8.0
+  prerequisites:
+  - m5
+  objectives:
+  - RAG 시스템에서 답변이 검색된 문서의 내용을 얼마나 충실히 반영하는지 이해한다.
+  - 인용(Citation) 정확도의 정의와 측정 방식을 학습한다.
+  - Ragas 프레임워크를 활용하여 답변의 근거 충실도(Faithfulness)와 답변 관련성(Answer Relevance)을 정량 평가한다.
+  - 모델의 답변에서 출처 추적 가능성을 검증하는 프로세스를 설계한다.
+  theory_markdown: '## RAG 시스템의 인용 및 근거 충실도 평가
+
+
+    RAG(Retrieval Augmented Generation) 시스템은 외부 지식 베이스를 활용하여 LLM의 환각(Hallucination)
+    위험을 줄이지만, 생성된 답변이 검색된 문서를 정확히 인용하고 있는지 검증하는 과정이 필수적이다 [S4].
+
+
+    ### 1. 주요 평가 지표
+
+    * **근거 충실도 (Faithfulness):** 생성된 답변이 제공된 검색 맥락(Context)으로부터 파생되었는지 측정합니다. 답변의
+    모든 주장이 검색된 문서를 기반으로 해야 하며, 외부 지식이나 모델의 사전 학습 지식으로만 답변하는 경우 점수가 낮아집니다 [S4].
+
+    * **답변 관련성 (Answer Relevance):** 답변이 주어진 질문에 얼마나 직접적으로 관련이 있는지 평가합니다. 이는 검색된 정보가
+    충분하더라도 답변이 질문의 의도와 어긋나는 경우를 식별하는 데 사용됩니다.
+
+
+    ### 2. 인용 정확도 검증 프로세스
+
+    인용 정확도는 답변의 특정 문장이 검색된 문맥의 어느 부분을 인용했는지 식별하고, 해당 원문의 사실과 일치하는지 확인하는 과정입니다. 자동화
+    평가 프레임워크인 Ragas는 이러한 과정을 위해 참조 데이터(Ground Truth) 없이도 근거 충실도를 평가할 수 있는 지표를 제공합니다
+    [S4].
+
+
+    ### 3. 실패 유형 분류
+
+    - **인용 누락:** 답변의 사실 관계가 검색 문서에 존재함에도 인용을 표시하지 않음.
+
+    - **허위 인용:** 검색 문서에 없는 내용을 인용한 것처럼 표시.
+
+    - **사실 왜곡:** 인용은 올바르게 표시했으나 원문의 의미를 잘못 해석하여 생성함.'
+  worked_examples:
+  - '예제 1: 근거 충실도 점수 계산. 질문 ''A사의 2025년 매출은?''에 대해 답변 ''A사의 2025년 매출은 100억입니다.''가
+    생성되었고, 맥락 문서에 ''A사는 2025년 100억 매출을 기록했다.''가 포함된 경우, 답변의 모든 정보가 맥락 내에 존재하므로 근거
+    충실도 점수는 1.0(최대치)으로 평가됩니다.'
+  - '예제 2: 인용 정확도 오류 식별. 질문 ''A사의 창립 연도는?''에 대해 답변 ''A사는 1990년에 창립되었습니다(참고: 문서 1).''가
+    생성되었으나, 문서 1에 ''A사는 1995년 창립''이라고 명시된 경우, 이는 ''사실 왜곡'' 실패 유형으로 분류되며 인용 정확도가 낮은
+    것으로 판단합니다.'
+  lab:
+    title: Ragas를 활용한 답변 근거 충실도 자동 평가 실습
+    steps:
+    - 평가할 RAG 시스템의 검색 결과(Context)와 생성된 답변(Answer) 데이터셋을 준비합니다.
+    - Ragas 프레임워크를 설치하고 답변 데이터셋을 로드합니다.
+    - Ragas의 `Faithfulness` 지표를 사용하여 데이터셋의 각 질문-답변 쌍에 대해 점수를 계산합니다.
+    - 근거 충실도가 0.7 미만인 답변 30건을 별도로 추출합니다.
+    - 추출된 샘플을 인간이 직접 검토하여 '인용 누락', '허위 인용', '사실 왜곡' 중 해당하는 실패 유형을 태깅합니다.
+    safety:
+    - 평가 과정에서 사용되는 문서 코퍼스에 개인정보나 기업 기밀이 포함되지 않도록 사전에 비식별화 처리를 완료하십시오.
+    - 외부 API 호출 시 비용 상한을 설정하고, 재현성을 위해 시드(Seed) 값을 고정하여 반복적인 API 비용 발생을 방지하십시오.
+    deliverables:
+    - 평가 결과가 포함된 Jupyter Notebook 파일(.ipynb)
+    - 근거 충실도 점수 분포 시각화 차트
+    - 인간 검토 기록이 포함된 실패 유형 분류 테이블
+  assignment:
+    title: RAG 시스템 신뢰성 회귀 평가 보고서 작성
+    deliverables:
+    - '두 가지 이상의 RAG 설정(예: 검색 Top-k 값 변경)에 따른 근거 충실도 통계 비교 결과'
+    - 샘플 30건에 대한 인간 검토 대조표
+    - 시스템의 인용 정확도 향상을 위한 개선 방안 제안서
+    rubric:
+    - 평가 지표의 정량적 산출 방식이 정확하게 명시되었는가?
+    - 검색 문서와 생성 답변 간의 인용 관계가 논리적으로 추적 가능한가?
+    - 실패 유형 분류가 인간 검토 데이터와 일치하며 타당한 근거를 제시하는가?
+  quiz:
+  - question: Ragas 프레임워크의 '근거 충실도(Faithfulness)' 지표에 대한 설명으로 옳은 것은?
+    choices:
+    - 답변이 질문과 관련성이 있는지를 평가한다.
+    - 답변의 모든 정보가 제공된 맥락 문서 내에 존재하는지 측정한다.
+    - 답변이 문법적으로 얼마나 정확한지 평가한다.
+    - 답변이 외부 지식 베이스의 모든 정보를 포함하는지 측정한다.
+    answer_index: 1
+    explanation: 근거 충실도는 생성된 답변의 주장이 검색된 컨텍스트에 근거하고 있는지 측정하는 지표입니다.
+  - question: 인용 정확도 평가 시 '사실 왜곡' 실패 유형에 해당하는 경우는?
+    choices:
+    - 검색 문서에 없는 내용을 답변에 포함시킨 경우
+    - 인용 표기를 누락한 경우
+    - 인용은 올바르게 표시했으나 원문의 사실 관계를 잘못 해석하여 서술한 경우
+    - 답변이 질문의 의도와 완전히 다른 경우
+    answer_index: 2
+    explanation: 사실 왜곡은 출처 문서를 인용했음에도 불구하고, 원문의 정보를 잘못된 방식으로 요약하거나 변형하여 생성하는 경우를 말합니다.
+  completion_criteria:
+  - Jupyter Notebook을 통한 자동화된 평가 지표 산출 완료
+  - 최소 30건의 답변 샘플에 대한 인간 검토 및 실패 유형 분류 기록 제출
+  - 평가 결과와 개선 방안이 포함된 최종 보고서 작성
+  source_ids:
+  - S4
+- id: m7
+  slug: automated-eval-framework
+  phase_id: p2
+  title: 자동 평가 프레임워크(Ragas) 적용
+  estimated_hours: 10.0
+  prerequisites:
+  - m6
+  objectives:
+  - RAG 파이프라인의 핵심 평가 차원(검색 및 생성 품질)을 이해한다.
+  - Ragas 프레임워크를 사용하여 참조 없이(reference-free) RAG 성능을 자동 평가하는 방법을 익힌다.
+  - 정량적 메트릭을 통해 환각(hallucination) 위험을 분석하고 완화한다.
+  theory_markdown: '## RAG 평가의 도전 과제와 Ragas
+
+
+    RAG 시스템은 검색 모듈과 LLM 기반 생성 모듈로 구성됩니다 [S3, S4]. 이러한 구조를 평가하는 것은 도전적인 작업인데, 검색 시스템이
+    관련성 높은 문맥(context)을 얼마나 잘 식별하는지, LLM이 제공된 문맥을 얼마나 충실하게(faithfully) 활용하는지, 그리고
+    답변의 품질은 어떠한지를 모두 고려해야 하기 때문입니다 [S4].
+
+
+    전통적인 평가 방식은 사람이 직접 정답(ground truth)을 작성하고 비교하는 방식에 의존했으나, 이는 비용이 많이 들고 시간이 오래
+    걸려 빠른 반복 주기에 부적합합니다 [S3, S4].
+
+
+    ### Ragas 프레임워크
+
+    Ragas(Retrieval Augmented Generation Assessment)는 정답 데이터셋 없이도 RAG 파이프라인을 평가할 수
+    있는 프레임워크입니다 [S3, S4]. Ragas는 다음과 같은 핵심 차원을 자동 평가합니다:
+
+
+    1. **검색 품질(Retrieval Quality):** 검색된 문맥이 질문과 얼마나 관련이 있는지(Context Relevance), 모든
+    필요한 정보를 포함하는지(Context Recall)를 측정합니다.
+
+    2. **생성 품질(Generation Quality):** 생성된 답변이 검색된 문맥에 기반하고 있는지(Faithfulness), 질문에
+    얼마나 관련이 있는지(Answer Relevance)를 측정합니다.
+
+
+    이러한 메트릭은 LLM을 ''평가자(judge)''로 활용하여 참조 없이도 평가가 가능하게 하며, RAG 개발 주기를 단축하는 데 기여합니다
+    [S3, S4].'
+  worked_examples:
+  - '사례 1: Context Relevance 계산. Ragas는 LLM을 사용해 검색된 문맥(Context)에서 질문에 답변하는 데 실제로
+    필요한 문장들을 추출하고, 전체 문맥 대비 필요한 문장들의 비율을 통해 점수를 계산합니다.'
+  - '사례 2: Faithfulness 평가. 생성된 답변의 각 주장이 검색된 문맥에서 지지받는지 LLM이 판단합니다. 지지받지 못하는 주장이
+    많을수록 환각 점수가 높아집니다.'
+  lab:
+    title: Ragas를 활용한 RAG 성능 정량 평가 실습
+    steps:
+    - 평가 데이터셋(질문, 검색된 문맥, 생성된 답변)을 준비합니다.
+    - Python 환경에서 `ragas` 라이브러리를 설치합니다.
+    - 평가 데이터셋을 `ragas`의 Dataset 객체로 변환합니다.
+    - Ragas의 `evaluate` 함수를 호출하여 Context Relevance, Faithfulness 등 메트릭을 계산합니다.
+    - 결과값을 시각화하고 점수가 낮은 쿼리들을 분석합니다.
+    safety:
+    - 평가에 사용하는 문서 코퍼스에 개인정보나 비공개 데이터가 포함되지 않았는지 확인합니다.
+    - API 사용 비용을 방지하기 위해 테스트 시 로컬 모델이나 캐싱을 적극 활용합니다.
+    - 자동 평가 결과는 신뢰성의 보조 지표이며, 실제 모델의 품질 확정은 표본 인간 검토와 교차 검증을 병행합니다.
+    deliverables:
+    - 메트릭 점수가 포함된 평가 결과 데이터프레임
+    - 낮은 점수를 받은 쿼리 유형 분석 로그
+  assignment:
+    title: RAG 파이프라인 성능 비교 보고서
+    deliverables:
+    - 검색 설정(k값, 임베딩 모델 등)이 다른 두 가지 RAG 파이프라인의 Ragas 평가 결과
+    - 두 설정 간의 성능 차이 분석 보고서
+    rubric:
+    - Ragas 메트릭(Context Relevance, Faithfulness 등)이 올바르게 구현되었는가?
+    - 평가 결과가 정량적으로 비교되고 논리적인 해석이 포함되었는가?
+    - 환각 유형을 최소 3건 이상 분류하고 개선 방안을 제시했는가?
+  quiz:
+  - question: Ragas 프레임워크의 가장 큰 특징은 무엇입니까?
+    choices:
+    - 사람의 정답 데이터셋이 반드시 필요하다
+    - 참조 없이(reference-free) RAG 파이프라인을 평가할 수 있다
+    - 검색 단계만을 평가하며 생성 단계는 평가하지 않는다
+    - 반드시 GPU가 10개 이상 필요하다
+    answer_index: 1
+    explanation: Ragas는 정답 데이터셋 없이 LLM을 활용해 검색과 생성 품질을 자동 평가하는 프레임워크입니다 [S3, S4].
+  - question: Ragas에서 측정하는 'Faithfulness' 메트릭의 정의는 무엇입니까?
+    choices:
+    - 검색된 문맥이 질문과 얼마나 관련이 있는가
+    - 질문이 문서 코퍼스 내에 존재하는가
+    - 생성된 답변이 검색된 문맥에 기반하고 있는가
+    - 질문자가 LLM의 답변을 얼마나 신뢰하는가
+    answer_index: 2
+    explanation: Faithfulness는 생성된 답변이 제공된 검색 문맥에 얼마나 충실하게 기반하여 생성되었는지(환각 방지)를 측정하는
+      지표입니다 [S4].
+  completion_criteria:
+  - Ragas 라이브러리를 사용하여 최소 10건의 쿼리에 대해 4가지 이상의 메트릭을 계산 성공함
+  - 실습 노트북이 Git 저장소에 정기적으로 커밋됨
+  - 성능 비교 보고서 내에 최소 3건의 오류 분류 사례가 포함됨
+  source_ids:
+  - S3
+  - S4
+- id: m8
+  slug: error-analysis
+  phase_id: p3
+  title: 실패 유형 분류 및 오류 분석
+  estimated_hours: 10.0
+  prerequisites:
+  - m7
+  objectives:
+  - RAG 시스템에서 발생하는 실패 유형을 식별하고 분류할 수 있다.
+  - 검색(Retrieval) 단계와 생성(Generation) 단계의 오류를 구분하여 분석할 수 있다.
+  - Ragas 프레임워크의 지표를 활용하여 자동 평가와 인간 검토 결과를 연결할 수 있다.
+  - 오류 분석 데이터를 바탕으로 RAG 파이프라인 성능 개선안을 도출할 수 있다.
+  theory_markdown: '## RAG 시스템의 오류 분석 개요
+
+
+    RAG(Retrieval Augmented Generation) 아키텍처는 검색 모듈과 LLM 기반의 생성 모듈로 구성됩니다 [S3]. 시스템
+    성능을 평가할 때는 이 두 단계를 분리하여 분석하는 것이 중요합니다. 오류는 크게 검색 단계에서의 문제와 생성 단계에서의 문제로 나뉩니다.
+
+
+    ### 1. 실패 유형 분류
+
+    - **검색 실패 (Retrieval Failure):** 관련성이 없거나 초점이 맞지 않는 문맥(context)을 검색한 경우 [S3].
+
+    - **생성 실패 (Generation Failure):** LLM이 제공된 문맥을 충실하게 이용하지 못하거나(Faithfulness), 질문과
+    관련 없는 답변을 생성하는 경우 [S3].
+
+
+    ### 2. 자동 평가와 인간 검토의 보완
+
+    Ragas와 같은 레퍼런스 프리(Reference-free) 프레임워크는 인간 주석(ground truth) 없이도 검색과 생성 품질을 평가할
+    수 있게 해줍니다 [S3]. 하지만 자동화된 평가 지표만으로는 시스템의 미묘한 환각(hallucination)이나 복합적인 논리 오류를 모두
+    포착하기 어렵습니다. 따라서 정량적 자동 지표를 통해 우선순위가 높은 실패 표본을 추출하고, 이에 대해 반드시 인간 검토(Human Review)를
+    병행하여 실제 원인을 파악해야 합니다.'
+  worked_examples:
+  - '예시 1: 질문 ''모델 A의 출시일은?''에 대해 검색기가 ''모델 B의 사양'' 문서를 가져온 경우. 이는 ''검색 실패''로 분류하며,
+    임베딩 모델 조정 또는 검색 쿼리 최적화가 해결책이 될 수 있습니다.'
+  - '예시 2: 질문 ''X를 설명하라''에 대해 검색기가 X에 대한 정확한 문서를 가져왔으나, LLM이 문서에 없는 정보로 답변한 경우. 이는
+    ''생성 실패(충실도 부족)''로 분류하며, 프롬프트 엔지니어링을 통해 ''제공된 문맥만을 사용하라''는 제약을 강화해야 합니다.'
+  lab:
+    title: 실패 데이터셋 수집 및 오류 분석
+    steps:
+    - 최소 50개의 질문에 대해 RAG 시스템의 답변과 검색된 문맥(context)을 저장합니다.
+    - 각 항목에 대해 검색 관련성(Context Precision)과 생성 충실도(Faithfulness)를 Ragas로 측정합니다.
+    - 지표가 낮은 하위 20%의 질문-답변 쌍을 추출합니다.
+    - 추출된 표본에 대해 '검색 오류', '생성 오류', '논리 오류' 중 하나로 분류 표를 작성합니다.
+    safety:
+    - 개인정보나 비공개 데이터는 절대 평가 코드에 포함하지 않습니다.
+    - 평가 과정에서 사용되는 API 호출 횟수와 비용을 모니터링하여 예산을 준수합니다.
+    - 데이터 분석 시 로컬 환경에서 작업을 수행하여 정보 유출을 방지합니다.
+    deliverables:
+    - 분류가 완료된 오류 분석 CSV 파일
+    - 검색 및 생성 품질 지표가 시각화된 Jupyter Notebook
+  assignment:
+    title: RAG 오류 분류 및 개선 보고서 작성
+    deliverables:
+    - 오류 분석 결과가 요약된 2페이지 분량의 보고서
+    - 분류된 실패 유형별 대응 전략(검색 최적화 또는 프롬프트 개선) 제안
+    rubric:
+    - 실패 유형 분류의 정확성과 타당성
+    - 정량적 지표와 인간 검토 결과 간의 상관관계 분석 능력
+    - 개선 전략의 논리적 타당성
+  quiz:
+  - question: RAG 시스템에서 검색 모듈이 관련 없는 문맥을 가져왔을 때 발생하는 실패는 무엇인가요?
+    choices:
+    - 생성 실패
+    - 검색 실패
+    - 데이터베이스 연결 오류
+    - 인증 실패
+    answer_index: 1
+    explanation: 검색 모듈은 질문에 적합한 문서를 식별하는 역할을 하므로, 관련 없는 문맥을 가져오는 것은 검색 단계의 실패입니다 [S3].
+  - question: Ragas 프레임워크의 가장 큰 특징은 무엇인가요?
+    choices:
+    - 반드시 대규모의 인간 주석 데이터가 필요하다.
+    - 레퍼런스 프리(Reference-free) 평가가 가능하다.
+    - LLM 생성 품질 평가만 가능하다.
+    - 실시간 스트리밍 시스템에만 적용 가능하다.
+    answer_index: 1
+    explanation: Ragas는 지면진실(ground truth) 없이도 검색과 생성 품질을 평가할 수 있는 레퍼런스 프리 평가 프레임워크입니다
+      [S3].
+  completion_criteria:
+  - 실패 유형이 포함된 오류 분류표 제출
+  - Ragas 지표를 활용한 검색 및 생성 품질 정량 분석 완료
+  - 오류 분석을 바탕으로 한 파이프라인 개선 제안서 작성 및 검토
+  source_ids:
+  - S3
+- id: m9
+  slug: human-review-validation
+  phase_id: p3
+  title: 표본 인간 검토 및 대조
+  estimated_hours: 10.0
+  prerequisites:
+  - m8
+  objectives:
+  - 자동화된 RAG 평가 지표와 실제 사실성 간의 간극을 이해한다.
+  - 모델이 생성한 답변의 근거 충실도(Factual Consistency)를 인간이 검토하는 프로토콜을 설계한다.
+  - LLM 평가의 한계를 파악하고, TrueTeacher와 같은 합성 데이터 기법의 의의를 분석한다 [S5].
+  - 오류 유형을 체계적으로 분류하고 신뢰성 데이터셋을 관리하는 방법을 익힌다.
+  theory_markdown: '## 자동화 평가의 한계와 인간 검토의 필요성
+
+
+    검색 증강 생성(RAG) 시스템의 품질을 평가할 때 Ragas와 같은 도구는 정량적 지표를 빠르게 제공하지만, 모델이 생성한 답변의 미묘한
+    사실적 오류를 완벽히 포착하는 데는 한계가 있습니다. 특히 복잡한 맥락에서 LLM이 지식 내에서 추론하는지, 혹은 학습된 데이터에 의존하여
+    환각(Hallucination)을 생성하는지 구분하기 어렵습니다.
+
+
+    ### 사실적 일관성 평가
+
+
+    최근 연구는 자연어 추론(NLI) 모델이나 대형 언어 모델(LLM)을 활용하여 요약이나 답변의 사실성을 평가합니다. 그러나 기존 방식은 인간이
+    작성한 요약 데이터셋에 의존하며, 이는 실제 모델이 생성하는 결과물의 특성과 차이가 발생할 수 있습니다 [S5]. TrueTeacher와 같은
+    접근법은 LLM을 활용하여 모델 생성 데이터에서 합성적인 사실성 평가 데이터를 생성함으로써 이러한 한계를 극복하려 합니다 [S5].
+
+
+    ### 인간 검토(Human-in-the-Loop)의 역할
+
+
+    자동 평가 파이프라인이 아무리 고도화되더라도, 최종적인 신뢰성 검증은 인간의 검토가 필수적입니다. 인간 검토는 다음 역할을 수행합니다:
+
+    1. **자동 평가 지표의 검증:** 특정 답변이 ''관련 있음''으로 평가되었으나 실제로는 사실이 아닌 경우를 식별.
+
+    2. **환각 유형 분류:** 시스템의 구조적 결함(검색 오류 vs. 생성 모델 오류)을 진단.
+
+    3. **회귀 테스트 셋의 보정:** 인간이 검수한 데이터를 바탕으로 평가셋의 품질을 지속적으로 개선.'
+  worked_examples:
+  - '예시 1: 자동 평가 지표(예: Faithfulness)가 0.9로 높게 나왔으나, 인간 검토 결과 검색 문서에는 없는 내용이 포함된 경우.
+    분석: 모델이 검색된 정보가 아닌 내부 가중치에 포함된 과거 정보를 사용한 환각으로 분류하고, 이를 시스템 오류 로그에 기록함.'
+  - '예시 2: TrueTeacher 모델을 사용하여 시스템이 답변의 사실성을 스스로 평가하도록 설계한 경우. LLM이 ''참''이라고 평가한
+    답변 중 일부를 인간이 표본 조사하여, LLM 평가기의 오류율(False Positive)을 측정하고 이를 평가 보고서에 명시함 [S5].'
+  lab:
+    title: 표본 인간 검토 및 오류 분석 수행
+    steps:
+    - 자동 평가 파이프라인(Ragas 등)을 통해 100건의 답변에 대한 Faithfulness 점수를 도출한다.
+    - 점수가 가장 낮은 10건과 중간 수준의 10건, 높은 10건을 무작위로 추출하여 검토셋을 만든다.
+    - 답변, 검색 문서(Context), 정답(Ground Truth)을 대조하며 '검색 누락', '정보 왜곡', '환각 생성' 여부를 수동
+      기록한다.
+    - 기록된 인간 판단과 자동 평가 점수를 비교하여 상관관계 분석을 수행한다.
+    safety:
+    - 검토 대상 데이터셋에 실제 개인정보나 민감한 비공개 문서가 포함되지 않았는지 반드시 확인한다.
+    - 검토 완료된 데이터는 로컬 스토리지에 안전하게 보관하며, 검증되지 않은 외부 API에 업로드하지 않는다.
+    deliverables:
+    - 최소 30건의 인간 검토 기록이 포함된 오류 분류 시트(CSV/Excel)
+    - 자동 지표와 인간 평가 간의 일치도를 분석한 요약 리포트
+  assignment:
+    title: RAG 신뢰성 분석 보고서 작성
+    deliverables:
+    - 인간 검토를 통해 분류된 실패 유형 빈도 표
+    - 현재 시스템의 주요 취약점(검색 단계 혹은 생성 단계)에 대한 분석 보고서
+    - 향후 자동 평가 파이프라인 개선을 위한 제언
+    rubric:
+    - 오류 유형이 체계적으로 분류되었는가?
+    - 자동 평가 지표의 한계를 구체적인 예시와 함께 논리적으로 서술했는가?
+    - 인간 검토 데이터가 신뢰성 분석의 근거로 적절하게 활용되었는가?
+  quiz:
+  - question: 자동화된 사실성 평가 지표만으로 시스템 신뢰성을 확정하기 어려운 주된 이유는 무엇인가?
+    choices:
+    - 자동 평가 지표는 매우 빠르기 때문에.
+    - 모델 생성 데이터는 인간이 작성한 데이터와는 다른 특징을 가지며, 자동 평가기 자체가 사실적 오류를 모두 잡아내지 못할 수 있기 때문 [S5].
+    - 인간 검토 데이터가 항상 자동 평가 지표보다 정확하기 때문.
+    - 데이터셋의 규모가 작기 때문.
+    answer_index: 1
+    explanation: 기존의 요약 기반 평가 데이터셋은 모델이 생성하는 실제 결과물의 복잡성을 충분히 반영하지 못하며, 자동 평가 시스템은
+      특정 상황에서 환각을 검출하지 못할 수 있습니다.
+  - question: TrueTeacher 방식이 기존 요약 데이터셋 활용법과 다른 점은 무엇인가?
+    choices:
+    - 인간이 작성한 요약문에만 의존한다.
+    - 모델이 생성한 다양한 요약을 활용하여 사실성 평가를 위한 합성 데이터를 생성한다 [S5].
+    - NLI 모델을 사용하지 않는다.
+    - 다국어 지원이 불가능하다.
+    answer_index: 1
+    explanation: TrueTeacher는 인간이 작성한 요약에 의존하지 않고, LLM을 사용하여 모델이 생성한 다양한 데이터를 합성적으로
+      주석 달아 학습 데이터를 생성합니다 [S5].
+  completion_criteria:
+  - 최소 30건의 데이터 표본에 대한 인간 검토 로그가 작성되어야 함.
+  - 자동 평가 결과와 인간 검토 결과 간의 비교 분석이 포함된 리포트가 제출되어야 함.
+  - 오류 분류를 통해 현재 시스템의 취약점이 명확히 정의되어야 함.
+  source_ids:
+  - S5
+- id: m10
+  slug: regression-report
+  phase_id: p3
+  title: 재현 가능한 회귀 평가 리포팅
+  estimated_hours: 18.0
+  prerequisites:
+  - m9
+  objectives:
+  - RAG 시스템의 재현 가능한 회귀 평가 프레임워크를 이해한다.
+  - Ragas 프레임워크를 사용하여 검색 및 생성 품질을 정량적으로 측정한다.
+  - 회귀 테스트를 통해 모델 업데이트나 검색 알고리즘 변경이 시스템 신뢰성에 미치는 영향을 분석한다.
+  - 인간 검토와 자동화 평가의 조화를 통한 종합적인 리포팅 방식을 습득한다.
+  theory_markdown: '### RAG 시스템 평가의 핵심 차원
+
+    RAG 아키텍처를 평가하는 것은 다면적인 작업입니다. 검색 시스템이 질문에 관련성 높고 집중된 문맥을 식별하는 능력, LLM이 식별된 문맥을
+    사용하여 충실하게 답변을 생성하는 능력, 그리고 최종 생성물의 품질 자체가 평가 대상입니다 [S3, S4].
+
+
+    ### Ragas 프레임워크
+
+    Ragas(Retrieval Augmented Generation Assessment)는 기준 데이터(Ground Truth) 없이도 RAG
+    파이프라인을 평가할 수 있는 프레임워크입니다 [S3]. Ragas는 검색 품질(Retrieval quality), 생성 품질(Generation
+    quality), 그리고 할루시네이션(Hallucination) 방지 능력을 측정하기 위한 일련의 지표를 제공합니다 [S3].
+
+
+    ### 회귀 평가의 중요성
+
+    시스템 신뢰성을 유지하기 위해서는 변화 관리(Change Management)가 필수적입니다. 새로운 임베딩 모델 도입, 검색 알고리즘 튜닝,
+    또는 LLM 설정 변경 시 기존 평가 데이터셋을 대상으로 회귀 테스트를 수행해야 합니다. 회귀 평가 리포트는 시스템의 개선점이 실제 신뢰성
+    향상으로 이어졌는지, 아니면 새로운 결함을 유발했는지를 통계적으로 입증하는 자료가 됩니다.'
+  worked_examples:
+  - '통계적 비교 예시: 두 가지 RAG 설정(기존 vs 신규 임베딩 모델)에 대해 동일한 100문항 평가셋을 실행하고, Ragas 지표(Faithfulness,
+    Answer Relevance)의 평균값과 표준편차를 비교하여 유의미한 성능 향상을 검증하는 노트북 분석 사례.'
+  - '오류 유형 분류 예시: 시스템이 ''답변 관련성'' 점수가 낮게 나온 30건을 표본 추출하여, 검색 단계의 실패(관련 문서 미검색)인지 생성
+    단계의 실패(문맥 무시)인지 수동으로 분류하고 이를 파이프라인 로그에 기록하는 방법.'
+  lab:
+    title: RAG 파이프라인 회귀 테스트 자동화
+    steps:
+    - 최종 검증용 평가 데이터셋(100문항)을 JSON 형태로 준비한다.
+    - 두 가지 서로 다른 RAG 파이프라인 설정(버전 A, 버전 B)을 정의한다.
+    - Ragas 프레임워크를 사용하여 각 파이프라인에 대해 자동 평가를 수행하고 결과를 저장한다.
+    - Pandas를 사용하여 두 결과셋의 지표 분포를 시각화하고 통계적 차이를 계산한다.
+    - 평가 점수가 급격히 하락한 하위 10% 사례에 대해 근거 문맥과 모델 응답을 대조한다.
+    safety:
+    - 평가 데이터셋에 개인정보나 사내 기밀 문서가 포함되지 않았는지 반드시 확인한다.
+    - 외부 API 호출 시 비용 상한을 설정하고 로컬 환경에서 테스트할 때는 캐시를 사용하여 무분별한 요청을 방지한다.
+    - 모델 평가 결과만을 맹신하지 않고, 표본에 대한 인간 검토(Human-in-the-loop)를 반드시 병행한다.
+    deliverables:
+    - 회귀 평가 실행 결과가 포함된 Jupyter Notebook
+    - 두 RAG 설정 간 성능 비교 시각화 그래프(박스플롯 또는 산점도)
+    - 오류 유형 분류 및 인간 검토 기록이 포함된 최종 리포트
+  assignment:
+    title: RAG 신뢰성 개선 리포트 작성
+    deliverables:
+    - 시스템의 신뢰성 지표가 포함된 기술 리포트 PDF
+    - 재현 가능한 CI 환경 구성을 위한 설정 파일(e.g., pipeline.yaml)
+    - 평가 데이터셋에 대한 회귀 테스트 스크립트
+    rubric:
+    - 검색 및 생성 품질 지표가 정량적으로 측정되었는가?
+    - 회귀 테스트 방법론이 기술되어 있으며 재현 가능한가?
+    - 자동 평가 결과와 인간 검토 결과 간의 분석이 적절한가?
+    - 성능 변화의 원인과 향후 개선 방향이 명확히 제시되었는가?
+  quiz:
+  - question: Ragas 프레임워크가 가지는 가장 큰 특징은 무엇인가?
+    choices:
+    - 반드시 인간이 작성한 정답 데이터셋(Ground Truth)이 있어야만 평가가 가능하다.
+    - 기준 데이터 없이도 RAG 파이프라인의 품질을 평가할 수 있는 프레임워크이다.
+    - 오직 LLM의 생성물 품질만을 측정하며 검색 품질은 측정하지 않는다.
+    - 평가를 위해 학습 모델을 재훈련시켜야 한다.
+    answer_index: 1
+    explanation: Ragas는 기준 데이터 없이 RAG 파이프라인을 평가하기 위해 설계된 프레임워크입니다 [S3, S4].
+  - question: RAG 시스템에서 회귀 테스트를 수행하는 주된 목적은 무엇인가?
+    choices:
+    - 시스템의 디자인을 아름답게 만들기 위해
+    - 서버의 응답 속도를 물리적으로 개선하기 위해
+    - 시스템 변경(알고리즘, 데이터 등)이 기존 신뢰성에 미치는 영향을 분석하고 결함을 방지하기 위해
+    - 사용자의 개인정보를 자동으로 수집하기 위해
+    answer_index: 2
+    explanation: 회귀 테스트는 시스템의 변경 사항이 의도치 않은 성능 저하를 일으키지 않았는지 검증하여 신뢰성을 확보하는 것이 핵심입니다.
+  - question: RAG 시스템 평가 시 고려해야 할 다면적 차원에 해당하지 않는 것은?
+    choices:
+    - 검색 시스템이 관련 문맥을 식별하는 능력
+    - LLM이 문맥을 충실하게 사용하는 능력
+    - 생성물의 품질
+    - 사용자의 SNS 계정 보안 수준
+    answer_index: 3
+    explanation: RAG 아키텍처 평가의 주요 차원은 검색 품질, 생성 충실도, 생성물 자체의 품질입니다 [S3, S4].
+  completion_criteria:
+  - 회귀 테스트 파이프라인을 설계하고 최소 100문항 이상의 데이터셋으로 2개 이상의 설정 비교 분석 완료
+  - Ragas 지표를 활용한 정량적 평가 수행
+  - 인간 표본 검토를 통한 자동 평가 결과 검증 기록 제출
+  - 기술 리포트 작성 및 제출
+  source_ids:
+  - S3
+  - S4
+sources:
+- id: S1
+  title: Stanford CS 224N | Natural Language Processing with Deep Learning
+  organization: web.stanford.edu
+  url: https://web.stanford.edu/class/cs224n/
+  type: university
+  published_at: null
+  accessed_at: '2026-08-30'
+  primary: true
+  supports:
+  - m1
+- id: S2
+  title: Natural Language Processing with Deep Learning CS224N/Ling284
+  organization: web.stanford.edu
+  url: https://web.stanford.edu/class/cs224n/slides_w26/cs224n-2026-lecture10-rag-agents.pdf
+  type: university
+  published_at: null
+  accessed_at: '2026-08-30'
+  primary: true
+  supports:
+  - m1
+  - m2
+- id: S3
+  title: '[2309.15217] Ragas: Automated Evaluation of Retrieval ... Ragas: Automated
+    Evaluation of Retrieval Augmented Generation RAGAS: Automated Evaluation of Retrieval
+    Augmented Generation RAGAs: Automated Evaluation of Retrieval Augmented Generation
+    RAGAS: Automated Evaluation of Retrieval Augmented Generation RAGAS: Automated
+    Evaluation of Retrieval Augmented Generation'
+  organization: arxiv.org
+  url: https://arxiv.org/abs/2309.15217
+  type: paper
+  published_at: null
+  accessed_at: '2026-08-30'
+  primary: true
+  supports:
+  - m10
+  - m4
+  - m5
+  - m7
+  - m8
+- id: S4
+  title: 'Ragas: Automated Evaluation of Retrieval Augmented Generation'
+  organization: arxiv.org
+  url: https://arxiv.org/html/2309.15217v2
+  type: paper
+  published_at: null
+  accessed_at: '2026-08-30'
+  primary: true
+  supports:
+  - m10
+  - m4
+  - m5
+  - m6
+  - m7
+- id: S5
+  title: '[2305.11171] TrueTeacher: Learning Factual Consistency ... TrueTeacher:
+    Learning Factual Consistency Evaluation with ... TrueTeacher: Generating Synthetic
+    Data for Factual ... (PDF) TrueTeacher: Learning Factual Consistency Evaluation
+    ... (PDF) TrueTeacher: Learning Factual Consistency Evaluation ... [PDF] TrueTeacher:
+    Learning Factual Consistency Evaluation ...'
+  organization: arxiv.org
+  url: https://arxiv.org/abs/2305.11171
+  type: paper
+  published_at: null
+  accessed_at: '2026-08-30'
+  primary: true
+  supports:
+  - m3
+  - m9
+bom: []
+capstone:
+  title: RAG 시스템 신뢰성 회귀 평가 보고서
+  deliverables:
+  - 출처가 추적되는 고정 문서 코퍼스와 최소 100문항 평가셋
+  - Recall@k·MRR·nDCG 검색 평가 노트북
+  - 근거 충실도·인용 정확도·답변 관련성 평가 파이프라인
+  - 오류 분류표와 최소 30건의 인간 검토 기록
+  - 두 개 이상 RAG 설정의 통계 비교 보고서
+  - CI에서 재실행 가능한 회귀 기준과 최종 재현성 패키지
+  rubric:
+  - 평가셋의 출처 추적 가능성 및 질문-문서 대응 정밀도
+  - 검색 및 생성 품질 지표의 정량적 측정 타당성
+  - 자동 평가 결과와 인간 검토 결과 간의 정성적 일치도 분석
+  - 실패 유형(검색 실패 vs 생성 실패)의 명확한 분류 및 분석
+  - 보고서의 재현성 및 회귀 평가 프레임워크의 CI 통합 가능성
+  safety:
+  - 평가 과정에서 개인정보 유출 방지 조치 준수
+  - 프롬프트 인젝션에 대한 안전한 데이터 핸들링
+  - 사실성 검증을 위한 인간 검토 프로세스 병행
+  - 비용 및 요청 수 제한을 통한 안전한 API 사용
+generation:
+  run_id: f439c689d3754cecbf386ffcc0c2bd7c
+  generated_at: '2026-08-30T05:35:47.569263Z'
+  generator: gemini
+selection:
+  canonical_topic_id: rag-evaluation-reliability
+  demand_score: 91
+  duplicate_verdict: unique
+  evidence:
+  - title: '2025 Stack Overflow Developer Survey: AI'
+    publisher: Stack Overflow
+    url: https://survey.stackoverflow.co/2025/ai
+    observed_at: '2026-08-30'
+    family: search_intent
+    measurement: 87% accuracy concern; 84% of agent users apply agents to software
+      development
+  - title: 'AI Risk Management Framework: Generative AI Profile'
+    publisher: National Institute of Standards and Technology
+    url: https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence
+    observed_at: '2026-08-30'
+    family: technical_regulatory_change
+    measurement: NIST AI 600-1 Generative AI Profile
+  - title: LangChain Open Source Ecosystem
+    publisher: LangChain AI
+    url: https://github.com/langchain-ai
+    observed_at: '2026-08-30'
+    family: learning_community
+    measurement: 137,799 stars; 22,823 forks
+localization: null
+published_at: '2026-08-30T15:42:37.390479+09:00'

@@ -1,0 +1,1033 @@
+schema_version: 1
+curriculum_version: 1.0.0+40bb735b5f50
+course:
+  course_type: academic
+  slug: rag-evaluation-reliability
+  primary_category: ai-software
+  topics:
+  - retrieval-augmented-generation
+  - rag-evaluation
+  - information-retrieval
+  - llm-reliability
+  title: RAG 評估與可靠性實驗
+  summary: 建立固定文件集和問答評估集，定量測量檢索品質、依據充足度、引用準確度、失敗類型，以完成可重現的 RAG 回歸評估報告。
+  outcome: 學習者能夠分離並評估 RAG 管道的檢索和生成階段，並利用 Ragas 等自動化評估工具，設計一個定量的回歸測試框架，以減少幻覺並驗證事實性。
+  audience: 具備基礎 Python 和統計知識，並能夠在 Jupyter Notebook 中處理數據的學習者
+  level: intermediate
+  estimated_hours: 96.0
+  budget_krw:
+    min: 0
+    max: 100000
+  required_tools:
+  - Python 3.12 電腦
+  - Jupyter Notebook
+  - Git
+  - 開放授權文件語料庫
+  - 本機嵌入模型或設有成本限制的 API
+  safety_summary:
+  - 不將個人資訊、非公開文件、認證資訊傳送至評估語料庫或外部 API
+  - 提示注入字串視為不可信數據，不遵循執行指令
+  - 不單以模型自動評估確定事實性，應並行抽樣人工審查與來源比對
+  - 固定 API 成本和請求次數上限，並使用可重複執行的快取與種子
+  - 為防止評估集洩漏與過度擬合，維持開發與最終評估的分隔
+  last_reviewed: '2026-08-30'
+phases:
+- id: p1
+  title: RAG 基礎與資料集建構
+  module_ids:
+  - m1
+  - m2
+  - m3
+- id: p2
+  title: 檢索與生成品質評估
+  module_ids:
+  - m4
+  - m5
+  - m6
+  - m7
+- id: p3
+  title: 可靠性驗證與報告
+  module_ids:
+  - m8
+  - m9
+  - m10
+modules:
+- id: m1
+  slug: intro-rag-architecture
+  phase_id: p1
+  title: 理解 RAG 架構
+  estimated_hours: 8.0
+  prerequisites: []
+  objectives:
+  - 理解 RAG (Retrieval-Augmented Generation) 架構的核心組成部分。
+  - 識別大型語言模型 (LLM) 的知識限制以及基於檢索增強的必要性。
+  - 能夠解釋檢索-生成管道的結構流程。
+  theory_markdown: '## RAG (Retrieval-Augmented Generation) 架構概述
+
+
+    最新自然語言處理 (NLP) 和深度學習模型透過學習海量文本數據展現卓越性能，但對於模型訓練時未包含的最新資訊或特定領域的非公開數據，則會出現幻覺 (hallucination)
+    或不了解資訊的限制 [S1]。
+
+
+    ### 透過檢索克服 LLM 的限制
+
+    RAG 是一種方法，它不是讓模型將所有知識記憶在參數 (parameter) 內部，而是在「適當的時機 (just-in-time)」檢索與問題相關的外部可信文件，並將其作為生成階段的輸入
+    [S2]。
+
+
+    ### 核心組成部分
+
+    1. **檢索器 (Retriever)**：接收使用者的查詢 (query)，並從向量資料庫等中識別出相關性高的文件片段 (chunk)。
+
+    2. **增強 (Augmentation)**：將檢索到的文件與原始問題組合，建構要傳遞給 LLM 的提示 (prompt)。
+
+    3. **生成器 (Generator)**：基於增強的資訊生成事實基礎的響應。
+
+
+    這種結構有助於保持模型的知識更新，並使生成答案的依據可追溯，從而確保可靠性。'
+  worked_examples:
+  - '案例 1: 傳統 LLM 方式 - 當詢問「告訴我今天的新聞」時，模型可能無法識別訓練數據之後的事件，從而有產生錯誤資訊的風險。'
+  - '案例 2: RAG 方式 - 當詢問「告訴我今天的新聞」時，1) 檢索器 (Retriever) 透過外部搜尋引擎或即時新聞 API 收集相關報導，2)
+    並將其作為上下文 (context) 包含在內傳遞給 LLM，從而生成準確的最新資訊回應。'
+  lab:
+    title: RAG 架構流程視覺化與分析
+    steps:
+    - 打開 Jupyter Notebook 並繪製 RAG 基本管道的 3 階段（輸入、檢索、生成）結構圖。
+    - 從開放授權文件語料庫中提取 5 個短文本，建立資料集樣本。
+    - 編寫一個簡單的關鍵字匹配檢索器 (Retriever) 函數，使其返回符合問題的文件。
+    - 編寫程式碼實現增強階段，將檢索到的文件注入提示模板。
+    safety:
+    - 絕不將實際個人資訊或機密文件用作語料庫數據。
+    - 使用API時，請檢查呼叫次數限制（Rate Limit），並在測試程式碼中設定種子（seed）值以確保再現性。
+    deliverables:
+    - RAG 架構圖（包含在 Notebook 單元格內）
+    - 簡易關鍵字搜尋器實作程式碼
+    - 文件注入型提示生成結果
+  assignment:
+    title: RAG 資訊檢索管道分析報告
+    deliverables:
+    - 說明所實作 RAG 管道運作原理的 Notebook
+    - 說明搜尋器判斷文件相關性時可能發生的潛在失敗案例 3種
+    rubric:
+    - RAG 的 3個階段（檢索、增強、生成）是否被準確區分並說明？
+    - 在檢索階段，關於檢索到不相關文件的可能性分析是否合理？
+    - 是否遵循非公開數據安全指南進行實作？
+  quiz:
+  - question: RAG 相較於 LLM 學習方式的主要優點是什麼？
+    choices:
+    - 可以減少 LLM 的參數大小。
+    - 可以讓模型的知識保持最新狀態並提供依據。
+    - 加速模型的學習速度。
+    - 對所有問題生成 100% 事實的答案。
+    answer_index: 1
+    explanation: RAG 透過參考外部文件，能夠反映最新資訊，並且可以從文件中找到生成答案的依據，因此可靠性較高。
+  - question: 檢索器 (Retriever) 的正確角色是什麼？
+    choices:
+    - 負責生成答案。
+    - 負責重新訓練學習數據。
+    - 檢索與問題相關的外部文件片段。
+    - 管理使用者介面。
+    answer_index: 2
+    explanation: 檢索器負責從外部數據源中查找與使用者問題語義相似或相關性高的文件。
+  completion_criteria:
+  - 能夠說明 RAG 架構的組成要素。
+  - 確認實作的 RAG 管道程式碼正常運作，能夠檢索和增強相關文件。
+  - 在分析報告中說明 RAG 管道的局限性與改進方向。
+  source_ids:
+  - S1
+  - S2
+- id: m2
+  slug: corpus-curation
+  phase_id: p1
+  title: 評估用文件語料庫策展
+  estimated_hours: 8.0
+  prerequisites:
+  - m1
+  objectives:
+  - 理解 RAG 評估固定文件語料庫的重要性。
+  - 學習評估用文件數據的品質決定因素（準確性、多樣性、重複資料移除）。
+  - 掌握用於定量評估的文件-問題-答案配對（QA Pair）數據集建構策略。
+  - 學習防止數據洩漏（Data Leakage）的訓練/評估分割方法。
+  theory_markdown: '## 用於 RAG 評估的語料庫策劃
+
+
+    大型語言模型 (LLM) 在依賴其學習參數內的知識時存在幻覺的風險。檢索增強生成 (RAG) 透過允許模型即時存取外部知識來克服這些限制 [S2]。為了定量評估有效的
+    RAG 系統的可靠性，**固定且可控的評估文件語料庫 (Fixed Evaluation Corpus)** 至關重要。
+
+
+    ### 1. 語料庫品質決定因素
+
+    - **準確性 (Factuality)：** 文件中的資訊必須是最新的且真實的。包含錯誤資訊的語料庫會導致生成錯誤的答案。
+
+    - **領域適用性：** 應包含與要評估的實際服務環境相似的主題和詞彙。
+
+    - **重複資料刪除 (De-duplication)：** 如果相同資訊在多個文件中重複，會損害檢索結果的多樣性，並可能對評估統計數據造成偏差。
+
+
+    ### 2. 構建 QA 評估資料集
+
+    僅憑文件語料庫無法進行評估。必須構建「文件-問題-答案」對，以測量檢索器是否檢索相關文件，以及生成器是否基於這些文件提供準確的答案。
+
+    - **問題生成：** 使用 LLM 自動從文件中生成問題，或由領域專家直接撰寫。
+
+    - **答案定義：** 必須明確指定作為答案依據的文件區段 (Chunk)。
+
+
+    ### 3. 資料分割與完整性
+
+    為了評估集的可靠性，必須嚴格分割**開發用 (Development Set)** 和**最終評估用 (Hold-out Test Set)**。必須防止評估集中包含的問題直接包含在檢索目標文件中而導致的「資料洩漏」現象。'
+  worked_examples:
+  - 範例 1：文件分塊 (Chunking) 策略。撰寫 Python 腳本的方法，以段落或語義單位分割文本，以避免在固定大小分割時上下文中斷。
+  - '範例 2：問題-答案資料結構。''{ ''question'': ''...'', ''ground_truth'': ''...'', ''context_chunk_id'':
+    ''...'' }'' 格式的 JSON 物件生成範例。'
+  lab:
+    title: 評估語料庫建置實作
+    steps:
+    - 取得要評估領域的開放授權文字檔 (.txt)。
+    - 使用 Python 編寫一個腳本，用於讀取文字檔並將其分塊。
+    - 為每個塊分配一個唯一識別碼 (ID)，並記錄元數據 (標題、來源)。
+    - 從所編寫的塊中生成問題，並記錄作為答案依據的塊 ID，以構成 50 個 QA 對。
+    - 將整個語料庫以 8:2 的比例分割成開發集和測試集，並儲存。
+    safety:
+    - 評估語料庫中不應包含個人資訊的文件。
+    - 使用外部 API 時，設定請求數量上限以控制成本。
+    - 工作時產生的資料透過 Git 進行版本管理，以確保可重現性。
+    deliverables:
+    - 已建置的文件語料庫檔案 (JSONL 格式)
+    - 包含問題和正確答案的 QA 資料集 (JSON 格式)
+    - 包含語料庫分割記錄的 Jupyter Notebook 檔案
+  assignment:
+    title: 完成基於領域的 RAG 資料集
+    deliverables:
+    - 至少 100 個問題的 QA 資料集檔案
+    - 資料集統計分析報告 (問題長度、塊長度等)
+    - 包含資料分割過程的 Python 程式碼
+    rubric:
+    - 語料庫中重複塊的去除完成情況
+    - 測試集和開發集的資料洩漏檢查
+    - 答案依據的文件區段 (Chunk ID) 的準確映射情況
+  quiz:
+  - question: 在 RAG 系統中，防止「資料洩漏 (Data Leakage)」的最佳方法是什麼？
+    choices:
+    - 對所有文件生成相同的問題。
+    - 分離管理開發集和最終評估用測試集。
+    - 將整個檢索目標文件包含在訓練資料中。
+    - 每次都重新生成評估集進行管理。
+    answer_index: 1
+    explanation: 評估集若在學習（或開發）過程中暴露於搜尋文件，則無法進行公正評估，因此必須嚴格區分用於評估的測試集。
+  - question: 在語料庫策劃過程中，「去除重複」為何重要？
+    choices:
+    - 為了提高 LLM 的生成速度
+    - 為了節省磁碟儲存空間
+    - 為了確保搜尋結果的多樣性並防止統計偏差
+    - 為了降低文件的語義相似度
+    answer_index: 2
+    explanation: 重複資訊會導致搜尋引擎將搜尋結果傾向於特定資訊，並可能扭曲量化評估指標。
+  completion_criteria:
+  - 建立評估用文件語料庫（至少 100 個 chunk）完成
+  - 生成可驗證的 QA 資料集（至少 100 個問題）完成
+  - 確認遵守資料集分割政策
+  - 完成關於結果的同行審查或自我評估檢查清單
+  source_ids:
+  - S2
+- id: m3
+  slug: eval-set-generation
+  phase_id: p1
+  title: 建立問題-答案評估集
+  estimated_hours: 8.0
+  prerequisites:
+  - m2
+  objectives:
+  - 理解為 RAG 系統評估建立高品質問題-答案（QA）評估集的必要性。
+  - 掌握利用合成資料生成技術（Synthetic Data Generation）建立評估集的原理。
+  - 學習透過 TrueTeacher 等方法論評估模型生成答案的事實一致性之邏輯。
+  - 設計一個能在保持評估集品質的同時，生成對領域變更具備穩健性的資料集之流程。
+  theory_markdown: "## 為 RAG 評估建立問題-答案（QA）評估集\n\n為了可靠地衡量 RAG（檢索增強生成）系統的效能，精心設計的評估集是必不可少的。僅依賴人類編寫的問題和答案，在大規模評估時，在成本和可擴展性方面存在局限。\
+    \ \n\n### 合成資料生成的必要性\n根據最新的研究，TrueTeacher 方法論指出，可以利用 LLM 來生成模型產生的各種答案，並進行註釋以創建合成訓練資料\
+    \ [S5]。此方法具有以下優點：\n1. **成本效益**: 無需依賴人類直接編寫的摘要或答案，即可生成大規模資料集（例如：1.4M 範例）[S5]。\n\
+    2. **多語言與可擴展性**: 不限於特定語言，並且對領域轉換（Domain-shift）表現出穩健性 [S5]。\n3. **事實一致性評估**: 通過合成資料訓練的小型模型，可以成功地將大型\
+    \ LLM 教師模型的知識進行蒸餾（Distillation），並用作高效的事實性評估工具 [S5]。\n\n### 資料集構成策略\n在建立評估集時，不應僅僅創建問題-答案對，還應構建能夠衡量「檢索結果是否包含推導答案所需的依據？」以及「模型是否無偏差地引用了這些依據？」的評估集。為此，在生成資料集時，必須系統地標記或驗證問題的複雜度、與檢索結果的相關性以及答案的事實一致性。"
+  worked_examples:
+  - 範例 1：從文件語料庫中提取關鍵片段。構成一個管線，該管線使用 LLM 從給定文件中提取語境上重要的事實句子，並以此為基礎生成「可回答的問題」和「虛假問題（Negative
+    Sample）」。
+  - 範例 2：事實性驗證提示設計。一個精煉評估用真實值（Ground Truth）的過程，該過程指示 LLM 根據檢索到的文件回答問題，並判斷答案是否在事實上一致（True/False），此判斷基於生成的問題和檢索到的文件。
+  lab:
+    title: 合成評估集生成實踐
+    steps:
+    - 載入準備好的開放授權文件語料庫，並將其分割為文字區塊。
+    - 使用 LLM API 為每個區塊生成至少 100 組獨特的問答對。
+    - 針對生成的問句，模擬搜尋系統以檢索前 k 個文件。
+    - 建立一個評估管線，用於判斷檢索到的文件與生成的答案之間的事實一致性。
+    - 將結果數據以 JSONL 格式儲存，並手動審查樣本 30 件以記錄數據品質。
+    safety:
+    - 在建立評估集過程中，使用外部 API 時必須設定費用上限（API Key Limit）。
+    - 利用正規表達式過濾生成的數據集中是否包含原始文件的敏感資訊或個人資訊。
+    - 不盲目相信模型評估結果，務必同時進行樣本的手動比對。
+    deliverables:
+    - 已建立 100 題以上的問答評估集 (JSONL 檔案)
+    - 包含數據集生成與驗證程式碼的 Jupyter Notebook
+    - 包含人工審查記錄的品質分析報告
+  assignment:
+    title: RAG 可靠性評估集迴歸報告
+    deliverables:
+    - 分析生成評估集的統計分佈（問題長度、答案長度、文件參考頻率等）的儀表板
+    - 以相同評估集比較兩種以上 RAG 設定（例如：檢索演算法變更、模型變更）的結果
+    - 錯誤分類表（幻覺、上下文不相關等）撰寫與案例分析
+    rubric:
+    - 評估集是否均勻反映了整個文件語料庫的內容？
+    - 合成數據生成管線是否以可重現的形式撰寫？
+    - 錯誤類型分類是否具備具體且定量的依據？
+    - 是否透過人工審查證明了自動評估指標的有效性？
+  quiz:
+  - question: TrueTeacher 方法論與現有合成數據生成方式的區別為何？
+    choices:
+    - 完全依賴人工撰寫的摘要。
+    - 透過註釋模型生成的各種摘要來生成合成數據。
+    - 僅使用小型模型作為訓練教師。
+    - 僅透過手動撰寫數據集來提高準確性。
+    answer_index: 1
+    explanation: TrueTeacher 不依賴人工撰寫的摘要，而是透過使用大型語言模型（LLM）註釋模型生成的各種摘要來生成合成數據 [S5]。
+  - question: 在建立 RAG 評估集時，為何不單獨依靠模型自動評估來確定事實性？
+    choices:
+    - 因為模型自動評估比人工慢太多。
+    - 因為模型自動評估不完美，無法完全過濾掉幻覺（Hallucination）。
+    - 因為人工評估不需要成本。
+    - 因為事實性評估不需要模型。
+    answer_index: 1
+    explanation: 自動化評估工具雖然效率高，但並不完美，因此為了驗證事實性，務必同時進行樣本人工審查和來源比對。
+  completion_criteria:
+  - 100 題以上問答評估集數據集建立完成
+  - 提交數據集品質分析及人工審查記錄
+  - 實作 RAG 管線效能評估的筆記本並撰寫結果報告
+  - 在 CI/CD 環境中配置可重新執行的評估套件
+  source_ids:
+  - S5
+- id: m4
+  slug: retrieval-metrics
+  phase_id: p2
+  title: 檢索品質指標 (召回率@k, MRR, nDCG)
+  estimated_hours: 8.0
+  prerequisites:
+  - m3
+  objectives:
+  - 理解檢索增強生成 (RAG) 管線中檢索階段的重要性。
+  - 學習召回率@k、MRR、nDCG 指標的概念及其在 RAG 系統評估中的意義。
+  - 分析檢索到的上下文相關性對後續答案生成品質的影響。
+  theory_markdown: '### RAG 檢索品質評估的重要性
+
+
+    RAG 系統會從外部資料庫檢索相關資訊，並將其傳遞給 LLM 以生成答案 [S3]。因此，如果檢索階段無法識別出高相關性且集中的上下文，即使 LLM 再強大，也很難生成準確的答案
+    [S3]。評估檢索品質是改進 RAG 架構整體性能的第一步。
+
+
+    ### 主要檢索評估指標
+
+
+    1. **Recall@k (召回率)**：衡量在前 k 個檢索結果中是否包含實際的正確答案。換句話說，此指標用於確認所需的資訊是否已被檢索系統捕獲。
+
+    2. **MRR (Mean Reciprocal Rank，平均倒數排名)**：衡量使用者問題的正確答案（相關文件）在檢索結果列表中的位置。相關文件越早出現在列表中的第一個位置，MRR
+    值就越接近 1 並獲得高分。
+
+    3. **nDCG (normalized Discounted Cumulative Gain，歸一化折損累積增益)**：考量檢索結果順序的指標，相關性高的文件若位於頂部位置，將獲得更高的分數。相較於單純的包含與否（召回率），此指標能更精確地評估檢索結果的「排名準確性」。
+
+
+    這些指標在有參考數據（Ground Truth）的情況下對於系統改進至關重要，Ragas 等框架提供了能夠定量分析這些維度的工具 [S3, S4]。'
+  worked_examples:
+  - 對於問題，系統依序返回 [DocB, DocA, DocC]，若正確答案相關文件為 DocA，則 MRR 計算：DocA 為第 2 個，因此倒數排名為 1/2
+    = 0.5。
+  - 當 k=3 時，若前 3 個檢索結果包含正確答案文件，則 Recall@3 = 1；若不包含，則 Recall@3 = 0。
+  lab:
+    title: 檢索品質指標定量測量實作
+    steps:
+    - 使用評估集（問題、正確答案文件）準備 50 個樣本數據。
+    - 執行檢索模組，接收每個問題的前 k (k=3, 5, 10) 個文件。
+    - 使用 Python 直接實作 Recall@k、MRR、nDCG 函數，或使用函式庫計算。
+    - 將各問題的指標結果整理成資料框並視覺化。
+    safety:
+    - 不將包含個人資訊或非公開文件的資料集傳輸到外部 API。
+    - 實驗時設定 API 費用限制並利用快取優化請求數量。
+    deliverables:
+    - 包含各問題 Recall@k、MRR、nDCG 值的結果資料框 CSV
+    - 顯示指標分佈的長條圖及箱形圖圖片
+  assignment:
+    title: 檢索器(Retriever)性能比較報告
+    deliverables:
+    - 應用兩種檢索設定（例如：Sparse vs Dense Retrieval）的評估結果報告
+    - 對性能較低的上位 5 個問題進行原因分析（錯誤檢索類型分類）
+    rubric:
+    - 是否準確計算 Recall@k、MRR、nDCG 指標？
+    - 是否對檢索性能差異進行了統計學上顯著的解釋？
+    - 是否系統地分類了失敗類型？
+  quiz:
+  - question: RAG 系統中檢索階段的品質對生成階段有何影響？
+    choices:
+    - 檢索品質與生成品質無關。
+    - 相關性低的上下文會增加 LLM 產生幻覺的風險。
+    - 檢索階段僅評估 LLM 的推理能力。
+    - 檢索結果越多，生成品質總是越好。
+    answer_index: 1
+    explanation: 檢索階段若傳遞不相關的資訊，LLM 可能會基於此生成錯誤的答案或產生幻覺 [S3]。
+  - question: MRR 指標最高時為何時？
+    choices:
+    - 相關文件總是在最後出現時
+    - 相關文件總是位於最頂端（第 1 位）時
+    - 當沒有任何搜尋結果時
+    - 當相關文件總是在中間出現時
+    answer_index: 1
+    explanation: MRR是正確文件排名倒數的平均值，因此當位於1上方時，其值達到最大(1)。
+  completion_criteria:
+  - 完成了Recall@k、MRR、nDCG的計算程式碼並應用於樣本資料。
+  - 比較了兩種搜尋策略並得出了定量分析結果。
+  - 分類了至少3種搜尋失敗類型並記載於報告中。
+  source_ids:
+  - S3
+  - S4
+- id: m5
+  slug: generation-faithfulness
+  phase_id: p2
+  title: 證據忠實度評估
+  estimated_hours: 8.0
+  prerequisites:
+  - m4
+  objectives:
+  - 理解證據忠實度(Faithfulness)的概念，並掌握其在RAG系統中的重要性。
+  - 利用Ragas框架，定量評估生成的答案是否基於檢索到的上下文(Context)。
+  - 利用自動化評估指標，分析幻覺(Hallucination)風險。
+  theory_markdown: '## 證據忠實度 (Faithfulness) 評估
+
+
+    RAG(Retrieval-Augmented Generation)系統的核心是LLM利用從外部知識資料庫中檢索到的資訊來生成答案。證據忠實度(Faithfulness)是指生成的答案是否忠實地反映了檢索到的上下文中所描述的資訊
+    [S3]。
+
+
+    ### 1. 為何評估證據忠實度？
+
+    LLM傾向於根據預先學習的知識來回答，這可能會生成與檢索到的上下文無關的資訊，或扭曲上下文。這被稱為「幻覺(Hallucination)」，透過證據忠實度評估可以定量測量它
+    [S4]。
+
+
+    ### 2. 評估框架：Ragas
+
+    Ragas提出了一個即使在沒有使用者註釋的情況下，也能在無參考基礎上(reference-free)進行評估的框架 [S3]。證據忠實度評估過程通常遵循以下步驟：
+
+    - **從答案中提取陳述**：從答案中分離出可驗證的事實陳述。
+
+    - **檢索證據**：確認每個陳述是從檢索到的上下文的哪個部分得出的。
+
+    - **驗證**：判斷提取的陳述是否與上下文資訊一致。
+
+
+    Ragas使用LLM作為評估者來自動化此過程 [S4]。'
+  worked_examples:
+  - 範例1：若上下文為「蘋果富含維生素C」，而答案為「蘋果富含維生素C，對免疫力有益」，則「對免疫力有益」是上下文中沒有的資訊，因此證據忠實度分數會降低。
+  - 範例2：若上下文為「我們公司的創立日是2020年5月1日」，而答案為「本公司成立於2020年5月」，則資訊一致，因此具有較高的證據忠實度分數。
+  lab:
+    title: 利用Ragas測量生成答案的證據忠實度
+    steps:
+    - 準備評估資料集（問題、檢索到的上下文、生成的答案）。
+    - 安裝Ragas庫並匯入`Faithfulness`指標。
+    - 將準備好的資料集轉換為Ragas的資料結構。
+    - 組態基於LLM的評估器，計算資料集的證據忠實度分數。
+    - 抽樣分析低分答案，並透過人工審查分析其與檢索到的上下文的差異。
+    safety:
+    - 不將包含非公開文件或個人資訊的資料集傳輸到外部LLM API。
+    - 確認API請求次數限制，並使用快取(Cache)來控制成本。
+    - 在人工審查時保持樣本資料的安全性。
+    deliverables:
+    - 整個資料集的平均證據忠實度分數報告
+    - 針對低分答案的分析資料集
+    - 自動評估結果與人工審查結果的比較分析
+  assignment:
+    title: RAG管線可靠性評估報告
+    deliverables:
+    - 包含證據忠實度評估的Jupyter Notebook
+    - 錯誤分類及幻覺發生頻率分析報告
+    rubric:
+    - 證據忠實度指標的實現是否正確？
+    - 是否準確分類生成答案中的幻覺案例？
+    - 是否確保了自動評估結果與人工審查的定性一致性？
+  quiz:
+  - question: 在 RAG 系統中，事實性（Faithfulness）是指什麼？
+    choices:
+    - 檢索到的上下文與問題的相關程度
+    - 生成的答案基於檢索到的上下文資訊的程度
+    - LLM 利用預訓練知識的程度
+    - 答案與用戶問題準確匹配的程度
+    answer_index: 1
+    explanation: 事實性是評估生成答案是否依賴於從外部檢索到的上下文中的事實的指標。
+  - question: Ragas 框架的特點是什麼？
+    choices:
+    - 評估必須有人工註釋（Ground Truth）才能進行。
+    - 支援無參考（reference-free）的評估方法。
+    - 只評估檢索效率，不評估生成品質。
+    - 不使用 LLM 作為評估者，只使用統計方法。
+    answer_index: 1
+    explanation: Ragas 的目標是建立一個無需參考即可評估的框架，並積極利用 LLM 作為評估者 [S3, S4]。
+  completion_criteria:
+  - 能夠使用 Ragas 函式庫定量測量生成答案的事實性。
+  - 在評估結果中，能夠分類至少 3 種幻覺發生類型。
+  - 能夠驗證自動化評估管道的結果與實際答案的一致性。
+  source_ids:
+  - S3
+  - S4
+- id: m6
+  slug: citation-accuracy
+  phase_id: p2
+  title: 引用準確性與來源追溯
+  estimated_hours: 8.0
+  prerequisites:
+  - m5
+  objectives:
+  - 理解 RAG 系統中答案如何忠實地反映檢索到的文件內容。
+  - 學習引用（Citation）準確性的定義和測量方式。
+  - 利用 Ragas 框架定量評估答案的事實性（Faithfulness）和答案相關性（Answer Relevance）。
+  - 設計一個驗證模型答案來源追溯性的流程。
+  theory_markdown: '## RAG 系統的引用與事實性評估
+
+
+    RAG（Retrieval Augmented Generation）系統利用外部知識庫來降低 LLM 的幻覺（Hallucination）風險，但驗證生成的答案是否準確引用了檢索到的文件是必不可少的過程
+    [S4]。
+
+
+    ### 1. 主要評估指標
+
+    * **事實性 (Faithfulness):** 測量生成的答案是否源於提供的檢索上下文（Context）。答案的所有主張都應基於檢索到的文件，如果僅憑外部知識或模型的預訓練知識回答，則分數會較低
+    [S4]。
+
+    * **答案相關性 (Answer Relevance):** 評估答案與給定問題的直接相關程度。這用於識別即使檢索到的資訊足夠，答案卻與問題意圖不符的情況。
+
+
+    ### 2. 引用準確性驗證流程
+
+    引用準確性是識別答案中特定句子引用了檢索上下文中哪一部分，並確認其是否與原始文本的事實一致的過程。自動化評估框架 Ragas 提供指標，即使沒有參考數據（Ground
+    Truth）也能評估事實性 [S4]。
+
+
+    ### 3. 失敗類型分類
+
+    - **引用缺失:** 答案的事實關係存在於檢索文件中，但未標示引用。
+
+    - **虛假引用:** 標示引用了檢索文件中不存在的內容。
+
+    - **事實扭曲:** 引用標示正確，但錯誤地解釋了原文的意義而生成。'
+  worked_examples:
+  - 範例 1：事實性分數計算。針對問題「A 公司 2025 年的銷售額是多少？」，生成了答案「A 公司 2025 年的銷售額是 100 億。」，並且上下文文件包含「A
+    公司在 2025 年錄得 100 億銷售額。」。由於答案的所有資訊都存在於上下文中，因此事實性分數被評估為 1.0（最大值）。
+  - '範例 2: 識別引用準確度錯誤。針對問題「A公司創立於何年？」，若產生回答「A公司創立於1990年（參見文件1）。」，但文件1中明確指出「A公司創立於1995年」，則此為「事實扭曲」失敗類型，並判斷其引用準確度較低。'
+  lab:
+    title: 使用 Ragas 自動評估答案忠實度實作
+    steps:
+    - 準備用於評估 RAG 系統的搜尋結果 (Context) 和生成的答案 (Answer) 資料集。
+    - 安裝 Ragas 框架並載入答案資料集。
+    - 使用 Ragas 的 `Faithfulness` 指標，計算資料集中每個問題-答案對的分數。
+    - 單獨提取忠實度低於 0.7 的 30 個答案。
+    - 人工審查提取的樣本，並標記為「引文遺漏」、「虛假引文」、「事實扭曲」中的相應失敗類型。
+    safety:
+    - 評估過程中使用的文件語料庫，請務必事先完成去識別化處理，以避免包含個人資訊或企業機密。
+    - 呼叫外部 API 時，請設定費用上限，並固定種子 (Seed) 值以確保重現性，防止產生重複的 API 費用。
+    deliverables:
+    - 包含評估結果的 Jupyter Notebook 檔案 (.ipynb)
+    - 忠實度分數分佈視覺化圖表
+    - 包含人工審查記錄的失敗類型分類表
+  assignment:
+    title: RAG 系統可靠性回歸評估報告撰寫
+    deliverables:
+    - 兩種以上 RAG 設定（例如：搜尋 Top-k 值變更）的忠實度統計比較結果
+    - 30 個樣本的人工審查對照表
+    - 提高系統引文準確度的改進方案建議書
+    rubric:
+    - 評估指標的定量產出方式是否準確明確？
+    - 搜尋文件與生成答案之間的引文關係是否具有邏輯可追溯性？
+    - 失敗類型分類是否與人工審查資料一致，並提供合理的依據？
+  quiz:
+  - question: 關於 Ragas 框架的「忠實度 (Faithfulness)」指標，下列敘述何者正確？
+    choices:
+    - 評估答案是否與問題相關。
+    - 衡量答案的所有資訊是否都存在於提供的上下文文件中。
+    - 評估答案的語法準確性。
+    - 衡量答案是否包含外部知識庫的所有資訊。
+    answer_index: 1
+    explanation: 忠實度是衡量生成的答案主張是否基於檢索到的上下文的指標。
+  - question: 在引文準確度評估中，屬於「事實扭曲」失敗類型的情況為何？
+    choices:
+    - 在答案中包含了搜尋文件中沒有的內容
+    - 遺漏了引文標記
+    - 引文標記正確，但錯誤地解釋了原文的事實關係進行敘述
+    - 答案完全偏離了問題的意圖
+    answer_index: 2
+    explanation: 事實扭曲是指即使引用了來源文件，卻以錯誤的方式摘要或修改原文資訊而生成的情況。
+  completion_criteria:
+  - 透過 Jupyter Notebook 完成自動化評估指標產出
+  - 提交至少 30 個答案樣本的人工審查及失敗類型分類記錄
+  - 撰寫包含評估結果和改進方案的最終報告
+  source_ids:
+  - S4
+- id: m7
+  slug: automated-eval-framework
+  phase_id: p2
+  title: 自動評估框架 (Ragas) 應用
+  estimated_hours: 10.0
+  prerequisites:
+  - m6
+  objectives:
+  - 理解 RAG 管道的核心評估維度（檢索和生成質量）。
+  - 學習使用 Ragas 框架進行無參考（reference-free）的 RAG 性能自動評估方法。
+  - 通過定量指標分析並緩解幻覺（hallucination）風險。
+  theory_markdown: '## RAG 評估的挑戰與 Ragas
+
+
+    RAG 系統由檢索模塊和基於 LLM 的生成模塊組成 [S3, S4]。評估這種結構是一項具有挑戰性的任務，因為需要同時考量檢索系統識別相關上下文（context）的程度、LLM
+    利用所提供上下文的忠實度（faithfulness），以及回答的質量 [S4]。
+
+
+    傳統的評估方式依賴於人工編寫標準答案（ground truth）並進行比較，但這不僅成本高昂且耗時，不適合快速反覆運算週期 [S3, S4]。
+
+
+    ### Ragas 框架
+
+    Ragas（Retrieval Augmented Generation Assessment）是一個無需標準答案數據集即可評估 RAG 管道的框架 [S3,
+    S4]。Ragas 會自動評估以下核心維度：
+
+
+    1. **檢索質量（Retrieval Quality）：** 測量檢索到的上下文與問題的相關性（Context Relevance），以及是否包含所有必要信息（Context
+    Recall）。
+
+    2. **生成質量（Generation Quality）：** 測量生成的回答是否基於檢索到的上下文（Faithfulness），以及與問題的相關性（Answer
+    Relevance）。
+
+
+    這些指標利用 LLM 作為「評委（judge）」，實現了無需參考數據的評估，並有助於縮短 RAG 開發週期 [S3, S4]。'
+  worked_examples:
+  - 案例 1：Context Relevance 計算。Ragas 利用 LLM 從檢索到的上下文（Context）中提取回答問題實際所需的句子，並通過必要句子佔總上下文的比例來計算分數。
+  - 案例 2：Faithfulness 評估。由 LLM 判斷生成回答中的每個主張是否得到檢索到的上下文支持。不被支持的主張越多，幻覺分數就越高。
+  lab:
+    title: 利用 Ragas 進行 RAG 性能定量評估實作
+    steps:
+    - 準備評估數據集（問題、檢索到的上下文、生成的回答）。
+    - 在 Python 環境中安裝 `ragas` 庫。
+    - 將評估數據集轉換為 `ragas` 的 Dataset 對象。
+    - 調用 Ragas 的 `evaluate` 函數來計算 Context Relevance、Faithfulness 等指標。
+    - 將結果視覺化並分析分數較低的查詢。
+    safety:
+    - 確認評估所用的文檔語料庫中不包含個人隱私或非公開數據。
+    - 為避免 API 使用成本，測試時請積極使用本地模型或快取。
+    - 自動評估結果僅為可靠性的輔助指標，實際模型品質確認應與人工抽樣審查及交叉驗證並行。
+    deliverables:
+    - 包含指標分數的評估結果資料框（Dataframe）
+    - 低分查詢類型分析日誌
+  assignment:
+    title: RAG 管道性能比較報告
+    deliverables:
+    - 兩種具有不同檢索設置（k值、嵌入模型等）的 RAG 管道的 Ragas 評估結果
+    - 兩種設置之間的性能差異分析報告
+    rubric:
+    - Ragas 指標（Context Relevance、Faithfulness 等）是否正確實現？
+    - 評估結果是否進行了定量比較並包含了邏輯解釋？
+    - 是否至少分類了 3 種以上的幻覺類型並提出了改進方案？
+  quiz:
+  - question: Ragas 框架最大的特徵是什麼？
+    choices:
+    - 必須要有人工標準答案數據集
+    - 能夠無需參考(reference-free)即可評估 RAG 管道
+    - 僅評估檢索階段，不評估生成階段
+    - 必須至少需要 10 個 GPU
+    answer_index: 1
+    explanation: Ragas 是一個利用 LLM 在沒有標準答案資料集的情況下自動評估檢索和生成品質的框架 [S3, S4]。
+  - question: Ragas 中測量的「Faithfulness」指標的定義是什麼？
+    choices:
+    - 檢索到的上下文與問題的相關程度為何？
+    - 問題是否存在於文檔語料庫中？
+    - 生成的答案是否基於檢索到的上下文？
+    - 提問者對 LLM 的回答有多信任？
+    answer_index: 2
+    explanation: Faithfulness 是一項指標，用於衡量生成的答案在多大程度上忠實地基於提供的檢索上下文（防止幻覺）[S4]。
+  completion_criteria:
+  - 使用 Ragas 函式庫成功計算至少 10 個查詢的 4 種以上指標
+  - 實踐筆記本定期提交到 Git 儲存庫
+  - 效能比較報告包含至少 3 個錯誤分類案例
+  source_ids:
+  - S3
+  - S4
+- id: m8
+  slug: error-analysis
+  phase_id: p3
+  title: 失敗類型分類與錯誤分析
+  estimated_hours: 10.0
+  prerequisites:
+  - m7
+  objectives:
+  - 能夠識別和分類 RAG 系統中發生的失敗類型。
+  - 能夠區分和分析檢索（Retrieval）階段和生成（Generation）階段的錯誤。
+  - 能夠利用 Ragas 框架的指標連接自動評估和人工審查結果。
+  - 能夠基於錯誤分析數據，為 RAG 管道的效能改進提出方案。
+  theory_markdown: '## RAG 系統的錯誤分析概述
+
+
+    RAG（Retrieval Augmented Generation）架構由檢索模組和基於 LLM 的生成模組組成 [S3]。評估系統效能時，重要的是要將這兩個階段分開分析。錯誤主要分為檢索階段的問題和生成階段的問題。
+
+
+    ### 1. 失敗類型分類
+
+    - **檢索失敗 (Retrieval Failure):** 檢索到不相關或不聚焦的上下文時 [S3]。
+
+    - **生成失敗 (Generation Failure):** LLM 無法忠實利用提供的上下文（Faithfulness）或生成與問題無關的答案時 [S3]。
+
+
+    ### 2. 自動評估與人工審查的互補
+
+    像 Ragas 這樣的無參考（Reference-free）框架，無需人工註釋（ground truth）即可評估檢索和生成品質 [S3]。然而，僅憑自動評估指標，難以完全捕捉系統細微的幻覺（hallucination）或複雜的邏輯錯誤。因此，應通過量化自動指標提取優先級高的失敗樣本，並結合人工審查（Human
+    Review）來確定實際原因。'
+  worked_examples:
+  - 範例 1：對於問題「模型 A 的發布日期是什麼？」檢索器檢索到「模型 B 的規格」文件。這被歸類為「檢索失敗」，解決方案可能是調整嵌入模型或優化檢索查詢。
+  - 範例 2：對於問題「請解釋 X」，檢索器檢索到關於 X 的準確文件，但 LLM 回答了文件中沒有的資訊。這被歸類為「生成失敗（忠實度不足）」，必須透過提示工程（prompt
+    engineering）來加強「僅使用提供的上下文」的約束。
+  lab:
+    title: 收集失敗數據集與錯誤分析
+    steps:
+    - 儲存 RAG 系統的答案和檢索到的上下文（context），針對至少 50 個問題。
+    - 針對每個項目，使用 Ragas 測量檢索相關性（Context Precision）和生成忠實度（Faithfulness）。
+    - 提取指標分數最低的 20% 問題-答案對。
+    - 為提取的樣本創建分類表，劃分為「檢索錯誤」、「生成錯誤」或「邏輯錯誤」之一。
+    safety:
+    - 絕不將個人資訊或私有數據包含在評估程式碼中。
+    - 監控評估過程中使用的 API 呼叫次數和費用，以符合預算。
+    - 在本地環境中執行資料分析，以防止資訊洩露。
+    deliverables:
+    - 已完成分類的錯誤分析 CSV 檔案
+    - 搜尋和生成品質指標可視化的 Jupyter Notebook
+  assignment:
+    title: RAG 錯誤分類與改進報告撰寫
+    deliverables:
+    - 錯誤分析結果摘要的 2 頁報告
+    - 針對分類的失敗類型提出應對策略（搜尋優化或提示改進）建議
+    rubric:
+    - 失敗類型分類的準確性和合理性
+    - 定量指標與人工審查結果之間的相關性分析能力
+    - 改進策略的邏輯合理性
+  quiz:
+  - question: 在 RAG 系統中，當搜尋模組檢索到不相關的上下文時，會發生哪種失敗？
+    choices:
+    - 生成失敗
+    - 搜尋失敗
+    - 資料庫連接錯誤
+    - 認證失敗
+    answer_index: 1
+    explanation: 搜尋模組負責識別與問題相關的文件，因此檢索到不相關的上下文是搜尋階段的失敗 [S3]。
+  - question: Ragas 框架的最大特點是什麼？
+    choices:
+    - 必須需要大量的人類註釋資料。
+    - 可以進行無參考（Reference-free）評估。
+    - 只能評估 LLM 生成品質。
+    - 只能應用於即時串流系統。
+    answer_index: 1
+    explanation: Ragas 是一個無參考評估框架，即使沒有真實數據（ground truth），也能評估搜尋和生成品質 [S3]。
+  completion_criteria:
+  - 提交包含失敗類型的錯誤分類表
+  - 完成使用 Ragas 指標進行搜尋和生成品質的定量分析
+  - 撰寫並審查基於錯誤分析的管道改進建議書
+  source_ids:
+  - S3
+- id: m9
+  slug: human-review-validation
+  phase_id: p3
+  title: 樣本人工審查與對照
+  estimated_hours: 10.0
+  prerequisites:
+  - m8
+  objectives:
+  - 了解自動化 RAG 評估指標與實際事實性之間的差距。
+  - 設計人工審查模型生成答案的事實一致性 (Factual Consistency) 的協議。
+  - 了解 LLM 評估的局限性，並分析 TrueTeacher 等合成資料方法的意義 [S5]。
+  - 學習如何系統地分類錯誤類型並管理可靠性資料集。
+  theory_markdown: '## 自動化評估的局限與人工審核的必要性
+
+
+    評估檢索增強生成 (RAG) 系統的品質時，像 Ragas 這樣的工具雖然能快速提供量化指標，但在完美捕捉模型生成回答中細微的事實錯誤方面仍有局限。特別是在複雜的語境中，很難區分
+    LLM 是在知識範圍內進行推論，還是依賴已學習的數據產生幻覺 (Hallucination)。
+
+
+    ### 事實一致性評估
+
+
+    近期的研究利用自然語言推論 (NLI) 模型或大型語言模型 (LLM) 來評估摘要或回答的事實性。然而，傳統方法依賴人類撰寫的摘要數據集，這可能與實際模型生成結果的特性產生差異
+    [S5]。像 TrueTeacher 這樣的途徑，試圖透過利用 LLM 從模型生成的數據中產出合成的事實性評估數據，藉此克服上述限制 [S5]。
+
+
+    ### 人工審核 (Human-in-the-Loop) 的角色
+
+
+    無論自動評估管線進化到何種程度，最終的可靠性驗證仍需人工審核。人工審核執行以下角色：
+
+    1. **自動評估指標的驗證：** 識別特定回答雖被評估為「相關」但實際上並非事實的情況。
+
+    2. **幻覺類型分類：** 診斷系統的結構性缺陷（檢索錯誤 vs. 生成模型錯誤）。
+
+    3. **回歸測試集的校準：** 根據人類審核過的數據，持續改善評估集的品質。'
+  worked_examples:
+  - 範例 1：自動評估指標 (例如：Faithfulness) 顯示 0.9 為高分，但人工審核結果發現包含檢索文件中未提及的內容。分析：將其分類為模型未使用檢索到的資訊，而是使用了內部權重中包含的過往資訊所產生的幻覺，並將此記錄於系統錯誤日誌中。
+  - 範例 2：設計由系統使用 TrueTeacher 模型自行評估回答事實性的情況。由人工抽樣調查 LLM 評估為「真」的回答中之部分內容，以測量 LLM 評估器的錯誤率
+    (False Positive)，並將其標示於評估報告中 [S5]。
+  lab:
+    title: 執行抽樣人工審核及錯誤分析
+    steps:
+    - 透過自動評估管線 (Ragas 等) 推導出 100 件回答的 Faithfulness 分數。
+    - 隨機抽取分數最低的 10 件、中間水準的 10 件及分數最高的 10 件，建立審核集。
+    - 比對回答、檢索文件 (Context) 與正確答案 (Ground Truth)，手動記錄是否存在「檢索遺漏」、「資訊扭曲」或「生成幻覺」。
+    - 比較記錄到的人工判斷與自動評估分數，執行相關性分析。
+    safety:
+    - 務必確認審核對象數據集未包含實際個人資訊或敏感的非公開文件。
+    - 審核完成的數據須安全地存放在本地儲存空間，不得上傳至未經驗證的外部 API。
+    deliverables:
+    - 包含至少 30 件人工審核紀錄的錯誤分類表 (CSV/Excel)
+    - 分析自動指標與人工評估之間一致性的摘要報告
+  assignment:
+    title: 撰寫 RAG 可靠性分析報告
+    deliverables:
+    - 透過人工審核分類出的失敗類型頻率表
+    - 關於目前系統主要弱點（檢索階段或生成階段）的分析報告
+    - 針對未來自動評估管線改善的建議
+    rubric:
+    - 錯誤類型是否已系統性分類？
+    - 是否結合具體範例，合乎邏輯地論述了自動評估指標的局限性？
+    - 人工審核數據是否適當地作為可靠性分析的依據被運用？
+  quiz:
+  - question: 僅憑自動化事實性評估指標難以確認系統可靠性的主要原因為何？
+    choices:
+    - 因為自動評估指標非常快速。
+    - 因為模型生成的數據具有與人類撰寫數據不同的特徵，且自動評估器本身可能無法捕獲所有事實錯誤 [S5]。
+    - 因為人工審核數據總是比自動評估指標更精準。
+    - 因為數據集的規模很小。
+    answer_index: 1
+    explanation: 現有的摘要基礎評估數據集無法充分反映模型生成實際結果的複雜性，自動評估系統在特定情況下可能無法檢測出幻覺。
+  - question: TrueTeacher 方法與現有摘要數據集的使用方式有何不同？
+    choices:
+    - 僅依賴人類編寫的摘要。
+    - 利用模型生成的各種摘要來生成用於事實性評估的合成數據 [S5]。
+    - 不使用 NLI 模型。
+    - 無法支援多語言。
+    answer_index: 1
+    explanation: TrueTeacher 不依賴人類編寫的摘要，而是使用 LLM 對模型生成的各種數據進行合成註釋，從而生成訓練數據 [S5]。
+  completion_criteria:
+  - 必須編寫至少 30 個數據樣本的人類審查日誌。
+  - 必須提交包含自動評估結果與人類審查結果對比分析的報告。
+  - 必須通過錯誤分類明確定義當前系統的弱點。
+  source_ids:
+  - S5
+- id: m10
+  slug: regression-report
+  phase_id: p3
+  title: 可重現的迴歸評估報告
+  estimated_hours: 18.0
+  prerequisites:
+  - m9
+  objectives:
+  - 理解 RAG 系統的可重現迴歸評估框架。
+  - 使用 Ragas 框架定量測量檢索與生成的品質。
+  - 透過迴歸測試分析模型更新或檢索算法變更對系統可靠性的影響。
+  - 習得結合人類審查與自動化評估的綜合報告方式。
+  theory_markdown: '### RAG 系統評估的核心維度
+
+    評估 RAG 架構是一項多面性的任務。檢索系統識別與問題高度相關且聚焦之上下文的能力、LLM 使用所識別上下文忠實生成答案的能力，以及最終生成物本身的品質，均為評估對象
+    [S3, S4]。
+
+
+    ### Ragas 框架
+
+    Ragas (Retrieval Augmented Generation Assessment) 是一個無需標準數據 (Ground Truth) 即可評估
+    RAG 管道的框架 [S3]。Ragas 提供了一系列指標，用於測量檢索品質 (Retrieval quality)、生成品質 (Generation quality)
+    以及防範幻覺 (Hallucination) 的能力 [S3]。
+
+
+    ### 迴歸評估的重要性
+
+    為了維持系統可靠性，變更管理 (Change Management) 至關重要。在引入新的嵌入模型、調整檢索算法或更改 LLM 設定時，必須針對現有的評估數據集執行迴歸測試。迴歸評估報告是統計證明系統改進是否真正帶來可靠性提升，還是誘發了新缺陷的依據文件。'
+  worked_examples:
+  - 統計對比範例：針對兩種 RAG 設定（現有 vs 新型嵌入模型）執行相同的 100 個問題評估集，並比較 Ragas 指標（Faithfulness, Answer
+    Relevance）的平均值與標準差，以驗證顯著性能提升的筆記本分析案例。
+  - 錯誤類型分類範例：對系統「答案相關性」得分較低的 30 個案例進行採樣，並手動分類其為檢索階段失敗（未檢索到相關文檔）還是生成階段失敗（忽略上下文），並將其記錄在管道日誌中的方法。
+  lab:
+    title: RAG 管道迴歸測試自動化
+    steps:
+    - 準備用於最終驗證的評估數據集（100 個問題），格式為 JSON。
+    - 定義兩種不同的 RAG 管道設定（版本 A、版本 B）。
+    - 使用 Ragas 框架對每個管道執行自動評估並儲存結果。
+    - 使用 Pandas 將兩個結果集的指標分佈視覺化並計算統計差異。
+    - 針對評估分數急劇下降的後 10% 案例，對照其參考上下文與模型響應。
+    safety:
+    - 務必確認評估數據集中未包含個人資訊或公司機密文件。
+    - 呼叫外部 API 時設定費用上限，並在本地環境測試時使用快取，以防止盲目的請求。
+    - 切勿盲目迷信模型評估結果，必須同步進行人類審核(Human-in-the-loop)以檢查樣本。
+    deliverables:
+    - 包含回歸評估執行結果的 Jupyter Notebook
+    - 兩組 RAG 設定間的性能比較視覺化圖表（箱線圖或散點圖）
+    - 包含錯誤類型分類與人類審核記錄的最終報告
+  assignment:
+    title: 撰寫 RAG 可靠性改進報告
+    deliverables:
+    - 包含系統可靠性指標的技術報告 PDF
+    - 用於建構可重現 CI 環境的設定檔 (e.g., pipeline.yaml)
+    - 針對評估數據集的回歸測試腳本
+    rubric:
+    - 是否定量測量了檢索與生成的品質指標？
+    - 回歸測試方法論是否已說明且具備可重現性？
+    - 自動評估結果與人類審核結果之間的分析是否恰當？
+    - 是否明確提出了性能變化的原因與未來改進方向？
+  quiz:
+  - question: Ragas 框架最大的特色為何？
+    choices:
+    - 評估必須要有人類編寫的標準答案數據集 (Ground Truth)。
+    - 即便沒有基準數據，也能評估 RAG 管道品質的框架。
+    - 僅測量 LLM 生成物的品質，不測量檢索品質。
+    - 為了評估，必須重新訓練學習模型。
+    answer_index: 1
+    explanation: Ragas 是為了解決在沒有基準數據的情況下評估 RAG 管道所設計的框架 [S3, S4]。
+  - question: 在 RAG 系統中執行回歸測試的主要目的為何？
+    choices:
+    - 為了美化系統設計
+    - 為了在物理上改善伺服器的回應速度
+    - 為了分析系統變更（演算法、數據等）對既有可靠性的影響並防止缺陷
+    - 為了自動收集使用者的個人隱私資訊
+    answer_index: 2
+    explanation: 回歸測試的核心在於驗證系統變更是否未造成非預期的性能下降，從而確保可靠性。
+  - question: 評估 RAG 系統時，下列何者不屬於應考量的多面維度？
+    choices:
+    - 檢索系統識別相關語境的能力
+    - LLM 忠實使用語境的能力
+    - 生成物的品質
+    - 使用者的 SNS 帳號安全等級
+    answer_index: 3
+    explanation: RAG 架構評估的主要維度為檢索品質、生成忠實度以及生成物本身的品質 [S3, S4]。
+  completion_criteria:
+  - 設計回歸測試管道，並使用至少 100 個問題的數據集完成 2 種以上設定的比較分析
+  - 利用 Ragas 指標執行定量評估
+  - 提交透過人類樣本審核來驗證自動評估結果的記錄
+  - 撰寫並提交技術報告
+  source_ids:
+  - S3
+  - S4
+sources:
+- id: S1
+  title: Stanford CS 224N | Natural Language Processing with Deep Learning
+  organization: web.stanford.edu
+  url: https://web.stanford.edu/class/cs224n/
+  type: university
+  published_at: null
+  accessed_at: '2026-08-30'
+  primary: true
+  supports:
+  - m1
+- id: S2
+  title: Natural Language Processing with Deep Learning CS224N/Ling284
+  organization: web.stanford.edu
+  url: https://web.stanford.edu/class/cs224n/slides_w26/cs224n-2026-lecture10-rag-agents.pdf
+  type: university
+  published_at: null
+  accessed_at: '2026-08-30'
+  primary: true
+  supports:
+  - m1
+  - m2
+- id: S3
+  title: '[2309.15217] Ragas: Automated Evaluation of Retrieval ... Ragas: Automated
+    Evaluation of Retrieval Augmented Generation RAGAS: Automated Evaluation of Retrieval
+    Augmented Generation RAGAs: Automated Evaluation of Retrieval Augmented Generation
+    RAGAS: Automated Evaluation of Retrieval Augmented Generation RAGAS: Automated
+    Evaluation of Retrieval Augmented Generation'
+  organization: arxiv.org
+  url: https://arxiv.org/abs/2309.15217
+  type: paper
+  published_at: null
+  accessed_at: '2026-08-30'
+  primary: true
+  supports:
+  - m10
+  - m4
+  - m5
+  - m7
+  - m8
+- id: S4
+  title: 'Ragas: Automated Evaluation of Retrieval Augmented Generation'
+  organization: arxiv.org
+  url: https://arxiv.org/html/2309.15217v2
+  type: paper
+  published_at: null
+  accessed_at: '2026-08-30'
+  primary: true
+  supports:
+  - m10
+  - m4
+  - m5
+  - m6
+  - m7
+- id: S5
+  title: '[2305.11171] TrueTeacher: Learning Factual Consistency ... TrueTeacher:
+    Learning Factual Consistency Evaluation with ... TrueTeacher: Generating Synthetic
+    Data for Factual ... (PDF) TrueTeacher: Learning Factual Consistency Evaluation
+    ... (PDF) TrueTeacher: Learning Factual Consistency Evaluation ... [PDF] TrueTeacher:
+    Learning Factual Consistency Evaluation ...'
+  organization: arxiv.org
+  url: https://arxiv.org/abs/2305.11171
+  type: paper
+  published_at: null
+  accessed_at: '2026-08-30'
+  primary: true
+  supports:
+  - m3
+  - m9
+bom: []
+capstone:
+  title: RAG 系統可靠性回歸評估報告
+  deliverables:
+  - 具來源追蹤的固定文件語料庫與至少 100 個問題的評估集
+  - Recall@k·MRR·nDCG 檢索評估筆記本
+  - 依據忠實度·引用準確度·回答相關性評估管道
+  - 錯誤分類表與至少 30 件人類審查紀錄
+  - 兩項以上 RAG 設定的統計比較報告
+  - CI 中可重新執行的迴歸基準與最終再現性套件
+  rubric:
+  - 評估集來源的可追溯性及問題-文件對應精確度
+  - 檢索及生成品質指標的定量測量妥善性
+  - 自動評估結果與人類審查結果間的定性一致性分析
+  - 失敗類型（檢索失敗 vs 生成失敗）的明確分類及分析
+  - 報告的再現性及迴歸評估框架與 CI 的整合可行性
+  safety:
+  - 評估過程中遵循個人隱私洩漏防護措施
+  - 針對提示詞注入（Prompt Injection）的安全資料處理
+  - 為驗證事實性而併行的人類審查流程
+  - 透過成本與請求次數限制實現安全 API 使用
+generation:
+  run_id: f439c689d3754cecbf386ffcc0c2bd7c
+  generated_at: '2026-08-30T05:35:47.569263Z'
+  generator: gemini
+selection:
+  canonical_topic_id: rag-evaluation-reliability
+  demand_score: 91
+  duplicate_verdict: unique
+  evidence:
+  - title: '2025 Stack Overflow Developer Survey: AI'
+    publisher: Stack Overflow
+    url: https://survey.stackoverflow.co/2025/ai
+    observed_at: '2026-08-30'
+    family: search_intent
+    measurement: 87% accuracy concern; 84% of agent users apply agents to software
+      development
+  - title: 'AI Risk Management Framework: Generative AI Profile'
+    publisher: National Institute of Standards and Technology
+    url: https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence
+    observed_at: '2026-08-30'
+    family: technical_regulatory_change
+    measurement: NIST AI 600-1 Generative AI Profile
+  - title: LangChain Open Source Ecosystem
+    publisher: LangChain AI
+    url: https://github.com/langchain-ai
+    observed_at: '2026-08-30'
+    family: learning_community
+    measurement: 137,799 stars; 22,823 forks
+localization:
+  source_language: ko
+  language: zh-tw
+  source_hash: 70f479bad93892cff6aafc793bc403fb0c10df85e5926eef46df88993267ed79
+  translator: gemini-cli
+  translated_at: '2026-08-30T06:41:47.223367Z'
+  translation_run_id: 8cdc0b34e16948eaa3553f31f19ca27b
+published_at: '2026-08-30T15:42:37.390479+09:00'

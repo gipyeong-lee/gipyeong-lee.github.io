@@ -1,3 +1,28 @@
+- slug: rag-evaluation-reliability
+  title: RAG 평가와 신뢰성 실험
+  primary_category: ai-software
+  topics:
+  - retrieval-augmented-generation
+  - rag-evaluation
+  - information-retrieval
+  - llm-reliability
+  course_type: academic
+  summary: 고정 문서 집합과 질문·정답 평가셋을 만들고 검색 품질, 근거 충실도, 인용 정확도, 실패 유형을 정량 측정해 재현 가능한 RAG
+    회귀 평가 보고서를 완성한다.
+  outcome: 학습자는 RAG 파이프라인의 검색 및 생성 단계를 분리하여 평가하고, Ragas 등 자동화된 평가 도구를 활용하여 환각을 줄이고
+    사실성을 검증하는 정량적인 회귀 테스트 프레임워크를 설계할 수 있다.
+  level: intermediate
+  estimated_hours: 96.0
+  budget_krw:
+    min: 0
+    max: 100000
+  module_count: 10
+  last_reviewed: '2026-08-30'
+  curriculum_version: 1.0.0+40bb735b5f50
+  url: /learn/rag-evaluation-reliability/
+  lang: ko
+  published_at: '2026-08-30T15:42:37.390479+09:00'
+  demand_score: 91
 - slug: precise-robot-hand
   title: 정교한 5지 로봇손 만들기
   primary_category: robotics-hardware

@@ -1,0 +1,1051 @@
+schema_version: 1
+curriculum_version: 1.0.0+40bb735b5f50
+course:
+  course_type: academic
+  slug: rag-evaluation-reliability
+  primary_category: ai-software
+  topics:
+  - retrieval-augmented-generation
+  - rag-evaluation
+  - information-retrieval
+  - llm-reliability
+  title: RAG 评估与可靠性实验
+  summary: 创建固定的文档集合和问答评估集，通过定量衡量检索质量、依据忠实度、引用准确性及故障类型，完成可重现的 RAG 回归评估报告。
+  outcome: 学员将能够将 RAG 流水线分离为检索与生成阶段进行评估，利用 Ragas 等自动化评估工具，设计能够减少幻觉并验证事实性的定量回归测试框架。
+  audience: 具备基础 Python 及统计学知识，并能在 Jupyter Notebook 中处理数据的学员
+  level: intermediate
+  estimated_hours: 96.0
+  budget_krw:
+    min: 0
+    max: 100000
+  required_tools:
+  - Python 3.12 计算机
+  - Jupyter Notebook
+  - Git
+  - 开源授权文档语料库
+  - 本地嵌入模型或有成本限额的 API
+  safety_summary:
+  - 不得将个人信息、非公开文档或认证信息发送至评估语料库或外部 API
+  - 将提示词注入字符串视为不可信数据，不得将其视为执行指令执行
+  - 不应仅依靠模型自动评估来确定事实性，应并行进行样本人工复核与来源核对
+  - 固定 API 成本及请求次数上限，并使用可重现的缓存与种子值
+  - 为防止评估集泄露与过拟合，需保持开发集与最终评估集的划分
+  last_reviewed: '2026-08-30'
+phases:
+- id: p1
+  title: RAG 基础与数据集构建
+  module_ids:
+  - m1
+  - m2
+  - m3
+- id: p2
+  title: 检索与生成质量评估
+  module_ids:
+  - m4
+  - m5
+  - m6
+  - m7
+- id: p3
+  title: 可靠性验证与报告
+  module_ids:
+  - m8
+  - m9
+  - m10
+modules:
+- id: m1
+  slug: intro-rag-architecture
+  phase_id: p1
+  title: 理解 RAG 架构
+  estimated_hours: 8.0
+  prerequisites: []
+  objectives:
+  - 理解 RAG (Retrieval-Augmented Generation) 架构的核心组件。
+  - 识别大语言模型 (LLM) 的知识局限性以及检索增强的必要性。
+  - 能够解释检索-生成流水线的结构流程。
+  theory_markdown: '## RAG (Retrieval-Augmented Generation) 架构概述
+
+
+    最新的自然语言处理 (NLP) 和深度学习模型通过学习海量文本数据展现出卓越性能，但在处理模型训练时未包含的最新信息或特定领域的非公开数据时，存在幻觉 (hallucination)
+    或无法获知信息的局限性 [S1]。
+
+
+    ### 通过检索克服 LLM 的局限性
+
+    RAG 不是让模型在参数 (parameter) 内部死记硬背所有知识，而是在“适当时机 (just-in-time)”检索与问题相关的外部可靠文档，并将其提供给生成阶段作为输入的方案
+    [S2]。
+
+
+    ### 核心组件
+
+    1. **检索器 (Retriever)**: 接收用户查询 (query)，从向量数据库等中识别相关性高的文档片段 (chunk)。
+
+    2. **增强 (Augmentation)**: 组合检索到的文档与原始问题，构成传递给 LLM 的提示词。
+
+    3. **生成器 (Generator)**: 基于增强后的信息生成事实依据的回答。
+
+
+    这种结构有助于使模型的知识保持最新，并追踪生成答案的依据，从而在确保可靠性方面做出贡献。'
+  worked_examples:
+  - '案例 1: 传统 LLM 方式 - 若提问“告诉我今天的新闻”，因无法获知训练数据之后发生的事件，存在生成错误信息的风险。'
+  - '案例 2: RAG 方式 - 当提问“告诉我今天的新闻”时，1) 检索器 (Retriever) 通过外部搜索引擎或实时新闻 API 收集相关报道，2)
+    将其作为上下文 (context) 包含在内传递给 LLM，从而生成准确的最新信息回答。'
+  lab:
+    title: RAG 架构流程可视化与分析
+    steps:
+    - 打开 Jupyter Notebook，对 RAG 基本流水线的 3 阶段（输入、检索、生成）结构进行绘图。
+    - 从开源授权文档语料库中提取 5 个短文本，制作数据集样本。
+    - 编写简单的关键词匹配检索器 (Retriever) 函数，实现根据问题返回对应文档。
+    - 通过代码编写将检索到的文档注入提示词模板的增强阶段。
+    safety:
+    - 绝不使用实际个人信息或机密文档作为语料库数据。
+    - 使用 API 时确认调用次数限制 (Rate Limit)，并在测试代码中设置种子 (seed) 值以确保可重现性。
+    deliverables:
+    - RAG 架构图 (包含在 Notebook 单元中)
+    - 简单的基于关键词的检索器实现代码
+    - 文档注入型提示词生成结果
+  assignment:
+    title: 基于 RAG 的信息检索流水线分析报告
+    deliverables:
+    - 解释所实现 RAG 流水线工作原理的 Notebook
+    - 检索器在判断文档相关性时可能产生的潜在失败案例 3 种技术描述
+    rubric:
+    - RAG 的 3 阶段（检索、增强、生成）是否被准确区分并解释？
+    - 对于检索阶段可能检索到无关文档的分析是否合理？
+    - 是否遵守非公开数据安全指南进行实现？
+  quiz:
+  - question: 与 LLM 训练方式相比，RAG 的主要优点是什么？
+    choices:
+    - 可以减小 LLM 的参数规模。
+    - 可以让模型的知识保持最新并提出依据。
+    - 可以加速模型的训练速度。
+    - 可以生成 100% 事实正确的回答。
+    answer_index: 1
+    explanation: 由于 RAG 引用外部文档，因此可以反映最新信息，并且可以在文档中找到生成回答的依据，从而具有高可靠性。
+  - question: 下列哪项是检索器 (Retriever) 的正确角色？
+    choices:
+    - 负责生成回答。
+    - 负责重新训练学习数据。
+    - 负责检索与问题相关的外部文档片段。
+    - 负责管理用户界面。
+    answer_index: 2
+    explanation: 检索器的作用是从外部数据源中查找与用户的问题语义相似或相关性高的文档。
+  completion_criteria:
+  - 能够解释 RAG 架构的组件。
+  - 确认实操的 RAG 流水线代码正常运行，能够检索并增强相关文档。
+  - 在分析报告中描述 RAG 流水线的局限性与改进方向。
+  source_ids:
+  - S1
+  - S2
+- id: m2
+  slug: corpus-curation
+  phase_id: p1
+  title: 评估用文档语料库策展
+  estimated_hours: 8.0
+  prerequisites:
+  - m1
+  objectives:
+  - 理解用于 RAG 评估的固定文档语料库的重要性。
+  - 学习评估用文档数据的质量决定因素（准确性、多样性、去重）。
+  - 掌握用于定量评估的“文档-问题-正解”对 (QA Pair) 数据集的构建策略。
+  - 学习防止数据泄露 (Data Leakage) 的训练/评估集划分方法。
+  theory_markdown: '## 用于 RAG 评估的语料库策展
+
+
+    大语言模型 (LLM) 在依赖已学习参数内的知识时，存在幻觉 (Hallucination) 风险。检索增强生成 (RAG) 通过让模型实时访问外部知识来克服这一局限
+    [S2]。为了定量评估高效 RAG 系统的可靠性，必须拥有固定且可控的评估用文档语料库 (Fixed Evaluation Corpus)。
+
+
+    ### 1. 语料库质量决定因素
+
+    - **准确性 (Factuality):** 文档内的信息必须是最新且属实的。包含错误信息的语料库会导致生成错误的回答。
+
+    - **领域契合度:** 必须包含与实际评估的服务环境相似的主题及词汇。
+
+    - **去重 (De-duplication):** 若相同信息在多个文档中重复，会阻碍检索结果的多样性，并对评估统计造成偏差。
+
+
+    ### 2. QA 评估数据集构建
+
+    仅凭文档语料库无法进行评估。必须构建“文档-问题-正解”对，以测量检索器是否带来了相关文档，以及生成器是否基于此做出了准确回答。
+
+    - **问题生成:** 使用 LLM 自动从文档中生成问题，或由领域专家直接编写。
+
+    - **正解定义:** 必须明确注明作为答案依据的文档区间 (Chunk)。
+
+
+    ### 3. 数据划分与完整性
+
+    为确保评估集的可靠性，必须严格划分**开发集 (Development Set)**与**最终评估集 (Hold-out Test Set)**。必须防止评估集中包含的问题直接包含在检索目标文档中并被暴露的“数据泄露”现象。'
+  worked_examples:
+  - '示例 1: 文档分块 (Chunking) 策略。编写 Python 脚本，在将文本划分为固定大小时，以段落或语义单位为基础进行划分，以避免上下文断裂。'
+  - '示例 2: 问题-回答数据构成。创建格式为 { ''question'': ''...'', ''ground_truth'': ''...'', ''context_chunk_id'':
+    ''...'' } 的 JSON 对象示例。'
+  lab:
+    title: 评估用语料库构建实操
+    steps:
+    - 获取用于评估的目标领域的开源授权文本文件 (.txt)。
+    - 使用 Python 编写读取文本文件并以分块单位进行划分的脚本。
+    - 为每个分块赋予唯一标识符 (ID) 并记录元数据（标题、来源）。
+    - 在编写的分块中生成问题，并记录作为答案依据的分块 ID，从而构成 50 个 QA 对。
+    - 将整个语料库以 8:2 的比例划分为开发集与测试集并保存。
+    safety:
+    - 评估语料库中不得包含个人信息文档。
+    - 使用外部 API 时设置请求次数上限以控制成本。
+    - 工作过程中生成的数据通过 Git 进行版本管理，以确保可重现性。
+    deliverables:
+    - 构建的文档语料库文件 (JSONL 格式)
+    - 包含问题与正解的 QA 数据集 (JSON 格式)
+    - 包含语料库划分记录的 Jupyter Notebook 文件
+  assignment:
+    title: 完成基于领域的 RAG 数据集
+    deliverables:
+    - 至少包含 100 道题的 QA 数据集文件
+    - 数据集统计分析报告（问题长度、分块长度等）
+    - 包含数据划分过程的 Python 代码
+    rubric:
+    - 语料库内的重复分块是否已剔除
+    - 是否确认测试集与开发集之间不存在数据泄露
+    - 答案依据的文档区间 (Chunk ID) 是否映射准确
+  quiz:
+  - question: 在 RAG 系统中防止“数据泄露 (Data Leakage)”的最佳方法是什么？
+    choices:
+    - 针对所有文档生成相同的问题。
+    - 将开发集与最终评估用的测试集分离管理。
+    - 将整个检索目标文档包含在训练数据中。
+    - 每次都重新生成并管理评估集。
+    answer_index: 1
+    explanation: 如果评估集在训练（或开发）过程中暴露在检索目标文档中，则无法进行公平评估，因此必须严格分离评估用测试集。
+  - question: 在语料库策展过程中，“去重”为何很重要？
+    choices:
+    - 为了提高 LLM 的生成速度。
+    - 为了节省磁盘存储空间。
+    - 为了确保检索结果的多样性并防止统计偏差。
+    - 为了降低文档的语义相似度。
+    answer_index: 2
+    explanation: 重复的信息会使搜索引擎返回有偏向的检索结果，并可能扭曲定量评估指标。
+  completion_criteria:
+  - 完成评估用文档语料库（至少 100 个分块以上）的构建
+  - 完成可验证 QA 数据集（至少 100 道题）的生成
+  - 确认遵守数据集划分政策
+  - 完成针对结果物的同行评审或自我评估检查表编写
+  source_ids:
+  - S2
+- id: m3
+  slug: eval-set-generation
+  phase_id: p1
+  title: 构建问答评估集
+  estimated_hours: 8.0
+  prerequisites:
+  - m2
+  objectives:
+  - 理解构建用于评估 RAG 系统的高质量问答 (QA) 评估集的重要性。
+  - 掌握利用合成数据生成技术 (Synthetic Data Generation) 构建评估集的原理。
+  - 通过 TrueTeacher 等方法论，掌握评估模型生成回答事实一致性的逻辑。
+  - 设计在保持评估集质量的同时，能够生成对领域变化具有稳健性的数据集的流程。
+  theory_markdown: '## 构建用于RAG评估的问答(QA)评估集
+
+
+    为了可靠地衡量检索增强生成(RAG)系统的性能，精心设计的评估集是必不可少的。仅仅依赖人工编写的问题和答案在进行大规模评估时，在成本和可扩展性方面存在局限性。
+
+
+    ### 合成数据生成的意义
+
+    根据最新的TrueTeacher方法论，可以利用大语言模型(LLM)对模型生成的各种答案进行注释，从而生成合成训练数据 [S5]。该方法具有以下优点：
+
+    1. **成本效益**：不依赖人工直接编写的摘要或答案，因此能够生成大规模数据集（例如：1.4M个示例） [S5]。
+
+    2. **多语言与可扩展性**：不局限于特定语言，并且在领域迁移(Domain-shift)方面也表现出稳健性 [S5]。
+
+    3. **事实一致性评估**：通过合成数据训练的小型模型，可以成功提炼(Distillation)大型LLM教师模型的知识，并作为高效的事实性评估工具使用
+    [S5]。
+
+
+    ### 数据集构建策略
+
+    在构建评估集时，不仅要创建问答对，还必须进行结构化设计，以便衡量“检索结果是否包含得出正确答案所需的依据？”以及“模型是否在没有扭曲的情况下引用了相关依据？”。为此，在生成数据集时，需要对问题的复杂度、与检索结果的相关性以及答案的事实一致性进行系统的标注或验证。'
+  worked_examples:
+  - 示例 1：从文档语料库中提取关键段落。使用LLM从给定文档中提取上下文中重要的事实性句子，并以此为基础构建包含“可回答问题”和“错误问题(Negative
+    Sample)”的流水线。
+  - 示例 2：事实性验证提示词设计。基于生成的问题和检索到的文档，指示LLM“根据检索到的文档回答问题，并判断答案在事实层面上是否一致（True/False）”，从而细化评估用的标准答案(Ground
+    Truth)的过程。
+  lab:
+    title: 合成评估集生成实践
+    steps:
+    - 加载准备好的开源文档语料库，并将其划分为文本块。
+    - 使用LLM API为每个文本块生成 100 个以上的唯一问答对。
+    - 针对生成的问题模拟检索系统，搜索并返回前k个文档。
+    - 构建评估流水线，以判断检索到的文档与生成的答案之间的事实一致性。
+    - 将结果数据保存为JSONL格式，并手动检查 30 个样本以记录数据质量。
+    safety:
+    - 在评估集构建过程中使用外部API时，必须设置费用上限(API Key Limit)。
+    - 使用正则表达式过滤生成的数据集，确保其中不包含原始文档的敏感信息或个人隐私。
+    - 不可盲目依赖模型评估结果，必须结合人工抽样核对。
+    deliverables:
+    - 已构建 100 条目以上的问答评估集(JSONL文件)
+    - 包含数据集生成和验证代码的Jupyter Notebook
+    - 包含人工审查记录的质量分析报告
+  assignment:
+    title: RAG可靠性评估集回归报告
+    deliverables:
+    - 分析评估集统计分布（问题长度、答案长度、文档引用频率等）的仪表板
+    - 使用相同评估集比较两种以上RAG设置（例如：更改检索算法、更改模型）的结果
+    - 错误分类表（幻觉、上下文不相关等）编写及案例分析
+    rubric:
+    - 评估集是否均匀反映了整个文档语料库的内容？
+    - 合成数据生成流水线是否以可重现的形式编写？
+    - 错误类型分类是否具体且具有定量依据？
+    - 是否通过人工审查验证了自动评估指标的有效性？
+  quiz:
+  - question: TrueTeacher方法论与传统的合成数据生成方式有何区别？
+    choices:
+    - 完全依赖人工编写的摘要。
+    - 通过注释模型生成的各种摘要来生成合成数据。
+    - 仅使用小型模型作为学习用的教师模型。
+    - 仅通过手工编写数据集来提高准确性。
+    answer_index: 1
+    explanation: TrueTeacher不依赖人工编写的摘要，而是利用LLM通过注释模型生成的各种摘要来生成合成数据 [S5]。
+  - question: 在构建RAG评估集时，为什么不能仅通过模型自动评估来确定事实性？
+    choices:
+    - 因为模型自动评估比人类慢得多。
+    - 因为模型自动评估并不完美，无法完全过滤掉幻觉(Hallucination)。
+    - 因为人工评估不需要成本。
+    - 因为事实性评估不需要模型。
+    answer_index: 1
+    explanation: 自动化评估工具虽然高效但并不完美，因此为了进行事实性验证，必须结合人工抽样审查和源文档核对。
+  completion_criteria:
+  - 完成 100 条目以上的问答评估集构建
+  - 提交数据集质量分析及人工审查记录
+  - 实现用于RAG流水线性能评估的Notebook并编写结果报告
+  - 在CI/CD环境中配置可重执行形式的评估包
+  source_ids:
+  - S5
+- id: m4
+  slug: retrieval-metrics
+  phase_id: p2
+  title: 检索质量指标 (Recall, MRR, nDCG)
+  estimated_hours: 8.0
+  prerequisites:
+  - m3
+  objectives:
+  - 了解检索增强生成(RAG)流水线中检索阶段的重要性。
+  - 学习Recall, MRR, nDCG指标的概念及其在RAG系统评估中的意义。
+  - 分析检索到的上下文相关性对后续答案生成质量的影响。
+  theory_markdown: '### RAG检索质量评估的重要性
+
+
+    RAG系统通过从外部数据库检索相关信息，并将其传递给LLM来生成答案 [S3]。因此，如果在检索阶段无法识别出相关性高且集中的上下文，即使是再强大的LLM也难以生成准确的答案
+    [S3]。评估检索质量是改善RAG架构整体性能的第一步。
+
+
+    ### 主要检索评估指标
+
+
+    1. **Recall (召回率)**：衡量实际正确答案是否包含在检索到的前k个结果中。即确认所需信息是否被检索系统捕捉到的指标。
+
+    2. **MRR (平均倒数排名)**：衡量用户问题的正确答案（相关文档）位于检索结果列表中的第几个位置。相关文档出现的位置越靠前，MRR值越接近 1，得分越高。
+
+    3. **nDCG (归一化折损累计增益)**：考虑检索结果顺序的指标，相关性高的文档位于顶部时赋予更高的分数。比起单纯的包含与否(Recall)，它能更精确地评估检索结果的“排序准确性”。
+
+
+    在有参考数据(Ground Truth)的情况下，这些指标对于系统改进至关重要，而像Ragas这样的框架提供了可以定量分析这些维度的工具 [S3, S4]。'
+  worked_examples:
+  - 若系统对问题的返回顺序为 [DocB, DocA, DocC]，且正确答案相关文档为DocA？MRR计算：DocA是第 2 个，因此倒数排名(Reciprocal
+    Rank)为 1/2 = 0.5。
+  - 当k= 3 时，如果前 3 个检索结果中包含正确文档，则 Recall @ 3 = 1；如果不包含，则 Recall @ 3 = 0。
+  lab:
+    title: 检索质量指标定量测量实践
+    steps:
+    - 使用评估集（问题、正确答案文档）准备 50 个样本数据。
+    - 执行检索模块，为每个问题返回前k个文档（k= 3, 5, 10）。
+    - 使用Python直接实现或使用库来计算 Recall, MRR, nDCG 指标。
+    - 将各问题的指标结果整理为数据帧(DataFrame)并进行可视化。
+    safety:
+    - 不要将包含个人隐私或私密文档的数据集发送给外部API。
+    - 实验时设置API费用限制，并利用缓存来优化请求次数。
+    deliverables:
+    - 包含各问题 Recall, MRR, nDCG 值的结果数据帧 CSV 文件
+    - 显示指标分布的直方图及箱线图图像
+  assignment:
+    title: 检索器(Retriever)性能对比报告
+    deliverables:
+    - 应用两种检索设置（例如：稀疏检索 vs 稠密检索）后的评估结果报告
+    - 对性能较差的前 5 个问题进行原因分析（错误检索类型分类）
+    rubric:
+    - 是否准确计算了 Recall, MRR, nDCG 指标？
+    - 是否对检索性能差异进行了统计学上有意义的解释？
+    - 是否系统地分类了失败类型？
+  quiz:
+  - question: 在RAG系统中，检索阶段的质量对生成阶段有什么影响？
+    choices:
+    - 检索质量与生成质量无关。
+    - 不相关的上下文会增加LLM产生幻觉的风险。
+    - 检索阶段仅评估LLM的推理能力。
+    - 检索结果越多，生成质量就越好。
+    answer_index: 1
+    explanation: 如果在检索阶段传递了不相关的信息，LLM可能会基于这些信息生成错误的答案或产生幻觉 [S3]。
+  - question: MRR指标最高的情况是什么？
+    choices:
+    - 相关文档总是排在最后。
+    - 相关文档总是位于最顶端（第 1 位）。
+    - 根本没有检索结果。
+    - 相关文档总是排在中间。
+    answer_index: 1
+    explanation: MRR是正确文档排名倒数的平均值，因此位于第 1 位时，其值达到最大( 1 )。
+  completion_criteria:
+  - 完成了 Recall, MRR, nDCG 计算代码并应用于样本数据。
+  - 对比两种检索策略并得出了定量分析结果。
+  - 至少将检索失败类型分类为 3 种以上并记录在报告中。
+  source_ids:
+  - S3
+  - S4
+- id: m5
+  slug: generation-faithfulness
+  phase_id: p2
+  title: 依据忠实度评估
+  estimated_hours: 8.0
+  prerequisites:
+  - m4
+  objectives:
+  - 理解依据忠实度(Faithfulness)的概念及其在RAG系统中的重要性。
+  - 利用Ragas框架定量评估生成的答案是否基于检索到的上下文(Context)。
+  - 利用自动化评估指标分析幻觉(Hallucination)风险。
+  theory_markdown: '## 依据忠实度 (Faithfulness) 评估
+
+
+    RAG(检索增强生成)系统的核心在于利用LLM检索外部知识数据库中的信息来生成答案。依据忠实度(Faithfulness)是衡量生成的答案是否忠实地反映了检索到的上下文中技术信息的指标
+    [S3]。
+
+
+    ### 1. 为什么评估依据忠实度？
+
+    LLM倾向于基于预训练知识进行回答，可能会生成与检索到的上下文无关的信息或扭曲上下文。这被称为“幻觉(Hallucination)”，通过依据忠实度评估可以定量衡量这一点
+    [S4]。
+
+
+    ### 2. 评估框架：Ragas
+
+    Ragas提出了一种在没有用户注释的情况下，无需参考(reference-free)即可进行评估的框架 [S3]。依据忠实度评估过程通常遵循以下步骤：
+
+    - **从答案中提取陈述**：从答案中分离出可验证的事实性陈述。
+
+    - **证据检索**：确认每个陈述是从检索到的上下文的哪部分推导出来的。
+
+    - **验证**：判断提取出的陈述是否与上下文信息一致。
+
+
+    Ragas使用LLM作为评估者来自动化这一过程 [S4]。'
+  worked_examples:
+  - 示例 1：如果上下文为“苹果富含维生素C”，答案为“苹果含有大量维生素C，对免疫力有好处”，由于“对免疫力有好处”在上下文中没有信息，因此依据忠实度得分会降低。
+  - 示例 2：如果上下文为“本公司成立日期为 2020 年 5 月 1 日”，答案为“本公司成立于 2020 年 5 月”，信息一致，因此具有较高的依据忠实度得分。
+  lab:
+    title: 利用Ragas测量生成答案的依据忠实度
+    steps:
+    - 准备评估数据集（问题、检索到的上下文、生成的答案）。
+    - 安装Ragas库并导入 `Faithfulness` 指标。
+    - 将准备好的数据集转换为Ragas的数据结构。
+    - 配置基于LLM的评估者，计算数据集的依据忠实度得分。
+    - 对得分较低的答案进行抽样，并通过人工审查分析其与检索到的上下文之间的差异。
+    safety:
+    - 不要将包含私密文档或个人隐私的数据集发送给外部LLM API。
+    - 确认API请求次数限制，并使用缓存(Cache)来控制成本。
+    - 进行人工审查时，保持抽样数据的安全性。
+    deliverables:
+    - 整个数据集的平均忠实度得分报告
+    - 针对低分回答的分析数据集
+    - 自动评估结果与人工评估结果的对比分析
+  assignment:
+    title: RAG流水线可靠性评估报告
+    deliverables:
+    - 包含忠实度评估的Jupyter Notebook
+    - 错误分类及幻觉发生频率分析报告
+    rubric:
+    - 是否正确实现了忠实度指标？
+    - 是否准确分类了生成回答中的幻觉案例？
+    - 自动评估结果与人工评估是否具有定性一致性？
+  quiz:
+  - question: 在RAG系统中，什么是忠实度（Faithfulness）？
+    choices:
+    - 检索到的上下文与问题的相关程度
+    - 生成的回答基于检索到的上下文信息的程度
+    - LLM利用预训练知识的程度
+    - 回答与用户问题的精确匹配程度
+    answer_index: 1
+    explanation: 忠实度是评估生成的回答是否依赖于外部检索到的上下文事实的指标。
+  - question: 下列关于Ragas框架的描述正确的是？
+    choices:
+    - 必须有基准答案（Ground Truth）才能进行评估。
+    - 支持无引用（reference-free）的评估方式。
+    - 仅评估检索效率，不评估生成质量。
+    - 不使用LLM作为评估者，仅使用统计方法。
+    answer_index: 1
+    explanation: Ragas的目标是实现无需基准答案即可评估，并积极利用LLM作为评估者 [S3, S4]。
+  completion_criteria:
+  - 能够使用Ragas库定量测量生成回答的忠实度。
+  - 能够从评估结果中分类至少 3 种幻觉发生类型。
+  - 能够验证自动化评估流水线的结果与实际回答的一致性。
+  source_ids:
+  - S3
+  - S4
+- id: m6
+  slug: citation-accuracy
+  phase_id: p2
+  title: 引用准确度及来源追踪
+  estimated_hours: 8.0
+  prerequisites:
+  - m5
+  objectives:
+  - 理解RAG系统中的回答在多大程度上忠实于检索到的文档内容。
+  - 学习引用（Citation）准确度的定义及其测量方式。
+  - 利用Ragas框架定量评估回答的忠实度（Faithfulness）和回答相关性（Answer Relevance）。
+  - 设计验证模型回答中来源可追踪性的流程。
+  theory_markdown: '## RAG系统的引用及忠实度评估
+
+
+    RAG（检索增强生成）系统利用外部知识库来降低LLM产生幻觉（Hallucination）的风险，但验证生成的回答是否准确引用了检索到的文档是一个必要过程
+    [S4]。
+
+
+    ### 1. 主要评估指标
+
+    * **忠实度 (Faithfulness)：** 衡量生成的回答是否源于提供的检索上下文（Context）。回答中的所有主张都必须基于检索到的文档，如果仅凭外部知识或模型的预训练知识进行回答，得分会降低
+    [S4]。
+
+    * **回答相关性 (Answer Relevance)：** 评估回答与给定问题之间的直接相关程度。即使检索到的信息充足，该指标也能用于识别回答偏离问题意图的情况。
+
+
+    ### 2. 引用准确度验证流程
+
+    引用准确度是指识别回答中的特定句子引用了检索上下文的哪一部分，并确认其是否与原文档的事实一致的过程。自动化评估框架Ragas为这一过程提供了无需引用数据（Ground
+    Truth）即可评估忠实度的指标 [S4]。
+
+
+    ### 3. 失败类型分类
+
+    - **漏引：** 回答的事实关系虽存在于检索文档中，但未进行引用标注。
+
+    - **虚假引用：** 将检索文档中不存在的内容标记为引用。
+
+    - **事实扭曲：** 虽然正确标记了引用，但因误解原意而导致生成内容有误。'
+  worked_examples:
+  - 示例 1：忠实度得分计算。针对问题“A公司的 2025 年销售额是多少？”，生成了回答“A公司的 2025 年销售额为 100 亿。”。如果背景文档中包含“A公司在
+    2025 年记录了 100 亿销售额。”，由于回答的所有信息都存在于上下文中，因此该回答的忠实度得分被评为 1.0（最高分）。
+  - 示例 2：引用准确度错误识别。针对问题“A公司的成立年份是？”，生成了回答“A公司成立于 1990 年（参考：文档 1）。”，但文档 1 中明确写着“A公司成立于
+    1995 年”，这被归类为“事实扭曲”失败类型，并判定为引用准确度较低。
+  lab:
+    title: 使用Ragas进行回答忠实度自动化评估实践
+    steps:
+    - 准备待评估RAG系统的检索结果（Context）和生成的回答（Answer）数据集。
+    - 安装Ragas框架并加载回答数据集。
+    - 使用Ragas的 `Faithfulness` 指标为数据集中的每个问答对计算得分。
+    - 单独提取出忠实度低于 0.7 的 30 条回答。
+    - 对提取的样本进行人工审核，并标记对应的失败类型（“漏引”、“虚假引用”、“事实扭曲”）。
+    safety:
+    - 在评估过程中使用的文档语料库中，请预先进行去标识化处理，以防包含个人信息或企业机密。
+    - 调用外部API时请设定费用上限，并固定随机种子（Seed）值以确保可重现性，防止重复产生API费用。
+    deliverables:
+    - 包含评估结果的Jupyter Notebook文件（.ipynb）
+    - 忠实度得分分布可视化图表
+    - 包含人工审核记录的失败类型分类表
+  assignment:
+    title: RAG系统可靠性回归评估报告撰写
+    deliverables:
+    - 基于两种以上RAG设置（例如更改检索Top-k值）的忠实度统计对比结果
+    - 针对 30 条样本的人工审核对照表
+    - 旨在提高系统引用准确度的改进方案建议书
+    rubric:
+    - 是否准确说明了评估指标的定量计算方法？
+    - 检索文档与生成回答之间的引用关系是否逻辑可追溯？
+    - 失败类型分类是否与人工审核数据一致并提出了合理的论据？
+  quiz:
+  - question: 下列关于Ragas框架“忠实度（Faithfulness）”指标的解释正确的是？
+    choices:
+    - 评估回答与问题是否相关。
+    - 测量回答中的所有信息是否都存在于提供的上下文文档中。
+    - 评估回答在语法上是否正确。
+    - 测量回答是否包含了外部知识库的所有信息。
+    answer_index: 1
+    explanation: 忠实度是测量生成的回答中主张是否有据可依（基于检索到的上下文）的指标。
+  - question: 在进行引用准确度评估时，哪种情况属于“事实扭曲”失败类型？
+    choices:
+    - 在回答中包含了检索文档中不存在的内容。
+    - 遗漏了引用标记。
+    - 虽然正确标记了引用，但在描述时误解了原意导致事实关系有误。
+    - 回答与问题的意图完全不同。
+    answer_index: 2
+    explanation: 事实扭曲是指即使引用了源文档，但在概括或转换原文档信息时产生错误的情况。
+  completion_criteria:
+  - 通过Jupyter Notebook完成自动化评估指标计算。
+  - 提交至少 30 条回答样本的人工审核及失败类型分类记录。
+  - 编写包含评估结果及改进方案的最终报告。
+  source_ids:
+  - S4
+- id: m7
+  slug: automated-eval-framework
+  phase_id: p2
+  title: 自动化评估框架（Ragas）应用
+  estimated_hours: 10.0
+  prerequisites:
+  - m6
+  objectives:
+  - 理解RAG流水线的核心评估维度（检索及生成质量）。
+  - 学习如何使用Ragas框架进行无引用（reference-free）的RAG性能自动化评估。
+  - 通过定量指标分析并缓解幻觉（hallucination）风险。
+  theory_markdown: '## RAG评估的挑战与Ragas
+
+
+    RAG系统由检索模块和基于LLM的生成模块组成 [S3, S4]。评估这种结构是一项挑战，因为必须同时考虑检索系统识别相关上下文（context）的准确度、LLM利用所提供上下文的忠实度（faithfulness）以及回答的质量
+    [S4]。
+
+
+    传统的评估方式依赖于人工编写答案并进行对比，但这不仅成本高昂，而且耗时，不适合快速迭代周期 [S3, S4]。
+
+
+    ### Ragas框架
+
+    Ragas (Retrieval Augmented Generation Assessment) 是一个无需基准数据集即可评估RAG流水线的框架 [S3,
+    S4]。Ragas会自动评估以下核心维度：
+
+
+    1. **检索质量 (Retrieval Quality)：** 衡量检索到的上下文与问题的相关性（Context Relevance），以及是否包含所有必要信息（Context
+    Recall）。
+
+    2. **生成质量 (Generation Quality)：** 衡量生成的回答是否基于检索到的上下文（Faithfulness），以及是否与问题相关（Answer
+    Relevance）。
+
+
+    这些指标通过利用LLM作为“评估者（judge）”，实现了无需基准答案即可进行评估，有助于缩短RAG的开发周期 [S3, S4]。'
+  worked_examples:
+  - 案例 1：Context Relevance 计算。Ragas利用LLM从检索到的上下文（Context）中提取回答问题实际所需的句子，并通过所需句子占整个上下文的比例来计算得分。
+  - 案例 2：Faithfulness 评估。由LLM判断生成的回答中的每一项主张是否都能在检索到的上下文中找到支撑。无法得到支撑的主张越多，幻觉得分就越高。
+  lab:
+    title: 使用Ragas进行RAG性能定量评估实践
+    steps:
+    - 准备评估数据集（问题、检索到的上下文、生成的回答）。
+    - 在Python环境中安装 `ragas` 库。
+    - 将评估数据集转换为 `ragas` 的 Dataset 对象。
+    - 调用 Ragas 的 `evaluate` 函数来计算上下文相关性（Context Relevance）、忠实度（Faithfulness）等指标。
+    - 可视化结果并分析得分较低的查询。
+    safety:
+    - 确认评估使用的文档语料库中不包含个人信息或非公开数据。
+    - 为防止API使用成本过高，在测试时请积极使用本地模型或缓存。
+    - 自动化评估结果是衡量可靠性的辅助指标，实际模型质量的确定应结合人工样本审核进行交叉验证。
+    deliverables:
+    - 包含指标得分的评估结果数据框（Dataframe）
+    - 低分查询类型的分析日志
+  assignment:
+    title: RAG流水线性能对比报告
+    deliverables:
+    - 两种不同检索设置（k值、嵌入模型等）的RAG流水线的Ragas评估结果
+    - 两种设置间的性能差异分析报告
+    rubric:
+    - 是否正确实现了Ragas指标（Context Relevance, Faithfulness等）？
+    - 评估结果是否进行了定量对比并包含了逻辑解释？
+    - 是否分类了至少 3 种幻觉类型并提出了改进方案？
+  quiz:
+  - question: Ragas框架最大的特点是什么？
+    choices:
+    - 必须拥有人工标注的答案数据集
+    - 可以在无引用（reference-free）的情况下评估RAG流水线
+    - 仅评估检索阶段，不评估生成阶段
+    - 必须至少拥有 10 个GPU
+    answer_index: 1
+    explanation: Ragas是一个无需基准答案数据集，利用LLM自动评估检索和生成质量的框架 [S3, S4]。
+  - question: Ragas中衡量的“Faithfulness”指标定义是什么？
+    choices:
+    - 检索到的上下文与问题有多大关联
+    - 问题是否存在于文档语料库中
+    - 生成的回答是否基于检索到的上下文
+    - 提问者对LLM回答的信任程度
+    answer_index: 2
+    explanation: Faithfulness是衡量生成的回答在多大程度上基于提供的检索上下文（防止幻觉）的指标 [S4]。
+  completion_criteria:
+  - 使用 Ragas 库成功计算至少 10 个查询的 4 种以上指标
+  - 定期将实操笔记本提交至 Git 仓库
+  - 性能比较报告中至少包含 3 个错误分类案例
+  source_ids:
+  - S3
+  - S4
+- id: m8
+  slug: error-analysis
+  phase_id: p3
+  title: 故障类型分类与错误分析
+  estimated_hours: 10.0
+  prerequisites:
+  - m7
+  objectives:
+  - 能够识别并分类 RAG 系统中出现的故障类型。
+  - 能够区分并分析检索（Retrieval）阶段与生成（Generation）阶段的错误。
+  - 利用 Ragas 框架的指标将自动化评估与人工审核结果相关联。
+  - 基于错误分析数据提出 RAG 流水线性能改进方案。
+  theory_markdown: '## RAG 系统错误分析概述
+
+
+    RAG（检索增强生成）架构由检索模块和基于 LLM 的生成模块组成 [S3]。在评估系统性能时，将这两个阶段分开分析至关重要。错误主要分为检索阶段的问题和生成阶段的问题。
+
+
+    ### 1. 故障类型分类
+
+    - **检索失败 (Retrieval Failure):** 检索到不相关或重点不明确的上下文（context）[S3]。
+
+    - **生成失败 (Generation Failure):** LLM 未能忠实地使用所提供的上下文（Faithfulness），或生成了与问题无关的回答
+    [S3]。
+
+
+    ### 2. 自动化评估与人工审核的互补
+
+    Ragas 等无需参考（Reference-free）的框架可以在没有人工标注（ground truth）的情况下评估检索和生成质量 [S3]。然而，仅凭自动化评估指标很难捕捉到系统微妙的幻觉（hallucination）或复杂的逻辑错误。因此，应通过定量自动指标提取高优先级的故障样本，并必须并行进行人工审核（Human
+    Review）以查明实际原因。'
+  worked_examples:
+  - 示例 1：针对问题“模型 A 的发布日期是？”，检索器检索到了“模型 B 的规格”文档。这被归类为“检索失败”，可以通过调整嵌入模型或优化检索查询来解决。
+  - 示例 2：针对问题“解释 X”，检索器检索到了关于 X 的准确文档，但 LLM 的回答包含了文档中没有的信息。这被归类为“生成失败（忠实度不足）”，应通过提示工程（prompt
+    engineering）加强“仅使用所提供的上下文”这一约束。
+  lab:
+    title: 故障数据集收集与错误分析
+    steps:
+    - 针对至少 50 个问题，保存 RAG 系统的回答及检索到的上下文（context）。
+    - 使用 Ragas 测量每个项目的上下文精确度（Context Precision）和生成忠实度（Faithfulness）。
+    - 提取指标得分最低的后 20% 的问题-回答对。
+    - 针对提取的样本，填写包含“检索错误”、“生成错误”、“逻辑错误”的分类表。
+    safety:
+    - 严禁在评估代码中包含个人信息或非公开数据。
+    - 监控评估过程中使用的 API 调用次数和成本，以确保符合预算。
+    - 数据分析时在本地环境中进行工作，以防止信息泄露。
+    deliverables:
+    - 已完成分类的错误分析 CSV 文件
+    - 可视化检索和生成质量指标的 Jupyter Notebook
+  assignment:
+    title: RAG 错误分类及改进报告撰写
+    deliverables:
+    - 汇总错误分析结果的 2 页报告
+    - 针对分类出的不同故障类型的应对策略（检索优化或提示词改进）建议
+    rubric:
+    - 故障类型分类的准确性和合理性
+    - 定量指标与人工审核结果之间的相关性分析能力
+    - 改进策略的逻辑合理性
+  quiz:
+  - question: 当 RAG 系统中的检索模块检索到不相关的上下文时，会发生什么类型的失败？
+    choices:
+    - 生成失败
+    - 检索失败
+    - 数据库连接错误
+    - 认证失败
+    answer_index: 1
+    explanation: 检索模块的作用是识别适合问题的文档，因此检索到不相关的上下文属于检索阶段的失败 [S3]。
+  - question: Ragas 框架最大的特点是什么？
+    choices:
+    - 必须具备大规模的人工标注数据。
+    - 支持无需参考（Reference-free）的评估。
+    - 仅能评估 LLM 生成质量。
+    - 仅适用于实时流式系统。
+    answer_index: 1
+    explanation: Ragas 是一种无需地面真值（ground truth）即可评估检索和生成质量的无需参考评估框架 [S3]。
+  completion_criteria:
+  - 提交包含故障类型的错误分类表
+  - 完成利用 Ragas 指标对检索及生成质量的定量分析
+  - 完成基于错误分析的流水线改进建议书的撰写及评审
+  source_ids:
+  - S3
+- id: m9
+  slug: human-review-validation
+  phase_id: p3
+  title: 样本人工审核与对照
+  estimated_hours: 10.0
+  prerequisites:
+  - m8
+  objectives:
+  - 理解自动化 RAG 评估指标与实际事实性之间的差距。
+  - 设计人工审核模型生成回答的事实一致性（Factual Consistency）的协议。
+  - 识别 LLM 评估的局限性，并分析 TrueTeacher 等合成数据技术的意义 [S5]。
+  - 掌握系统化分类错误类型及管理可信度数据集的方法。
+  theory_markdown: '## 自动化评估的局限性与人工审核的必要性
+
+
+    在评估检索增强生成（RAG）系统的质量时，Ragas 等工具虽然能快速提供定量指标，但在捕捉模型生成回答的微妙事实错误方面存在局限。特别是在复杂的语境下，很难区分
+    LLM 是在知识范围内进行推理，还是依赖于学习过的数据产生了幻觉（Hallucination）。
+
+
+    ### 事实一致性评估
+
+
+    最近的研究利用自然语言推理（NLI）模型或大语言模型（LLM）来评估摘要或回答的事实性。然而，现有方法依赖于人工编写的摘要数据集，这可能与实际模型生成的输出特性存在差异
+    [S5]。TrueTeacher 等方法试图通过利用 LLM 从模型生成数据中构建合成的事实性评估数据，来克服这些局限性 [S5]。
+
+
+    ### 人工审核（Human-in-the-Loop）的作用
+
+
+    无论自动化评估流水线多么先进，最终的可靠性验证仍离不开人工审核。人工审核的作用如下：
+
+    1. **验证自动化评估指标：** 识别某些回答虽被评估为“相关”但实际上并非事实的情况。
+
+    2. **幻觉类型分类：** 诊断系统结构性缺陷（检索错误 vs. 生成模型错误）。
+
+    3. **校准回归测试集：** 基于人工审核的数据持续提升评估集的质量。'
+  worked_examples:
+  - 示例 1：自动化评估指标（如 Faithfulness）得分很高，达到 0.9，但人工审核发现回答中包含了检索文档中不存在的内容。分析：将其归类为模型使用了非检索信息（即内部权重中包含的过去信息）产生的幻觉，并记录在系统错误日志中。
+  - 示例 2：设计使用 TrueTeacher 模型使系统自行评估回答的事实性。人工抽样调查 LLM 评为“正确”的部分回答，以衡量 LLM 评估器的错误率（误报率，False
+    Positive），并将其在评估报告中注明 [S5]。
+  lab:
+    title: 样本人工审核与错误分析执行
+    steps:
+    - 通过自动化评估流水线（Ragas 等）导出 100 个回答的忠实度（Faithfulness）得分。
+    - 随机抽取得分最低的 10 个、中等水平的 10 个及得分最高的 10 个样本，建立审核集。
+    - 通过对照回答、检索文档（Context）和标准答案（Ground Truth），人工记录是否存在“检索遗漏”、“信息失真”、“幻觉生成”。
+    - 对比记录的人工判断与自动化评估得分，执行相关性分析。
+    safety:
+    - 务必确认待审核的数据集中不包含实际个人信息或敏感的非公开文档。
+    - 审核完成的数据安全保存在本地存储中，严禁上传至未经验证的外部 API。
+    deliverables:
+    - 包含至少 30 条人工审核记录的错误分类表（CSV/Excel）
+    - 分析自动化指标与人工评估一致性的总结报告
+  assignment:
+    title: RAG 可信度分析报告撰写
+    deliverables:
+    - 通过人工审核分类出的故障类型频率表
+    - 当前系统主要脆弱点（检索阶段或生成阶段）的分析报告
+    - 改进未来自动化评估流水线的建议
+    rubric:
+    - 错误类型分类是否系统化？
+    - 是否结合具体示例逻辑性地叙述了自动化评估指标的局限性？
+    - 人工审核数据是否被恰当地用作可信度分析的依据？
+  quiz:
+  - question: 仅凭自动化事实性评估指标难以确定系统可靠性的主要原因是什么？
+    choices:
+    - 因为自动化评估指标速度非常快。
+    - 因为模型生成数据具有与人工撰写数据不同的特征，且自动评估器本身无法捕捉所有事实错误 [S5]。
+    - 因为人工审核数据总是比自动化评估指标准确。
+    - 因为数据集规模太小。
+    answer_index: 1
+    explanation: 现有的摘要评估数据集无法充分反映模型实际生成结果的复杂性，且自动评估系统在某些情况下无法检测出幻觉。
+  - question: TrueTeacher 方法与利用现有摘要数据集的方法有何不同？
+    choices:
+    - 仅依赖于人工编写的摘要。
+    - 利用模型生成的各种摘要，合成生成用于事实性评估的数据 [S5]。
+    - 不使用 NLI 模型。
+    - 不支持多语言。
+    answer_index: 1
+    explanation: TrueTeacher 不依赖于人工编写的摘要，而是利用 LLM 对模型生成的各种数据进行合成标注，从而生成训练数据 [S5]。
+  completion_criteria:
+  - 需编写至少 30 个数据样本的人工审核日志。
+  - 需提交包含自动化评估结果与人工审核结果比较分析的报告。
+  - 需通过错误分类明确定义当前系统的脆弱点。
+  source_ids:
+  - S5
+- id: m10
+  slug: regression-report
+  phase_id: p3
+  title: 可重复的回归评估报告
+  estimated_hours: 18.0
+  prerequisites:
+  - m9
+  objectives:
+  - 理解 RAG 系统可重复的回归评估框架。
+  - 使用 Ragas 框架定量测量检索和生成质量。
+  - 通过回归测试分析模型更新或检索算法变更对系统可靠性的影响。
+  - 学习通过结合人工审核与自动化评估来进行综合报告撰写的方法。
+  theory_markdown: '### RAG 系统评估的核心维度
+
+    评估 RAG 架构是一项多维任务。评估对象包括检索系统识别与问题高度相关且聚焦的上下文的能力、LLM 使用所识别上下文忠实生成回答的能力，以及最终生成物的质量本身
+    [S3, S4]。
+
+
+    ### Ragas 框架
+
+    Ragas（Retrieval Augmented Generation Assessment）是一个无需基准数据（Ground Truth）即可评估 RAG
+    流水线的框架 [S3]。Ragas 提供了一系列指标，用于衡量检索质量（Retrieval quality）、生成质量（Generation quality）以及防止幻觉（Hallucination）的能力
+    [S3]。
+
+
+    ### 回归评估的重要性
+
+    为了维持系统的可靠性，变革管理（Change Management）必不可少。在引入新的嵌入模型、微调检索算法或更改 LLM 设置时，必须针对现有的评估数据集执行回归测试。回归评估报告是统计性证明系统改进是否切实提升了可靠性，还是导致了新的缺陷的重要材料。'
+  worked_examples:
+  - 统计比较示例：针对两种 RAG 设置（现有 vs 新嵌入模型），运行相同的 100 个问题评估集，并比较 Ragas 指标（Faithfulness, Answer
+    Relevance）的平均值和标准差，从而验证显著性能提升的笔记本分析案例。
+  - 错误类型分类示例：抽取系统中“回答相关性”得分较低的 30 个样本，手动分类是检索阶段的失败（未检索到相关文档）还是生成阶段的失败（忽略上下文），并将结果记录在流水线日志中。
+  lab:
+    title: RAG 流水线回归测试自动化
+    steps:
+    - 准备用于最终验证的评估数据集（100 个问题），格式为 JSON。
+    - 定义两种不同的 RAG 流水线配置（版本 A，版本 B）。
+    - 使用 Ragas 框架对每个流水线进行自动化评估并保存结果。
+    - 使用 Pandas 可视化两个结果集的指标分布并计算统计学差异。
+    - 针对评估分数急剧下降的下层 10% 的案例，对照证据上下文和模型响应。
+    safety:
+    - 务必确认评估数据集中不包含个人信息或公司机密文档。
+    - 调用外部 API 时设置费用上限，并在本地环境测试时使用缓存，以防止滥用请求。
+    - 切勿盲目相信模型评估结果，务必并行进行样本的人工审查（Human-in-the-loop）。
+    deliverables:
+    - 包含回归评估执行结果的 Jupyter Notebook
+    - 两个 RAG 设置间的性能比较可视化图表（箱线图或散点图）
+    - 包含错误类型分类及人工审查记录的最终报告
+  assignment:
+    title: 编写 RAG 可靠性改进报告
+    deliverables:
+    - 包含系统可靠性指标的技术报告 PDF
+    - 用于配置可重现 CI 环境的设置文件（例如：pipeline.yaml）
+    - 针对评估数据集的回归测试脚本
+    rubric:
+    - 是否对检索和生成质量指标进行了定量测量？
+    - 回归测试方法论是否有描述且可重现？
+    - 自动评估结果与人工审查结果之间的分析是否恰当？
+    - 是否明确提出了性能变化的原因及未来改进方向？
+  quiz:
+  - question: Ragas 框架最显著的特征是什么？
+    choices:
+    - 必须拥有人类编写的答案数据集（Ground Truth）才能进行评估。
+    - 即使没有基准数据，也能评估 RAG 流水线质量的框架。
+    - 仅测量 LLM 生成内容的质量，不测量检索质量。
+    - 为了评估，必须重新训练学习模型。
+    answer_index: 1
+    explanation: Ragas 是专为在没有基准数据的情况下评估 RAG 流水线而设计的框架 [S3, S4]。
+  - question: 在 RAG 系统中执行回归测试的主要目的是什么？
+    choices:
+    - 为了美化系统的设计。
+    - 为了从物理上改善服务器的响应速度。
+    - 为了分析系统变更（算法、数据等）对现有可靠性的影响并防止缺陷。
+    - 为了自动收集用户的个人信息。
+    answer_index: 2
+    explanation: 回归测试的核心是通过验证系统变更是否引起了意外的性能下降来确保可靠性。
+  - question: 在进行 RAG 系统评估时，不属于应考虑的多维维度的是什么？
+    choices:
+    - 检索系统识别相关上下文的能力。
+    - LLM 忠实利用上下文的能力。
+    - 生成内容的质量。
+    - 用户 SNS 账户的安全水平。
+    answer_index: 3
+    explanation: RAG 架构评估的主要维度是检索质量、生成忠实度和生成内容本身的质量 [S3, S4]。
+  completion_criteria:
+  - 设计回归测试流水线，并完成至少 100 个问题的评估数据集对 2 个以上设置的对比分析。
+  - 利用 Ragas 指标进行定量评估。
+  - 提交通过人工样本审查验证自动评估结果的记录。
+  - 撰写并提交技术报告。
+  source_ids:
+  - S3
+  - S4
+sources:
+- id: S1
+  title: Stanford CS 224N | Natural Language Processing with Deep Learning
+  organization: web.stanford.edu
+  url: https://web.stanford.edu/class/cs224n/
+  type: university
+  published_at: null
+  accessed_at: '2026-08-30'
+  primary: true
+  supports:
+  - m1
+- id: S2
+  title: Natural Language Processing with Deep Learning CS224N/Ling284
+  organization: web.stanford.edu
+  url: https://web.stanford.edu/class/cs224n/slides_w26/cs224n-2026-lecture10-rag-agents.pdf
+  type: university
+  published_at: null
+  accessed_at: '2026-08-30'
+  primary: true
+  supports:
+  - m1
+  - m2
+- id: S3
+  title: '[2309.15217] Ragas: Automated Evaluation of Retrieval ... Ragas: Automated
+    Evaluation of Retrieval Augmented Generation RAGAS: Automated Evaluation of Retrieval
+    Augmented Generation RAGAs: Automated Evaluation of Retrieval Augmented Generation
+    RAGAS: Automated Evaluation of Retrieval Augmented Generation RAGAS: Automated
+    Evaluation of Retrieval Augmented Generation'
+  organization: arxiv.org
+  url: https://arxiv.org/abs/2309.15217
+  type: paper
+  published_at: null
+  accessed_at: '2026-08-30'
+  primary: true
+  supports:
+  - m10
+  - m4
+  - m5
+  - m7
+  - m8
+- id: S4
+  title: 'Ragas: Automated Evaluation of Retrieval Augmented Generation'
+  organization: arxiv.org
+  url: https://arxiv.org/html/2309.15217v2
+  type: paper
+  published_at: null
+  accessed_at: '2026-08-30'
+  primary: true
+  supports:
+  - m10
+  - m4
+  - m5
+  - m6
+  - m7
+- id: S5
+  title: '[2305.11171] TrueTeacher: Learning Factual Consistency ... TrueTeacher:
+    Learning Factual Consistency Evaluation with ... TrueTeacher: Generating Synthetic
+    Data for Factual ... (PDF) TrueTeacher: Learning Factual Consistency Evaluation
+    ... (PDF) TrueTeacher: Learning Factual Consistency Evaluation ... [PDF] TrueTeacher:
+    Learning Factual Consistency Evaluation ...'
+  organization: arxiv.org
+  url: https://arxiv.org/abs/2305.11171
+  type: paper
+  published_at: null
+  accessed_at: '2026-08-30'
+  primary: true
+  supports:
+  - m3
+  - m9
+bom: []
+capstone:
+  title: RAG 系统可靠性回归评估报告
+  deliverables:
+  - 具有可追溯来源的固定文档语料库和至少 100 个问题的评估集。
+  - Recall@k·MRR·nDCG 检索评估笔记本。
+  - 证据忠实度·引用准确度·回答相关性评估流水线。
+  - 错误分类表和至少 30 条人工审查记录。
+  - 两个以上 RAG 设置的统计对比报告。
+  - 可在 CI 中重现的回归基准和最终重现性包。
+  rubric:
+  - 评估集来源的可追溯性及问答-文档对应精度。
+  - 检索及生成质量指标定量测量的合理性。
+  - 自动评估结果与人工审查结果之间定性一致性分析。
+  - 故障类型（检索失败 vs 生成失败）的清晰分类及分析。
+  - 报告的可重现性及回归评估框架与 CI 集成的可能性。
+  safety:
+  - 遵守评估过程中的个人信息防泄露措施。
+  - 针对提示注入（Prompt Injection）的安全数据处理。
+  - 并行进行用于事实核查的人工审查流程。
+  - 通过限制费用及请求次数实现安全 API 使用。
+generation:
+  run_id: f439c689d3754cecbf386ffcc0c2bd7c
+  generated_at: '2026-08-30T05:35:47.569263Z'
+  generator: gemini
+selection:
+  canonical_topic_id: rag-evaluation-reliability
+  demand_score: 91
+  duplicate_verdict: unique
+  evidence:
+  - title: '2025 Stack Overflow Developer Survey: AI'
+    publisher: Stack Overflow
+    url: https://survey.stackoverflow.co/2025/ai
+    observed_at: '2026-08-30'
+    family: search_intent
+    measurement: 87% accuracy concern; 84% of agent users apply agents to software
+      development
+  - title: 'AI Risk Management Framework: Generative AI Profile'
+    publisher: National Institute of Standards and Technology
+    url: https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence
+    observed_at: '2026-08-30'
+    family: technical_regulatory_change
+    measurement: NIST AI 600-1 Generative AI Profile
+  - title: LangChain Open Source Ecosystem
+    publisher: LangChain AI
+    url: https://github.com/langchain-ai
+    observed_at: '2026-08-30'
+    family: learning_community
+    measurement: 137,799 stars; 22,823 forks
+localization:
+  source_language: ko
+  language: zh-cn
+  source_hash: 70f479bad93892cff6aafc793bc403fb0c10df85e5926eef46df88993267ed79
+  translator: gemini-cli
+  translated_at: '2026-08-30T06:30:55.199843Z'
+  translation_run_id: a3ecae3cd64041daa42409713fd13427
+published_at: '2026-08-30T15:42:37.390479+09:00'

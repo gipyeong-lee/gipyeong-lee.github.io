@@ -1,0 +1,1374 @@
+schema_version: 1
+curriculum_version: 1.0.0+40bb735b5f50
+course:
+  course_type: academic
+  slug: rag-evaluation-reliability
+  primary_category: ai-software
+  topics:
+  - retrieval-augmented-generation
+  - rag-evaluation
+  - information-retrieval
+  - llm-reliability
+  title: RAG Evaluation and Reliability Experiments
+  summary: Create a fixed document set and question/answer evaluation set, then quantitatively
+    measure retrieval quality, grounded faithfulness, citation accuracy, and failure
+    modes to complete a reproducible RAG regression evaluation report.
+  outcome: Learners will be able to evaluate the retrieval and generation stages of
+    a RAG pipeline separately and design a quantitative regression testing framework
+    that utilizes automated evaluation tools like Ragas to reduce hallucinations and
+    verify factuality.
+  audience: Learners with basic Python and statistics knowledge who can handle data
+    in Jupyter Notebook.
+  level: intermediate
+  estimated_hours: 96.0
+  budget_krw:
+    min: 0
+    max: 100000
+  required_tools:
+  - Python 3.12 Computer
+  - Jupyter Notebook
+  - Git
+  - Open-license document corpus
+  - Local embedding model or API with cost limits
+  safety_summary:
+  - Do not transmit personal information, private documents, or authentication credentials
+    to the evaluation corpus or external APIs.
+  - Treat prompt injection strings as untrusted data and do not follow them as execution
+    instructions.
+  - Do not confirm factuality solely through model automated evaluation; supplement
+    with sample human review and source verification.
+  - Fix upper limits for API costs and request counts, and use reproducible caches
+    and seeds.
+  - Maintain development/final evaluation splits to prevent evaluation set leakage
+    and overfitting.
+  last_reviewed: '2026-08-30'
+phases:
+- id: p1
+  title: RAG Foundations and Dataset Construction
+  module_ids:
+  - m1
+  - m2
+  - m3
+- id: p2
+  title: Retrieval and Generation Quality Evaluation
+  module_ids:
+  - m4
+  - m5
+  - m6
+  - m7
+- id: p3
+  title: Reliability Verification and Reporting
+  module_ids:
+  - m8
+  - m9
+  - m10
+modules:
+- id: m1
+  slug: intro-rag-architecture
+  phase_id: p1
+  title: Understanding RAG Architecture
+  estimated_hours: 8.0
+  prerequisites: []
+  objectives:
+  - Understand the core components of the RAG (Retrieval-Augmented Generation) architecture.
+  - Identify the knowledge limitations of Large Language Models (LLMs) and the necessity
+    of retrieval-based augmentation.
+  - Explain the structural flow of the retrieval-generation pipeline.
+  theory_markdown: '## RAG (Retrieval-Augmented Generation) Architecture Overview
+
+
+    While state-of-the-art Natural Language Processing (NLP) and deep learning models
+    show excellent performance by learning from vast amounts of text data, they have
+    limitations such as exhibiting hallucinations or lacking knowledge regarding the
+    latest information not included at the time of model training, or private data
+    within specific domains [S1].
+
+
+    ### Overcoming LLM Limitations through Retrieval
+
+    RAG is a method that, instead of forcing the model to memorize all knowledge within
+    its parameters, retrieves reliable external documents related to the question
+    at the ''just-in-time'' moment and provides them as input for the generation stage
+    [S2].
+
+
+    ### Core Components
+
+    1. **Retriever**: Receives the user''s query and identifies highly relevant document
+    chunks from sources such as vector databases.
+
+    2. **Augmentation**: Combines the retrieved documents with the original question
+    to construct the prompt to be delivered to the LLM.
+
+    3. **Generator**: Generates a fact-based response based on the augmented information.
+
+
+    This structure contributes to securing reliability by keeping the model''s knowledge
+    up-to-date and making the generated answers'' evidence traceable.'
+  worked_examples:
+  - 'Case 1: Traditional LLM approach - When asked ''Tell me today''s news'', there
+    is a risk of generating incorrect information because it is unaware of events
+    after the training data cutoff.'
+  - 'Case 2: RAG approach - When asked ''Tell me today''s news'', 1) the Retriever
+    collects relevant articles through an external search engine or real-time news
+    API, and 2) generates an accurate, up-to-date response by including these as context
+    and passing them to the LLM.'
+  lab:
+    title: RAG Architecture Flow Visualization and Analysis
+    steps:
+    - Open Jupyter Notebook and diagram the structure of the RAG base pipeline's 3
+      stages (input, retrieval, generation).
+    - Extract 5 short texts from an open-license document corpus to create a dataset
+      sample.
+    - Implement a simple keyword-matching Retriever function to return documents matching
+      the question.
+    - Write code for the augmentation stage that injects the retrieved documents into
+      a prompt template.
+    safety:
+    - Never use actual personal information or confidential documents as corpus data.
+    - Check the Rate Limit when using APIs and set a seed value in the test code to
+      ensure reproducibility.
+    deliverables:
+    - RAG architecture diagram (included within a Notebook cell)
+    - Simple keyword-based retriever implementation code
+    - Document-injected prompt generation output
+  assignment:
+    title: RAG-based Information Retrieval Pipeline Analysis Report
+    deliverables:
+    - Notebook explaining the working principles of the implemented RAG pipeline
+    - Describe 3 potential failure cases that can occur when the retriever judges
+      document relevance
+    rubric:
+    - Are the 3 stages of RAG (retrieval, augmentation, generation) explained and
+      distinguished accurately?
+    - Is the analysis of the possibility of retrieving irrelevant documents during
+      the retrieval stage valid?
+    - Was the implementation done in compliance with private data security guidelines?
+  quiz:
+  - question: What is the main advantage of RAG compared to LLM training methods?
+    choices:
+    - It can reduce the parameter size of the LLM.
+    - It can keep the model's knowledge up-to-date and provide evidence.
+    - It accelerates the model's training speed.
+    - It generates 100% factual answers to all questions.
+    answer_index: 1
+    explanation: Because RAG references external documents, it can reflect the latest
+      information and offers high reliability as the evidence for generated answers
+      can be found in the documents.
+  - question: What is the correct role of the Retriever?
+    choices:
+    - It plays the role of generating answers.
+    - It plays the role of retraining the training data.
+    - It searches for external document chunks related to the question.
+    - It manages the user interface.
+    answer_index: 2
+    explanation: The retriever plays the role of finding documents that are semantically
+      similar or highly relevant to the user's question from external data sources.
+  completion_criteria:
+  - Can explain the components of the RAG architecture.
+  - Confirm that the practiced RAG pipeline code works properly to retrieve and augment
+    relevant documents.
+  - Describe the limitations of the RAG pipeline and directions for improvement in
+    an analysis report.
+  source_ids:
+  - S1
+  - S2
+- id: m2
+  slug: corpus-curation
+  phase_id: p1
+  title: Evaluation Document Corpus Curation
+  estimated_hours: 8.0
+  prerequisites:
+  - m1
+  objectives:
+  - Understand the importance of a fixed document corpus for RAG evaluation.
+  - Learn the quality determination factors (accuracy, diversity, de-duplication)
+    for evaluation document data.
+  - Master strategies for building Document-Question-Answer pair (QA Pair) datasets
+    for quantitative evaluation.
+  - Learn training/evaluation split methods to prevent data leakage.
+  theory_markdown: '## Corpus Curation for RAG Evaluation
+
+
+    Large Language Models (LLMs) carry a risk of Hallucination when relying on knowledge
+    within learned parameters. Retrieval-Augmented Generation (RAG) overcomes this
+    limitation by allowing models to access external knowledge in real-time [S2].
+    A **Fixed Evaluation Corpus** that is controlled and stable is essential to quantitatively
+    evaluate the reliability of an effective RAG system.
+
+
+    ### 1. Corpus Quality Determination Factors
+
+    - **Factuality:** Information within documents must be up-to-date and factual.
+    A corpus containing incorrect information leads to the generation of incorrect
+    answers.
+
+    - **Domain Suitability:** It must include topics and vocabulary similar to the
+    actual service environment being evaluated.
+
+    - **De-duplication:** If identical information is duplicated across multiple documents,
+    it hinders retrieval result diversity and introduces bias into evaluation statistics.
+
+
+    ### 2. Building QA Evaluation Datasets
+
+    Evaluation is impossible with only a document corpus. You must build ''Document-Question-Answer''
+    pairs to measure whether the retriever brings in relevant documents and whether
+    the generator provides accurate answers based on them.
+
+    - **Question Generation:** Automatically generate questions from documents using
+    an LLM, or have them written directly by domain experts.
+
+    - **Answer Definition:** Clearly specify the document segment (Chunk) that serves
+    as the evidence for the answer.
+
+
+    ### 3. Data Splitting and Integrity
+
+    For evaluation set reliability, you must strictly split the data into a **Development
+    Set** and a **Hold-out Test Set**. You must prevent ''data leakage'', where questions
+    in the evaluation set are directly exposed because they are contained in the retrieval
+    target documents.'
+  worked_examples:
+  - 'Example 1: Document Chunking strategy. How to write Python scripts that divide
+    text into fixed sizes, such as by paragraph or semantic unit, so context is not
+    broken.'
+  - 'Example 2: Question-Answer data construction. Example of generating a JSON object
+    in the format { ''question'': ''...'', ''ground_truth'': ''...'', ''context_chunk_id'':
+    ''...'' }.'
+  lab:
+    title: Evaluation Corpus Construction Practice
+    steps:
+    - Obtain open-license text files (.txt) in the domain to be evaluated.
+    - Write a script using Python to read text files and divide them into chunk units.
+    - Assign a unique identifier (ID) to each chunk and record metadata (title, source).
+    - Generate questions from the created chunks and compose 50 QA pairs by recording
+      the Chunk ID that serves as the evidence for the answer.
+    - Divide and save the entire corpus into development and test sets in an 8:2 ratio.
+    safety:
+    - Do not include documents containing personal information in the evaluation corpus.
+    - Control costs by setting request limits when using external APIs.
+    - Manage versions of data generated during work via Git to ensure reproducibility.
+    deliverables:
+    - Constructed document corpus file (JSONL format)
+    - QA dataset containing questions and answers (JSON format)
+    - Jupyter Notebook file containing corpus split records
+  assignment:
+    title: Domain-based RAG Dataset Completion
+    deliverables:
+    - QA dataset file with at least 100 questions
+    - Dataset statistical analysis report (question length, chunk length, etc.)
+    - Python code including the data splitting process
+    rubric:
+    - Completion of duplicate chunk removal in the corpus
+    - Verification of data leakage between test and development sets
+    - Accurate mapping of document segments (Chunk ID) serving as evidence for answers
+  quiz:
+  - question: What is the best way to prevent 'Data Leakage' in a RAG system?
+    choices:
+    - Generate the same questions for all documents.
+    - Separate and manage the development set and the final evaluation test set.
+    - Include the entire set of retrieval target documents in the training data.
+    - Generate and manage the evaluation set anew each time.
+    answer_index: 1
+    explanation: If the evaluation set is exposed to retrieval target documents during
+      the training (or development) process, fair evaluation is impossible, so the
+      evaluation test set must be strictly separated.
+  - question: Why is 'de-duplication' important during the corpus curation process?
+    choices:
+    - To increase the LLM's generation speed
+    - To save disk storage space
+    - To ensure retrieval result diversity and prevent statistical bias
+    - To lower the semantic similarity of documents
+    answer_index: 2
+    explanation: Duplicated information causes the search engine to return biased
+      retrieval results for specific information and can distort quantitative evaluation
+      metrics.
+  completion_criteria:
+  - Evaluation document corpus (at least 100 chunks) construction complete
+  - Verifiable QA dataset (at least 100 questions) generation complete
+  - Confirmation of adherence to dataset splitting policy
+  - Peer review or self-evaluation checklist completed for results
+  source_ids:
+  - S2
+- id: m3
+  slug: eval-set-generation
+  phase_id: p1
+  title: Question-Answer Evaluation Set Construction
+  estimated_hours: 8.0
+  prerequisites:
+  - m2
+  objectives:
+  - Understand the necessity of a high-quality Question-Answer (QA) evaluation set
+    for RAG system evaluation.
+  - Grasp the principles of building evaluation sets utilizing Synthetic Data Generation
+    techniques.
+  - Master the logic for evaluating the factual consistency of model-generated answers
+    through methodologies like TrueTeacher.
+  - Design a process for generating datasets that are robust to domain changes while
+    maintaining evaluation set quality.
+  theory_markdown: '## Building Question-Answer (QA) Evaluation Sets for RAG
+
+
+    To reliably measure the performance of a Retrieval-Augmented Generation (RAG)
+    system, an elaborately designed evaluation set is essential. Relying solely on
+    human-written questions and answers has limitations in terms of cost and scalability
+    for large-scale evaluation.
+
+
+    ### The Importance of Synthetic Data Generation
+
+    According to the recent TrueTeacher methodology, synthetic training data can be
+    generated by annotating various model-generated answers using an LLM [S5]. This
+    approach has the following advantages:
+
+    1. **Cost Efficiency**: Since it does not rely on human-written summaries or answers,
+    large-scale dataset generation (e.g., 1.4M examples) is possible [S5].
+
+    2. **Multilingualism and Scalability**: It is not limited to a specific language
+    and shows robustness against Domain-shift [S5].
+
+    3. **Factual Consistency Evaluation**: Small models trained using synthetic data
+    can successfully distill the knowledge of large LLM teacher models and be used
+    as efficient factual evaluation tools [S5].
+
+
+    ### Dataset Construction Strategy
+
+    When constructing an evaluation set, it must be composed not only of question-answer
+    pairs but also to measure ''Does the search result contain the evidence needed
+    to derive the correct answer?'' and ''Does the model refer to that evidence without
+    distortion?''. To this end, when generating the dataset, the complexity of questions,
+    relevance to search results, and factual consistency of answers must be systematically
+    labeled or verified.'
+  worked_examples:
+  - 'Example 1: Extracting core passages from a document corpus. A pipeline to extract
+    factually significant sentences in context from a given document using an LLM,
+    and based on this, generate ''answerable questions'' and ''negative samples''.'
+  - 'Example 2: Designing a factuality verification prompt. A process to refine ground
+    truth for evaluation by instructing an LLM based on generated questions and retrieved
+    documents: ''Answer the question based on the retrieved document, and judge whether
+    the answer is factually consistent with True/False''.'
+  lab:
+    title: Synthetic Evaluation Set Generation Practice
+    steps:
+    - Load the prepared open-license document corpus and split it into text chunks.
+    - Generate 100 or more unique question-answer pairs extractable from each chunk
+      using the LLM API.
+    - Simulate a search system for the generated questions to retrieve the top-k documents.
+    - Construct an evaluation pipeline that judges factual consistency between retrieved
+      documents and generated answers.
+    - Save the result data in JSONL format, and manually review 30 samples to record
+      data quality.
+    safety:
+    - When using external APIs in the evaluation set construction process, you must
+      set an API cost cap (API Key Limit).
+    - Filter using regular expressions to ensure that no sensitive information or
+      personal information from the original document is included in the generated
+      dataset.
+    - Do not blindly trust model evaluation results alone, and always perform manual
+      cross-checking on samples in parallel.
+    deliverables:
+    - A question-answer evaluation set (JSONL file) with 100 or more items
+    - Jupyter Notebook containing dataset generation and verification code
+    - Quality analysis report including human review records
+  assignment:
+    title: RAG Reliability Evaluation Set Regression Report
+    deliverables:
+    - A dashboard analyzing the statistical distribution of the generated evaluation
+      set (question length, answer length, document reference frequency, etc.)
+    - Results comparing two or more RAG configurations (e.g., search algorithm changes,
+      model changes) using the same evaluation set
+    - Error classification table (Hallucination, Contextual Irrelevance, etc.) and
+      case analysis
+    rubric:
+    - Does the evaluation set evenly reflect the content of the entire document corpus?
+    - Is the synthetic data generation pipeline written in a reproducible form?
+    - Is the error type classification specific and supported by quantitative evidence?
+    - Has the validity of automated evaluation metrics been proven through human review?
+  quiz:
+  - question: What distinguishes the TrueTeacher methodology from existing synthetic
+      data generation methods?
+    choices:
+    - It relies entirely on human-written summaries.
+    - It generates synthetic data by annotating various summaries generated by a model.
+    - It uses only small models as teacher models for training.
+    - It increases accuracy by writing datasets only manually.
+    answer_index: 1
+    explanation: TrueTeacher generates synthetic data by annotating various summaries
+      generated by models using an LLM, without relying on human-written summaries
+      [S5].
+  - question: Why is factuality not determined solely by automated model evaluation
+      when constructing a RAG evaluation set?
+    choices:
+    - Because automated model evaluation is too slow compared to humans.
+    - Because automated model evaluation is not perfect and cannot completely filter
+      out hallucinations.
+    - Because human evaluation does not cost money.
+    - Because models are not needed for factuality evaluation.
+    answer_index: 1
+    explanation: Automated evaluation tools are efficient but not perfect, so sample
+      human review and source verification must always be performed in parallel for
+      factual verification.
+  completion_criteria:
+  - Completed construction of a question-answer evaluation set with 100 or more items
+  - Dataset quality analysis and submission of human review records
+  - Implementation of notebook for RAG pipeline performance evaluation and creation
+    of result report
+  - Configuration of an evaluation package in a form that can be re-executed in a
+    CI/CD environment
+  source_ids:
+  - S5
+- id: m4
+  slug: retrieval-metrics
+  phase_id: p2
+  title: Search Quality Metrics (Recall @k, MRR, nDCG)
+  estimated_hours: 8.0
+  prerequisites:
+  - m3
+  objectives:
+  - Understand the importance of the retrieval step in a Retrieval-Augmented Generation
+    (RAG) pipeline.
+  - Learn the concepts of Recall @k, MRR, nDCG metrics and their significance in RAG
+    system evaluation.
+  - Analyze the impact of retrieved context relevance on subsequent answer generation
+    quality.
+  theory_markdown: '### The Importance of RAG Search Quality Evaluation
+
+
+    RAG systems retrieve relevant information from external databases and pass it
+    to an LLM to generate answers [S3]. Therefore, if the search stage fails to identify
+    highly relevant and focused context, even a powerful LLM will struggle to generate
+    accurate answers [S3]. Evaluating search quality is the first step toward improving
+    the overall performance of the RAG architecture.
+
+
+    ### Key Search Evaluation Metrics
+
+
+    1. **Recall @k**: Measures whether the actual correct answer is included in the
+    top k retrieved results. In other words, it is a metric to confirm whether the
+    necessary information was captured by the search system.
+
+    2. **MRR (Mean Reciprocal Rank)**: Measures the position of the correct answer
+    (relevant document) for a user query within the search result list. The more the
+    relevant document appears in the first position, the closer the MRR value is to
+    1, resulting in a higher score.
+
+    3. **nDCG (normalized Discounted Cumulative Gain)**: A metric that considers the
+    ranking of search results; it assigns higher scores as more relevant documents
+    are positioned toward the top. It evaluates the ''ranking accuracy'' of search
+    results more precisely than simple inclusion (Recall).
+
+
+    These metrics are essential for system improvement when ground truth is available,
+    and frameworks like Ragas provide tools to quantitatively analyze these dimensions
+    [S3, S4].'
+  worked_examples:
+  - 'If the system returned results in the order [DocB, DocA, DocC] for a query, and
+    the relevant document is DocA? MRR calculation: Since DocA is at the 2 position,
+    the Reciprocal Rank is 1/2 = 0.5.'
+  - When k=3, if the correct answer document is included in the top 3 search results,
+    Recall @3 = 1, and if not included, Recall @3 = 0.
+  lab:
+    title: Quantitative Measurement of Retrieval Quality Metrics
+    steps:
+    - Prepare 50 sample data using an evaluation set (questions, correct answer documents).
+    - Run the retrieval module to receive the top k (k=3, 5, 10) documents for each
+      question.
+    - Implement the Recall @k, MRR, and nDCG functions directly in Python or use a
+      library to calculate them.
+    - Organize and visualize the metric results per question into a dataframe.
+    safety:
+    - Do not send datasets containing personal information or private documents to
+      external APIs.
+    - Set API cost limits during experiments and utilize caching to optimize the number
+      of requests.
+    deliverables:
+    - A result dataframe CSV containing Recall @k, MRR, and nDCG values for each query.
+    - Histogram and boxplot images showing metric distribution
+  assignment:
+    title: Retriever Performance Comparison Report
+    deliverables:
+    - Evaluation result report applying two retrieval configurations (e.g., Sparse
+      vs Dense Retrieval)
+    - Cause analysis (mis-retrieval type classification) for the top 5 questions with
+      poor performance
+    rubric:
+    - Were the Recall @k, MRR, and nDCG metrics calculated accurately?
+    - Was the difference in retrieval performance interpreted in a statistically significant
+      way?
+    - Were failure types classified systematically?
+  quiz:
+  - question: What is the impact of retrieval step quality on the generation step
+      in a RAG system?
+    choices:
+    - Retrieval quality is irrelevant to generation quality.
+    - Context with low relevance increases the risk of LLM hallucinations.
+    - The retrieval step evaluates only the LLM's reasoning ability.
+    - Generation quality always improves as search results increase.
+    answer_index: 1
+    explanation: If irrelevant information is passed in the retrieval step, the LLM
+      may generate incorrect answers or trigger hallucinations based on it [S3].
+  - question: When is the MRR metric highest?
+    choices:
+    - When the relevant document always appears last.
+    - When the relevant document is always at the very top (1 position)
+    - When there are no search results at all.
+    - When the relevant document always appears in the middle.
+    answer_index: 1
+    explanation: Since MRR is the mean of the reciprocal ranks of the relevant documents,
+      the value is at its maximum (1) when it is located at the 1 position.
+  completion_criteria:
+  - Completed the Recall @k, MRR, and nDCG calculation code and applied it to sample
+    data.
+  - Derived quantitative analysis results by comparing two retrieval strategies.
+  - Classified retrieval failure types into at least 3 categories and included them
+    in the report.
+  source_ids:
+  - S3
+  - S4
+- id: m5
+  slug: generation-faithfulness
+  phase_id: p2
+  title: Faithfulness Evaluation
+  estimated_hours: 8.0
+  prerequisites:
+  - m4
+  objectives:
+  - Understand the concept of Faithfulness and identify its importance in RAG systems.
+  - Quantitatively evaluate whether generated answers are based on the retrieved context
+    using the Ragas framework.
+  - Analyze the risk of hallucination using automated evaluation metrics.
+  theory_markdown: '## Faithfulness Evaluation
+
+
+    The core of a Retrieval-Augmented Generation (RAG) system is that an LLM generates
+    answers by utilizing information retrieved from an external knowledge database.
+    Faithfulness is a metric indicating whether the generated answer faithfully reflects
+    only the information described in the retrieved context [S3].
+
+
+    ### 1. Why evaluate Faithfulness?
+
+    LLMs tend to answer based on pre-trained knowledge, which can lead to generating
+    information irrelevant to the retrieved context or distorting the context. This
+    is called ''hallucination'', and faithfulness evaluation can measure this quantitatively
+    [S4].
+
+
+    ### 2. Evaluation Framework: Ragas
+
+    Ragas proposes a framework where evaluation is possible without references (reference-free)
+    even when user annotations are absent [S3]. The faithfulness evaluation process
+    generally follows these steps:
+
+    - **Statement Extraction from Answer**: Separate verifiable factual statements
+    from the answer.
+
+    - **Evidence Retrieval**: Confirm which part of the retrieved context each statement
+    was derived from.
+
+    - **Verification**: Judge whether the extracted statements match the context information.
+
+
+    Ragas automates this process by using an LLM as the evaluator [S4].'
+  worked_examples:
+  - 'Example 1: If there is context ''Apples are rich in Vitamin C'' and answer ''Apples
+    are rich in Vitamin C, so they are good for immunity'', ''good for immunity''
+    is information not in the context, so the faithfulness score decreases.'
+  - 'Example 2: If context ''The foundation date of our company is 2020 year 5 month
+    1 day'' and answer ''The company was founded in 2020 year 5 month'' match information,
+    it has a high faithfulness score.'
+  lab:
+    title: Measuring Generated Answer Faithfulness using Ragas
+    steps:
+    - Prepare an evaluation dataset (questions, retrieved context, generated answers).
+    - Install the Ragas library and import the `Faithfulness` metric.
+    - Convert the prepared dataset into Ragas's data structure.
+    - Construct an LLM-based evaluator to calculate the faithfulness score of the
+      dataset.
+    - Sample answers with low scores and analyze the differences with the retrieved
+      context through human review.
+    safety:
+    - Do not send datasets containing private documents or personal information to
+      external LLM APIs.
+    - Check API request rate limits and use caching to control costs.
+    - Maintain security of sample data during human review.
+    deliverables:
+    - Report on the average faithfulness scores of the entire dataset
+    - Dataset analyzing responses with low scores
+    - Comparative analysis between automated evaluation results and human review results
+  assignment:
+    title: RAG Pipeline Reliability Evaluation Report
+    deliverables:
+    - Jupyter Notebook including faithfulness evaluation
+    - Report analyzing error classification and frequency of hallucinations
+    rubric:
+    - Has the faithfulness metric been implemented correctly?
+    - Were hallucination cases in generated responses classified accurately?
+    - Has qualitative consistency between automated evaluation results and human review
+      been secured?
+  quiz:
+  - question: What is faithfulness in a RAG system?
+    choices:
+    - The degree to which retrieved context is highly relevant to the question
+    - The degree to which generated responses are based on the information in the
+      retrieved context
+    - The degree to which an LLM utilizes its pre-trained knowledge
+    - The degree to which the response accurately matches the user's question
+    answer_index: 1
+    explanation: Faithfulness is a metric that evaluates whether a generated response
+      relies on facts from externally retrieved context.
+  - question: Which of the following is a correct characteristic of the Ragas framework?
+    choices:
+    - Evaluation is only possible if human annotations (ground truth) are provided.
+    - It supports reference-free evaluation methods.
+    - It only evaluates search efficiency and does not evaluate generation quality.
+    - It does not use LLMs as evaluators and only uses statistical methods.
+    answer_index: 1
+    explanation: Ragas aims for a framework that can evaluate without references and
+      actively utilizes LLMs as evaluators [S3, S4].
+  completion_criteria:
+  - Can quantitatively measure the faithfulness of generated responses using the Ragas
+    library.
+  - Can classify at least 3 types of hallucination occurrence patterns from evaluation
+    results.
+  - Can verify the consistency between the automated evaluation pipeline results and
+    actual responses.
+  source_ids:
+  - S3
+  - S4
+- id: m6
+  slug: citation-accuracy
+  phase_id: p2
+  title: Citation Accuracy and Source Tracking
+  estimated_hours: 8.0
+  prerequisites:
+  - m5
+  objectives:
+  - Understand how faithfully a response reflects the content of retrieved documents
+    in a RAG system.
+  - Learn the definition and measurement methods of citation accuracy.
+  - Quantitatively evaluate the faithfulness and answer relevance of responses using
+    the Ragas framework.
+  - Design a process to verify the traceability of sources in model responses.
+  theory_markdown: '## RAG System Citation and Faithfulness Evaluation
+
+
+    RAG (Retrieval Augmented Generation) systems utilize external knowledge bases
+    to reduce the risk of LLM hallucinations, but a process to verify whether generated
+    responses accurately cite retrieved documents is essential [S4].
+
+
+    ### 1. Key Evaluation Metrics
+
+    * **Faithfulness:** Measures whether generated responses are derived from the
+    provided retrieved context. Every claim in the response must be based on retrieved
+    documents; scores are lower if responses rely solely on external knowledge or
+    the model''s pre-trained knowledge [S4].
+
+    * **Answer Relevance:** Evaluates how directly relevant the response is to the
+    given question. This is used to identify cases where a response deviates from
+    the intent of the question, even if retrieved information is sufficient.
+
+
+    ### 2. Citation Accuracy Verification Process
+
+    Citation accuracy is the process of identifying which part of the retrieved context
+    a specific sentence in the response cites and verifying if it aligns with facts
+    in the original text. The automated evaluation framework, Ragas, provides metrics
+    that can evaluate faithfulness even without reference data (ground truth) for
+    this process [S4].
+
+
+    ### 3. Failure Type Classification
+
+    - **Citation Omission:** Facts in the response are present in retrieved documents,
+    but no citation is indicated.
+
+    - **False Citation:** Indicates as if it cited content not found in retrieved
+    documents.
+
+    - **Fact Distortion:** Citations are correctly indicated, but generated by misinterpreting
+    the meaning of the original text.'
+  worked_examples:
+  - 'Example 1: Faithfulness score calculation. If the question ''What is A''s revenue
+    in 2025?'' generates the response ''A''s revenue in 2025 was 100 billion.'', and
+    the context document includes ''A recorded 100 billion in revenue in 2025.'',
+    since all information in the response exists within the context, the faithfulness
+    score is evaluated as 1.0 (maximum).'
+  - 'Example 2: Citation accuracy error identification. If the question ''When was
+    A founded?'' generates the response ''A was founded in 1990 (Reference: Document
+    1).'', but Document 1 specifies ''A was founded in 1995'', this is classified
+    as a ''Fact Distortion'' failure type and is judged as having low citation accuracy.'
+  lab:
+    title: Automated Response Faithfulness Evaluation Practice using Ragas
+    steps:
+    - Prepare a dataset of search results (Context) and generated responses (Answer)
+      for the RAG system to be evaluated.
+    - Install the Ragas framework and load the response dataset.
+    - Calculate scores for each question-answer pair in the dataset using Ragas' `Faithfulness`
+      metric.
+    - Separately extract 30 responses with a faithfulness score of less than 0.7.
+    - 'Human-review the extracted samples and tag them with corresponding failure
+      types: ''Citation Omission'', ''False Citation'', or ''Fact Distortion''.'
+    safety:
+    - Ensure anonymization is completed in advance so that personal information or
+      corporate secrets are not included in the document corpus used during the evaluation
+      process.
+    - Set cost limits when calling external APIs and fix seed values for reproducibility
+      to prevent repetitive API costs.
+    deliverables:
+    - Jupyter Notebook file (.ipynb) containing evaluation results
+    - Visualization chart of faithfulness score distribution
+    - Failure type classification table including human review records
+  assignment:
+    title: RAG System Reliability Regression Evaluation Report Writing
+    deliverables:
+    - Statistical comparison results of faithfulness based on two or more RAG settings
+      (e.g., changing search Top-k values)
+    - Human review contrast table for 30 samples
+    - Proposal for improvement to enhance system citation accuracy
+    rubric:
+    - Is the quantitative calculation method for evaluation metrics accurately specified?
+    - Is the citation relationship between retrieved documents and generated responses
+      logically traceable?
+    - Is the failure type classification consistent with human review data and does
+      it provide valid evidence?
+  quiz:
+  - question: Which explanation is correct regarding the 'Faithfulness' metric in
+      the Ragas framework?
+    choices:
+    - Evaluates whether the response is relevant to the question.
+    - Measures whether all information in the response exists within the provided
+      context document.
+    - Evaluates how grammatically accurate the response is.
+    - Measures whether the response includes all information from an external knowledge
+      base.
+    answer_index: 1
+    explanation: Faithfulness is a metric that measures whether the claims in a generated
+      response are based on retrieved context.
+  - question: Which case corresponds to the 'Fact Distortion' failure type when evaluating
+      citation accuracy?
+    choices:
+    - Cases where content not in the retrieved document is included in the response
+    - Cases where citation notation is omitted
+    - Cases where the citation is correctly marked but the factual relationship of
+      the original text is misinterpreted and described
+    - Cases where the response is completely different from the intent of the question
+    answer_index: 2
+    explanation: Fact distortion refers to cases where, despite citing the source
+      document, the information from the original text is summarized or transformed
+      in an incorrect way.
+  completion_criteria:
+  - Completion of automated evaluation metric calculation via Jupyter Notebook
+  - Submission of human review and failure type classification records for at least
+    30 response samples
+  - Writing a final report containing evaluation results and improvement plans
+  source_ids:
+  - S4
+- id: m7
+  slug: automated-eval-framework
+  phase_id: p2
+  title: Applying Automated Evaluation Framework (Ragas)
+  estimated_hours: 10.0
+  prerequisites:
+  - m6
+  objectives:
+  - Understand the core evaluation dimensions (retrieval and generation quality) of
+    a RAG pipeline.
+  - Learn how to automatically evaluate RAG performance without references (reference-free)
+    using the Ragas framework.
+  - Analyze and mitigate hallucination risks through quantitative metrics.
+  theory_markdown: '## Challenges of RAG Evaluation and Ragas
+
+
+    RAG systems consist of a retrieval module and an LLM-based generation module [S3,
+    S4]. Evaluating this structure is a challenging task because it must consider
+    how well the retrieval system identifies relevant context, how faithfully the
+    LLM utilizes the provided context, and what the quality of the response is [S4].
+
+
+    Traditional evaluation methods relied on manual creation and comparison of ground
+    truth, but this is costly and time-consuming, making it unsuitable for fast iteration
+    cycles [S3, S4].
+
+
+    ### Ragas Framework
+
+    Ragas (Retrieval Augmented Generation Assessment) is a framework that can evaluate
+    RAG pipelines even without ground truth datasets [S3, S4]. Ragas automatically
+    evaluates the following core dimensions:
+
+
+    1. **Retrieval Quality:** Measures how relevant the retrieved context is to the
+    question (Context Relevance) and whether it contains all necessary information
+    (Context Recall).
+
+    2. **Generation Quality:** Measures whether the generated response is based on
+    the retrieved context (Faithfulness) and how relevant it is to the question (Answer
+    Relevance).
+
+
+    These metrics utilize LLMs as ''judges'' to enable evaluation without references,
+    contributing to shortening the RAG development cycle [S3, S4].'
+  worked_examples:
+  - 'Case 1: Context Relevance calculation. Ragas uses an LLM to extract sentences
+    actually needed to answer the question from the retrieved context, and calculates
+    the score through the ratio of needed sentences to the total context.'
+  - 'Case 2: Faithfulness evaluation. An LLM determines whether each claim in the
+    generated response is supported by the retrieved context. The more unsupported
+    claims there are, the higher the hallucination score becomes.'
+  lab:
+    title: Practice Quantitatively Evaluating RAG Performance using Ragas
+    steps:
+    - Prepare an evaluation dataset (question, retrieved context, generated response).
+    - Install the `ragas` library in a Python environment.
+    - Convert the evaluation dataset into a `ragas` Dataset object.
+    - Call Ragas' `evaluate` function to calculate metrics such as Context Relevance
+      and Faithfulness.
+    - Visualize the result values and analyze queries with low scores.
+    safety:
+    - Ensure that personal information or private data is not included in the document
+      corpus used for evaluation.
+    - Actively utilize local models or caching during testing to prevent API usage
+      costs.
+    - Automated evaluation results are supplementary indicators of reliability; cross-validate
+      the confirmation of actual model quality in parallel with sample human review.
+    deliverables:
+    - Evaluation result dataframe containing metric scores
+    - Logs analyzing query types that received low scores
+  assignment:
+    title: RAG Pipeline Performance Comparison Report
+    deliverables:
+    - Ragas evaluation results for two RAG pipelines with different search settings
+      (k-value, embedding model, etc.)
+    - Performance analysis report between the two settings
+    rubric:
+    - Were Ragas metrics (Context Relevance, Faithfulness, etc.) implemented correctly?
+    - Are evaluation results quantitatively compared and interpreted logically?
+    - Were hallucination types classified for at least 3 cases and were improvement
+      plans suggested?
+  quiz:
+  - question: What is the biggest characteristic of the Ragas framework?
+    choices:
+    - A human answer dataset is absolutely required
+    - It can evaluate RAG pipelines without references (reference-free)
+    - It only evaluates the search stage and does not evaluate the generation stage
+    - At least 10 GPU(s) are absolutely required
+    answer_index: 1
+    explanation: Ragas is a framework that automatically evaluates search and generation
+      quality using LLMs without an answer dataset [S3, S4].
+  - question: What is the definition of the 'Faithfulness' metric measured by Ragas?
+    choices:
+    - How relevant retrieved context is to the question
+    - Whether the question exists within the document corpus
+    - Whether the generated response is based on retrieved context
+    - How much the questioner trusts the LLM's response
+    answer_index: 2
+    explanation: Faithfulness is a metric that measures how faithfully a generated
+      response is based on the provided retrieved context (hallucination prevention)
+      [S4].
+  completion_criteria:
+  - Successfully calculate at least 4 metrics for at least 10 queries using the Ragas
+    library.
+  - The lab notebook is regularly committed to the Git repository.
+  - The performance comparison report includes at least 3 error classification cases.
+  source_ids:
+  - S3
+  - S4
+- id: m8
+  slug: error-analysis
+  phase_id: p3
+  title: Failure Type Classification and Error Analysis
+  estimated_hours: 10.0
+  prerequisites:
+  - m7
+  objectives:
+  - Able to identify and classify failure types occurring in RAG systems.
+  - Able to distinguish and analyze errors in the retrieval stage and the generation
+    stage.
+  - Able to link automated evaluation and human review results by utilizing Ragas
+    framework metrics.
+  - Able to derive RAG pipeline performance improvement plans based on error analysis
+    data.
+  theory_markdown: '## Overview of RAG System Error Analysis
+
+
+    The Retrieval Augmented Generation (RAG) architecture consists of a retrieval
+    module and an LLM-based generation module [S3]. When evaluating system performance,
+    it is important to analyze these two stages separately. Errors are broadly divided
+    into issues in the retrieval stage and issues in the generation stage.
+
+
+    ### 1. Classification of Failure Types
+
+    - **Retrieval Failure:** The case where irrelevant or unfocused context is retrieved
+    [S3].
+
+    - **Generation Failure:** The case where the LLM fails to faithfully utilize the
+    provided context (Faithfulness) or generates answers irrelevant to the question
+    [S3].
+
+
+    ### 2. Complementing Automated Evaluation with Human Review
+
+    Reference-free frameworks such as Ragas enable the evaluation of retrieval and
+    generation quality without human annotations (ground truth) [S3]. However, automated
+    evaluation metrics alone find it difficult to capture all subtle hallucinations
+    or complex logical errors in the system. Therefore, high-priority failure samples
+    should be extracted via quantitative automated metrics, and actual causes must
+    be identified by necessarily conducting a Human Review alongside them.'
+  worked_examples:
+  - 'Example 1: When the retriever fetches a ''Model B specifications'' document for
+    the question ''What is the release date of Model A?''. This is classified as a
+    ''Retrieval Failure'', and embedding model adjustment or search query optimization
+    can be the solution.'
+  - 'Example 2: When the retriever fetches the correct document for X for the question
+    ''Explain X'', but the LLM answers with information not in the document. This
+    is classified as a ''Generation Failure (lack of Faithfulness)'', and the constraint
+    ''Use only the provided context'' should be reinforced through prompt engineering.'
+  lab:
+    title: Failure Dataset Collection and Error Analysis
+    steps:
+    - Save the RAG system's answers and retrieved contexts for at least 50 questions.
+    - Measure Context Precision and Faithfulness for each item using Ragas.
+    - Extract the bottom 20% question-answer pairs with low metrics.
+    - Create a classification table for the extracted samples as one of 'Retrieval
+      Error', 'Generation Error', or 'Logic Error'.
+    safety:
+    - Never include personal information or private data in evaluation code.
+    - Monitor API call frequency and costs used during the evaluation process to comply
+      with the budget.
+    - Prevent information leakage by performing tasks in a local environment during
+      data analysis.
+    deliverables:
+    - Error analysis CSV file with completed classification
+    - Jupyter Notebook with visualized retrieval and generation quality metrics
+  assignment:
+    title: Writing RAG Error Classification and Improvement Report
+    deliverables:
+    - 2-page report summarizing error analysis results
+    - Proposal of response strategies per classified failure type (retrieval optimization
+      or prompt improvement)
+    rubric:
+    - Accuracy and validity of failure type classification
+    - Ability to analyze the correlation between quantitative metrics and human review
+      results
+    - Logical validity of improvement strategies
+  quiz:
+  - question: What is the failure that occurs when the retrieval module fetches irrelevant
+      context in a RAG system?
+    choices:
+    - Generation failure
+    - Retrieval failure
+    - Database connection error
+    - Authentication failure
+    answer_index: 1
+    explanation: Since the retrieval module plays the role of identifying documents
+      suitable for the question, fetching irrelevant context is a failure in the retrieval
+      stage [S3].
+  - question: What is the biggest feature of the Ragas framework?
+    choices:
+    - It necessarily requires large-scale human annotated data.
+    - Reference-free evaluation is possible.
+    - Only LLM generation quality evaluation is possible.
+    - It is applicable only to real-time streaming systems.
+    answer_index: 1
+    explanation: Ragas is a reference-free evaluation framework that can evaluate
+      retrieval and generation quality without ground truth [S3].
+  completion_criteria:
+  - Submission of error classification table including failure types
+  - Completion of quantitative analysis of retrieval and generation quality utilizing
+    Ragas metrics
+  - Drafting and review of a pipeline improvement proposal based on error analysis
+  source_ids:
+  - S3
+- id: m9
+  slug: human-review-validation
+  phase_id: p3
+  title: Sample Human Review and Comparison
+  estimated_hours: 10.0
+  prerequisites:
+  - m8
+  objectives:
+  - Understand the gap between automated RAG evaluation metrics and actual factual
+    accuracy.
+  - Design a protocol for humans to review the Factual Consistency of model-generated
+    answers.
+  - Identify the limitations of LLM evaluation and analyze the significance of synthetic
+    data techniques such as TrueTeacher [S5].
+  - Learn how to systematically classify error types and manage reliability datasets.
+  theory_markdown: '## Limitations of Automated Evaluation and the Necessity of Human
+    Review
+
+
+    When evaluating the quality of Retrieval Augmented Generation (RAG) systems, tools
+    like Ragas provide quantitative metrics quickly, but there are limitations in
+    perfectly capturing subtle factual errors in model-generated answers. In particular,
+    it is difficult to distinguish whether an LLM is reasoning within the knowledge
+    or relying on learned data to generate hallucinations in complex contexts.
+
+
+    ### Factual Consistency Evaluation
+
+
+    Recent research utilizes Natural Language Inference (NLI) models or Large Language
+    Models (LLMs) to evaluate the factuality of summaries or answers. However, existing
+    methods rely on human-written summary datasets, and differences can arise from
+    the characteristics of results actually generated by models [S5]. Approaches like
+    TrueTeacher attempt to overcome these limitations by using LLMs to generate synthetic
+    factuality evaluation data from model-generated data [S5].
+
+
+    ### Role of Human-in-the-Loop
+
+
+    No matter how advanced an automated evaluation pipeline becomes, human review
+    is essential for final reliability verification. Human review performs the following
+    roles:
+
+    1. **Verification of automated evaluation metrics:** Identifying cases where a
+    specific answer was evaluated as ''relevant'' but is not actually factual.
+
+    2. **Hallucination type classification:** Diagnosing the structural flaws of the
+    system (Retrieval Error vs. Generation Model Error).
+
+    3. **Calibration of regression test sets:** Continuously improving the quality
+    of evaluation sets based on human-verified data.'
+  worked_examples:
+  - 'Example 1: When an automated evaluation metric (e.g., Faithfulness) results in
+    a high score of 0.9, but human review shows the inclusion of content not in the
+    retrieved document. Analysis: Classify as hallucination where the model used historical
+    information contained in internal weights, not retrieved information, and record
+    this in system error logs.'
+  - 'Example 2: When designed so the system evaluates the factuality of answers itself
+    using the TrueTeacher model. Some answers evaluated as ''true'' by the LLM are
+    sampled and investigated by humans to measure the error rate (False Positive)
+    of the LLM evaluator and specify this in the evaluation report [S5].'
+  lab:
+    title: Sample Human Review and Error Analysis Execution
+    steps:
+    - Derive Faithfulness scores for 100 answers through an automated evaluation pipeline
+      (Ragas, etc.).
+    - Create a review set by randomly extracting 10 of the lowest scores, 10 of the
+      middle level, and 10 of the highest.
+    - Manually record the presence of 'Retrieval Omission', 'Information Distortion',
+      or 'Hallucination Generation' while comparing answers, retrieved documents (Context),
+      and Ground Truth.
+    - Perform correlation analysis by comparing recorded human judgment and automated
+      evaluation scores.
+    safety:
+    - Always ensure that the dataset to be reviewed does not include actual personal
+      information or sensitive private documents.
+    - Safely store reviewed data in local storage and do not upload to unverified
+      external APIs.
+    deliverables:
+    - Error classification sheet (CSV/Excel) containing at least 30 human review records
+    - Summary report analyzing the consistency between automated metrics and human
+      evaluation
+  assignment:
+    title: Writing RAG Reliability Analysis Report
+    deliverables:
+    - Failure type frequency table classified through human review
+    - Analysis report on current system's main vulnerabilities (retrieval stage or
+      generation stage)
+    - Suggestions for future automated evaluation pipeline improvements
+    rubric:
+    - Were error types systematically classified?
+    - Was the limitation of automated evaluation metrics logically described with
+      concrete examples?
+    - Was human review data appropriately utilized as a basis for reliability analysis?
+  quiz:
+  - question: What is the main reason why it is difficult to determine system reliability
+      only with automated factuality evaluation metrics?
+    choices:
+    - Because automated evaluation metrics are very fast.
+    - Because model-generated data has different characteristics from human-written
+      data, and the automated evaluator itself may not capture all factual errors
+      [S5].
+    - Because human review data is always more accurate than automated evaluation
+      metrics.
+    - Because the scale of the dataset is small.
+    answer_index: 1
+    explanation: Existing summary-based evaluation datasets do not sufficiently reflect
+      the complexity of actual results generated by models, and automated evaluation
+      systems may fail to detect hallucinations in specific situations.
+  - question: What is the difference between the TrueTeacher method and existing summary
+      dataset usage methods?
+    choices:
+    - It relies only on summaries written by humans.
+    - It generates synthetic data for factuality evaluation utilizing various summaries
+      generated by models [S5].
+    - It does not use NLI models.
+    - Multilingual support is impossible.
+    answer_index: 1
+    explanation: TrueTeacher does not rely on summaries written by humans, but instead
+      utilizes LLMs to synthetically annotate various data generated by models to
+      generate learning data [S5].
+  completion_criteria:
+  - Human review logs for at least 30 data samples must be written.
+  - A report including a comparative analysis between automated evaluation results
+    and human review results must be submitted.
+  - The current system's vulnerabilities must be clearly defined through error classification.
+  source_ids:
+  - S5
+- id: m10
+  slug: regression-report
+  phase_id: p3
+  title: Reproducible Regression Evaluation Reporting
+  estimated_hours: 18.0
+  prerequisites:
+  - m9
+  objectives:
+  - Understand the framework for reproducible regression evaluation of RAG systems.
+  - Quantitatively measure retrieval and generation quality using the Ragas framework.
+  - Analyze the impact of model updates or search algorithm changes on system reliability
+    through regression tests.
+  - Learn comprehensive reporting methods through the harmony of human review and
+    automated evaluation.
+  theory_markdown: '### Key Dimensions of RAG System Evaluation
+
+    Evaluating RAG architecture is a multifaceted task. The ability of the search
+    system to identify highly relevant and focused context to questions, the ability
+    of the LLM to faithfully generate answers using the identified context, and the
+    quality of the final generated product itself are subjects of evaluation [S3,
+    S4].
+
+
+    ### Ragas Framework
+
+    Ragas (Retrieval Augmented Generation Assessment) is a framework that can evaluate
+    RAG pipelines without Ground Truth [S3]. Ragas provides a series of metrics to
+    measure Retrieval quality, Generation quality, and Hallucination prevention capabilities
+    [S3].
+
+
+    ### Importance of Regression Evaluation
+
+    Change Management is essential to maintain system reliability. Regression tests
+    must be performed on existing evaluation datasets when introducing new embedding
+    models, tuning search algorithms, or changing LLM settings. A regression evaluation
+    report serves as data statistically proving whether the system''s improvements
+    lead to actual reliability enhancement or induce new defects.'
+  worked_examples:
+  - 'Statistical comparison example: A notebook analysis case that executes the same
+    100 question evaluation set for two RAG settings (existing vs. new embedding model)
+    and compares the mean and standard deviation of Ragas metrics (Faithfulness, Answer
+    Relevance) to verify significant performance improvement.'
+  - 'Error type classification example: A method of sampling 30 cases where the system
+    resulted in low ''Answer Relevance'' scores, manually classifying whether it is
+    a failure in the retrieval stage (failure to retrieve relevant documents) or the
+    generation stage (ignoring context), and recording this in pipeline logs.'
+  lab:
+    title: RAG Pipeline Regression Test Automation
+    steps:
+    - Prepare a final validation evaluation dataset (100 questions) in JSON format.
+    - Define two different RAG pipeline settings (Version A, Version B).
+    - Perform automated evaluation for each pipeline using the Ragas framework and
+      save the results.
+    - Use Pandas to visualize the distribution of metrics for both result sets and
+      calculate statistical differences.
+    - Compare the evidence context and model responses for the bottom 10% of cases
+      where evaluation scores dropped sharply.
+    safety:
+    - Ensure that the evaluation dataset does not contain personal information or
+      internal company confidential documents.
+    - Set cost limits when calling external APIs, and use caching when testing in
+      a local environment to prevent excessive or redundant requests.
+    - Do not rely solely on model evaluation results; always accompany them with human
+      review (Human-in-the-loop) for a sample of the data.
+    deliverables:
+    - Jupyter Notebook containing the results of the regression evaluation.
+    - Visualization graph (boxplot or scatter plot) comparing performance between
+      the two RAG configurations.
+    - Final report including error type classification and human review records.
+  assignment:
+    title: Writing a RAG Reliability Improvement Report
+    deliverables:
+    - Technical report PDF containing system reliability metrics.
+    - Configuration files for establishing a reproducible CI environment (e.g., pipeline.yaml).
+    - Regression test script for the evaluation dataset.
+    rubric:
+    - Have retrieval and generation quality metrics been measured quantitatively?
+    - Is the regression test methodology described and reproducible?
+    - Is the analysis between automatic evaluation results and human review results
+      appropriate?
+    - Are the causes of performance changes and future improvement directions clearly
+      presented?
+  quiz:
+  - question: What is the most significant feature of the Ragas framework?
+    choices:
+    - Evaluation is only possible if there is a human-written ground truth dataset.
+    - It is a framework that can evaluate the quality of RAG pipelines even without
+      reference data.
+    - It only measures the quality of LLM outputs and does not measure retrieval quality.
+    - The learning model must be retrained for evaluation.
+    answer_index: 1
+    explanation: Ragas is a framework designed to evaluate RAG pipelines without reference
+      data [S3, S4].
+  - question: What is the primary purpose of performing regression tests in a RAG
+      system?
+    choices:
+    - To make the system design more beautiful.
+    - To physically improve the server's response speed.
+    - To analyze the impact of system changes (algorithms, data, etc.) on existing
+      reliability and prevent defects.
+    - To automatically collect user personal information.
+    answer_index: 2
+    explanation: The core of regression testing is to ensure reliability by verifying
+      that system changes have not caused unintended performance degradation.
+  - question: Which of the following is not a multidimensional aspect that should
+      be considered when evaluating a RAG system?
+    choices:
+    - The ability of the retrieval system to identify relevant context.
+    - The ability of the LLM to faithfully use the context.
+    - The quality of the generation.
+    - The security level of the user's social media account.
+    answer_index: 3
+    explanation: The main dimensions of RAG architecture evaluation are retrieval
+      quality, generation faithfulness, and the quality of the generated output itself
+      [S3, S4].
+  completion_criteria:
+  - Design a regression test pipeline and complete a comparative analysis of at least
+    2 configurations using a dataset of at least 100 items.
+  - Perform quantitative evaluation using Ragas metrics.
+  - Submit records of verifying automatic evaluation results through human sample
+    review.
+  - Write and submit a technical report.
+  source_ids:
+  - S3
+  - S4
+sources:
+- id: S1
+  title: Stanford CS 224N | Natural Language Processing with Deep Learning
+  organization: web.stanford.edu
+  url: https://web.stanford.edu/class/cs224n/
+  type: university
+  published_at: null
+  accessed_at: '2026-08-30'
+  primary: true
+  supports:
+  - m1
+- id: S2
+  title: Natural Language Processing with Deep Learning CS224N/Ling284
+  organization: web.stanford.edu
+  url: https://web.stanford.edu/class/cs224n/slides_w26/cs224n-2026-lecture10-rag-agents.pdf
+  type: university
+  published_at: null
+  accessed_at: '2026-08-30'
+  primary: true
+  supports:
+  - m1
+  - m2
+- id: S3
+  title: '[2309.15217] Ragas: Automated Evaluation of Retrieval ... Ragas: Automated
+    Evaluation of Retrieval Augmented Generation RAGAS: Automated Evaluation of Retrieval
+    Augmented Generation RAGAs: Automated Evaluation of Retrieval Augmented Generation
+    RAGAS: Automated Evaluation of Retrieval Augmented Generation RAGAS: Automated
+    Evaluation of Retrieval Augmented Generation'
+  organization: arxiv.org
+  url: https://arxiv.org/abs/2309.15217
+  type: paper
+  published_at: null
+  accessed_at: '2026-08-30'
+  primary: true
+  supports:
+  - m10
+  - m4
+  - m5
+  - m7
+  - m8
+- id: S4
+  title: 'Ragas: Automated Evaluation of Retrieval Augmented Generation'
+  organization: arxiv.org
+  url: https://arxiv.org/html/2309.15217v2
+  type: paper
+  published_at: null
+  accessed_at: '2026-08-30'
+  primary: true
+  supports:
+  - m10
+  - m4
+  - m5
+  - m6
+  - m7
+- id: S5
+  title: '[2305.11171] TrueTeacher: Learning Factual Consistency ... TrueTeacher:
+    Learning Factual Consistency Evaluation with ... TrueTeacher: Generating Synthetic
+    Data for Factual ... (PDF) TrueTeacher: Learning Factual Consistency Evaluation
+    ... (PDF) TrueTeacher: Learning Factual Consistency Evaluation ... [PDF] TrueTeacher:
+    Learning Factual Consistency Evaluation ...'
+  organization: arxiv.org
+  url: https://arxiv.org/abs/2305.11171
+  type: paper
+  published_at: null
+  accessed_at: '2026-08-30'
+  primary: true
+  supports:
+  - m3
+  - m9
+bom: []
+capstone:
+  title: RAG System Reliability Regression Evaluation Report
+  deliverables:
+  - A fixed document corpus with traceable sources and an evaluation set of at least
+    100 items.
+  - Recall@k·MRR·nDCG retrieval evaluation notebook.
+  - Evaluation pipeline for faithfulness, citation accuracy, and answer relevance.
+  - Error classification table and at least 30 records of human review.
+  - Statistical comparison report for at least two RAG configurations.
+  - Regression baseline re-executable in CI and final reproducibility package.
+  rubric:
+  - Traceability of the evaluation set sources and precision of question-document
+    correspondence.
+  - Validity of quantitative measurement of retrieval and generation quality metrics.
+  - Qualitative agreement analysis between automatic evaluation results and human
+    review results.
+  - Clear classification and analysis of failure types (retrieval failure vs. generation
+    failure).
+  - Reproducibility of the report and CI integration capability of the regression
+    evaluation framework.
+  safety:
+  - Compliance with measures to prevent the leakage of personal information during
+    the evaluation process.
+  - Safe data handling against prompt injection.
+  - Parallel implementation of a human review process for fact-checking.
+  - Safe API usage through cost and request limits.
+generation:
+  run_id: f439c689d3754cecbf386ffcc0c2bd7c
+  generated_at: '2026-08-30T05:35:47.569263Z'
+  generator: gemini
+selection:
+  canonical_topic_id: rag-evaluation-reliability
+  demand_score: 91
+  duplicate_verdict: unique
+  evidence:
+  - title: '2025 Stack Overflow Developer Survey: AI'
+    publisher: Stack Overflow
+    url: https://survey.stackoverflow.co/2025/ai
+    observed_at: '2026-08-30'
+    family: search_intent
+    measurement: 87% accuracy concern; 84% of agent users apply agents to software
+      development
+  - title: 'AI Risk Management Framework: Generative AI Profile'
+    publisher: National Institute of Standards and Technology
+    url: https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence
+    observed_at: '2026-08-30'
+    family: technical_regulatory_change
+    measurement: NIST AI 600-1 Generative AI Profile
+  - title: LangChain Open Source Ecosystem
+    publisher: LangChain AI
+    url: https://github.com/langchain-ai
+    observed_at: '2026-08-30'
+    family: learning_community
+    measurement: 137,799 stars; 22,823 forks
+localization:
+  source_language: ko
+  language: en
+  source_hash: 70f479bad93892cff6aafc793bc403fb0c10df85e5926eef46df88993267ed79
+  translator: gemini-cli
+  translated_at: '2026-08-30T06:30:15.088913Z'
+  translation_run_id: e0a3616353a24989a829f247010ab342
+published_at: '2026-08-30T15:42:37.390479+09:00'

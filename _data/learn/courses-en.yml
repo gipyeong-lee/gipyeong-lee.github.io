@@ -23,3 +23,31 @@
   lang: en
   published_at: '2026-08-29T08:34:02+09:00'
   demand_score: null
+- slug: rag-evaluation-reliability
+  title: RAG Evaluation and Reliability Experiments
+  primary_category: ai-software
+  topics:
+  - retrieval-augmented-generation
+  - rag-evaluation
+  - information-retrieval
+  - llm-reliability
+  course_type: academic
+  summary: Create a fixed document set and question/answer evaluation set, then quantitatively
+    measure retrieval quality, grounded faithfulness, citation accuracy, and failure
+    modes to complete a reproducible RAG regression evaluation report.
+  outcome: Learners will be able to evaluate the retrieval and generation stages of
+    a RAG pipeline separately and design a quantitative regression testing framework
+    that utilizes automated evaluation tools like Ragas to reduce hallucinations and
+    verify factuality.
+  level: intermediate
+  estimated_hours: 96.0
+  budget_krw:
+    min: 0
+    max: 100000
+  module_count: 10
+  last_reviewed: '2026-08-30'
+  curriculum_version: 1.0.0+40bb735b5f50
+  url: /learn/en/rag-evaluation-reliability/
+  lang: en
+  published_at: '2026-08-30T15:42:37.390479+09:00'
+  demand_score: 91

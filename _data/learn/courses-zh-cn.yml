@@ -1,3 +1,26 @@
+- slug: rag-evaluation-reliability
+  title: RAG 评估与可靠性实验
+  primary_category: ai-software
+  topics:
+  - retrieval-augmented-generation
+  - rag-evaluation
+  - information-retrieval
+  - llm-reliability
+  course_type: academic
+  summary: 创建固定的文档集合和问答评估集，通过定量衡量检索质量、依据忠实度、引用准确性及故障类型，完成可重现的 RAG 回归评估报告。
+  outcome: 学员将能够将 RAG 流水线分离为检索与生成阶段进行评估，利用 Ragas 等自动化评估工具，设计能够减少幻觉并验证事实性的定量回归测试框架。
+  level: intermediate
+  estimated_hours: 96.0
+  budget_krw:
+    min: 0
+    max: 100000
+  module_count: 10
+  last_reviewed: '2026-08-30'
+  curriculum_version: 1.0.0+40bb735b5f50
+  url: /learn/zh-cn/rag-evaluation-reliability/
+  lang: zh-cn
+  published_at: '2026-08-30T15:42:37.390479+09:00'
+  demand_score: 91
 - slug: precise-robot-hand
   title: 制作精密的 5 仿生机器人手
   primary_category: robotics-hardware
