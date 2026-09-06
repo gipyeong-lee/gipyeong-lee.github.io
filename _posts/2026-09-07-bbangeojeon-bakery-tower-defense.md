@@ -2,7 +2,7 @@
 layout: post
 title: "빵어전 — 빵을 굽고 조합하며 화덕을 지키는 타워디펜스"
 description: "64종의 빵 타워를 재료 조합으로 만드는 모바일 게임, 빵어전을 소개합니다. 플레이 방식과 다운로드 링크, 심사 중인 1.5.0 업데이트 미리보기를 함께 정리했습니다."
-date: 2026-09-07 09:00:00 +0900
+date: 2026-09-07 08:10:00 +0900
 section: blog
 category: projects
 lang: ko
@@ -52,7 +52,7 @@ tags:
 - **움직이는 빵집**: 홈 캐릭터의 제빵·간식·불씨 활동과 터치 반응, 장착한 화덕의 모습이 빵집에 반영됩니다.
 
 <figure>
-  <img src="/images/bbangeojeon/v1-5-0-world-preview.png" alt="빵어전 1.5.0 미리보기: 벨로라 대륙의 첫 챕터와 스테이지 목록을 보여주는 모험 지도" width="1080" height="1920" loading="lazy" style="display: block; width: 100%; max-width: 360px; height: auto; margin: 0 auto;">
+  <img src="/images/bbangeojeon/v1-5-0-world-preview.png" alt="빵어전 1.5.0 미리보기: 밀보라 대륙의 첫 챕터와 스테이지 목록을 보여주는 모험 지도" width="1080" height="1920" loading="lazy" style="display: block; width: 100%; max-width: 360px; height: auto; margin: 0 auto;">
   <figcaption>1.5.0 미리보기 — 대륙과 챕터를 따라 이어지는 모험 지도.</figcaption>
 </figure>
 
