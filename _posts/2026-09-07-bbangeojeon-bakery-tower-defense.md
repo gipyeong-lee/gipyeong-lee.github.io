@@ -20,7 +20,7 @@ tags:
 
 귀여운 빵을 모으는 재미에, 어떤 빵을 어디에 배치할지 고민하는 방어 전략을 더했습니다. 작은 도트 빵집에서 시작해 나만의 빵 수비대를 만들어가는 게임을 소개합니다.
 
-[공식 사이트에서 살펴보기](https://bbangeojeon.vercel.app/) · [iPhone 다운로드](https://apps.apple.com/kr/app/id6805946937) · [Android 다운로드](https://play.google.com/store/apps/details?id=com.eternaxcode.bbangeojeon)
+[공식 사이트에서 살펴보기](https://bbangeojeon.eternaxcode.com/) · [iPhone 다운로드](https://apps.apple.com/kr/app/id6805946937) · [Android 다운로드](https://play.google.com/store/apps/details?id=com.eternaxcode.bbangeojeon)
 
 > 아래 이미지는 **심사 중인 1.5.0 업데이트 미리보기**입니다. 2026년 9월 7일 기준 Android는 검토 중, iOS는 심사 대기 중이며, 현재 스토어에서 설치되는 버전의 화면·콘텐츠와 다를 수 있습니다.
 
@@ -35,7 +35,7 @@ tags:
 
 화덕으로 다가오는 적을 막으려면 빵의 배치와 조합을 함께 생각해야 합니다. 새로운 빵을 알아가는 도감 수집과, 다음 전투에서 다른 구성을 시도하는 전략이 이어지도록 구성했습니다.
 
-처음 시작한다면 공식 사이트의 [게임 가이드](https://bbangeojeon.vercel.app/game-guide.html)를 참고해 주세요. 반죽과 재료를 다루는 흐름부터 살펴볼 수 있습니다.
+처음 시작한다면 공식 사이트의 [게임 가이드](https://bbangeojeon.eternaxcode.com/game-guide.html)를 참고해 주세요. 반죽과 재료를 다루는 흐름부터 살펴볼 수 있습니다.
 
 <figure>
   <img src="/images/bbangeojeon/v1-5-0-battle-preview.png" alt="빵어전 1.5.0 미리보기: 세로 전장에 배치된 빵 타워가 적을 막고 아래쪽 화덕을 지키는 전투 화면" width="1080" height="1920" loading="lazy" style="display: block; width: 100%; max-width: 360px; height: auto; margin: 0 auto;">
@@ -64,8 +64,8 @@ tags:
 
 ## 빵집의 첫 방어전을 시작해 보세요
 
-- [빵어전 공식 사이트](https://bbangeojeon.vercel.app/): 게임 소개, 가이드, 빵 도감과 커뮤니티
+- [빵어전 공식 사이트](https://bbangeojeon.eternaxcode.com/): 게임 소개, 가이드, 빵 도감과 커뮤니티
 - [App Store에서 다운로드](https://apps.apple.com/kr/app/id6805946937)
 - [Google Play에서 다운로드](https://play.google.com/store/apps/details?id=com.eternaxcode.bbangeojeon)
 
-플레이하면서 마음에 든 빵, 조합에서 헷갈렸던 점, 더 보고 싶은 빵집의 모습이 있다면 [공식 커뮤니티](https://bbangeojeon.vercel.app/community.html)에 남겨주세요. 다음 개선을 생각할 때 참고하겠습니다.
+플레이하면서 마음에 든 빵, 조합에서 헷갈렸던 점, 더 보고 싶은 빵집의 모습이 있다면 [공식 커뮤니티](https://bbangeojeon.eternaxcode.com/community.html)에 남겨주세요. 다음 개선을 생각할 때 참고하겠습니다.
