@@ -1,0 +1,50 @@
+{% comment %}
+  Consent bootstrap. Must stay the FIRST script in <head>, ahead of every
+  Google tag (adsbygoogle.js in head, gtag.js in google-analytics.html).
+
+  Why (2026-09-18, AdSense Policy Center "Consent requirement: narrow
+  coverage" — "TC string missing from some EEA/UK/CH ad requests"):
+  with only the AdSense-served Google CMP, adsbygoogle.js fired the first
+  ad requests BEFORE it loaded fundingchoicesmessages. Measured on the live
+  site with ?fc=alwaysshow&fctype=gdpr: ad requests at 599 ms and 609 ms
+  without gdpr_consent, CMP script at 1091 ms, dialog after that. A
+  first-time EEA visitor's requests therefore carried no TC string; only
+  later page views did (TC string re-read from the FCCDCF cookie at 35 ms).
+  Loading the Privacy & messaging tag explicitly and raising the
+  googlefcPresent signal makes adsbygoogle.js wait for the CMP before any
+  ad request, so every EEA request carries the TC string.
+
+  1. Google Consent Mode v2 defaults: denied in EEA + UK + CH until the CMP
+     updates them, granted everywhere else (unchanged behaviour outside
+     Europe). Google's CMP only pushes gtag('consent','update') when
+     "Consent mode for advertising purposes" is enabled in AdSense →
+     Privacy & messaging → European regulations → Settings.
+     wait_for_update is 2000 ms because the CMP script lands ~600 ms after
+     navigation on this site and still has to parse the stored choice.
+  2. Privacy & messaging tag (same tag AdSense hands out for ad blocking
+     recovery) + googlefcPresent iframe signal, verbatim from Google.
+     Omitted on no_ads pages together with the rest of the ad stack.
+{% endcomment %}
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  gtag('consent', 'default', {
+    'ad_storage': 'denied',
+    'ad_user_data': 'denied',
+    'ad_personalization': 'denied',
+    'analytics_storage': 'denied',
+    'wait_for_update': 2000,
+    'region': ['AT','BE','BG','HR','CY','CZ','DK','EE','FI','FR','DE','GR','HU','IE','IT','LV','LT','LU','MT','NL','PL','PT','RO','SK','SI','ES','SE','IS','LI','NO','GB','CH']
+  });
+  gtag('consent', 'default', {
+    'ad_storage': 'granted',
+    'ad_user_data': 'granted',
+    'ad_personalization': 'granted',
+    'analytics_storage': 'granted'
+  });
+  gtag('set', 'ads_data_redaction', true);
+</script>
+{% unless page.no_ads %}
+<script async src="https://fundingchoicesmessages.google.com/i/{{ site.data.settings.google.adsense_id | remove_first: 'ca-' }}?ers=1"></script>
+<script>(function() {function signalGooglefcPresent() {if (!window.frames['googlefcPresent']) {if (document.body) {const iframe = document.createElement('iframe'); iframe.style = 'width: 0; height: 0; border: none; z-index: -1000; left: -1000px; top: -1000px;'; iframe.style.display = 'none'; iframe.name = 'googlefcPresent'; document.body.appendChild(iframe);} else {setTimeout(signalGooglefcPresent, 0);}}}signalGooglefcPresent();})();</script>
+{% endunless %}

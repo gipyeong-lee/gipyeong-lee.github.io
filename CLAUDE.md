@@ -97,3 +97,25 @@ needed: `content_lang`, `content_type`, `content_tag`, `content_slug`,
 `ref_family`, `share_platform`, `switch_to`, `tag_name`, `link_domain`,
 `search_term_normalized`, `percent_scrolled`, `first_utm_source`,
 `first_utm_medium`, `first_utm_campaign`, `first_referrer`.
+
+### Consent / CMP (AdSense EU user consent policy)
+
+`_includes/consent.html` is the first script in `<head>` and must stay there
+(contract: `scripts/tests/test_consent_contract.py`):
+
+- **Google Consent Mode v2 defaults** before gtag.js: all four signals
+  `denied` for EEA + UK + CH (`region` list), `granted` elsewhere,
+  `wait_for_update: 2000`. Google's CMP only sends `consent update` when
+  **Privacy & messaging → European regulations → Settings → "Consent mode
+  for advertising purposes"** (+ analytics) is enabled in AdSense.
+- **Privacy & messaging tag** (`fundingchoicesmessages.google.com/i/pub-…?ers=1`)
+  plus the `googlefcPresent` iframe signal, ahead of `adsbygoogle.js`, so
+  the CMP loads and adsbygoogle waits for it before requesting ads. Without
+  it the AdSense-served CMP loaded ~500 ms *after* the first ad requests,
+  which is what the 2026-09 Policy Center issue "Consent requirement:
+  narrow coverage / TC string missing" measured. Omitted on `no_ads` pages;
+  `validate_learn.py` rejects the CMP markers on built learn pages.
+- **Manual check** from anywhere: open a page with
+  `?fc=alwaysshow&fctype=gdpr`, confirm no `googleads.g.doubleclick.net/pagead/ads`
+  request fires before the consent dialog is answered, then that the
+  requests after consent carry `gdpr_consent=`.

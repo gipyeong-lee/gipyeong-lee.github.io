@@ -12,7 +12,14 @@ from typing import Any, Optional
 from urllib.parse import urlparse
 
 
-AD_MARKERS = ("adsbygoogle", "pagead2.googlesyndication.com", "ad-slot")
+AD_MARKERS = (
+    "adsbygoogle",
+    "pagead2.googlesyndication.com",
+    "ad-slot",
+    # Google CMP (Privacy & messaging) belongs to the ad stack too.
+    "fundingchoicesmessages.google.com",
+    "googlefcPresent",
+)
 LEARN_TARGET_LANGUAGES = ("en", "ja", "zh-cn", "zh-tw")
 LEARN_LANGUAGES = ("ko", *LEARN_TARGET_LANGUAGES)
 LEARN_CATEGORY_SLUGS = (

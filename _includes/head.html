@@ -3,6 +3,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta http-equiv="Cache-Control" content="public, max-age=3600, immutable">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  {% include consent.html %}
   <script>
     (function(){var t=localStorage.getItem('theme');if(!t){t=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'}document.documentElement.setAttribute('data-theme',t)})();
   </script>
@@ -63,6 +64,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="dns-prefetch" href="https://www.googletagmanager.com">
   {% unless page.no_ads %}
+  <link rel="preconnect" href="https://fundingchoicesmessages.google.com">
   <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
   {% endunless %}
   <link rel="dns-prefetch" href="https://unpkg.com">
