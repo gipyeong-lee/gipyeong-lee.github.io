@@ -115,6 +115,20 @@ needed: `content_lang`, `content_type`, `content_tag`, `content_slug`,
   which is what the 2026-09 Policy Center issue "Consent requirement:
   narrow coverage / TC string missing" measured. Omitted on `no_ads` pages;
   `validate_learn.py` rejects the CMP markers on built learn pages.
+- **Privacy policy** `_pages/privacy.md` (`/privacy/`) + `privacy.en.md`
+  (`/privacy/en/`): discloses GA4/AdSense/Disqus data use, links Google's
+  partner-sites policy and business data responsibility page, and states
+  that TCF Purpose 1 consent also covers analytics storage (required by the
+  AdSense "consent mode for analytics" setting). `footer.html` links it on
+  every page and adds a "change ad privacy settings" control
+  (`data-consent-revoke`, gated on `__tcfapi` `gdprApplies`; omitted on
+  `no_ads` pages). Google's GDPR message body tells users to look for that
+  link in the site footer. The kernel loaded by our explicit tag does not
+  export `googlefc.showRevocationMessage` (only the adsbygoogle-initiated
+  load does, measured 2026-09-18 across `ers=1/2` and `href` variants), so
+  the control falls back to what that API does internally: delete the
+  first-party FC cookies (`FCCDCF`, `FCNEC`, …) and reload, which makes the
+  CMP ask again.
 - **Manual check** from anywhere: open a page with
   `?fc=alwaysshow&fctype=gdpr`, confirm no `googleads.g.doubleclick.net/pagead/ads`
   request fires before the consent dialog is answered, then that the

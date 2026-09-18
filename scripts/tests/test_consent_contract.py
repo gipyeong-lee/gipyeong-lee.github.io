@@ -27,7 +27,10 @@ EEA_UK_CH = EU27 | {"IS", "LI", "NO"} | {"GB"} | {"CH"}
 
 
 def _rendered(text: str) -> str:
-    """Drop Liquid comment blocks: they never reach the built HTML."""
+    """Normalise whitespace-control tags ({%- ... -%}) and drop Liquid
+    comment blocks: neither reaches the built HTML."""
+    text = re.sub(r"\{%-\s*", "{% ", text)
+    text = re.sub(r"\s*-%\}", " %}", text)
     return re.sub(r"\{% comment %\}.*?\{% endcomment %\}", "", text, flags=re.S)
 
 
@@ -120,6 +123,63 @@ class ConsentContractTest(unittest.TestCase):
                 any("advertising marker fundingchoicesmessages.google.com" in error for error in errors),
                 errors,
             )
+
+
+class PrivacyPolicyContractTest(unittest.TestCase):
+    """The EU user consent policy audit expects the site to disclose how
+    Google uses data (with a link to Google's business data responsibility
+    site), to say that TCF Purpose 1 consent also covers analytics storage
+    (required for the AdSense "consent mode for analytics" setting), and to
+    let users withdraw consent from every page."""
+
+    KO = ROOT / "_pages/privacy.md"
+    EN = ROOT / "_pages/privacy.en.md"
+    FOOTER = (ROOT / "_includes/footer.html").read_text(encoding="utf-8")
+
+    def _front_matter(self, path: Path) -> str:
+        return path.read_text(encoding="utf-8").split("---", 2)[1]
+
+    def test_privacy_policy_exists_in_korean_and_english_and_cross_links(self):
+        ko, en = self._front_matter(self.KO), self._front_matter(self.EN)
+        self.assertIn("permalink: /privacy/\n", ko)
+        self.assertIn("permalink: /privacy/en/\n", en)
+        self.assertIn("lang: ko", ko)
+        self.assertIn("lang: en", en)
+        for fm in (ko, en):
+            self.assertIn("ref: privacy", fm)
+            self.assertIn("url: /privacy/\n", fm)
+            self.assertIn("url: /privacy/en/\n", fm)
+            self.assertNotIn("no_ads", fm)  # revocation control needs googlefc
+
+    def test_privacy_policy_discloses_google_data_use_and_consent_scope(self):
+        for path, purpose_one in ((self.KO, "TCF 목적 1"), (self.EN, "TCF Purpose 1")):
+            body = path.read_text(encoding="utf-8")
+            for required in (
+                "Google Analytics",
+                "AdSense",
+                "https://policies.google.com/technologies/partner-sites",
+                "https://business.safety.google/privacy/",
+                "https://adssettings.google.com",
+                "https://tools.google.com/dlpage/gaoptout",
+                "data-consent-revoke",
+                purpose_one,
+            ):
+                self.assertIn(required, body, f"{path.name} lacks {required!r}")
+
+    def test_footer_links_policy_everywhere_and_revocation_only_with_ad_stack(self):
+        inside, outside = _guarded(self.FOOTER)
+        self.assertIn("/privacy/", outside)
+        self.assertIn("data-consent-revoke", inside)
+        self.assertIn("googlefc.showRevocationMessage()", inside)
+        self.assertIn("CONSENT_DATA_READY", inside)
+        # Fallback when the kernel does not export showRevocationMessage:
+        # clear Google CMP's first-party consent cookies and reload.
+        for cookie in ("FCCDCF", "FCNEC"):
+            self.assertIn(cookie, inside)
+        self.assertIn("location.reload()", inside)
+        self.assertIn("data.gdprApplies", inside)
+        self.assertNotIn("data-consent-revoke", outside)
+        self.assertNotIn("showRevocationMessage", outside)
 
 
 if __name__ == "__main__":

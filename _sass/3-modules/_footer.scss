@@ -9,6 +9,23 @@
     margin-bottom: 15px;
   }
 
+  .footer__links {
+    margin-bottom: 15px;
+    font-size: 13px;
+    color: var(--color-gray);
+
+    a {
+      color: var(--color-gray);
+      &:hover {
+        color: var(--color-text);
+      }
+    }
+
+    .footer__sep {
+      margin: 0 8px;
+    }
+  }
+
   .copyright {
     a {
       color: var(--color-text);

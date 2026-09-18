@@ -12,6 +12,59 @@
 
     {% include contact-link.html %}
 
+    {%- comment -%}
+      Privacy policy link + "change ad privacy settings" (Google CMP
+      revocation). Both are part of the EU user consent policy contract
+      (scripts/tests/test_consent_contract.py): users must be able to
+      withdraw consent as easily as they gave it, and the policy must be
+      reachable from every page. The revocation control needs googlefc,
+      which only loads with the ad stack, so it is omitted on no_ads pages.
+    {%- endcomment -%}
+    {%- case page.lang -%}
+      {%- when 'en' -%}{%- assign privacy_label = 'Privacy Policy' -%}{%- assign consent_label = 'Ad privacy settings' -%}{%- assign consent_unavailable = 'The ad consent dialog is only available to visitors from the EEA, the UK and Switzerland. Elsewhere, manage cookies in your browser settings.' -%}
+      {%- when 'ja' -%}{%- assign privacy_label = 'プライバシーポリシー' -%}{%- assign consent_label = '広告のプライバシー設定' -%}{%- assign consent_unavailable = '広告の同意ダイアログは EEA・英国・スイスからのアクセス時のみ表示されます。他の地域ではブラウザ設定で Cookie を管理してください。' -%}
+      {%- when 'zh-cn' -%}{%- assign privacy_label = '隐私政策' -%}{%- assign consent_label = '广告隐私设置' -%}{%- assign consent_unavailable = '广告同意对话框仅向来自欧洲经济区、英国和瑞士的访问者显示。其他地区请在浏览器设置中管理 Cookie。' -%}
+      {%- when 'zh-tw' -%}{%- assign privacy_label = '隱私權政策' -%}{%- assign consent_label = '廣告隱私設定' -%}{%- assign consent_unavailable = '廣告同意對話框僅向來自歐洲經濟區、英國和瑞士的訪客顯示。其他地區請在瀏覽器設定中管理 Cookie。' -%}
+      {%- else -%}{%- assign privacy_label = '개인정보처리방침' -%}{%- assign consent_label = '광고 개인정보 설정' -%}{%- assign consent_unavailable = '광고 동의 창은 EEA·영국·스위스에서 접속한 경우에만 표시됩니다. 다른 지역에서는 브라우저 설정에서 쿠키를 관리해 주세요.' -%}
+    {%- endcase -%}
+    {%- if page.lang == 'ko' or page.lang == nil -%}{%- assign privacy_url = '/privacy/' -%}{%- else -%}{%- assign privacy_url = '/privacy/en/' -%}{%- endif %}
+    <div class="footer__links">
+      <a href="{{ privacy_url | relative_url }}">{{ privacy_label }}</a>
+      {%- unless page.no_ads %}
+      <span class="footer__sep" aria-hidden="true">·</span>
+      <a href="#" data-consent-revoke data-consent-unavailable="{{ consent_unavailable | escape }}">{{ consent_label }}</a>
+      {%- endunless %}
+    </div>
+    {%- unless page.no_ads %}
+    <script>
+      document.addEventListener('click', function (e) {
+        var el = e.target && e.target.closest && e.target.closest('[data-consent-revoke]');
+        if (!el) return;
+        e.preventDefault();
+        // googlefc.showRevocationMessage() is a silent no-op where GDPR does
+        // not apply, so ask the TCF API first and explain instead of doing nothing.
+        var unavailable = function () { alert(el.getAttribute('data-consent-unavailable')); };
+        if (!window.__tcfapi || !window.googlefc || !window.googlefc.callbackQueue) return unavailable();
+        window.__tcfapi('ping', 2, function (data) {
+          if (!data || !data.gdprApplies) return unavailable();
+          window.googlefc.callbackQueue.push({ CONSENT_DATA_READY: function () {
+            if (typeof window.googlefc.showRevocationMessage === 'function') return window.googlefc.showRevocationMessage();
+            // The kernel only exports showRevocationMessage with the site-level
+            // message config; do what it does internally instead — drop the
+            // stored choice (first-party FC cookies) and reload so the
+            // message is asked again (verified 2026-09-18: cookies are not
+            // HttpOnly; after deletion getTCData has no tcString until the
+            // user answers).
+            ['FCCDCF', 'FCNEC', 'FCOEC', 'DATA_USE_CONSENT'].forEach(function (name) {
+              document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
+            });
+            location.reload();
+          } });
+        });
+      });
+    </script>
+    {%- endunless %}
+
 </div>
 </footer>
 <!-- end footer -->
