@@ -128,13 +128,17 @@ needed: `content_lang`, `content_type`, `content_tag`, `content_slug`,
   load does, measured 2026-09-18 across `ers=1/2` and `href` variants), so
   the control falls back to what that API does internally: delete the
   first-party FC cookies (`FCCDCF`, `FCNEC`, …) and reload, which makes the
-  CMP ask again. The reload goes through a hidden link carrying
-  `data-google-vignette="false"` / `data-google-interstitial="false"`, never
-  `location.reload()`: AdSense's vignette module (`reactive_library_fy2021.js`)
-  intercepts every same-site Navigation-API `navigate` made while the click's
-  user activation is fresh, reloads included, and parks it behind an
-  interstitial (`#google_vignette`, no reload; seen live 2026-09-19). Only a
-  navigation whose source element carries that attribute is exempt.
+  CMP ask again. Both controls carry `data-google-vignette="false"` /
+  `data-google-interstitial="false"` and the reload goes through a hidden
+  link with the same attributes, never `location.reload()`: AdSense's
+  vignette module (`reactive_library_fy2021.js`) intercepts clicks on
+  same-site links (its `du()` check) and, in its Navigation-API mode, any
+  same-site `navigate` made while the click's user activation is fresh,
+  reloads included (`ht()`), and parks the navigation behind an interstitial
+  (`#google_vignette`, no reload; seen live 2026-09-19, 3 of 6 clicks with
+  localStorage cleared). Only elements carrying those attributes are exempt.
+  Reproduce: repeat the manual check below with localStorage cleared between
+  clicks; a plain `<a href="#">` gets hijacked, the control must not.
 - **Manual check** from anywhere: open a page with
   `?fc=alwaysshow&fctype=gdpr`, confirm no `googleads.g.doubleclick.net/pagead/ads`
   request fires before the consent dialog is answered, then that the
