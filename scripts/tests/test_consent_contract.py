@@ -184,6 +184,32 @@ class PrivacyPolicyContractTest(unittest.TestCase):
         self.assertNotIn("data-consent-revoke", outside)
         self.assertNotIn("showRevocationMessage", outside)
 
+    def test_revocation_reload_is_exempt_from_adsense_vignette(self):
+        # AdSense's vignette module (reactive_library) intercepts same-site
+        # navigations through the Navigation API while a user activation is
+        # fresh -- location.reload() included -- and parks them behind an
+        # interstitial (seen live 2026-09-19: URL gained #google_vignette, no
+        # reload, no dialog). Only a navigation whose source element carries
+        # data-google-vignette="false" / data-google-interstitial="false" is
+        # exempt, so re-asking must navigate through such a link.
+        inside, _ = _guarded(self.FOOTER)
+        self.assertIn("a.setAttribute('data-google-vignette', 'false')", inside)
+        self.assertIn("a.setAttribute('data-google-interstitial', 'false')", inside)
+        self.assertIn("a.href = location.pathname + location.search", inside)
+        self.assertIn("a.click()", inside)
+        self.assertNotIn("goog_handler_bypass", inside)  # Google-internal token
+        # location.reload() stays only as a last resort, cancelled as soon as
+        # the link navigation starts.
+        self.assertIn("window.addEventListener('beforeunload'", inside)
+        controls = [re.search(r"<a [^>]*data-consent-revoke[^>]*>", inside).group(0)]
+        for path in (self.KO, self.EN):
+            controls.append(
+                re.search(r"<a [^>]*data-consent-revoke[^>]*>", path.read_text(encoding="utf-8")).group(0)
+            )
+        for control in controls:
+            self.assertIn('data-google-vignette="false"', control)
+            self.assertIn('data-google-interstitial="false"', control)
+
 
 if __name__ == "__main__":
     unittest.main()

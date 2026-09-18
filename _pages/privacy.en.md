@@ -37,7 +37,7 @@ If you visit from the European Economic Area, the United Kingdom or Switzerland,
 - You can decline without losing access to the site; you may then see limited ads instead of personalised ones.
 - You can change or withdraw your consent at any time.
 
-<p><a href="#" class="button" data-consent-revoke data-consent-unavailable="The consent dialog is only shown to visitors from the EEA, the UK and Switzerland.">Change ad privacy settings</a></p>
+<p><a href="#" class="button" data-google-vignette="false" data-google-interstitial="false" data-consent-revoke data-consent-unavailable="The consent dialog is only shown to visitors from the EEA, the UK and Switzerland.">Change ad privacy settings</a></p>
 
 Elsewhere, cookies may be used without a consent dialog. You can block or delete cookies in your browser settings.
 

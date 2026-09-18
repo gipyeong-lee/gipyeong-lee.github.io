@@ -32,7 +32,7 @@
       <a href="{{ privacy_url | relative_url }}">{{ privacy_label }}</a>
       {%- unless page.no_ads %}
       <span class="footer__sep" aria-hidden="true">·</span>
-      <a href="#" data-consent-revoke data-consent-unavailable="{{ consent_unavailable | escape }}">{{ consent_label }}</a>
+      <a href="#" data-google-vignette="false" data-google-interstitial="false" data-consent-revoke data-consent-unavailable="{{ consent_unavailable | escape }}">{{ consent_label }}</a>
       {%- endunless %}
     </div>
     {%- unless page.no_ads %}
@@ -53,7 +53,21 @@
           ['FCCDCF', 'FCNEC', 'FCOEC', 'DATA_USE_CONSENT'].forEach(function (name) {
             document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
           });
-          location.reload();
+          // Not location.reload(): AdSense's vignette module intercepts every
+          // same-site navigation (Navigation API "navigate", incl. reloads)
+          // while the click's user activation is fresh and parks it behind an
+          // interstitial -- seen live 2026-09-19 as "#google_vignette" and no
+          // reload. Only a link whose element carries
+          // data-google-vignette="false" is exempt, so navigate through one.
+          var a = document.createElement('a');
+          a.href = location.pathname + location.search;
+          a.setAttribute('data-google-vignette', 'false');
+          a.setAttribute('data-google-interstitial', 'false');
+          a.hidden = true;
+          document.body.appendChild(a);
+          var fallback = setTimeout(function () { location.reload(); }, 2500);
+          window.addEventListener('beforeunload', function () { clearTimeout(fallback); }, { once: true });
+          a.click();
         };
         if (!window.__tcfapi || !window.googlefc || !window.googlefc.callbackQueue) return unavailable();
         var done = false;

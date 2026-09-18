@@ -37,7 +37,7 @@ translations:
 - 동의를 거부해도 사이트 이용에는 제한이 없으며, 이 경우 맞춤 광고 대신 제한된 광고가 표시될 수 있습니다.
 - 동의는 언제든 변경하거나 철회할 수 있습니다.
 
-<p><a href="#" class="button" data-consent-revoke data-consent-unavailable="동의 창은 EEA·영국·스위스에서 접속한 경우에만 표시됩니다.">광고 개인정보 설정 변경</a></p>
+<p><a href="#" class="button" data-google-vignette="false" data-google-interstitial="false" data-consent-revoke data-consent-unavailable="동의 창은 EEA·영국·스위스에서 접속한 경우에만 표시됩니다.">광고 개인정보 설정 변경</a></p>
 
 그 밖의 지역에서는 별도의 동의 창 없이 쿠키가 사용될 수 있습니다. 브라우저 설정에서 쿠키를 차단하거나 삭제할 수 있습니다.
 
