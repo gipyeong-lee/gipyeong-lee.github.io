@@ -178,6 +178,9 @@ class PrivacyPolicyContractTest(unittest.TestCase):
             self.assertIn(cookie, inside)
         self.assertIn("location.reload()", inside)
         self.assertIn("data.gdprApplies", inside)
+        # A click must never stay silent: CMP mid-reload answers neither
+        # ping nor CONSENT_DATA_READY, so a timer falls back to re-asking.
+        self.assertIn("setTimeout(function () { finish(reask); }, 1500)", inside)
         self.assertNotIn("data-consent-revoke", outside)
         self.assertNotIn("showRevocationMessage", outside)
 

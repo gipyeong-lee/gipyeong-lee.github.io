@@ -44,23 +44,35 @@
         // googlefc.showRevocationMessage() is a silent no-op where GDPR does
         // not apply, so ask the TCF API first and explain instead of doing nothing.
         var unavailable = function () { alert(el.getAttribute('data-consent-unavailable')); };
+        // The kernel loaded by our explicit tag does not export
+        // showRevocationMessage (only the adsbygoogle-initiated load does);
+        // do what it does internally instead: drop the stored choice
+        // (first-party FC cookies, not HttpOnly) and reload so the message
+        // is asked again.
+        var reask = function () {
+          ['FCCDCF', 'FCNEC', 'FCOEC', 'DATA_USE_CONSENT'].forEach(function (name) {
+            document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
+          });
+          location.reload();
+        };
         if (!window.__tcfapi || !window.googlefc || !window.googlefc.callbackQueue) return unavailable();
-        window.__tcfapi('ping', 2, function (data) {
-          if (!data || !data.gdprApplies) return unavailable();
-          window.googlefc.callbackQueue.push({ CONSENT_DATA_READY: function () {
-            if (typeof window.googlefc.showRevocationMessage === 'function') return window.googlefc.showRevocationMessage();
-            // The kernel only exports showRevocationMessage with the site-level
-            // message config; do what it does internally instead — drop the
-            // stored choice (first-party FC cookies) and reload so the
-            // message is asked again (verified 2026-09-18: cookies are not
-            // HttpOnly; after deletion getTCData has no tcString until the
-            // user answers).
-            ['FCCDCF', 'FCNEC', 'FCOEC', 'DATA_USE_CONSENT'].forEach(function (name) {
-              document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
-            });
-            location.reload();
-          } });
-        });
+        var done = false;
+        var timer = null;
+        var finish = function (action) { if (done) return; done = true; clearTimeout(timer); action(); };
+        // Right after a consent choice the CMP is mid-reload and may answer
+        // neither ping nor CONSENT_DATA_READY (seen live 2026-09-18); a click
+        // must never stay silent, so fall back to re-asking after 1.5 s.
+        timer = setTimeout(function () { finish(reask); }, 1500);
+        try {
+          window.__tcfapi('ping', 2, function (data) {
+            if (!data || !data.gdprApplies) return finish(unavailable);
+            window.googlefc.callbackQueue.push({ CONSENT_DATA_READY: function () {
+              finish(typeof window.googlefc.showRevocationMessage === 'function'
+                ? function () { window.googlefc.showRevocationMessage(); }
+                : reask);
+            } });
+          });
+        } catch (err) { finish(reask); }
       });
     </script>
     {%- endunless %}
