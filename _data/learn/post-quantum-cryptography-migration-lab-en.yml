@@ -1,0 +1,1073 @@
+schema_version: 1
+curriculum_version: 1.0.0+78591abb512e
+course:
+  course_type: academic
+  slug: post-quantum-cryptography-migration-lab
+  primary_category: ai-software
+  topics:
+  - post-quantum-cryptography
+  - cryptographic-inventory
+  - ml-kem
+  - ml-dsa
+  - crypto-agility
+  title: Post-Quantum Cryptography Migration Validation Experiment
+  summary: Understand the mathematical and security assumptions of NIST Post-Quantum
+    standards, identify and classify cryptographic assets in a fixed local test system,
+    experimentally evaluate ML-KEM and ML-DSA, and establish a priority-based migration
+    roadmap.
+  outcome: Learners will be able to understand quantum threat models and utilize practical
+    cryptographic asset identification tools and OQS-based test frameworks to author
+    a report evaluating cryptographic agility in operational environments.
+  audience: Computer science learners and IT security practitioners with basic Python
+    and public-key cryptography knowledge.
+  level: graduate
+  estimated_hours: 64.0
+  budget_krw:
+    min: 0
+    max: 0
+  required_tools:
+  - Python 3
+  - Git
+  - Docker
+  - Open Quantum Safe (liboqs)
+  - Wireshark
+  safety_summary:
+  - All experiments must be performed within an isolated local virtual environment.
+  - Usage of production certificates, actual private keys, and customer data is prohibited.
+  - Do not treat research libraries (liboqs) as operational security tools.
+  last_reviewed: '2026-10-11'
+phases:
+- id: p1
+  title: Foundational Theory and Threat Analysis
+  module_ids:
+  - m1
+  - m2
+- id: p2
+  title: Cryptographic Asset Assessment and Environment Setup
+  module_ids:
+  - m3
+  - m4
+  - m5
+- id: p3
+  title: Experimental Reproduction and Performance Evaluation
+  module_ids:
+  - m6
+  - m7
+  - m8
+modules:
+- id: m1
+  slug: quantum-threat-model
+  phase_id: p1
+  title: Quantum Threats and Lattice-based Cryptography
+  estimated_hours: 8.0
+  prerequisites: []
+  objectives:
+  - Understand the threat models quantum computers pose to modern cryptographic systems
+    (RSA, ECC).
+  - Analyze the mathematical foundations and security proofs of Lattice-based Cryptography.
+  - Learn the design principles of NIST-recommended Post-Quantum Cryptographic standards
+    (ML-KEM, ML-DSA).
+  - Describe the efficiency and security characteristics (worst-case hardness) of
+    lattice-based algorithms.
+  theory_markdown: '## Quantum Threat Model
+
+    Modern public-key cryptography (PKI) primarily relies on the hardness of integer
+    factorization (RSA) and discrete logarithm problems (ECC). Shor''s algorithm can
+    solve these problems in polynomial time using a quantum computer, which implies
+    that it effectively nullifies all current standard PKI[S3].
+
+
+    ## Lattice-based Cryptography
+
+    Lattice-based cryptography uses problems such as finding points in a lattice from
+    basis vectors (e.g., SVP, LWE) in high-dimensional space as hard problems. It
+    has been proven that these problems are hard even in the worst-case, and security
+    is guaranteed in the average-case as well[S4].
+
+
+    ## Post-Quantum Standards (ML-KEM/ML-DSA)
+
+    - **ML-KEM (Module-Lattice-based Key-Encapsulation Mechanism):** A key encapsulation
+    mechanism providing quantum resistance using lattice-based hard problems along
+    with efficient implementation.
+
+    - **ML-DSA (Module-Lattice-based Digital Signature Algorithm):** A digital signature
+    standard ensuring strong signature integrity using lattice-based mathematical
+    structures.
+
+    Lattice-based systems are becoming the center of PQC migration, proving strong
+    worst-case to average-case hardness and efficient performance in the current standardization
+    process[S4].'
+  worked_examples:
+  - 'Example 1: Analysis of the impact of quantum computers on RSA - RSA is based
+    on the difficulty of factoring large integers. Shor''s algorithm reduces the complexity
+    of factoring n-bit integers from exponential to polynomial time, decrypting ciphertext
+    immediately.'
+  - 'Example 2: Understanding the Lattice-based Hard Problem (LWE) concept - Consider
+    a system of linear equations A*s + e = t with a secret vector s and error e added.
+    Lattice-based cryptography is based on the difficulty of the ''Learning With Errors''
+    problem, which makes finding s from matrix A and result t difficult.'
+  lab:
+    title: Setting up Basic Lattice Cryptography Environment and Visualization
+    steps:
+    - Create a Python 3 virtual environment in an isolated Linux/Docker environment.
+    - Install and compile the liboqs library.
+    - Write a script to collect key sizes and computation times according to parameter
+      changes in the lattice-based LWE problem.
+    - Run data analysis and visualization notebooks.
+    safety:
+    - All experiments must be performed within an isolated local virtual environment.
+    - Strictly prohibited to use actual operational certificates, private keys, or
+      customer data.
+    - Do not treat research libraries as operational service security tools.
+    deliverables:
+    - Environment setup logs and compilation outputs.
+    - Algorithm performance (key size, time) comparative analysis data.
+    - Report on characteristics of lattice-based cryptography.
+  assignment:
+    title: Writing a Quantum Threat Analysis Report
+    deliverables:
+    - Document summarizing quantum threat models and lattice-based cryptographic theory.
+    - Comparison table of major PQC algorithms (ML-KEM, ML-DSA).
+    rubric:
+    - Accurately explains the principles of Shor's algorithm.
+    - Logically describes the concept of worst-case hardness in lattice-based cryptography.
+    - Describes the challenges faced by modern cryptography based on the provided
+      sources [S3, S4].
+  quiz:
+  - question: What threat does Shor's algorithm pose to existing PKI?
+    choices:
+    - It decrypts all symmetric key encryption unconditionally.
+    - It solves integer factorization and discrete logarithm problems in polynomial
+      time.
+    - It completely removes the collision resistance of hash functions.
+    - It slows down the processing speed of quantum computers.
+    answer_index: 1
+    explanation: Shor's algorithm threatens existing public-key cryptosystems by solving
+      integer factorization (basis of RSA) and discrete logarithm problems (basis
+      of ECC) in polynomial time.
+  - question: Why is Lattice-based Cryptography promising?
+    choices:
+    - Because worst-case hardness can be converted to average-case hardness.
+    - Because it is much faster than all symmetric key encryption.
+    - Because it cannot be solved even by quantum computers.
+    - Because it uses no computer memory at all.
+    answer_index: 0
+    explanation: Lattice-based cryptography has the mathematical strength of ensuring
+      average-case security from worst-case hardness[S4].
+  completion_criteria:
+  - Complete theory learning and submit quantum threat report.
+  - Successfully execute basic algorithms using liboqs in the lab environment.
+  - Achieve a correct answer rate of 80% or higher for each quiz item.
+  source_ids:
+  - S3
+  - S4
+- id: m2
+  slug: nist-pq-standards
+  phase_id: p1
+  title: Understanding ML-KEM and ML-DSA Standards
+  estimated_hours: 8.0
+  prerequisites:
+  - m1
+  objectives:
+  - Explain the mathematical foundations and security proofs of Lattice-based cryptography.
+  - Understand the operational principles of the NIST standard ML-KEM (Key Encapsulation
+    Mechanism).
+  - Identify the structural characteristics of the NIST standard ML-DSA (Digital Signature
+    Algorithm).
+  - Analyze why lattice cryptography holds practical advantages over other cryptographic
+    methods (code-based, hash-based).
+  theory_markdown: '## Understanding ML-KEM and ML-DSA Standards
+
+
+    ### 1. The Rise of Lattice-based Cryptography
+
+    Lattice-based systems are currently driving practical standardization. This is
+    because there exist strong mathematical reductions from worst-case to average-case,
+    and efficient implementation is possible [S4]. On the other hand, code-based or
+    hash-based methods serve as conservative anchors, requiring a longer security
+    history or minimal assumptions [S4].
+
+
+    ### 2. ML-KEM (Module-Lattice Key Encapsulation Mechanism)
+
+    ML-KEM is based on the algorithm previously known as Kyber. It is based on the
+    Module Learning With Errors (MLWE) problem and follows this flow:
+
+    - **KeyGen:** Generate public and secret keys within a module lattice.
+
+    - **Encapsulation:** Generate a shared secret and encapsulated key (Ciphertext)
+    using the public key.
+
+    - **Decapsulation:** Recover the original shared secret from the encapsulated
+    key using the secret key.
+
+
+    ### 3. ML-DSA (Module-Lattice Digital Signature Algorithm)
+
+    ML-DSA is based on Dilithium and uses the ''Fiat-Shamir with Aborts'' technique.
+    It provides forgery resistance through the hardness of lattice problems and is
+    a practical standard that balances signature size and public key size.
+
+
+    ### 4. Security Assumptions
+
+    The security of lattice-based systems is closely related to the Shortest Vector
+    Problem (SVP). Unlike Shor''s algorithm, which efficiently breaks RSA or ECC,
+    lattice problems are assumed not to be solvable in polynomial time even by quantum
+    algorithms.'
+  worked_examples:
+  - 'Example 1: Comparison of security strength of lattice-based KEM. ML-KEM-512,
+    768, and 1024 correspond to NIST security strength levels 1, 3, and 5, respectively.
+    These target security levels similar to classical AES-128, 192, and 256.'
+  - 'Example 2: Applying the Module Lattice concept. Operations are made efficient
+    using vectors and matrices to optimize performance while maintaining security
+    strength compared to general lattices.'
+  lab:
+    title: Basic Experiments with ML-KEM and ML-DSA Algorithms
+    steps:
+    - Install liboqs and set environment variables.
+    - Execute the process of generating ML-KEM key pairs and encapsulation using sample
+      Python code.
+    - Execute a script to sign and verify messages using ML-DSA.
+    - Measure and record the time taken for each operation.
+    safety:
+    - Do not access system certificates or actual key files outside the experimental
+      virtual environment.
+    - Use the liboqs library only for research and test purposes and do not mistake
+      it for an operational environment security solution.
+    - All experimental data is kept in the local virtual environment and not transmitted
+      to external networks.
+    deliverables:
+    - CSV file containing operation time measurement data.
+    - Capture of algorithm implementation execution results.
+    - Summary log of the lab process.
+  assignment:
+    title: Post-Quantum Cryptography Standard Analysis Report
+    deliverables:
+    - Summary table of algorithmic features of ML-KEM and ML-DSA.
+    - Analysis of performance constraints (key size, etc.) to consider during actual
+      migration to lattice-based systems.
+    - Description of limitations of tests using research libraries.
+    rubric:
+    - Did you accurately describe the mathematical basis of the standard algorithm?
+    - Did you analyze the advantages and limitations of lattice-based systems?
+    - Does it show a correct understanding of security threat models?
+  quiz:
+  - question: Which of the following is the primary reason why lattice-based systems
+      are driving practical standardization?
+    choices:
+    - Because they have the shortest security history.
+    - Because they allow for reduction from worst-case to average-case and allow efficient
+      implementation.
+    - Because they can be easily solved by quantum algorithms.
+    - Because they maximize security using only code-based cryptography.
+    answer_index: 1
+    explanation: Lattice-based systems are at the center of NIST standardization due
+      to strong mathematical reduction grounds and potential for efficient implementation
+      [S4].
+  - question: What type of mathematical problem is ML-KEM based on?
+    choices:
+    - Integer factorization problem.
+    - Elliptic curve discrete logarithm problem.
+    - Module Learning With Errors (MLWE) problem.
+    - Hash collision problem.
+    answer_index: 2
+    explanation: ML-KEM bases its security on the Module Lattice-based Learning With
+      Errors (MLWE) problem.
+  completion_criteria:
+  - Pass all theory verification quizzes with correct answers.
+  - Submit a report including experimental processes and measurement data.
+  - Submit a checklist confirming adherence to lab safety guidelines and that tests
+    were performed in an isolated environment.
+  source_ids:
+  - S4
+- id: m3
+  slug: crypto-inventory
+  phase_id: p2
+  title: Cryptographic Asset Identification and Management
+  estimated_hours: 8.0
+  prerequisites:
+  - m2
+  objectives:
+  - Explain the concept and necessity of Cryptographic Inventory.
+  - Learn how to systematically classify encryption algorithms, libraries, and usage
+    in an organization.
+  - Identify metadata management elements for Crypto-agility.
+  - Evaluate the risk of identified cryptographic assets to determine Post-Quantum
+    migration priorities.
+  theory_markdown: '## Cryptographic Inventory
+
+
+    Cryptographic asset identification is the process of systematically listing all
+    cryptographic algorithms, protocols, libraries, and the systems and data they
+    are applied to within an organization. This is the first step in preparing for
+    the migration to Post-Quantum Cryptography (PQC), and identifying dependencies
+    on the cryptographic algorithms being protected is key [S1].
+
+
+    ### 1. Key Management Targets
+
+    - **Algorithms and Protocols**: TLS, SSH, code signing, data encryption (AES,
+    RSA, ECC, etc.), etc.
+
+    - **Infrastructure**: Certificate Authorities (CA), Key Management Systems (KMS),
+    HSM, cloud key storage.
+
+    - **Software**: Encryption library versions (OpenSSL, BoringSSL, etc.) and static/dynamic
+    linkage status.
+
+
+    ### 2. Crypto-agility
+
+    Crypto-agility refers to the ability to quickly replace encryption algorithms
+    while minimizing code changes. For this, systems should not be hard-coded to specific
+    algorithms but should have an abstraction layer that allows selecting algorithms
+    through configuration files.
+
+
+    ### 3. Risk Assessment Criteria
+
+    - **Data Lifecycle**: Does the encrypted data need to remain secret in the future?
+    (e.g., data at risk of being stolen now and decrypted in the future)
+
+    - **Migration Difficulty**: Is hardware replacement needed, or is software update
+    sufficient?
+
+    - **Regulation and Compliance**: Alignment with NIST PQC standard application
+    timelines.'
+  worked_examples:
+  - 'System scan result example: Identifying an asset as ''Using TLS 1.2(ECDHE-RSA-AES128-GCM-SHA256)''.
+    In this case, recognize that RSA and ECDHE are exposed to quantum threats and
+    categorize targets for ML-KEM/ML-DSA migration.'
+  - 'Crypto-agility self-checklist: If ''Is the algorithm hard-coded?'' is ''Yes'',
+    increase risk score. If ''Is it possible to select cryptographic algorithms via
+    configuration files?'' is ''No'', increase migration difficulty.'
+  lab:
+    title: Cryptographic Asset Identification and Risk Assessment Lab
+    steps:
+    - Search source code of sample projects for keywords 'AES', 'RSA', 'ECC' to find
+      where they are used.
+    - Record identified cryptographic implementations (including libraries) in 'Cryptographic
+      Asset Inventory CSV'.
+    - Calculate risk scores for each asset based on 'security lifespan', 'quantum
+      threat level', and 'data importance'.
+    - Classify migration priorities (P0~P3) based on the calculated scores.
+    safety:
+    - Do not scan private keys or actual service certificates of systems currently
+      in operation.
+    - Use only dummy certificates (for testing) isolated within the virtual environment
+      for testing.
+    - Do not include actual secret values or encryption key values in the analysis
+      results (CSV, documents).
+    deliverables:
+    - Cryptographic Asset Inventory CSV file (including algorithm, usage, library,
+      library version).
+    - Priority-based cryptographic asset risk assessment report (Markdown).
+  assignment:
+    title: Cryptographic Agility Analysis and Migration Roadmap Establishment
+    deliverables:
+    - Cryptographic Asset Inventory CSV.
+    - Decision table with migration priorities defined.
+    - Post-Quantum Migration Roadmap.
+    rubric:
+    - Were cryptographic assets comprehensively identified?
+    - Are risk assessment criteria objective and valid?
+    - Does the migration roadmap follow the logical order of Post-Quantum technology
+      migration?
+    - Are specific technical suggestions included for improving cryptographic agility?
+  quiz:
+  - question: What is the primary purpose of Cryptographic Inventory?
+    choices:
+    - To optimize the performance of all encryption libraries.
+    - To understand cryptographic dependencies within an organization to prepare for
+      PQC migration.
+    - To delete all encryption algorithms.
+    - To force the use of asymmetric encryption only.
+    answer_index: 1
+    explanation: Cryptographic Inventory aims to efficiently perform PQC migration
+      by systematically managing the locations and dependencies of encryption algorithms
+      that need to be migrated.
+  - question: Which of the following is the most appropriate definition of Crypto-agility?
+    choices:
+    - The process of replacing hardware for stronger encryption.
+    - The function that automates encryption library updates.
+    - Flexibility to minimize code changes and quickly replace encryption algorithms
+      when necessary.
+    - Changing encryption keys very frequently.
+    answer_index: 2
+    explanation: Crypto-agility refers to the ability to adapt to changing security
+      environments by minimizing the burden of code changes when replacing algorithms.
+  completion_criteria:
+  - Submit Cryptographic Asset Identification Inventory CSV and complete risk assessment.
+  - Author a report stating the migration difficulty and risk priority of each cryptographic
+    asset.
+  - Achieve 100% correct answers in the quiz.
+  source_ids:
+  - S1
+- id: m4
+  slug: test-env-setup
+  phase_id: p2
+  title: Setting up Isolated Experimental Environments
+  estimated_hours: 8.0
+  prerequisites:
+  - m3
+  objectives:
+  - Understand the configuration principles of isolated local development environments
+    for Post-Quantum Cryptography (PQC) experiments and the roles of essential tools
+    (liboqs, oqs-provider).
+  - Analyze the impact of KEM performance on handshake latency in protocols such as
+    TLS 1.3.
+  - Design and build a reproducible experimental environment with fixed dependencies
+    using Docker containers.
+  theory_markdown: '### Need for Isolated PQC Experimental Environments
+
+    To protect existing public-key cryptography (RSA, ECDH, etc.) from quantum computer
+    threats, NIST has standardized post-quantum algorithms such as ML-KEM (based on
+    Kyber) and ML-DSA (based on Dilithium). To evaluate the performance and security
+    of these algorithms in a local environment, a reproducible environment with **Crypto-agility**
+    is essential [S2].
+
+
+    #### 1. Key Components
+
+    *   **liboqs**: A C-language implementation of PQC algorithms, providing a foundation
+    to test various KEM and signature algorithms.
+
+    *   **oqs-provider**: An interface that uses the OpenSSL 3 provider architecture
+    to allow integrating PQC algorithms into existing TLS infrastructure.
+
+    *   **Hybrid Mode**: A transitional strategy that combines existing classical
+    cryptography (ECDH) with PQC algorithms to maintain existing security levels despite
+    potential vulnerabilities in PQC libraries [S2].
+
+
+    #### 2. The Core of Experimental Environments: Isolation and Reproducibility
+
+    Experiments must be completely separated from operational environments. By locking
+    dependency versions using container technologies like Docker, one can reduce differences
+    in execution results between researchers and accurately measure the effects of
+    algorithm optimization (e.g., utilizing AVX-512) [S2]. When evaluating handshake
+    performance, one should use fixed hardware and an isolated network to minimize
+    latency uncertainty.'
+  worked_examples:
+  - 'Example 1: Building an environment based on oqs-provider utilizing Dockerfile.
+    Describes how to ensure build reproducibility by specifying versions for each
+    library.'
+  - 'Example 2: Hybrid TLS handshake test using OpenSSL CLI. Describes how to simulate
+    an ML-KEM-768-supported hybrid TLS 1.3 connection using ''openssl s_server'' and
+    ''s_client''.'
+  lab:
+    title: Building an Isolated PQC Testbed
+    steps:
+    - Prepare an experimental Docker container image base (Ubuntu 22.04 LTS or higher).
+    - Clone liboqs and oqs-provider source code and check out specific commit hashes
+      to lock versions.
+    - Perform build by setting optimization levels (e.g., AVX2) when compiling liboqs
+      using CMake.
+    - Configure OpenSSL 3.x environment and activate oqs-provider.
+    - Measure basic TLS 1.3 handshake performance standards through fixed loopback
+      connections on local network interfaces.
+    safety:
+    - Experimental environments must be run only within isolated local containers.
+    - Certificates, actual private keys, and customer data from operational environments
+      must never be brought into containers.
+    - Note that measurements generated during compilation and execution are considered
+      public test data and are irrelevant to actual security policies.
+    - When monitoring actual hardware or power, comply with the rated current and
+      voltage ranges specified by the manufacturer.
+    deliverables:
+    - Dockerfile with locked dependency versions and build logs.
+    - Terminal capture showing successful loading of the PQC algorithm list in OpenSSL.
+    - Checksum (SHA-256) of the isolated development environment with completed configuration.
+  assignment:
+    title: PQC Testbed Documentation and Evaluation
+    deliverables:
+    - Configuration diagram of the built testbed and specification of selected algorithm
+      versions.
+    - CSV of handshake time comparison data between classical algorithms and hybrid
+      ML-KEM algorithms in the testbed environment.
+    - Security policy report for maintaining isolated environments.
+    rubric:
+    - Possibility of locking dependency versions and reproducing builds (30%).
+    - Success of hybrid TLS handshake in an isolated experimental environment (40%).
+    - Clarity of algorithm configuration and measurement procedures and security compliance
+      (30%).
+  quiz:
+  - question: What is the primary role of oqs-provider?
+    choices:
+    - Accelerates PQC algorithms at the hardware level.
+    - Acts as an interface that allows Post-Quantum algorithms to be used in TLS protocols,
+      etc., in OpenSSL 3.
+    - Automatically renews security certificates in operational environments.
+    - Blocks quantum computer attack vectors.
+    answer_index: 1
+    explanation: oqs-provider uses the OpenSSL provider architecture to integrate
+      PQC algorithms into standard libraries, allowing existing applications to use
+      PQC algorithms.
+  - question: Why should versions be locked in an isolated experimental environment?
+    choices:
+    - Because the latest version is always faster.
+    - To ensure reproducibility and reduce measurement errors due to differences in
+      execution environments between researchers.
+    - To strengthen operational security.
+    - To shorten build times.
+    answer_index: 1
+    explanation: Version locking is essential to ensure that the same environment
+      can be reproduced, securing the integrity of performance measurement values
+      and the objectivity of research.
+  completion_criteria:
+  - Successful configuration of a Docker-based isolated build environment.
+  - Demonstration of ML-KEM hybrid mode through oqs-provider.
+  - Submission of a report including experimental data measurement and security policies.
+  source_ids:
+  - S2
+- id: m5
+  slug: liboqs-integration
+  phase_id: p2
+  title: Integration of OQS and oqs-provider
+  estimated_hours: 8.0
+  prerequisites:
+  - m4
+  objectives:
+  - Understand the Open Quantum Safe (OQS) architecture and the role of oqs-provider.
+  - Understand how PQ (Post-Quantum) algorithms are integrated into TLS 1.3.
+  - Configure and verify a hybrid TLS handshake in a local environment.
+  - Consider the impact of KEM implementation optimization (e.g., AVX-512) on actual
+    handshake performance.
+  theory_markdown: '## Theory of OQS and oqs-provider Integration
+
+
+    To protect existing data transmissions from the threat of quantum computers, it
+    is essential to integrate NIST-standard-based post-quantum algorithms (PQC) into
+    existing protocols like TLS 1.3. The OQS (Open Quantum Safe) project provides
+    major frameworks to accelerate this integration [S2].
+
+
+    ### 1. liboqs and oqs-provider
+
+    - **liboqs**: The core library containing C-language implementations of PQC algorithms
+    (ML-KEM, ML-DSA, etc.). It provides a unified API for various algorithms.
+
+    - **oqs-provider**: An intermediate layer that utilizes the OpenSSL 3 provider
+    structure to help OpenSSL applications (e.g., `s_client`, `s_server`) natively
+    use PQC algorithms in liboqs. This allows testing PQC features in existing TLS
+    tools without modification.
+
+
+    ### 2. PQ Integration Method for TLS 1.3
+
+    During the TLS 1.3 handshake process, PQC KEM replaces or supplements existing
+    key exchanges (e.g., ECDH).
+
+    - **PQ-only mode**: Exchanges keys using only PQC KEM.
+
+    - **Hybrid mode**: Combines existing classical algorithms (ECDH) with PQC algorithms.
+    This is a transitional strategy that secures post-quantum safety while maintaining
+    classical security guarantees, protecting against potential PQC library implementation
+    errors or future vulnerabilities.
+
+
+    ### 3. Performance Considerations
+
+    PQC KEM can have larger key sizes or higher computational loads than existing
+    algorithms, directly impacting handshake performance [S2]. Utilizing latest hardware
+    instruction sets (e.g., AVX-512) to optimize polynomial multiplication and modular
+    reduction can increase handshake speeds [S2].'
+  worked_examples:
+  - 'Example 1: To verify that oqs-provider is loaded in OpenSSL, run the `openssl
+    list -providers` command. The output must include the ''oqs'' provider.'
+  - 'Example 2: When performing a hybrid handshake, specify the key exchange group
+    via command arguments, e.g., `openssl s_client -groups kyber768_x25519...`. This
+    is a hybrid group that combines ML-KEM (Kyber) and classical Curve25519.'
+  lab:
+    title: Hybrid TLS Testing in Local Environment
+    steps:
+    - Build and install liboqs and oqs-provider within an isolated Docker container.
+    - Modify the OpenSSL configuration file (`openssl.cnf`) to activate the oqs provider.
+    - Open two terminals and run `openssl s_server` in one and `openssl s_client`
+      in the other in hybrid mode.
+    - Use Wireshark to capture and analyze how the shared key group (Key Share) is
+      transmitted in the ClientHello packet.
+    - Check handshake success and session encryption algorithm information.
+    safety:
+    - Experiments must be performed only within an isolated local virtual environment.
+    - Never use certificates or keys used for operational services.
+    - Be careful not to include actual service traffic when capturing with Wireshark.
+    deliverables:
+    - Screenshot confirming activation of oqs-provider.
+    - Hybrid handshake log file.
+    - Analysis report of shared key group in Wireshark captured packets.
+  assignment:
+    title: Migration Analysis Report Based on Cryptographic Agility
+    deliverables:
+    - TLS handshake performance measurement result data (CSV).
+    - Analysis essay on the reasons for using hybrid mode and performance degradation.
+    - Priority-based Post-Quantum Migration Roadmap.
+    rubric:
+    - Success of OQS toolchain build and execution.
+    - Did you accurately describe hybrid mode operation through TLS packet analysis?
+    - Is performance measurement data inclusive of experimental environment and version
+      information and reproducible?
+    - Is the migration roadmap logically authored based on the concept of cryptographic
+      agility?
+  quiz:
+  - question: What is the core role of oqs-provider in OpenSSL?
+    choices:
+    - Hardware accelerator for encrypting network packets.
+    - A layer that allows OpenSSL to call PQC algorithms of liboqs.
+    - A service that issues public key certificates on the internet.
+    - IDS tool for detecting attacks by quantum computers.
+    answer_index: 1
+    explanation: oqs-provider utilizes OpenSSL's provider structure to connect liboqs'
+      algorithms so they can be directly used in OpenSSL applications.
+  - question: What is the primary reason for using 'hybrid mode' key exchange in TLS
+      1.3?
+    choices:
+    - To increase performance by more than 100 times.
+    - To ensure security against single algorithm implementation errors or future
+      vulnerabilities.
+    - To support all legacy clients.
+    - To handshake using quantum computers.
+    answer_index: 1
+    explanation: Hybrid mode combines classical algorithms and PQC algorithms, serving
+      as a multi-layered defense strategy to prepare for implementation defects or
+      unknown vulnerabilities.
+  completion_criteria:
+  - Completion of building a local test environment based on oqs-provider.
+  - Completion of hybrid TLS handshake and packet capture verification.
+  - Completion of report including experimental results and analysis.
+  - Completion of Post-Quantum Migration Roadmap.
+  source_ids:
+  - S2
+- id: m6
+  slug: performance-benchmarking
+  phase_id: p3
+  title: Performance Evaluation and Benchmarking
+  estimated_hours: 8.0
+  prerequisites:
+  - m5
+  objectives:
+  - Understand the performance evaluation indicators (time, memory, throughput) for
+    post-quantum cryptographic algorithms (ML-KEM).
+  - Analyze the impact of KEM operations on performance in the TLS 1.3 handshake process.
+  - Benchmark the performance of hybrid cryptographic modes utilizing the Liboqs and
+    oqs-provider framework.
+  theory_markdown: '## Performance Evaluation and Benchmarking
+
+
+    Migration to Post-Quantum Cryptography (PQC) is not just about algorithm replacement,
+    but a problem directly linked to the performance of existing network protocols
+    (e.g., TLS 1.3). In particular, KEM (Key Encapsulation Mechanism) operations directly
+    impact the handshake latency and server connection processing throughput (handshakes
+    per second) [S2].
+
+
+    ### Performance Indicators
+
+    1. **Computation Time:** CPU cycles or time (ms) spent on key generation (KeyGen),
+    encapsulation (Encaps), and decapsulation (Decaps).
+
+    2. **Data Size:** Size of public keys and encapsulated text (ciphertext). This
+    determines network bandwidth consumption and potential for fragmentation.
+
+    3. **Throughput:** Number of handshakes processable per second. Optimized implementations
+    (e.g., utilizing AVX-512) increase polynomial multiplication and modular operation
+    speed, greatly improving throughput [S2].
+
+
+    ### Hybrid Mode
+
+    During migration, a hybrid approach using traditional algorithms (ECDH) together
+    with PQC (ML-KEM) is recommended. This is to secure PQC''s security benefits while
+    preparing for PQC''s potential vulnerabilities. Hybrid modes have increased computational
+    complexity, so performance degradation must be closely evaluated [S2].'
+  worked_examples:
+  - 'Example 1: Benchmarking a single KEM operation using Liboqs
+
+    A method to measure the operation times of `keypair`, `encaps`, and `decaps` for
+    `ML-KEM-768` using the Python `timeit` module and saving results to CSV.'
+  - 'Example 2: Measuring Hybrid TLS 1.3 handshake throughput
+
+    An analysis procedure for calculating Handshakes Per Second (TPS) by measuring
+    the total time taken for 100 connections using `s_client` and `s_server` in a
+    local server/client environment with oqs-provider applied.'
+  lab:
+    title: PQC Performance Benchmarking Lab
+    steps:
+    - Install liboqs and oqs-provider in an isolated development environment and verify
+      environment settings.
+    - Write a benchmarking Python script to measure the operation time of the ML-KEM
+      algorithm.
+    - Execute Wireshark to capture TLS handshake packets and analyze data size changes
+      in hybrid mode.
+    - Graph operation time and throughput indicators based on measured data.
+    safety:
+    - Experiments must be performed only within a local isolated environment, and
+      certificates or keys from actual operational environments must never be used.
+    - Monitor system resources as high CPU load may occur during the benchmarking
+      process.
+    - Be careful not to include actual secret values or key data in capture files.
+    deliverables:
+    - Operation performance measurement script (.py).
+    - Measured result CSV data.
+    - Performance comparison analysis report by algorithm (.md or .ipynb).
+  assignment:
+    title: Performance Evaluation Report Based on Cryptographic Agility
+    deliverables:
+    - Analysis of algorithm selection reasons and security/performance trade-offs.
+    - Data visualization materials for benchmarking.
+    - Migration roadmap revision based on performance results.
+    rubric:
+    - Is benchmarking data measurable in a reproducible and independent environment?
+    - Did you accurately analyze the technical causes of performance degradation (key
+      size, operation complexity)?
+    - Did you discuss the benefits and costs of hybrid mode in a balanced way?
+  quiz:
+  - question: Which factor related to PQC algorithms is most important for TLS 1.3
+      handshake performance?
+    choices:
+    - Block size of symmetric key encryption algorithm.
+    - Operation time of KEM key generation and encapsulation.
+    - Type of hash algorithm.
+    - Type of server operating system.
+    answer_index: 1
+    explanation: TLS 1.3 handshake performance is largely dependent on the operation
+      efficiency of the KEM algorithm [S2].
+  - question: Why is hybrid mode used during performance evaluation?
+    choices:
+    - Because it is always faster than traditional algorithms.
+    - To maintain security while preparing for PQC's security threats.
+    - To reduce network bandwidth.
+    - To minimize computational resources.
+    answer_index: 1
+    explanation: Hybrid mode combines PQC's future security with traditional algorithms'
+      verified security, enabling gradual migration.
+  completion_criteria:
+  - Secure benchmarking script execution and result data.
+  - Submission and passing of performance evaluation report.
+  - Completion of TLS hybrid mode performance analysis.
+  source_ids:
+  - S2
+- id: m7
+  slug: hybrid-tls-analysis
+  phase_id: p3
+  title: Hybrid TLS Handshake Analysis
+  estimated_hours: 8.0
+  prerequisites:
+  - m6
+  objectives:
+  - Explain the vulnerabilities of TLS 1.3 in a quantum threat environment.
+  - Understand the ML-KEM-based hybrid TLS handshake structure.
+  - Measure the performance of hybrid mode in a local OQS (Open Quantum Safe)-based
+    environment.
+  - Analyze the handshake process where classical algorithms and PQ algorithms are
+    combined through packet capture.
+  theory_markdown: '### Hybrid TLS Handshake Theory
+
+
+    Current TLS 1.3 relies on classical public-key cryptography such as ECDH (Elliptic
+    Curve Diffie-Hellman), which is exposed to attack threats upon the emergence of
+    sufficiently powerful quantum computers[S2]. In response, active research is underway
+    to integrate Post-Quantum Cryptography (PQC) such as the NIST standard ML-KEM
+    (Module-Lattice-Based Key-Encapsulation Mechanism)[S2].
+
+
+    #### Security Assumptions of Hybrid Mode
+
+    Before full PQC migration, ''Hybrid mode'' combining classical algorithms and
+    PQ algorithms is used for operational stability. This method combines the shared
+    secrets of the two algorithms and is designed to guarantee the secrecy of communications
+    even if only one of the two algorithms remains secure.
+
+
+    #### Performance Considerations
+
+    TLS 1.3 handshake performance is directly dependent on the computational cost
+    of KEM[S2]. In particular, operation efficiency in the Key Generation, Encapsulation,
+    and Decapsulation stages determines total handshake speed. Recently, techniques
+    to increase handshake performance by accelerating polynomial multiplication and
+    modular reduction processes through instruction set optimizations like AVX-512
+    are being applied[S2].'
+  worked_examples:
+  - 'Example 1: Hybrid key exchange process - The client transmits the classical shared
+    secret value and the PQC encapsulation result value to the server. After decapsulation,
+    the server combines the two shared secrets in the KDF (Key Derivation Function)
+    to generate a session key.'
+  - 'Example 2: Handshake latency analysis - Comparative analysis is performed on
+    the phenomenon where network transmission time increases as key size increases
+    when applying PQ algorithms. The difference in Handshakes per second before and
+    after applying performance optimizations (e.g., using AVX-512) is quantified[S2].'
+  lab:
+    title: OQS-based Hybrid TLS Handshake Reproduction Experiment
+    steps:
+    - Build an OpenSSL 3 build environment with integrated liboqs and oqs-provider
+      within an isolated Docker environment.
+    - Configure existing ECDH mode and ML-KEM-based hybrid mode (e.g., secp256r1_mlkem768).
+    - Execute TLS 1.3 handshake between the two modes using a local loopback interface.
+    - Capture key exchange data fields in ClientHello and ServerHello messages using
+      Wireshark.
+    - Measure the average time of 100 or more handshakes using an execution time measurement
+      script and record the overhead of hybrid mode.
+    safety:
+    - This experiment is performed only on a local isolated loopback interface and
+      generates no external network traffic.
+    - Never use operational security assets such as actual certificates, private keys,
+      or user data.
+    - Note that learning-purpose OQS libraries are experimental tools and not to be
+      used for actual operational security services.
+    - Delete all generated temporary keys and local measurement data upon experiment
+      conclusion.
+    deliverables:
+    - Configuration and execution log files.
+    - Wireshark packet capture file (.pcapng) and key exchange field analysis notes.
+    - Handshake performance comparison measurement CSV data.
+  assignment:
+    title: TLS 1.3 Hybrid Migration Performance Analysis Report
+    deliverables:
+    - Handshake latency comparison analysis graph and data visualization.
+    - Hybrid mode packet analysis and summary of key exchange algorithm characteristics.
+    - Decision table for performance and security considerations expected when applied
+      to operational environments.
+    rubric:
+    - Reproducibility of the experiment (whether environment setup and scripts are
+      specified).
+    - Accuracy of packet analysis (identification of key exchange fields).
+    - Logical interpretation of performance measurement data.
+    - Connectivity between theoretical security assumptions and experimental results.
+  quiz:
+  - question: What is the primary security advantage of a hybrid TLS handshake?
+    choices:
+    - Increases speed by drastically reducing handshake steps.
+    - Maintains secrecy if at least one of either the classical algorithm or the PQC
+      algorithm is secure.
+    - Completely eliminates network transmission costs.
+    - Reduces the complexity of certificate management.
+    answer_index: 1
+    explanation: Hybrid mode is a transitional strategy designed to maintain security
+      if one of the two algorithms remains secure by combining the results of existing
+      algorithms and PQC algorithms.
+  - question: What is the PQ algorithm element that has the greatest impact on TLS
+      1.3 handshake performance?
+    choices:
+    - Consider only network latency.
+    - Computational cost of KEM (Key Encapsulation Mechanism) key generation, encapsulation,
+      and decapsulation operations.
+    - Server disk I/O speed.
+    - Client browser version.
+    answer_index: 1
+    explanation: The computational cost of KEM algorithms is directly linked to TLS
+      1.3 handshake performance, and optimizing this is key to performance improvement
+      [S2].
+  completion_criteria:
+  - Successful reproduction of liboqs-based hybrid TLS handshake in a local environment.
+  - Verification of hybrid key exchange messages through Wireshark analysis.
+  - Submission of a result analysis report based on performance measurement data.
+  - Confirmation of adherence to safety constraints (data isolation, no use of production
+    keys).
+  source_ids:
+  - S2
+- id: m8
+  slug: migration-roadmap
+  phase_id: p3
+  title: Drafting a Migration Prioritization Report
+  estimated_hours: 8.0
+  prerequisites:
+  - m7
+  objectives:
+  - Understand risk and business impact analysis frameworks for Post-Quantum Cryptography
+    (PQC) migration.
+  - Determine migration priorities based on cryptographic asset inventory data.
+  - Establish technical strategies to ensure Cryptographic Agility.
+  - Structure a final migration roadmap and validation report.
+  theory_markdown: '### Migration Prioritization Strategy
+
+
+    Migration to NIST post-quantum standards (ML-KEM, ML-DSA) begins with a system-wide
+    assessment of cryptographic assets. Migration priority is determined not simply
+    by the degree of algorithm obsolescence, but by data shelf life, cryptographic
+    exposure risk, and the strategic importance of the system [S1].
+
+
+    #### 1. Assessment Criteria
+
+    To determine migration urgency, the following criteria are used:
+
+    - **Data Security Shelf Life:** Impact when encrypted data is decrypted by future
+    quantum computers (e.g., data requiring confidentiality for 10 years or more).
+
+    - **System Agility:** Whether current cryptographic implementations are hard-coded
+    or if algorithms can be replaced via configuration files.
+
+    - **Technical Debt:** Dependencies using the cryptographic module and maintainability.
+
+
+    #### 2. Ensuring Cryptographic Agility
+
+    The key to a migration roadmap is to minimize code changes during algorithm replacement.
+    Using an abstraction layer to decouple business logic from the cryptographic engine,
+    and employing a hybrid key exchange approach to ensure both the stability of existing
+    algorithms and the quantum resistance of PQC, is the recommended strategy.'
+  worked_examples:
+  - 'Example 1: Priority calculation based on data lifecycle - A personal information
+    database preserved for 20 years is evaluated with a higher PQC migration priority
+    than log data preserved for 5 years.'
+  - 'Example 2: Hybrid TLS configuration case - Analysis of a hybrid model designed
+    to combine existing ECDH and ML-KEM, ensuring communication confidentiality even
+    if only one of the two algorithms remains secure.'
+  lab:
+    title: Migration Roadmap Simulation
+    steps:
+    - Load the inventory CSV data created in the previous module.
+    - Write a Python script that calculates a [Risk * Criticality * Shelf Life] score
+      for each asset.
+    - Develop hybrid implementation plans for the top 3 priority assets.
+    - Describe potential compatibility issues and countermeasures (Fall-back strategy)
+      during migration.
+    safety:
+    - Perform all calculations and analysis only in an independent, isolated virtual
+      environment.
+    - Do not modify the actual cryptographic configuration of production servers.
+    - Review analysis notebooks to ensure actual key material is not included.
+    deliverables:
+    - Prioritized inventory CSV analysis.
+    - Technical decision-making table including migration plans.
+  assignment:
+    title: PQC Migration Prioritization Report
+    deliverables:
+    - Cryptographic Agility Analysis Report (PDF)
+    - Risk-based migration roadmap (including tables)
+    rubric:
+    - Reasonable prioritization logic based on data shelf life and exposure risk.
+    - Consideration of cryptographic agility through the introduction of hybrid cryptographic
+      schemes.
+    - Step-by-step feasibility of the migration plan.
+    - Consistency with experimental results and data inventory.
+  quiz:
+  - question: Which data characteristic should be most considered when determining
+      cryptographic migration priority?
+    choices:
+    - Programming language in which the data is used.
+    - Data Security Shelf Life.
+    - Number of system developers.
+    - Capacity of the latest data storage.
+    answer_index: 1
+    explanation: Quantum threats imply a risk that data may be decrypted in the future,
+      so data that must remain confidential for a long time requires PQC migration
+      first.
+  - question: What software design approach is recommended for Cryptographic Agility?
+    choices:
+    - Using hard-coded cryptographic algorithms.
+    - Abstracting and separating encryption modules from business logic.
+    - Closed structure using only a single algorithm.
+    - Direct reference to operating system-level cryptographic libraries.
+    answer_index: 1
+    explanation: A structure that separates the cryptographic engine from logic to
+      minimize code changes during algorithm replacement is key to ensuring cryptographic
+      agility.
+  completion_criteria:
+  - Submission of an inventory analysis file with migration priorities specified.
+  - Preparation of a migration roadmap report incorporating cryptographic agility
+    considerations.
+  - Completion of a reproduction package containing all lab code and measurements.
+  source_ids:
+  - S1
+sources:
+- id: S1
+  title: MIT OpenCourseWare | Free Online Course Materials
+  organization: ocw.mit.edu
+  url: https://ocw.mit.edu/
+  type: university
+  published_at: null
+  accessed_at: '2026-10-11'
+  primary: true
+  supports:
+  - m3
+  - m8
+- id: S2
+  title: 'Faster Post-Quantum TLS 1.3 Based on ML-KEM: Implementation ...'
+  organization: arxiv.org
+  url: https://arxiv.org/html/2404.13544v2
+  type: paper
+  published_at: null
+  accessed_at: '2026-10-11'
+  primary: true
+  supports:
+  - m4
+  - m5
+  - m6
+  - m7
+- id: S3
+  title: 'Security in Post-Quantum Era: A Comprehensive Survey on ...'
+  organization: ieeexplore.ieee.org
+  url: https://ieeexplore.ieee.org/abstract/document/11006701
+  type: paper
+  published_at: null
+  accessed_at: '2026-10-11'
+  primary: true
+  supports:
+  - m1
+- id: S4
+  title: 'Post-Quantum Cryptography and Quantum-Safe Security: A ...'
+  organization: arxiv.org
+  url: https://arxiv.org/pdf/2510.10436
+  type: paper
+  published_at: null
+  accessed_at: '2026-10-11'
+  primary: true
+  supports:
+  - m1
+  - m2
+bom: []
+capstone:
+  title: Post-Quantum Cryptographic Agility Reproduction Package
+  deliverables:
+  - Cryptographic Asset Inventory List (CSV)
+  - ML-KEM/ML-DSA Benchmark Analysis Notebook
+  - Hybrid TLS capture files and handshake analysis report
+  - Priority-based migration roadmap
+  rubric:
+  - Appropriateness of risk score calculation logic for cryptographic assets.
+  - Reproducibility of algorithm implementation and consistency of measurement results.
+  - Accuracy of TLS protocol behavior analysis in hybrid mode.
+  - Alignment of the roadmap with business priorities.
+  safety:
+  - Must use public test data.
+  - All private keys and secret values must be generated and discarded only within
+    the experiment environment.
+  - Prevention of actual certificate or production data leakage.
+generation:
+  run_id: e5164bbefc324eff94b7957c62695f66
+  generated_at: '2026-10-11T00:06:00.762658Z'
+  generator: gemini
+selection:
+  canonical_topic_id: post-quantum-cryptography-migration
+  demand_score: 91
+  duplicate_verdict: unique
+  evidence:
+  - title: NIST Releases First Finalized Post-Quantum Encryption Standards
+    publisher: NIST
+    url: https://www.nist.gov/news-events/news/2024/08/nist-releases-first-3-finalized-post-quantum-encryption-standards
+    observed_at: '2026-10-11'
+    family: technical_regulatory_change
+    measurement: null
+  - title: Migration to Post-Quantum Cryptography FAQ
+    publisher: NIST NCCoE
+    url: https://pages.nist.gov/nccoe-migration-post-quantum-cryptography/
+    observed_at: '2026-10-11'
+    family: technical_regulatory_change
+    measurement: null
+  - title: Open Quantum Safe liboqs
+    publisher: Open Quantum Safe
+    url: https://github.com/open-quantum-safe/liboqs
+    observed_at: '2026-10-11'
+    family: learning_community
+    measurement: null
+localization:
+  source_language: ko
+  language: en
+  source_hash: d0812b4a8a49e0447e117b0002d8d40a9906545e0a223876b016152160e4a379
+  translator: gemini-cli
+  translated_at: '2026-10-11T00:07:07.823526Z'
+  translation_run_id: ed63e04456d444fdb25fb34dc6a5dbd0
+published_at: '2026-10-16T00:55:40.127560+09:00'

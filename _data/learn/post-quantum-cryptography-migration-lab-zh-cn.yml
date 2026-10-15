@@ -1,0 +1,863 @@
+schema_version: 1
+curriculum_version: 1.0.0+78591abb512e
+course:
+  course_type: academic
+  slug: post-quantum-cryptography-migration-lab
+  primary_category: ai-software
+  topics:
+  - post-quantum-cryptography
+  - cryptographic-inventory
+  - ml-kem
+  - ml-dsa
+  - crypto-agility
+  title: 后量子密码转换验证实验
+  summary: 理解 NIST 后量子标准的数学与安全假设，在固定的本地测试系统中识别并分类密码资产，通过实验评估 ML-KEM 和 ML-DSA，进而制定基于优先级的转换路线图。
+  outcome: 学员能够理解量子威胁模型，并利用实务级的密码资产识别工具及基于 OQS 的测试框架，编写评估运行环境密码敏捷性的报告。
+  audience: 具备 Python 基础及公钥密码概念的计算机工程学生及 IT 安全从业者
+  level: graduate
+  estimated_hours: 64.0
+  budget_krw:
+    min: 0
+    max: 0
+  required_tools:
+  - Python 3
+  - Git
+  - Docker
+  - Open Quantum Safe (liboqs)
+  - Wireshark
+  safety_summary:
+  - 所有实验均在隔离的本地虚拟环境内执行
+  - 严禁使用生产证书、真实私钥及客户数据
+  - 研究用库 (liboqs) 不得被视为实际运行的生产安全工具
+  last_reviewed: '2026-10-11'
+phases:
+- id: p1
+  title: 基础理论与威胁分析
+  module_ids:
+  - m1
+  - m2
+- id: p2
+  title: 密码资产评估与环境配置
+  module_ids:
+  - m3
+  - m4
+  - m5
+- id: p3
+  title: 实验重现与绩效评估
+  module_ids:
+  - m6
+  - m7
+  - m8
+modules:
+- id: m1
+  slug: quantum-threat-model
+  phase_id: p1
+  title: 量子威胁与格密码
+  estimated_hours: 8.0
+  prerequisites: []
+  objectives:
+  - 理解量子计算机对现代密码体系（RSA, ECC）构成的威胁模型。
+  - 分析格密码（Lattice-based Cryptography）的数学基础及安全性依据。
+  - 学习 NIST 推荐的后量子密码标准（ML-KEM, ML-DSA）的设计原理。
+  - 描述格密码算法的效率及安全性特性（最坏情况难度，worst-case hardness）。
+  theory_markdown: '## 量子威胁模型
+
+    现代公钥密码 (PKI) 主要依赖于大整数分解 (RSA) 和离散对数问题 (ECC) 的数学难题。Shor 算法能够利用量子计算机在多项式时间内解决这些问题，这意味着它实际上将导致目前所有标准
+    PKI 失效 [S3]。
+
+
+    ## 格密码 (Lattice-based Cryptography)
+
+    格密码利用高维空间中从格 (Lattice) 的基向量中寻找特定点的难题（如 SVP, LWE）作为安全基础。这些问题已被证明在最坏情况 (worst-case)
+    下亦难以求解，且在平均情况 (average-case) 下亦能保障安全性 [S4]。
+
+
+    ## 后量子标准 (ML-KEM/ML-DSA)
+
+    - **ML-KEM (Module-Lattice-based Key-Encapsulation Mechanism):** 一种密钥封装机制，在提供高效实现的同时，利用格密码难题提供量子抗性。
+
+    - **ML-DSA (Module-Lattice-based Digital Signature Algorithm):** 数字签名标准，利用格密码数学结构保证强大的签名完整性。
+
+    格密码系统因其在当前标准化过程中展现出的强大“最坏情况到平均情况”归约性及高效性能，正成为 PQC 转换的核心 [S4]。'
+  worked_examples:
+  - 示例 1：量子计算机对 RSA 的影响分析 - RSA 基于大数分解难度。Shor 算法将 n 位整数分解的复杂度从指数时间降至多项式时间，从而即时破解加密文。
+  - 示例 2：格密码难题 (LWE) 概念理解 - 考虑添加了秘密向量 s 和误差 e 的线性方程组系统 A*s + e = t。格密码基于“学习误差问题 (Learning
+    With Errors)”，即从矩阵 A 和结果 t 中寻找 s 的难度。
+  lab:
+    title: 格密码基础环境构建与可视化
+    steps:
+    - 在隔离的 Linux/Docker 环境中创建 Python 3 虚拟环境
+    - 安装并编译 liboqs 库
+    - 编写脚本，收集格密码 LWE 问题随参数变化导致的密钥大小及运算时间数据
+    - 运行数据分析与可视化笔记本
+    safety:
+    - 所有实验均在隔离的本地虚拟环境内执行
+    - 严禁使用真实生产证书、私钥及客户数据
+    - 不得将研究用库视为实际服务的安全手段
+    deliverables:
+    - 环境配置日志及编译结果
+    - 算法性能（密钥大小、时间）对比分析数据
+    - 格密码特性报告
+  assignment:
+    title: 撰写量子威胁分析报告
+    deliverables:
+    - 量子威胁模型及格密码理论总结文档
+    - 主要 PQC 算法（ML-KEM, ML-DSA）对比表
+    rubric:
+    - 准确解释了 Shor 算法原理
+    - 逻辑描述了格密码的最坏情况难度 (worst-case hardness) 概念
+    - 基于所给来源 [S3, S4] 描述了现代密码学面临的挑战
+  quiz:
+  - question: Shor 算法对现有 PKI 构成的威胁是什么？
+    choices:
+    - 无条件破解所有对称密码。
+    - 在多项式时间内解决大整数分解及离散对数问题。
+    - 彻底消除哈希函数的抗碰撞性。
+    - 降低量子计算机的处理速度。
+    answer_index: 1
+    explanation: Shor 算法通过在多项式时间内解决 RSA 基础的大整数分解问题和 ECC 基础的离散对数问题，威胁了现有的公钥密码体系。
+  - question: 格密码为何具有前景？
+    choices:
+    - 因为可以将最坏情况难题转化为平均情况难题。
+    - 因为它比所有对称密码快得多。
+    - 因为在量子计算机上也必然无法求解。
+    - 因为它完全不占用计算机内存。
+    answer_index: 0
+    explanation: 格密码具有从最坏情况难度 (worst-case hardness) 保证平均情况 (average-case) 安全性的数学优势
+      [S4]。
+  completion_criteria:
+  - 完成理论学习并提交量子威胁报告
+  - 在实验环境中成功使用 liboqs 运行基础算法
+  - 퀴즈 题目正确率达到 80% 以上
+  source_ids:
+  - S3
+  - S4
+- id: m2
+  slug: nist-pq-standards
+  phase_id: p1
+  title: ML-KEM 与 ML-DSA 标准理解
+  estimated_hours: 8.0
+  prerequisites:
+  - m1
+  objectives:
+  - 解释格密码体系的数学基础与安全性依据。
+  - 理解 NIST 标准 ML-KEM（密钥封装机制）的运行原理。
+  - 掌握 NIST 标准 ML-DSA（数字签名算法）的结构特性。
+  - 分析格密码相比其他密码方式（代码基、哈希基）具有实务优势的原因。
+  theory_markdown: '## 理解 ML-KEM 与 ML-DSA 标准
+
+
+    ### 1. 格密码的兴起
+
+    目前主导实务标准化的系统是基于格 (Lattice-based) 的系统。这是因为它们在最坏情况 (worst-case) 到平均情况 (average-case)
+    之间存在强大的数学归约 (reductions)，且能够高效实现 [S4]。另一方面，基于代码 (Code-based) 或基于哈希 (Hash-based)
+    的方式起着保守锚点 (conservative anchors) 的作用，具备更长的安全历史或仅需最低限度假设的特性 [S4]。
+
+
+    ### 2. ML-KEM (Module-Lattice Key Encapsulation Mechanism)
+
+    ML-KEM 基于以前称为 Kyber 的算法。它基于模格难题 (Module Learning With Errors, MLWE)，流程如下：
+
+    - **KeyGen:** 在模格中生成公钥和私钥。
+
+    - **Encapsulation:** 使用公钥生成共享秘密值 (Shared Secret) 和封装后的密钥 (Ciphertext)。
+
+    - **Decapsulation:** 使用私钥从封装后的密钥中恢复出原始共享秘密值。
+
+
+    ### 3. ML-DSA (Module-Lattice Digital Signature Algorithm)
+
+    ML-DSA 基于 Dilithium，使用了“带中止的 Fiat-Shamir (Fiat-Shamir with Aborts)”技术。它通过格难题的难度提供防伪能力，是兼顾签名大小与公钥大小的实用标准。
+
+
+    ### 4. 安全假设
+
+    格密码系统的安全性与寻找最短向量问题 (Shortest Vector Problem, SVP) 密切相关。与量子计算机的 Shor 算法能高效破解传统
+    RSA 或 ECC 不同，格难题被认为即使使用量子算法也无法在多项式时间内求解。'
+  worked_examples:
+  - 示例 1：格基 KEM 的安全强度对比。ML-KEM-512, 768, 1024 分别对应 NIST 安全强度 1, 3, 5 级别。其目标是达到类似于传统密码
+    AES-128, 192, 256 的安全水平。
+  - 示例 2：应用模格 (Module Lattice) 概念。通过使用向量和矩阵优化运算，从而在保持安全强度的情况下优化性能，优于普通格结构。
+  lab:
+    title: ML-KEM 与 ML-DSA 算法基础实验
+    steps:
+    - 安装 liboqs 并设置环境变量。
+    - 使用 Python 示例代码执行 ML-KEM 密钥对生成及封装过程。
+    - 执行使用 ML-DSA 对消息进行签名与验证的脚本。
+    - 测量并记录每项运算所需的时间。
+    safety:
+    - 不得访问实验用虚拟环境以外的系统证书或真实密钥文件。
+    - liboqs 库仅供研究与测试使用，不得将其误认为是运行环境的安全解决方案。
+    - 所有实验数据保留在本地虚拟环境中，不得传输至外部网络。
+    deliverables:
+    - 包含运算时间测量数据的 CSV 文件
+    - 算法实现执行结果截图
+    - 实操过程总结日志
+  assignment:
+    title: 后量子密码标准分析报告
+    deliverables:
+    - ML-KEM 与 ML-DSA 算法特征总结表
+    - 格密码系统在实际转换时需考虑的性能约束（如密钥大小）分析
+    - 利用研究用库进行测试的局限性描述
+    rubric:
+    - 是否准确描述了标准算法的数学依据？
+    - 是否分析了格密码系统的优势与局限？
+    - 是否展示了对安全威胁模型的正确理解？
+  quiz:
+  - question: 下列哪项是格密码系统主导实务标准化的主要原因？
+    choices:
+    - 因为它拥有最短的安全历史
+    - 因为它能够实现最坏情况到平均情况的归约，且具备高效实现可能
+    - 因为它可以轻易被量子算法破解
+    - 因为它仅使用基于代码的密码来最大化安全性
+    answer_index: 1
+    explanation: 格密码系统凭借其强大的数学归约依据及高效的实现可行性，处于 NIST 标准化的中心 [S4]。
+  - question: ML-KEM 基于哪种数学问题类型？
+    choices:
+    - 大整数分解问题
+    - 椭圆曲线离散对数问题
+    - 模学习误差问题 (MLWE)
+    - 哈希冲突问题
+    answer_index: 2
+    explanation: ML-KEM 以模格基础的学习误差 (MLWE) 问题作为安全性依据。
+  completion_criteria:
+  - 理论学习评估测验全部答对
+  - 提交包含实验过程及测量数据的报告
+  - 提交确认已遵守实验安全指南并在隔离环境中进行测试的检查清单
+  source_ids:
+  - S4
+- id: m3
+  slug: crypto-inventory
+  phase_id: p2
+  title: 密码资产识别与管理
+  estimated_hours: 8.0
+  prerequisites:
+  - m2
+  objectives:
+  - 解释密码资产识别 (Cryptographic Inventory) 的概念与必要性。
+  - 学习系统分类组织内加密算法、库及使用处的方法。
+  - 掌握为密码敏捷性 (Crypto-agility) 进行元数据管理的要素。
+  - 评估已识别密码资产的风险等级，以确定后量子转换优先级。
+  theory_markdown: '## 密码资产识别 (Cryptographic Inventory)
+
+
+    密码资产识别是指将组织内使用的所有加密算法、协议、库以及应用这些加密技术的系统和数据进行系统化列表的过程。这是准备向后量子密码 (PQC) 转换的第一步，核心在于明确所保护密码算法的依赖关系
+    [S1]。
+
+
+    ### 1. 主要管理对象
+
+    - **算法与协议**: TLS, SSH, 代码签名, 数据加密 (AES, RSA, ECC 等)。
+
+    - **基础设施**: 证书颁发机构 (CA), 密钥管理系统 (KMS), HSM, 云密钥存储。
+
+    - **软件**: 加密库版本 (OpenSSL, BoringSSL 等) 及静态/动态链接情况。
+
+
+    ### 2. 密码敏捷性 (Crypto-agility)
+
+    密码敏捷性是指在最小化代码变更的前提下，能够迅速更换加密算法的能力。为实现此点，系统不应硬编码特定算法，而应具备通过配置文件选择算法的抽象层。
+
+
+    ### 3. 风险评估标准
+
+    - **数据生命周期**: 加密数据在未来是否需要保持机密？（例如：现在窃取并在未来可能被解密的数据）
+
+    - **转换难度**: 是否需要更换硬件，还是仅需软件更新即可？
+
+    - **法规与合规**: 是否与 NIST PQC 标准的应用时机对齐。'
+  worked_examples:
+  - 系统扫描结果示例：识别到“正在使用 TLS 1.2 (ECDHE-RSA-AES128-GCM-SHA256)”。在此情况下，意识到 RSA 和 ECDHE
+    暴露于量子威胁，并对 ML-KEM/ML-DSA 转换对象进行分类。
+  - 密码敏捷性自检表：若“算法是否被硬编码？”回答为“是”，则提升风险分数。若“是否可以通过配置文件选择密码算法？”回答为“否”，则提升转换难度。
+  lab:
+    title: 密码资产识别与风险评估实操
+    steps:
+    - 对示例项目的源代码进行 'AES', 'RSA', 'ECC' 关键词搜索，寻找使用点。
+    - 将已识别的密码实现（包括库）记录至 '密码资产清单 CSV'。
+    - 根据 '安全寿命', '量子威胁等级', '数据重要性' 为每项资产核算风险分数。
+    - 基于算出的分数对转换优先级 (P0~P3) 进行分类。
+    safety:
+    - 不得扫描正在运行的生产系统中的私钥或实际服务证书。
+    - 测试仅使用隔离于虚拟环境内的虚拟证书（测试用）。
+    - 分析结果（CSV, 文档）中不得包含实际秘密值或加密密钥值。
+    deliverables:
+    - 密码资产清单 CSV 文件（包括算法、使用处、库、库版本）
+    - 基于优先级的密码资产风险评估报告 (Markdown)
+  assignment:
+    title: 密码敏捷性分析与转换路线图制定
+    deliverables:
+    - 密码资产清单 CSV
+    - 定义了转换优先级的决策表
+    - 后量子转换路线图
+    rubric:
+    - 是否全面识别了密码资产？
+    - 风险评估标准是否客观合理？
+    - 转换路线图是否遵循了后量子技术转换的逻辑顺序？
+    - 是否包含了改进密码敏捷性的具体技术建议？
+  quiz:
+  - question: 密码资产识别 (Cryptographic Inventory) 的主要目的是什么？
+    choices:
+    - 为了优化所有加密库的性能
+    - 为了把握组织内的密码依赖性，准备 PQC 转换
+    - 为了删除所有加密算法
+    - 为了强制仅使用非对称密码
+    answer_index: 1
+    explanation: 密码资产识别旨在系统地管理需要转换的加密算法位置和依赖关系，从而有效地执行 PQC 转换。
+  - question: 下列关于密码敏捷性 (Crypto-agility) 的定义，哪项最为贴切？
+    choices:
+    - 为了更强大的加密而更换硬件的过程
+    - 自动化更新加密库的功能
+    - 在最小化代码变更的前提下，需要时能迅速更换密码算法的灵活性
+    - 极其频繁地更换加密密钥
+    answer_index: 2
+    explanation: 密码敏捷性是指在算法更换时最小化代码变更负担，以适应不断变化的安全环境的能力。
+  completion_criteria:
+  - 提交密码资产清单 CSV 并完成风险评估
+  - 编写各密码资产转换难度及风险优先级说明报告
+  - 퀴즈 项目正确率达到 100%
+  source_ids:
+  - S1
+- id: m4
+  slug: test-env-setup
+  phase_id: p2
+  title: 构建隔离实验环境
+  estimated_hours: 8.0
+  prerequisites:
+  - m3
+  objectives:
+  - 理解用于后量子密码 (PQC) 实验的隔离本地开发环境的构成原理，以及必要工具（liboqs, oqs-provider）的作用。
+  - 分析在 TLS 1.3 等协议中 KEM 性能对握手延迟的影响。
+  - 使用 Docker 容器设计并构建依赖项固定、可重现的实验环境。
+  theory_markdown: '### 隔离 PQC 实验环境的必要性
+
+    为了保护现有公钥密码（RSA, ECDH 等）免受量子计算机威胁，NIST 标准化了如 ML-KEM（基于 Kyber）及 ML-DSA（基于 Dilithium）等后量子算法。要在本地环境评估这些算法的性能与安全性，具备“密码敏捷性
+    (Crypto-agility)”且可重现的环境至关重要 [S2]。
+
+
+    #### 1. 主要构成要素
+
+    *   **liboqs**: 以 C 语言实现 PQC 算法的库，为测试各种 KEM 及签名算法提供基础。
+
+    *   **oqs-provider**: 利用 OpenSSL 3 的 Provider 架构，将 PQC 算法集成至现有 TLS 基础设施的接口。
+
+    *   **混合模式 (Hybrid mode)**: 结合现有传统密码 (ECDH) 与 PQC 算法，作为一种转换期策略，即使在 PQC 库存在潜在缺陷时也能维持现有的安全水平
+    [S2]。
+
+
+    #### 2. 实验环境核心：隔离与可重现性
+
+    实验必须完全脱离生产环境。利用 Docker 等容器技术固定 (Locking) 依赖项版本，可以减少研究人员之间的执行结果差异，从而精确测量算法优化（如利用
+    AVX-512）的效果 [S2]。在进行握手性能评估时，应使用固定的硬件和隔离的网络，以最小化延迟的不确定性。'
+  worked_examples:
+  - 示例 1：利用 Dockerfile 构建基于 oqs-provider 的环境。说明通过明确各库版本来确保构建可重现性的方式。
+  - 示例 2：使用 OpenSSL CLI 进行混合 TLS 握手测试。说明使用 'openssl s_server' 和 's_client' 模拟连接支持
+    ML-KEM-768 的混合 TLS 1.3 的方法。
+  lab:
+    title: 构建隔离的 PQC 测试台 (Testbed)
+    steps:
+    - 准备实验用 Docker 容器镜像基础 (Ubuntu 22.04 LTS 及以上)。
+    - 克隆 (clone) liboqs 及 oqs-provider 源代码，并检出特定提交哈希以固定版本。
+    - 使用 CMake 编译 liboqs 时，设置优化等级（如 AVX2）并执行构建。
+    - 配置 OpenSSL 3.x 环境并激活 oqs-provider。
+    - 通过本地网络接口的固定回环连接，测量基础 TLS 1.3 握手性能指标。
+    safety:
+    - 实验环境必须仅在本地隔离的容器内执行。
+    - 严禁将生产环境的证书、真实私钥及客户数据带入容器内。
+    - 注意编译与执行过程中生成的测量值仅视为公开测试数据，与实际安全策略无关。
+    - 在监控实际硬件或功率时，请遵守制造商明确规定的额定电流及电压范围。
+    deliverables:
+    - 固定依赖版本的 Dockerfile 及构建日志。
+    - 终端截图，展示已成功从 OpenSSL 中调用 PQC 算法列表。
+    - 已完成环境配置的隔离开发环境校验和 (SHA-256)。
+  assignment:
+    title: PQC 测试台文档化与评估
+    deliverables:
+    - 所构建测试台的架构图及选定算法的版本说明书。
+    - 测试环境中传统算法与混合 ML-KEM 算法的握手时间对比数据 CSV。
+    - 用于维持隔离环境的安全策略报告。
+    rubric:
+    - 依赖项版本固定及构建可重现性 (30%)
+    - 在隔离实验环境中进行混合 TLS 握手的成功率 (40%)
+    - 算法配置与测量程序的清晰度及安全性合规 (30%)
+  quiz:
+  - question: oqs-provider 的主要作用是什么？
+    choices:
+    - 在硬件层面加速 PQC 算法。
+    - 作为在 OpenSSL 3 中使后量子算法能够用于 TLS 协议等的连接接口。
+    - 自动更新生产环境的安全证书。
+    - 拦截量子计算机的攻击向量。
+    answer_index: 1
+    explanation: oqs-provider 利用 OpenSSL 的 Provider 架构将 PQC 算法集成到标准库中，从而使现有应用程序能够使用
+      PQC 算法。
+  - question: 在隔离实验环境中必须进行版本固定 (Locking) 的原因是什么？
+    choices:
+    - 因为最新版本总是更快。
+    - 为了保证可重现性，并减少研究人员之间因运行环境差异导致的测量误差。
+    - 为了加强生产安全。
+    - 为了缩短构建时间。
+    answer_index: 1
+    explanation: 版本固定确保了环境的可重现性，是保障测量数据完整性及研究客观性的必备条件。
+  completion_criteria:
+  - 成功构成基于 Docker 的隔离构建环境。
+  - 完成通过 oqs-provider 进行 ML-KEM 混合模式演示。
+  - 提交包含实验数据测量及安全策略的报告。
+  source_ids:
+  - S2
+- id: m5
+  slug: liboqs-integration
+  phase_id: p2
+  title: OQS 与 oqs-provider 集成
+  estimated_hours: 8.0
+  prerequisites:
+  - m4
+  objectives:
+  - 理解 Open Quantum Safe (OQS) 架构与 oqs-provider 的作用。
+  - 掌握 PQ (Post-Quantum) 算法在 TLS 1.3 中的集成方式。
+  - 在本地环境中构建并验证混合 (Hybrid) TLS 握手。
+  - 思考 KEM 实现优化（如 AVX-512）对实际握手性能的影响。
+  theory_markdown: '## OQS 与 oqs-provider 集成理论
+
+
+    为了保护现有的数据传输免受量子计算机威胁，将 NIST 标准的后量子算法 (PQC) 集成至现有协议（如 TLS 1.3）中至关重要。OQS (Open Quantum
+    Safe) 项目为加速这一集成提供了关键框架 [S2]。
+
+
+    ### 1. liboqs 与 oqs-provider
+
+    - **liboqs**: 包含 PQC 算法 (ML-KEM, ML-DSA 等) 的 C 语言实现的核心库，为各种算法提供统一 API。
+
+    - **oqs-provider**: 利用 OpenSSL 3 的 Provider 架构，帮助 OpenSSL 应用程序 (如 `s_client`,
+    `s_server`) 原生使用 liboqs 的 PQC 算法的中间层。通过此方式，无需修改代码即可在现有 TLS 工具中测试 PQC 功能。
+
+
+    ### 2. TLS 1.3 的 PQ 集成方式
+
+    在 TLS 1.3 握手过程中，PQC KEM 替换或补充了现有的密钥交换 (如 ECDH)。
+
+    - **PQ-only 模式**: 仅使用 PQC KEM 进行密钥交换。
+
+    - **混合 (Hybrid) 模式**: 结合现有的传统算法 (ECDH) 与 PQC 算法。此策略旨在确保后量子安全性同时保持传统安全保障，从而应对算法实现错误或未来的漏洞
+    [S2]。
+
+
+    ### 3. 性能考虑因素
+
+    PQC KEM 的密钥大小或计算量通常大于传统算法，因此会对握手性能产生直接影响 [S2]。利用最新的硬件指令集 (如 AVX-512) 优化多项式乘法及模运算，可以提升握手速度
+    [S2]。'
+  worked_examples:
+  - 示例 1：要验证 oqs-provider 是否已加载到 OpenSSL 中，执行 `openssl list -providers` 命令。输出结果应包含
+    'oqs' 提供程序。
+  - 示例 2：执行混合握手时，通过命令行参数指定密钥交换组，如 `openssl s_client -groups kyber768_x25519...`。这是
+    ML-KEM (Kyber) 与传统 Curve25519 相结合的混合组。
+  lab:
+    title: 本地环境下的混合 TLS 测试
+    steps:
+    - 在隔离的 Docker 容器中构建并安装 liboqs 和 oqs-provider。
+    - 修改 OpenSSL 配置文件 (`openssl.cnf`) 以激活 oqs 提供程序。
+    - 打开两个终端，分别以混合模式运行 `openssl s_server` 和 `openssl s_client`。
+    - 使用 Wireshark 捕获并分析 ClientHello 和 ServerHello 数据包中共享密钥组 (Key Share) 的传输情况。
+    - 验证握手是否成功，并查看会话加密算法信息。
+    safety:
+    - 实验务必仅在隔离的本地虚拟环境内执行。
+    - 绝不使用生产服务中使用的证书或密钥。
+    - Wireshark 捕获时请确保不包含真实服务流量。
+    deliverables:
+    - oqs-provider 激活确认截图
+    - 混合握手日志文件
+    - Wireshark 捕获数据包的共享密钥组分析报告
+  assignment:
+    title: 基于密码敏捷性的转换分析报告
+    deliverables:
+    - TLS 握手性能测量结果数据 (CSV)
+    - 混合模式使用理由与性能损耗分析小论文
+    - 基于优先级的后量子转换路线图
+    rubric:
+    - OQS 工具链构建及执行成功与否
+    - 通过 TLS 数据包分析，是否准确说明了混合模式的操作
+    - 性能测量数据是否包含实验环境及版本信息且可重现
+    - 是否基于密码敏捷性概念逻辑地编写了转换路线图
+  quiz:
+  - question: oqs-provider 在 OpenSSL 中的核心作用是什么？
+    choices:
+    - 加密网络数据包的硬件加速器
+    - 允许 OpenSSL 调用 liboqs PQC 算法的接口层
+    - 在互联网上发布公钥证书的服务
+    - 检测量子计算机攻击的 IDS 工具
+    answer_index: 1
+    explanation: oqs-provider 通过 OpenSSL 的 Provider 架构，将 liboqs 的算法连接至 OpenSSL 应用程序，使其能直接使用。
+  - question: 在 TLS 1.3 中使用“混合模式”密钥交换的主要原因是什么？
+    choices:
+    - 为了将性能提高 100 倍以上
+    - 为了在单一算法实现出错或未来出现漏洞时确保安全性
+    - 为了支持所有现有客户端
+    - 为了使用量子计算机进行握手
+    answer_index: 1
+    explanation: 混合模式结合了传统算法与 PQC 算法，是一种多层防御策略，旨在防范实现缺陷或未知的漏洞。
+  completion_criteria:
+  - 基于 oqs-provider 的本地测试环境构建完成
+  - 混合 TLS 握手成功并通过数据包捕获验证
+  - 完成包含实验结果与分析的报告编写
+  - 制定完成的后量子转换路线图
+  source_ids:
+  - S2
+- id: m6
+  slug: performance-benchmarking
+  phase_id: p3
+  title: 性能评估与基准测试
+  estimated_hours: 8.0
+  prerequisites:
+  - m5
+  objectives:
+  - 理解后量子密码算法 (ML-KEM) 的性能评估指标（时间、内存、处理量）。
+  - 分析在 TLS 1.3 握手过程中 KEM 运算对性能的影响。
+  - 利用 Liboqs 及 oqs-provider 框架对混合密码模式进行基准测试。
+  theory_markdown: '## 性能评估与基准测试
+
+
+    向后量子密码 (PQC) 的转换不仅是算法替换问题，更是直接关乎现有网络协议（如 TLS 1.3）性能的问题。特别是 KEM (Key Encapsulation
+    Mechanism) 运算直接影响握手延迟 (latency) 以及服务器每秒处理连接数 (handshakes per second) [S2]。
+
+
+    ### 性能指标
+
+    1. **运算时间 (Computation Time):** 密钥生成 (KeyGen)、封装 (Encaps)、反封装 (Decaps) 各自消耗的 CPU
+    周期或时间 (ms)。
+
+    2. **数据大小:** 公钥及封装后的密钥 (ciphertext) 大小。这决定了网络带宽消耗及产生碎片化的可能性。
+
+    3. **处理量 (Throughput):** 每秒可处理的握手次数。优化的实现（如利用 AVX-512）可以通过提升多项式乘法及模运算速度显著改善处理量
+    [S2]。
+
+
+    ### 混合模式
+
+    转换期推荐采用传统算法 (ECDH) 与 PQC (ML-KEM) 并存的混合方法。此举旨在防范 PQC 可能存在的脆弱性，同时获取 PQC 的安全优势。由于混合模式增加了运算复杂度，必须缜密评估其性能损耗
+    [S2]。'
+  worked_examples:
+  - '示例 1：使用 Liboqs 进行单 KEM 运算基准测试
+
+    通过 Python 脚本，使用 `timeit` 模块测量 `ML-KEM-768` 的 `keypair`, `encaps`, `decaps` 动作时间，并将结果保存为
+    CSV 的方法。'
+  - '示例 2：混合 TLS 1.3 握手处理量测量
+
+    在应用 oqs-provider 的本地服务器/客户端环境中，使用 `s_client` 和 `s_server` 测量 100 次连接所耗费的总时间，从而计算每秒握手次数
+    (TPS) 的分析流程。'
+  lab:
+    title: PQC 性能基准测试实操
+    steps:
+    - 在隔离开发环境中安装 liboqs 和 oqs-provider 并确认环境配置。
+    - 编写基准测试用 Python 脚本，测量 ML-KEM 算法的运算时间。
+    - 执行 Wireshark 捕获 TLS 握手数据包，分析混合模式下的数据大小变化。
+    - 基于测量数据，将运算时间与处理量指标进行图表化。
+    safety:
+    - 实验仅在本地隔离环境内进行，绝对不得使用生产环境的证书或密钥。
+    - 由于基准测试过程可能产生高 CPU 负载，请监控系统资源。
+    - 注意确保捕获文件中不包含真实秘密值或密钥数据。
+    deliverables:
+    - 运算性能测量脚本 (.py)
+    - 测量结果 CSV 数据
+    - 各算法性能对比分析报告 (.md 或 .ipynb)
+  assignment:
+    title: 基于密码敏捷性的性能评估报告
+    deliverables:
+    - 算法选择理由及安全/性能折衷分析
+    - 基准测试数据可视化资料
+    - 基于性能结果的转换路线图修正案
+    rubric:
+    - 基准测试数据是否在可重现且独立的环境中测量？
+    - 是否准确分析了性能损耗的技术原因（密钥大小、运算复杂度）？
+    - 是否平衡讨论了混合模式的优势与成本？
+  quiz:
+  - question: 在 TLS 1.3 握手性能中，最重要的 PQC 算法相关要素是？
+    choices:
+    - 对称密码算法的块大小
+    - KEM 的密钥生成及封装运算时间
+    - 哈希算法种类
+    - 服务器的操作系统类型
+    answer_index: 1
+    explanation: TLS 1.3 握手性能在很大程度上取决于 KEM 算法的运算效率 [S2]。
+  - question: 进行性能评估时使用混合模式的主要原因是？
+    choices:
+    - 因为它比传统算法总是更快
+    - 为了在防范 PQC 安全威胁的同时维持安全性
+    - 为了减少网络带宽
+    - 为了最小化运算资源
+    answer_index: 1
+    explanation: 混合模式结合了 PQC 的未来安全性和传统算法的经受验证的安全性，从而实现渐进式转换。
+  completion_criteria:
+  - 基准测试脚本运行及结果数据获取完毕
+  - 性能评估报告提交并审核通过
+  - 完成 TLS 混合模式性能分析
+  source_ids:
+  - S2
+- id: m7
+  slug: hybrid-tls-analysis
+  phase_id: p3
+  title: 混合 TLS 握手分析
+  estimated_hours: 8.0
+  prerequisites:
+  - m6
+  objectives:
+  - 说明量子威胁环境下 TLS 1.3 的脆弱性。
+  - 理解基于 ML-KEM 的混合 (Hybrid) TLS 握手结构。
+  - 在基于 OQS (Open Quantum Safe) 的本地环境中测量混合模式性能。
+  - 通过数据包捕获分析传统算法与 PQ 算法相结合的握手过程。
+  theory_markdown: '### 混合 TLS 握手理论
+
+
+    现行 TLS 1.3 依赖于传统公钥密码（如椭圆曲线 Diffie-Hellman，ECDH），在性能足以破解密码的量子计算机出现时，将暴露于攻击风险中 [S2]。为此，将
+    NIST 标准的 ML-KEM (Module-Lattice-Based Key-Encapsulation Mechanism) 等后量子密码 (PQC)
+    进行集成成为研究热点 [S2]。
+
+
+    #### 混合模式的安全假设
+
+    在完全转向 PQC 之前，为保证操作稳定性，使用结合了传统算法与 PQ 算法的“混合 (Hybrid) 模式”。此方式通过结合两种算法的共享秘密值 (Shared
+    Secret)，确保即使两种算法中仅有一种安全，也能保证通信机密性。
+
+
+    #### 性能考虑因素
+
+    TLS 1.3 的握手性能直接依赖于 KEM 的计算成本 [S2]。特别是密钥生成 (Key Generation)、封装 (Encapsulation)
+    及反封装 (Decapsulation) 阶段的运算效率决定了整体握手速度。最近，通过 AVX-512 等指令集优化多项式乘法和模运算，加速了提升握手性能的手段已被应用
+    [S2]。'
+  worked_examples:
+  - 示例 1：混合密钥交换过程 - 客户端将传统共享秘密值和 PQC 封装结果发送给服务器。服务器反封装后，结合两者的共享秘密并使用 KDF (Key Derivation
+    Function) 合并，生成会话密钥。
+  - 示例 2：握手延迟分析 - 比较分析随着 PQ 算法应用导致额外的密钥大小 (Key Size) 增加从而延长网络传输时间的过程。量化性能优化 (如使用 AVX-512)
+    应用前后的每秒握手次数 (Handshakes per second) 差异 [S2]。
+  lab:
+    title: 基于 OQS 的混合 TLS 握手重现实验
+    steps:
+    - 在隔离的 Docker 环境中构建集成 liboqs 及 oqs-provider 的 OpenSSL 3 构建环境。
+    - 配置现有 ECDH 模式与基于 ML-KEM 的混合模式 (如 secp256r1_mlkem768)。
+    - 使用本地回环 (Loopback) 接口执行两种模式间的 TLS 1.3 握手。
+    - 使用 Wireshark 捕获 ClientHello 及 ServerHello 消息中密钥交换数据字段的数据包。
+    - 使用执行时间测量脚本测量 100 次以上的平均握手时间，并记录混合模式的开销。
+    safety:
+    - 本实验仅在本地环境的隔离回环接口上执行，不产生外部网络流量。
+    - 绝对不得使用生产环境的证书、个人密钥等操作安全资产。
+    - 学习用的 OQS 库属于实验性工具，不得用于实际生产安全服务。
+    - 实验结束时删除所有生成的临时密钥及本地测量数据。
+    deliverables:
+    - 配置及执行日志文件
+    - Wireshark 数据包捕获文件 (.pcapng) 及密钥交换字段分析笔记
+    - 握手性能对比测量 CSV 数据
+  assignment:
+    title: TLS 1.3 混合转换性能分析报告
+    deliverables:
+    - 握手延迟对比分析图表及数据可视化
+    - 混合模式数据包分析与密钥交换算法特性总结
+    - 生产环境应用时预期的性能及安全考虑事项决策表
+    rubric:
+    - 实验的可重现性（环境配置及脚本明确与否）
+    - 数据包分析的准确性（密钥交换字段识别）
+    - 性能测量数据的逻辑性诠释
+    - 理论安全假设与实验结果的联系
+  quiz:
+  - question: 混合 TLS 握手的主要安全优势是什么？
+    choices:
+    - 通过显著减少握手步骤提高速度。
+    - 确保传统算法和 PQC 算法中只要有一种安全，就能维持机密性。
+    - 完全消除网络传输成本。
+    - 降低证书管理的复杂度。
+    answer_index: 1
+    explanation: 混合模式结合了传统算法与 PQC 算法的结果，设计为即使其中一种算法失效也能保持机密性，这是一种转换期策略。
+  - question: 对 TLS 1.3 握手性能影响最大的 PQ 算法要素是什么？
+    choices:
+    - 仅考虑网络延迟。
+    - KEM（密钥封装机制）的密钥生成、封装及解封装运算成本
+    - 服务器的磁盘 I/O 速度
+    - 客户端的浏览器版本
+    answer_index: 1
+    explanation: KEM 算法的计算成本直接关系到 TLS 1.3 握手性能，优化该指标是提升性能的核心 [S2]。
+  completion_criteria:
+  - 在本地环境中成功复现基于 liboqs 的混合 TLS 握手
+  - 通过 Wireshark 分析确认混合密钥交换消息
+  - 提交基于性能测量数据的分析报告
+  - 确认遵守安全约束（数据隔离、不使用生产密钥）
+  source_ids:
+  - S2
+- id: m8
+  slug: migration-roadmap
+  phase_id: p3
+  title: 编写转换优先级报告
+  estimated_hours: 8.0
+  prerequisites:
+  - m7
+  objectives:
+  - 理解用于后量子密码 (PQC) 转换的风险与业务影响分析框架
+  - 基于加密资产清单数据确定转换优先级
+  - 为确保密码敏捷性 (Cryptographic Agility) 制定技术策略
+  - 构建最终转换路线图及验证报告
+  theory_markdown: '### 转换优先级策略 (Migration Prioritization Strategy)
+
+
+    向 NIST 后量子标准 (ML-KEM, ML-DSA) 的转换始于对整个系统的加密资产评估。转换优先级不仅取决于算法的老化程度，还取决于数据的生命周期
+    (Data Shelf Life)、加密暴露风险以及系统的战略重要性 [S1]。
+
+
+    #### 1. 加密资产评估标准 (Assessment Criteria)
+
+    使用以下标准来判断转换的紧迫性：
+
+    - **数据安全生命周期：** 加密数据在未来被量子计算机破解时产生的影响（例如：需要保密 10 年以上的数据）。
+
+    - **系统敏捷性：** 当前实现的密码是硬编码的，还是可以通过配置文件 (Config) 替换算法。
+
+    - **技术债务：** 使用该加密模块的依赖项 (Dependency) 以及是否可维护。
+
+
+    #### 2. 确保密码敏捷性
+
+    转换路线图的核心是在替换算法时最大限度地减少代码更改。建议采用抽象层 (Abstraction Layer) 将业务逻辑与加密引擎分离，并通过混合密钥交换方式确保既有算法的稳定性和
+    PQC 的抗量子性。'
+  worked_examples:
+  - 示例 1：基于数据生命周期的优先级估算 - 需保存 20 年的人事信息数据库比仅需保存 5 年的日志数据在 PQC 转换中具有更高的优先级。
+  - 示例 2：混合 TLS 配置案例 - 分析将现有的 ECDH 与 ML-KEM 相结合，从而设计出只要两种算法中有一种是安全的，就能维持通信保密性的混合模型。
+  lab:
+    title: 转换路线图模拟
+    steps:
+    - 加载上一模块中编写的清单 CSV 数据。
+    - 编写一个 Python 脚本，为每项资产计算 [风险 * 重要性 * 生命周期] 分数。
+    - 为优先级最高的 3 个资产制定混合实现计划。
+    - 描述转换过程中可能出现的兼容性问题及其应对措施（回退策略）。
+    safety:
+    - 所有计算和分析仅在独立的隔离虚拟环境中进行。
+    - 不得更改生产服务器的实际加密配置。
+    - 审查分析笔记，确保其中不包含实际的密钥材料。
+    deliverables:
+    - 已排列优先级的清单 CSV 分析文档
+    - 包含转换计划的技术决策表
+  assignment:
+    title: PQC 转换优先级报告
+    deliverables:
+    - 密码敏捷性分析报告 (PDF)
+    - 基于风险等级的转换路线图（含表格）
+    rubric:
+    - 基于数据生命周期和暴露风险的合理优先级逻辑
+    - 通过引入混合加密体系考虑密码敏捷性
+    - 转换计划的分阶段可行性
+    - 实验结果与数据清单的一致性
+  quiz:
+  - question: 在确定密码转换优先级时，最需要考虑的数据特性是什么？
+    choices:
+    - 数据所使用的编程语言
+    - 数据的安全必要生命周期 (Data Shelf Life)
+    - 系统的开发者人数
+    - 最新数据存储库的容量
+    answer_index: 1
+    explanation: 由于量子威胁包含了数据在未来被破解的风险，因此需要长期保密的数据最优先需要进行 PQC 转换。
+  - question: 为了实现密码敏捷性 (Cryptographic Agility)，推荐采用哪种软件设计方式？
+    choices:
+    - 使用硬编码的加密算法
+    - 将加密模块与业务逻辑进行抽象分离
+    - 仅使用单一算法的封闭结构
+    - 直接引用操作系统级别的加密库
+    answer_index: 1
+    explanation: 将加密引擎与逻辑分离，在更换算法时最大限度减少代码变更的结构，是确保密码敏捷性的核心。
+  completion_criteria:
+  - 提交明确标注转换优先级的清单分析文件
+  - 编写包含密码敏捷性考量的转换路线图报告
+  - 完成包含所有实验代码和测量值的复现包
+  source_ids:
+  - S1
+sources:
+- id: S1
+  title: MIT OpenCourseWare | Free Online Course Materials
+  organization: ocw.mit.edu
+  url: https://ocw.mit.edu/
+  type: university
+  published_at: null
+  accessed_at: '2026-10-11'
+  primary: true
+  supports:
+  - m3
+  - m8
+- id: S2
+  title: 'Faster Post-Quantum TLS 1.3 Based on ML-KEM: Implementation ...'
+  organization: arxiv.org
+  url: https://arxiv.org/html/2404.13544v2
+  type: paper
+  published_at: null
+  accessed_at: '2026-10-11'
+  primary: true
+  supports:
+  - m4
+  - m5
+  - m6
+  - m7
+- id: S3
+  title: 'Security in Post-Quantum Era: A Comprehensive Survey on ...'
+  organization: ieeexplore.ieee.org
+  url: https://ieeexplore.ieee.org/abstract/document/11006701
+  type: paper
+  published_at: null
+  accessed_at: '2026-10-11'
+  primary: true
+  supports:
+  - m1
+- id: S4
+  title: 'Post-Quantum Cryptography and Quantum-Safe Security: A ...'
+  organization: arxiv.org
+  url: https://arxiv.org/pdf/2510.10436
+  type: paper
+  published_at: null
+  accessed_at: '2026-10-11'
+  primary: true
+  supports:
+  - m1
+  - m2
+bom: []
+capstone:
+  title: 后量子密码敏捷性复现包
+  deliverables:
+  - 加密资产清单列表 (CSV)
+  - ML-KEM/ML-DSA 基准分析笔记本
+  - Hybrid TLS 捕获文件及握手分析报告
+  - 基于优先级的转换路线图
+  rubric:
+  - 加密资产风险评分逻辑的合理性
+  - 算法实现的可复现性及测量结果的一致性
+  - 混合模式下 TLS 协议行为分析的准确性
+  - 路线图对业务优先级的反映程度
+  safety:
+  - 必须使用公开测试数据
+  - 所有私钥及秘密值仅在实验环境中生成和销毁
+  - 防止实际证书或生产数据泄露
+generation:
+  run_id: e5164bbefc324eff94b7957c62695f66
+  generated_at: '2026-10-11T00:06:00.762658Z'
+  generator: gemini
+selection:
+  canonical_topic_id: post-quantum-cryptography-migration
+  demand_score: 91
+  duplicate_verdict: unique
+  evidence:
+  - title: NIST Releases First Finalized Post-Quantum Encryption Standards
+    publisher: NIST
+    url: https://www.nist.gov/news-events/news/2024/08/nist-releases-first-3-finalized-post-quantum-encryption-standards
+    observed_at: '2026-10-11'
+    family: technical_regulatory_change
+    measurement: null
+  - title: Migration to Post-Quantum Cryptography FAQ
+    publisher: NIST NCCoE
+    url: https://pages.nist.gov/nccoe-migration-post-quantum-cryptography/
+    observed_at: '2026-10-11'
+    family: technical_regulatory_change
+    measurement: null
+  - title: Open Quantum Safe liboqs
+    publisher: Open Quantum Safe
+    url: https://github.com/open-quantum-safe/liboqs
+    observed_at: '2026-10-11'
+    family: learning_community
+    measurement: null
+localization:
+  source_language: ko
+  language: zh-cn
+  source_hash: d0812b4a8a49e0447e117b0002d8d40a9906545e0a223876b016152160e4a379
+  translator: gemini-cli
+  translated_at: '2026-10-11T00:10:40.516419Z'
+  translation_run_id: 5e5e07b174e14daeb3ffc1651fe9dcbe
+published_at: '2026-10-16T00:55:40.127560+09:00'

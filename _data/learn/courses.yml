@@ -45,3 +45,29 @@
   lang: ko
   published_at: '2026-08-29T08:34:02+09:00'
   demand_score: null
+- slug: post-quantum-cryptography-migration-lab
+  title: 포스트퀀텀 암호 전환 검증 실험
+  primary_category: ai-software
+  topics:
+  - post-quantum-cryptography
+  - cryptographic-inventory
+  - ml-kem
+  - ml-dsa
+  - crypto-agility
+  course_type: academic
+  summary: NIST 포스트퀀텀 표준의 수학적·보안적 가정을 이해하고, 고정된 로컬 테스트 시스템에서 암호자산을 식별·분류한 뒤 ML-KEM과
+    ML-DSA를 실험적으로 평가하여 우선순위 기반 전환 로드맵을 수립한다.
+  outcome: 학습자는 양자 위협 모델을 이해하고, 실무 수준의 암호 자산 식별 도구와 OQS 기반 테스트 프레임워크를 활용하여 운영 환경의
+    암호 민첩성을 평가하는 보고서를 작성할 수 있다.
+  level: graduate
+  estimated_hours: 64.0
+  budget_krw:
+    min: 0
+    max: 0
+  module_count: 8
+  last_reviewed: '2026-10-11'
+  curriculum_version: 1.0.0+78591abb512e
+  url: /learn/post-quantum-cryptography-migration-lab/
+  lang: ko
+  published_at: '2026-10-16T00:55:40.127560+09:00'
+  demand_score: 91

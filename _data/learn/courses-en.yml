@@ -23,6 +23,35 @@
   lang: en
   published_at: '2026-08-29T08:34:02+09:00'
   demand_score: null
+- slug: post-quantum-cryptography-migration-lab
+  title: Post-Quantum Cryptography Migration Validation Experiment
+  primary_category: ai-software
+  topics:
+  - post-quantum-cryptography
+  - cryptographic-inventory
+  - ml-kem
+  - ml-dsa
+  - crypto-agility
+  course_type: academic
+  summary: Understand the mathematical and security assumptions of NIST Post-Quantum
+    standards, identify and classify cryptographic assets in a fixed local test system,
+    experimentally evaluate ML-KEM and ML-DSA, and establish a priority-based migration
+    roadmap.
+  outcome: Learners will be able to understand quantum threat models and utilize practical
+    cryptographic asset identification tools and OQS-based test frameworks to author
+    a report evaluating cryptographic agility in operational environments.
+  level: graduate
+  estimated_hours: 64.0
+  budget_krw:
+    min: 0
+    max: 0
+  module_count: 8
+  last_reviewed: '2026-10-11'
+  curriculum_version: 1.0.0+78591abb512e
+  url: /learn/en/post-quantum-cryptography-migration-lab/
+  lang: en
+  published_at: '2026-10-16T00:55:40.127560+09:00'
+  demand_score: 91
 - slug: rag-evaluation-reliability
   title: RAG Evaluation and Reliability Experiments
   primary_category: ai-software

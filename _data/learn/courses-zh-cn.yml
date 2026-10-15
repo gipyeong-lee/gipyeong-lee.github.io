@@ -43,3 +43,27 @@
   lang: zh-cn
   published_at: '2026-08-29T08:34:02+09:00'
   demand_score: null
+- slug: post-quantum-cryptography-migration-lab
+  title: 后量子密码转换验证实验
+  primary_category: ai-software
+  topics:
+  - post-quantum-cryptography
+  - cryptographic-inventory
+  - ml-kem
+  - ml-dsa
+  - crypto-agility
+  course_type: academic
+  summary: 理解 NIST 后量子标准的数学与安全假设，在固定的本地测试系统中识别并分类密码资产，通过实验评估 ML-KEM 和 ML-DSA，进而制定基于优先级的转换路线图。
+  outcome: 学员能够理解量子威胁模型，并利用实务级的密码资产识别工具及基于 OQS 的测试框架，编写评估运行环境密码敏捷性的报告。
+  level: graduate
+  estimated_hours: 64.0
+  budget_krw:
+    min: 0
+    max: 0
+  module_count: 8
+  last_reviewed: '2026-10-11'
+  curriculum_version: 1.0.0+78591abb512e
+  url: /learn/zh-cn/post-quantum-cryptography-migration-lab/
+  lang: zh-cn
+  published_at: '2026-10-16T00:55:40.127560+09:00'
+  demand_score: 91

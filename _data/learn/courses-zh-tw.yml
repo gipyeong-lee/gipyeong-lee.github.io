@@ -21,6 +21,30 @@
   lang: zh-tw
   published_at: '2026-08-30T15:42:37.390479+09:00'
   demand_score: 91
+- slug: post-quantum-cryptography-migration-lab
+  title: 後量子密碼遷移驗證實驗
+  primary_category: ai-software
+  topics:
+  - post-quantum-cryptography
+  - cryptographic-inventory
+  - ml-kem
+  - ml-dsa
+  - crypto-agility
+  course_type: academic
+  summary: 理解 NIST 後量子標準的數學與安全假設，在固定的本地測試系統中識別並分類密碼資產，接著對 ML-KEM 與 ML-DSA 進行實驗性評估，從而制定基於優先級的遷移路線圖。
+  outcome: 學員能理解量子威脅模型，並能利用實務級別的密碼資產識別工具與基於 OQS 的測試框架，撰寫評估營運環境中密碼敏捷性的報告。
+  level: graduate
+  estimated_hours: 64.0
+  budget_krw:
+    min: 0
+    max: 0
+  module_count: 8
+  last_reviewed: '2026-10-11'
+  curriculum_version: 1.0.0+78591abb512e
+  url: /learn/zh-tw/post-quantum-cryptography-migration-lab/
+  lang: zh-tw
+  published_at: '2026-10-16T00:55:40.127560+09:00'
+  demand_score: 91
 - slug: precise-robot-hand
   title: 製作精密的 5 機器手
   primary_category: robotics-hardware

@@ -1,0 +1,888 @@
+schema_version: 1
+curriculum_version: 1.0.0+78591abb512e
+course:
+  course_type: academic
+  slug: post-quantum-cryptography-migration-lab
+  primary_category: ai-software
+  topics:
+  - post-quantum-cryptography
+  - cryptographic-inventory
+  - ml-kem
+  - ml-dsa
+  - crypto-agility
+  title: 포스트퀀텀 암호 전환 검증 실험
+  summary: NIST 포스트퀀텀 표준의 수학적·보안적 가정을 이해하고, 고정된 로컬 테스트 시스템에서 암호자산을 식별·분류한 뒤 ML-KEM과
+    ML-DSA를 실험적으로 평가하여 우선순위 기반 전환 로드맵을 수립한다.
+  outcome: 학습자는 양자 위협 모델을 이해하고, 실무 수준의 암호 자산 식별 도구와 OQS 기반 테스트 프레임워크를 활용하여 운영 환경의
+    암호 민첩성을 평가하는 보고서를 작성할 수 있다.
+  audience: Python 기초와 공개키 암호 개념을 갖춘 컴퓨터 공학 학습자 및 IT 보안 실무자
+  level: graduate
+  estimated_hours: 64.0
+  budget_krw:
+    min: 0
+    max: 0
+  required_tools:
+  - Python 3
+  - Git
+  - Docker
+  - Open Quantum Safe (liboqs)
+  - Wireshark
+  safety_summary:
+  - 모든 실험은 격리된 로컬 가상 환경 내에서 수행함
+  - 운영 인증서, 실제 개인키, 고객 데이터 사용 금지
+  - 연구용 라이브러리(liboqs)를 실제 운영 보안 도구로 간주하지 않음
+  last_reviewed: '2026-10-11'
+phases:
+- id: p1
+  title: 기초 이론 및 위협 분석
+  module_ids:
+  - m1
+  - m2
+- id: p2
+  title: 암호 자산 평가 및 환경 설정
+  module_ids:
+  - m3
+  - m4
+  - m5
+- id: p3
+  title: 실험적 재현 및 성과 평가
+  module_ids:
+  - m6
+  - m7
+  - m8
+modules:
+- id: m1
+  slug: quantum-threat-model
+  phase_id: p1
+  title: 양자 위협과 격자 기반 암호
+  estimated_hours: 8.0
+  prerequisites: []
+  objectives:
+  - 양자 컴퓨터가 현대 암호 체계(RSA, ECC)에 미치는 위협 모델을 이해한다.
+  - 격자 기반 암호(Lattice-based Cryptography)의 수학적 기초와 안정성 근거를 분석한다.
+  - NIST가 권고하는 포스트퀀텀 암호 표준(ML-KEM, ML-DSA)의 설계 원리를 학습한다.
+  - 격자 기반 알고리즘의 효율성 및 보안적 특성(worst-case hardness)을 기술한다.
+  theory_markdown: '## 양자 위협 모델
+
+    현대 공개키 암호(PKI)는 주로 소인수 분해(RSA)와 이산 로그 문제(ECC)의 어려운 난제에 의존한다. 쇼어 알고리즘(Shor''s algorithm)은
+    양자 컴퓨터를 사용하여 다항 시간 내에 이러한 문제를 해결할 수 있으며, 이는 사실상 현재의 모든 표준 PKI를 무력화함을 의미한다[S3].
+
+
+    ## 격자 기반 암호 (Lattice-based Cryptography)
+
+    격자 기반 암호는 고차원 공간 내에서 격자(Lattice)의 기저 벡터로부터 특정 지점을 찾는 문제(예: SVP, LWE)를 난제로 사용한다.
+    이 문제들은 최악의 경우(worst-case)에도 풀기 어렵다는 것이 증명되어 있으며, 평균적인 경우(average-case)에도 보안이 보장된다[S4].
+
+
+    ## 포스트퀀텀 표준 (ML-KEM/ML-DSA)
+
+    - **ML-KEM (Module-Lattice-based Key-Encapsulation Mechanism):** 키 캡슐화 메커니즘으로,
+    효율적인 구현과 함께 격자 기반 난제를 사용하여 양자 내성을 제공한다.
+
+    - **ML-DSA (Module-Lattice-based Digital Signature Algorithm):** 전자 서명 표준으로, 격자
+    기반 수학 구조를 사용하여 강력한 서명 무결성을 보장한다.
+
+    격자 기반 시스템은 현재 표준화 과정에서 강력한 worst-case to average-case 환산성과 효율적인 성능을 입증하여 PQC 전환의
+    중심이 되고 있다[S4].'
+  worked_examples:
+  - '예제 1: 양자 컴퓨터가 RSA에 미치는 영향 분석 - RSA는 큰 수의 소인수 분해 난이도에 기반함. 쇼어 알고리즘은 n비트 정수를 소인수
+    분해하는 복잡도를 지수 시간에서 다항 시간으로 줄임으로써 암호문을 즉시 해독함.'
+  - '예제 2: 격자 기반 난제(LWE) 개념 이해 - 비밀 벡터 s와 오류 e를 추가한 선형 방정식 시스템 A*s + e = t를 고려함. 격자
+    기반 암호는 행렬 A와 결과 t로부터 s를 찾아내기 어렵다는 ''Learning With Errors'' 문제의 난이도에 기반함.'
+  lab:
+    title: 격자 암호 기초 환경 구축 및 시각화
+    steps:
+    - 격리된 Linux/Docker 환경에서 Python 3 가상환경 생성
+    - liboqs 라이브러리 설치 및 컴파일
+    - 격자 기반 LWE 문제의 파라미터 변화에 따른 키 크기 및 연산 시간 수집 스크립트 작성
+    - 데이터 분석 및 시각화 노트북 실행
+    safety:
+    - 모든 실험은 격리된 로컬 가상 환경 내에서 수행함
+    - 실제 운영 인증서, 개인키, 고객 데이터 사용 절대 금지
+    - 연구용 라이브러리를 실제 서비스 보안 수단으로 간주하지 말 것
+    deliverables:
+    - 환경 설정 로그 및 컴파일 결과물
+    - 알고리즘 성능(키 크기, 시간) 비교 분석 데이터
+    - 격자 기반 암호 특성 보고서
+  assignment:
+    title: 양자 위협 분석 보고서 작성
+    deliverables:
+    - 양자 위협 모델 및 격자 기반 암호 이론 정리 문서
+    - 주요 PQC 알고리즘(ML-KEM, ML-DSA) 비교표
+    rubric:
+    - 쇼어 알고리즘의 원리를 정확히 설명함
+    - 격자 기반 암호의 최악의 경우 난제(worst-case hardness) 개념을 논리적으로 서술함
+    - 제시된 소스 [S3, S4]를 바탕으로 현대 암호가 직면한 도전을 기술함
+  quiz:
+  - question: 쇼어 알고리즘(Shor's algorithm)이 기존 PKI에 주는 위협은 무엇인가?
+    choices:
+    - 모든 대칭키 암호를 무조건 해독한다.
+    - 소인수 분해 및 이산 로그 문제를 다항 시간 내에 해결한다.
+    - 해시 함수의 충돌 저항성을 완전히 제거한다.
+    - 양자 컴퓨터의 처리 속도를 저하시킨다.
+    answer_index: 1
+    explanation: 쇼어 알고리즘은 RSA의 기반인 소인수 분해와 ECC의 기반인 이산 로그 문제를 다항 시간 내에 해결함으로써 기존의
+      공개키 암호 체계를 위협합니다.
+  - question: 격자 기반 암호(Lattice-based Cryptography)가 유망한 이유는 무엇인가?
+    choices:
+    - 최악의 경우 난제를 평균적인 경우 난제로 환산할 수 있기 때문이다.
+    - 모든 대칭키 암호보다 훨씬 빠르기 때문이다.
+    - 양자 컴퓨터에서도 반드시 풀 수 없기 때문이다.
+    - 컴퓨터 메모리를 전혀 사용하지 않기 때문이다.
+    answer_index: 0
+    explanation: 격자 기반 암호는 최악의 경우 난제(worst-case hardness)로부터 평균적인 경우(average-case)의
+      보안을 보장하는 수학적 강점을 가지고 있습니다[S4].
+  completion_criteria:
+  - 이론 학습 완료 및 양자 위협 보고서 제출
+  - 실습 환경에서 liboqs를 이용한 기초 알고리즘 실행 성공
+  - 퀴즈 항목별 80% 이상의 정답률 달성
+  source_ids:
+  - S3
+  - S4
+- id: m2
+  slug: nist-pq-standards
+  phase_id: p1
+  title: ML-KEM 및 ML-DSA 표준 이해
+  estimated_hours: 8.0
+  prerequisites:
+  - m1
+  objectives:
+  - 격자 기반 암호 체계(Lattice-based cryptography)의 수학적 기초와 안정성 근거를 설명한다.
+  - NIST 표준 ML-KEM(키 캡슐화 메커니즘)의 동작 원리를 이해한다.
+  - NIST 표준 ML-DSA(디지털 서명 알고리즘)의 구조적 특성을 파악한다.
+  - 격자 암호가 타 암호 방식(코드 기반, 해시 기반) 대비 실무적 이점을 갖는 이유를 분석한다.
+  theory_markdown: '## ML-KEM 및 ML-DSA 표준 이해
+
+
+    ### 1. 격자 기반 암호의 부상
+
+    현재 실무적 표준화를 주도하는 것은 격자 기반(Lattice-based) 시스템이다. 이는 최악의 사례(worst-case)에서 평균적인 사례(average-case)로의
+    강력한 수학적 환산(reductions)이 존재하며, 효율적인 구현이 가능하기 때문이다 [S4]. 반면, 코드 기반(Code-based)이나
+    해시 기반(Hash-based) 방식은 보수적인 닻(conservative anchors) 역할을 수행하며, 더 긴 보안 이력이나 최소한의
+    가정만을 요구하는 특성을 갖는다 [S4].
+
+
+    ### 2. ML-KEM (Module-Lattice Key Encapsulation Mechanism)
+
+    ML-KEM은 이전에 Kyber로 알려졌던 알고리즘에 기반한다. 모듈 격자 문제(Module Learning With Errors, MLWE)를
+    기반으로 하며, 다음과 같은 흐름을 가진다.
+
+    - **KeyGen:** 모듈 격자 내에서 공개키와 비밀키를 생성.
+
+    - **Encapsulation:** 공개키를 사용하여 공유 비밀값(Shared Secret)과 캡슐화된 키(Ciphertext)를 생성.
+
+    - **Decapsulation:** 비밀키를 사용하여 캡슐화된 키로부터 원래의 공유 비밀값을 복구.
+
+
+    ### 3. ML-DSA (Module-Lattice Digital Signature Algorithm)
+
+    ML-DSA는 Dilithium에 기반하며, ''Fiat-Shamir with Aborts'' 기법을 사용한다. 격자 문제의 어려움을 통해
+    위조 저항성을 제공하며, 서명 크기와 공개키 크기 사이의 균형을 맞춘 실용적인 표준이다.
+
+
+    ### 4. 보안 가정
+
+    격자 기반 시스템의 안전성은 가장 짧은 벡터를 찾는 문제(Shortest Vector Problem, SVP)와 밀접하게 연관되어 있다. 양자
+    컴퓨터의 ''쇼어 알고리즘(Shor''s Algorithm)''이 기존 RSA나 ECC를 효율적으로 깨는 것과 달리, 격자 문제는 양자 알고리즘으로도
+    다항 시간 내에 풀리지 않는다고 가정한다.'
+  worked_examples:
+  - '예제 1: 격자 기반 KEM의 보안 강도 비교. ML-KEM-512, 768, 1024는 각각 NIST 보안 강도 1, 3, 5 레벨에 대응한다.
+    이는 고전적 암호의 AES-128, 192, 256과 유사한 보안 수준을 목표로 한다.'
+  - '예제 2: 모듈 격자(Module Lattice) 개념 적용. 벡터와 행렬을 사용하여 연산을 효율화함으로써, 일반 격자보다 성능은 최적화하되
+    보안 강도는 유지한다.'
+  lab:
+    title: ML-KEM 및 ML-DSA 알고리즘 기초 실험
+    steps:
+    - liboqs를 설치하고 환경 변수를 설정한다.
+    - 샘플 Python 코드를 사용하여 ML-KEM 키 쌍 생성 및 캡슐화 과정을 실행한다.
+    - ML-DSA를 사용하여 메시지에 서명하고 검증하는 스크립트를 수행한다.
+    - 각 연산에 소요되는 시간을 측정하여 기록한다.
+    safety:
+    - 실험용 가상 환경 외의 시스템 인증서나 실제 키 파일에 접근하지 않는다.
+    - liboqs 라이브러리는 연구 및 테스트 용도로만 사용하며 운영 환경 보안 솔루션으로 오해하지 않는다.
+    - 실험 데이터는 모두 로컬 가상 환경에 유지하며 외부 네트워크로 전송하지 않는다.
+    deliverables:
+    - 연산 시간 측정 데이터가 담긴 CSV 파일
+    - 알고리즘 구현체 실행 결과 캡처
+    - 실습 과정 요약 로그
+  assignment:
+    title: 포스트퀀텀 암호 표준 분석 보고서
+    deliverables:
+    - ML-KEM과 ML-DSA의 알고리즘적 특징 요약 표
+    - 격자 기반 시스템이 실제 전환 시 고려해야 할 성능적 제약(키 크기 등) 분석
+    - 연구용 라이브러리를 활용한 테스트의 한계점 기술
+    rubric:
+    - 표준 알고리즘의 수학적 근거를 정확히 기술했는가?
+    - 격자 기반 시스템의 이점과 한계를 분석했는가?
+    - 보안 위협 모델에 대한 올바른 이해를 보여주는가?
+  quiz:
+  - question: 다음 중 격자 기반 시스템이 실무 표준화를 주도하는 주된 이유는 무엇인가?
+    choices:
+    - 가장 짧은 보안 이력을 가지고 있기 때문
+    - 최악의 사례에서 평균적인 사례로의 환산이 가능하며 효율적 구현이 가능하기 때문
+    - 양자 알고리즘으로 쉽게 풀릴 수 있기 때문
+    - 오직 코드 기반의 암호만을 사용하여 보안을 극대화하기 때문
+    answer_index: 1
+    explanation: 격자 기반 시스템은 강력한 수학적 환산 근거와 효율적인 구현 가능성으로 인해 NIST 표준화의 중심에 있습니다 [S4].
+  - question: ML-KEM이 기반으로 하는 수학적 문제 유형은 무엇인가?
+    choices:
+    - 소인수 분해 문제
+    - 타원 곡선 이산 대수 문제
+    - 모듈 학습 오차 문제(MLWE)
+    - 해시 충돌 문제
+    answer_index: 2
+    explanation: ML-KEM은 모듈 격자 기반의 학습 오차(MLWE) 문제를 안전성의 근거로 합니다.
+  completion_criteria:
+  - 이론 학습 확인용 퀴즈를 모두 정답으로 통과할 것
+  - 실험 과정 및 측정 데이터가 포함된 보고서를 제출할 것
+  - 실습 안전 지침을 준수하고 격리된 환경에서 테스트를 수행했음을 확인한 체크리스트 제출
+  source_ids:
+  - S4
+- id: m3
+  slug: crypto-inventory
+  phase_id: p2
+  title: 암호 자산 식별 및 관리
+  estimated_hours: 8.0
+  prerequisites:
+  - m2
+  objectives:
+  - 암호 자산 식별(Cryptographic Inventory)의 개념과 필요성을 설명한다.
+  - 조직 내 암호화 알고리즘, 라이브러리, 사용처를 체계적으로 분류하는 방법을 익힌다.
+  - 암호 민첩성(Crypto-agility)을 위한 메타데이터 관리 요소를 파악한다.
+  - 식별된 암호 자산의 위험도를 평가하여 포스트퀀텀 전환 우선순위를 결정한다.
+  theory_markdown: '## 암호 자산 식별 (Cryptographic Inventory)
+
+
+    암호 자산 식별은 조직 내에서 사용되는 모든 암호화 알고리즘, 프로토콜, 라이브러리, 그리고 이들이 적용된 시스템 및 데이터를 체계적으로 목록화하는
+    과정이다. 이는 포스트퀀텀 암호(PQC)로의 전환을 준비하는 첫 번째 단계로, 보호 대상인 암호 알고리즘의 의존성을 명확히 파악하는 것이 핵심이다
+    [S1].
+
+
+    ### 1. 주요 관리 대상
+
+    - **알고리즘 및 프로토콜**: TLS, SSH, 코드 서명, 데이터 암호화(AES, RSA, ECC 등) 등.
+
+    - **인프라**: 인증기관(CA), 키 관리 시스템(KMS), HSM, 클라우드 키 저장소.
+
+    - **소프트웨어**: 암호화 라이브러리 버전(OpenSSL, BoringSSL 등) 및 정적/동적 연결 여부.
+
+
+    ### 2. 암호 민첩성(Crypto-agility)
+
+    암호 민첩성은 코드 변경을 최소화하면서 암호화 알고리즘을 신속하게 교체할 수 있는 능력을 의미한다. 이를 위해 시스템은 특정 알고리즘에 하드코딩되지
+    않고, 설정 파일을 통해 알고리즘을 선택할 수 있는 추상화 계층을 가져야 한다.
+
+
+    ### 3. 위험도 평가 기준
+
+    - **데이터 생명주기**: 암호화된 데이터가 미래에도 비밀을 유지해야 하는가? (예: 지금 탈취하여 미래에 해독될 위험이 있는 데이터)
+
+    - **전환 난이도**: 하드웨어 교체가 필요한가, 아니면 소프트웨어 업데이트만으로 충분한가?
+
+    - **규제 및 준수**: NIST PQC 표준 적용 시기와의 정렬 여부.'
+  worked_examples:
+  - '시스템 스캔 결과 예시: ''TLS 1.2(ECDHE-RSA-AES128-GCM-SHA256) 사용 중''이라는 자산 식별. 이 경우 RSA와
+    ECDHE가 양자 위협에 노출됨을 인지하고 ML-KEM/ML-DSA 전환 대상을 분류함.'
+  - '암호 민첩성 자가 점검표: ''알고리즘이 하드코딩되어 있는가?''에 대해 ''예''라면 위험 점수 상향. ''설정 파일을 통한 암호 알고리즘
+    선택이 가능한가?''에 대해 ''아니오''라면 전환 난이도 상향.'
+  lab:
+    title: 암호 자산 식별 및 위험도 평가 실습
+    steps:
+    - 샘플 프로젝트의 소스 코드를 대상으로 'AES', 'RSA', 'ECC' 키워드 검색을 수행하여 사용처를 찾는다.
+    - 식별된 암호 구현체(라이브러리 포함)를 '암호 자산 Inventory CSV'에 기록한다.
+    - 각 자산에 대해 '보안 수명', '양자 위협 수준', '데이터 중요도'를 기준으로 위험 점수를 산정한다.
+    - 산정된 점수를 기반으로 전환 우선순위(P0~P3)를 분류한다.
+    safety:
+    - 실제 운영 중인 시스템의 개인키나 실제 서비스 인증서를 스캔하지 않는다.
+    - 테스트를 위해 가상 환경 내에 격리된 더미 인증서(테스트용)만을 사용한다.
+    - 분석 결과물(CSV, 문서)에 실제 비밀값이나 암호화 키 값을 포함하지 않는다.
+    deliverables:
+    - 암호 자산 Inventory CSV 파일 (알고리즘, 사용처, 라이브러리, 라이브러리 버전 포함)
+    - 우선순위 기반의 암호 자산 위험 평가 보고서 (Markdown)
+  assignment:
+    title: 암호 민첩성 분석 및 전환 로드맵 수립
+    deliverables:
+    - 암호 자산 Inventory CSV
+    - 전환 우선순위가 정의된 의사결정표
+    - 포스트퀀텀 전환 로드맵
+    rubric:
+    - 암호 자산이 포괄적으로 식별되었는가?
+    - 위험 평가 기준이 객관적이고 타당한가?
+    - 전환 로드맵이 포스트퀀텀 기술 전환의 논리적 순서를 따르고 있는가?
+    - 암호 민첩성 개선을 위한 구체적인 기술 제안이 포함되었는가?
+  quiz:
+  - question: 암호 자산 식별(Cryptographic Inventory)의 주된 목적은 무엇인가?
+    choices:
+    - 모든 암호화 라이브러리의 성능을 최적화하기 위해
+    - PQC 전환을 준비하기 위해 조직 내 암호 의존성을 파악하기 위해
+    - 암호화 알고리즘을 모두 삭제하기 위해
+    - 비대칭 암호만 사용하도록 강제하기 위해
+    answer_index: 1
+    explanation: 암호 자산 식별은 전환해야 할 암호화 알고리즘의 위치와 의존성을 체계적으로 관리하여 PQC 전환을 효율적으로 수행하는
+      것을 목적으로 합니다.
+  - question: 다음 중 암호 민첩성(Crypto-agility)의 정의로 가장 적절한 것은?
+    choices:
+    - 더 강력한 암호화를 위해 하드웨어를 교체하는 과정
+    - 암호화 라이브러리 업데이트를 자동화하는 기능
+    - 코드 변경을 최소화하고 필요 시 신속하게 암호 알고리즘을 교체할 수 있는 유연성
+    - 암호화 키를 매우 자주 변경하는 것
+    answer_index: 2
+    explanation: 암호 민첩성은 알고리즘 교체 시 코드 변경 부담을 최소화하여 변화하는 보안 환경에 적응하는 능력을 의미합니다.
+  completion_criteria:
+  - 암호 자산 식별 Inventory CSV를 제출하고 위험 평가가 완료됨
+  - 각 암호 자산의 전환 난이도 및 위험 우선순위가 명시된 보고서 작성
+  - 퀴즈 항목에서 100% 정답 도달
+  source_ids:
+  - S1
+- id: m4
+  slug: test-env-setup
+  phase_id: p2
+  title: 격리된 실험 환경 구축
+  estimated_hours: 8.0
+  prerequisites:
+  - m3
+  objectives:
+  - 포스트퀀텀 암호(PQC) 실험을 위한 격리된 로컬 개발 환경의 구성 원리와 필수 도구(liboqs, oqs-provider)의 역할을 이해한다.
+  - TLS 1.3과 같은 프로토콜에서 KEM 성능이 핸드셰이크 지연 시간에 미치는 영향을 분석한다.
+  - Docker 컨테이너를 사용하여 의존성이 고정된 재현 가능한 실험 환경을 설계하고 구축한다.
+  theory_markdown: '### 격리된 PQC 실험 환경의 필요성
+
+    양자 컴퓨터의 위협으로부터 기존 공개키 암호(RSA, ECDH 등)를 보호하기 위해 NIST는 ML-KEM(Kyber 기반) 및 ML-DSA(Dilithium
+    기반)와 같은 포스트퀀텀 알고리즘을 표준화했습니다. 이러한 알고리즘의 성능과 보안성을 로컬 환경에서 평가하려면 **암호 민첩성(Crypto-agility)**을
+    갖춘 재현 가능한 환경이 필수적입니다 [S2].
+
+
+    #### 1. 주요 구성 요소
+
+    *   **liboqs**: PQC 알고리즘을 C로 구현한 라이브러리로, 다양한 KEM 및 서명 알고리즘을 테스트할 수 있는 기반을 제공합니다.
+
+    *   **oqs-provider**: OpenSSL 3의 프로바이더 아키텍처를 사용하여 PQC 알고리즘을 기존 TLS 인프라에 통합하게 해주는
+    인터페이스입니다.
+
+    *   **하이브리드 모드**: 기존 고전 암호(ECDH)와 PQC 알고리즘을 결합하여, PQC 라이브러리의 잠재적 취약성에도 불구하고 기존
+    보안 수준을 유지하는 전환기 전략입니다 [S2].
+
+
+    #### 2. 실험 환경의 핵심: 격리 및 재현성
+
+    실험은 운영 환경과 완전히 분리되어야 합니다. Docker와 같은 컨테이너 기술을 사용하여 의존성 버전을 고정(Locking)하면, 연구자
+    간의 실행 결과 차이를 줄이고 알고리즘 최적화(예: AVX-512 활용) 효과를 정확히 측정할 수 있습니다 [S2]. 핸드셰이크 성능 평가
+    시에는 고정된 하드웨어와 격리된 네트워크를 사용하여 지연 시간의 불확실성을 최소화해야 합니다.'
+  worked_examples:
+  - '예제 1: Dockerfile을 활용한 oqs-provider 기반 환경 구축. 각 라이브러리의 버전을 명시하여 빌드 재현성을 확보하는 방식
+    설명.'
+  - '예제 2: OpenSSL CLI를 이용한 하이브리드 TLS 핸드셰이크 테스트. ''openssl s_server''와 ''s_client''를
+    사용하여 ML-KEM-768 지원 하이브리드 TLS 1.3 연결 시뮬레이션 방법.'
+  lab:
+    title: 격리된 PQC 테스트베드 구축
+    steps:
+    - 실험용 Docker 컨테이너 이미지 베이스(Ubuntu 22.04 LTS 이상) 준비.
+    - liboqs 및 oqs-provider 소스 코드를 복제(clone)하고 특정 커밋 해시를 체크아웃하여 버전 고정.
+    - 'CMake를 사용하여 liboqs 컴파일 시, 최적화 수준(예: AVX2)을 설정하고 빌드 수행.'
+    - OpenSSL 3.x 환경 설정 및 oqs-provider 활성화.
+    - 로컬 네트워크 인터페이스에 고정된 루프백 연결을 통해 기본 TLS 1.3 핸드셰이크 성능 기준 측정.
+    safety:
+    - 실험용 환경은 반드시 로컬 격리된 컨테이너 내에서만 실행한다.
+    - 운영 환경의 인증서, 실제 개인키, 고객 데이터는 절대 컨테이너 내로 반입하지 않는다.
+    - 컴파일 및 실행 과정에서 생성된 측정값은 공개 테스트 데이터로 간주하며, 실제 보안 정책과는 무관함에 유의한다.
+    - 실제 하드웨어나 전력 모니터링 시, 제조사가 명시한 정격 전류 및 전압 범위를 준수한다.
+    deliverables:
+    - 의존성 버전이 고정된 Dockerfile 및 빌드 로그.
+    - OpenSSL에서 PQC 알고리즘 목록을 성공적으로 불러왔음을 보여주는 터미널 캡처.
+    - 환경 설정이 완료된 격리된 개발 환경의 체크섬(SHA-256).
+  assignment:
+    title: PQC 테스트베드 문서화 및 평가
+    deliverables:
+    - 구축한 테스트베드의 구성도와 선택한 알고리즘 버전 명세서.
+    - 테스트베드 환경에서 고전 알고리즘과 하이브리드 ML-KEM 알고리즘의 핸드셰이크 시간 비교 데이터 CSV.
+    - 격리된 환경 유지를 위한 보안 정책 보고서.
+    rubric:
+    - 의존성 버전 고정 및 빌드 재현 가능 여부 (30%)
+    - 격리된 실험 환경에서의 하이브리드 TLS 핸드셰이크 성공 여부 (40%)
+    - 알고리즘 구성 및 측정 절차의 명확성과 보안 준수 (30%)
+  quiz:
+  - question: oqs-provider의 주된 역할은 무엇인가요?
+    choices:
+    - PQC 알고리즘을 하드웨어 수준에서 가속화한다.
+    - OpenSSL 3에서 포스트퀀텀 알고리즘을 TLS 프로토콜 등에 사용할 수 있도록 연결하는 인터페이스 역할을 한다.
+    - 운영 환경의 보안 인증서를 자동으로 갱신한다.
+    - 양자 컴퓨터의 공격 벡터를 차단한다.
+    answer_index: 1
+    explanation: oqs-provider는 OpenSSL 프로바이더 아키텍처를 사용하여 PQC 알고리즘을 표준 라이브러리에 통합하고,
+      이를 통해 기존 응용 프로그램이 PQC 알고리즘을 사용할 수 있게 합니다.
+  - question: 격리된 실험 환경에서 버전을 고정(Locking)해야 하는 이유는 무엇인가요?
+    choices:
+    - 최신 버전이 항상 더 빠르기 때문이다.
+    - 재현성을 보장하고 연구자 간의 실행 환경 차이로 인한 측정 오차를 줄이기 위해서이다.
+    - 운영 보안을 강화하기 위해서이다.
+    - 빌드 시간을 단축하기 위해서이다.
+    answer_index: 1
+    explanation: 버전 고정은 동일한 환경을 재현 가능하게 하여, 성능 측정 값의 무결성과 연구의 객관성을 확보하는 데 필수적입니다.
+  completion_criteria:
+  - Docker 기반의 격리된 빌드 환경 구성 성공.
+  - oqs-provider를 통한 ML-KEM 하이브리드 모드 시연 완료.
+  - 실험 데이터 측정 및 보안 정책이 포함된 보고서 제출.
+  source_ids:
+  - S2
+- id: m5
+  slug: liboqs-integration
+  phase_id: p2
+  title: OQS 및 oqs-provider 통합
+  estimated_hours: 8.0
+  prerequisites:
+  - m4
+  objectives:
+  - Open Quantum Safe(OQS) 아키텍처와 oqs-provider의 역할을 이해한다.
+  - TLS 1.3에서 PQ(Post-Quantum) 알고리즘이 통합되는 방식을 파악한다.
+  - 로컬 환경에서 하이브리드(Hybrid) TLS 핸드셰이크를 구성하고 검증한다.
+  - KEM 구현 최적화(AVX-512 등)가 실제 핸드셰이크 성능에 미치는 영향을 고찰한다.
+  theory_markdown: '## OQS 및 oqs-provider 통합 이론
+
+
+    양자 컴퓨터의 위협으로부터 기존 데이터 전송을 보호하기 위해, NIST 표준 기반의 포스트퀀텀 알고리즘(PQC)을 TLS 1.3과 같은 기존
+    프로토콜에 통합하는 것이 필수적이다. OQS(Open Quantum Safe) 프로젝트는 이러한 통합을 가속화하기 위한 주요 프레임워크를 제공한다
+    [S2].
+
+
+    ### 1. liboqs와 oqs-provider
+
+    - **liboqs**: PQC 알고리즘(ML-KEM, ML-DSA 등)의 C 언어 구현을 담은 핵심 라이브러리다. 다양한 알고리즘에 대한
+    통일된 API를 제공한다.
+
+    - **oqs-provider**: OpenSSL 3의 프로바이더 구조를 활용하여, OpenSSL 애플리케이션(예: `s_client`, `s_server`)이
+    liboqs의 PQC 알고리즘을 네이티브하게 사용하게 돕는 중간 계층이다. 이를 통해 수정 없이 기존 TLS 도구에서 PQC 기능을 테스트할
+    수 있다.
+
+
+    ### 2. TLS 1.3의 PQ 통합 방식
+
+    TLS 1.3 핸드셰이크 과정에서 PQC KEM은 기존 키 교환(예: ECDH)을 대체하거나 보완한다.
+
+    - **PQ-only 모드**: PQC KEM만 사용하여 키를 교환한다.
+
+    - **하이브리드(Hybrid) 모드**: 기존 고전 알고리즘(ECDH)과 PQC 알고리즘을 결합한다. 이는 포스트퀀텀 안전성을 확보하는 동시에
+    고전적인 보안 보장을 유지하여, 알고리즘 구현 오류나 미래의 취약성으로부터 보호받으려는 전략이다.
+
+
+    ### 3. 성능 고려사항
+
+    PQC KEM은 기존 알고리즘보다 키 크기나 계산량이 클 수 있어 핸드셰이크 성능에 직접적인 영향을 준다 [S2]. 최신 하드웨어 명령어 세트(AVX-512
+    등)를 사용하여 다항식 곱셈과 모듈러 축소 등을 최적화함으로써 핸드셰이크 속도를 향상시킬 수 있다 [S2].'
+  worked_examples:
+  - '예제 1: oqs-provider가 OpenSSL에 로드되었는지 확인하려면 `openssl list -providers` 명령을 실행한다.
+    출력 결과에 ''oqs'' 프로바이더가 포함되어야 한다.'
+  - '예제 2: 하이브리드 핸드셰이크 수행 시, `openssl s_client -groups kyber768_x25519...`와 같이 명령어
+    인자를 통해 키 교환 그룹을 지정한다. 이는 ML-KEM(Kyber)과 고전적 Curve25519를 결합한 하이브리드 그룹이다.'
+  lab:
+    title: 로컬 환경에서의 하이브리드 TLS 테스트
+    steps:
+    - 격리된 Docker 컨테이너 내에서 liboqs 및 oqs-provider를 빌드하고 설치한다.
+    - OpenSSL 설정 파일(`openssl.cnf`)을 수정하여 oqs 프로바이더를 활성화한다.
+    - 두 개의 터미널을 열어 하나는 `openssl s_server`, 다른 하나는 `openssl s_client`를 하이브리드 모드로 실행한다.
+    - Wireshark를 사용하여 ClientHello 패킷에서 공유 키 그룹(Key Share)이 어떻게 전송되는지 캡처하고 분석한다.
+    - 핸드셰이크 성공 여부와 세션 암호화 알고리즘 정보를 확인한다.
+    safety:
+    - 실험은 반드시 격리된 로컬 가상 환경 내에서만 수행한다.
+    - 운영 서비스에 사용되는 인증서나 키는 절대로 사용하지 않는다.
+    - Wireshark 캡처 시 실제 서비스 트래픽이 포함되지 않도록 주의한다.
+    deliverables:
+    - oqs-provider 활성화 확인 스크린샷
+    - 하이브리드 핸드셰이크 로그 파일
+    - Wireshark 캡처 패킷의 공유 키 그룹 분석 보고서
+  assignment:
+    title: 암호 민첩성 기반 전환 분석 보고서
+    deliverables:
+    - TLS 핸드셰이크 성능 측정 결과 데이터(CSV)
+    - 하이브리드 모드 사용 이유와 성능 저하에 대한 분석 에세이
+    - 우선순위 기반 포스트퀀텀 전환 로드맵
+    rubric:
+    - OQS 도구 체인 빌드 및 실행 성공 여부
+    - TLS 패킷 분석을 통해 하이브리드 모드 동작을 정확히 설명했는가
+    - 성능 측정 데이터가 실험 환경과 버전 정보를 포함하고 재현 가능한가
+    - 암호 민첩성의 개념을 기반으로 전환 로드맵이 논리적으로 작성되었는가
+  quiz:
+  - question: oqs-provider가 OpenSSL에서 담당하는 핵심 역할은 무엇인가?
+    choices:
+    - 네트워크 패킷을 암호화하는 하드웨어 가속기
+    - OpenSSL이 liboqs의 PQC 알고리즘을 호출할 수 있게 해주는 계층
+    - 인터넷에서 공개키 인증서를 발급하는 서비스
+    - 양자 컴퓨터의 공격을 탐지하는 IDS 도구
+    answer_index: 1
+    explanation: oqs-provider는 OpenSSL의 프로바이더 구조를 통해 liboqs의 알고리즘을 OpenSSL 애플리케이션에서
+      직접 사용할 수 있도록 연결해줍니다.
+  - question: TLS 1.3에서 '하이브리드 모드' 키 교환을 사용하는 주된 이유는 무엇인가?
+    choices:
+    - 성능을 100배 이상 높이기 위해
+    - 단일 알고리즘 구현 오류나 미래 취약성에 대비하여 보안을 보장하기 위해
+    - 모든 기존 클라이언트를 지원하기 위해
+    - 양자 컴퓨터를 사용하여 핸드셰이크를 하기 위해
+    answer_index: 1
+    explanation: 하이브리드 모드는 고전적인 알고리즘과 PQC 알고리즘을 결합하여, 구현 결함이나 알려지지 않은 취약성에 대비하는 다층
+      방어 전략입니다.
+  completion_criteria:
+  - oqs-provider 기반 로컬 테스트 환경 빌드 완료
+  - 하이브리드 TLS 핸드셰이크 성공 및 패킷 캡처 검증 완료
+  - 실험 결과와 분석이 포함된 보고서 작성 완료
+  - 포스트퀀텀 전환 로드맵 수립 완료
+  source_ids:
+  - S2
+- id: m6
+  slug: performance-benchmarking
+  phase_id: p3
+  title: 성능 평가 및 벤치마킹
+  estimated_hours: 8.0
+  prerequisites:
+  - m5
+  objectives:
+  - 포스트퀀텀 암호 알고리즘(ML-KEM)의 성능 평가 지표(시간, 메모리, 처리량)를 이해한다.
+  - TLS 1.3 핸드셰이크 과정에서 KEM 연산이 성능에 미치는 영향을 분석한다.
+  - Liboqs 및 oqs-provider 프레임워크를 활용하여 하이브리드 암호 모드의 성능을 벤치마킹한다.
+  theory_markdown: '## 성능 평가 및 벤치마킹
+
+
+    포스트퀀텀 암호(PQC)로의 전환은 단순히 알고리즘을 교체하는 것이 아니라, 기존 네트워크 프로토콜(예: TLS 1.3)의 성능과 직결되는
+    문제입니다. 특히 KEM(Key Encapsulation Mechanism) 연산은 핸드셰이크의 지연 시간(latency)과 서버의 초당 연결
+    처리량(handshakes per second)에 직접적인 영향을 미칩니다 [S2].
+
+
+    ### 성능 지표
+
+    1. **연산 시간(Computation Time):** 키 생성(KeyGen), 캡슐화(Encaps), 역캡슐화(Decaps) 각각에 소요되는
+    CPU 사이클 또는 시간(ms).
+
+    2. **데이터 크기:** 공개키 및 캡슐화된 텍스트(ciphertext)의 크기. 이는 네트워크 대역폭 소비와 단편화 발생 가능성을 결정합니다.
+
+    3. **처리량(Throughput):** 초당 처리 가능한 핸드셰이크 수. 최적화된 구현(예: AVX-512 활용)은 폴리노미얼 곱셈 및
+    모듈러 연산 속도를 높여 처리량을 크게 개선할 수 있습니다 [S2].
+
+
+    ### 하이브리드 모드
+
+    전환기에는 전통적인 알고리즘(ECDH)과 PQC(ML-KEM)를 함께 사용하는 하이브리드 접근법이 권장됩니다. 이는 PQC의 잠재적 취약성에
+    대비하면서도 PQC의 보안 이점을 확보하기 위함입니다. 하이브리드 모드는 연산 복잡도가 증가하므로 성능 저하를 면밀히 평가해야 합니다 [S2].'
+  worked_examples:
+  - '예제 1: Liboqs를 사용한 단일 KEM 연산 벤치마킹
+
+    Python 스크립트를 통해 `ML-KEM-768`의 `keypair`, `encaps`, `decaps` 동작 시간을 `timeit` 모듈로
+    측정하고 결과를 CSV로 저장하는 방법입니다.'
+  - '예제 2: 하이브리드 TLS 1.3 핸드셰이크 처리량 측정
+
+    oqs-provider가 적용된 로컬 서버/클라이언트 환경에서 `s_client`와 `s_server`를 사용하여 100회 연결 시 소요되는
+    총 시간을 측정하여 초당 핸드셰이크 수(TPS)를 산출하는 분석 절차입니다.'
+  lab:
+    title: PQC 성능 벤치마킹 실습
+    steps:
+    - 격리된 개발 환경에서 liboqs 및 oqs-provider를 설치하고 환경 설정을 확인한다.
+    - 벤치마킹용 Python 스크립트를 작성하여 ML-KEM 알고리즘의 연산 시간을 측정한다.
+    - Wireshark를 실행하여 TLS 핸드셰이크 패킷을 캡처하고, 하이브리드 모드 시 데이터 크기 변화를 분석한다.
+    - 측정된 데이터를 기반으로 연산 시간과 처리량 지표를 그래프화한다.
+    safety:
+    - 실험은 로컬 격리 환경 내에서만 수행하며 실제 운영 환경의 인증서나 키를 절대 사용하지 않는다.
+    - 벤치마킹 과정에서 높은 CPU 부하가 발생할 수 있으므로 시스템 리소스를 모니터링한다.
+    - 실제 비밀값이나 키 데이터를 캡처 파일에 포함하지 않도록 주의한다.
+    deliverables:
+    - 연산 성능 측정 스크립트(.py)
+    - 측정 결과 CSV 데이터
+    - 알고리즘별 성능 비교 분석 보고서(.md 또는.ipynb)
+  assignment:
+    title: 암호 민첩성 기반 성능 평가 보고서
+    deliverables:
+    - 알고리즘 선택 이유 및 보안/성능 트레이드오프 분석
+    - 벤치마킹 데이터 시각화 자료
+    - 성능 결과를 바탕으로 한 전환 로드맵 수정안
+    rubric:
+    - 벤치마킹 데이터가 재현 가능하고 독립된 환경에서 측정되었는가?
+    - 성능 저하의 기술적 원인(키 크기, 연산 복잡도)을 정확히 분석했는가?
+    - 하이브리드 모드의 이점과 비용을 균형 있게 논의했는가?
+  quiz:
+  - question: TLS 1.3 핸드셰이크 성능에서 가장 중요한 PQC 알고리즘 관련 요소는?
+    choices:
+    - 대칭키 암호 알고리즘의 블록 크기
+    - KEM의 키 생성 및 캡슐화 연산 시간
+    - 해시 알고리즘의 종류
+    - 서버의 운영체제 종류
+    answer_index: 1
+    explanation: TLS 1.3 핸드셰이크 성능은 KEM 알고리즘의 연산 효율성에 크게 좌우됩니다 [S2].
+  - question: 성능 평가 시 하이브리드 모드를 사용하는 주된 이유는?
+    choices:
+    - 전통적인 알고리즘보다 항상 빠르기 때문에
+    - PQC의 보안 위협에 대비하면서 보안성을 유지하기 위해
+    - 네트워크 대역폭을 줄이기 위해
+    - 연산 리소스를 최소화하기 위해
+    answer_index: 1
+    explanation: 하이브리드 모드는 PQC의 미래 보안성과 전통적 알고리즘의 검증된 보안성을 결합하여 점진적 전환을 가능하게 합니다.
+  completion_criteria:
+  - 벤치마킹 스크립트 실행 및 결과 데이터 확보 완료
+  - 성능 평가 보고서 제출 및 통과
+  - TLS 하이브리드 모드 성능 분석 완료
+  source_ids:
+  - S2
+- id: m7
+  slug: hybrid-tls-analysis
+  phase_id: p3
+  title: Hybrid TLS 핸드셰이크 분석
+  estimated_hours: 8.0
+  prerequisites:
+  - m6
+  objectives:
+  - 양자 위협 환경에서 TLS 1.3의 취약성을 설명한다.
+  - ML-KEM 기반 하이브리드(Hybrid) TLS 핸드셰이크 구조를 이해한다.
+  - OQS(Open Quantum Safe) 기반 로컬 환경에서 하이브리드 모드 성능을 측정한다.
+  - 패킷 캡처를 통해 기존 알고리즘과 PQ 알고리즘이 결합된 핸드셰이크 과정을 분석한다.
+  theory_markdown: '### 하이브리드 TLS 핸드셰이크 이론
+
+
+    현행 TLS 1.3은 ECDH(Elliptic Curve Diffie-Hellman)와 같은 고전적 공개키 암호에 의존하며, 이는 충분한 성능의
+    양자 컴퓨터가 등장할 경우 공격 위협에 노출된다[S2]. 이에 대한 대응으로 NIST 표준인 ML-KEM(Module-Lattice-Based
+    Key-Encapsulation Mechanism)과 같은 포스트퀀텀 암호(PQC)를 통합하는 연구가 활발하다[S2].
+
+
+    #### 하이브리드 모드의 보안 가정
+
+    완전한 PQC 전환 이전에 운영 안정성을 위해 고전적 알고리즘과 PQ 알고리즘을 결합한 ''하이브리드(Hybrid) 모드''를 사용한다. 이
+    방식은 두 알고리즘의 공유 비밀(Shared Secret)을 결합하여, 두 알고리즘 중 하나만 안전해도 통신의 비밀성을 보장하도록 설계한다.
+
+
+    #### 성능 고려사항
+
+    TLS 1.3 핸드셰이크 성능은 KEM의 계산 비용에 직접적으로 의존한다[S2]. 특히 키 생성(Key Generation), 캡슐화(Encapsulation),
+    역캡슐화(Decapsulation) 단계에서의 연산 효율성이 전체 핸드셰이크 속도를 결정한다. 최근에는 AVX-512와 같은 명령어 집합 최적화를
+    통해 다항식 곱셈과 모듈러 축소 과정을 가속화하여 핸드셰이크 성능을 높이는 기법이 적용되고 있다[S2].'
+  worked_examples:
+  - '예제 1: 하이브리드 키 교환 과정 - 클라이언트는 고전적 공유 비밀 값과 PQC 캡슐화 결과값을 서버에 전송합니다. 서버는 역캡슐화 후
+    두 공유 비밀을 KDF(Key Derivation Function)에 결합하여 세션키를 생성합니다.'
+  - '예제 2: 핸드셰이크 지연 분석 - PQ 알고리즘 적용 시 추가적인 키 크기(Key Size)가 증가함에 따라 네트워크 전송 시간이 늘어나는
+    현상을 비교 분석합니다. 성능 최적화(예: AVX-512 사용) 적용 전후의 핸드셰이크 당 처리량(Handshakes per second)
+    차이를 수치화합니다[S2].'
+  lab:
+    title: OQS 기반 하이브리드 TLS 핸드셰이크 재현 실험
+    steps:
+    - 격리된 Docker 환경에서 liboqs 및 oqs-provider가 통합된 OpenSSL 3 빌드 환경을 구축한다.
+    - '기존 ECDH 모드와 ML-KEM 기반 하이브리드 모드(예: secp256r1_mlkem768)를 설정한다.'
+    - 로컬 루프백(Loopback) 인터페이스를 사용하여 두 모드 간 TLS 1.3 핸드셰이크를 실행한다.
+    - Wireshark를 사용하여 ClientHello 및 ServerHello 메시지 내의 키 교환 데이터 필드를 패킷 캡처한다.
+    - 실행 시간 측정 스크립트를 사용하여 100회 이상의 핸드셰이크 평균 시간을 측정하고, 하이브리드 모드의 오버헤드를 기록한다.
+    safety:
+    - 본 실험은 로컬 환경의 격리된 루프백 인터페이스에서만 수행하며 외부 네트워크 트래픽을 생성하지 않는다.
+    - 실제 인증서, 개인키, 사용자 데이터 등 운영 보안 자산을 절대 사용하지 않는다.
+    - 학습용 OQS 라이브러리는 실험적 도구이므로 실제 운영 보안 서비스에 사용하지 않는다.
+    - 실험 종료 시 모든 생성된 임시 키와 로컬 측정 데이터를 삭제한다.
+    deliverables:
+    - 설정 및 실행 로그 파일
+    - Wireshark 패킷 캡처 파일(.pcapng) 및 키 교환 필드 분석 노트
+    - 핸드셰이크 성능 비교 측정 CSV 데이터
+  assignment:
+    title: TLS 1.3 하이브리드 전환 성능 분석 보고서
+    deliverables:
+    - 핸드셰이크 지연 시간 비교 분석 그래프 및 데이터 시각화
+    - 하이브리드 모드 패킷 분석 및 키 교환 알고리즘 특징 요약
+    - 운영 환경 적용 시 예상되는 성능 및 보안 고려사항 의사결정표
+    rubric:
+    - 실험의 재현 가능성(환경 설정 및 스크립트 명시 여부)
+    - 패킷 분석의 정확성(키 교환 필드 식별)
+    - 성능 측정 데이터의 논리적 해석
+    - 이론적 보안 가정과 실험 결과의 연결성
+  quiz:
+  - question: 하이브리드 TLS 핸드셰이크의 주된 보안적 이점은 무엇입니까?
+    choices:
+    - 핸드셰이크 단계를 획기적으로 줄여 속도를 높인다.
+    - 고전적 알고리즘과 PQC 알고리즘 중 하나만 안전해도 비밀성을 유지한다.
+    - 네트워크 전송 비용을 완전히 제거한다.
+    - 인증서 관리의 복잡도를 낮춘다.
+    answer_index: 1
+    explanation: 하이브리드 모드는 기존 알고리즘과 PQC 알고리즘의 결과를 결합하여, 두 알고리즘 중 하나만 안전해도 보안이 유지되도록
+      설계된 전환기 전략입니다.
+  - question: TLS 1.3 핸드셰이크 성능에 가장 큰 영향을 미치는 PQ 알고리즘 요소는 무엇입니까?
+    choices:
+    - 네트워크 레이턴시만 고려한다.
+    - KEM(키 캡슐화 메커니즘)의 키 생성, 캡슐화, 역캡슐화 연산 비용
+    - 서버의 디스크 I/O 속도
+    - 클라이언트의 브라우저 버전
+    answer_index: 1
+    explanation: KEM 알고리즘의 계산 비용은 TLS 1.3 핸드셰이크 성능과 직결되며, 이를 최적화하는 것이 성능 개선의 핵심입니다[S2].
+  completion_criteria:
+  - 로컬 환경에서 liboqs 기반 하이브리드 TLS 핸드셰이크 재현 성공
+  - Wireshark 분석을 통해 하이브리드 키 교환 메시지 확인
+  - 성능 측정 데이터 기반의 결과 분석 보고서 제출
+  - 안전 제약 사항(데이터 격리, 운영 키 미사용) 준수 확인
+  source_ids:
+  - S2
+- id: m8
+  slug: migration-roadmap
+  phase_id: p3
+  title: 전환 우선순위 보고서 작성
+  estimated_hours: 8.0
+  prerequisites:
+  - m7
+  objectives:
+  - 포스트퀀텀 암호(PQC) 전환을 위한 위험 및 비즈니스 영향 분석 프레임워크 이해
+  - 암호 자산 인벤토리 데이터를 기반으로 전환 우선순위 결정
+  - 암호 민첩성(Cryptographic Agility) 확보를 위한 기술적 전략 수립
+  - 최종 전환 로드맵 및 검증 보고서 구조화
+  theory_markdown: '### 전환 우선순위 전략 (Migration Prioritization Strategy)
+
+
+    NIST 포스트퀀텀 표준(ML-KEM, ML-DSA)으로의 전환은 시스템 전반의 암호 자산 평가에서 시작됩니다. 전환 우선순위는 단순히 알고리즘의
+    노후화 정도가 아니라, 데이터의 수명(Data Shelf Life), 암호 노출 위험, 그리고 시스템의 전략적 중요도에 따라 결정됩니다 [S1].
+
+
+    #### 1. 암호 자산 평가 기준 (Assessment Criteria)
+
+    전환 시급성을 판단하기 위해 다음 기준을 활용합니다:
+
+    - **데이터 보안 수명:** 암호화된 데이터가 미래 양자 컴퓨터에 의해 해독되었을 때 미치는 영향(예: 10년 이상 기밀 유지 필요 데이터).
+
+    - **시스템 민첩성:** 현재 구현된 암호가 하드코딩되었는지, 구성 파일(Config)을 통해 알고리즘 교체가 가능한지 여부.
+
+    - **기술 부채:** 해당 암호 모듈을 사용하는 종속성(Dependency) 및 유지보수 가능 여부.
+
+
+    #### 2. 암호 민첩성 확보
+
+    전환 로드맵의 핵심은 알고리즘 교체 시 코드 변경을 최소화하는 것입니다. 추상화 레이어(Abstraction Layer)를 사용하여 비즈니스
+    로직과 암호 엔진을 분리하고, 하이브리드 키 교환 방식을 통해 기존 알고리즘의 안정성과 PQC의 양자 저항성을 동시에 확보하는 전략이 권장됩니다.'
+  worked_examples:
+  - '예시 1: 데이터 생명주기 기반 우선순위 산정 - 20년 보존되는 인적 정보 데이터베이스는 5년 보존되는 로그 데이터보다 PQC 전환 우선순위가
+    높게 평가됨.'
+  - '예시 2: 하이브리드 TLS 구성 사례 - 기존 ECDH와 ML-KEM을 결합하여, 두 알고리즘 중 하나만 안전해도 통신 기밀성이 유지되도록
+    설계하는 하이브리드 모델 분석.'
+  lab:
+    title: 전환 로드맵 시뮬레이션
+    steps:
+    - 이전 모듈에서 작성한 인벤토리 CSV 데이터를 로드합니다.
+    - 각 자산에 대해 [위험성 * 중요도 * 수명] 점수를 산출하는 Python 스크립트를 작성합니다.
+    - 우선순위 상위 3개 자산에 대한 하이브리드 구현 계획을 세웁니다.
+    - 전환 시 발생할 수 있는 호환성 문제와 대응책(Fall-back 전략)을 기술합니다.
+    safety:
+    - 모든 계산 및 분석은 독립된 격리 가상 환경에서만 수행합니다.
+    - 운영 서버의 실제 암호 구성을 변경하지 않습니다.
+    - 실제 키 자료가 포함되지 않도록 분석 노트북을 검토합니다.
+    deliverables:
+    - 우선순위가 매겨진 인벤토리 CSV 분석본
+    - 전환 계획이 포함된 기술 결정 의사결정표
+  assignment:
+    title: PQC 전환 우선순위 보고서
+    deliverables:
+    - 암호 민첩성 분석 보고서 (PDF)
+    - 위험 등급 기반 전환 로드맵 (표 포함)
+    rubric:
+    - 데이터 수명 및 노출 위험에 기반한 타당한 우선순위 논리
+    - 하이브리드 암호 체계 도입을 통한 암호 민첩성 고려
+    - 전환 계획의 단계별 실행 가능성
+    - 실험 결과 및 데이터 인벤토리와의 정합성
+  quiz:
+  - question: 암호 전환 우선순위를 결정할 때 가장 고려해야 할 데이터 특성은 무엇입니까?
+    choices:
+    - 데이터가 사용되는 프로그래밍 언어
+    - 데이터의 보안 필요 수명(Data Shelf Life)
+    - 시스템의 개발자 수
+    - 최신 데이터 저장소의 용량
+    answer_index: 1
+    explanation: 양자 위협은 데이터가 미래에 해독될 위험을 내포하므로, 오랫동안 기밀이 유지되어야 하는 데이터가 가장 우선적으로 PQC
+      전환이 필요합니다.
+  - question: 암호 민첩성(Cryptographic Agility)을 위해 권장되는 소프트웨어 설계 방식은 무엇입니까?
+    choices:
+    - 하드코딩된 암호 알고리즘 사용
+    - 암호화 모듈과 비즈니스 로직의 추상화 분리
+    - 단일 알고리즘만 사용하는 폐쇄형 구조
+    - 운영체제 수준의 암호 라이브러리 직접 참조
+    answer_index: 1
+    explanation: 암호 엔진과 로직을 분리하여 알고리즘 교체 시 코드 변경을 최소화하는 구조가 암호 민첩성 확보의 핵심입니다.
+  completion_criteria:
+  - 전환 우선순위가 명시된 인벤토리 분석 파일 제출
+  - 암호 민첩성 고려사항이 포함된 전환 로드맵 보고서 작성
+  - 모든 실습 코드 및 측정값이 포함된 재현 패키지 완료
+  source_ids:
+  - S1
+sources:
+- id: S1
+  title: MIT OpenCourseWare | Free Online Course Materials
+  organization: ocw.mit.edu
+  url: https://ocw.mit.edu/
+  type: university
+  published_at: null
+  accessed_at: '2026-10-11'
+  primary: true
+  supports:
+  - m3
+  - m8
+- id: S2
+  title: 'Faster Post-Quantum TLS 1.3 Based on ML-KEM: Implementation ...'
+  organization: arxiv.org
+  url: https://arxiv.org/html/2404.13544v2
+  type: paper
+  published_at: null
+  accessed_at: '2026-10-11'
+  primary: true
+  supports:
+  - m4
+  - m5
+  - m6
+  - m7
+- id: S3
+  title: 'Security in Post-Quantum Era: A Comprehensive Survey on ...'
+  organization: ieeexplore.ieee.org
+  url: https://ieeexplore.ieee.org/abstract/document/11006701
+  type: paper
+  published_at: null
+  accessed_at: '2026-10-11'
+  primary: true
+  supports:
+  - m1
+- id: S4
+  title: 'Post-Quantum Cryptography and Quantum-Safe Security: A ...'
+  organization: arxiv.org
+  url: https://arxiv.org/pdf/2510.10436
+  type: paper
+  published_at: null
+  accessed_at: '2026-10-11'
+  primary: true
+  supports:
+  - m1
+  - m2
+bom: []
+capstone:
+  title: 포스트퀀텀 암호 민첩성 재현 패키지
+  deliverables:
+  - 암호 자산 인벤토리 리스트 (CSV)
+  - ML-KEM/ML-DSA 벤치마크 분석 노트북
+  - Hybrid TLS 캡처 파일 및 핸드셰이크 분석 보고서
+  - 우선순위 기반 전환 로드맵
+  rubric:
+  - 암호 자산의 위험 점수 산정 논리 적절성
+  - 알고리즘 구현의 재현 가능성 및 측정 결과 일관성
+  - 하이브리드 모드의 TLS 프로토콜 동작 분석 정확도
+  - 로드맵의 비즈니스 우선순위 반영도
+  safety:
+  - 공개 테스트 데이터 사용 필수
+  - 모든 개인키 및 비밀 값은 실험 환경에서만 생성 및 폐기
+  - 실제 인증서나 운영 데이터 유출 방지
+generation:
+  run_id: e5164bbefc324eff94b7957c62695f66
+  generated_at: '2026-10-11T00:06:00.762658Z'
+  generator: gemini
+selection:
+  canonical_topic_id: post-quantum-cryptography-migration
+  demand_score: 91
+  duplicate_verdict: unique
+  evidence:
+  - title: NIST Releases First Finalized Post-Quantum Encryption Standards
+    publisher: NIST
+    url: https://www.nist.gov/news-events/news/2024/08/nist-releases-first-3-finalized-post-quantum-encryption-standards
+    observed_at: '2026-10-11'
+    family: technical_regulatory_change
+    measurement: null
+  - title: Migration to Post-Quantum Cryptography FAQ
+    publisher: NIST NCCoE
+    url: https://pages.nist.gov/nccoe-migration-post-quantum-cryptography/
+    observed_at: '2026-10-11'
+    family: technical_regulatory_change
+    measurement: null
+  - title: Open Quantum Safe liboqs
+    publisher: Open Quantum Safe
+    url: https://github.com/open-quantum-safe/liboqs
+    observed_at: '2026-10-11'
+    family: learning_community
+    measurement: null
+localization: null
+published_at: '2026-10-16T00:55:40.127560+09:00'

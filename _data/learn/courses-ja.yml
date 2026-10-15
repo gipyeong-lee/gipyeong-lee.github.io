@@ -43,3 +43,27 @@
   lang: ja
   published_at: '2026-08-29T08:34:02+09:00'
   demand_score: null
+- slug: post-quantum-cryptography-migration-lab
+  title: 耐量子暗号移行検証実験
+  primary_category: ai-software
+  topics:
+  - post-quantum-cryptography
+  - cryptographic-inventory
+  - ml-kem
+  - ml-dsa
+  - crypto-agility
+  course_type: academic
+  summary: NISTの耐量子暗号（PQC）標準の数学的・セキュリティ的背景を理解し、固定されたローカルテストシステムにて暗号資産を特定・分類した後、ML-KEMとML-DSAを実験的に評価して、優先順位に基づく移行ロードマップを策定する。
+  outcome: 学習者は量子脅威モデルを理解し、実務レベルの暗号資産特定ツールおよびOQSベースのテストフレームワークを活用して、運用環境の暗号アジリティを評価するレポートを作成できる。
+  level: graduate
+  estimated_hours: 64.0
+  budget_krw:
+    min: 0
+    max: 0
+  module_count: 8
+  last_reviewed: '2026-10-11'
+  curriculum_version: 1.0.0+78591abb512e
+  url: /learn/ja/post-quantum-cryptography-migration-lab/
+  lang: ja
+  published_at: '2026-10-16T00:55:40.127560+09:00'
+  demand_score: 91
