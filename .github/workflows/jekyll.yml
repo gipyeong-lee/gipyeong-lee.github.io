@@ -33,7 +33,12 @@ concurrency:
 jobs:
   # Build job
   build:
-    runs-on: ubuntu-latest
+    # Pinned: this Gemfile.lock (Ruby 3.2 + google-protobuf 3.21.12 built
+    # from source) does not install on ubuntu-26.04, which ubuntu-latest
+    # became in 2026-10 — no Ruby 3.2.0 build there, and its Ruby 3.2.x
+    # lacks HAVE_STDBOOL_H, breaking protobuf's -std=gnu99 compile.
+    # Verify a cold `bundle install` on a new image before moving.
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout
         uses: actions/checkout@v4
