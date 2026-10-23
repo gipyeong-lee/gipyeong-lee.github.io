@@ -27,7 +27,8 @@ permissions:
 # With false, the running build always completes and the newest push waits
 # in the queue (intermediate pending runs are superseded automatically).
 concurrency:
-  group: "pages"
+  # Manual branch builds must not supersede pending production deployments.
+  group: "pages-${{ github.ref }}"
   cancel-in-progress: false
 
 jobs:
@@ -75,6 +76,8 @@ jobs:
 
   # Deployment job
   deploy:
+    # Branch dispatches validate the build; only main may deploy to Pages.
+    if: github.ref == 'refs/heads/main'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
