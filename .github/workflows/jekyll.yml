@@ -27,13 +27,19 @@ permissions:
 # With false, the running build always completes and the newest push waits
 # in the queue (intermediate pending runs are superseded automatically).
 concurrency:
-  group: "pages"
+  # Manual branch builds must not supersede pending production deployments.
+  group: "pages-${{ github.ref }}"
   cancel-in-progress: false
 
 jobs:
   # Build job
   build:
-    runs-on: ubuntu-latest
+    # A versioned image, not ubuntu-latest: a floating label swaps the
+    # compiler under Gemfile.lock without a commit (the move to 26.04 broke
+    # every deploy from 2026-10-21). google-protobuf, sass-embedded, nokogiri
+    # and ffi are locked as x86_64-linux-gnu builds, so only small extensions
+    # compile here. Verify a cold `bundle install` on a new image before moving.
+    runs-on: ubuntu-26.04
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -46,7 +52,9 @@ jobs:
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.2.0'
+          # A series, not a patch: new images only get the newest patch of each
+          # series (3.2.0 had no 26.04 build). Matches the local Homebrew Ruby.
+          ruby-version: '4.0'
           bundler-cache: true
           cache-version: 0
       - name: Setup Pages
@@ -70,6 +78,8 @@ jobs:
 
   # Deployment job
   deploy:
+    # Branch dispatches validate the build; only main may deploy to Pages.
+    if: github.ref == 'refs/heads/main'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
