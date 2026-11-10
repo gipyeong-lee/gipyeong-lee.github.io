@@ -27,6 +27,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 WORKFLOW = (ROOT / ".github/workflows/jekyll.yml").read_text(encoding="utf-8")
 LOCKFILE = (ROOT / "Gemfile.lock").read_text(encoding="utf-8")
+CONFIG = (ROOT / "_config.yml").read_text(encoding="utf-8")
+ANALYTICS = (ROOT / "_includes/google-analytics.html").read_text(encoding="utf-8")
 
 # Native gems whose source builds are slow or compiler-sensitive; the
 # google-protobuf one is what broke on 26.04.
@@ -72,6 +74,34 @@ class PagesWorkflowContractTest(unittest.TestCase):
         for gem in PRECOMPILED_ON_RUNNER:
             with self.subTest(gem=gem):
                 self.assertIn("x86_64-linux-gnu", _locked_platforms(gem))
+
+    def test_deploy_retries_once_after_a_timeout(self):
+        """deploy-pages cancels at a hard 10-minute cap, and Pages' full
+        re-sync of the ~1 GB artifact can take most of it: 6 of 130 main
+        deploys 2026-11-01..10 timed out in syncing_files. A second attempt
+        on the same artifact gets a fresh window."""
+        deploy = _job("deploy")
+        steps = re.findall(r"^      - name: .*?(?=^      - |\Z)", deploy, re.M | re.S)
+        attempts = [step for step in steps if "uses: actions/deploy-pages@" in step]
+        self.assertEqual(len(attempts), 2, "expected one deploy step and one retry")
+        first, retry = attempts
+        self.assertRegex(first, r"continue-on-error:\s*true")
+        first_id = re.search(r"id:\s*(\S+)", first).group(1)
+        self.assertIn(f"if: steps.{first_id}.outcome == 'failure'", retry)
+        retry_id = re.search(r"id:\s*(\S+)", retry).group(1)
+        self.assertIn(f"steps.{retry_id}.outputs.page_url", deploy)
+
+    def test_pagination_is_off(self):
+        """The home page lists posts with its own lang-filtered loop, so
+        jekyll-paginate only emitted /page/2..N/ copies of it that nothing
+        links to: 2,589 by 2026-11, 12% of every Pages artifact's files."""
+        self.assertNotRegex(CONFIG, r"(?m)^paginate(_path)?:")
+        self.assertNotRegex(CONFIG, r"(?m)^\s*-\s*jekyll-paginate\s*$")
+
+    def test_404_redirect_sends_dropped_page_urls_home(self):
+        """The sitemap listed every /page/N/, so they stay indexed for a
+        while; send them home instead of serving a tracked 404."""
+        self.assertIn(r"if (/^\/page\/\d+\/?$/.test(path)) return '/';", ANALYTICS)
 
 
 if __name__ == "__main__":

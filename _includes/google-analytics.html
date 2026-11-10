@@ -45,6 +45,7 @@
     var redirectTarget = (function (path) {
       if (path.indexOf('/tag/') === 0) return '/tags/';
       if (path.indexOf('/seojae') === 0) return '/blog/';  // 서재 → Blog (2026-08 개편)
+      if (/^\/page\/\d+\/?$/.test(path)) return '/';       // home copies, paginate dropped 2026-11
       var p = path
         .replace(/[\u200B-\u200D\uFEFF]/g, '')  // zero-width chars
         .replace(/\/r\/n.*$/, '/')              // literal "\r\n" spelled as /r/n
