@@ -82,10 +82,22 @@ jobs:
     if: github.ref == 'refs/heads/main'
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: ${{ steps.deployment.outputs.page_url || steps.deployment_retry.outputs.page_url }}
     runs-on: ubuntu-latest
     needs: build
     steps:
+      # deploy-pages cancels the deployment after 10 minutes, a hard cap
+      # (MAX_TIMEOUT; a larger `timeout` input is clamped). Pages' file sync
+      # is bimodal: 10-35 s usually, 5-9 min when it re-syncs the whole ~1 GB
+      # artifact, so with queueing it sometimes misses the cap (6 of 130 main
+      # deploys 2026-11-01..10, all "Timeout reached" in syncing_files). A
+      # second attempt on the same artifact gets a fresh 10-minute window
+      # instead of leaving the site stale until the next post.
       - name: Deploy to GitHub Pages
         id: deployment
+        continue-on-error: true
+        uses: actions/deploy-pages@v4
+      - name: Retry deploy after a timeout
+        id: deployment_retry
+        if: steps.deployment.outcome == 'failure'
         uses: actions/deploy-pages@v4

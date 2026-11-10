@@ -6,8 +6,6 @@ url: "https://gipyeong-lee.github.io" # the base hostname & protocol for your si
 markdown: kramdown
 permalink: pretty
 future: true
-plugins:
-  - jekyll-paginate
 
 collections:
   learn:
@@ -35,8 +33,11 @@ exclude:
   - CLAUDE.md
   - README.md
 
-paginate: 5
-paginate_path: "/page/:num"
+# No jekyll-paginate: the home page lists posts with its own lang-filtered
+# Liquid loop, so paginate only emitted /page/2/../page/N/ copies of the
+# home page that nothing linked to (2,589 by 2026-11, 12% of the files in
+# every Pages artifact). The 404 redirect in _includes/google-analytics.html
+# sends old /page/N/ URLs home.
 
 
 # Pages Path
