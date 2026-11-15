@@ -24,7 +24,6 @@ quiz:
     explanation: "PostgreSQL works identically regardless of where it is run; cloud versus self-hosted is simply a difference in the infrastructure operating environment."
 lang: en
 ref: 2026-07-07-PostgreSQL-Benchmark-AWS-RDS-vs-Self-Hosted-on-Hetzner-2026
-audio: 2026-07-07-PostgreSQL-Benchmark-AWS-RDS-vs-Self-Hosted-on-Hetzner-2026.en.mp3
 industry: general
 ---
 

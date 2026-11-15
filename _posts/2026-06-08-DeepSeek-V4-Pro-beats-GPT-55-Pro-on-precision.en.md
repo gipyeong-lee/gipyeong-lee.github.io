@@ -24,7 +24,6 @@ quiz:
     explanation: "Based on 1 million output tokens, DeepSeek V4 Pro costs $3.48, which is significantly cheaper than GPT-5.5 at $30, forming a price level of about 1/10."
 lang: en
 ref: 2026-06-08-DeepSeek-V4-Pro-beats-GPT-55-Pro-on-precision
-audio: 2026-06-08-DeepSeek-V4-Pro-beats-GPT-55-Pro-on-precision.en.mp3
 industry: healthcare
 ---
 

@@ -24,7 +24,6 @@ quiz:
     explanation: "OpenAI is sacrificing short-term profits from a long-term perspective to gain the 'first-mover advantage' and monopolize the foundational infrastructure of the future AI industry."
 lang: en
 ref: 2026-06-16-OpenAI-Losses-Increased-Nearly-8X-in-2025-with-Spending-Hitting-34B
-audio: 2026-06-16-OpenAI-Losses-Increased-Nearly-8X-in-2025-with-Spending-Hitting-34B.en.mp3
 industry: finance
 ---
 

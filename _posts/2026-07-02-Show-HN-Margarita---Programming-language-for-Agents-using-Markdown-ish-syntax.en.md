@@ -24,7 +24,6 @@ quiz:
     explanation: "Margarita aims to make writing agents as easy as writing in Markdown."
 lang: en
 ref: 2026-07-02-Show-HN-Margarita---Programming-language-for-Agents-using-Markdown-ish-syntax
-audio: 2026-07-02-Show-HN-Margarita---Programming-language-for-Agents-using-Markdown-ish-syntax.en.mp3
 industry: creative
 ---
 

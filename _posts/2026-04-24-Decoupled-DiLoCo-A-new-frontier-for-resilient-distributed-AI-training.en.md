@@ -24,7 +24,6 @@ quiz:
     explanation: "Actual experiments demonstrated that AI can be trained with very high efficiency while utilizing resources distributed across the globe."
 lang: en
 ref: 2026-04-24-Decoupled-DiLoCo-A-new-frontier-for-resilient-distributed-AI-training
-audio: 2026-04-24-Decoupled-DiLoCo-A-new-frontier-for-resilient-distributed-AI-training.en.mp3
 industry: creative
 ---
 

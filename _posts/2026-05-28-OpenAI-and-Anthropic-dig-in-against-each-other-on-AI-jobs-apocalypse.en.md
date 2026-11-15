@@ -24,7 +24,6 @@ quiz:
     explanation: "Numerous companies, such as Meta and Intuit, are making massive investments to strengthen their AI capabilities while simultaneously carrying out large-scale restructuring and layoffs for the sake of efficiency."
 lang: en
 ref: 2026-05-28-OpenAI-and-Anthropic-dig-in-against-each-other-on-AI-jobs-apocalypse
-audio: 2026-05-28-OpenAI-and-Anthropic-dig-in-against-each-other-on-AI-jobs-apocalypse.en.mp3
 industry: finance
 ---
 

@@ -24,7 +24,6 @@ quiz:
     explanation: "Using GeoSQL's 'map-in-the-loop' workflow improves spatial data analysis efficiency by approximately 4 times."
 lang: en
 ref: 2026-07-08-Geosql-A-ClaudeCodex-skill-for-geospatial-data
-audio: 2026-07-08-Geosql-A-ClaudeCodex-skill-for-geospatial-data.en.mp3
 industry: general
 ---
 

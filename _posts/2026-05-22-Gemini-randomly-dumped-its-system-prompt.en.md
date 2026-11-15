@@ -24,7 +24,6 @@ quiz:
     explanation: "The system prompt for the Waymo Gemini assistant under development for vehicles contained a massive rulebook of behavioral guidelines spanning a staggering 1,200 lines."
 lang: en
 ref: 2026-05-22-Gemini-randomly-dumped-its-system-prompt
-audio: 2026-05-22-Gemini-randomly-dumped-its-system-prompt.en.mp3
 industry: creative
 ---
 

@@ -24,7 +24,6 @@ quiz:
     explanation: "Anthropic admitted they made the 'wrong tradeoff' regarding the new safety guardrails and rolled back the policy that hindered researchers, but their credibility had already taken a massive hit."
 lang: en
 ref: 2026-06-13-Antirez-on-X-I-believe-what-Anthropic-is-doing-is-deeply-wrong
-audio: 2026-06-13-Antirez-on-X-I-believe-what-Anthropic-is-doing-is-deeply-wrong.en.mp3
 industry: creative
 ---
 

@@ -24,7 +24,6 @@ quiz:
     explanation: "When a system lacks tests, Claude intelligently writes test code first to verify the safety of the patch."
 lang: en
 ref: 2026-07-07-Jul-6-2026Case-StudyGovernment-of-Alberta-uses-Claude-to-find-and-fix-cybersecur
-audio: 2026-07-07-Jul-6-2026Case-StudyGovernment-of-Alberta-uses-Claude-to-find-and-fix-cybersecur.en.mp3
 industry: security
 ---
 

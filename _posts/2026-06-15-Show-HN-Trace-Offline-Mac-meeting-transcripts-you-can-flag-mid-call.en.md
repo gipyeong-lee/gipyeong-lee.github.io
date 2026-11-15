@@ -24,7 +24,6 @@ quiz:
     explanation: "Trace provides the result as a highly searchable and manageable Markdown-formatted text document, with key moments flagged by the user neatly included inline throughout the transcript."
 lang: en
 ref: 2026-06-15-Show-HN-Trace-Offline-Mac-meeting-transcripts-you-can-flag-mid-call
-audio: 2026-06-15-Show-HN-Trace-Offline-Mac-meeting-transcripts-you-can-flag-mid-call.en.mp3
 industry: healthcare
 ---
 

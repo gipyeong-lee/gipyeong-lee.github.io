@@ -24,7 +24,6 @@ quiz:
     explanation: "SIMA 2 is built upon Google's cutting-edge Gemini model, enabling powerful language and reasoning capabilities."
 lang: en
 ref: 2026-04-20-SIMA-2-An-Agent-that-Plays-Reasons-and-Learns-With-You-in-Virtual-3D-Worlds
-audio: 2026-04-20-SIMA-2-An-Agent-that-Plays-Reasons-and-Learns-With-You-in-Virtual-3D-Worlds.en.mp3
 industry: creative
 ---
 

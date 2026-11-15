@@ -24,7 +24,6 @@ quiz:
     explanation: "The 'infinite loop' problem, where AI agents agree with each other instead of solving actual problems during complex coding processes, has been identified as a real pain point for developers."
 lang: en
 ref: 2026-05-21-Show-HN-Dari-docs-Optimize-your-docs-using-parallel-coding-agents
-audio: 2026-05-21-Show-HN-Dari-docs-Optimize-your-docs-using-parallel-coding-agents.en.mp3
 industry: finance
 ---
 

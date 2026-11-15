@@ -24,7 +24,6 @@ quiz:
     explanation: "Browser Harness is lightweight and fast, consisting of approximately 592 lines of essential code."
 lang: en
 ref: 2026-05-05-Show-HN-Browser-Harness-Gives-LLM-freedom-to-complete-any-browser-task
-audio: 2026-05-05-Show-HN-Browser-Harness-Gives-LLM-freedom-to-complete-any-browser-task.en.mp3
 industry: creative
 ---
 

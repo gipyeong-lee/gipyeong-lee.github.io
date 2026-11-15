@@ -24,7 +24,6 @@ quiz:
     explanation: "Since the extension uses the same protocol as the existing official plugin, it connects immediately without complex setup just by installing and pressing the 'Launch' button."
 lang: en
 ref: 2026-06-16-Show-HN-Claude-Code-for-Visual-Studio-native-diff-with-acceptreject
-audio: 2026-06-16-Show-HN-Claude-Code-for-Visual-Studio-native-diff-with-acceptreject.en.mp3
 industry: creative
 ---
 

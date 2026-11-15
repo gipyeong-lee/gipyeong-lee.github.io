@@ -24,7 +24,6 @@ quiz:
     explanation: "It was pointed out that the server gets overloaded, leading to unstable connections or delayed responses. While it is cheaper than GPT-5.5 Pro, it is still on the expensive side within the overall ecosystem."
 lang: en
 ref: 2026-06-14-Claude-Fable-5-vs-GPT-55-Better-Planning-Similar-Execution
-audio: 2026-06-14-Claude-Fable-5-vs-GPT-55-Better-Planning-Similar-Execution.en.mp3
 industry: healthcare
 ---
 

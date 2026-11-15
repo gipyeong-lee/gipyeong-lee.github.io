@@ -24,7 +24,6 @@ quiz:
     explanation: "Genie 3 generates high-quality interactive environments at 720p resolution."
 lang: en
 ref: 2026-04-21-Genie-3-A-new-frontier-for-world-models
-audio: 2026-04-21-Genie-3-A-new-frontier-for-world-models.en.mp3
 industry: education
 ---
 

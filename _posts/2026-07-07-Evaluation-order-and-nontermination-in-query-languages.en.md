@@ -24,7 +24,6 @@ quiz:
     explanation: "To solve the recursion problem in query languages, left-to-right, nondeterministic, and parallel 'and' strategies are discussed."
 lang: en
 ref: 2026-07-07-Evaluation-order-and-nontermination-in-query-languages
-audio: 2026-07-07-Evaluation-order-and-nontermination-in-query-languages.en.mp3
 industry: creative
 ---
 

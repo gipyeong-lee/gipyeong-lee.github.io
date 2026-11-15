@@ -24,7 +24,6 @@ quiz:
     explanation: "Gemini audio accurately captures complex details like alphanumeric product codes even in noisy environments."
 lang: en
 ref: 2026-04-22-Advanced-audio-dialog-and-generation-with-Gemini-25
-audio: 2026-04-22-Advanced-audio-dialog-and-generation-with-Gemini-25.en.mp3
 industry: creative
 ---
 

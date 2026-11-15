@@ -24,7 +24,6 @@ quiz:
     explanation: "GPT-5.5 proved its superior performance by scoring a high 82.7% on Terminal-Bench 2.0."
 lang: en
 ref: 2026-05-06-GPT-55-Instant-smarter-clearer-and-more-personalizedProductMay-5-2026
-audio: 2026-05-06-GPT-55-Instant-smarter-clearer-and-more-personalizedProductMay-5-2026.en.mp3
 industry: creative
 ---
 

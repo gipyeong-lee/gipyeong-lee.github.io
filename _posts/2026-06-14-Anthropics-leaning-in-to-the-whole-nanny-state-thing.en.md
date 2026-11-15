@@ -24,7 +24,6 @@ quiz:
     explanation: "Anthropic successfully analyzed the inside of the AI system and extracted 171 'emotion vectors' that operate similarly to human emotional structures within the machine's neural network."
 lang: en
 ref: 2026-06-14-Anthropics-leaning-in-to-the-whole-nanny-state-thing
-audio: 2026-06-14-Anthropics-leaning-in-to-the-whole-nanny-state-thing.en.mp3
 industry: legal
 ---
 

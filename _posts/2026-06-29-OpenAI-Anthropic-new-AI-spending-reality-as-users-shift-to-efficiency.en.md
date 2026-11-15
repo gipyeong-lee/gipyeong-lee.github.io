@@ -24,7 +24,6 @@ quiz:
     explanation: "Anthropic has moved away from fixed pricing to a token-based billing system where costs are paid based on actual usage, making their revenue model more realistic."
 lang: en
 ref: 2026-06-29-OpenAI-Anthropic-new-AI-spending-reality-as-users-shift-to-efficiency
-audio: 2026-06-29-OpenAI-Anthropic-new-AI-spending-reality-as-users-shift-to-efficiency.en.mp3
 industry: general
 ---
 

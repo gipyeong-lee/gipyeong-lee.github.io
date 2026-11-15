@@ -24,7 +24,6 @@ quiz:
     explanation: "Routing is the technology that automatically distributes and delivers prompts to AI models with the most appropriate performance and cost based on user requirements (quality, speed, cost, etc.)."
 lang: en
 ref: 2026-07-09-Show-HN-Frugon-Find-which-LLM-calls-a-cheaper-model-could-handle-local-MIT
-audio: 2026-07-09-Show-HN-Frugon-Find-which-LLM-calls-a-cheaper-model-could-handle-local-MIT.en.mp3
 industry: finance
 ---
 

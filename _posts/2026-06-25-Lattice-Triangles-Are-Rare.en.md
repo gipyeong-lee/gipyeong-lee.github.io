@@ -24,7 +24,6 @@ quiz:
     explanation: "A lattice refers to an arrangement of points in space in a regular pattern or structure."
 lang: en
 ref: 2026-06-25-Lattice-Triangles-Are-Rare
-audio: 2026-06-25-Lattice-Triangles-Are-Rare.en.mp3
 industry: security
 ---
 

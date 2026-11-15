@@ -24,7 +24,6 @@ quiz:
     explanation: "Gemini 3.5 Flash was designed for the era of agents to quickly handle practical tasks such as multi-step workflows and complex coding iteration."
 lang: en
 ref: 2026-06-25-Computer-use-in-Gemini-35-Flash
-audio: 2026-06-25-Computer-use-in-Gemini-35-Flash.en.mp3
 industry: creative
 ---
 

@@ -24,7 +24,6 @@ quiz:
     explanation: "Anthropic, OpenAI, and SpaceX are the first companies to use Nvidia's new Vera CPU on a massive scale, which boasts a speed 1.8 times faster than existing x86 chips for AI workloads."
 lang: en
 ref: 2026-06-02-Can-the-stockmarket-swallow-Anthropic-SpaceX-and-OpenAI
-audio: 2026-06-02-Can-the-stockmarket-swallow-Anthropic-SpaceX-and-OpenAI.en.mp3
 industry: finance
 ---
 

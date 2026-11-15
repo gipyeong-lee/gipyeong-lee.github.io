@@ -24,7 +24,6 @@ quiz:
     explanation: "Codex is a language model that converts everyday human language commands into programming code, specializing in assisting developers with coding tasks."
 lang: en
 ref: 2026-04-29-OpenAI-models-Codex-and-Ws-come-to-AWSProductApr-28-2026
-audio: 2026-04-29-OpenAI-models-Codex-and-Managed-Agents-come-to-AWSProductApr-28-2026.en.mp3
 industry: creative
 ---
 

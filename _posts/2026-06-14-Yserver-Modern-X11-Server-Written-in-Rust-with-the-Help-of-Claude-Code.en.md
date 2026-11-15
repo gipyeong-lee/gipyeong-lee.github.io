@@ -24,7 +24,6 @@ quiz:
     explanation: "Yserver recently completed its initial development and officially released its first stable version, 'Version 1.0'."
 lang: en
 ref: 2026-06-14-Yserver-Modern-X11-Server-Written-in-Rust-with-the-Help-of-Claude-Code
-audio: 2026-06-14-Yserver-Modern-X11-Server-Written-in-Rust-with-the-Help-of-Claude-Code.en.mp3
 industry: creative
 ---
 

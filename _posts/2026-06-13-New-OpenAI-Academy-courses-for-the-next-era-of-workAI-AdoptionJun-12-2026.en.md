@@ -24,7 +24,6 @@ quiz:
     explanation: "If you take a certification course that is far removed from the skills you need, you could waste months of time. Therefore, it is important to consult with a mentor before starting to choose the right path."
 lang: en
 ref: 2026-06-13-New-OpenAI-Academy-courses-for-the-next-era-of-workAI-AdoptionJun-12-2026
-audio: 2026-06-13-New-OpenAI-Academy-courses-for-the-next-era-of-workAI-AdoptionJun-12-2026.en.mp3
 industry: education
 ---
 

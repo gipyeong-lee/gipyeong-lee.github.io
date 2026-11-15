@@ -24,7 +24,6 @@ quiz:
     explanation: "South Korea and the UK signed the 'Strategic Cyber Partnership' in 2023 to strengthen cybersecurity cooperation."
 lang: en
 ref: 2026-04-27-Announcing-our-partnership-with-the-Republic-of-Korea
-audio: 2026-04-27-Announcing-our-partnership-with-the-Republic-of-Korea.en.mp3
 industry: security
 ---
 

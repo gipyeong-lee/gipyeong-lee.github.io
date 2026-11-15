@@ -24,7 +24,6 @@ quiz:
     explanation: "Elon Musk filed a massive $130 billion lawsuit against OpenAI, which transformed into a for-profit company, and its key figures, claiming they stole the initial promise of being a 'charity'."
 lang: en
 ref: 2026-05-24-Greg-Brockman-Inside-the-72-Hours-That-Almost-Killed-OpenAI
-audio: 2026-05-24-Greg-Brockman-Inside-the-72-Hours-That-Almost-Killed-OpenAI.en.mp3
 industry: robotics
 ---
 

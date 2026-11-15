@@ -24,7 +24,6 @@ quiz:
     explanation: "Since the emergence of ChatGPT, the volume of paper submissions to arXiv has surged by 50%, and the number of rejections due to basic quality failures or rule violations has spiked by an astonishing 5 times."
 lang: en
 ref: 2026-05-18-New-arXiv-policy-1-year-ban-for-hallucinated-references
-audio: 2026-05-18-New-arXiv-policy-1-year-ban-for-hallucinated-references.en.mp3
 industry: education
 ---
 

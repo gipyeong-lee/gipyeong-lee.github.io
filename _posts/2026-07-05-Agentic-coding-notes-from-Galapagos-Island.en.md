@@ -24,7 +24,6 @@ quiz:
     explanation: "Agentic coding aids developer productivity, but human intervention is not entirely unnecessary. Caution, especially in test verification, remains important [Source 3, Source 4]."
 lang: en
 ref: 2026-07-05-Agentic-coding-notes-from-Galapagos-Island
-audio: 2026-07-05-Agentic-coding-notes-from-Galapagos-Island.en.mp3
 industry: robotics
 ---
 

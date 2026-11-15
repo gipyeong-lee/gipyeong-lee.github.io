@@ -24,7 +24,6 @@ quiz:
     explanation: "LatentMAS demonstrated results of reducing token usage by up to 83.7% while increasing accuracy by 14.6%."
 lang: en
 ref: 2026-07-04-Cache-Merging-as-a-Convergent-Replicated-State-for-Multi-Agent-Latent-Reasoning
-audio: 2026-07-04-Cache-Merging-as-a-Convergent-Replicated-State-for-Multi-Agent-Latent-Reasoning.en.mp3
 industry: creative
 ---
 

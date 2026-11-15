@@ -24,7 +24,6 @@ quiz:
     explanation: "Pulpie was developed by Shreyash Nigam and Bhavnick Singh Minhas of Feyn."
 lang: en
 ref: 2026-07-07-Show-HN-Pulpie-Models-for-Cleaning-the-Web
-audio: 2026-07-07-Show-HN-Pulpie-Models-for-Cleaning-the-Web.en.mp3
 industry: creative
 ---
 

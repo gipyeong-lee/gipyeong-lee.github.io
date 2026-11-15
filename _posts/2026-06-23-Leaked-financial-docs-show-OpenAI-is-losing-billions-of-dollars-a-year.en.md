@@ -24,7 +24,6 @@ quiz:
     explanation: "Inefficiency is slightly decreasing, as evidenced by the operating loss ratio improving from 237% to 160%."
 lang: en
 ref: 2026-06-23-Leaked-financial-docs-show-OpenAI-is-losing-billions-of-dollars-a-year
-audio: 2026-06-23-Leaked-financial-docs-show-OpenAI-is-losing-billions-of-dollars-a-year.en.mp3
 industry: finance
 ---
 

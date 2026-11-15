@@ -24,7 +24,6 @@ quiz:
     explanation: "While Amazon gave up on distribution, the film is nearly complete and is currently seeking another distributor."
 lang: en
 ref: 2026-06-23-Amazon-drops-Sam-Altman-movie-after-announcing-OpenAI-partnership
-audio: 2026-06-23-Amazon-drops-Sam-Altman-movie-after-announcing-OpenAI-partnership.en.mp3
 industry: creative
 ---
 

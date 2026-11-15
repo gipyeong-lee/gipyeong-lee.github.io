@@ -24,7 +24,6 @@ quiz:
     explanation: "Steven Sinofsky offered a cautious perspective by recalling the history from 16 years ago, when high expectations for a PC era led by Nvidia and Arm ended in the failure of the 'Surface RT' due to the lack of a software ecosystem."
 lang: en
 ref: 2026-06-07-Computex-2026-Are-We-Heading-for-the-Agentic-PC-Era-Yet-EE-Times
-audio: 2026-06-07-Computex-2026-Are-We-Heading-for-the-Agentic-PC-Era-Yet-EE-Times.en.mp3
 industry: creative
 ---
 

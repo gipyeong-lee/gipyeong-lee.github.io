@@ -24,7 +24,6 @@ quiz:
     explanation: "According to research results, the Gemini 2.0 model shows a clear favoritism for '7' when picking a random number in the range of 1 to 10."
 lang: en
 ref: 2026-05-26-GPT-Guesses-Between-1-and-100
-audio: 2026-05-26-GPT-Guesses-Between-1-and-100.en.mp3
 industry: education
 ---
 

@@ -24,7 +24,6 @@ quiz:
     explanation: "Currently, it is available for research purposes only to specific qualified users via ChatGPT, Codex, and APIs through restricted access."
 lang: en
 ref: 2026-06-04-Introducing-new-capabilities-to-GPT-RosalindProductJun-3-2026
-audio: 2026-06-04-Introducing-new-capabilities-to-GPT-RosalindProductJun-3-2026.en.mp3
 industry: healthcare
 ---
 

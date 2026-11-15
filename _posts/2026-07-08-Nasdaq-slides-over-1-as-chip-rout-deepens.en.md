@@ -24,7 +24,6 @@ quiz:
     explanation: "AI infrastructure-related stocks, which led the market over the past year, are recently facing a correction phase."
 lang: en
 ref: 2026-07-08-Nasdaq-slides-over-1-as-chip-rout-deepens
-audio: 2026-07-08-Nasdaq-slides-over-1-as-chip-rout-deepens.en.mp3
 industry: finance
 ---
 

@@ -24,7 +24,6 @@ quiz:
     explanation: "The error where an AI agent freezes with a blank slate when attempting to generate a document with a large and complex format is called 'Output stalling'."
 lang: en
 ref: 2026-05-25-Constraint-Decay-The-Fragility-of-LLM-Agents-in-Back-End-Code-Generation
-audio: 2026-05-25-Constraint-Decay-The-Fragility-of-LLM-Agents-in-Back-End-Code-Generation.en.mp3
 industry: education
 ---
 

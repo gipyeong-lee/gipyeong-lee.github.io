@@ -24,7 +24,6 @@ quiz:
     explanation: "Models like Qwen3.6 excel at routine tasks or single-file refactoring, but they still lag behind top-tier paid models by about 10-15 points when it comes to macroscopic architectural design capabilities that involve making structural decisions for the entire system."
 lang: en
 ref: 2026-06-13-Running-Claude-Code-Offline-on-an-M3-Pro-with-Qwen36
-audio: 2026-06-13-Running-Claude-Code-Offline-on-an-M3-Pro-with-Qwen36.en.mp3
 industry: security
 ---
 

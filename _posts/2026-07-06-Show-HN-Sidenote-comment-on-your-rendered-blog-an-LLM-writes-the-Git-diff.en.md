@@ -24,7 +24,6 @@ quiz:
     explanation: "Sidenote is a local-first application that runs directly in the browser."
 lang: en
 ref: 2026-07-06-Show-HN-Sidenote-comment-on-your-rendered-blog-an-LLM-writes-the-Git-diff
-audio: 2026-07-06-Show-HN-Sidenote-comment-on-your-rendered-blog-an-LLM-writes-the-Git-diff.en.mp3
 industry: creative
 ---
 

@@ -24,7 +24,6 @@ quiz:
     explanation: "The computer use capability of Gemini 3.5 Flash allows for the construction of user-tailored agents that work across various platforms, including browsers, mobile, and desktop."
 lang: en
 ref: 2026-06-25-Introducing-computer-use-in-Gemini-35-Flash
-audio: 2026-06-25-Introducing-computer-use-in-Gemini-35-Flash.en.mp3
 industry: creative
 ---
 

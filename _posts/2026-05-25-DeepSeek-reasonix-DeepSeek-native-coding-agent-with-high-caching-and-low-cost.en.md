@@ -24,7 +24,6 @@ quiz:
     explanation: "According to a case study shared in the developer community, Reasonix demonstrated a staggering 93% cost reduction compared to Claude."
 lang: en
 ref: 2026-05-25-DeepSeek-reasonix-DeepSeek-native-coding-agent-with-high-caching-and-low-cost
-audio: 2026-05-25-DeepSeek-reasonix-DeepSeek-native-coding-agent-with-high-caching-and-low-cost.en.mp3
 industry: creative
 ---
 

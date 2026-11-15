@@ -24,7 +24,6 @@ quiz:
     explanation: "Many users have reported experiencing performance issues, bugs, and integration difficulties within Office apps like Word or Excel."
 lang: en
 ref: 2026-07-08-Microsoft-365-Copilot-adoption-is-under-45-only-1-use-it-weekly
-audio: 2026-07-08-Microsoft-365-Copilot-adoption-is-under-45-only-1-use-it-weekly.en.mp3
 industry: general
 ---
 

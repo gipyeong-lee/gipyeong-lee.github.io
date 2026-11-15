@@ -24,7 +24,6 @@ quiz:
     explanation: "Claude is evaluated as being more likely to say it doesn't know rather than forcing a fabricated answer when asked questions beyond its knowledge or capabilities."
 lang: en
 ref: 2026-05-04-I-prompted-ChatGPT-Claude-Perplexity-and-Gemini-and-watched-my-Nginx-logs
-audio: 2026-05-04-I-prompted-ChatGPT-Claude-Perplexity-and-Gemini-and-watched-my-Nginx-logs.en.mp3
 industry: finance
 ---
 

@@ -24,7 +24,6 @@ quiz:
     explanation: "An SBOM (Software Bill of Materials) is an essential security tool that lists the components a program is made of, allowing you to quickly check if any vulnerable components are included."
 lang: en
 ref: 2026-06-09-Mass-NPM-Supply-Chain-Attack-Hits-TanStack-Mistral-AI-and-170-Packages
-audio: 2026-06-09-Mass-NPM-Supply-Chain-Attack-Hits-TanStack-Mistral-AI-and-170-Packages.en.mp3
 industry: security
 ---
 

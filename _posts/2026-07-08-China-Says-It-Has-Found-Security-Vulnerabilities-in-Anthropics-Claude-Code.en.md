@@ -24,7 +24,6 @@ quiz:
     explanation: "China's National Vulnerability Database (NVDB) recommends that affected systems be reviewed and that the version be deleted or upgraded to the latest security release."
 lang: en
 ref: 2026-07-08-China-Says-It-Has-Found-Security-Vulnerabilities-in-Anthropics-Claude-Code
-audio: 2026-07-08-China-Says-It-Has-Found-Security-Vulnerabilities-in-Anthropics-Claude-Code.en.mp3
 industry: security
 ---
 

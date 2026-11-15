@@ -24,7 +24,6 @@ quiz:
     explanation: "The process where an AI agent writes code and revises it through self-reviews until satisfied was named the 'Ralph Wiggum Loop', after the famous cartoon character."
 lang: en
 ref: 2026-06-07-Harness-engineering-Leveraging-Codex-in-an-agent-first-world
-audio: 2026-06-07-Harness-engineering-Leveraging-Codex-in-an-agent-first-world.en.mp3
 industry: creative
 ---
 

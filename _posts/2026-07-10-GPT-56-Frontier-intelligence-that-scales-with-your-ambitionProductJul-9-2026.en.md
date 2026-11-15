@@ -24,7 +24,6 @@ quiz:
     explanation: "GPT-5.6 has been deployed across ChatGPT, Codex used for coding tasks, and the API for external developers."
 lang: en
 ref: 2026-07-10-GPT-56-Frontier-intelligence-that-scales-with-your-ambitionProductJul-9-2026
-audio: 2026-07-10-GPT-56-Frontier-intelligence-that-scales-with-your-ambitionProductJul-9-2026.en.mp3
 industry: education
 ---
 

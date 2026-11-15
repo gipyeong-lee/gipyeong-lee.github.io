@@ -24,7 +24,6 @@ quiz:
     explanation: "Thinking models are designed to solve increasingly complex problems, reasoning, and coding tasks."
 lang: en
 ref: 2026-04-22-Were-expanding-our-Gemini-25-family-of-models
-audio: 2026-04-22-Were-expanding-our-Gemini-25-family-of-models.en.mp3
 industry: creative
 ---
 

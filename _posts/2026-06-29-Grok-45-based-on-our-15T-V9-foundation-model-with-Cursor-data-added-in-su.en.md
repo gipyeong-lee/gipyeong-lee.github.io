@@ -24,7 +24,6 @@ quiz:
     explanation: "Grok 4.5 is currently undergoing private beta testing with internal engineers at SpaceX and Tesla."
 lang: en
 ref: 2026-06-29-Grok-45-based-on-our-15T-V9-foundation-model-with-Cursor-data-added-in-su
-audio: 2026-06-29-Grok-45-based-on-our-15T-V9-foundation-model-with-Cursor-data-added-in-su.en.mp3
 industry: creative
 ---
 

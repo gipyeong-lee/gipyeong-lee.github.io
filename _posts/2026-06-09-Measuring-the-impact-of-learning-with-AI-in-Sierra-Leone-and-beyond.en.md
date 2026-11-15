@@ -24,7 +24,6 @@ quiz:
     explanation: "The researchers evaluated that AI successfully served as a competent 'teaching assistant' (sous-chef), helping teachers focus more on their students rather than pushing human teachers out."
 lang: en
 ref: 2026-06-09-Measuring-the-impact-of-learning-with-AI-in-Sierra-Leone-and-beyond
-audio: 2026-06-09-Measuring-the-impact-of-learning-with-AI-in-Sierra-Leone-and-beyond.en.mp3
 industry: education
 ---
 

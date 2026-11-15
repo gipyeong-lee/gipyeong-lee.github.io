@@ -24,7 +24,6 @@ quiz:
     explanation: "While memory layers face security risks such as memory poisoning or sensitive information leaks, physical damage to a hard drive is not a direct security threat specific to memory layer software technology."
 lang: en
 ref: 2026-05-05-Open-source-memory-layer-so-any-AI-agent-can-do-what-Claudeai-and-ChatGPT-do
-audio: 2026-05-05-Open-source-memory-layer-so-any-AI-agent-can-do-what-Claudeai-and-ChatGPT-do.en.mp3
 industry: creative
 ---
 

@@ -24,7 +24,6 @@ quiz:
     explanation: "UpToDate, often called the gold standard in clinical fields, costs more than $500 per year."
 lang: en
 ref: 2026-05-02-Making-ChatGPT-better-for-cliniciansProductApr-22-2026
-audio: 2026-05-02-Making-ChatGPT-better-for-cliniciansProductApr-22-2026.en.mp3
 industry: healthcare
 ---
 

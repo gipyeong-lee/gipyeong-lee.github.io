@@ -24,7 +24,6 @@ quiz:
     explanation: "WebMCP is a browser-native agent protocol led and developed by Google and Microsoft."
 lang: en
 ref: 2026-06-26-Show-HN-Personajs-a-vanilla-JS-agent-UI-library-with-native-WebMCP-MIT
-audio: 2026-06-26-Show-HN-Personajs-a-vanilla-JS-agent-UI-library-with-native-WebMCP-MIT.en.mp3
 industry: creative
 ---
 

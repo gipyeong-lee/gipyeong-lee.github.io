@@ -24,7 +24,6 @@ quiz:
     explanation: "Harness engineering is closer to the concept of an apparatus that helps an AI efficiently handle actual tools like Bash, reading, and writing, rather than complex orchestration."
 lang: en
 ref: 2026-06-25-Show-HN-10x-better-performance-from-the-Coding-Harnesses-with-LLM-wiki
-audio: 2026-06-25-Show-HN-10x-better-performance-from-the-Coding-Harnesses-with-LLM-wiki.en.mp3
 industry: creative
 ---
 

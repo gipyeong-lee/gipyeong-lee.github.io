@@ -24,7 +24,6 @@ quiz:
     explanation: "Jensen Huang named Cursor as his favorite enterprise AI service, emphasizing productivity improvements."
 lang: en
 ref: 2026-06-30-Cursor-now-has-a-mobile-app-for-guiding-your-coding-agent-on-the-go
-audio: 2026-06-30-Cursor-now-has-a-mobile-app-for-guiding-your-coding-agent-on-the-go.en.mp3
 industry: creative
 ---
 

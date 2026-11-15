@@ -24,7 +24,6 @@ quiz:
     explanation: "Claude Guillemot served as the Chairman of Guillemot Corporation at the time of his death."
 lang: en
 ref: 2026-06-23-Ubisoft-co-founder-Claude-Guillemot-has-died-in-a-plane-crash
-audio: 2026-06-23-Ubisoft-co-founder-Claude-Guillemot-has-died-in-a-plane-crash.en.mp3
 industry: creative
 ---
 

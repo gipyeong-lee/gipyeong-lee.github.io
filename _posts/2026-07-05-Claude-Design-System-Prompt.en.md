@@ -24,7 +24,6 @@ quiz:
     explanation: "This feature is disabled by default for Enterprise plans and requires separate configuration [Source: Start working with Claude Design](https://support.claude.com/ru/articles/14604416-начните-работу-с-claude-design)."
 lang: en
 ref: 2026-07-05-Claude-Design-System-Prompt
-audio: 2026-07-05-Claude-Design-System-Prompt.en.mp3
 industry: creative
 ---
 

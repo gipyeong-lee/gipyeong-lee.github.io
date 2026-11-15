@@ -21,7 +21,6 @@ quiz:
   - question: "Where did the Claude app rank on the Apple App Store when the outage occurred on March 2, 2026?"
     choices: ["It fell out of the top 100 in downloads", "It ranked #1 in the free apps category", "It was forcibly removed from the App Store"]
 lang: en
-audio: 2026-06-17-Claude-Elevated-errors-across-many-models.en.mp3
 industry: education
 ---
 

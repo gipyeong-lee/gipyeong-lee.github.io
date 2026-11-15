@@ -24,7 +24,6 @@ quiz:
     explanation: "For high-volume enterprises processing over 10,000 monthly conversations, costs ranging from $500 to $5,000 per month are expected, depending on complexity and integration requirements."
 lang: en
 ref: 2026-07-12-The-true-cost-of-saying-Hi-to-an-AI-agent
-audio: 2026-07-12-The-true-cost-of-saying-Hi-to-an-AI-agent.en.mp3
 industry: creative
 ---
 

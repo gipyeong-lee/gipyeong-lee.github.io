@@ -24,7 +24,6 @@ quiz:
     explanation: "As these companies are nearing IPOs, sellers expect the value of the stock to be higher than cash."
 lang: en
 ref: 2026-07-09-In-San-Francisco-Some-Home-Sellers-Now-Ask-for-OpenAI-or-Anthropic-Stock
-audio: 2026-07-09-In-San-Francisco-Some-Home-Sellers-Now-Ask-for-OpenAI-or-Anthropic-Stock.en.mp3
 industry: finance
 ---
 

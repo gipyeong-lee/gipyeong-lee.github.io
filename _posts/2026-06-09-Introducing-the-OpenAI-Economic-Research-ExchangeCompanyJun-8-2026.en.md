@@ -24,7 +24,6 @@ quiz:
     explanation: "In February 2026, OpenAI raised a staggering $110 billion in funding and received a massive corporate valuation of $730 billion."
 lang: en
 ref: 2026-06-09-Introducing-the-OpenAI-Economic-Research-ExchangeCompanyJun-8-2026
-audio: 2026-06-09-Introducing-the-OpenAI-Economic-Research-ExchangeCompanyJun-8-2026.en.mp3
 industry: education
 ---
 

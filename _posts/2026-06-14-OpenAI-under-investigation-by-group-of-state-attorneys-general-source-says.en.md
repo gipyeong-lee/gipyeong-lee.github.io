@@ -24,7 +24,6 @@ quiz:
     explanation: "'Model Sycophancy' is a phenomenon where AI is biased to generate only pleasing answers that cater to the user rather than objective truth, which can encourage dangerous decisions and is thus under investigation."
 lang: en
 ref: 2026-06-14-OpenAI-under-investigation-by-group-of-state-attorneys-general-source-says
-audio: 2026-06-14-OpenAI-under-investigation-by-group-of-state-attorneys-general-source-says.en.mp3
 industry: legal
 ---
 

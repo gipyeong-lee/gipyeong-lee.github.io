@@ -24,7 +24,6 @@ quiz:
     explanation: "By using Claude Code routines, you can automate tasks like sending daily emails or detecting weekly spending anomalies using only natural language prompts, without having to build complex infrastructure."
 lang: en
 ref: 2026-05-24-Could-a-Claude-Code-routine-watch-my-finances
-audio: 2026-05-24-Could-a-Claude-Code-routine-watch-my-finances.en.mp3
 industry: finance
 ---
 

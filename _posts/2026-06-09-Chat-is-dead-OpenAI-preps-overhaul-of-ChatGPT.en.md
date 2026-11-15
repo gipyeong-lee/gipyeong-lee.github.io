@@ -24,7 +24,6 @@ quiz:
     explanation: "According to related reports, OpenAI is preparing this massive overhaul to maximize its corporate value and utility ahead of its upcoming Initial Public Offering (IPO)."
 lang: en
 ref: 2026-06-09-Chat-is-dead-OpenAI-preps-overhaul-of-ChatGPT
-audio: 2026-06-09-Chat-is-dead-OpenAI-preps-overhaul-of-ChatGPT.en.mp3
 industry: finance
 ---
 

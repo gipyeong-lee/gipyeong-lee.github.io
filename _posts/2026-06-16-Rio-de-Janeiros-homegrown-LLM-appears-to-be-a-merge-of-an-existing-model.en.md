@@ -24,7 +24,6 @@ quiz:
     explanation: "Experts analyzed that while original development is difficult, repackaging existing models is relatively easy, leading to such occurrences."
 lang: en
 ref: 2026-06-16-Rio-de-Janeiros-homegrown-LLM-appears-to-be-a-merge-of-an-existing-model
-audio: 2026-06-16-Rio-de-Janeiros-homegrown-LLM-appears-to-be-a-merge-of-an-existing-model.en.mp3
 industry: education
 ---
 

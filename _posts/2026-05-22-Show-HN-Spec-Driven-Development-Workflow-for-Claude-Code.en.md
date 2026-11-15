@@ -24,7 +24,6 @@ quiz:
     explanation: "Pimzino emphasized that clearly separating the design (planning) phase from the implementation phase of actual code writing is an essential condition for successful AI coding."
 lang: en
 ref: 2026-05-22-Show-HN-Spec-Driven-Development-Workflow-for-Claude-Code
-audio: 2026-05-22-Show-HN-Spec-Driven-Development-Workflow-for-Claude-Code.en.mp3
 industry: creative
 ---
 

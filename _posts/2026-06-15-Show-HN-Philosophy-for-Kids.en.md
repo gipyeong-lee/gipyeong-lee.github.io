@@ -24,7 +24,6 @@ quiz:
     explanation: "This book contains 40 discussion questions that serve as an introduction to philosophical thinking and debate."
 lang: en
 ref: 2026-06-15-Show-HN-Philosophy-for-Kids
-audio: 2026-06-15-Show-HN-Philosophy-for-Kids.en.mp3
 industry: education
 ---
 

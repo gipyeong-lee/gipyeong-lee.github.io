@@ -24,7 +24,6 @@ quiz:
     explanation: "Anthropic contracted with SpaceX before Google to lease the Colossus 1 data center located in Memphis, Tennessee, for $1.25 billion per month."
 lang: en
 ref: 2026-06-06-Google-to-pay-SpaceX-920M-a-month-for-compute-capacity-at-xAI-data-centers
-audio: 2026-06-06-Google-to-pay-SpaceX-920M-a-month-for-compute-capacity-at-xAI-data-centers.en.mp3
 industry: creative
 ---
 

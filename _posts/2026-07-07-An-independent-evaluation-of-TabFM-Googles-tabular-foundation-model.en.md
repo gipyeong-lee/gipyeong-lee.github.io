@@ -24,7 +24,6 @@ quiz:
     explanation: "Experts point to the lack of 'explainability'—the ability to know why the AI made a particular prediction—as a limitation."
 lang: en
 ref: 2026-07-07-An-independent-evaluation-of-TabFM-Googles-tabular-foundation-model
-audio: 2026-07-07-An-independent-evaluation-of-TabFM-Googles-tabular-foundation-model.en.mp3
 industry: education
 ---
 

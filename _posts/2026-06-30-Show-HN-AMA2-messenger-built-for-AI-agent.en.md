@@ -28,7 +28,6 @@ quiz:
     explanation: "AMA2 coordinates across various agent surface environments such as CLI, MCP, and SDK."
 lang: en
 ref: 2026-06-30-Show-HN-AMA2-messenger-built-for-AI-agent
-audio: 2026-06-30-Show-HN-AMA2-messenger-built-for-AI-agent.en.mp3
 industry: creative
 ---
 

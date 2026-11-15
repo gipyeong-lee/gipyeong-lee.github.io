@@ -24,7 +24,6 @@ quiz:
     explanation: "According to recent reports, AI agents that autonomously perform complex tasks such as cyber defense, scientific discovery, and product development are expected to create $2.9 trillion in economic value in the US alone."
 lang: en
 ref: 2026-06-19-Securing-the-future-of-AI-agents
-audio: 2026-06-19-Securing-the-future-of-AI-agents.en.mp3
 industry: security
 ---
 

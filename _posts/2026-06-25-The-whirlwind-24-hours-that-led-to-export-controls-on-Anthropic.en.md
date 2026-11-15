@@ -24,7 +24,6 @@ quiz:
     explanation: "SK Telecom has invested funds in Anthropic multiple times, including a known investment of $100 million."
 lang: en
 ref: 2026-06-25-The-whirlwind-24-hours-that-led-to-export-controls-on-Anthropic
-audio: 2026-06-25-The-whirlwind-24-hours-that-led-to-export-controls-on-Anthropic.en.mp3
 industry: legal
 ---
 

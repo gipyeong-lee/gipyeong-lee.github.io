@@ -24,7 +24,6 @@ quiz:
     explanation: "The flagship Gemini 2.0 Pro model is available to Gemini Advanced paid subscribers."
 lang: en
 ref: 2026-04-23-Gemini-20-is-now-available-to-everyone
-audio: 2026-04-23-Gemini-20-is-now-available-to-everyone.en.mp3
 industry: creative
 ---
 

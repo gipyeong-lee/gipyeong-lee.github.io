@@ -24,7 +24,6 @@ quiz:
     explanation: "According to Google's plan, service for Gemini 2.5 Flash is scheduled to end on October 16, 2026."
 lang: en
 ref: 2026-07-12-Dont-discontinue-Gemini-25-Flash
-audio: 2026-07-12-Dont-discontinue-Gemini-25-Flash.en.mp3
 industry: general
 ---
 

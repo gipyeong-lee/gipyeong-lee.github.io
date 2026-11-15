@@ -24,7 +24,6 @@ quiz:
     explanation: "The core of prompt engineering is 'language efficiency' and clear communication of intent rather than complex grammar, meaning non-native speakers can also write highly effective English prompts."
 lang: en
 ref: 2026-06-16-Applying-Brevity-and-Language-Efficiency-in-Prompt-Engineering
-audio: 2026-06-16-Applying-Brevity-and-Language-Efficiency-in-Prompt-Engineering.en.mp3
 industry: creative
 ---
 

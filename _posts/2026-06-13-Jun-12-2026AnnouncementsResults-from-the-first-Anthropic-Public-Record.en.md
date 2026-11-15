@@ -24,7 +24,6 @@ quiz:
     explanation: "According to data, Anthropic's annual revenue exploded from $9 billion in 2025 to over $47 billion as of May 2026, far surpassing the performance of its rival OpenAI."
 lang: en
 ref: 2026-06-13-Jun-12-2026AnnouncementsResults-from-the-first-Anthropic-Public-Record
-audio: 2026-06-13-Jun-12-2026AnnouncementsResults-from-the-first-Anthropic-Public-Record.en.mp3
 industry: finance
 ---
 

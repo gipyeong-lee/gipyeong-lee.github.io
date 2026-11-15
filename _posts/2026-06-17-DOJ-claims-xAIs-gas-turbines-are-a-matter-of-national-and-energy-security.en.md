@@ -24,7 +24,6 @@ quiz:
     explanation: "According to the Southern Environmental Law Center, xAI initially installed 35 gas turbines without approval or public consent, and it wasn't until July 2, 2025, that they belatedly received air permits for only 15 units from the Shelby County Health Department."
 lang: en
 ref: 2026-06-17-DOJ-claims-xAIs-gas-turbines-are-a-matter-of-national-and-energy-security
-audio: 2026-06-17-DOJ-claims-xAIs-gas-turbines-are-a-matter-of-national-and-energy-security.en.mp3
 industry: legal
 ---
 

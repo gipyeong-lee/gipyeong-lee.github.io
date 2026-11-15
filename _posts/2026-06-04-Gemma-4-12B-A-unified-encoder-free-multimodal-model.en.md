@@ -24,7 +24,6 @@ quiz:
     explanation: "The model is provided with open weights, allowing users to run it locally and fine-tune it for custom needs without sending data to Google servers."
 lang: en
 ref: 2026-06-04-Gemma-4-12B-A-unified-encoder-free-multimodal-model
-audio: 2026-06-04-Gemma-4-12B-A-unified-encoder-free-multimodal-model.en.mp3
 industry: healthcare
 ---
 

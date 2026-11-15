@@ -24,7 +24,6 @@ quiz:
     explanation: "AI does not process text as a whole but breaks it down into small pieces called 'tokens,' and inter-company API usage fees are also meticulously billed based on the number of these tokens."
 lang: en
 ref: 2026-06-08-AnthropicOpenAI-may-be-spending-more-than-1000-for-every-100-you-pay-them
-audio: 2026-06-08-AnthropicOpenAI-may-be-spending-more-than-1000-for-every-100-you-pay-them.en.mp3
 industry: creative
 ---
 

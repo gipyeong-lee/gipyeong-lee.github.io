@@ -24,7 +24,6 @@ quiz:
     explanation: "Agent-desktop provides a total of 53 commands, including clicking, typing, and window management."
 lang: en
 ref: 2026-05-04-Show-HN-Agent-desktop-Native-desktop-automation-CLI-for-AI-agents
-audio: 2026-05-04-Show-HN-Agent-desktop-Native-desktop-automation-CLI-for-AI-agents.en.mp3
 industry: general
 ---
 

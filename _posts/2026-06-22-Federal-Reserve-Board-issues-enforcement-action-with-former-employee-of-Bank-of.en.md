@@ -24,7 +24,6 @@ quiz:
     explanation: "The U.S. Federal Reserve Board announced this Enforcement Action."
 lang: en
 ref: 2026-06-22-Federal-Reserve-Board-issues-enforcement-action-with-former-employee-of-Bank-of
-audio: 2026-06-22-Federal-Reserve-Board-issues-enforcement-action-with-former-employee-of-Bank-of.en.mp3
 industry: legal
 ---
 

@@ -24,7 +24,6 @@ quiz:
     explanation: "Models have a tendency to want to write code from scratch rather than leveraging existing functionality unless explicitly instructed to do so."
 lang: en
 ref: 2026-06-26-What-Im-Finding-About-LLM-Code-Style-and-Token-Costs
-audio: 2026-06-26-What-Im-Finding-About-LLM-Code-Style-and-Token-Costs.en.mp3
 industry: general
 ---
 

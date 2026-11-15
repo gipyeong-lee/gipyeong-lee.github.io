@@ -24,7 +24,6 @@ quiz:
     explanation: "Bhayani emphasized that this is not an issue of supported data types or algorithms, but rather a problem with the 'assumptions' upon which databases were built."
 lang: en
 ref: 2026-05-05-Agentic-AI-systems-violate-the-implicit-assumptions-of-database-design
-audio: 2026-05-05-Agentic-AI-systems-violate-the-implicit-assumptions-of-database-design.en.mp3
 industry: finance
 ---
 

@@ -24,7 +24,6 @@ quiz:
     explanation: "The agreement signed with the GSA is effective through 2026."
 lang: en
 ref: 2026-07-01-Google-Gemini-Claims-to-be-structurally-protective-of-Donald-Trump
-audio: 2026-07-01-Google-Gemini-Claims-to-be-structurally-protective-of-Donald-Trump.en.mp3
 industry: education
 ---
 

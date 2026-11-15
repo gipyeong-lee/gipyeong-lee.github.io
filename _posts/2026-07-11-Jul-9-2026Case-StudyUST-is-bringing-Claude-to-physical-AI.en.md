@@ -24,7 +24,6 @@ quiz:
     explanation: "Claude Cowork has been expanded to be available via the sidebar of the iOS, iPadOS, and Android apps, as well as the web browser (claude.ai)."
 lang: en
 ref: 2026-07-11-Jul-9-2026Case-StudyUST-is-bringing-Claude-to-physical-AI
-audio: 2026-07-11-Jul-9-2026Case-StudyUST-is-bringing-Claude-to-physical-AI.en.mp3
 industry: creative
 ---
 

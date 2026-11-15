@@ -24,7 +24,6 @@ quiz:
     explanation: "If Google provides answers directly to users, traffic to websites may decrease, which is expected to have a huge impact on publishers and the SEO industry."
 lang: en
 ref: 2026-05-21-Google-changes-its-search-box
-audio: 2026-05-21-Google-changes-its-search-box.en.mp3
 industry: creative
 ---
 

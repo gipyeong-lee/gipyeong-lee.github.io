@@ -24,7 +24,6 @@ quiz:
     explanation: "In the era of AI generating code, continuous penetration testing is essential to verify 'refusal paths,' such as ensuring unauthorized users are properly blocked (e.g., 403 error)."
 lang: en
 ref: 2026-06-10-Show-HN-We-post-trained-a-model-that-pen-tests-instead-of-refusing-your-code
-audio: 2026-06-10-Show-HN-We-post-trained-a-model-that-pen-tests-instead-of-refusing-your-code.en.mp3
 industry: security
 ---
 

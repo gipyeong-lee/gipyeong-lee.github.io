@@ -24,7 +24,6 @@ quiz:
     explanation: "The Xz attack is a long-term and insidious method where hackers do not destroy the system all at once; instead, they masquerade as ordinary, diligent developers for a long time to build trust before planting fatal malicious code."
 lang: en
 ref: 2026-06-11-AI-agent-runs-amok-in-Fedora-and-elsewhere
-audio: 2026-06-11-AI-agent-runs-amok-in-Fedora-and-elsewhere.en.mp3
 industry: security
 ---
 

@@ -24,7 +24,6 @@ quiz:
     explanation: "RAG utilizes a vector database to quantify biblical content, allowing AI to generate answers based on it."
 lang: en
 ref: 2026-06-25-Bible-as-RAG-Database
-audio: 2026-06-25-Bible-as-RAG-Database.en.mp3
 industry: general
 ---
 

@@ -24,7 +24,6 @@ quiz:
     explanation: "Indirect prompt injection is an attack that makes the AI execute malicious commands hidden in the data it reads; Gemini 2.5 is equipped with defensive capabilities against this."
 lang: en
 ref: 2026-05-03-Gemini-25-Our-most-intelligent-models-are-getting-even-better
-audio: 2026-05-03-Gemini-25-Our-most-intelligent-models-are-getting-even-better.en.mp3
 industry: creative
 ---
 

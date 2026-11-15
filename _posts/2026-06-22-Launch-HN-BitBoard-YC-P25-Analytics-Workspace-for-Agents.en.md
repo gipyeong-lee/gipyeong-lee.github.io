@@ -24,7 +24,6 @@ quiz:
     explanation: "BitBoard is designed for humans and AI agents to collaborate on the same data foundation using tools designed for their respective workflows."
 lang: en
 ref: 2026-06-22-Launch-HN-BitBoard-YC-P25-Analytics-Workspace-for-Agents
-audio: 2026-06-22-Launch-HN-BitBoard-YC-P25-Analytics-Workspace-for-Agents.en.mp3
 industry: creative
 ---
 

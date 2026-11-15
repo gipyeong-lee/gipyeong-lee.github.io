@@ -24,7 +24,6 @@ quiz:
     explanation: "It is due to concerns about the security risks and national security threats that the model's powerful capabilities could pose."
 lang: en
 ref: 2026-06-26-The-White-House-is-asking-OpenAI-to-slow-roll-the-release-of-its-new-model
-audio: 2026-06-26-The-White-House-is-asking-OpenAI-to-slow-roll-the-release-of-its-new-model.en.mp3
 industry: security
 ---
 

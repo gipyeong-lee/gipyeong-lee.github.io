@@ -24,7 +24,6 @@ quiz:
     explanation: "AI evaluates information across 5 dimensions: future utility, factual confidence, semantic novelty, temporal recency, and content type, not emotional appeal."
 lang: en
 ref: 2026-06-04-I-Replaced-My-AI-Agents-Flat-Fact-Store-with-a-Graph-Database
-audio: 2026-06-04-I-Replaced-My-AI-Agents-Flat-Fact-Store-with-a-Graph-Database.en.mp3
 industry: finance
 ---
 

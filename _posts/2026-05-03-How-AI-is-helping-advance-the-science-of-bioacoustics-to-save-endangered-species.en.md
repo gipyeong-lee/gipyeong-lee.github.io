@@ -24,7 +24,6 @@ quiz:
     explanation: "The Perch AI model maximized research efficiency by finding honeycreeper sounds approximately 50 times faster than existing research methods."
 lang: en
 ref: 2026-05-03-How-AI-is-helping-advance-the-science-of-bioacoustics-to-save-endangered-species
-audio: 2026-05-03-How-AI-is-helping-advance-the-science-of-bioacoustics-to-save-endangered-species.en.mp3
 industry: creative
 ---
 

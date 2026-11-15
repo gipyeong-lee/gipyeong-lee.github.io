@@ -24,7 +24,6 @@ quiz:
     explanation: "Critics pointed to the possibility that the question set changed for the re-test or cited the non-determinism of AI, where results vary each time it is run."
 lang: en
 ref: 2026-05-05-Claude-Opus-46-accuracy-on-BridgeBench-hallucination-test-drops-from-83-to-68
-audio: 2026-05-05-Claude-Opus-46-accuracy-on-BridgeBench-hallucination-test-drops-from-83-to-68.en.mp3
 industry: education
 ---
 

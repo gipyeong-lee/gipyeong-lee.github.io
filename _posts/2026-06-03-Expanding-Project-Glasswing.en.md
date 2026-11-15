@@ -24,7 +24,6 @@ quiz:
     explanation: "According to the initial performance announcement, the initiative uncovered over 10,000 critical software vulnerabilities in just a single month."
 lang: en
 ref: 2026-06-03-Expanding-Project-Glasswing
-audio: 2026-06-03-Expanding-Project-Glasswing.en.mp3
 industry: finance
 ---
 

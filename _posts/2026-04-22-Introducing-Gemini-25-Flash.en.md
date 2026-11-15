@@ -24,7 +24,6 @@ quiz:
     explanation: "Gemini 2.5 Flash Image acts as a creative partner, evolving ideas through multiple revisions with the user rather than just ending with a single command."
 lang: en
 ref: 2026-04-22-Introducing-Gemini-25-Flash
-audio: 2026-04-22-Introducing-Gemini-25-Flash.en.mp3
 industry: creative
 ---
 

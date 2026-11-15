@@ -24,7 +24,6 @@ quiz:
     explanation: "While the digital map provides features such as checking event markers, tracking movement paths, and filtering by book, it does not include real-time weather information."
 lang: en
 ref: 2026-05-03-Show-HN-An-interactive-map-of-Tolkiens-Middle-earth
-audio: 2026-05-03-Show-HN-An-interactive-map-of-Tolkiens-Middle-earth.en.mp3
 industry: general
 ---
 

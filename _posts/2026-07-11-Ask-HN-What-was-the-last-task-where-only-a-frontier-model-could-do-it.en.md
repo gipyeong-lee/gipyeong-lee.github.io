@@ -24,7 +24,6 @@ quiz:
     explanation: "Industry experts estimate that open-weight models can perform 80-90% of the software development tasks typically handled by frontier models."
 lang: en
 ref: 2026-07-11-Ask-HN-What-was-the-last-task-where-only-a-frontier-model-could-do-it
-audio: 2026-07-11-Ask-HN-What-was-the-last-task-where-only-a-frontier-model-could-do-it.en.mp3
 industry: security
 ---
 

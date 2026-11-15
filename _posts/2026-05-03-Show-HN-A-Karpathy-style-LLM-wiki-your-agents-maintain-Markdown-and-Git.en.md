@@ -24,7 +24,6 @@ quiz:
     explanation: "WUPHF currently uses relatively simple and fast search engines like SQLite and Bleve instead of complex vector or graph databases."
 lang: en
 ref: 2026-05-03-Show-HN-A-Karpathy-style-LLM-wiki-your-agents-maintain-Markdown-and-Git
-audio: 2026-05-03-Show-HN-A-Karpathy-style-LLM-wiki-your-agents-maintain-Markdown-and-Git.en.mp3
 industry: robotics
 ---
 

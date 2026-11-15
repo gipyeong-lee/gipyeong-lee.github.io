@@ -24,7 +24,6 @@ quiz:
     explanation: "When understanding ADHD brain structure, a strategy to create momentum by taking a small first step in any way is absolutely necessary instead of falling into the trap of procrastination (avoidance)."
 lang: en
 ref: 2026-06-12-I-procrastinate-by-building-tools-to-stop-me-from-procrastinating-A-sad-story
-audio: 2026-06-12-I-procrastinate-by-building-tools-to-stop-me-from-procrastinating-A-sad-story.en.mp3
 industry: healthcare
 ---
 

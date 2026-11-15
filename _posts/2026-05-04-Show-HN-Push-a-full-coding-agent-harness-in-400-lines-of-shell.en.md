@@ -24,7 +24,6 @@ quiz:
     explanation: "OpenAI succeeded in an experiment to generate and deploy about 1 million lines of code using a harness engineering system without direct human intervention."
 lang: en
 ref: 2026-05-04-Show-HN-Push-a-full-coding-agent-harness-in-400-lines-of-shell
-audio: 2026-05-04-Show-HN-Push-a-full-coding-agent-harness-in-400-lines-of-shell.en.mp3
 industry: security
 ---
 

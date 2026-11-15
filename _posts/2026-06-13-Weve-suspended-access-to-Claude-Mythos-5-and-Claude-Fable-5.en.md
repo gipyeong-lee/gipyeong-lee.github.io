@@ -24,7 +24,6 @@ quiz:
     explanation: "While Claude Fable 5 was widely released to the public, Mythos 5 was a model provided exclusively to vetted organizations that had passed strict screening."
 lang: en
 ref: 2026-06-13-Weve-suspended-access-to-Claude-Mythos-5-and-Claude-Fable-5
-audio: 2026-06-13-Weve-suspended-access-to-Claude-Mythos-5-and-Claude-Fable-5.en.mp3
 industry: legal
 ---
 

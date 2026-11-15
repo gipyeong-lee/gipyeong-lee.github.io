@@ -24,7 +24,6 @@ quiz:
     explanation: "According to data from the International Federation of Robotics (IFR), 54% of the world's industrial robots were newly deployed in China, showing a massive demand for robot automation."
 lang: en
 ref: 2026-06-16-The-first-game-engine-for-robotics
-audio: 2026-06-16-The-first-game-engine-for-robotics.en.mp3
 industry: creative
 ---
 

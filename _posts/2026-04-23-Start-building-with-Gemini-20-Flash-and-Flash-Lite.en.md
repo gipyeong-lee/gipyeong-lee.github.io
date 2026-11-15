@@ -24,7 +24,6 @@ quiz:
     explanation: "Agentic AI refers to the ability to break down complex requests into steps and perform actual tasks based on user requests."
 lang: en
 ref: 2026-04-23-Start-building-with-Gemini-20-Flash-and-Flash-Lite
-audio: 2026-04-23-Start-building-with-Gemini-20-Flash-and-Flash-Lite.en.mp3
 industry: creative
 ---
 

@@ -24,7 +24,6 @@ quiz:
     explanation: "Treating coordination as infrastructure to maintain independence and merging only verified results is crucial."
 lang: en
 ref: 2026-06-24-Show-HN-Agentic-coding-workflows-built-on-Git-worktrees-and-task-evidence
-audio: 2026-06-24-Show-HN-Agentic-coding-workflows-built-on-Git-worktrees-and-task-evidence.en.mp3
 industry: creative
 ---
 

@@ -24,7 +24,6 @@ quiz:
     explanation: "The Economist strongly criticized the Trump administration's actions, calling them 'capricious and chaotic'."
 lang: en
 ref: 2026-06-16-Donald-Trumps-blocking-of-Anthropic-is-capricious-and-chaotic
-audio: 2026-06-16-Donald-Trumps-blocking-of-Anthropic-is-capricious-and-chaotic.en.mp3
 industry: security
 ---
 

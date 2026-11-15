@@ -24,7 +24,6 @@ quiz:
     explanation: "MacMind includes self-attention, backpropagation, and gradient descent—the core components of modern AI—but it has nothing to do with quantum computing."
 lang: en
 ref: 2026-05-04-Show-HN-MacMind-A-transformer-neural-network-in-HyperCard-on-a-1989-Macintosh
-audio: 2026-05-04-Show-HN-MacMind-A-transformer-neural-network-in-HyperCard-on-a-1989-Macintosh.en.mp3
 industry: education
 ---
 

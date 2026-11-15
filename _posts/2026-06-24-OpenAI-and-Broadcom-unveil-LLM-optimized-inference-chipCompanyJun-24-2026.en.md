@@ -24,7 +24,6 @@ quiz:
     explanation: "It was developed through a collaborative model where OpenAI designed the chip itself, and Broadcom provided silicon manufacturing and networking technology."
 lang: en
 ref: 2026-06-24-OpenAI-and-Broadcom-unveil-LLM-optimized-inference-chipCompanyJun-24-2026
-audio: 2026-06-24-OpenAI-and-Broadcom-unveil-LLM-optimized-inference-chipCompanyJun-24-2026.en.mp3
 industry: creative
 ---
 

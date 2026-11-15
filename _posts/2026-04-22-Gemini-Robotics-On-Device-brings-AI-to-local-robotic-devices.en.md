@@ -24,7 +24,6 @@ quiz:
     explanation: "Gemini Robotics On-Device is designed based on the architecture of Gemini 2.0, Google's latest large-scale AI model."
 lang: en
 ref: 2026-04-22-Gemini-Robotics-On-Device-brings-AI-to-local-robotic-devices
-audio: 2026-04-22-Gemini-Robotics-On-Device-brings-AI-to-local-robotic-devices.en.mp3
 industry: creative
 ---
 

@@ -24,7 +24,6 @@ quiz:
     explanation: "Zitron criticizes the media for accepting company announcements at face value rather than investigating the actual functionality or reality of AI technology."
 lang: en
 ref: 2026-07-03-Ed-Zitron-on-CNBC-GenAI-Doesnt-Work-and-Big-Tech-Is-Out-of-Hypergrowth-Ideas
-audio: 2026-07-03-Ed-Zitron-on-CNBC-GenAI-Doesnt-Work-and-Big-Tech-Is-Out-of-Hypergrowth-Ideas.en.mp3
 industry: finance
 ---
 

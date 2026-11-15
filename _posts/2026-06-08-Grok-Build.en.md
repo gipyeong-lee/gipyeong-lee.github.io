@@ -24,7 +24,6 @@ quiz:
     explanation: "Grok Build can read 256,000 tokens of information at once, and there is no limit on the amount of text output, allowing it to write massive amounts of code seamlessly."
 lang: en
 ref: 2026-06-08-Grok-Build
-audio: 2026-06-08-Grok-Build.en.mp3
 industry: education
 ---
 

@@ -24,7 +24,6 @@ quiz:
     explanation: "Agentic AI utilizes RAG, memory systems, multi-agent protocols, etc., and is far from manual data entry methods."
 lang: en
 ref: 2026-07-06-The-Hitchhikers-Guide-to-Agentic-AI
-audio: 2026-07-06-The-Hitchhikers-Guide-to-Agentic-AI.en.mp3
 industry: education
 ---
 

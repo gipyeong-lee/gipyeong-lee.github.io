@@ -24,7 +24,6 @@ quiz:
     explanation: "The Fed generally imposes formal sanctions when there are violations of laws, unsafe or unsound practices, or breaches of fiduciary duty."
 lang: en
 ref: 2026-06-26-Federal-Reserve-Board-announces-termination-of-enforcement-action-with-Jiko-Grou
-audio: 2026-06-26-Federal-Reserve-Board-announces-termination-of-enforcement-action-with-Jiko-Grou.en.mp3
 industry: education
 ---
 

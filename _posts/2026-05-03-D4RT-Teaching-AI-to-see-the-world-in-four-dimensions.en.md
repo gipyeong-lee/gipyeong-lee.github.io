@@ -24,7 +24,6 @@ quiz:
     explanation: "D4RT efficiently reconstructs scenes while reducing massive computational loads through a new querying mechanism."
 lang: en
 ref: 2026-05-03-D4RT-Teaching-AI-to-see-the-world-in-four-dimensions
-audio: 2026-05-03-D4RT-Teaching-AI-to-see-the-world-in-four-dimensions.en.mp3
 industry: education
 ---
 

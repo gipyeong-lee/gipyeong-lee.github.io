@@ -24,7 +24,6 @@ quiz:
     explanation: "The reasoning slider allows users to directly adjust the AI's response speed and the depth of its reasoning according to the situation."
 lang: en
 ref: 2026-07-06-GPT-56-Sol-Ultra-will-be-in-Codex
-audio: 2026-07-06-GPT-56-Sol-Ultra-will-be-in-Codex.en.mp3
 industry: creative
 ---
 

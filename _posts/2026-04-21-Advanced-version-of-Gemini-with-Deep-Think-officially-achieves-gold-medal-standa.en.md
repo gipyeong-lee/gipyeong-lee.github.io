@@ -24,7 +24,6 @@ quiz:
     explanation: "The IMO is the world's most prestigious youth mathematics competition, held annually since 1959."
 lang: en
 ref: 2026-04-21-Advanced-version-of-Gemini-with-Deep-Think-officially-achieves-gold-medal-standa
-audio: 2026-04-21-Advanced-version-of-Gemini-with-Deep-Think-officially-achieves-gold-medal-standa.en.mp3
 industry: general
 ---
 

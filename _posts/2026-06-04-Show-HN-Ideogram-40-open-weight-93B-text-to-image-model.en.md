@@ -24,7 +24,6 @@ quiz:
     explanation: "The latest Ideogram 4.0 model can produce high-quality 2K output resolutions that can be directly used for professional design workflows."
 lang: en
 ref: 2026-06-04-Show-HN-Ideogram-40-open-weight-93B-text-to-image-model
-audio: 2026-06-04-Show-HN-Ideogram-40-open-weight-93B-text-to-image-model.en.mp3
 industry: creative
 ---
 

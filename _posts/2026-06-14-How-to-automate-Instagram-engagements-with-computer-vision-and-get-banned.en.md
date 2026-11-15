@@ -24,7 +24,6 @@ quiz:
     explanation: "Using proper automation tools that comply with Instagram guidelines can save 10-20 hours of management time per week without the risk of account suspension."
 lang: en
 ref: 2026-06-14-How-to-automate-Instagram-engagements-with-computer-vision-and-get-banned
-audio: 2026-06-14-How-to-automate-Instagram-engagements-with-computer-vision-and-get-banned.en.mp3
 industry: legal
 ---
 

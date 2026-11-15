@@ -24,7 +24,6 @@ quiz:
     explanation: "Jumper stated on his social media that he is leaving Google DeepMind after working there for nearly nine years."
 lang: en
 ref: 2026-06-23-John-Jumper-leaves-Google-to-join-Anthropic
-audio: 2026-06-23-John-Jumper-leaves-Google-to-join-Anthropic.en.mp3
 industry: healthcare
 ---
 

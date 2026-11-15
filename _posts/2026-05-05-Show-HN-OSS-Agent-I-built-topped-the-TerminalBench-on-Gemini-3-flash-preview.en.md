@@ -24,7 +24,6 @@ quiz:
     explanation: "Dirac recorded a success rate of 65.2%, significantly outpacing Google's official record of 47.8%."
 lang: en
 ref: 2026-05-05-Show-HN-OSS-Agent-I-built-topped-the-TerminalBench-on-Gemini-3-flash-preview
-audio: 2026-05-05-Show-HN-OSS-Agent-I-built-topped-the-TerminalBench-on-Gemini-3-flash-preview.en.mp3
 industry: education
 ---
 

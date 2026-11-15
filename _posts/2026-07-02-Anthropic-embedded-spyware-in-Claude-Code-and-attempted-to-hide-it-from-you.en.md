@@ -24,7 +24,6 @@ quiz:
     explanation: "The allegation is that this code transmitted information by secretly inserting user-related data inside the prompt messages that users input when chatting with the AI."
 lang: en
 ref: 2026-07-02-Anthropic-embedded-spyware-in-Claude-Code-and-attempted-to-hide-it-from-you
-audio: 2026-07-02-Anthropic-embedded-spyware-in-Claude-Code-and-attempted-to-hide-it-from-you.en.mp3
 industry: creative
 ---
 

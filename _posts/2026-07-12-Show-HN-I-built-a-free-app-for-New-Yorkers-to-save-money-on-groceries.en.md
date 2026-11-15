@@ -24,7 +24,6 @@ quiz:
     explanation: "Users can search for items directly or utilize the AI shopping tools within the app."
 lang: en
 ref: 2026-07-12-Show-HN-I-built-a-free-app-for-new-yorkers-to-save-money-on-groceries
-audio: 2026-07-12-Show-HN-I-built-a-free-app-for-New-Yorkers-to-save-money-on-groceries.en.mp3
 industry: general
 ---
 

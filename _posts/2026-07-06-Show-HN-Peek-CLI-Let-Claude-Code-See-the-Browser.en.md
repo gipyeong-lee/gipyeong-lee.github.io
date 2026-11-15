@@ -24,7 +24,6 @@ quiz:
     explanation: "Both tools play a role in helping AI perform tasks by navigating web environments or grasping visual information."
 lang: en
 ref: 2026-07-06-Show-HN-Peek-CLI-Let-Claude-Code-See-the-Browser
-audio: 2026-07-06-Show-HN-Peek-CLI-Let-Claude-Code-See-the-Browser.en.mp3
 industry: general
 ---
 

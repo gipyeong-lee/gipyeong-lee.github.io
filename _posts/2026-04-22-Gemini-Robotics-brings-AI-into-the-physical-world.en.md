@@ -24,7 +24,6 @@ quiz:
     explanation: "Gemini Robotics uses a 'Dual Agentic System' structure that separates the roles of planning (intelligence) and execution (movement)."
 lang: en
 ref: 2026-04-22-Gemini-Robotics-brings-AI-into-the-physical-world
-audio: 2026-04-22-Gemini-Robotics-brings-AI-into-the-physical-world.en.mp3
 industry: creative
 ---
 

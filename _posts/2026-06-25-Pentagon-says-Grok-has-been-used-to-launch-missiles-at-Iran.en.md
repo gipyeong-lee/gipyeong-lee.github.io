@@ -21,7 +21,6 @@ news_type: "Knowledge"
 ai_opinion: "While the military application of artificial intelligence can increase speed and efficiency, the ethical question of 'whether it is acceptable to entrust lethal decisions to machines' weighs much heavier than technical progress."
 lang: en
 ref: 2026-06-25-Pentagon-says-Grok-has-been-used-to-launch-missiles-at-Iran
-audio: 2026-06-25-Pentagon-says-Grok-has-been-used-to-launch-missiles-at-Iran.en.mp3
 industry: legal
 ---
 

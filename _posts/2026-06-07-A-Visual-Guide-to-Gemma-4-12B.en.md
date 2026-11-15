@@ -24,7 +24,6 @@ quiz:
     explanation: "Unlike Gemma 4 12B, other Gemma 4 models such as E2B, E4B, 26B, and A4B use a traditional vision encoder with 150 million parameters to process images."
 lang: en
 ref: 2026-06-07-A-Visual-Guide-to-Gemma-4-12B
-audio: 2026-06-07-A-Visual-Guide-to-Gemma-4-12B.en.mp3
 industry: creative
 ---
 

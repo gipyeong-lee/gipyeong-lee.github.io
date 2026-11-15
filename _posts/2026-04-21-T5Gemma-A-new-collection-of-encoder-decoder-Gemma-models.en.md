@@ -24,7 +24,6 @@ quiz:
     explanation: "It means mixing and matching different sizes for different purposes, such as combining a smart encoder (9B) with a fast decoder (2B)."
 lang: en
 ref: 2026-04-21-T5Gemma-A-new-collection-of-encoder-decoder-Gemma-models
-audio: 2026-04-21-T5Gemma-A-new-collection-of-encoder-decoder-Gemma-models.en.mp3
 industry: creative
 ---
 

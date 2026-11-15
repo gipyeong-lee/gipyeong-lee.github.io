@@ -24,7 +24,6 @@ quiz:
     explanation: "Information typically enters the records when a user inadvertently pastes data into a prompt or when an AI's autocomplete feature suggests secret information."
 lang: en
 ref: 2026-05-19-Sieve-scans-CursorClaude-chat-history-for-leaked-API-keys
-audio: 2026-05-19-Sieve-scans-CursorClaude-chat-history-for-leaked-API-keys.en.mp3
 industry: security
 ---
 

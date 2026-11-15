@@ -24,7 +24,6 @@ quiz:
     explanation: "Anthropic's annual revenue run rate surged from $9 billion at the end of 2025 to $30 billion in just four months."
 lang: en
 ref: 2026-05-19-Anthropic-Acquires-Stainless
-audio: 2026-05-19-Anthropic-Acquires-Stainless.en.mp3
 industry: finance
 ---
 

@@ -24,7 +24,6 @@ quiz:
     explanation: "Anthropic has previously provided the European Union's cybersecurity agencies with access to 'Mythos,' its powerful AI hacking tool."
 lang: en
 ref: 2026-06-28-Austria-Lobbies-EU-to-Host-Anthropic-After-US-Access-Curbs
-audio: 2026-06-28-Austria-Lobbies-EU-to-Host-Anthropic-After-US-Access-Curbs.en.mp3
 industry: security
 ---
 

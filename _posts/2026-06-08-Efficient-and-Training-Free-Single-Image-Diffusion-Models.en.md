@@ -24,7 +24,6 @@ quiz:
     explanation: "The AT-EDM framework acts like an experienced film editor, using attention maps during the model's runtime to prune redundant and unnecessary tokens, dramatically increasing the AI's processing efficiency without the need for retraining."
 lang: en
 ref: 2026-06-08-Efficient-and-Training-Free-Single-Image-Diffusion-Models
-audio: 2026-06-08-Efficient-and-Training-Free-Single-Image-Diffusion-Models.en.mp3
 industry: healthcare
 ---
 

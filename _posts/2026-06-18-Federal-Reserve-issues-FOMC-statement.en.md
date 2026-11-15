@@ -24,7 +24,6 @@ quiz:
     explanation: "The Federal Reserve decided to conclude its 'reduction of securities holdings'—a process of withdrawing money from the market—as of December 1, 2025."
 lang: en
 ref: 2026-06-18-Federal-Reserve-issues-FOMC-statement
-audio: 2026-06-18-Federal-Reserve-issues-FOMC-statement.en.mp3
 industry: finance
 ---
 

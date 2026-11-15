@@ -24,7 +24,6 @@ quiz:
     explanation: "As of 2026, leaders no longer see AI strategy as secondary, but as the business strategy itself."
 lang: en
 ref: 2026-04-22-Partnering-with-industry-leaders-to-accelerate-AI-transformation
-audio: 2026-04-22-Partnering-with-industry-leaders-to-accelerate-AI-transformation.en.mp3
 industry: creative
 ---
 

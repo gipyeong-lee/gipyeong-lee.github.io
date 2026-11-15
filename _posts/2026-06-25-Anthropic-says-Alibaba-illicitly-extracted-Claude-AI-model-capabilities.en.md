@@ -24,7 +24,6 @@ quiz:
     explanation: "Anthropic named China-based AI developers, including Alibaba, DeepSeek, Moonshot AI, and MiniMax."
 lang: en
 ref: 2026-06-25-Anthropic-says-Alibaba-illicitly-extracted-Claude-AI-model-capabilities
-audio: 2026-06-25-Anthropic-says-Alibaba-illicitly-extracted-Claude-AI-model-capabilities.en.mp3
 industry: finance
 ---
 

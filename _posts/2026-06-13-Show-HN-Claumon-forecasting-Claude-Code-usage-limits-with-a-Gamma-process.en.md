@@ -24,7 +24,6 @@ quiz:
     explanation: "Claumon precisely predicts the expected token usage at the time of reset using a Gamma process with an 80% confidence interval."
 lang: en
 ref: 2026-06-13-Show-HN-Claumon-forecasting-Claude-Code-usage-limits-with-a-Gamma-process
-audio: 2026-06-13-Show-HN-Claumon-forecasting-Claude-Code-usage-limits-with-a-Gamma-process.en.mp3
 industry: education
 ---
 

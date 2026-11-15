@@ -24,7 +24,6 @@ quiz:
     explanation: "Gemma 4 is released under the Apache 2.0 license, allowing developers to create commercial products without paying royalties."
 lang: en
 ref: 2026-06-10-Introducing-Gemma-4-12B-a-unified-encoder-free-multimodal-model
-audio: 2026-06-10-Introducing-Gemma-4-12B-a-unified-encoder-free-multimodal-model.en.mp3
 industry: creative
 ---
 

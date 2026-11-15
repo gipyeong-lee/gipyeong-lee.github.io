@@ -24,7 +24,6 @@ quiz:
     explanation: "Through the ContextStore, data is replicated and indexed before the agent runs, eliminating the need for repeated complex API communications at execution time."
 lang: en
 ref: 2026-05-06-Show-HN-Airbyte-Agents-context-for-agents-across-multiple-data-sources
-audio: 2026-05-06-Show-HN-Airbyte-Agents-context-for-agents-across-multiple-data-sources.en.mp3
 industry: general
 ---
 

@@ -24,7 +24,6 @@ quiz:
     explanation: "If you keep sending retry requests while the server is already busy, it can actually cause a 'retry storm,' worsening the situation."
 lang: en
 ref: 2026-06-22-Ask-HN-Are-you-being-529-Overloaded-by-Anthropic-too
-audio: 2026-06-22-Ask-HN-Are-you-being-529-Overloaded-by-Anthropic-too.en.mp3
 industry: finance
 ---
 

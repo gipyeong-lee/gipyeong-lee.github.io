@@ -24,7 +24,6 @@ quiz:
     explanation: "Every time an LLM engages in a conversation, it starts fresh based solely on the knowledge solidified during its training process and does not expand its intelligence by accumulating experiences in real-time like humans do."
 lang: en
 ref: 2026-07-05-LLMs-as-a-Different-Kind-of-Intelligence
-audio: 2026-07-05-LLMs-as-a-Different-Kind-of-Intelligence.en.mp3
 industry: creative
 ---
 

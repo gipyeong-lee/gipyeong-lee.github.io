@@ -24,7 +24,6 @@ quiz:
     explanation: "Securing the 'Model Context Protocol (MCP) server,' which connects AI agents to external tools, is a crucial connection point in agent development."
 lang: en
 ref: 2026-06-30-The-OWASP-Agentic-Security-Initiative-Top-A-Practical-Developer-Guide
-audio: 2026-06-30-The-OWASP-Agentic-Security-Initiative-Top-A-Practical-Developer-Guide.en.mp3
 industry: security
 ---
 

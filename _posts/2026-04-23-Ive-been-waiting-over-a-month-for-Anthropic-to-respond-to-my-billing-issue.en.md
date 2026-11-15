@@ -24,7 +24,6 @@ quiz:
     explanation: "For a refund request made on March 7, a response was finally received on April 9, taking a total of 33 days."
 lang: en
 ref: 2026-04-23-Ive-been-waiting-over-a-month-for-Anthropic-to-respond-to-my-billing-issue
-audio: 2026-04-23-Ive-been-waiting-over-a-month-for-Anthropic-to-respond-to-my-billing-issue.en.mp3
 industry: finance
 ---
 

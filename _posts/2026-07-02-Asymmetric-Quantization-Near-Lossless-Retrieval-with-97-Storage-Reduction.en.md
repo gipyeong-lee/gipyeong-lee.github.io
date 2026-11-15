@@ -24,7 +24,6 @@ quiz:
     explanation: "It is primarily applied to activations rather than weights, as it yields greater performance improvements when applied to the activation process."
 lang: en
 ref: 2026-07-02-Asymmetric-Quantization-Near-Lossless-Retrieval-with-97-Storage-Reduction
-audio: 2026-07-02-Asymmetric-Quantization-Near-Lossless-Retrieval-with-97-Storage-Reduction.en.mp3
 industry: creative
 ---
 

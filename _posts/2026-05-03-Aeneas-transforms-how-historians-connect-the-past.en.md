@@ -24,7 +24,6 @@ quiz:
     explanation: "Aeneas recorded higher accuracy than the average historian in three tasks: missing text restoration, regional attribution, and date estimation."
 lang: en
 ref: 2026-05-03-Aeneas-transforms-how-historians-connect-the-past
-audio: 2026-05-03-Aeneas-transforms-how-historians-connect-the-past.en.mp3
 industry: general
 ---
 

@@ -24,7 +24,6 @@ quiz:
     explanation: "Because the financial industry is subject to strict audits by central banks and other authorities, 'auditability'—the ability to track and verify the AI's judgment process—is essential."
 lang: en
 ref: 2026-05-25-How-Kepler-built-verifiable-AI-for-financial-services-with-Claude
-audio: 2026-05-25-How-Kepler-built-verifiable-AI-for-financial-services-with-Claude.en.mp3
 industry: finance
 ---
 

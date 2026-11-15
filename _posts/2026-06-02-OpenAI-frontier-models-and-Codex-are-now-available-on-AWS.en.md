@@ -24,7 +24,6 @@ quiz:
     explanation: "Codex is an AI coding agent specifically designed to accelerate software development tasks and assist programmers."
 lang: en
 ref: 2026-06-02-OpenAI-frontier-models-and-Codex-are-now-available-on-AWS
-audio: 2026-06-02-OpenAI-frontier-models-and-Codex-are-now-available-on-AWS.en.mp3
 industry: finance
 ---
 

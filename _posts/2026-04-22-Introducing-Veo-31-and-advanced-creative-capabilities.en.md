@@ -24,7 +24,6 @@ quiz:
     explanation: "With this update, Veo 3.1 is now capable of generating videos up to 60 seconds (1 minute) in length."
 lang: en
 ref: 2026-04-22-Introducing-Veo-31-and-advanced-creative-capabilities
-audio: 2026-04-22-Introducing-Veo-31-and-advanced-creative-capabilities.en.mp3
 industry: creative
 ---
 

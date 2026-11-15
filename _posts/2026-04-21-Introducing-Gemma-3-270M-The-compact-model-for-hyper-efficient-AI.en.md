@@ -24,7 +24,6 @@ quiz:
     explanation: "The ability to accurately understand and execute complex user commands is called instruction-following capability."
 lang: en
 ref: 2026-04-21-Introducing-Gemma-3-270M-The-compact-model-for-hyper-efficient-AI
-audio: 2026-04-21-Introducing-Gemma-3-270M-The-compact-model-for-hyper-efficient-AI.en.mp3
 industry: creative
 ---
 

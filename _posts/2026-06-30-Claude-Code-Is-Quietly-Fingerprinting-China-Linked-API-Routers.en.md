@@ -24,7 +24,6 @@ quiz:
     explanation: "While technically simple, such sentiment analysis acts as a critical factor that can significantly impact user satisfaction."
 lang: en
 ref: 2026-06-30-Claude-Code-Is-Quietly-Fingerprinting-China-Linked-API-Routers
-audio: 2026-06-30-Claude-Code-Is-Quietly-Fingerprinting-China-Linked-API-Routers.en.mp3
 industry: creative
 ---
 

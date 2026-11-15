@@ -24,7 +24,6 @@ quiz:
     explanation: "While Claude Fable 5 has been released to the public, the more powerful 'Mythos 5' it is based on remains under trusted controls and is offered on a limited basis."
 lang: en
 ref: 2026-06-10-Claude-Fable-5
-audio: 2026-06-10-Claude-Fable-5.en.mp3
 industry: security
 ---
 

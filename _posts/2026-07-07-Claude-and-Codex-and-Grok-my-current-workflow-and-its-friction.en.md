@@ -24,7 +24,6 @@ quiz:
     explanation: "OpenAI Codex primarily writes integrated code, while customer-facing agents are run by Grok or Claude. [Source 2]"
 lang: en
 ref: 2026-07-07-Claude-and-Codex-and-Grok-my-current-workflow-and-its-friction
-audio: 2026-07-07-Claude-and-Codex-and-Grok-my-current-workflow-and-its-friction.en.mp3
 industry: creative
 ---
 

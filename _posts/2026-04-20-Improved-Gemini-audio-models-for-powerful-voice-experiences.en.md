@@ -24,7 +24,6 @@ quiz:
     explanation: "Google's Tara Sainath emphasized that as models get faster, the coordination between neural networks and hardware constraints or microphone structures becomes even more important."
 lang: en
 ref: 2026-04-20-Improved-Gemini-audio-models-for-powerful-voice-experiences
-audio: 2026-04-20-Improved-Gemini-audio-models-for-powerful-voice-experiences.en.mp3
 industry: education
 ---
 

@@ -24,7 +24,6 @@ quiz:
     explanation: "Google provided a 1-year free upgrade to Google AI Pro to students aged 18 and older in five countries, including South Korea, until October 6, 2025."
 lang: en
 ref: 2026-04-22-Gemini-25-Updates-to-our-family-of-thinking-models
-audio: 2026-04-22-Gemini-25-Updates-to-our-family-of-thinking-models.en.mp3
 industry: creative
 ---
 

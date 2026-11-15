@@ -24,7 +24,6 @@ quiz:
     explanation: "On April 16, 2026, Anthropic announced Claude Opus 4.7, which features significantly strengthened capabilities for coding and agent-based tasks."
 lang: en
 ref: 2026-05-05-Can-Claude-Fly-a-Plane
-audio: 2026-05-05-Can-Claude-Fly-a-Plane.en.mp3
 industry: education
 ---
 

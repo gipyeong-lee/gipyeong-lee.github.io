@@ -24,7 +24,6 @@ quiz:
     explanation: "Anthropic is deeply focused on developing powerful foundation models while ensuring they remain under human control through 'safety-centric AI' research."
 lang: en
 ref: 2026-05-20-Andrej-Karpathy-joins-Anthropic
-audio: 2026-05-20-Andrej-Karpathy-joins-Anthropic.en.mp3
 industry: education
 ---
 

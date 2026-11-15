@@ -24,7 +24,6 @@ quiz:
     explanation: "After the joint standards are established, the Federal Reserve plans to issue separate rules to adopt these standards for specific information collections."
 lang: en
 ref: 2026-06-12-Federal-Reserve-Board-announces-final-rule-that-establishes-data-standards-for-c
-audio: 2026-06-12-Federal-Reserve-Board-announces-final-rule-that-establishes-data-standards-for-c.en.mp3
 industry: finance
 ---
 

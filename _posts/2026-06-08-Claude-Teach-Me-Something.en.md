@@ -24,7 +24,6 @@ quiz:
     explanation: "If MCP is giving a tool to the AI, Skills act as a 'procedural manual' that describes how to actually handle tasks using those tools."
 lang: en
 ref: 2026-06-08-Claude-Teach-Me-Something
-audio: 2026-06-08-Claude-Teach-Me-Something.en.mp3
 industry: education
 ---
 

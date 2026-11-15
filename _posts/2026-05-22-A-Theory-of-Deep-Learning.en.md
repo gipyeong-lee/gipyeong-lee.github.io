@@ -24,7 +24,6 @@ quiz:
     explanation: "Probabilistic deep learning is a field that explains and accounts for both the uncertainty of the model itself and the uncertainty of the data."
 lang: en
 ref: 2026-05-22-A-Theory-of-Deep-Learning
-audio: 2026-05-22-A-Theory-of-Deep-Learning.en.mp3
 industry: healthcare
 ---
 

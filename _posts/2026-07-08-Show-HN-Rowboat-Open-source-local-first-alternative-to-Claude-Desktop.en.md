@@ -24,7 +24,6 @@ quiz:
     explanation: "Rowboat analyzes a user's daily work data, such as emails, calendars, and meeting minutes, to build a knowledge graph."
 lang: en
 ref: 2026-07-08-Show-HN-Rowboat-Open-source-local-first-alternative-to-Claude-Desktop
-audio: 2026-07-08-Show-HN-Rowboat-Open-source-local-first-alternative-to-Claude-Desktop.en.mp3
 industry: security
 ---
 

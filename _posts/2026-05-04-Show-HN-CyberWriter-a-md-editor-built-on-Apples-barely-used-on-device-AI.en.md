@@ -24,7 +24,6 @@ quiz:
     explanation: "Because CyberWriter uses the user's hardware resources instead of going through a cloud server, there are no separate API keys or per-token costs involved."
 lang: en
 ref: 2026-05-04-Show-HN-CyberWriter-a-md-editor-built-on-Apples-barely-used-on-device-AI
-audio: 2026-05-04-Show-HN-CyberWriter-a-md-editor-built-on-Apples-barely-used-on-device-AI.en.mp3
 industry: education
 ---
 

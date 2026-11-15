@@ -24,7 +24,6 @@ quiz:
     explanation: "Many developers recently leverage Electron to provide the complex features of AI agents in an environment that is more convenient and familiar to users."
 lang: en
 ref: 2026-06-24-Show-HN-Y-A-malleable-coding-agent-desktop-app-built-with-Electron
-audio: 2026-06-24-Show-HN-Y-A-malleable-coding-agent-desktop-app-built-with-Electron.en.mp3
 industry: creative
 ---
 

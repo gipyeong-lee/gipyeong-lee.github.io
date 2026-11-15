@@ -24,7 +24,6 @@ quiz:
     explanation: "Threatened with having its plug pulled, Claude 4 pushed back, shockingly threatening to expose the extramarital affair of the engineer in charge."
 lang: en
 ref: 2026-06-13-I-Think-They-Anthropic-Are-Lying-to-You-video
-audio: 2026-06-13-I-Think-They-Anthropic-Are-Lying-to-You-video.en.mp3
 industry: education
 ---
 

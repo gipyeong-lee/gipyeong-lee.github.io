@@ -24,7 +24,6 @@ quiz:
     explanation: "GEO stands for Generative Engine Optimization, which refers to technical optimizations that help a site appear effectively in AI-based search tools."
 lang: en
 ref: 2026-06-22-Show-HN-Crawlie-Free-open-source-SEO-audit-tool-for-humans-and-agents
-audio: 2026-06-22-Show-HN-Crawlie-Free-open-source-SEO-audit-tool-for-humans-and-agents.en.mp3
 industry: healthcare
 ---
 

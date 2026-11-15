@@ -24,7 +24,6 @@ quiz:
     explanation: "OpenCV was initially written in C++, and later expanded its support to be used in various languages such as Python, Java, and MATLAB."
 lang: en
 ref: 2026-06-07-OpenCV-5-Is-Here-The-Biggest-Leap-in-Years-for-Computer-Vision
-audio: 2026-06-07-OpenCV-5-Is-Here-The-Biggest-Leap-in-Years-for-Computer-Vision.en.mp3
 industry: robotics
 ---
 

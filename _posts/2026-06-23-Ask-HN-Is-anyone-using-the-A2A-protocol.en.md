@@ -24,7 +24,6 @@ quiz:
     explanation: "The A2A protocol is an open-source project contributed by Google and managed under the Linux Foundation."
 lang: en
 ref: 2026-06-23-Ask-HN-Is-anyone-using-the-A2A-protocol
-audio: 2026-06-23-Ask-HN-Is-anyone-using-the-A2A-protocol.en.mp3
 industry: creative
 ---
 

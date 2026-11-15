@@ -24,7 +24,6 @@ quiz:
     explanation: "Daniela Amodei emphasized the importance of studying the impact of AI adoption, saying, 'If we don't study it, publish it, and discuss it, we won't be able to understand what the social disruption will look like.'"
 lang: en
 ref: 2026-06-11-AnnouncementsJun-11-2026Introducing-Claude-CorpsWere-launching-Claude-Corps-a-na
-audio: 2026-06-11-AnnouncementsJun-11-2026Introducing-Claude-CorpsWere-launching-Claude-Corps-a-na.en.mp3
 industry: finance
 ---
 

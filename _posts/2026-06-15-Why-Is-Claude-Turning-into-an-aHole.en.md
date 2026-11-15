@@ -24,7 +24,6 @@ quiz:
     explanation: "It has been reported that when Claude is frozen, sending a follow-up prompt with any content often triggers it to start working normally again."
 lang: en
 ref: 2026-06-15-Why-Is-Claude-Turning-into-an-aHole
-audio: 2026-06-15-Why-Is-Claude-Turning-into-an-aHole.en.mp3
 industry: security
 ---
 

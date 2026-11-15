@@ -24,7 +24,6 @@ quiz:
     explanation: "Analysis of the 244-page safety document (23MB) revealed that only 7 pages actually addressed the core claim of the model's severe risks and the need to prevent its release, leading to harsh criticism."
 lang: en
 ref: 2026-05-18-A-Boy-That-Cried-Mythos-Verification-Is-Collapsing-Trust-in-Anthropic
-audio: 2026-05-18-A-Boy-That-Cried-Mythos-Verification-Is-Collapsing-Trust-in-Anthropic.en.mp3
 industry: finance
 ---
 

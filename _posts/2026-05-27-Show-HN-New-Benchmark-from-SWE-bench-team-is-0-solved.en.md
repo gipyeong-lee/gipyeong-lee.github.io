@@ -24,7 +24,6 @@ quiz:
     explanation: "In the recently released new software engineering challenge, current AI models have failed to solve even a single problem, recording a 0% success rate."
 lang: en
 ref: 2026-05-27-Show-HN-New-Benchmark-from-SWE-bench-team-is-0-solved
-audio: 2026-05-27-Show-HN-New-Benchmark-from-SWE-bench-team-is-0-solved.en.mp3
 industry: education
 ---
 

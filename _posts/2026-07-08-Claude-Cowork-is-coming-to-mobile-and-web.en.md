@@ -24,7 +24,6 @@ quiz:
     explanation: "Currently, the mobile and web beta versions of Claude Cowork are being provided to Max subscribers first."
 lang: en
 ref: 2026-07-08-Claude-Cowork-is-coming-to-mobile-and-web
-audio: 2026-07-08-Claude-Cowork-is-coming-to-mobile-and-web.en.mp3
 industry: creative
 ---
 

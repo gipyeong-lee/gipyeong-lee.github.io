@@ -24,7 +24,6 @@ quiz:
     explanation: "In addition to its own platform, CADAM, Adam provides CAD copilot features for teams using Onshape and Autodesk Fusion."
 lang: en
 ref: 2026-06-22-Launch-HN-Adam-YC-W25-Open-Source-AI-CAD
-audio: 2026-06-22-Launch-HN-Adam-YC-W25-Open-Source-AI-CAD.en.mp3
 industry: creative
 ---
 

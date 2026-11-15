@@ -24,7 +24,6 @@ quiz:
     explanation: "NLnet Labs is a non-profit organization that develops and researches core internet infrastructure such as DNS and routing."
 lang: en
 ref: 2026-06-27-NLNet-Labs-LLM-Policy
-audio: 2026-06-27-NLNet-Labs-LLM-Policy.en.mp3
 industry: creative
 ---
 

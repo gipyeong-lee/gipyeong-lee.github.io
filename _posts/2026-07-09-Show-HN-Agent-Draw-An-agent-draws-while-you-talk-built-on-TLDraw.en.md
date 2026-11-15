@@ -24,7 +24,6 @@ quiz:
     explanation: "When multiple requests come in, it uses a FIFO queue and a state machine to process one session at a time sequentially."
 lang: en
 ref: 2026-07-09-Show-HN-Agent-Draw-An-agent-draws-while-you-talk-built-on-TLDraw
-audio: 2026-07-09-Show-HN-Agent-Draw-An-agent-draws-while-you-talk-built-on-TLDraw.en.mp3
 industry: creative
 ---
 

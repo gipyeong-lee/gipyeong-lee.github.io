@@ -24,7 +24,6 @@ quiz:
     explanation: "Starting March 10, 2026, OpenAI changed its policy, restricting access so that GPT-5.4 and GPT-5.3-Codex models cannot be used on free accounts."
 lang: en
 ref: 2026-06-11-Access-OpenAI-models-and-Codex-through-your-Oracle-cloud-commitmentCompanyJun-10
-audio: 2026-06-11-Access-OpenAI-models-and-Codex-through-your-Oracle-cloud-commitmentCompanyJun-10.en.mp3
 industry: education
 ---
 

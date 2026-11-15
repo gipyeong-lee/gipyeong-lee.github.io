@@ -24,7 +24,6 @@ quiz:
     explanation: "According to reports, this 5% stake is valued at approximately $42.6 billion (approximately 59 trillion KRW)."
 lang: en
 ref: 2026-07-02-OpenAI-In-early-talks-to-give-5-stake-to-US-Government
-audio: 2026-07-02-OpenAI-In-early-talks-to-give-5-stake-to-US-Government.en.mp3
 industry: finance
 ---
 

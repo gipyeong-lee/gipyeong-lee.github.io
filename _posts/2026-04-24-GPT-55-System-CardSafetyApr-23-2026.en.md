@@ -24,7 +24,6 @@ quiz:
     explanation: "OpenAI measures the model's controllability through the CoT-Control evaluation suite, which consists of approximately 13,000 tasks."
 lang: en
 ref: 2026-04-24-GPT-55-System-CardSafetyApr-23-2026
-audio: 2026-04-24-GPT-55-System-CardSafetyApr-23-2026.en.mp3
 industry: education
 ---
 

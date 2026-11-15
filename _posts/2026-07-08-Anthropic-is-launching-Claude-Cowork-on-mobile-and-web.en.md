@@ -24,7 +24,6 @@ quiz:
     explanation: "As of the launch on July 7, the beta service began for Max subscribers, and it is planned to expand to other plans within the next few weeks."
 lang: en
 ref: 2026-07-08-Anthropic-is-launching-Claude-Cowork-on-mobile-and-web
-audio: 2026-07-08-Anthropic-is-launching-Claude-Cowork-on-mobile-and-web.en.mp3
 industry: creative
 ---
 

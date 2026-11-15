@@ -24,7 +24,6 @@ quiz:
     explanation: "This research to map, model, and understand nature was jointly developed by Google DeepMind and Google Research."
 lang: en
 ref: 2026-04-21-Mapping-modeling-and-understanding-nature-with-AI
-audio: 2026-04-21-Mapping-modeling-and-understanding-nature-with-AI.en.mp3
 industry: creative
 ---
 

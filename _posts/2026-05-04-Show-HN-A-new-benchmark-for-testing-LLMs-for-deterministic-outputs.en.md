@@ -24,7 +24,6 @@ quiz:
     explanation: "To ensure the quality and reliability of AI systems, it is crucial to discover issues early through prompt unit testing."
 lang: en
 ref: 2026-05-04-Show-HN-A-new-benchmark-for-testing-LLMs-for-deterministic-outputs
-audio: 2026-05-04-Show-HN-A-new-benchmark-for-testing-LLMs-for-deterministic-outputs.en.mp3
 industry: healthcare
 ---
 

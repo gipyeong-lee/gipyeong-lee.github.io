@@ -24,7 +24,6 @@ quiz:
     explanation: "Lp-Convolution is a breakthrough technology that helps computers process images more similarly to the human brain."
 lang: en
 ref: 2026-05-03-Teaching-AI-to-see-the-world-more-like-we-do
-audio: 2026-05-03-Teaching-AI-to-see-the-world-more-like-we-do.en.mp3
 industry: education
 ---
 

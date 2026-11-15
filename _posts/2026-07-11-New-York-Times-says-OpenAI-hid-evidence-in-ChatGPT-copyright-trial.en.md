@@ -24,7 +24,6 @@ quiz:
     explanation: "Media outlets claim that training datasets and ChatGPT output logs are key evidence for determining copyright infringement."
 lang: en
 ref: 2026-07-11-New-York-Times-says-OpenAI-hid-evidence-in-ChatGPT-copyright-trial
-audio: 2026-07-11-New-York-Times-says-OpenAI-hid-evidence-in-ChatGPT-copyright-trial.en.mp3
 industry: legal
 ---
 

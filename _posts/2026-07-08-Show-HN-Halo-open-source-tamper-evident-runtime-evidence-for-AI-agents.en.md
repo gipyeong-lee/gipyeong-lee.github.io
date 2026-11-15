@@ -24,7 +24,6 @@ quiz:
     explanation: "Halo provides a foundation of trust by allowing third parties to verify the integrity of records, enabling regulators and security teams to transparently understand AI behavior."
 lang: en
 ref: 2026-07-08-Show-HN-Halo-open-source-tamper-evident-runtime-evidence-for-AI-agents
-audio: 2026-07-08-Show-HN-Halo-open-source-tamper-evident-runtime-evidence-for-AI-agents.en.mp3
 industry: legal
 ---
 

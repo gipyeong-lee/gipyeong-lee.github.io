@@ -24,7 +24,6 @@ quiz:
     explanation: "Informational posts had always been more popular since 2011, but in 2022, when a massive wave of layoffs hit the tech industry, 'question posts' where users consulted each other for advice exceptionally received higher scores."
 lang: en
 ref: 2026-06-09-HN-seems-dead-compared-to-say-10-15-years-ago
-audio: 2026-06-09-HN-seems-dead-compared-to-say-10-15-years-ago.en.mp3
 industry: creative
 ---
 

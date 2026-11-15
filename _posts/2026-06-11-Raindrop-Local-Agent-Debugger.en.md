@@ -24,7 +24,6 @@ quiz:
     explanation: "When an error occurs, an AI agent like Claude Code fetches the failing trace and root cause data from Raindrop by itself. After that, it modifies the code on its own and repeatedly tests it by creating an eval through the Workshop until it passes."
 lang: en
 ref: 2026-06-11-Raindrop-Local-Agent-Debugger
-audio: 2026-06-11-Raindrop-Local-Agent-Debugger.en.mp3
 industry: education
 ---
 

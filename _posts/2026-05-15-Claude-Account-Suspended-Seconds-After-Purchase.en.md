@@ -24,7 +24,6 @@ quiz:
     explanation: "Avoiding the use of VPNs and maintaining a stable network environment helps prevent account suspensions."
 lang: en
 ref: 2026-05-15-Claude-Account-Suspended-Seconds-After-Purchase
-audio: 2026-05-15-Claude-Account-Suspended-Seconds-After-Purchase.en.mp3
 industry: finance
 ---
 

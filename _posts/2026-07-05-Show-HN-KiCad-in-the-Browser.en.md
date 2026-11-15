@@ -24,7 +24,6 @@ quiz:
     explanation: "KiCanvas utilizes modern JavaScript technologies like TypeScript, HTML Canvas, and WebGL to render graphics in the browser."
 lang: en
 ref: 2026-07-05-Show-HN-KiCad-in-the-Browser
-audio: 2026-07-05-Show-HN-KiCad-in-the-Browser.en.mp3
 industry: security
 ---
 

@@ -24,7 +24,6 @@ quiz:
     explanation: "Vibe-coding is an irresponsible way of just churning out results, which introduces serious security risks or complexity into the system."
 lang: en
 ref: 2026-05-15-Agentic-Coding-Is-a-Trap
-audio: 2026-05-15-Agentic-Coding-Is-a-Trap.en.mp3
 industry: finance
 ---
 

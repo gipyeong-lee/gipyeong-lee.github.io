@@ -24,7 +24,6 @@ quiz:
     explanation: "It is measured through a survey of purchasing managers at companies across the country."
 lang: en
 ref: 2026-07-08-Canadas-Ivey-PMI-falls-to-three-month-low-in-June
-audio: 2026-07-08-Canadas-Ivey-PMI-falls-to-three-month-low-in-June.en.mp3
 industry: general
 ---
 

@@ -24,7 +24,6 @@ quiz:
     explanation: "AMD released the open-source project 'Gaia' which supports local LLM inference through its hardware acceleration in a Windows environment."
 lang: en
 ref: 2026-04-23-The-local-LLM-ecosystem-doesnt-need-Ollama
-audio: 2026-04-23-The-local-LLM-ecosystem-doesnt-need-Ollama.en.mp3
 industry: creative
 ---
 

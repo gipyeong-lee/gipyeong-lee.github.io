@@ -24,7 +24,6 @@ quiz:
     explanation: "The dark side of the YouTube algorithm was pointed out; its goal is not to identify video quality, but to keep the user's eyes glued to the screen, leading people down an endless 'rabbit hole' of videos."
 lang: en
 ref: 2026-06-08-Show-HN-NoSuggest-Watch-YouTube-without-the-recommendation-algorithm
-audio: 2026-06-08-Show-HN-NoSuggest-Watch-YouTube-without-the-recommendation-algorithm.en.mp3
 industry: education
 ---
 

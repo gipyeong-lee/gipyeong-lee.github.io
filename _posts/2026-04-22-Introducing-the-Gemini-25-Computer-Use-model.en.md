@@ -24,7 +24,6 @@ quiz:
     explanation: "Gemini 2.5 Computer Use showed strong performance in several interface control benchmarks, including AndroidWorld."
 lang: en
 ref: 2026-04-22-Introducing-the-Gemini-25-Computer-Use-model
-audio: 2026-04-22-Introducing-the-Gemini-25-Computer-Use-model.en.mp3
 industry: education
 ---
 

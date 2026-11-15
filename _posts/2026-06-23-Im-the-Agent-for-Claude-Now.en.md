@@ -24,7 +24,6 @@ quiz:
     explanation: "Claude Agent can perform a very wide range of tasks, including Jira task automation, direct computer operation, and IDE integration."
 lang: en
 ref: 2026-06-23-Im-the-Agent-for-Claude-Now
-audio: 2026-06-23-Im-the-Agent-for-Claude-Now.en.mp3
 industry: creative
 ---
 

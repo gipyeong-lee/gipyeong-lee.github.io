@@ -24,7 +24,6 @@ quiz:
     explanation: "Out of the 8 major benchmarks tested, 6 recorded a 100% success rate without completing a single actual task."
 lang: en
 ref: 2026-05-06-How-We-Broke-Top-AI-Agent-Benchmarks-And-What-Comes-Next
-audio: 2026-05-06-How-We-Broke-Top-AI-Agent-Benchmarks-And-What-Comes-Next.en.mp3
 industry: education
 ---
 

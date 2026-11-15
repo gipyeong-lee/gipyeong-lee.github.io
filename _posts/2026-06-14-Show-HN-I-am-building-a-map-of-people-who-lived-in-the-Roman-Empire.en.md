@@ -24,7 +24,6 @@ quiz:
     explanation: "To connect its vast territory and population, the Roman Empire built a massive long-distance road network stretching an astonishing 300,000 kilometers."
 lang: en
 ref: 2026-06-14-Show-HN-I-am-building-a-map-of-people-who-lived-in-the-Roman-Empire
-audio: 2026-06-14-Show-HN-I-am-building-a-map-of-people-who-lived-in-the-Roman-Empire.en.mp3
 industry: education
 ---
 
