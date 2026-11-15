@@ -6,7 +6,13 @@
   if (!src) return;
 
   var ref = bar.getAttribute('data-ref') || '';
-  var audio = new Audio(src);
+  // No src until the first play. With new Audio(src) the browser downloaded
+  // the whole mp3 on every view of a post with narration, played or not
+  // (preload defaults to auto). Contract: scripts/tests/test_audio_player.mjs
+  var audio = new Audio();
+  audio.preload = 'none';
+  var loaded = false;
+  var attempt = 0;
   var btn = bar.querySelector('.audio-player__btn');
   var btnIcon = btn.querySelector('i');
   var fill = bar.querySelector('.audio-player__progress-fill');
@@ -20,9 +26,8 @@
   bar.classList.add('is-visible');
   document.body.classList.add('audio-active');
 
-  // Restore position
-  var saved = localStorage.getItem('audio-pos-' + ref);
-  if (saved) audio.currentTime = parseFloat(saved);
+  // Position from the last visit; restored once the metadata has loaded.
+  var saved = parseFloat(localStorage.getItem('audio-pos-' + ref)) || 0;
 
   function fmt(s) {
     var m = Math.floor(s / 60);
@@ -43,8 +48,23 @@
 
   btn.addEventListener('click', function () {
     if (audio.paused) {
-      audio.play();
+      if (!loaded) {
+        loaded = true;
+        audio.src = src;
+      }
       setIcon('pause');
+      var mine = ++attempt;
+      var playing = audio.play();
+      // A missing file rejects here and leaves paused false; reset so the
+      // next click plays again. A rejection from an older attempt (pause
+      // pressed before playback began) must not stop a newer one.
+      if (playing && playing.catch) {
+        playing.catch(function () {
+          if (mine !== attempt) return;
+          audio.pause();
+          setIcon('play');
+        });
+      }
     } else {
       audio.pause();
       setIcon('play');
@@ -53,10 +73,15 @@
 
   audio.addEventListener('timeupdate', function () {
     updateTime();
+    if (saved) return; // still at 0 until the saved position is restored
     localStorage.setItem('audio-pos-' + ref, audio.currentTime);
   });
 
-  audio.addEventListener('loadedmetadata', updateTime);
+  audio.addEventListener('loadedmetadata', function () {
+    if (saved > 0 && saved < audio.duration) audio.currentTime = saved;
+    saved = 0;
+    updateTime();
+  });
 
   audio.addEventListener('ended', function () {
     setIcon('play');
@@ -64,6 +89,7 @@
   });
 
   progress.addEventListener('click', function (e) {
+    if (!audio.duration) return; // nothing loaded yet, so nothing to seek in
     var rect = progress.getBoundingClientRect();
     var pct = (e.clientX - rect.left) / rect.width;
     audio.currentTime = pct * audio.duration;
@@ -71,7 +97,9 @@
 
   speedBtn.addEventListener('click', function () {
     speedIdx = (speedIdx + 1) % speeds.length;
-    audio.playbackRate = speeds[speedIdx];
+    // defaultPlaybackRate too: assigning src on the first play resets
+    // playbackRate to it, which would drop a speed picked before playing.
+    audio.playbackRate = audio.defaultPlaybackRate = speeds[speedIdx];
     speedBtn.textContent = speeds[speedIdx] + 'x';
   });
 
