@@ -41,8 +41,24 @@ jobs:
     # compile here. Verify a cold `bundle install` on a new image before moving.
     runs-on: ubuntu-26.04
     steps:
+      # audio/ is 82% of the HEAD tree (4,121 mp3s, 4.35 GB on 2026-11-15)
+      # and nothing here reads it: _config.yml excludes it from the build
+      # and the player streams it from jsDelivr. So the checkout leaves it
+      # out. Non-cone mode because cone mode can only name directories to
+      # include, not one to drop. sparse-checkout implies filter: blob:none
+      # (actions/checkout src/git-source-provider.ts), so audio blobs are
+      # never downloaded. `git ls-files audio/` still lists the files from
+      # the index; reading their content or size (git cat-file,
+      # git ls-tree -l) would fetch each blob in its own request.
+      # Checkout: median 140 s over 40 runs -> 31 s and 23 s (branch runs
+      # 43710063626, 43710245049), same artifact.
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            /*
+            !/audio/
+          sparse-checkout-cone-mode: false
       # Fail in seconds on broken front matter instead of silently dropping
       # posts from a ~40 min build (Jekyll only warns on YAML errors).
       - name: Validate post front matter

@@ -75,6 +75,21 @@ class PagesWorkflowContractTest(unittest.TestCase):
             with self.subTest(gem=gem):
                 self.assertIn("x86_64-linux-gnu", _locked_platforms(gem))
 
+    def test_build_checkout_leaves_audio_out(self):
+        """audio/ is 82% of the HEAD tree (4,121 mp3s, 4.35 GB on 2026-11-15)
+        and the build never reads it (_config.yml excludes it, the player
+        streams it from jsDelivr). Leaving it out took Checkout from a median
+        140 s over 40 runs to 23-31 s with the same artifact. Cone mode can
+        only name directories to include, so dropping one needs non-cone
+        patterns; with sparse-checkout set, actions/checkout fetches
+        blob:none, so the audio blobs are not downloaded either."""
+        step = re.search(r"^      - name: Checkout\n(.*?)(?=^      [-#]|\Z)", _job("build"), re.M | re.S)
+        self.assertIsNotNone(step, "build job lost its Checkout step")
+        patterns = re.search(r"sparse-checkout: \|\n((?: {12}\S.*\n)+)", step.group(1))
+        self.assertIsNotNone(patterns, "Checkout lost its sparse-checkout patterns")
+        self.assertEqual(patterns.group(1).split(), ["/*", "!/audio/"])
+        self.assertRegex(step.group(1), r"sparse-checkout-cone-mode:\s*false")
+
     def test_deploy_retries_once_after_a_timeout(self):
         """deploy-pages cancels at a hard 10-minute cap, and Pages' full
         re-sync of the ~1 GB artifact can take most of it: 6 of 130 main
