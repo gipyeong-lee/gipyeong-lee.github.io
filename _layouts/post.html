@@ -39,9 +39,7 @@ layout: default
   {% if page.image %}
     <div class="post__head">
       {% if page.image_alt %}
-      {% assign hero_webp = page.image | split: '.' | first %}
       <picture>
-        <source srcset="{{site.baseurl}}/images/{{ hero_webp }}.webp" type="image/webp">
         <img src="{{site.baseurl}}/images/{{page.image}}" alt="{{ page.image_alt }}" class="post-image" fetchpriority="high" width="1200" height="630">
       </picture>
       {% else %}

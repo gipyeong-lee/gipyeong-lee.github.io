@@ -73,6 +73,14 @@ jobs:
         run: bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}"
         env:
           JEKYLL_ENV: production
+      # git keeps each post's 1600x900 jpg + webp hero (~0.3 MB, three
+      # quarters of the artifact, which hit 997 MB of deploy-pages' 1 GiB on
+      # 2026-11-15); Pages gets one 1200 px progressive jpg per hero instead.
+      # Why these numbers: scripts/shrink_site_images.py.
+      - name: Shrink hero images
+        run: |
+          pip install pillow==13.0.0
+          python3 scripts/shrink_site_images.py _site
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
 
