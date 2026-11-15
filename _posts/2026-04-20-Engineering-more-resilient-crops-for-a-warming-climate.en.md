@@ -24,7 +24,6 @@ quiz:
     explanation: "Since more than half of the habitable land on Earth is already used for cultivation, it is more important to increase the efficiency of existing crops than to find new land."
 lang: en
 ref: 2026-04-20-Engineering-more-resilient-crops-for-a-warming-climate
-audio: 2026-04-20-Engineering-more-resilient-crops-for-a-warming-climate.en.mp3
 industry: education
 ---
 

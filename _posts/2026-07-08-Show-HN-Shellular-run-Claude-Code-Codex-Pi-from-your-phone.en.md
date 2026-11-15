@@ -24,7 +24,6 @@ quiz:
     explanation: "A major advantage is the ability to continue the session you were using on mobile without needing to copy or move work content between devices."
 lang: en
 ref: 2026-07-08-Show-HN-Shellular-run-Claude-Code-Codex-Pi-from-your-phone
-audio: 2026-07-08-Show-HN-Shellular-run-Claude-Code-Codex-Pi-from-your-phone.en.mp3
 industry: general
 ---
 

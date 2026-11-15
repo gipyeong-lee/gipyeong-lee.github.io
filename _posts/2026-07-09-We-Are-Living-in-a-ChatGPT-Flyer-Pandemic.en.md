@@ -24,7 +24,6 @@ quiz:
     explanation: "Large language models, including ChatGPT, have the ability to understand and generate various text and images within context, allowing anyone to easily mass-produce content."
 lang: en
 ref: 2026-07-09-We-Are-Living-in-a-ChatGPT-Flyer-Pandemic
-audio: 2026-07-09-We-Are-Living-in-a-ChatGPT-Flyer-Pandemic.en.mp3
 industry: creative
 ---
 

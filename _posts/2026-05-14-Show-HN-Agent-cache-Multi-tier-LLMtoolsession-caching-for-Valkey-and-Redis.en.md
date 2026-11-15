@@ -24,7 +24,6 @@ quiz:
     explanation: "It helps prevent paying duplicate API costs when asking an AI model a question that has already been asked."
 lang: en
 ref: 2026-05-14-Show-HN-Agent-cache-Multi-tier-LLMtoolsession-caching-for-Valkey-and-Redis
-audio: 2026-05-14-Show-HN-Agent-cache-Multi-tier-LLMtoolsession-caching-for-Valkey-and-Redis.en.mp3
 industry: creative
 ---
 

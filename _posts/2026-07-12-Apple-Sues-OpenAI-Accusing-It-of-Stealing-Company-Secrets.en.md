@@ -24,7 +24,6 @@ quiz:
     explanation: "OpenAI is accused of mentioning Apple's secret project codenames during job interviews and inducing candidates to bring in Apple hardware components."
 lang: en
 ref: 2026-07-12-Apple-Sues-OpenAI-Accusing-It-of-Stealing-Company-Secrets
-audio: 2026-07-12-Apple-Sues-OpenAI-Accusing-It-of-Stealing-Company-Secrets.en.mp3
 industry: legal
 ---
 

@@ -24,7 +24,6 @@ quiz:
     explanation: "Meta has expressed its intention to 'fight this lawsuit aggressively.'"
 lang: en
 ref: 2026-05-06-Zuckerberg-Personally-Authorized-and-Encouraged-Metas-Copyright-Infringement
-audio: 2026-05-06-Zuckerberg-Personally-Authorized-and-Encouraged-Metas-Copyright-Infringement.en.mp3
 industry: legal
 ---
 

@@ -24,7 +24,6 @@ quiz:
     explanation: "The weights of DeepSeek V4-Pro are released under the MIT License so that anyone can freely use and host them."
 lang: en
 ref: 2026-05-25-DeepSeek-makes-the-V4-Pro-price-discount-permanent
-audio: 2026-05-25-DeepSeek-makes-the-V4-Pro-price-discount-permanent.en.mp3
 industry: finance
 ---
 

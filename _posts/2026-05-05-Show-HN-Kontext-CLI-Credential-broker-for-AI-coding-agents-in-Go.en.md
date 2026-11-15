@@ -24,7 +24,6 @@ quiz:
     explanation: "For security, Kontext CLI safely stores authentication data in the system keyring instead of a text file."
 lang: en
 ref: 2026-05-05-Show-HN-Kontext-CLI-Credential-broker-for-AI-coding-agents-in-Go
-audio: 2026-05-05-Show-HN-Kontext-CLI-Credential-broker-for-AI-coding-agents-in-Go.en.mp3
 industry: finance
 ---
 

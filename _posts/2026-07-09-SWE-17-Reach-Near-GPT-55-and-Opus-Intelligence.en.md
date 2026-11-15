@@ -24,7 +24,6 @@ quiz:
     explanation: "SWE-bench Pro is a relatively more difficult and realistic benchmark that evaluates whether an AI can fully resolve issues from actual software projects."
 lang: en
 ref: 2026-07-09-SWE-17-Reach-Near-GPT-55-and-Opus-Intelligence
-audio: 2026-07-09-SWE-17-Reach-Near-GPT-55-and-Opus-Intelligence.en.mp3
 industry: general
 ---
 

@@ -24,7 +24,6 @@ quiz:
     explanation: "DiffusionGemma, released by Google DeepMind, is an experimental open-weights model with 26 billion (26B) parameters."
 lang: en
 ref: 2026-06-11-DiffusionGemma-4x-faster-text-generation
-audio: 2026-06-11-DiffusionGemma-4x-faster-text-generation.en.mp3
 industry: creative
 ---
 

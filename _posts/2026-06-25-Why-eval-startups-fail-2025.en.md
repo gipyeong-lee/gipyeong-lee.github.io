@@ -24,7 +24,6 @@ quiz:
     explanation: "Research evaluation is a core task that determines the direction of technology, so giant research labs do not want to outsource this authority."
 lang: en
 ref: 2026-06-25-Why-eval-startups-fail-2025
-audio: 2026-06-25-Why-eval-startups-fail-2025.en.mp3
 industry: creative
 ---
 

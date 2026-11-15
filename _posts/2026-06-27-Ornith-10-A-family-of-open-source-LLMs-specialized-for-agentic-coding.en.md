@@ -24,7 +24,6 @@ quiz:
     explanation: "Ornith-1.0 was post-trained based on existing powerful models, Gemma 4 and Qwen 3.5."
 lang: en
 ref: 2026-06-27-Ornith-10-A-family-of-open-source-LLMs-specialized-for-agentic-coding
-audio: 2026-06-27-Ornith-10-A-family-of-open-source-LLMs-specialized-for-agentic-coding.en.mp3
 industry: creative
 ---
 

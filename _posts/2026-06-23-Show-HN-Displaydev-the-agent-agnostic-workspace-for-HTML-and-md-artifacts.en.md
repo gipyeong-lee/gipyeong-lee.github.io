@@ -24,7 +24,6 @@ quiz:
     explanation: "Display.dev is an 'agent-neutral' platform not tied to any specific model, and is compatible with various agent environments such as LangChain, CrewAI, AutoGen, and n8n."
 lang: en
 ref: 2026-06-23-Show-HN-Displaydev-the-agent-agnostic-workspace-for-HTML-and-md-artifacts
-audio: 2026-06-23-Show-HN-Displaydev-the-agent-agnostic-workspace-for-HTML-and-md-artifacts.en.mp3
 industry: creative
 ---
 

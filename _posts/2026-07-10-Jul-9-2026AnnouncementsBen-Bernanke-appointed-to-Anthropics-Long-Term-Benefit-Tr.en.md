@@ -24,7 +24,6 @@ quiz:
     explanation: "The company set its purpose not just to make money, but to develop AI responsibly to provide long-term benefits to humanity, and established governance mechanisms to ensure this."
 lang: en
 ref: 2026-07-10-Jul-9-2026AnnouncementsBen-Bernanke-appointed-to-Anthropics-Long-Term-Benefit-Tr
-audio: 2026-07-10-Jul-9-2026AnnouncementsBen-Bernanke-appointed-to-Anthropics-Long-Term-Benefit-Tr.en.mp3
 industry: finance
 ---
 

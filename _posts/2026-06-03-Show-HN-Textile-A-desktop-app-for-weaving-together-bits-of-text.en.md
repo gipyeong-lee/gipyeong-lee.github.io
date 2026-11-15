@@ -24,7 +24,6 @@ quiz:
     explanation: "The developer who recently excitedly unveiled his desktop app, Textile, to the community uses the nickname 'stack_framer'."
 lang: en
 ref: 2026-06-03-Show-HN-Textile-A-desktop-app-for-weaving-together-bits-of-text
-audio: 2026-06-03-Show-HN-Textile-A-desktop-app-for-weaving-together-bits-of-text.en.mp3
 industry: creative
 ---
 

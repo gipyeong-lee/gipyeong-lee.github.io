@@ -24,7 +24,6 @@ quiz:
     explanation: "peerd supports sandboxed computing environments like JavaScript notebooks or WASM-based virtual machines, allows browser tab manipulation, and enables P2P sharing of results."
 lang: en
 ref: 2026-06-25-Show-HN-peerd-AI-agent-harness-that-runs-entirely-in-your-browser
-audio: 2026-06-25-Show-HN-peerd-AI-agent-harness-that-runs-entirely-in-your-browser.en.mp3
 industry: security
 ---
 

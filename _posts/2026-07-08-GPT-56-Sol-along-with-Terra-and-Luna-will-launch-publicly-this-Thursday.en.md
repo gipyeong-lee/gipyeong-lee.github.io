@@ -24,7 +24,6 @@ quiz:
     explanation: "Initially, it was pre-released only to limited partners for cooperation and security review procedures with the US government."
 lang: en
 ref: 2026-07-08-GPT-56-Sol-along-with-Terra-and-Luna-will-launch-publicly-this-Thursday
-audio: 2026-07-08-GPT-56-Sol-along-with-Terra-and-Luna-will-launch-publicly-this-Thursday.en.mp3
 industry: security
 ---
 

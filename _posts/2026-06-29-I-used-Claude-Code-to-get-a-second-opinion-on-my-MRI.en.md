@@ -23,7 +23,6 @@ quiz:
     explanation: "Claude Code's specific skill can analyze various DICOM-format medical imaging studies, including MRI, CT scans, and X-rays, not just MRI."
 lang: en
 ref: 2026-06-29-I-used-Claude-Code-to-get-a-second-opinion-on-my-MRI
-audio: 2026-06-29-I-used-Claude-Code-to-get-a-second-opinion-on-my-MRI.en.mp3
 industry: healthcare
 ---
 

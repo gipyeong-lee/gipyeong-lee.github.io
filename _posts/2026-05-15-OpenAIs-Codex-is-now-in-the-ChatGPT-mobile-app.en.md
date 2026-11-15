@@ -24,7 +24,6 @@ quiz:
     explanation: "OpenAI has opened this preview feature to all ChatGPT users, including the Free tier and the affordable Go tier, without conditions."
 lang: en
 ref: 2026-05-15-OpenAIs-Codex-is-now-in-the-ChatGPT-mobile-app
-audio: 2026-05-15-OpenAIs-Codex-is-now-in-the-ChatGPT-mobile-app.en.mp3
 industry: education
 ---
 

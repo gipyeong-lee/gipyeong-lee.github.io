@@ -24,7 +24,6 @@ quiz:
     explanation: "Client Hints were expanded to provide information from the traditional User Agent in a more privacy-centric and efficient way."
 lang: en
 ref: 2026-06-25-Ask-HN-Am-I-being-advertised-an-ARG-via-user-agent-logs
-audio: 2026-06-25-Ask-HN-Am-I-being-advertised-an-ARG-via-user-agent-logs.en.mp3
 industry: security
 ---
 

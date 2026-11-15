@@ -24,7 +24,6 @@ quiz:
     explanation: "CodeMender utilizes Google's 'Gemini Deep Think' model, which has enhanced reasoning capabilities."
 lang: en
 ref: 2026-04-21-Introducing-CodeMender-an-AI-agent-for-code-security
-audio: 2026-04-21-Introducing-CodeMender-an-AI-agent-for-code-security.en.mp3
 industry: creative
 ---
 

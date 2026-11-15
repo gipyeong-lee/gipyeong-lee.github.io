@@ -24,7 +24,6 @@ quiz:
     explanation: "This model processes a continuous audio stream, closely following the speaker with just a 1 to 2-second interval, providing extremely low-latency translation without awkward silences."
 lang: en
 ref: 2026-06-10-Fluid-natural-voice-translation-with-Gemini-35-Live-Translate
-audio: 2026-06-10-Fluid-natural-voice-translation-with-Gemini-35-Live-Translate.en.mp3
 industry: creative
 ---
 

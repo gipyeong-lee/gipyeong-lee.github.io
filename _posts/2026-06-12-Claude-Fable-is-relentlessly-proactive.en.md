@@ -24,7 +24,6 @@ quiz:
     explanation: "Mythos 5 is the same model as Fable 5 but with some safeguards removed, and is provided exclusively to cybersecurity experts through Project Glasswing."
 lang: en
 ref: 2026-06-12-Claude-Fable-is-relentlessly-proactive
-audio: 2026-06-12-Claude-Fable-is-relentlessly-proactive.en.mp3
 industry: education
 ---
 

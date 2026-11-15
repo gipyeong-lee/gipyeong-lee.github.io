@@ -24,7 +24,6 @@ quiz:
     explanation: "The technology that turns website interfaces into surfaces usable by agents and reverse engineers APIs to extract data at scale was introduced as 'Vibe Hacking'."
 lang: en
 ref: 2026-07-11-Show-HN-Reverse-engineering-web-apps-into-agent-tools
-audio: 2026-07-11-Show-HN-Reverse-engineering-web-apps-into-agent-tools.en.mp3
 industry: education
 ---
 

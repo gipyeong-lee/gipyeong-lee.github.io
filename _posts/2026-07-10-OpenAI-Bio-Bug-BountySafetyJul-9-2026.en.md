@@ -24,7 +24,6 @@ quiz:
     explanation: "All participating researchers must sign a Non-Disclosure Agreement (NDA) regarding all prompts, responses, and research results."
 lang: en
 ref: 2026-07-10-OpenAI-Bio-Bug-BountySafetyJul-9-2026
-audio: 2026-07-10-OpenAI-Bio-Bug-BountySafetyJul-9-2026.en.mp3
 industry: finance
 ---
 

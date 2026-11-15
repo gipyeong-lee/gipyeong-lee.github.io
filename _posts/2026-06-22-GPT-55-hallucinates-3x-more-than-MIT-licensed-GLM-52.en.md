@@ -24,7 +24,6 @@ quiz:
     explanation: "Both models support a large-scale context window of 1 million tokens."
 lang: en
 ref: 2026-06-22-GPT-55-hallucinates-3x-more-than-MIT-licensed-GLM-52
-audio: 2026-06-22-GPT-55-hallucinates-3x-more-than-MIT-licensed-GLM-52.en.mp3
 industry: general
 ---
 

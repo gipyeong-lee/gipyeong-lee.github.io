@@ -24,7 +24,6 @@ quiz:
     explanation: "The ability to implement the level of data sovereignty required by regulated industries within developer environments is cited as a major advantage."
 lang: en
 ref: 2026-06-25-Coheres-First-Model-for-Developers
-audio: 2026-06-25-Coheres-First-Model-for-Developers.en.mp3
 industry: creative
 ---
 

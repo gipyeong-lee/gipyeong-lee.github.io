@@ -24,7 +24,6 @@ quiz:
     explanation: "Being able to control desktop tasks through a mobile interface is expected to significantly reduce the recent trend of carrying around 'open laptops'. In addition, it has enhanced security by complying with HIPAA (the US standard for protecting medical information)."
 lang: en
 ref: 2026-05-15-Codex-is-now-in-the-ChatGPT-mobile-app
-audio: 2026-05-15-Codex-is-now-in-the-ChatGPT-mobile-app.en.mp3
 industry: healthcare
 ---
 

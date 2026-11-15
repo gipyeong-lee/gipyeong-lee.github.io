@@ -24,7 +24,6 @@ quiz:
     explanation: "SWE-Bench Pro was developed by Scale AI and released in September 2025."
 lang: en
 ref: 2026-07-09-OpenAI-no-longer-recommends-SWE-Bench-Pro
-audio: 2026-07-09-OpenAI-no-longer-recommends-SWE-Bench-Pro.en.mp3
 industry: creative
 ---
 

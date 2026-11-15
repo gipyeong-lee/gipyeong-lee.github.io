@@ -24,7 +24,6 @@ quiz:
     explanation: "Users employ 'jailbreak' prompts like DAN to bypass the AI's built-in restrictions and uncover or test the hidden biases behind them."
 lang: en
 ref: 2026-07-04-I-Wasnt-Allowed-Prompting-ChatGPT-During-My-Chalk-Talk-This-Is-Discrimination
-audio: 2026-07-04-I-Wasnt-Allowed-Prompting-ChatGPT-During-My-Chalk-Talk-This-Is-Discrimination.en.mp3
 industry: creative
 ---
 

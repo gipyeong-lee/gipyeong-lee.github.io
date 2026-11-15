@@ -24,7 +24,6 @@ quiz:
     explanation: "Fugu can connect and utilize a variety of specialized models, including third-party frontier Large Language Models (LLMs), as if conducting an orchestra."
 lang: en
 ref: 2026-06-24-Sakana-Fugu-a-multi-agent-system-delivered-as-one-model
-audio: 2026-06-24-Sakana-Fugu-a-multi-agent-system-delivered-as-one-model.en.mp3
 industry: creative
 ---
 

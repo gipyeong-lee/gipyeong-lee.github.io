@@ -24,7 +24,6 @@ quiz:
     explanation: "FOMC members vote to determine the target for the U.S. benchmark interest rate, which significantly impacts short-term rates and currency value."
 lang: en
 ref: 2026-05-15-Stephen-I-Miran-submits-his-resignation-as-a-member-of-the-Federal-Reserve-Board
-audio: 2026-05-15-Stephen-I-Miran-submits-his-resignation-as-a-member-of-the-Federal-Reserve-Board.en.mp3
 industry: finance
 ---
 

@@ -24,7 +24,6 @@ quiz:
     explanation: "Model distillation refers to the act of a user training their own competing AI model using the outputs of a powerful AI (Fable 5), which Anthropic blocks at the system level."
 lang: en
 ref: 2026-06-10-System-Card-Claude-Fable-5-and-Claude-Mythos-5-pdf
-audio: 2026-06-10-System-Card-Claude-Fable-5-and-Claude-Mythos-5-pdf.en.mp3
 industry: security
 ---
 

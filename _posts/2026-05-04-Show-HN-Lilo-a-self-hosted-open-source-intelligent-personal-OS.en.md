@@ -24,7 +24,6 @@ quiz:
     explanation: "The name LILO has been widely known as the Linux Loader (LILO) since 1992, leading to discussions about name duplication."
 lang: en
 ref: 2026-05-04-Show-HN-Lilo-a-self-hosted-open-source-intelligent-personal-OS
-audio: 2026-05-04-Show-HN-Lilo-a-self-hosted-open-source-intelligent-personal-OS.en.mp3
 industry: creative
 ---
 

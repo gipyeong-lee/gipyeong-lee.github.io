@@ -24,7 +24,6 @@ quiz:
     explanation: "The core of this update is the dramatic improvement in coding skills and the ability to create complex web applications."
 lang: en
 ref: 2026-04-22-Build-rich-interactive-web-apps-with-an-updated-Gemini-25-Pro
-audio: 2026-04-22-Build-rich-interactive-web-apps-with-an-updated-Gemini-25-Pro.en.mp3
 industry: creative
 ---
 

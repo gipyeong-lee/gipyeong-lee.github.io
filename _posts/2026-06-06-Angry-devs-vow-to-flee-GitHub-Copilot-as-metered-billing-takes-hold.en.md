@@ -24,7 +24,6 @@ quiz:
     explanation: "Some developers expressed dissatisfaction with the inconsistent environment between VSCode and Visual Studio, and the fact that the Sonnet 4.6 model's reading capability is limited to 200k tokens despite being capable of 1M."
 lang: en
 ref: 2026-06-06-Angry-devs-vow-to-flee-GitHub-Copilot-as-metered-billing-takes-hold
-audio: 2026-06-06-Angry-devs-vow-to-flee-GitHub-Copilot-as-metered-billing-takes-hold.en.mp3
 industry: creative
 ---
 

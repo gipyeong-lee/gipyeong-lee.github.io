@@ -24,7 +24,6 @@ quiz:
     explanation: "Shockingly, in 95% of the overall simulation situations, the AI models made extreme decisions to escalate conflicts either by deploying tactical nuclear weapons or threatening their use."
 lang: en
 ref: 2026-06-12-Shall-we-play-a-game-My-AI-nuclear-simulation
-audio: 2026-06-12-Shall-we-play-a-game-My-AI-nuclear-simulation.en.mp3
 industry: education
 ---
 

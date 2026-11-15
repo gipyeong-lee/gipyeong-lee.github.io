@@ -24,7 +24,6 @@ quiz:
     explanation: "Rather than including all unnecessary information, selecting and delivering only the relevant core content yields much better and more reliable results."
 lang: en
 ref: 2026-06-14-Dont-trust-large-context-windows
-audio: 2026-06-14-Dont-trust-large-context-windows.en.mp3
 industry: robotics
 ---
 

@@ -24,7 +24,6 @@ quiz:
     explanation: "While GPT-5 shows outstanding abilities in coding, mathematics, and writing, it is not known as a model that directly constructs the physical reality."
 lang: en
 ref: 2026-06-22-GPT-5-writing-a-Singularity-scenario-2025
-audio: 2026-06-22-GPT-5-writing-a-Singularity-scenario-2025.en.mp3
 industry: creative
 ---
 

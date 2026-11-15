@@ -24,7 +24,6 @@ quiz:
     explanation: "'Patch the Planet' is a security initiative that collaborates with researchers and project managers to resolve security vulnerabilities in the open-source ecosystem."
 lang: en
 ref: 2026-06-23-OpenAI-DayBreak-GPT-55-Cyber
-audio: 2026-06-23-OpenAI-DayBreak-GPT-55-Cyber.en.mp3
 industry: security
 ---
 

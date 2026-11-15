@@ -24,7 +24,6 @@ quiz:
     explanation: "Grok Build 0.1 is currently available as a public beta version via the xAI API."
 lang: en
 ref: 2026-06-24-Grok-Build-01-Intelligence-Performance-and-Price-Analysis
-audio: 2026-06-24-Grok-Build-01-Intelligence-Performance-and-Price-Analysis.en.mp3
 industry: creative
 ---
 

@@ -24,7 +24,6 @@ quiz:
     explanation: "In the past, Anthropic clashed with the Pentagon by refusing to lift safeguards that prevented its AI models from being used for mass domestic surveillance and fully autonomous weapons systems."
 lang: en
 ref: 2026-06-16-Anthropic-flies-staff-to-DC-to-clean-up-White-House-fight
-audio: 2026-06-16-Anthropic-flies-staff-to-DC-to-clean-up-White-House-fight.en.mp3
 industry: security
 ---
 

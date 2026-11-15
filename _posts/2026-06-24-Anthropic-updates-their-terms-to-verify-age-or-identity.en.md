@@ -24,7 +24,6 @@ quiz:
     explanation: "Anthropic has stated that it may utilize Persona's biometric technology during the identity verification process."
 lang: en
 ref: 2026-06-24-Anthropic-updates-their-terms-to-verify-age-or-identity
-audio: 2026-06-24-Anthropic-updates-their-terms-to-verify-age-or-identity.en.mp3
 industry: creative
 ---
 

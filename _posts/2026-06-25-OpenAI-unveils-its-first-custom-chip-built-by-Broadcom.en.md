@@ -24,7 +24,6 @@ quiz:
     explanation: "OpenAI utilized its own AI models to accelerate the chip development process."
 lang: en
 ref: 2026-06-25-OpenAI-unveils-its-first-custom-chip-built-by-Broadcom
-audio: 2026-06-25-OpenAI-unveils-its-first-custom-chip-built-by-Broadcom.en.mp3
 industry: creative
 ---
 

@@ -24,7 +24,6 @@ quiz:
     explanation: "A model checker is a program that explores all possible behaviors of a system to verify that the properties defined in the specification are properly maintained."
 lang: en
 ref: 2026-06-22-Show-HN-TLA-Process-Studio
-audio: 2026-06-22-Show-HN-TLA-Process-Studio.en.mp3
 industry: creative
 ---
 

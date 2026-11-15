@@ -24,7 +24,6 @@ quiz:
     explanation: "Anthropic has presented a proposal to Howard Lutnick's side to end the US government's ban on the use of 'Mythos' and 'Fable' AI models."
 lang: en
 ref: 2026-06-24-The-Korean-telecom-giant-at-the-center-of-Anthropics-Mythos-controversy
-audio: 2026-06-24-The-Korean-telecom-giant-at-the-center-of-Anthropics-Mythos-controversy.en.mp3
 industry: general
 ---
 

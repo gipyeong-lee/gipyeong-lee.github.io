@@ -24,7 +24,6 @@ quiz:
     explanation: "DXC stated that through its collaboration with Claude, software development speed will be 10 times faster, and AI will write 95% of the code."
 lang: en
 ref: 2026-06-12-Jun-11-2026AnnouncementsDXC-will-integrate-Claude-into-the-systems-banks-airline
-audio: 2026-06-12-Jun-11-2026AnnouncementsDXC-will-integrate-Claude-into-the-systems-banks-airline.en.mp3
 industry: finance
 ---
 

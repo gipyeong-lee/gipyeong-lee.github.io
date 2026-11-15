@@ -24,7 +24,6 @@ quiz:
     explanation: "Some virtual file systems use databases like SQLite as backup storage rather than physical files, allowing for efficient operation."
 lang: en
 ref: 2026-07-12-Files-over-tools-how-we-built-our-agent-with-a-virtual-filesystem-and-bash
-audio: 2026-07-12-Files-over-tools-how-we-built-our-agent-with-a-virtual-filesystem-and-bash.en.mp3
 industry: creative
 ---
 

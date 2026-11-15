@@ -24,7 +24,6 @@ quiz:
     explanation: "In April 2026, Dario Amodei met with the White House Chief of Staff to discuss the conflict with the US Department of Defense over access to the cybersecurity AI model, 'Mythos Preview'."
 lang: en
 ref: 2026-06-16-Anthropic-staff-to-meet-White-House-officials-next-week
-audio: 2026-06-16-Anthropic-staff-to-meet-White-House-officials-next-week.en.mp3
 industry: legal
 ---
 

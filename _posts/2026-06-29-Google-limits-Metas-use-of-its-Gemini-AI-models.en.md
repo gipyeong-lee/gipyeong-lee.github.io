@@ -24,7 +24,6 @@ quiz:
     explanation: "It is known that Google informed Meta of the resource shortage and began the restrictions around March 2026."
 lang: en
 ref: 2026-06-29-Google-limits-Metas-use-of-its-Gemini-AI-models
-audio: 2026-06-29-Google-limits-Metas-use-of-its-Gemini-AI-models.en.mp3
 industry: general
 ---
 

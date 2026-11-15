@@ -24,7 +24,6 @@ quiz:
     explanation: "The Gemma 4 model is a cutting-edge open model developed by Google DeepMind."
 lang: en
 ref: "2026-06-30-Gemma-4-on-Cerebras---The-Fastest-Inference-Is-Now-Multimodal"
-audio: 2026-06-30-Gemma-4-on-Cerebras---The-Fastest-Inference-Is-Now-Multimodal.en.mp3
 industry: healthcare
 ---
 

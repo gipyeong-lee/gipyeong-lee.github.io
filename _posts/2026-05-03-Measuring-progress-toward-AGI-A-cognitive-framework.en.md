@@ -24,7 +24,6 @@ quiz:
     explanation: "DeepMind held a Kaggle hackathon with a total prize pool of $200,000 to build evaluation benchmarks."
 lang: en
 ref: 2026-05-03-Measuring-progress-toward-AGI-A-cognitive-framework
-audio: 2026-05-03-Measuring-progress-toward-AGI-A-cognitive-framework.en.mp3
 industry: creative
 ---
 

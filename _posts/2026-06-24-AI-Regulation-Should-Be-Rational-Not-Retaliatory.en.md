@@ -24,7 +24,6 @@ quiz:
     explanation: "According to a 2022 Ipsos survey, 78% of respondents in China stated that AI benefits outweigh the drawbacks, compared to only 35% in the United States."
 lang: en
 ref: 2026-06-24-AI-Regulation-Should-Be-Rational-Not-Retaliatory
-audio: 2026-06-24-AI-Regulation-Should-Be-Rational-Not-Retaliatory.en.mp3
 industry: legal
 ---
 

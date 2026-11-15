@@ -24,7 +24,6 @@ quiz:
     explanation: "Apple executives clearly stated that the new Apple Foundation Model architecture contains 'none' of Google's Gemini technology."
 lang: en
 ref: 2026-06-15-Apple-Foundation-Models
-audio: 2026-06-15-Apple-Foundation-Models.en.mp3
 industry: healthcare
 ---
 

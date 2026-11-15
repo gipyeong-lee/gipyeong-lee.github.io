@@ -24,7 +24,6 @@ quiz:
     explanation: "A bad AGENTS.md file full of incorrect rules twists the AI's reasoning, actively hurting the quality of the output even more than a situation with no guidelines at all."
 lang: en
 ref: 2026-06-08-Do-agentsmd-files-help-coding-agents
-audio: 2026-06-08-Do-agentsmd-files-help-coding-agents.en.mp3
 industry: education
 ---
 

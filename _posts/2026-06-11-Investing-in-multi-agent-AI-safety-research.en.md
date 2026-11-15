@@ -24,7 +24,6 @@ quiz:
     explanation: "Because the pace of technological advancement in AI models is very fast, security systems dependent on a model that updates every 6 months lead to the inefficiency of having to be constantly rebuilt."
 lang: en
 ref: 2026-06-11-Investing-in-multi-agent-AI-safety-research
-audio: 2026-06-11-Investing-in-multi-agent-AI-safety-research.en.mp3
 industry: security
 ---
 

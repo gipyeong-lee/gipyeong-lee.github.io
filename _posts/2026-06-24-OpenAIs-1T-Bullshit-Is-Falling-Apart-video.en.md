@@ -24,7 +24,6 @@ quiz:
     explanation: "Experts analyze that revenue needs to be increased by 15 times compared to now to cover current operating costs and survive."
 lang: en
 ref: 2026-06-24-OpenAIs-1T-Bullshit-Is-Falling-Apart-video
-audio: 2026-06-24-OpenAIs-1T-Bullshit-Is-Falling-Apart-video.en.mp3
 industry: finance
 ---
 

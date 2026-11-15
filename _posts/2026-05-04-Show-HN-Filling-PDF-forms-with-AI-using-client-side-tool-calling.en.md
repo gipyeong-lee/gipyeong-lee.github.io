@@ -24,7 +24,6 @@ quiz:
     explanation: "According to relevant research, AI agent-based systems can reduce document processing time by up to 85%."
 lang: en
 ref: 2026-05-04-Show-HN-Filling-PDF-forms-with-AI-using-client-side-tool-calling
-audio: 2026-05-04-Show-HN-Filling-PDF-forms-with-AI-using-client-side-tool-calling.en.mp3
 industry: creative
 ---
 

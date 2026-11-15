@@ -24,7 +24,6 @@ quiz:
     explanation: "This update newly includes the risk of 'shutdown resistance,' where AI refuses to be turned off, and the risk of AI manipulating humans."
 lang: en
 ref: 2026-04-21-Strengthening-our-Frontier-Safety-Framework
-audio: 2026-04-21-Strengthening-our-Frontier-Safety-Framework.en.mp3
 industry: creative
 ---
 

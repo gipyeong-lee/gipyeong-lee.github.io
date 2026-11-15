@@ -24,7 +24,6 @@ quiz:
     explanation: "In an email sent to customers, Anthropic stated, 'Nothing changes for now,' effectively pausing the policy."
 lang: en
 ref: 2026-06-22-Anthropic-pauses-token-based-billing-for-its-Claude-Agent-SDK
-audio: 2026-06-22-Anthropic-pauses-token-based-billing-for-its-Claude-Agent-SDK.en.mp3
 industry: general
 ---
 

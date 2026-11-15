@@ -24,7 +24,6 @@ quiz:
     explanation: "AI, which reached the level of an International Mathematical Olympiad gold medalist just 10 months ago, has now rapidly advanced to the level of independently solving unsolved research problems."
 lang: en
 ref: 2026-05-21-An-OpenAI-model-has-disproved-a-central-conjecture-in-discrete-geometryResearchM
-audio: 2026-05-21-An-OpenAI-model-has-disproved-a-central-conjecture-in-discrete-geometryResearchM.en.mp3
 industry: education
 ---
 

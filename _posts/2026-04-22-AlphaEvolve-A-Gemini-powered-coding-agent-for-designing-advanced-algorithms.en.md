@@ -24,7 +24,6 @@ quiz:
     explanation: "AlphaEvolve successfully saved millions of dollars in computing costs through algorithm discovery and optimization."
 lang: en
 ref: 2026-04-22-AlphaEvolve-A-Gemini-powered-coding-agent-for-designing-advanced-algorithms
-audio: 2026-04-22-AlphaEvolve-A-Gemini-powered-coding-agent-for-designing-advanced-algorithms.en.mp3
 industry: creative
 ---
 

@@ -24,7 +24,6 @@ quiz:
     explanation: "OpenAI pledged to donate $7.5 million to 'The Alignment Project' to support independent AI safety research."
 lang: en
 ref: 2026-04-23-Introducing-OpenAI-Privacy-FilterResearchApr-22-2026
-audio: 2026-04-23-Introducing-OpenAI-Privacy-FilterResearchApr-22-2026.en.mp3
 industry: legal
 ---
 

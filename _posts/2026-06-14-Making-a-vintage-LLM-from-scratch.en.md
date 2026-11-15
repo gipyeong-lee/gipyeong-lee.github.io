@@ -24,7 +24,6 @@ quiz:
     explanation: "Group-query attention (GQA) is a technology that up-trains a model using only 5% of the original training compute from an existing checkpoint, thereby improving performance while saving the cost of retraining from scratch."
 lang: en
 ref: 2026-06-14-Making-a-vintage-LLM-from-scratch
-audio: 2026-06-14-Making-a-vintage-LLM-from-scratch.en.mp3
 industry: education
 ---
 

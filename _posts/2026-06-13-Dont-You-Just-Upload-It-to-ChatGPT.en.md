@@ -24,7 +24,6 @@ quiz:
     explanation: "As pointed out in the Hacker News discussion, if a field is not one's expertise, it's easy to blindly believe AI because one lacks the knowledge to spot hidden fatal errors or flaws."
 lang: en
 ref: 2026-06-13-Dont-You-Just-Upload-It-to-ChatGPT
-audio: 2026-06-13-Dont-You-Just-Upload-It-to-ChatGPT.en.mp3
 industry: creative
 ---
 

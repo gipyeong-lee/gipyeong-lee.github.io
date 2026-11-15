@@ -24,7 +24,6 @@ quiz:
     explanation: "The two companies formed partnerships to build 'deployment infrastructure' that helps conservative traditional firms smoothly integrate AI into their systems and manage organizational change."
 lang: en
 ref: 2026-05-28-I-think-Anthropic-and-OpenAI-have-found-product-market-fit
-audio: 2026-05-28-I-think-Anthropic-and-OpenAI-have-found-product-market-fit.en.mp3
 industry: creative
 ---
 

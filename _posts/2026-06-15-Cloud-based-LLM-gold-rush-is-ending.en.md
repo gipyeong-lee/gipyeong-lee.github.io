@@ -24,7 +24,6 @@ quiz:
     explanation: "To solve issues with cloud costs, censorship, and privacy, 'Local LLMs'—which run directly on a user's own computer or smartphone—are emerging as a strong alternative."
 lang: en
 ref: 2026-06-15-Cloud-based-LLM-gold-rush-is-ending
-audio: 2026-06-15-Cloud-based-LLM-gold-rush-is-ending.en.mp3
 industry: education
 ---
 

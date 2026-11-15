@@ -24,7 +24,6 @@ quiz:
     explanation: "The Federal Reserve typically takes formal enforcement actions when violations of laws, regulations, unsafe or unsound practices, or breaches of fiduciary duty occur."
 lang: en
 ref: 2026-07-10-Federal-Reserve-Board-issues-enforcement-action-with-TS-Banking-Group-Inc-and-TS
-audio: 2026-07-10-Federal-Reserve-Board-issues-enforcement-action-with-TS-Banking-Group-Inc-and-TS.en.mp3
 industry: education
 ---
 

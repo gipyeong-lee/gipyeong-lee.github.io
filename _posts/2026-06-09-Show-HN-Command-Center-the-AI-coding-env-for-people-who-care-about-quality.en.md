@@ -24,7 +24,6 @@ quiz:
     explanation: "Emergent is a platform where you only need to describe what you want in natural language, and AI handles all development, design, and deployment without requiring any coding experience."
 lang: en
 ref: 2026-06-09-Show-HN-Command-Center-the-AI-coding-env-for-people-who-care-about-quality
-audio: 2026-06-09-Show-HN-Command-Center-the-AI-coding-env-for-people-who-care-about-quality.en.mp3
 industry: creative
 ---
 

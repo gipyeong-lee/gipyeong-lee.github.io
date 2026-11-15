@@ -24,7 +24,6 @@ quiz:
     explanation: "They advised not to rely on permission approval windows, but to store secrets in separate files that are fundamentally blocked so the AI cannot read them at all."
 lang: en
 ref: 2026-05-29-Show-HN-Continue-YN-A-60-second-game-about-AI-agent-permission-fatigue
-audio: 2026-05-29-Show-HN-Continue-YN-A-60-second-game-about-AI-agent-permission-fatigue.en.mp3
 industry: security
 ---
 

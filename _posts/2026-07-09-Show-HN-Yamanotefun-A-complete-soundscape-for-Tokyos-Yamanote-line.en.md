@@ -24,7 +24,6 @@ quiz:
     explanation: "The site composes the soundscape by combining station melodies, train announcements, door closing alerts, and train running noises."
 lang: en
 ref: 2026-07-09-Show-HN-Yamanotefun-A-complete-soundscape-for-Tokyos-Yamanote-line
-audio: 2026-07-09-Show-HN-Yamanotefun-A-complete-soundscape-for-Tokyos-Yamanote-line.en.mp3
 industry: creative
 ---
 

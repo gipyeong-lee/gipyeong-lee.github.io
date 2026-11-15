@@ -24,7 +24,6 @@ quiz:
     explanation: "GPT-5.5 recorded a significantly higher hallucination rate of 86% compared to competing models, revealing reliability issues."
 lang: en
 ref: 2026-05-04-GPT-55-No-ARC-AGI-3-scores
-audio: 2026-05-04-GPT-55-No-ARC-AGI-3-scores.en.mp3
 industry: education
 ---
 

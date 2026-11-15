@@ -24,7 +24,6 @@ quiz:
     explanation: "The TreeFlow model, which combines the strengths of Decision Trees and Diffusion Models, achieved a 2x speedup compared to existing methods."
 lang: en
 ref: 2026-06-07-Trees-to-Flows-and-Back-Unifying-Decision-Trees-and-Diffusion-Models
-audio: 2026-06-07-Trees-to-Flows-and-Back-Unifying-Decision-Trees-and-Diffusion-Models.en.mp3
 industry: healthcare
 ---
 

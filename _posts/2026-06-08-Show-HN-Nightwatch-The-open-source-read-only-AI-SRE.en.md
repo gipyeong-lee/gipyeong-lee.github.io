@@ -24,7 +24,6 @@ quiz:
     explanation: "Nightwatch does not autonomously modify or deploy code; it adopts a safe approach that strictly requires human-approved fixes."
 lang: en
 ref: 2026-06-08-Show-HN-Nightwatch-The-open-source-read-only-AI-SRE
-audio: 2026-06-08-Show-HN-Nightwatch-The-open-source-read-only-AI-SRE.en.mp3
 industry: healthcare
 ---
 

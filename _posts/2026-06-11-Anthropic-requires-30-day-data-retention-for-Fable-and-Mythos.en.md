@@ -24,7 +24,6 @@ quiz:
     explanation: "Microsoft determined that Anthropic's mandatory 30-day data retention policy poses a serious risk to corporate data privacy and strictly restricted internal use."
 lang: en
 ref: 2026-06-11-Anthropic-requires-30-day-data-retention-for-Fable-and-Mythos
-audio: 2026-06-11-Anthropic-requires-30-day-data-retention-for-Fable-and-Mythos.en.mp3
 industry: healthcare
 ---
 

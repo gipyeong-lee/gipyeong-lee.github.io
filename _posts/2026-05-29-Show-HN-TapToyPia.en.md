@@ -24,7 +24,6 @@ quiz:
     explanation: "It was first introduced through the 'Show HN' section of Hacker News, where developers share their creations with the community."
 lang: en
 ref: 2026-05-29-Show-HN-TapToyPia
-audio: 2026-05-29-Show-HN-TapToyPia.en.mp3
 industry: finance
 ---
 

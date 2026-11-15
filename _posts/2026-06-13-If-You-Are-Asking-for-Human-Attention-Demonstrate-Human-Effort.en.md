@@ -24,7 +24,6 @@ quiz:
     explanation: "Modern digital platforms strategically utilize advanced AI and massive data to manipulate and draw out our attention."
 lang: en
 ref: 2026-06-13-If-You-Are-Asking-for-Human-Attention-Demonstrate-Human-Effort
-audio: 2026-06-13-If-You-Are-Asking-for-Human-Attention-Demonstrate-Human-Effort.en.mp3
 industry: education
 ---
 

@@ -24,7 +24,6 @@ quiz:
     explanation: "This feature is designed to allow even general users with no music production experience to exercise their everyday creativity."
 lang: en
 ref: 2026-04-20-A-new-way-to-express-yourself-Gemini-can-now-create-music
-audio: 2026-04-20-A-new-way-to-express-yourself-Gemini-can-now-create-music.en.mp3
 industry: creative
 ---
 

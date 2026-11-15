@@ -24,7 +24,6 @@ quiz:
     explanation: "Claude Code is a tool that helps developers delegate coding tasks directly to AI from the terminal."
 lang: en
 ref: 2026-07-03-Alibaba-to-ban-Claude-Code-in-workplace-over-alleged-backdoor-risks-source-says
-audio: 2026-07-03-Alibaba-to-ban-Claude-Code-in-workplace-over-alleged-backdoor-risks-source-says.en.mp3
 industry: finance
 ---
 

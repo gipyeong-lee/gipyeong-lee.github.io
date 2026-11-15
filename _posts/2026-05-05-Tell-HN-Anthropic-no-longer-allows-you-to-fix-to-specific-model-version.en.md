@@ -24,7 +24,6 @@ quiz:
     explanation: "Bugs were reported where the system secretly connected to an older model (such as Sonnet 4.5) even though the latest model (such as Sonnet 4.6) was requested."
 lang: en
 ref: 2026-05-05-Tell-HN-Anthropic-no-longer-allows-you-to-fix-to-specific-model-version
-audio: 2026-05-05-Tell-HN-Anthropic-no-longer-allows-you-to-fix-to-specific-model-version.en.mp3
 industry: creative
 ---
 

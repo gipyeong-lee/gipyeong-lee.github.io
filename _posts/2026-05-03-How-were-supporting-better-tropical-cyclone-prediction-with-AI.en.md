@@ -24,7 +24,6 @@ quiz:
     explanation: "AI-based models are showing accuracy comparable to or higher than existing physical models, particularly in typhoon track prediction."
 lang: en
 ref: 2026-05-03-How-were-supporting-better-tropical-cyclone-prediction-with-AI
-audio: 2026-05-03-How-were-supporting-better-tropical-cyclone-prediction-with-AI.en.mp3
 industry: education
 ---
 

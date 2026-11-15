@@ -24,7 +24,6 @@ quiz:
     explanation: "Apple's license restricts the use of SF Symbols to apps for Apple platforms."
 lang: en
 ref: 2026-05-14-Show-HN-Sfsym-Export-Apple-SF-Symbols-as-Vector-SVGPDFPNG
-audio: 2026-05-14-Show-HN-Sfsym-Export-Apple-SF-Symbols-as-Vector-SVGPDFPNG.en.mp3
 industry: education
 ---
 

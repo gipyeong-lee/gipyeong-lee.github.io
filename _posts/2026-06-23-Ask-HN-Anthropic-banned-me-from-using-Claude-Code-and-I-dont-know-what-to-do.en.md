@@ -24,7 +24,6 @@ quiz:
     explanation: "Using an API key allows you to normally utilize Claude in various third-party tools while complying with Anthropic's policies."
 lang: en
 ref: 2026-06-23-Ask-HN-Anthropic-banned-me-from-using-Claude-Code-and-I-dont-know-what-to-do
-audio: 2026-06-23-Ask-HN-Anthropic-banned-me-from-using-Claude-Code-and-I-dont-know-what-to-do.en.mp3
 industry: legal
 ---
 

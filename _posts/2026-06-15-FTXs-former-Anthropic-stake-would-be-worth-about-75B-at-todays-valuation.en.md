@@ -24,7 +24,6 @@ quiz:
     explanation: "The current AI boom is not driven by debt-laden startups, but rather led by highly profitable Big Tech companies directly investing massive amounts of their own capital."
 lang: en
 ref: 2026-06-15-FTXs-former-Anthropic-stake-would-be-worth-about-75B-at-todays-valuation
-audio: 2026-06-15-FTXs-former-Anthropic-stake-would-be-worth-about-75B-at-todays-valuation.en.mp3
 industry: finance
 ---
 

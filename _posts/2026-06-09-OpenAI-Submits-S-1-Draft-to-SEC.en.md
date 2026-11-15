@@ -24,7 +24,6 @@ quiz:
     explanation: "OpenAI argued that to win the AI competition against China, the right to fair use of data must be guaranteed."
 lang: en
 ref: 2026-06-09-OpenAI-Submits-S-1-Draft-to-SEC
-audio: 2026-06-09-OpenAI-Submits-S-1-Draft-to-SEC.en.mp3
 industry: finance
 ---
 

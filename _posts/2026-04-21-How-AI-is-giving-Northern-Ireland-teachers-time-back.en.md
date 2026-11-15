@@ -24,7 +24,6 @@ quiz:
     explanation: "Northern Ireland education authorities have released new educational guidelines to ensure that AI is used safely, ethically, and appropriately."
 lang: en
 ref: 2026-04-21-How-AI-is-giving-Northern-Ireland-teachers-time-back
-audio: 2026-04-21-How-AI-is-giving-Northern-Ireland-teachers-time-back.en.mp3
 industry: education
 ---
 

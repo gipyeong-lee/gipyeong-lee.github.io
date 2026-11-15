@@ -24,7 +24,6 @@ quiz:
     explanation: "The model was provided free of charge for up to 50% of weekly usage to users on Pro, Max, Team, and some Enterprise plans."
 lang: en
 ref: 2026-07-12-Fable-July-12th-disclaimer-disappears-from-Claude-Code
-audio: 2026-07-12-Fable-July-12th-disclaimer-disappears-from-Claude-Code.en.mp3
 industry: creative
 ---
 

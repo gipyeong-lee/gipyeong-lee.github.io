@@ -24,7 +24,6 @@ quiz:
     explanation: "Karpathy is well known for coining the term 'Vibe Coding,' a method where developers, instead of manually typing complex code line by line, convey a vibe and purpose to the AI so it can generate the code itself."
 lang: en
 ref: 2026-05-22-OpenAI-co-founder-Andrej-Karpathy-joins-Anthropic
-audio: 2026-05-22-OpenAI-co-founder-Andrej-Karpathy-joins-Anthropic.en.mp3
 industry: finance
 ---
 

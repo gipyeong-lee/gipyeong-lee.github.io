@@ -24,7 +24,6 @@ quiz:
     explanation: "Karp emphasizes that a systematic ability to quickly discover and patch model vulnerabilities is more important than the model itself."
 lang: en
 ref: 2026-07-02-Karp-AnthropicOpenAI-are-stealing-customer-IP-and-their-tokens-have-low-value
-audio: 2026-07-02-Karp-AnthropicOpenAI-are-stealing-customer-IP-and-their-tokens-have-low-value.en.mp3
 industry: general
 ---
 

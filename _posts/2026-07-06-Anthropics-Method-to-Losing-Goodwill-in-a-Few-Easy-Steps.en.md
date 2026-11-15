@@ -24,7 +24,6 @@ quiz:
     explanation: "Anthropic was reported to have seen impressive revenue growth in the first quarter of 2026."
 lang: en
 ref: 2026-07-06-Anthropics-Method-to-Losing-Goodwill-in-a-Few-Easy-Steps
-audio: 2026-07-06-Anthropics-Method-to-Losing-Goodwill-in-a-Few-Easy-Steps.en.mp3
 industry: general
 ---
 

@@ -24,7 +24,6 @@ quiz:
     explanation: "For the latest AI systems like GPT-4o or Gemini 1.5, traditional IQ tests are no longer a valid metric."
 lang: en
 ref: 2026-04-21-Rethinking-how-we-measure-AI-intelligence
-audio: 2026-04-21-Rethinking-how-we-measure-AI-intelligence.en.mp3
 industry: education
 ---
 

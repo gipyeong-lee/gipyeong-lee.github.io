@@ -24,7 +24,6 @@ quiz:
     explanation: "Lyria 3 Pro is provided within services in Google's ecosystem (Vertex AI, Gemini, Google Vids, etc.)."
 lang: en
 ref: 2026-05-02-Lyria-3-Pro-Create-longer-tracks-in-more
-audio: 2026-05-02-Lyria-3-Pro-Create-longer-tracks-in-more.en.mp3
 industry: creative
 ---
 

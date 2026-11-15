@@ -24,7 +24,6 @@ quiz:
     explanation: "Agent AI can simulate expert collaboration, such as interpreting genomic variants, through a team of specialized AI agents. [Source 18]"
 lang: en
 ref: "2026-07-07-SOTA-genome-interpretation-with-agentic-AI-Interstitial-lung-disease-case-study"
-audio: 2026-07-07-SOTA-genome-interpretation-with-agentic-AI-Interstitial-lung-disease-case-study.en.mp3
 industry: healthcare
 ---
 

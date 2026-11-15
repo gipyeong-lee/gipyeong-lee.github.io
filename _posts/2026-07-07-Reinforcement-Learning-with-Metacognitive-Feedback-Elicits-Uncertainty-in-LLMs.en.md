@@ -24,7 +24,6 @@ quiz:
     explanation: "According to research results, RLMF showed up to 63% better performance than standard reinforcement learning methods."
 lang: en
 ref: 2026-07-07-Reinforcement-Learning-with-Metacognitive-Feedback-Elicits-Uncertainty-in-LLMs
-audio: 2026-07-07-Reinforcement-Learning-with-Metacognitive-Feedback-Elicits-Uncertainty-in-LLMs.en.mp3
 industry: education
 ---
 

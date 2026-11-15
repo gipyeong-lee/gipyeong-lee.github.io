@@ -24,7 +24,6 @@ quiz:
     explanation: "The open-source community is repackaging the official Windows build into formats like .deb so that it can run on Linux."
 lang: en
 ref: 2026-06-08-Anthropic-please-ship-an-official-Claude-Desktop-for-Linux
-audio: 2026-06-08-Anthropic-please-ship-an-official-Claude-Desktop-for-Linux.en.mp3
 industry: security
 ---
 

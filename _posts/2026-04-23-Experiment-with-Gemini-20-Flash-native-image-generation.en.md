@@ -24,7 +24,6 @@ quiz:
     explanation: "Google Cloud demonstrated a case of designing a consistent brand identity for 'Layo Cafe' using Gemini 2.0 Flash."
 lang: en
 ref: 2026-04-23-Experiment-with-Gemini-20-Flash-native-image-generation
-audio: 2026-04-23-Experiment-with-Gemini-20-Flash-native-image-generation.en.mp3
 industry: creative
 ---
 

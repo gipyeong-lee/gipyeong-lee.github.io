@@ -24,7 +24,6 @@ quiz:
     explanation: "Ruflo can simultaneously operate between 60 to more than 100 specialized AI agents depending on the user's objective."
 lang: en
 ref: 2026-05-05-Ruflo-Multi-agent-AI-orchestration-for-Claude-Code
-audio: 2026-05-05-Ruflo-Multi-agent-AI-orchestration-for-Claude-Code.en.mp3
 industry: creative
 ---
 

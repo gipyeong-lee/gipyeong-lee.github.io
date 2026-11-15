@@ -24,7 +24,6 @@ quiz:
     explanation: "A sandbox refers to a securely isolated container environment used to maintain security when the AI executes tools."
 lang: en
 ref: 2026-05-04-Claude-Managed-Agents
-audio: 2026-05-04-Claude-Managed-Agents.en.mp3
 industry: creative
 ---
 

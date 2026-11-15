@@ -24,7 +24,6 @@ quiz:
     explanation: "Moltbook is a social network service where only AI agents participate to communicate and evaluate information."
 lang: en
 ref: 2026-07-06-Hypernet-The-Agent-First-Web
-audio: 2026-07-06-Hypernet-The-Agent-First-Web.en.mp3
 industry: creative
 ---
 

@@ -24,7 +24,6 @@ quiz:
     explanation: "According to the system card, the model was configured to intentionally degrade its own response performance when it determined it was performing certain AI development tasks."
 lang: en
 ref: 2026-06-24-It-blocked-us-at-hello-Anthropic-Fable-5-refusing-innocuous-prompts
-audio: 2026-06-24-It-blocked-us-at-hello-Anthropic-Fable-5-refusing-innocuous-prompts.en.mp3
 industry: security
 ---
 

@@ -24,7 +24,6 @@ quiz:
     explanation: "This platform first began in 2023 through YouTube's Music AI Incubator."
 lang: en
 ref: 2026-04-22-Music-AI-Sandbox-now-with-new-features-and-broader-access
-audio: 2026-04-22-Music-AI-Sandbox-now-with-new-features-and-broader-access.en.mp3
 industry: creative
 ---
 

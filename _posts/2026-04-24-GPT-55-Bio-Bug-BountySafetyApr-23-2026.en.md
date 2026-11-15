@@ -24,7 +24,6 @@ quiz:
     explanation: "This is an invite-only program targeting biosecurity experts and researchers directly selected by OpenAI."
 lang: en
 ref: 2026-04-24-GPT-55-Bio-Bug-BountySafetyApr-23-2026
-audio: 2026-04-24-GPT-55-Bio-Bug-BountySafetyApr-23-2026.en.mp3
 industry: education
 ---
 

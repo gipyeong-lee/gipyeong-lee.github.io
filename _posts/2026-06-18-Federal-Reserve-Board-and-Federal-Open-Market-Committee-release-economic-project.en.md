@@ -24,7 +24,6 @@ quiz:
     explanation: "The White House has been consistently pressuring the Federal Reserve to cut interest rates at a faster pace for over a year."
 lang: en
 ref: 2026-06-18-Federal-Reserve-Board-and-Federal-Open-Market-Committee-release-economic-project
-audio: 2026-06-18-Federal-Reserve-Board-and-Federal-Open-Market-Committee-release-economic-project.en.mp3
 industry: finance
 ---
 

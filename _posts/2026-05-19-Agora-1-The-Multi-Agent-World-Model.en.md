@@ -24,7 +24,6 @@ quiz:
     explanation: "A world model is like a magic sketchbook that learns the principles of the world and physical laws, then predicts and generates future scenes on its own based on input actions."
 lang: en
 ref: 2026-05-19-Agora-1-The-Multi-Agent-World-Model
-audio: 2026-05-19-Agora-1-The-Multi-Agent-World-Model.en.mp3
 industry: healthcare
 ---
 

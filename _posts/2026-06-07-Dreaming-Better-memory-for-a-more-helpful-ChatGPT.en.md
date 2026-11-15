@@ -24,7 +24,6 @@ quiz:
     explanation: "The system measures 'Factual recall' to see if ChatGPT can correctly retrieve the relevant personal context when you ask questions that rely on previous chats."
 lang: en
 ref: 2026-06-07-Dreaming-Better-memory-for-a-more-helpful-ChatGPT
-audio: 2026-06-07-Dreaming-Better-memory-for-a-more-helpful-ChatGPT.en.mp3
 industry: creative
 ---
 

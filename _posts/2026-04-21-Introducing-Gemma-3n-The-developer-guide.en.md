@@ -24,7 +24,6 @@ quiz:
     explanation: "The Gemma 3 family, including Gemma 3n, supports over 140 languages."
 lang: en
 ref: 2026-04-21-Introducing-Gemma-3n-The-developer-guide
-audio: 2026-04-21-Introducing-Gemma-3n-The-developer-guide.en.mp3
 industry: creative
 ---
 

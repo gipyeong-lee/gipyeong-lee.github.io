@@ -24,7 +24,6 @@ quiz:
     explanation: "Currently, this model is provided through the Gemini API and Google AI Studio for developers to use."
 lang: en
 ref: 2026-04-20-Gemini-Robotics-ER-1-6-Powering-real-world-robotics-tasks-through-enhanced-embodi
-audio: 2026-04-20-Gemini-Robotics-ER-16-Powering-real-world-robotics-tasks-through-enhanced-embodi.en.mp3
 industry: creative
 ---
 

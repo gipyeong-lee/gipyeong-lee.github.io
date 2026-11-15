@@ -24,7 +24,6 @@ quiz:
     explanation: "Agentic coding possesses the autonomy to interact with compilers, debuggers, and version control systems to handle complex functions on its own."
 lang: en
 ref: 2026-06-23-Agentic-coding-deserves-more-than-a-chat-box-bolted-onto-VS-Code
-audio: 2026-06-23-Agentic-coding-deserves-more-than-a-chat-box-bolted-onto-VS-Code.en.mp3
 industry: creative
 ---
 

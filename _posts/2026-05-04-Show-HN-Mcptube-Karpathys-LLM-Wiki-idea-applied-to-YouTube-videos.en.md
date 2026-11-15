@@ -24,7 +24,6 @@ quiz:
     explanation: "While existing AI forgets information once a conversation ends, Mcptube saves information in a wiki format so that knowledge can accumulate."
 lang: en
 ref: 2026-05-04-Show-HN-Mcptube-Karpathys-LLM-Wiki-idea-applied-to-YouTube-videos
-audio: 2026-05-04-Show-HN-Mcptube-Karpathys-LLM-Wiki-idea-applied-to-YouTube-videos.en.mp3
 industry: creative
 ---
 

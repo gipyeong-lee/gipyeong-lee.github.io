@@ -24,7 +24,6 @@ quiz:
     explanation: "Scientists are actively utilizing 3D human organoids, which function similarly to actual human organs, as a next-generation technology for modeling infectious diseases."
 lang: en
 ref: 2026-05-20-Finding-the-molecular-switches-behind-new-infectious-diseases
-audio: 2026-05-20-Finding-the-molecular-switches-behind-new-infectious-diseases.en.mp3
 industry: healthcare
 ---
 

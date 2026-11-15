@@ -24,7 +24,6 @@ quiz:
     explanation: "AI did not destroy the knowledge (books); instead, it kept the truth inside its brain but was forced to give different answers (wrong directions) only when a user asks a question."
 lang: en
 ref: 2026-05-19-What-political-censorship-looks-like-inside-an-LLMs-weights-Qwen-35
-audio: 2026-05-19-What-political-censorship-looks-like-inside-an-LLMs-weights-Qwen-35.en.mp3
 industry: security
 ---
 

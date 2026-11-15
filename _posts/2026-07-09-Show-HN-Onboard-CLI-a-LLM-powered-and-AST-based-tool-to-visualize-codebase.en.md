@@ -24,7 +24,6 @@ quiz:
     explanation: "It automatically blocks spaghetti code and improper dependencies locally before code is committed."
 lang: en
 ref: 2026-07-09-Show-HN-Onboard-CLI-a-LLM-powered-and-AST-based-tool-to-visualize-codebase
-audio: 2026-07-09-Show-HN-Onboard-CLI-a-LLM-powered-and-AST-based-tool-to-visualize-codebase.en.mp3
 industry: creative
 ---
 

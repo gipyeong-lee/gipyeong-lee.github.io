@@ -24,7 +24,6 @@ quiz:
     explanation: "The Gemini 2.5 Deep Think model proved its exceptional mathematical reasoning ability by achieving scores at the gold medal level on International Mathematical Olympiad (IMO) problems."
 lang: en
 ref: 2026-04-21-Try-Deep-Think-in-the-Gemini-app
-audio: 2026-04-21-Try-Deep-Think-in-the-Gemini-app.en.mp3
 industry: creative
 ---
 

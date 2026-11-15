@@ -24,7 +24,6 @@ quiz:
     explanation: "Currently, it is available in research preview form only to qualified US corporate customers through the 'Trusted Access Program'."
 lang: en
 ref: 2026-04-20-Introducing-GPT-Rosalind-for-life-sciences-researchResearchApr-16-2026
-audio: 2026-04-20-Introducing-GPT-Rosalind-for-life-sciences-researchResearchApr-16-2026.en.mp3
 industry: healthcare
 ---
 

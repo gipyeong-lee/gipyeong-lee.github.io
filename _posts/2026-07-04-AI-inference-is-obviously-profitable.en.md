@@ -24,7 +24,6 @@ quiz:
     explanation: "Cost efficiency has emerged as a key challenge, with companies like d-Matrix developing inference-specific accelerators and recent reports of businesses cutting inference costs."
 lang: en
 ref: 2026-07-04-AI-inference-is-obviously-profitable
-audio: 2026-07-04-AI-inference-is-obviously-profitable.en.mp3
 industry: education
 ---
 

@@ -24,7 +24,6 @@ quiz:
     explanation: "Google DeepMind warns of AI manipulation risks especially in areas requiring critical decision-making, such as healthcare and financial services."
 lang: en
 ref: 2026-04-20-Protecting-people-from-harmful-manipulation
-audio: 2026-04-20-Protecting-people-from-harmful-manipulation.en.mp3
 industry: creative
 ---
 

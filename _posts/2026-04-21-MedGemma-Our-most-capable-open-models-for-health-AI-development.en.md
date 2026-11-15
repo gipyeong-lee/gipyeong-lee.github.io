@@ -24,7 +24,6 @@ quiz:
     explanation: "MedGemma was designed as a tool to assist medical professionals' judgment, such as image analysis and record summarization, and does not include the function of directly performing surgery."
 lang: en
 ref: 2026-04-21-MedGemma-Our-most-capable-open-models-for-health-AI-development
-audio: 2026-04-21-MedGemma-Our-most-capable-open-models-for-health-AI-development.en.mp3
 industry: healthcare
 ---
 

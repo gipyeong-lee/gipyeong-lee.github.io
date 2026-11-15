@@ -24,7 +24,6 @@ quiz:
     explanation: "While AI streamlines the creative process and reduces costs, it is described as a tool that helps artists realize their vision."
 lang: en
 ref: 2026-04-22-Fuel-your-creativity-with-new-generative-media-models-and-tools
-audio: 2026-04-22-Fuel-your-creativity-with-new-generative-media-models-and-tools.en.mp3
 industry: creative
 ---
 

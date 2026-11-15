@@ -24,7 +24,6 @@ quiz:
     explanation: "When automated systems and reviewers detect severe safety concerns, it prompts a notification to an acquaintance designated by the user, encouraging them to get practical help."
 lang: en
 ref: 2026-05-15-Helping-ChatGPT-better-recognize-context-in-sensitive-conversationsSafetyMay-14
-audio: 2026-05-15-Helping-ChatGPT-better-recognize-context-in-sensitive-conversationsSafetyMay-14.en.mp3
 industry: healthcare
 ---
 

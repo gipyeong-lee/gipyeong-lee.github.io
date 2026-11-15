@@ -24,7 +24,6 @@ quiz:
     explanation: "Adam has released a beta version that operates directly within professional engineering tools like Onshape and Fusion."
 lang: en
 ref: 2026-05-04-Show-HN-AI-CAD-Harness
-audio: 2026-05-04-Show-HN-AI-CAD-Harness.en.mp3
 industry: creative
 ---
 

@@ -24,7 +24,6 @@ quiz:
     explanation: "OpenAPI Specification is a standard way to define API functionalities. GolemUI reads this specification to automatically generate forms with data validation, drastically reducing development time without additional coding."
 lang: en
 ref: 2026-07-02-Show-HN-GolemUI-The-new-paradigm-for-JavaScript-forms
-audio: 2026-07-02-Show-HN-GolemUI-The-new-paradigm-for-JavaScript-forms.en.mp3
 industry: creative
 ---
 

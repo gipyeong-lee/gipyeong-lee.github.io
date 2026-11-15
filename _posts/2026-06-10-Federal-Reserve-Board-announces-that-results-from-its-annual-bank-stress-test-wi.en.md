@@ -24,7 +24,6 @@ quiz:
     explanation: "The Federal Reserve is scheduled to release the results of this year's stress test on 32 large banks on June 24 at 4:00 PM (EDT)."
 lang: en
 ref: 2026-06-10-Federal-Reserve-Board-announces-that-results-from-its-annual-bank-stress-test-wi
-audio: 2026-06-10-Federal-Reserve-Board-announces-that-results-from-its-annual-bank-stress-test-wi.en.mp3
 industry: finance
 ---
 

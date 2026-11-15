@@ -24,7 +24,6 @@ quiz:
     explanation: "ACP acts like two-factor authentication (2FA) for AI, a protocol that requires explicit user consent."
 lang: en
 ref: 2026-05-04-Show-HN-Agent-that-refuses-to-run-commands-without-human-approval
-audio: 2026-05-04-Show-HN-Agent-that-refuses-to-run-commands-without-human-approval.en.mp3
 industry: security
 ---
 

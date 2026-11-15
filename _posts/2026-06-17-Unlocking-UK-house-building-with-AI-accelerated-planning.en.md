@@ -24,7 +24,6 @@ quiz:
     explanation: "This cutting-edge AI project is one of the core initiatives of the UK government's 'Plan for Change', aiming to rapidly supply 1.5 million new homes by 2030 to meet the growing housing demand."
 lang: en
 ref: 2026-06-17-Unlocking-UK-house-building-with-AI-accelerated-planning
-audio: 2026-06-17-Unlocking-UK-house-building-with-AI-accelerated-planning.en.mp3
 industry: creative
 ---
 

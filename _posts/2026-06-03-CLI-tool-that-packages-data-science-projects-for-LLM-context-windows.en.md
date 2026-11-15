@@ -24,7 +24,6 @@ quiz:
     explanation: "CLI is an environment where you communicate with the computer using only text, so it is far from a flashy graphical environment (GUI) that uses a mouse. Its purpose is to maximize work speed and efficiency rather than intuitive fun."
 lang: en
 ref: 2026-06-03-CLI-tool-that-packages-data-science-projects-for-LLM-context-windows
-audio: 2026-06-03-CLI-tool-that-packages-data-science-projects-for-LLM-context-windows.en.mp3
 industry: creative
 ---
 

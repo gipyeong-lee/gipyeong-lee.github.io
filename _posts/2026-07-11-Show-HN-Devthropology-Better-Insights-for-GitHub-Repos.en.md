@@ -24,7 +24,6 @@ quiz:
     explanation: "Developers use various analytical tools to better understand and visualize traffic flow in code repositories or changes during the development process."
 lang: en
 ref: 2026-07-11-Show-HN-Devthropology-Better-Insights-for-GitHub-Repos
-audio: 2026-07-11-Show-HN-Devthropology-Better-Insights-for-GitHub-Repos.en.mp3
 industry: security
 ---
 

@@ -24,7 +24,6 @@ quiz:
     explanation: "The Tidal music platform uses AI algorithms to analyze the music a user might enjoy and provide personalized playlists."
 lang: en
 ref: 2026-06-29-Tidal-AI-Policy
-audio: 2026-06-29-Tidal-AI-Policy.en.mp3
 industry: legal
 ---
 

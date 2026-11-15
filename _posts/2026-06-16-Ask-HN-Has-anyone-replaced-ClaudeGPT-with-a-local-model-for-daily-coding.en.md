@@ -24,7 +24,6 @@ quiz:
     explanation: "While they handle daily coding tasks well, they still lag behind cloud models like Claude Opus 4.6 or GPT Codex 5.4 in serious and complex tasks."
 lang: en
 ref: 2026-06-16-Ask-HN-Has-anyone-replaced-ClaudeGPT-with-a-local-model-for-daily-coding
-audio: 2026-06-16-Ask-HN-Has-anyone-replaced-ClaudeGPT-with-a-local-model-for-daily-coding.en.mp3
 industry: creative
 ---
 Imagine this. You hired an ultra-premium personal assistant for over 100,000 won a month (which is roughly equivalent to the most expensive unlimited data plan for the latest smartphones these days). This assistant is a genius who flawlessly handles everything from organizing Excel spreadsheets to writing complex documents, and even catching the smallest typos. Before you know it, you've reached a point where you can't work properly for a single day without this assistant. 

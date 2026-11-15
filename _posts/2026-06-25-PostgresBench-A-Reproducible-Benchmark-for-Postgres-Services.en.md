@@ -24,7 +24,6 @@ quiz:
     explanation: "PostgresBench is designed to allow users to reproduce results directly or submit improvements by making all test results, configuration values, and scripts publicly available."
 lang: en
 ref: 2026-06-25-PostgresBench-A-Reproducible-Benchmark-for-Postgres-Services
-audio: 2026-06-25-PostgresBench-A-Reproducible-Benchmark-for-Postgres-Services.en.mp3
 industry: creative
 ---
 

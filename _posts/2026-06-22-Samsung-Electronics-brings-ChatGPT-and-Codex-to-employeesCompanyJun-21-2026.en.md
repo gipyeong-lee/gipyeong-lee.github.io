@@ -24,7 +24,6 @@ quiz:
     explanation: "The latest model, GPT-5.5, is equipped with deeper reasoning capabilities and enhanced multi-step execution abilities, allowing it to solve complex assignments more efficiently."
 lang: en
 ref: 2026-06-22-Samsung-Electronics-brings-ChatGPT-and-Codex-to-employeesCompanyJun-21-2026
-audio: 2026-06-22-Samsung-Electronics-brings-ChatGPT-and-Codex-to-employeesCompanyJun-21-2026.en.mp3
 industry: general
 ---
 

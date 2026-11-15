@@ -24,7 +24,6 @@ quiz:
     explanation: "Regulations to prevent radio interference vary by country, and using the 915 MHz band is required by law in the United States and the Americas."
 lang: en
 ref: 2026-05-25-BYOMesh-New-LoRa-mesh-radio-offers-100x-the-bandwidth
-audio: 2026-05-25-BYOMesh-New-LoRa-mesh-radio-offers-100x-the-bandwidth.en.mp3
 industry: creative
 ---
 

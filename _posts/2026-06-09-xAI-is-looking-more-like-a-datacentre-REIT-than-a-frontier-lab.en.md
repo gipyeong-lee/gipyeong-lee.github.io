@@ -24,7 +24,6 @@ quiz:
     explanation: "xAI is building the Colossus project at a 2-Gigawatt scale, which is massive enough to power an entire large city."
 lang: en
 ref: 2026-06-09-xAI-is-looking-more-like-a-datacentre-REIT-than-a-frontier-lab
-audio: 2026-06-09-xAI-is-looking-more-like-a-datacentre-REIT-than-a-frontier-lab.en.mp3
 industry: finance
 ---
 

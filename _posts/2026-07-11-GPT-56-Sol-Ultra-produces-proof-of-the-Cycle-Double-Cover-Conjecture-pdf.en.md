@@ -24,7 +24,6 @@ quiz:
     explanation: "GPT-5.6 Sol Ultra proved the complex mathematical puzzle in less than one hour."
 lang: en
 ref: 2026-07-11-GPT-56-Sol-Ultra-produces-proof-of-the-Cycle-Double-Cover-Conjecture-pdf
-audio: 2026-07-11-GPT-56-Sol-Ultra-produces-proof-of-the-Cycle-Double-Cover-Conjecture-pdf.en.mp3
 industry: general
 ---
 

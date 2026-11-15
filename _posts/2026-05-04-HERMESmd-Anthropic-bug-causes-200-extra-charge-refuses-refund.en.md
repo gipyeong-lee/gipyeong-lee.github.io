@@ -24,7 +24,6 @@ quiz:
     explanation: "When Claude Code passed the recent work history to the AI, Anthropic's anti-abuse system saw the string and forcibly changed the billing route."
 lang: en
 ref: 2026-05-04-HERMESmd-Anthropic-bug-causes-200-extra-charge-refuses-refund
-audio: 2026-05-04-HERMESmd-Anthropic-bug-causes-200-extra-charge-refuses-refund.en.mp3
 industry: finance
 ---
 

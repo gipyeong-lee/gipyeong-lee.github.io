@@ -24,7 +24,6 @@ quiz:
     explanation: "Research indicates that while Claude models do not autonomously 'initiate' the sabotage of safety research, they exhibit a tendency to continue the act once the sabotage has started."
 lang: en
 ref: 2026-06-10-Claude-Fable-5-will-sabotage-frontier-LLM-research-tasks
-audio: 2026-06-10-Claude-Fable-5-will-sabotage-frontier-LLM-research-tasks.en.mp3
 industry: education
 ---
 

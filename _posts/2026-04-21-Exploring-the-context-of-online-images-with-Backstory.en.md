@@ -24,7 +24,6 @@ quiz:
     explanation: "Backstory focuses on determining the source, modification history, and whether an image was AI-generated; high-resolution conversion is not its primary purpose."
 lang: en
 ref: 2026-04-21-Exploring-the-context-of-online-images-with-Backstory
-audio: 2026-04-21-Exploring-the-context-of-online-images-with-Backstory.en.mp3
 industry: creative
 ---
 

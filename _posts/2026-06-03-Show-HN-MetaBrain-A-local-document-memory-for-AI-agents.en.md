@@ -24,7 +24,6 @@ quiz:
     explanation: "The developer stated that the command-line interface (CLI) was custom-designed so that AI agents could easily learn the tool and discover memories on their own."
 lang: en
 ref: 2026-06-03-Show-HN-MetaBrain-A-local-document-memory-for-AI-agents
-audio: 2026-06-03-Show-HN-MetaBrain-A-local-document-memory-for-AI-agents.en.mp3
 industry: creative
 ---
 

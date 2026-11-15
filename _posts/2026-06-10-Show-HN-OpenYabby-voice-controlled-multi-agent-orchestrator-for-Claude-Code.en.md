@@ -24,7 +24,6 @@ quiz:
     explanation: "OpenYabby is a voice-based open-source orchestrator fundamentally designed for the macOS operating system."
 lang: en
 ref: 2026-06-10-Show-HN-OpenYabby-voice-controlled-multi-agent-orchestrator-for-Claude-Code
-audio: 2026-06-10-Show-HN-OpenYabby-voice-controlled-multi-agent-orchestrator-for-Claude-Code.en.mp3
 industry: education
 ---
 

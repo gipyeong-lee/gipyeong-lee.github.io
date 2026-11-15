@@ -24,7 +24,6 @@ quiz:
     explanation: "Pulse runs locally without separate dependencies and emphasizes security by ensuring user data does not leave the device."
 lang: en
 ref: 2026-06-23-Show-HN-Pulse-Dashboard-for-Claude-Code-approve-tool-calls-from-your-phone
-audio: 2026-06-23-Show-HN-Pulse-Dashboard-for-Claude-Code-approve-tool-calls-from-your-phone.en.mp3
 industry: creative
 ---
 

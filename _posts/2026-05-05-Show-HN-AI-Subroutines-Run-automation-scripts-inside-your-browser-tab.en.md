@@ -24,7 +24,6 @@ quiz:
     explanation: "This technology was developed and announced by rtrvr.ai, a company specializing in decentralized AI infrastructure."
 lang: en
 ref: 2026-05-05-Show-HN-AI-Subroutines-Run-automation-scripts-inside-your-browser-tab
-audio: 2026-05-05-Show-HN-AI-Subroutines-Run-automation-scripts-inside-your-browser-tab.en.mp3
 industry: creative
 ---
 

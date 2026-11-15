@@ -24,7 +24,6 @@ quiz:
     explanation: "According to Anthropic's official explanation, when risk questions related to biology or security are detected in Fable 5, instead of rejecting the question outright, it secretly routes the query to an older generation model, Opus 4.8, for processing."
 lang: en
 ref: 2026-06-11-Cybersecurity-researchers-arent-happy-about-the-guardrails-on-Anthropics-Fable
-audio: 2026-06-11-Cybersecurity-researchers-arent-happy-about-the-guardrails-on-Anthropics-Fable.en.mp3
 industry: security
 ---
 

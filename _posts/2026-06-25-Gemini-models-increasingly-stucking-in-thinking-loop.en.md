@@ -24,7 +24,6 @@ quiz:
     explanation: "In the CLI version, serious delays are occurring, such as a task that usually takes 2 minutes taking up to 2 hours to complete."
 lang: en
 ref: 2026-06-25-Gemini-models-increasingly-stucking-in-thinking-loop
-audio: 2026-06-25-Gemini-models-increasingly-stucking-in-thinking-loop.en.mp3
 industry: education
 ---
 

@@ -24,7 +24,6 @@ quiz:
     explanation: "Reports indicate that Shazeer will serve as the 'Lead for AI Architecture Research' at OpenAI."
 lang: en
 ref: 2026-06-23-Noam-Shazeer-is-joining-OpenAI
-audio: 2026-06-23-Noam-Shazeer-is-joining-OpenAI.en.mp3
 industry: finance
 ---
 

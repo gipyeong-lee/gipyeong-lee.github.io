@@ -24,7 +24,6 @@ quiz:
     explanation: "This update applies to all major paid subscription plans, including Pro, Max, Team, and Enterprise."
 lang: en
 ref: 2026-05-14-Use-the-Claude-Agent-SDK-with-Your-Claude-Plan
-audio: 2026-05-14-Use-the-Claude-Agent-SDK-with-Your-Claude-Plan.en.mp3
 industry: education
 ---
 

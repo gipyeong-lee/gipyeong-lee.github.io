@@ -24,7 +24,6 @@ quiz:
     explanation: "Because powerful features that previously relied solely on external cloud models can now be executed directly on individual devices through local artificial intelligence."
 lang: en
 ref: 2026-06-22-Show-HN-Run-Agent-Skills-with-mistralrs-v0810-v1skills-support-and-more
-audio: 2026-06-22-Show-HN-Run-Agent-Skills-with-mistralrs-v0810-v1skills-support-and-more.en.mp3
 industry: security
 ---
 

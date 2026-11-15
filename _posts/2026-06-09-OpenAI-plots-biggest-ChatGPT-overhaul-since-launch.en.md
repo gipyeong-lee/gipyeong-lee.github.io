@@ -24,7 +24,6 @@ quiz:
     explanation: "Thanks to the recently introduced 'Dreaming V3' memory architecture, ChatGPT's accuracy for time-sensitive information has surged from 9.4% to 75.1%."
 lang: en
 ref: 2026-06-09-OpenAI-plots-biggest-ChatGPT-overhaul-since-launch
-audio: 2026-06-09-OpenAI-plots-biggest-ChatGPT-overhaul-since-launch.en.mp3
 industry: education
 ---
 

@@ -24,7 +24,6 @@ quiz:
     explanation: "Sam Altman mentioned that young people tend to rely excessively on ChatGPT when making daily decisions."
 lang: en
 ref: 2026-07-12-The-Next-Chapter-for-ChatGPT
-audio: 2026-07-12-The-Next-Chapter-for-ChatGPT.en.mp3
 industry: general
 ---
 

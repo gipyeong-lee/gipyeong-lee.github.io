@@ -24,7 +24,6 @@ quiz:
     explanation: "Banks had to prove that they could maintain minimum capital requirements and not stop financial support (lending) to general households and businesses even in crisis situations."
 lang: en
 ref: 2026-06-25-Federal-Reserve-Boards-annual-bank-stress-test-confirms-that-large-banks-are-wel
-audio: 2026-06-25-Federal-Reserve-Boards-annual-bank-stress-test-confirms-that-large-banks-are-wel.en.mp3
 industry: finance
 ---
 

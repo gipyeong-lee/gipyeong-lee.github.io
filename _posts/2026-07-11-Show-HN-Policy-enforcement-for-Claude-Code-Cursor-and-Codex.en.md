@@ -24,7 +24,6 @@ quiz:
     explanation: "Always granting full permissions is extremely dangerous from a security standpoint, and policies that approve or restrict based on permission levels are necessary."
 lang: en
 ref: 2026-07-11-Show-HN-Policy-enforcement-for-Claude-Code-Cursor-and-Codex
-audio: 2026-07-11-Show-HN-Policy-enforcement-for-Claude-Code-Cursor-and-Codex.en.mp3
 industry: general
 ---
 

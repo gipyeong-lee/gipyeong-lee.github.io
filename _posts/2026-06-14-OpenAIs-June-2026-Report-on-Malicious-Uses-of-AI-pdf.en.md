@@ -24,7 +24,6 @@ quiz:
     explanation: "Hackers primarily target and abuse cloud infrastructure to facilitate large-scale AI computations for malicious purposes."
 lang: en
 ref: 2026-06-14-OpenAIs-June-2026-Report-on-Malicious-Uses-of-AI-pdf
-audio: 2026-06-14-OpenAIs-June-2026-Report-on-Malicious-Uses-of-AI-pdf.en.mp3
 industry: security
 ---
 

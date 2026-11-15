@@ -24,7 +24,6 @@ quiz:
     explanation: "Sam Altman accepted the government's demand for a staggered release, explaining to employees that it is a strategic approach to move toward a wider release by complying with regulations."
 lang: en
 ref: 2026-06-26-US-Govt-to-individually-approve-who-gets-GPT-56
-audio: 2026-06-26-US-Govt-to-individually-approve-who-gets-GPT-56.en.mp3
 industry: education
 ---
 

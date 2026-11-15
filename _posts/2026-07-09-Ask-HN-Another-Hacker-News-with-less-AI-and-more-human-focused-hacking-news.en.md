@@ -24,7 +24,6 @@ quiz:
     explanation: "AI assistants that fetch external resources and execute commands without human review can become pathways for executing dangerous code planted by attackers."
 lang: en
 ref: 2026-07-09-Ask-HN-Another-Hacker-News-with-less-AI-and-more-human-focused-hacking-news
-audio: 2026-07-09-Ask-HN-Another-Hacker-News-with-less-AI-and-more-human-focused-hacking-news.en.mp3
 industry: security
 ---
 

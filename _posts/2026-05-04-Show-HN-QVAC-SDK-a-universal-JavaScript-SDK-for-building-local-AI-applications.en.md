@@ -24,7 +24,6 @@ quiz:
     explanation: "Tether believes that intelligence should not be a service borrowed from someone else, but something everyone can possess."
 lang: en
 ref: 2026-05-04-Show-HN-QVAC-SDK-a-universal-JavaScript-SDK-for-building-local-AI-applications
-audio: 2026-05-04-Show-HN-QVAC-SDK-a-universal-JavaScript-SDK-for-building-local-AI-applications.en.mp3
 industry: general
 ---
 

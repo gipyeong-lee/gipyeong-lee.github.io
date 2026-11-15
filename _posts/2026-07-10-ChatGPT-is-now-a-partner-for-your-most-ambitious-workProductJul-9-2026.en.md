@@ -24,7 +24,6 @@ quiz:
     explanation: "ChatGPT Work performs tasks by synthesizing the context of the files and various plugins provided by the user."
 lang: en
 ref: 2026-07-10-ChatGPT-is-now-a-partner-for-your-most-ambitious-workProductJul-9-2026
-audio: 2026-07-10-ChatGPT-is-now-a-partner-for-your-most-ambitious-workProductJul-9-2026.en.mp3
 industry: creative
 ---
 

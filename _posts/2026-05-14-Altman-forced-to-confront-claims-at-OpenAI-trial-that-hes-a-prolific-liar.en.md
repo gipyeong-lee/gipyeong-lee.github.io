@@ -24,7 +24,6 @@ quiz:
     explanation: "Musk donated approximately $38 million at the founding of OpenAI and now claims that this money is being used for unauthorized commercial purposes."
 lang: en
 ref: 2026-05-14-Altman-forced-to-confront-claims-at-OpenAI-trial-that-hes-a-prolific-liar
-audio: 2026-05-14-Altman-forced-to-confront-claims-at-OpenAI-trial-that-hes-a-prolific-liar.en.mp3
 industry: legal
 ---
 

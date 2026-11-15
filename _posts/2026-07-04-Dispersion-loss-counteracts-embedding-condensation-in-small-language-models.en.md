@@ -24,7 +24,6 @@ quiz:
     explanation: "According to research, dispersion loss can be applied during a model's pre-training and mid-training stages to increase performance."
 lang: en
 ref: 2026-07-04-Dispersion-loss-counteracts-embedding-condensation-in-small-language-models
-audio: 2026-07-04-Dispersion-loss-counteracts-embedding-condensation-in-small-language-models.en.mp3
 industry: creative
 ---
 

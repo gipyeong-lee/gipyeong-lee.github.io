@@ -24,7 +24,6 @@ quiz:
     explanation: "Experts warn that as AI finds vulnerabilities on a large scale, the burden on open-source maintainers who must review and process them will increase."
 lang: en
 ref: 2026-05-04-N-Day-Bench-Can-LLMs-find-real-vulnerabilities-in-real-codebases
-audio: 2026-05-04-N-Day-Bench-Can-LLMs-find-real-vulnerabilities-in-real-codebases.en.mp3
 industry: security
 ---
 

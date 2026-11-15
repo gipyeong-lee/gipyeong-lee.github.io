@@ -24,7 +24,6 @@ quiz:
     explanation: "Anthropic previously faced backlash and withdrew a policy that could have secretly restricted researchers using Claude from developing competing AI models."
 lang: en
 ref: 2026-07-06-Tell-HN-dont-trust-Bigco-AI-agents-with-AI-research-IP
-audio: 2026-07-06-Tell-HN-dont-trust-Bigco-AI-agents-with-AI-research-IP.en.mp3
 industry: creative
 ---
 

@@ -24,7 +24,6 @@ quiz:
     explanation: "Eric Ries brought significant innovation to the venture ecosystem through his bestseller 'The Lean Startup' published 15 years ago. His new book focuses on 'how to protect the soul of the organization,' a topic the previous book did not fully cover."
 lang: en
 ref: 2026-06-11-AMA-Im-Eric-Ries-The-Lean-Startup-Author-of-New-Bestseller-Incorruptible
-audio: 2026-06-11-AMA-Im-Eric-Ries-The-Lean-Startup-Author-of-New-Bestseller-Incorruptible.en.mp3
 industry: healthcare
 ---
 

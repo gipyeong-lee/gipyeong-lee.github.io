@@ -24,7 +24,6 @@ quiz:
     explanation: "Programmers are often called by professional titles such as software developers or software engineers, and the term includes all occupations that require the skill of writing code."
 lang: en
 ref: 2026-06-25-Ask-HN-Where-is-our-profession-programmer-going
-audio: 2026-06-25-Ask-HN-Where-is-our-profession-programmer-going.en.mp3
 industry: education
 ---
 

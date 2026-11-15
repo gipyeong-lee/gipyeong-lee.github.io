@@ -24,7 +24,6 @@ quiz:
     explanation: "Philosopher Byung-Chul Han metaphorically described burnout as a 'myocardial infarction' resulting from 'excessive positivity,' explaining that the constant pressure to achieve leads to exhaustion."
 lang: en
 ref: 2026-07-09-I-Think-I-Have-LLM-Burnout
-audio: 2026-07-09-I-Think-I-Have-LLM-Burnout.en.mp3
 industry: creative
 ---
 

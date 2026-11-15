@@ -24,7 +24,6 @@ quiz:
     explanation: "Terence Tao highly praised the AI's new approach, stating that all previous researchers had been going in the wrong direction from the start."
 lang: en
 ref: 2026-05-06-Amateur-armed-with-ChatGPT-solves-an-Erds-problem
-audio: 2026-05-06-Amateur-armed-with-ChatGPT-solves-an-Erds-problem.en.mp3
 industry: general
 ---
 

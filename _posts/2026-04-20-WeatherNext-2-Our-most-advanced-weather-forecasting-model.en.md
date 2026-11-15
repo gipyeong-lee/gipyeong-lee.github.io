@@ -24,7 +24,6 @@ quiz:
     explanation: "WeatherNext 2 can predict weather variables at a high resolution of at least 1-hour intervals."
 lang: en
 ref: 2026-04-20-WeatherNext-2-Our-most-advanced-weather-forecasting-model
-audio: 2026-04-20-WeatherNext-2-Our-most-advanced-weather-forecasting-model.en.mp3
 industry: finance
 ---
 

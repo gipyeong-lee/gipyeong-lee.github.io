@@ -24,7 +24,6 @@ quiz:
     explanation: "During the lawsuit process, Apple revealed that over 400 former Apple employees are currently working at OpenAI."
 lang: en
 ref: 2026-07-11-Apple-Sues-OpenAI-for-Stealing-Trade-Secrets-to-Build-AI-Hardware
-audio: 2026-07-11-Apple-Sues-OpenAI-for-Stealing-Trade-Secrets-to-Build-AI-Hardware.en.mp3
 industry: legal
 ---
 

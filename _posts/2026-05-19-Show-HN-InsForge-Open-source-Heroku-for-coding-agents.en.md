@@ -24,7 +24,6 @@ quiz:
     explanation: "The founder of InsForge pointed out that AI coding agents tend to 'assume' what a backend structure looks like rather than directly 'inspecting' it."
 lang: en
 ref: 2026-05-19-Show-HN-InsForge-Open-source-Heroku-for-coding-agents
-audio: 2026-05-19-Show-HN-InsForge-Open-source-Heroku-for-coding-agents.en.mp3
 industry: creative
 ---
 

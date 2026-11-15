@@ -24,7 +24,6 @@ quiz:
     explanation: "It was found that agents failed to operate properly not because of technical limitations, but when the instructions given to the AI by the user or developer were too vague and unclear."
 lang: en
 ref: 2026-05-26-Agentic-Patterns
-audio: 2026-05-26-Agentic-Patterns.en.mp3
 industry: education
 ---
 

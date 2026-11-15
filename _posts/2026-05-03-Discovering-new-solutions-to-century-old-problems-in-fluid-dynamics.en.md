@@ -24,7 +24,6 @@ quiz:
     explanation: "Proving the existence of singularities in the Navier-Stokes equations is one of the seven 'Millennium Prize Problems,' known as the greatest unsolved mysteries in mathematics."
 lang: en
 ref: 2026-05-03-Discovering-new-solutions-to-century-old-problems-in-fluid-dynamics
-audio: 2026-05-03-Discovering-new-solutions-to-century-old-problems-in-fluid-dynamics.en.mp3
 industry: education
 ---
 

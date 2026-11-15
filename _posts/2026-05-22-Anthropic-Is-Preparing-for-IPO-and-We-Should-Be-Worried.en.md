@@ -24,7 +24,6 @@ quiz:
     explanation: "According to Pre-IPO market trading data from May 2026, Anthropic's implied value has surged 900% since October 2025, reaching approximately $1.2 trillion."
 lang: en
 ref: 2026-05-22-Anthropic-Is-Preparing-for-IPO-and-We-Should-Be-Worried
-audio: 2026-05-22-Anthropic-Is-Preparing-for-IPO-and-We-Should-Be-Worried.en.mp3
 industry: finance
 ---
 

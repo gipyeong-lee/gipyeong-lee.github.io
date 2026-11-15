@@ -23,7 +23,6 @@ quiz:
     explanation: "WebSockets are highly suitable for games, live chatbots, and dynamic simulations where low latency and real-time performance are critical."
 lang: en
 ref: 2026-04-23-Speeding-up-agentic-workflows-with-WebSockets-in-the-Responses-APIEngineeringApr
-audio: 2026-04-23-Speeding-up-agentic-workflows-with-WebSockets-in-the-Responses-APIEngineeringApr.en.mp3
 industry: creative
 ---
 

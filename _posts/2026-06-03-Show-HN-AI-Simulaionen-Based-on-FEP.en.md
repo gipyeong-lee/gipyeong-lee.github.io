@@ -24,7 +24,6 @@ quiz:
     explanation: "The agents are programmed with simulated neurochemistry, hormone crosstalking, and short and long-term memory."
 lang: en
 ref: 2026-06-03-Show-HN-AI-Simulaionen-Based-on-FEP
-audio: 2026-06-03-Show-HN-AI-Simulaionen-Based-on-FEP.en.mp3
 industry: education
 ---
 

@@ -24,7 +24,6 @@ quiz:
     explanation: "An open-weight model is an open model where developers can download the code and install/use it on their own servers."
 lang: en
 ref: 2026-05-03-Kimi-K26-just-beat-Claude-GPT-55-and-Gemini-in-a-coding-challenge
-audio: 2026-05-03-Kimi-K26-just-beat-Claude-GPT-55-and-Gemini-in-a-coding-challenge.en.mp3
 industry: education
 ---
 

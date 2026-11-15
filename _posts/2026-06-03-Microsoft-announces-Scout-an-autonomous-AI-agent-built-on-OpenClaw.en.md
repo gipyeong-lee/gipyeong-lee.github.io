@@ -24,7 +24,6 @@ quiz:
     explanation: "To use open-source technology safely in an organizational environment, Microsoft combined rigorous security measures based on Microsoft 365."
 lang: en
 ref: 2026-06-03-Microsoft-announces-Scout-an-autonomous-AI-agent-built-on-OpenClaw
-audio: 2026-06-03-Microsoft-announces-Scout-an-autonomous-AI-agent-built-on-OpenClaw.en.mp3
 industry: creative
 ---
 

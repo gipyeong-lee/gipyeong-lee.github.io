@@ -24,7 +24,6 @@ quiz:
     explanation: "Long-term memory utilizes external database spaces like vector databases or key-value stores to retain information beyond a single session."
 lang: en
 ref: 2026-06-14-Build-a-Basic-AI-Agent-from-Scratch-Long-Task-Planning
-audio: 2026-06-14-Build-a-Basic-AI-Agent-from-Scratch-Long-Task-Planning.en.mp3
 industry: education
 ---
 

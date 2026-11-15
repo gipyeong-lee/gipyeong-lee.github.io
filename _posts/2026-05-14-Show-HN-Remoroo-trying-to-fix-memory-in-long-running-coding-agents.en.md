@@ -24,7 +24,6 @@ quiz:
     explanation: "Remoroo autonomously repeats the process of modifying, testing, and evaluating code, and reverting changes if they are ineffective."
 lang: en
 ref: 2026-05-14-Show-HN-Remoroo-trying-to-fix-memory-in-long-running-coding-agents
-audio: 2026-05-14-Show-HN-Remoroo-trying-to-fix-memory-in-long-running-coding-agents.en.mp3
 industry: robotics
 ---
 

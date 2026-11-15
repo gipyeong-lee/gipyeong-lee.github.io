@@ -24,7 +24,6 @@ quiz:
     explanation: "The most core requirement of an Initial Public Offering (IPO) is the disclosure of a company's transparent financial books. Through this, it becomes clear exactly how many massive resources are being poured into the development and maintenance of AI."
 lang: en
 ref: 2026-06-09-OpenAI-Confidentially-Files-for-IPO-on-the-Heels-of-SpaceX-and-Anthropic
-audio: 2026-06-09-OpenAI-Confidentially-Files-for-IPO-on-the-Heels-of-SpaceX-and-Anthropic.en.mp3
 industry: finance
 ---
 

@@ -24,7 +24,6 @@ quiz:
     explanation: "Merged cells, complex headers, and nested structures are elements that are very tricky for standard models to read."
 lang: en
 ref: 2026-07-04-What-we-learned-building-a-multi-agent-PDF-table-extractor
-audio: 2026-07-04-What-we-learned-building-a-multi-agent-PDF-table-extractor.en.mp3
 industry: education
 ---
 

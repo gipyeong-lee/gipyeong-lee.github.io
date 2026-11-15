@@ -24,7 +24,6 @@ quiz:
     explanation: "Chris Olah warned that AI-driven massive job losses will trigger a critical situation demanding a moral imperative of historic proportions."
 lang: en
 ref: 2026-05-26-Anthropic-Cofounder-Chris-Olahs-Remarks-on-Pope-Leo-XIVs-Magnifica-Humanitas
-audio: 2026-05-26-Anthropic-Cofounder-Chris-Olahs-Remarks-on-Pope-Leo-XIVs-Magnifica-Humanitas.en.mp3
 industry: education
 ---
 

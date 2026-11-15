@@ -24,7 +24,6 @@ quiz:
     explanation: "While Claude Mythos finds vulnerabilities at an overwhelming speed, the process of actually fixing (patching) the discovered flaws remains highly complex and still requires a human touch, which currently stands as a major challenge."
 lang: en
 ref: 2026-06-03-Anthropic-scales-Claude-Mythos-to-critical-infrastructure-in-15-countries
-audio: 2026-06-03-Anthropic-scales-Claude-Mythos-to-critical-infrastructure-in-15-countries.en.mp3
 industry: healthcare
 ---
 
