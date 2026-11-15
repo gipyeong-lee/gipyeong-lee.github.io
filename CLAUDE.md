@@ -77,8 +77,11 @@ The Pages artifact must stay under 1 GiB (`actions/deploy-pages` warns above
 to 1200 px wide q82 progressive and deletes its webp sibling. git keeps the
 pipeline's 1600x900 jpg + webp; templates must not reference webp
 (`scripts/tests/test_image_budget_contract.py`). Result: 514 MB (branch run
-43694987292). Remaining growth ~192 KB per post (~115 KB hero + ~77 KB
-HTML), ~2.8 MB/day at ~15 posts/day, so 1 GiB again around 2027-06.
+43694987292). Since mindtickle-studio 29b1f16 (live 2026-11-15) the pipeline
+writes the hero at that size (~90 KB) with no webp, so the step passes new
+heroes through untouched. Growth per post: +151 KB measured on the first
+such post (run 43704844517; the one before, still 1600 px + webp, +199 KB),
+~2.2-2.8 MB/day at ~15 posts/day, so 1 GiB again around mid-2027.
 Re-measure with `gh api repos/gipyeong-lee/gipyeong-lee.github.io/actions/runs/<id>/artifacts`.
 The next lever is moving images off Pages: Cloudflare R2 needs a Cloudflare
 account and a domain on Cloudflare (r2.dev is rate-limited, dev only);
