@@ -24,7 +24,6 @@ quiz:
     explanation: "Federal banking regulators consider a bank's anti-money laundering record when reviewing applications for mergers, acquisitions, and other business combinations."
 lang: en
 ref: 2026-07-08-Federal-Reserve-Board-requests-comment-on-a-proposal-to-amend-its-requirements-f
-audio: 2026-07-08-Federal-Reserve-Board-requests-comment-on-a-proposal-to-amend-its-requirements-f.en.mp3
 industry: finance
 ---
 

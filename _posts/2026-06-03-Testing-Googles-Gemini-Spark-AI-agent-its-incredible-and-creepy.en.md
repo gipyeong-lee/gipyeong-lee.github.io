@@ -24,7 +24,6 @@ quiz:
     explanation: "Once integrated into the desktop app, Spark will be able to access local files and perform various tasks directly on the user's computer."
 lang: en
 ref: 2026-06-03-Testing-Googles-Gemini-Spark-AI-agent-its-incredible-and-creepy
-audio: 2026-06-03-Testing-Googles-Gemini-Spark-AI-agent-its-incredible-and-creepy.en.mp3
 industry: creative
 ---
 Imagine this. It's Friday night, after a long week of hard work, and you've fallen fast asleep. Your smartphone is plugged into the charger, its screen pitch black. But in your digital world, someone is busy at work. When you wake up the next morning, the dozens of emails that poured in overnight are already neatly summarized and organized by priority. Your kids' complex after-school activity schedules for the coming week are flawlessly entered into your calendar, color-coded. Even a list of potential venues for a weekend party with friends, along with draft invitations for the attendees, is perfectly prepared and displayed on your screen. All you did was say a single sentence before falling asleep: "Take care of the party schedule for this weekend, and just organize the important emails."

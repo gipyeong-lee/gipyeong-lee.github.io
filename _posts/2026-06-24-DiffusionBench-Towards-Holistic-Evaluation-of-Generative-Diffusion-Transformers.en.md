@@ -24,7 +24,6 @@ quiz:
     explanation: "Evaluating generative models is much more difficult than discriminative models because the criteria defining what constitutes a 'better' result are ambiguous and multifaceted."
 lang: en
 ref: 2026-06-24-DiffusionBench-Towards-Holistic-Evaluation-of-Generative-Diffusion-Transformers
-audio: 2026-06-24-DiffusionBench-Towards-Holistic-Evaluation-of-Generative-Diffusion-Transformers.en.mp3
 industry: creative
 ---
 

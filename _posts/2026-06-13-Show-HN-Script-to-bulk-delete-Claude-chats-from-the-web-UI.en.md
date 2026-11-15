@@ -24,7 +24,6 @@ quiz:
     explanation: "Since the Developer Tool is a control panel invisible to general users, it is like entering a manager's passage and manipulating the system through commands called JavaScript."
 lang: en
 ref: 2026-06-13-Show-HN-Script-to-bulk-delete-Claude-chats-from-the-web-UI
-audio: 2026-06-13-Show-HN-Script-to-bulk-delete-Claude-chats-from-the-web-UI.en.mp3
 industry: creative
 ---
 

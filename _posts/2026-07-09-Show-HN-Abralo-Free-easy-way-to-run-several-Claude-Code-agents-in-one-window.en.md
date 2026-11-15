@@ -24,7 +24,6 @@ quiz:
     explanation: "Abralo is a very lightweight tool, with a Windows installer size of only 3.4 MB."
 lang: en
 ref: 2026-07-09-Show-HN-Abralo-Free-easy-way-to-run-several-Claude-Code-agents-in-one-window
-audio: 2026-07-09-Show-HN-Abralo-Free-easy-way-to-run-several-Claude-Code-agents-in-one-window.en.mp3
 industry: creative
 ---
 

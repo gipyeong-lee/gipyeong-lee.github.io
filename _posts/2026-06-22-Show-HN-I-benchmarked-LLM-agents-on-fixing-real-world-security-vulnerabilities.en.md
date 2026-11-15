@@ -24,7 +24,6 @@ quiz:
     explanation: "According to the latest test results, the best-performing model among several AI agents had a success rate of 50%."
 lang: en
 ref: 2026-06-22-Show-HN-I-benchmarked-LLM-agents-on-fixing-real-world-security-vulnerabilities
-audio: 2026-06-22-Show-HN-I-benchmarked-LLM-agents-on-fixing-real-world-security-vulnerabilities.en.mp3
 industry: security
 ---
 

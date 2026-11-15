@@ -24,7 +24,6 @@ quiz:
     explanation: "According to Anthropic, India is their second-largest market, and through this partnership, Claude will be more widely distributed to businesses and professionals within India."
 lang: en
 ref: 2026-06-13-Jun-12-2026AnnouncementsTCS-and-Anthropic-partner-to-bring-Claude-to-regulated-i
-audio: 2026-06-13-Jun-12-2026AnnouncementsTCS-and-Anthropic-partner-to-bring-Claude-to-regulated-i.en.mp3
 industry: healthcare
 ---
 

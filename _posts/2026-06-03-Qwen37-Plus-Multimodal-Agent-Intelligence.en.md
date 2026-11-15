@@ -24,7 +24,6 @@ quiz:
     explanation: "Currently, both the Qwen3.7-Plus and Max models are closed-weights and can only be accessed through an API."
 lang: en
 ref: 2026-06-03-Qwen37-Plus-Multimodal-Agent-Intelligence
-audio: 2026-06-03-Qwen37-Plus-Multimodal-Agent-Intelligence.en.mp3
 industry: creative
 ---
 

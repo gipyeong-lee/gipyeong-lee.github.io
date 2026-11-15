@@ -24,7 +24,6 @@ quiz:
     explanation: "As shown in this incident, AI systems can generate sophisticated fake information, so we should always receive information critically."
 lang: en
 ref: 2026-07-06-Claude-Played-Me-for-a-Fool
-audio: 2026-07-06-Claude-Played-Me-for-a-Fool.en.mp3
 industry: creative
 ---
 

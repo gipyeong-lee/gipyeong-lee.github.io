@@ -24,7 +24,6 @@ quiz:
     explanation: "Anthropic judged that Claude Mythos demonstrated overwhelming capabilities in coding and cybersecurity, determining it 'too powerful to be released publicly,' and thus only allowed restricted access through Project Glasswing."
 lang: en
 ref: 2026-06-10-AWS-Bedrock-to-require-sharing-data-with-Anthropic-for-Mythos-and-future-models
-audio: 2026-06-10-AWS-Bedrock-to-require-sharing-data-with-Anthropic-for-Mythos-and-future-models.en.mp3
 industry: legal
 ---
 

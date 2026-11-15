@@ -24,7 +24,6 @@ quiz:
     explanation: "Solving 10 problems corresponds to a 2nd place finish among official participants."
 lang: en
 ref: 2026-04-21-Gemini-achieves-gold-medal-level-at-the-International-Collegiate-Programming-Con
-audio: 2026-04-21-Gemini-achieves-gold-medal-level-at-the-International-Collegiate-Programming-Con.en.mp3
 industry: education
 ---
 

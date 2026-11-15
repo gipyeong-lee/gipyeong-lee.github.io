@@ -24,7 +24,6 @@ quiz:
     explanation: "Parsewise is mainly utilized in fields that require extensive document processing, such as insurance, financial services, and life sciences."
 lang: en
 ref: 2026-07-01-Launch-HN-Parsewise-YC-P25-Reason-Across-Documents-with-an-API
-audio: 2026-07-01-Launch-HN-Parsewise-YC-P25-Reason-Across-Documents-with-an-API.en.mp3
 industry: general
 ---
 

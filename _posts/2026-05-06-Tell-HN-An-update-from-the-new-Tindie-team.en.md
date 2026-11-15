@@ -24,7 +24,6 @@ quiz:
     explanation: "Tindie recorded $1,176,572 (approximately $1.17 million) in revenue in December 2025, significantly exceeding the industry average."
 lang: en
 ref: 2026-05-06-Tell-HN-An-update-from-the-new-Tindie-team
-audio: 2026-05-06-Tell-HN-An-update-from-the-new-Tindie-team.en.mp3
 industry: finance
 ---
 

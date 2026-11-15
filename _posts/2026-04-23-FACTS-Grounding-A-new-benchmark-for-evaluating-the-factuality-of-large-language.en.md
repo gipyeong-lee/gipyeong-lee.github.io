@@ -24,7 +24,6 @@ quiz:
     explanation: "The FACTS framework utilizes a system where three judge models evaluate responses to increase accuracy and fairness."
 lang: en
 ref: 2026-04-23-FACTS-Grounding-A-new-benchmark-for-evaluating-the-factuality-of-large-language
-audio: 2026-04-23-FACTS-Grounding-A-new-benchmark-for-evaluating-the-factuality-of-large-language.en.mp3
 industry: education
 ---
 

@@ -24,7 +24,6 @@ quiz:
     explanation: "The biggest cause is the burden of massive GPU (Graphics Processing Unit) infrastructure and power consumption costs required to run hyper-scale AI models smoothly 24/7."
 lang: en
 ref: 2026-06-07-AI-costs-how-much-GitHub-Copilot-users-react-to-new-usage-based-pricing-system
-audio: 2026-06-07-AI-costs-how-much-GitHub-Copilot-users-react-to-new-usage-based-pricing-system.en.mp3
 industry: creative
 ---
 

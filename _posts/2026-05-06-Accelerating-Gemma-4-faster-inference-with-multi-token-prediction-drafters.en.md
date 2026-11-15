@@ -24,7 +24,6 @@ quiz:
     explanation: "According to Google, there is no degradation in output quality or reasoning logic when using MTP technology."
 lang: en
 ref: 2026-05-06-Accelerating-Gemma-4-faster-inference-with-multi-token-prediction-drafters
-audio: 2026-05-06-Accelerating-Gemma-4-faster-inference-with-multi-token-prediction-drafters.en.mp3
 industry: creative
 ---
 

@@ -24,7 +24,6 @@ quiz:
     explanation: "The MNN-AECS system saves energy by dynamically selecting low-power CPU cores during the AI's answer generation process."
 lang: en
 ref: 2026-05-05-Show-HN-LLMs-consume-54x-less-mobile-energy-than-ad-supported-web-search
-audio: 2026-05-05-Show-HN-LLMs-consume-54x-less-mobile-energy-than-ad-supported-web-search.en.mp3
 industry: creative
 ---
 

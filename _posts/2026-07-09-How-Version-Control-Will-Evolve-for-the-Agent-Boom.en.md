@@ -24,7 +24,6 @@ quiz:
     explanation: "AI agents rely on various elements beyond just code, including prompts, tool interfaces, model weights, datasets, and memory schemas, all of which need management."
 lang: en
 ref: 2026-07-09-How-Version-Control-Will-Evolve-for-the-Agent-Boom
-audio: 2026-07-09-How-Version-Control-Will-Evolve-for-the-Agent-Boom.en.mp3
 industry: creative
 ---
 

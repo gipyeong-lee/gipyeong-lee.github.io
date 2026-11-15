@@ -24,7 +24,6 @@ quiz:
     explanation: "Sam Altman informed employees about the relevant details through an internal company Q&A session."
 lang: en
 ref: 2026-06-26-Trump-administration-asks-OpenAI-to-stagger-release-of-GPT56
-audio: 2026-06-26-Trump-administration-asks-OpenAI-to-stagger-release-of-GPT56.en.mp3
 industry: creative
 ---
 

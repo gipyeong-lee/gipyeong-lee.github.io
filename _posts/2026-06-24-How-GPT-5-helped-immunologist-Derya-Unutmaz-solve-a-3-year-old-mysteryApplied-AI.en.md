@@ -24,7 +24,6 @@ quiz:
     explanation: "Using GPT-5.5 Pro, they analyzed 62 samples and approximately 28,000 genes."
 lang: en
 ref: 2026-06-24-How-GPT-5-helped-immunologist-Derya-Unutmaz-solve-a-3-year-old-mysteryApplied-AI
-audio: 2026-06-24-How-GPT-5-helped-immunologist-Derya-Unutmaz-solve-a-3-year-old-mysteryApplied-AI.en.mp3
 industry: healthcare
 ---
 

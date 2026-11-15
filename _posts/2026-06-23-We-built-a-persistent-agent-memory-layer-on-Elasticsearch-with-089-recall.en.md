@@ -24,7 +24,6 @@ quiz:
     explanation: "Elasticsearch utilizes Dynamic Level Security (DLS) to rigorously isolate data to prevent intermingling between tenants (user groups)."
 lang: en
 ref: 2026-06-23-We-built-a-persistent-agent-memory-layer-on-Elasticsearch-with-089-recall
-audio: 2026-06-23-We-built-a-persistent-agent-memory-layer-on-Elasticsearch-with-089-recall.en.mp3
 industry: security
 ---
 

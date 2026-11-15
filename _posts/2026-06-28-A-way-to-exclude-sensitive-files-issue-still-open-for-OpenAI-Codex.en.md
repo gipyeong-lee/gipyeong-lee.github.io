@@ -24,7 +24,6 @@ quiz:
     explanation: "Codex uploads tool execution results, and the contents of accessed files can be included in this process."
 lang: en
 ref: 2026-06-28-A-way-to-exclude-sensitive-files-issue-still-open-for-OpenAI-Codex
-audio: 2026-06-28-A-way-to-exclude-sensitive-files-issue-still-open-for-OpenAI-Codex.en.mp3
 industry: creative
 ---
 

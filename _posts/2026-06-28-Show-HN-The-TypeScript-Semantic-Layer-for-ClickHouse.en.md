@@ -24,7 +24,6 @@ quiz:
     explanation: "The semantic layer market is expected to consolidate towards an API-centric architecture and modularized business components."
 lang: en
 ref: 2026-06-28-Show-HN-The-TypeScript-Semantic-Layer-for-ClickHouse
-audio: 2026-06-28-Show-HN-The-TypeScript-Semantic-Layer-for-ClickHouse.en.mp3
 industry: creative
 ---
 

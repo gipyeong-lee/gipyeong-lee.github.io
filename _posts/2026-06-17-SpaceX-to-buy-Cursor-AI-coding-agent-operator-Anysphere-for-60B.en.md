@@ -24,7 +24,6 @@ quiz:
     explanation: "With this acquisition news, SpaceX overtook global giant Amazon to become the fifth-largest company in the world."
 lang: en
 ref: 2026-06-17-SpaceX-to-buy-Cursor-AI-coding-agent-operator-Anysphere-for-60B
-audio: 2026-06-17-SpaceX-to-buy-Cursor-AI-coding-agent-operator-Anysphere-for-60B.en.mp3
 industry: finance
 ---
 

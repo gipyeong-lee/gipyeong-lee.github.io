@@ -24,7 +24,6 @@ quiz:
     explanation: "Vibe can connect to external services and remote tools through MCP (Model Context Protocol) integration."
 lang: en
 ref: 2026-04-30-Remote-agents-in-Vibe-Powered-by-Mistral-Medium-35ProductIntroducing-Mistral-Med
-audio: 2026-04-30-Remote-agents-in-Vibe-Powered-by-Mistral-Medium-35ProductIntroducing-Mistral-Med.en.mp3
 industry: creative
 ---
 

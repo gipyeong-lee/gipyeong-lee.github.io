@@ -24,7 +24,6 @@ quiz:
     explanation: "When a dangerous command is detected, it can pause the request to obtain approval from a human or LLM judge before it reaches the actual server."
 lang: en
 ref: 2026-06-12-Show-HN-Claw-Patrol-a-security-firewall-for-agents
-audio: 2026-06-12-Show-HN-Claw-Patrol-a-security-firewall-for-agents.en.mp3
 industry: robotics
 ---
 

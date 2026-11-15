@@ -24,7 +24,6 @@ quiz:
     explanation: "A developer on Hacker News pointed out that the spaced repetition method might be inappropriate because programming is a process of pondering problem-solving methods, not simple memorization of random facts."
 lang: en
 ref: 2026-06-16-Show-HN-Fata-Spaced-repetition-to-fight-skill-rot-from-AI-coding
-audio: 2026-06-16-Show-HN-Fata-Spaced-repetition-to-fight-skill-rot-from-AI-coding.en.mp3
 industry: education
 ---
 

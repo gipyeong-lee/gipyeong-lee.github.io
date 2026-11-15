@@ -24,7 +24,6 @@ quiz:
     explanation: "The 'Task Budgets' feature has been newly included to allow users to control costs efficiently."
 lang: en
 ref: 2026-05-05-Claude-Opus-47-Model-Card
-audio: 2026-05-05-Claude-Opus-47-Model-Card.en.mp3
 industry: creative
 ---
 

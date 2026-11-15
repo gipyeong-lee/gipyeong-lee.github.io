@@ -24,7 +24,6 @@ quiz:
     explanation: "According to some foreign media reports, the Omi wearable device has been described as a large button shape that can be attached to the forehead."
 lang: en
 ref: 2026-05-04-Show-HN-Omi-watches-your-screen-hears-conversations-tells-you-what-to-do
-audio: 2026-05-04-Show-HN-Omi-watches-your-screen-hears-conversations-tells-you-what-to-do.en.mp3
 industry: creative
 ---
 

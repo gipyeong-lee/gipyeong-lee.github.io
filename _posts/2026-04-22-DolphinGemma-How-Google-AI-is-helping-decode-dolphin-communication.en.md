@@ -24,7 +24,6 @@ quiz:
     explanation: "This project primarily researches the communication of the Atlantic spotted dolphin (Stenella frontalis)."
 lang: en
 ref: 2026-04-22-DolphinGemma-How-Google-AI-is-helping-decode-dolphin-communication
-audio: 2026-04-22-DolphinGemma-How-Google-AI-is-helping-decode-dolphin-communication.en.mp3
 industry: creative
 ---
 

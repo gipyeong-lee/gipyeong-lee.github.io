@@ -24,7 +24,6 @@ quiz:
     explanation: "While it was officially stated that paid subscribers would not see ads, in reality, app suggestions and similar content are being displayed even to high-tier users, leading to complaints."
 lang: en
 ref: 2026-06-26-Tell-HN-OpenAI-has-started-putting-ads-on-paid-programs
-audio: 2026-06-26-Tell-HN-OpenAI-has-started-putting-ads-on-paid-programs.en.mp3
 industry: general
 ---
 

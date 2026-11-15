@@ -24,7 +24,6 @@ quiz:
     explanation: "According to recent studies, 90% of US companies use hiring algorithms, often sharing solutions from the same few vendors."
 lang: en
 ref: 2026-06-24-Algorithmic-Monocultures-in-Hiring
-audio: 2026-06-24-Algorithmic-Monocultures-in-Hiring.en.mp3
 industry: education
 ---
 

@@ -24,7 +24,6 @@ quiz:
     explanation: "Researchers used a method where users acted as evaluators, comparing pairs of answers provided by the models on 30 political topics."
 lang: en
 ref: 2026-06-25-Where-every-major-LLM-stands-politically
-audio: 2026-06-25-Where-every-major-LLM-stands-politically.en.mp3
 industry: education
 ---
 

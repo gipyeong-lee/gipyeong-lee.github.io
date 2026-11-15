@@ -24,7 +24,6 @@ quiz:
     explanation: "The AI agent phone is an agent-centric smartphone that understands user intent and handles complex tasks directly."
 lang: en
 ref: 2026-07-06-OpenAI-is-fast-tracking-its-own-AI-Agent-Phone-for-2027-to-challenge-iPhone
-audio: 2026-07-06-OpenAI-is-fast-tracking-its-own-AI-Agent-Phone-for-2027-to-challenge-iPhone.en.mp3
 industry: creative
 ---
 

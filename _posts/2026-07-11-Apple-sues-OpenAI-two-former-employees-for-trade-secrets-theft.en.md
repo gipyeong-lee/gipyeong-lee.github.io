@@ -24,7 +24,6 @@ quiz:
     explanation: "OpenAI accelerated its entry into the hardware market by acquiring 'io Products,' a design startup led by Jony Ive, for $6.5 billion."
 lang: en
 ref: 2026-07-11-Apple-sues-OpenAI-two-former-employees-for-trade-secrets-theft
-audio: 2026-07-11-Apple-sues-OpenAI-two-former-employees-for-trade-secrets-theft.en.mp3
 industry: legal
 ---
 

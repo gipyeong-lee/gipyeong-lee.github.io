@@ -24,7 +24,6 @@ quiz:
     explanation: "The public release date for the GPT-5.6 models—Sol, Terra, and Luna—is July 9, 2026."
 lang: en
 ref: 2026-07-09-Introducing-GPT-LiveProductJul-8-2026
-audio: 2026-07-09-Introducing-GPT-LiveProductJul-8-2026.en.mp3
 industry: creative
 ---
 

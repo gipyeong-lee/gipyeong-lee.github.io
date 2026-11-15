@@ -24,7 +24,6 @@ quiz:
     explanation: "Google maintains a close investment relationship with Anthropic, including plans to invest up to $40 billion."
 lang: en
 ref: 2026-06-25-Google-set-to-lose-two-more-AI-researchers-to-Anthropic
-audio: 2026-06-25-Google-set-to-lose-two-more-AI-researchers-to-Anthropic.en.mp3
 industry: finance
 ---
 

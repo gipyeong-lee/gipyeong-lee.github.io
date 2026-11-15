@@ -24,7 +24,6 @@ quiz:
     explanation: "According to the survey results at the time, the volume of term loans (Term loans) was approximately double that of overnight loans (Overnight loans)."
 lang: en
 ref: 2026-05-15-Federal-Reserve-Board-releases-results-from-two-surveys-of-senior-financial-offi
-audio: 2026-05-15-Federal-Reserve-Board-releases-results-from-two-surveys-of-senior-financial-offi.en.mp3
 industry: healthcare
 ---
 

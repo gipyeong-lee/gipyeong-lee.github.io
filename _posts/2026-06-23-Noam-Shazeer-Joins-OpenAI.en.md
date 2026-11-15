@@ -24,7 +24,6 @@ quiz:
     explanation: "Upon joining OpenAI, Shazeer will focus on developing new AI model architectures."
 lang: en
 ref: 2026-06-23-Noam-Shazeer-Joins-OpenAI
-audio: 2026-06-23-Noam-Shazeer-Joins-OpenAI.en.mp3
 industry: creative
 ---
 

@@ -24,7 +24,6 @@ quiz:
     explanation: "GLM-5.2 is an open model released under the MIT License."
 lang: en
 ref: 2026-07-11-Show-HN-Getting-GLM-52-running-on-my-slow-computer
-audio: 2026-07-11-Show-HN-Getting-GLM-52-running-on-my-slow-computer.en.mp3
 industry: security
 ---
 

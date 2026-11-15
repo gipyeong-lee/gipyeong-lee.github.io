@@ -24,7 +24,6 @@ quiz:
     explanation: "The mushroom itself is called 'jian shou qing' in China, but the hallucination of little people it creates is called 'xiao ren ren (小人人)'."
 lang: en
 ref: 2026-05-24-The-Mushroom-That-Makes-People-Have-the-Exact-Same-Hallucination
-audio: 2026-05-24-The-Mushroom-That-Makes-People-Have-the-Exact-Same-Hallucination.en.mp3
 industry: healthcare
 ---
 

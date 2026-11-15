@@ -24,7 +24,6 @@ quiz:
     explanation: "Launched on April 28, 2026, 'Bedrock Managed Agents' is a managed AI assistant service that operates within an enterprise's cloud environment, powered by OpenAI's technology."
 lang: en
 ref: 2026-05-24-Interview-with-OpenAI-and-AWS-CEOs-about-Bedrock-Managed-Agents
-audio: 2026-05-24-Interview-with-OpenAI-and-AWS-CEOs-about-Bedrock-Managed-Agents.en.mp3
 industry: finance
 ---
 

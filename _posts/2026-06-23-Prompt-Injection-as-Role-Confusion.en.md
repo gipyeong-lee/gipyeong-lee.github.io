@@ -24,7 +24,6 @@ quiz:
     explanation: "Evaluations targeting various AI architectures show that the success rate of direct prompt injection attacks is very high, reaching 80% to 100%."
 lang: en
 ref: 2026-06-23-Prompt-Injection-as-Role-Confusion
-audio: 2026-06-23-Prompt-Injection-as-Role-Confusion.en.mp3
 industry: security
 ---
 

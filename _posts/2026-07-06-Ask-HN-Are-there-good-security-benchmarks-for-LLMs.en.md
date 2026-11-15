@@ -24,7 +24,6 @@ quiz:
     explanation: "SECURE is a benchmark introduced to comprehensively evaluate an AI's knowledge extraction, understanding, and reasoning capabilities in the security field."
 lang: en
 ref: 2026-07-06-Ask-HN-Are-there-good-security-benchmarks-for-LLMs
-audio: 2026-07-06-Ask-HN-Are-there-good-security-benchmarks-for-LLMs.en.mp3
 industry: security
 ---
 

@@ -24,7 +24,6 @@ quiz:
     explanation: "Gemini 2.5 Pro, a native multimodal model, supports the powerful multitasking performance of the universal AI assistant."
 lang: en
 ref: 2026-04-22-Our-vision-for-building-a-universal-AI-assistant
-audio: 2026-04-22-Our-vision-for-building-a-universal-AI-assistant.en.mp3
 industry: creative
 ---
 

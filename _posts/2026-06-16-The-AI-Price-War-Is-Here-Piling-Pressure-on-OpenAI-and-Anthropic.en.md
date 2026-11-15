@@ -24,7 +24,6 @@ quiz:
     explanation: "As models like DeepSeek provide similar performance at prices 7 to 50 times cheaper than Western companies, leading companies are facing pressure to lower their prices."
 lang: en
 ref: 2026-06-16-The-AI-Price-War-Is-Here-Piling-Pressure-on-OpenAI-and-Anthropic
-audio: 2026-06-16-The-AI-Price-War-Is-Here-Piling-Pressure-on-OpenAI-and-Anthropic.en.mp3
 industry: creative
 ---
 

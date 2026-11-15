@@ -24,7 +24,6 @@ quiz:
     explanation: "Some users view the separation of programmatic usage—which was previously included within the subscription scope—into separate costs or limits as a negative change."
 lang: en
 ref: 2026-05-14-Claude-subscriptions-no-longer-include-Agent-SDK-and-Claude--p-usage
-audio: 2026-05-14-Claude-subscriptions-no-longer-include-Agent-SDK-and-Claude--p-usage.en.mp3
 industry: robotics
 ---
 

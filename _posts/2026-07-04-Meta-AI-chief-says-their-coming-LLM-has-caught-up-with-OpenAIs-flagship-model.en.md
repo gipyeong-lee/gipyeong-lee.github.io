@@ -24,7 +24,6 @@ quiz:
     explanation: "Meta plans capital expenditures of $125 billion to $145 billion in the AI sector for 2026."
 lang: en
 ref: 2026-07-04-Meta-AI-chief-says-their-coming-LLM-has-caught-up-with-OpenAIs-flagship-model
-audio: 2026-07-04-Meta-AI-chief-says-their-coming-LLM-has-caught-up-with-OpenAIs-flagship-model.en.mp3
 industry: finance
 ---
 

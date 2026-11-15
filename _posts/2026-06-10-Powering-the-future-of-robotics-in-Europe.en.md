@@ -24,7 +24,6 @@ quiz:
     explanation: "Starting with medical robots, Wandercraft recently attracted $75 million in investment and is developing the industrial humanoid 'Calvin 40'."
 lang: en
 ref: 2026-06-10-Powering-the-future-of-robotics-in-Europe
-audio: 2026-06-10-Powering-the-future-of-robotics-in-Europe.en.mp3
 industry: healthcare
 ---
 

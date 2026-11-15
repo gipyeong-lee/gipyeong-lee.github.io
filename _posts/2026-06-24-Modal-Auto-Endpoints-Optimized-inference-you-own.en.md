@@ -24,7 +24,6 @@ quiz:
     explanation: "You can quickly deploy a production-level LLM inference environment with a single command, without complex configurations."
 lang: en
 ref: 2026-06-24-Modal-Auto-Endpoints-Optimized-inference-you-own
-audio: 2026-06-24-Modal-Auto-Endpoints-Optimized-inference-you-own.en.mp3
 industry: education
 ---
 

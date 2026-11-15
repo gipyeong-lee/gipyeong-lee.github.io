@@ -24,7 +24,6 @@ quiz:
     explanation: "OpenAI and GitHub state that, according to enterprise privacy standards, they do not utilize customer business data for model training."
 lang: en
 ref: 2026-05-05-GPT-55-is-generally-available-for-GitHub-Copilot
-audio: 2026-05-05-GPT-55-is-generally-available-for-GitHub-Copilot.en.mp3
 industry: general
 ---
 

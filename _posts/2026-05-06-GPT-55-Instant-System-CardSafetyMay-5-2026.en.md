@@ -24,7 +24,6 @@ quiz:
     explanation: "GPT-5.5 recorded 82.7% in Terminal-Bench 2.0, significantly outpacing its competitor Claude (69.4%)."
 lang: en
 ref: 2026-05-06-GPT-55-Instant-System-CardSafetyMay-5-2026
-audio: 2026-05-06-GPT-55-Instant-System-CardSafetyMay-5-2026.en.mp3
 industry: creative
 ---
 

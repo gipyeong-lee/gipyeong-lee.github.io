@@ -24,7 +24,6 @@ quiz:
     explanation: "AGI has the potential to provide significant benefits to society in healthcare, education, and innovation."
 lang: en
 ref: 2026-04-22-Taking-a-responsible-path-to-AGI
-audio: 2026-04-22-Taking-a-responsible-path-to-AGI.en.mp3
 industry: healthcare
 ---
 

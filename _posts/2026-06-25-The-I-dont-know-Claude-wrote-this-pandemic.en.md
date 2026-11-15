@@ -24,7 +24,6 @@ quiz:
     explanation: "It is essential for human developers to maintain control and retain technical authority when utilizing AI models such as LLMs."
 lang: en
 ref: 2026-06-25-The-I-dont-know-Claude-wrote-this-pandemic
-audio: 2026-06-25-The-I-dont-know-Claude-wrote-this-pandemic.en.mp3
 industry: creative
 ---
 

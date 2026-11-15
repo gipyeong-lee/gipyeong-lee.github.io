@@ -24,7 +24,6 @@ quiz:
     explanation: "If an AI system incorrectly judges normal activity as an attack (a false positive), there is a risk that security teams will lose efficiency while trying to process a flood of warnings."
 lang: en
 ref: 2026-04-22-Evaluating-potential-cybersecurity-threats-of-advanced-AI
-audio: 2026-04-22-Evaluating-potential-cybersecurity-threats-of-advanced-AI.en.mp3
 industry: security
 ---
 

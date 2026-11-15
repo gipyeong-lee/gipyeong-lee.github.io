@@ -24,7 +24,6 @@ quiz:
     explanation: "Burry's greatest concern is the structural issue where, if company valuations are set too high at the time of an IPO, 'passive capital' such as pension funds or ETFs will inevitably have to buy these expensive stocks in large quantities to match the index."
 lang: en
 ref: 2026-06-03-Michael-Burry-says-neither-SpaceX-nor-Anthropic-is-worth-1T
-audio: 2026-06-03-Michael-Burry-says-neither-SpaceX-nor-Anthropic-is-worth-1T.en.mp3
 industry: finance
 ---
 

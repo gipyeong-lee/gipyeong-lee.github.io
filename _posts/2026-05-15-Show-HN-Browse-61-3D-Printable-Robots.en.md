@@ -24,7 +24,6 @@ quiz:
     explanation: "The researchers at Kyung Hee University developed the 'Anthropomorphic Robot Hand' system, which precisely mimics the human hand—considered a highly complex structure in robotics—and released all its blueprints to the public as open source."
 lang: en
 ref: 2026-05-15-Show-HN-Browse-61-3D-Printable-Robots
-audio: 2026-05-15-Show-HN-Browse-61-3D-Printable-Robots.en.mp3
 industry: education
 ---
 

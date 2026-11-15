@@ -24,7 +24,6 @@ quiz:
     explanation: "In terms of output cost, Gemini 2.5 Flash-Lite is approximately 40% cheaper than the previous Flash model."
 lang: en
 ref: 2026-04-21-Gemini-25-Flash-Lite-is-now-ready-for-scaled-production-use
-audio: 2026-04-21-Gemini-25-Flash-Lite-is-now-ready-for-scaled-production-use.en.mp3
 industry: creative
 ---
 

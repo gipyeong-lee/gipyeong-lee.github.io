@@ -24,7 +24,6 @@ quiz:
     explanation: "You must track the relationship between prompts and their results to identify issues and improve AI performance."
 lang: en
 ref: 2026-07-09-ProductYour-Prompts-and-Skills-need-a-system-of-recordStudio-gives-AI-prompts-sk
-audio: 2026-07-09-ProductYour-Prompts-and-Skills-need-a-system-of-recordStudio-gives-AI-prompts-sk.en.mp3
 industry: general
 ---
 

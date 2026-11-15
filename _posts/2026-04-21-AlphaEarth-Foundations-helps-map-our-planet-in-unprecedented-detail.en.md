@@ -24,7 +24,6 @@ quiz:
     explanation: "AlphaEarth allows for checking the surface condition of a specific time and place based on learned data, without having to wait for a physical satellite to pass overhead."
 lang: en
 ref: 2026-04-21-AlphaEarth-Foundations-helps-map-our-planet-in-unprecedented-detail
-audio: 2026-04-21-AlphaEarth-Foundations-helps-map-our-planet-in-unprecedented-detail.en.mp3
 industry: general
 ---
 

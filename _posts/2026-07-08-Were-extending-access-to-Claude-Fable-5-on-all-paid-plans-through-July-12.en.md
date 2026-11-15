@@ -24,7 +24,6 @@ quiz:
     explanation: "Claude Fable 5 is an AI model capable of autonomously and reliably performing complex, long-running software development tasks."
 lang: en
 ref: 2026-07-08-Were-extending-access-to-Claude-Fable-5-on-all-paid-plans-through-July-12
-audio: 2026-07-08-Were-extending-access-to-Claude-Fable-5-on-all-paid-plans-through-July-12.en.mp3
 industry: security
 ---
 

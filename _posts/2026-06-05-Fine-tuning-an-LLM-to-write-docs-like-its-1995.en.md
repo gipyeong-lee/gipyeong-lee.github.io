@@ -24,7 +24,6 @@ quiz:
     explanation: "These language models, with about 8 billion (8B) parameters, can run quite comfortably even on a typical consumer-grade personal laptop like a MacBook Air."
 lang: en
 ref: 2026-06-05-Fine-tuning-an-LLM-to-write-docs-like-its-1995
-audio: 2026-06-05-Fine-tuning-an-LLM-to-write-docs-like-its-1995.en.mp3
 industry: education
 ---
 

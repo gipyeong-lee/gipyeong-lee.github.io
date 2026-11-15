@@ -24,7 +24,6 @@ quiz:
     explanation: "While Mythos is useful for finding known types of errors, it has the limitation of not being able to discover entirely new forms of security vulnerabilities without human creativity."
 lang: en
 ref: 2026-06-09-Anthropics-bug-hunting-Mythos-greatest-marketing-stunt-ever-says-cURL-creator
-audio: 2026-06-09-Anthropics-bug-hunting-Mythos-greatest-marketing-stunt-ever-says-cURL-creator.en.mp3
 industry: security
 ---
 

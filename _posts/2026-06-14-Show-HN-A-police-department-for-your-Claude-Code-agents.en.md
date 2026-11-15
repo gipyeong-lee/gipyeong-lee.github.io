@@ -24,7 +24,6 @@ quiz:
     explanation: "A subagent is a specialized AI assistant created within Claude Code to perform in-depth analysis or expert-level specific tasks."
 lang: en
 ref: 2026-06-14-Show-HN-A-police-department-for-your-Claude-Code-agents
-audio: 2026-06-14-Show-HN-A-police-department-for-your-Claude-Code-agents.en.mp3
 industry: security
 ---
 

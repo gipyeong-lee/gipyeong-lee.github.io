@@ -24,7 +24,6 @@ quiz:
     explanation: "Flow is Google's new AI filmmaking tool that provides professional-level camera control and character consistency features."
 lang: en
 ref: 2026-04-23-State-of-the-art-video-and-image-generation-with-Veo-2-and-Imagen-3
-audio: 2026-04-23-State-of-the-art-video-and-image-generation-with-Veo-2-and-Imagen-3.en.mp3
 industry: creative
 ---
 

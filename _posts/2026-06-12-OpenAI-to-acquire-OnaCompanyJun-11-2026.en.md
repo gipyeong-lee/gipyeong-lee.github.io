@@ -24,7 +24,6 @@ quiz:
     explanation: "In March 2025, OpenAI signed a contract with CoreWeave, paying $11.9 billion over the next 5 years to secure access to AI infrastructure."
 lang: en
 ref: 2026-06-12-OpenAI-to-acquire-OnaCompanyJun-11-2026
-audio: 2026-06-12-OpenAI-to-acquire-OnaCompanyJun-11-2026.en.mp3
 industry: finance
 ---
 

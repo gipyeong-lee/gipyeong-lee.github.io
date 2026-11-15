@@ -24,7 +24,6 @@ quiz:
     explanation: "The Anthropic product team has Claude Tag write 65% of their total code."
 lang: en
 ref: 2026-06-24-Jun-22-2026ProductIntroducing-Claude-Tag
-audio: 2026-06-24-Jun-22-2026ProductIntroducing-Claude-Tag.en.mp3
 industry: creative
 ---
 

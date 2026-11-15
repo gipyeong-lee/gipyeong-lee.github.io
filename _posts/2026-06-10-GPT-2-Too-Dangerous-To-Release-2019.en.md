@@ -24,7 +24,6 @@ quiz:
     explanation: "Some machine learning experts pointed out that OpenAI inflated the dangers of the algorithm to draw public and media attention, which resulted in resource-constrained academic researchers losing the opportunity to study an important AI model."
 lang: en
 ref: 2026-06-10-GPT-2-Too-Dangerous-To-Release-2019
-audio: 2026-06-10-GPT-2-Too-Dangerous-To-Release-2019.en.mp3
 industry: education
 ---
 

@@ -24,7 +24,6 @@ quiz:
     explanation: "Surprisingly, even employees of fierce competitors OpenAI and Google expressed their support for Anthropic's lawsuit, showing solidarity."
 lang: en
 ref: 2026-06-18-Anthropic-employees-accuse-Trump-administration-of-targeting-them
-audio: 2026-06-18-Anthropic-employees-accuse-Trump-administration-of-targeting-them.en.mp3
 industry: legal
 ---
 

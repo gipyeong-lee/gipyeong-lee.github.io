@@ -24,7 +24,6 @@ quiz:
     explanation: "Anthropic, OpenAI's strongest major rival, ignited the Wall Street listing race among AI companies by submitting its review documents for listing just over a week earlier."
 lang: en
 ref: 2026-06-09-OpenAI-Confidentially-Files-for-IPO
-audio: 2026-06-09-OpenAI-Confidentially-Files-for-IPO.en.mp3
 industry: finance
 ---
 

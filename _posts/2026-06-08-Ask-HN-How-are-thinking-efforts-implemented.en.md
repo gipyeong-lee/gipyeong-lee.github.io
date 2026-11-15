@@ -24,7 +24,6 @@ quiz:
     explanation: "The latest artificial intelligence language models like Claude and ChatGPT offer features that allow users to directly adjust the thinking level, such as 'Low', 'Medium', or 'High', to match the difficulty of the question."
 lang: en
 ref: 2026-06-08-Ask-HN-How-are-thinking-efforts-implemented
-audio: 2026-06-08-Ask-HN-How-are-thinking-efforts-implemented.en.mp3
 industry: creative
 ---
 

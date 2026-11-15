@@ -24,7 +24,6 @@ quiz:
     explanation: "WhimFiles is a file manager built natively without using Electron."
 lang: en
 ref: 2026-07-07-Show-HN-Fast-native-Mac-file-manager-filters-fuzzy-find-9-MB-no-Electron
-audio: 2026-07-07-Show-HN-Fast-native-Mac-file-manager-filters-fuzzy-find-9-MB-no-Electron.en.mp3
 industry: creative
 ---
 

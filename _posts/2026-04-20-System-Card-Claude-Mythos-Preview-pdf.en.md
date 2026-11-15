@@ -24,7 +24,6 @@ quiz:
     explanation: "To ensure its powerful capabilities are used for positive purposes, Anthropic is prioritizing defensive cybersecurity use cases."
 lang: en
 ref: 2026-04-20-System-Card-Claude-Mythos-Preview-pdf
-audio: 2026-04-20-System-Card-Claude-Mythos-Preview-pdf.en.mp3
 industry: security
 ---
 

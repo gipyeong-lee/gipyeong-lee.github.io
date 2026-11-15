@@ -60,7 +60,8 @@ jobs:
             !/audio/
           sparse-checkout-cone-mode: false
       # Fail in seconds on broken front matter instead of silently dropping
-      # posts from a ~40 min build (Jekyll only warns on YAML errors).
+      # posts from a ~40 min build (Jekyll only warns on YAML errors), and on
+      # an `audio:` whose mp3 git does not track (the player would 404).
       - name: Validate post front matter
         run: |
           pip install pyyaml

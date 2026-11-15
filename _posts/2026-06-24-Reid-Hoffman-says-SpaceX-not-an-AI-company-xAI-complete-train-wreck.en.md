@@ -24,7 +24,6 @@ quiz:
     explanation: "Hoffman criticized SpaceX for not being an AI company and attempting to 'buy its way into relevance' in the AI sector."
 lang: en
 ref: 2026-06-24-Reid-Hoffman-says-SpaceX-not-an-AI-company-xAI-complete-train-wreck
-audio: 2026-06-24-Reid-Hoffman-says-SpaceX-not-an-AI-company-xAI-complete-train-wreck.en.mp3
 industry: general
 ---
 

@@ -24,7 +24,6 @@ quiz:
     explanation: "Anthropic stated that in the future, if safety restrictions are applied, they will clearly notify the users of the fact, in the same way they respond to cybersecurity issues."
 lang: en
 ref: 2026-06-12-Anthropic-Walks-Back-Policy-That-Could-Have-Sabotaged-Researchers-Using-Claude
-audio: 2026-06-12-Anthropic-Walks-Back-Policy-That-Could-Have-Sabotaged-Researchers-Using-Claude.en.mp3
 industry: education
 ---
 

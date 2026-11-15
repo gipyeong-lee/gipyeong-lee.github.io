@@ -24,7 +24,6 @@ quiz:
     explanation: "Extended thinking is not always beneficial for all tasks, and research shows that performance can actually degrade by up to 36% in certain types of tasks."
 lang: en
 ref: 2026-06-23-Claude-Codes-extended-thinking-is-a-summary--not-authentic-thinking
-audio: 2026-06-23-Claude-Codes-extended-thinking-is-a-summary--not-authentic-thinking.en.mp3
 industry: general
 ---
 

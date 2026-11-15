@@ -24,7 +24,6 @@ quiz:
     explanation: "ChatGPT Pro subscribers have exclusive access to the GPT-5.4 Pro model."
 lang: en
 ref: 2026-05-06-ChatGPT-Pro-now-starts-at-100month
-audio: 2026-05-06-ChatGPT-Pro-now-starts-at-100month.en.mp3
 industry: creative
 ---
 

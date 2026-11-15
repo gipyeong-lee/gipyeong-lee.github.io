@@ -24,7 +24,6 @@ quiz:
     explanation: "Google (Google.org) launched a $30 million Impact Challenge to accelerate scientific discovery using AI in India."
 lang: en
 ref: 2026-04-20-Accelerating-discovery-in-India-through-AI-powered-science-and-education
-audio: 2026-04-20-Accelerating-discovery-in-India-through-AI-powered-science-and-education.en.mp3
 industry: education
 ---
 

@@ -24,7 +24,6 @@ quiz:
     explanation: "The Gemini CLI service focused on individual users was already shut down on June 18, 2026."
 lang: en
 ref: 2026-07-03-Gemini-Code-Assist-will-be-shut-down-on-July-17
-audio: 2026-07-03-Gemini-Code-Assist-will-be-shut-down-on-July-17.en.mp3
 industry: creative
 ---
 

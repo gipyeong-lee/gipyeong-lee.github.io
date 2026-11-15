@@ -24,7 +24,6 @@ quiz:
     explanation: "It has entered full-scale real-life testing (pilots) starting in 2026 and is being actively utilized as a public administration assistant at places like The Hague City Hall to guide citizens on city regulations and permit requirements."
 lang: en
 ref: 2026-06-17-GPTNL-a-sovereign-language-model-for-the-Netherlands
-audio: 2026-06-17-GPTNL-a-sovereign-language-model-for-the-Netherlands.en.mp3
 industry: creative
 ---
 

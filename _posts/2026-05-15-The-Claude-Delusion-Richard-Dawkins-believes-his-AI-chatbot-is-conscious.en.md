@@ -24,7 +24,6 @@ quiz:
     explanation: "Dawkins argued that because the AI chatbot Claude can understand jokes, write poetry, and engage in deep philosophical thinking, we cannot definitively conclude that it lacks consciousness."
 lang: en
 ref: 2026-05-15-The-Claude-Delusion-Richard-Dawkins-believes-his-AI-chatbot-is-conscious
-audio: 2026-05-15-The-Claude-Delusion-Richard-Dawkins-believes-his-AI-chatbot-is-conscious.en.mp3
 industry: healthcare
 ---
 

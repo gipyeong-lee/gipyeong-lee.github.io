@@ -24,7 +24,6 @@ quiz:
     explanation: "As a result of a benchmark conducted on a 10-node cluster during the transition to WireGuard 2.0, there were zero dropped connections."
 lang: en
 ref: 2026-05-26-Our-agent-found-a-bug-with-WireGuard-in-Google-Kubernetes-Engine
-audio: 2026-05-26-Our-agent-found-a-bug-with-WireGuard-in-Google-Kubernetes-Engine.en.mp3
 industry: finance
 ---
 

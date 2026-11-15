@@ -24,7 +24,6 @@ quiz:
     explanation: "Because Agentic AI creates plans and explores various possibilities on its own, it cannot discard the past context (state) after generating words and must rapidly switch back and forth between multiple contexts, causing extreme memory pressure."
 lang: en
 ref: 2026-05-25-KV-Cache-Is-Becoming-the-Memory-Hierarchy-of-Inference
-audio: 2026-05-25-KV-Cache-Is-Becoming-the-Memory-Hierarchy-of-Inference.en.mp3
 industry: creative
 ---
 

@@ -24,7 +24,6 @@ quiz:
     explanation: "OpenAI's net loss, which was about $5 billion in 2024, skyrocketed to about $38.5 billion in 2025."
 lang: en
 ref: 2026-06-17-Leaked-OpenAI-financials-show-385B-loss-and-compute-burn
-audio: 2026-06-17-Leaked-OpenAI-financials-show-385B-loss-and-compute-burn.en.mp3
 industry: finance
 ---
 

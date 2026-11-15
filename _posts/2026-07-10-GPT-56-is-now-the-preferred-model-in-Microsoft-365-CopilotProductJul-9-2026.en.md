@@ -24,7 +24,6 @@ quiz:
     explanation: "According to users, it has been reported that older model options, including GPT-5.5, no longer appear in the model picker."
 lang: en
 ref: 2026-07-10-GPT-56-is-now-the-preferred-model-in-Microsoft-365-CopilotProductJul-9-2026
-audio: 2026-07-10-GPT-56-is-now-the-preferred-model-in-Microsoft-365-CopilotProductJul-9-2026.en.mp3
 industry: creative
 ---
 

@@ -24,7 +24,6 @@ quiz:
     explanation: "The lawyer for the New York Daily News criticized OpenAI for making false statements about its technical capabilities over the past two years."
 lang: en
 ref: 2026-07-11-OpenAI-faked-inability-to-search-training-data-hid-billions-of-logs-NYT-says
-audio: 2026-07-11-OpenAI-faked-inability-to-search-training-data-hid-billions-of-logs-NYT-says.en.mp3
 industry: legal
 ---
 

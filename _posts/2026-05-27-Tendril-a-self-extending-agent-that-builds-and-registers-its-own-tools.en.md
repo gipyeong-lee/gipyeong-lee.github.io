@@ -24,7 +24,6 @@ quiz:
     explanation: "Hacker News pointed out that if AI continuously generates tools overly tailored to the immediate task at hand, the system will eventually be filled with redundant and useless tools (noise)."
 lang: en
 ref: 2026-05-27-Tendril-a-self-extending-agent-that-builds-and-registers-its-own-tools
-audio: 2026-05-27-Tendril-a-self-extending-agent-that-builds-and-registers-its-own-tools.en.mp3
 industry: creative
 ---
 

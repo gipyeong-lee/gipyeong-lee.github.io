@@ -15,7 +15,6 @@ quiz:
     answer: 1
     explanation: "Anthropic has excluded automated AI tools like Claude Code from the unlimited monthly subscription, changing it to a pay-as-you-go system."
 lang: en
-audio: 2026-06-16-Anthropic-pauses-credit-change-for-Claude-Code.en.mp3
 industry: finance
 ---
 

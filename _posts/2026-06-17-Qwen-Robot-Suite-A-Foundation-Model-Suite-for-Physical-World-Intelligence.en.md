@@ -24,7 +24,6 @@ quiz:
     explanation: "Qwen-RobotClaw allows the robot agent to call upon models like tools, effectively controlling and managing the memory and context required for long-horizon tasks."
 lang: en
 ref: 2026-06-17-Qwen-Robot-Suite-A-Foundation-Model-Suite-for-Physical-World-Intelligence
-audio: 2026-06-17-Qwen-Robot-Suite-A-Foundation-Model-Suite-for-Physical-World-Intelligence.en.mp3
 industry: creative
 ---
 

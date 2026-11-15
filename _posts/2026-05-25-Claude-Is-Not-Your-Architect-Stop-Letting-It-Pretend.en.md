@@ -24,7 +24,6 @@ quiz:
     explanation: "When AI provides five or more options, it causes option paralysis, throwing the 'executive function burden' back onto the human who must make the final decision."
 lang: en
 ref: 2026-05-25-Claude-Is-Not-Your-Architect-Stop-Letting-It-Pretend
-audio: 2026-05-25-Claude-Is-Not-Your-Architect-Stop-Letting-It-Pretend.en.mp3
 industry: education
 ---
 

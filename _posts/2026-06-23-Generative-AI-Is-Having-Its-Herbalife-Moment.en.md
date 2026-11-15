@@ -24,7 +24,6 @@ quiz:
     explanation: "According to the report, three major companies account for 88% of enterprise LLM API usage."
 lang: en
 ref: 2026-06-23-Generative-AI-Is-Having-Its-Herbalife-Moment
-audio: 2026-06-23-Generative-AI-Is-Having-Its-Herbalife-Moment.en.mp3
 industry: healthcare
 ---
 

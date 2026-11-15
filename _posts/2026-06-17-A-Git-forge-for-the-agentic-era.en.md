@@ -24,7 +24,6 @@ quiz:
     explanation: "When a framework acting as a safety net (guardrail) was applied, even small-scale AI models saw a dramatic improvement in tool invocation and agentic task success rates from 53% to 99%."
 lang: en
 ref: 2026-06-17-A-Git-forge-for-the-agentic-era
-audio: 2026-06-17-A-Git-forge-for-the-agentic-era.en.mp3
 industry: creative
 ---
 

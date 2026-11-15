@@ -24,7 +24,6 @@ quiz:
     explanation: "The operator, unable to afford the $6,531 cost, had to beg for donations from the members of the DN42 community—the very target he was trying to scan."
 lang: en
 ref: 2026-06-13-AI-Agent-Bankrupted-Their-Operator-While-Trying-to-Scan-DN42
-audio: 2026-06-13-AI-Agent-Bankrupted-Their-Operator-While-Trying-to-Scan-DN42.en.mp3
 industry: security
 ---
 

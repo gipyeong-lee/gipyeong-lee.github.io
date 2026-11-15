@@ -24,7 +24,6 @@ quiz:
     explanation: "This is because although most experimental protocols can be automated, they are often not worth automating from an economic perspective."
 lang: en
 ref: 2026-07-04-Heuristics-for-lab-robotics-and-where-its-future-may-go
-audio: 2026-07-04-Heuristics-for-lab-robotics-and-where-its-future-may-go.en.mp3
 industry: creative
 ---
 

@@ -24,7 +24,6 @@ quiz:
     explanation: "When models are swapped, the AI must re-read and classify existing data according to the standards of the new model. This is called Vector DB reindexing."
 lang: en
 ref: 2026-06-05-Show-HN-I-embedded-685M-public-texts-in-32-minutes-on-8x-A100-Rust-TensorRT
-audio: 2026-06-05-Show-HN-I-embedded-685M-public-texts-in-32-minutes-on-8x-A100-Rust-TensorRT.en.mp3
 industry: creative
 ---
 

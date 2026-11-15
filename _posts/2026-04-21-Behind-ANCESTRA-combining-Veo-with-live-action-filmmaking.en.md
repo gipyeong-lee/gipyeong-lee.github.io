@@ -24,7 +24,6 @@ quiz:
     explanation: "Director Eliza McNitt described Veo as another 'lens' through which the universe can be imagined."
 lang: en
 ref: 2026-04-21-Behind-ANCESTRA-combining-Veo-with-live-action-filmmaking
-audio: 2026-04-21-Behind-ANCESTRA-combining-Veo-with-live-action-filmmaking.en.mp3
 industry: creative
 ---
 

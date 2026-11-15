@@ -24,7 +24,6 @@ quiz:
     explanation: "A Korean research team from Aim Intelligence succeeded in bypassing Gemini 3's security measures in just 5 minutes."
 lang: en
 ref: 2026-05-03-Advancing-Geminis-security-safeguards
-audio: 2026-05-03-Advancing-Geminis-security-safeguards.en.mp3
 industry: security
 ---
 

@@ -24,7 +24,6 @@ quiz:
     explanation: "Along with catastrophic forgetting, the traditional SFT method often fails due to 'Off-policy drift,' a phenomenon where the model learns only from external data rather than its own actual behavioral trajectories, creating a disconnect from reality."
 lang: en
 ref: 2026-05-27-Self-Distillation-Enables-Continual-Learning-pdf
-audio: 2026-05-27-Self-Distillation-Enables-Continual-Learning-pdf.en.mp3
 industry: education
 ---
 

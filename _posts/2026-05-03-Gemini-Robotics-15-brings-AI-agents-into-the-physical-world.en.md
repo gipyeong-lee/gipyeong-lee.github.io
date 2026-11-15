@@ -24,7 +24,6 @@ quiz:
     explanation: "Google DeepMind emphasized that this release is a 'major milestone toward solving Artificial General Intelligence (AGI) in the physical world.'"
 lang: en
 ref: 2026-05-03-Gemini-Robotics-15-brings-AI-agents-into-the-physical-world
-audio: 2026-05-03-Gemini-Robotics-15-brings-AI-agents-into-the-physical-world.en.mp3
 industry: creative
 ---
 

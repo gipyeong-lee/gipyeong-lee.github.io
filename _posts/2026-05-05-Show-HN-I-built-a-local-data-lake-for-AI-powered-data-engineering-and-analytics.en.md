@@ -24,7 +24,6 @@ quiz:
     explanation: "Unlike general chatbots, Nile Local is equipped with systematic tools (primitives) for data tasks such as queries and build pipelines."
 lang: en
 ref: 2026-05-05-Show-HN-I-built-a-local-data-lake-for-AI-powered-data-engineering-and-analytics
-audio: 2026-05-05-Show-HN-I-built-a-local-data-lake-for-AI-powered-data-engineering-and-analytics.en.mp3
 industry: finance
 ---
 

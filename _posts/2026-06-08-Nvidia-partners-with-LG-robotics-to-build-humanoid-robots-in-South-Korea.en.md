@@ -24,7 +24,6 @@ quiz:
     explanation: "LG will integrate Nvidia's 'Isaac Sim' and 'Isaac Lab' platforms into its software ecosystem to help robots learn and become smarter in a virtual environment."
 lang: en
 ref: 2026-06-08-Nvidia-partners-with-LG-robotics-to-build-humanoid-robots-in-South-Korea
-audio: 2026-06-08-Nvidia-partners-with-LG-robotics-to-build-humanoid-robots-in-South-Korea.en.mp3
 industry: robotics
 ---
 

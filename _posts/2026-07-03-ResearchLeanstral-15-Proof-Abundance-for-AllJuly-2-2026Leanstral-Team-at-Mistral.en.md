@@ -24,7 +24,6 @@ quiz:
     explanation: "Leanstral 1.5 was released under a free Apache-2.0 license to enable usage by a wider audience."
 lang: en
 ref: 2026-07-03-ResearchLeanstral-15-Proof-Abundance-for-AllJuly-2-2026Leanstral-Team-at-Mistral
-audio: 2026-07-03-ResearchLeanstral-15-Proof-Abundance-for-AllJuly-2-2026Leanstral-Team-at-Mistral.en.mp3
 industry: creative
 ---
 

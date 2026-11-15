@@ -24,7 +24,6 @@ quiz:
     explanation: "MCP is a powerful connection standard that allows AI to break out of an isolated environment, connect with external systems in real-time, and exchange data."
 lang: en
 ref: 2026-05-27-Claude-Code-as-a-Daily-Driver-Claudemd-Skills-Subagents-Plugins-and-MCPs
-audio: 2026-05-27-Claude-Code-as-a-Daily-Driver-Claudemd-Skills-Subagents-Plugins-and-MCPs.en.mp3
 industry: creative
 ---
 

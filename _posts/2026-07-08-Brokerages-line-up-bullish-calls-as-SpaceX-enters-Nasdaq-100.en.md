@@ -24,7 +24,6 @@ quiz:
     explanation: "Analysts are evaluating SpaceX not as a simple rocket company, but as a giant infrastructure firm that will lead innovation in AI (Artificial Intelligence) and satellite technology."
 lang: en
 ref: 2026-07-08-Brokerages-line-up-bullish-calls-as-SpaceX-enters-Nasdaq-100
-audio: 2026-07-08-Brokerages-line-up-bullish-calls-as-SpaceX-enters-Nasdaq-100.en.mp3
 industry: finance
 ---
 

@@ -24,7 +24,6 @@ quiz:
     explanation: "It safely accesses data while strictly adhering to existing security policies, user permissions, and authentication procedures."
 lang: en
 ref: 2026-07-09-Claude-Start-My-Database
-audio: 2026-07-09-Claude-Start-My-Database.en.mp3
 industry: general
 ---
 

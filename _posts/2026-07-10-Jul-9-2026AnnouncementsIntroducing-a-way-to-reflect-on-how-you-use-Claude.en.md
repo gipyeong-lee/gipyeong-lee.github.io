@@ -24,7 +24,6 @@ quiz:
     explanation: "The Reflect dashboard can be found in the 'Reflect' tab within the Settings menu."
 lang: en
 ref: 2026-07-10-Jul-9-2026AnnouncementsIntroducing-a-way-to-reflect-on-how-you-use-Claude
-audio: 2026-07-10-Jul-9-2026AnnouncementsIntroducing-a-way-to-reflect-on-how-you-use-Claude.en.mp3
 industry: creative
 ---
 

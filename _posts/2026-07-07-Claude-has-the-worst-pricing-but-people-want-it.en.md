@@ -24,7 +24,6 @@ quiz:
     explanation: "Claude generates responses on Anthropic's server infrastructure, not in the user's browser, and streams them to the screen."
 lang: en
 ref: 2026-07-07-Claude-has-the-worst-pricing-but-people-want-it
-audio: 2026-07-07-Claude-has-the-worst-pricing-but-people-want-it.en.mp3
 industry: creative
 ---
 

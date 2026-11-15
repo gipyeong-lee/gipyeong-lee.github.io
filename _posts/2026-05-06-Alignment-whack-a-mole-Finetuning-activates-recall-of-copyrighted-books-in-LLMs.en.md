@@ -24,7 +24,6 @@ quiz:
     explanation: "Despite being taught only with data from a single author, the ability to reconstruct copyrighted books by other unrelated authors was also activated."
 lang: en
 ref: 2026-05-06-Alignment-whack-a-mole-Finetuning-activates-recall-of-copyrighted-books-in-LLMs
-audio: 2026-05-06-Alignment-whack-a-mole-Finetuning-activates-recall-of-copyrighted-books-in-LLMs.en.mp3
 industry: security
 ---
 

@@ -24,7 +24,6 @@ quiz:
     explanation: "Nuclear fusion is a dream technology that emits no carbon, has abundant raw materials, and can provide safe, infinite energy."
 lang: en
 ref: 2026-04-21-Bringing-AI-to-the-next-generation-of-fusion-energy
-audio: 2026-04-21-Bringing-AI-to-the-next-generation-of-fusion-energy.en.mp3
 industry: education
 ---
 

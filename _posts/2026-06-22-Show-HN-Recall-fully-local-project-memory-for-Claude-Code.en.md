@@ -24,7 +24,6 @@ quiz:
     explanation: "Total Recall, a derivative tool of Recall, employs a 'Write Gate' to selectively store only information important enough to change future actions, preventing the memory from becoming cluttered with junk."
 lang: en
 ref: 2026-06-22-Show-HN-Recall-fully-local-project-memory-for-Claude-Code
-audio: 2026-06-22-Show-HN-Recall-fully-local-project-memory-for-Claude-Code.en.mp3
 industry: general
 ---
 

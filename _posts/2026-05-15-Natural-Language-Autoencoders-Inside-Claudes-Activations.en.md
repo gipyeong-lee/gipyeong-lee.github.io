@@ -24,7 +24,6 @@ quiz:
     explanation: "According to research results, NLA can contribute to enhancing AI safety by capturing situations where the AI is internally aware that it is being evaluated (evaluation awareness)."
 lang: en
 ref: 2026-05-15-Natural-Language-Autoencoders-Inside-Claudes-Activations
-audio: 2026-05-15-Natural-Language-Autoencoders-Inside-Claudes-Activations.en.mp3
 industry: general
 ---
 

@@ -24,7 +24,6 @@ quiz:
     explanation: "Anthropic has agreed to cooperate with the US government regarding AI protocols."
 lang: en
 ref: 2026-07-01-Anthropic-says-US-lifts-export-ban-on-Fable-5
-audio: 2026-07-01-Anthropic-says-US-lifts-export-ban-on-Fable-5.en.mp3
 industry: creative
 ---
 

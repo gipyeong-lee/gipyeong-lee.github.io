@@ -24,7 +24,6 @@ quiz:
     explanation: "Thariq's essay, which included 20 complete HTML examples, reached the top of Hacker News and sparked a major discussion."
 lang: en
 ref: 2026-05-18-Using-Claude-Code-The-unreasonable-effectiveness-of-HTML
-audio: 2026-05-18-Using-Claude-Code-The-unreasonable-effectiveness-of-HTML.en.mp3
 industry: creative
 ---
 

@@ -24,7 +24,6 @@ quiz:
     explanation: "GLM-5.2 is designed to demonstrate exceptional performance in complex coding and long-horizon tasks."
 lang: en
 ref: 2026-06-24-GLM-52-is-probably-the-most-powerful-text-only-open-weights-LLM
-audio: 2026-06-24-GLM-52-is-probably-the-most-powerful-text-only-open-weights-LLM.en.mp3
 industry: creative
 ---
 

@@ -24,7 +24,6 @@ quiz:
     explanation: "Uber created an internal leaderboard to track how actively engineers were using AI coding tools and encouraged their use."
 lang: en
 ref: 2026-05-06-Ubers-Anthropic-AI-push-hits-a-wall
-audio: 2026-05-06-Ubers-Anthropic-AI-push-hits-a-wall.en.mp3
 industry: creative
 ---
 

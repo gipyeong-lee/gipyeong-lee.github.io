@@ -24,7 +24,6 @@ quiz:
     explanation: "The basic unit for recognizing and processing text in an AI model is called a 'Token,' and OpenAI is considering significantly reducing the usage price charged per token."
 lang: en
 ref: 2026-06-13-OpenAI-mulls-slashing-prices-as-it-competes-with-Anthropic-for-users
-audio: 2026-06-13-OpenAI-mulls-slashing-prices-as-it-competes-with-Anthropic-for-users.en.mp3
 industry: finance
 ---
 

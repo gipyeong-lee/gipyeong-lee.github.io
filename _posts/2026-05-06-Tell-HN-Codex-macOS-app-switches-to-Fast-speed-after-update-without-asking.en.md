@@ -24,7 +24,6 @@ quiz:
     explanation: "Some users are experiencing CPU usage soaring above 270%, fans running loudly, and the system slowing down."
 lang: en
 ref: 2026-05-06-Tell-HN-Codex-macOS-app-switches-to-Fast-speed-after-update-without-asking
-audio: 2026-05-06-Tell-HN-Codex-macOS-app-switches-to-Fast-speed-after-update-without-asking.en.mp3
 industry: creative
 ---
 

@@ -24,7 +24,6 @@ quiz:
     explanation: "According to foreign media reports, he was aboard a small twin-engine Cessna 421."
 lang: en
 ref: 2026-06-25-Ubisoft-co-founder-Claude-Guillemot-dies-in-plane-crash
-audio: 2026-06-25-Ubisoft-co-founder-Claude-Guillemot-dies-in-plane-crash.en.mp3
 industry: creative
 ---
 

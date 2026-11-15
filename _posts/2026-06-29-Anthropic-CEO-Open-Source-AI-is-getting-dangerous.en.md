@@ -24,7 +24,6 @@ quiz:
     explanation: "Anthropic suggested that major AI companies should cooperate to temporarily pause AI development and discuss risks, as AI technology is advancing too rapidly and poses a risk of humans losing control."
 lang: en
 ref: 2026-06-29-Anthropic-CEO-Open-Source-AI-is-getting-dangerous
-audio: 2026-06-29-Anthropic-CEO-Open-Source-AI-is-getting-dangerous.en.mp3
 industry: security
 ---
 

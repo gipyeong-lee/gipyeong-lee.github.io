@@ -24,7 +24,6 @@ quiz:
     explanation: "Relvy analyzes telemetry data, code, and logs at scale to identify issues, but private emails are not subject to analysis."
 lang: en
 ref: 2026-05-04-Launch-HN-Relvy-YC-F24-On-call-runbooks-automated
-audio: 2026-05-04-Launch-HN-Relvy-YC-F24-On-call-runbooks-automated.en.mp3
 industry: creative
 ---
 

@@ -24,7 +24,6 @@ quiz:
     explanation: "By modifying intermediate reasoning steps, users can guide the AI to a final conclusion that is more accurate or aligned with their preferences."
 lang: en
 ref: 2026-07-11-Show-HN-I-built-a-web-tool-to-see-and-edit-what-an-ai-thinks-before-it-answers
-audio: 2026-07-11-Show-HN-I-built-a-web-tool-to-see-and-edit-what-an-AI-thinks-before-it-answers.en.mp3
 industry: education
 ---
 

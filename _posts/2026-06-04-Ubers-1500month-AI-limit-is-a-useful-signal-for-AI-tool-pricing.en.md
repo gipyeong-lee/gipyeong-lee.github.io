@@ -24,7 +24,6 @@ quiz:
     explanation: "The management's biggest dilemma is the difficulty of connecting 'AI doing a lot of work' with 'delivering a good app that actual customers will use.' A simple increase in workload doesn't necessarily lead directly to business results."
 lang: en
 ref: 2026-06-04-Ubers-1500month-AI-limit-is-a-useful-signal-for-AI-tool-pricing
-audio: 2026-06-04-Ubers-1500month-AI-limit-is-a-useful-signal-for-AI-tool-pricing.en.mp3
 industry: finance
 ---
 

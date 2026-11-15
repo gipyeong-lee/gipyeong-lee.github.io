@@ -24,7 +24,6 @@ quiz:
     explanation: "This tool makes the non-deterministic elements that cause bugs into variables that humans can adjust, enabling perfect reproduction."
 lang: en
 ref: 2026-06-24-Show-HN-Make-every-bug-perfectly-reproducible
-audio: 2026-06-24-Show-HN-Make-every-bug-perfectly-reproducible.en.mp3
 industry: creative
 ---
 

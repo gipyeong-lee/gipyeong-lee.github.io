@@ -24,7 +24,6 @@ quiz:
     explanation: "Multi-turn editing is a method where the AI reflects step-by-step modification requests from the user to gradually complete the image."
 lang: en
 ref: 2026-04-22-Image-editing-in-Gemini-just-got-a-major-upgrade
-audio: 2026-04-22-Image-editing-in-Gemini-just-got-a-major-upgrade.en.mp3
 industry: creative
 ---
 

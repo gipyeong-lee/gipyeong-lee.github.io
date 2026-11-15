@@ -24,7 +24,6 @@ quiz:
     explanation: "As a standard deal, Y Combinator takes a 7% equity stake in startups in exchange for investing $500,000 in cash."
 lang: en
 ref: 2026-05-26-Y-Combinators-Stake-in-OpenAI-06
-audio: 2026-05-26-Y-Combinators-Stake-in-OpenAI-06.en.mp3
 industry: finance
 ---
 

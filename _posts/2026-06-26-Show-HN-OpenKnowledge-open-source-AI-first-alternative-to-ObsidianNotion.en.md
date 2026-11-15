@@ -24,7 +24,6 @@ quiz:
     explanation: "OpenKnowledge is a free, open-source, AI-native knowledge platform where humans and AI can work together."
 lang: en
 ref: 2026-06-26-Show-HN-OpenKnowledge-open-source-AI-first-alternative-to-ObsidianNotion
-audio: 2026-06-26-Show-HN-OpenKnowledge-open-source-AI-first-alternative-to-ObsidianNotion.en.mp3
 industry: creative
 ---
 

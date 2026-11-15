@@ -24,7 +24,6 @@ quiz:
     explanation: "The code extracted by Pablo is copied in a cleanly organized (clean, self-contained) state so that it can operate independently without tangling with other code, allowing it to be pasted and used immediately elsewhere."
 lang: en
 ref: 2026-06-08-Show-HN-Pablo-a-Chrome-extension-that-copies-UI-from-any-website
-audio: 2026-06-08-Show-HN-Pablo-a-Chrome-extension-that-copies-UI-from-any-website.en.mp3
 industry: creative
 ---
 

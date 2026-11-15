@@ -24,7 +24,6 @@ quiz:
     explanation: "Analyzing an AI's internal state via probing allows for efficient detection of 'hallucination' phenomena where an AI makes up information contrary to facts."
 lang: en
 ref: 2026-06-25-Dont-let-the-LLM-speak-just-probe-it
-audio: 2026-06-25-Dont-let-the-LLM-speak-just-probe-it.en.mp3
 industry: education
 ---
 

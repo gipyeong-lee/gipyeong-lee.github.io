@@ -24,7 +24,6 @@ quiz:
     explanation: "A recent Hacker News thread pointed out the habit of Claude continuously saving or repeatedly mentioning trivial facts that add no value to the work."
 lang: en
 ref: 2026-07-04-Claude-please-stop-trying-to-memorize-random-crap
-audio: 2026-07-04-Claude-please-stop-trying-to-memorize-random-crap.en.mp3
 industry: general
 ---
 

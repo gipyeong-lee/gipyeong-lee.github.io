@@ -24,7 +24,6 @@ quiz:
     explanation: "In introducing visible guardrails, Anthropic warned that there would be more instances of 'false positives,' where even the requests of innocent users who shouldn't be suspected are mistakenly blocked."
 lang: en
 ref: 2026-06-12-Anthropic-apologizes-for-invisible-Claude-Fable-guardrails
-audio: 2026-06-12-Anthropic-apologizes-for-invisible-Claude-Fable-guardrails.en.mp3
 industry: education
 ---
 

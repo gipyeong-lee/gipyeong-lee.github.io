@@ -24,7 +24,6 @@ quiz:
     explanation: "Thomas Engelbrecht was the former CEO of Bank of Eufaula and a former director of the holding company, SNB Bancshares, Inc."
 lang: en
 ref: 2026-06-26-Federal-Reserve-Board-issues-enforcement-action-with-employee-of-Bank-of-Eufaula
-audio: 2026-06-26-Federal-Reserve-Board-issues-enforcement-action-with-employee-of-Bank-of-Eufaula.en.mp3
 industry: finance
 ---
 

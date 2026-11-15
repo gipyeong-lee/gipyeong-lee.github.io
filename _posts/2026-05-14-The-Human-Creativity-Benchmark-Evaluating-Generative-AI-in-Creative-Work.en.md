@@ -24,7 +24,6 @@ quiz:
     explanation: "Users refine results by applying the MAYa principle, which states that AI outputs should be both advanced and accessible (acceptable) at the same time."
 lang: en
 ref: 2026-05-14-The-Human-Creativity-Benchmark-Evaluating-Generative-AI-in-Creative-Work
-audio: 2026-05-14-The-Human-Creativity-Benchmark-Evaluating-Generative-AI-in-Creative-Work.en.mp3
 industry: creative
 ---
 

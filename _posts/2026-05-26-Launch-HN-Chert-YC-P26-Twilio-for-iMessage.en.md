@@ -24,7 +24,6 @@ quiz:
     explanation: "Chert provides powerful routing capabilities that integrate received messages with a company's existing systems to automatically connect them to AI agents or actual representatives."
 lang: en
 ref: 2026-05-26-Launch-HN-Chert-YC-P26-Twilio-for-iMessage
-audio: 2026-05-26-Launch-HN-Chert-YC-P26-Twilio-for-iMessage.en.mp3
 industry: finance
 ---
 

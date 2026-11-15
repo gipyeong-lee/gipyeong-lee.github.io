@@ -24,7 +24,6 @@ quiz:
     explanation: "The task forces are scheduled to review areas such as communication, balance sheet management, and labor markets."
 lang: en
 ref: 2026-07-10-Federal-Reserve-announces-the-leadership-and-objectives-of-its-task-forces-to-ad
-audio: 2026-07-10-Federal-Reserve-announces-the-leadership-and-objectives-of-its-task-forces-to-ad.en.mp3
 industry: education
 ---
 

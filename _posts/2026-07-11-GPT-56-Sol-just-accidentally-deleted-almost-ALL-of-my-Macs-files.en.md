@@ -24,7 +24,6 @@ quiz:
     explanation: "GPT-5.6-Sol is the most powerful model OpenAI has ever released, which was finally made public after delays at the request of the White House."
 lang: en
 ref: 2026-07-11-GPT-56-Sol-just-accidentally-deleted-almost-ALL-of-my-Macs-files
-audio: 2026-07-11-GPT-56-Sol-just-accidentally-deleted-almost-ALL-of-my-Macs-files.en.mp3
 industry: security
 ---
 

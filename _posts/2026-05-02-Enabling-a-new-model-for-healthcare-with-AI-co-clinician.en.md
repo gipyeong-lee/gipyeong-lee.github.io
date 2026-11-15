@@ -24,7 +24,6 @@ quiz:
     explanation: "The 'Planner' module in the dual-agent structure monitors the conversation continuously and verifies safety."
 lang: en
 ref: 2026-05-02-Enabling-a-new-model-for-healthcare-with-AI-co-clinician
-audio: 2026-05-02-Enabling-a-new-model-for-healthcare-with-AI-co-clinician.en.mp3
 industry: healthcare
 ---
 

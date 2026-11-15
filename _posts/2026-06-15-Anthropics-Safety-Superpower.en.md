@@ -24,7 +24,6 @@ quiz:
     explanation: "Anthropic has developed and used the 'Constitutional AI' framework, which teaches the AI foundational and core value principles—like a constitution—in advance, guiding the AI to judge for itself what constitutes a safe and harmless response."
 lang: en
 ref: 2026-06-15-Anthropics-Safety-Superpower
-audio: 2026-06-15-Anthropics-Safety-Superpower.en.mp3
 industry: security
 ---
 

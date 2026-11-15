@@ -24,7 +24,6 @@ quiz:
     explanation: "Because intelligence and physical platforms are evolving simultaneously, directly controlling the entire feedback loop provides a competitive advantage."
 lang: en
 ref: 2026-06-26-Robotics-Teams-Are-Rebuilding-the-Data-Stack-from-Scratch
-audio: 2026-06-26-Robotics-Teams-Are-Rebuilding-the-Data-Stack-from-Scratch.en.mp3
 industry: creative
 ---
 

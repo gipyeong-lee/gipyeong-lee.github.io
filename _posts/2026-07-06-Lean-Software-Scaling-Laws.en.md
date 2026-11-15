@@ -24,7 +24,6 @@ quiz:
     explanation: "Researchers used Lean software development as a case study to evaluate how artificial intelligence learns the predictability of formal languages."
 lang: en
 ref: 2026-07-06-Lean-Software-Scaling-Laws
-audio: 2026-07-06-Lean-Software-Scaling-Laws.en.mp3
 industry: creative
 ---
 

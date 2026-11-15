@@ -24,7 +24,6 @@ quiz:
     explanation: "GenCast uses an ensemble model approach that simultaneously generates more than 50 different scenarios."
 lang: en
 ref: 2026-04-23-GenCast-predicts-weather-and-the-risks-of-extreme-conditions-with-state-of-the-a
-audio: 2026-04-23-GenCast-predicts-weather-and-the-risks-of-extreme-conditions-with-state-of-the-a.en.mp3
 industry: creative
 ---
 

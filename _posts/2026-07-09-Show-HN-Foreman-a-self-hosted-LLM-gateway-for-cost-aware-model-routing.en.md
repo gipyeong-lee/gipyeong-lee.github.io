@@ -24,7 +24,6 @@ quiz:
     explanation: "Foreman is a self-hosted LLM gateway provided in the form of a Go binary."
 lang: en
 ref: 2026-07-09-Show-HN-Foreman-a-self-hosted-LLM-gateway-for-cost-aware-model-routing
-audio: 2026-07-09-Show-HN-Foreman-a-self-hosted-LLM-gateway-for-cost-aware-model-routing.en.mp3
 industry: creative
 ---
 

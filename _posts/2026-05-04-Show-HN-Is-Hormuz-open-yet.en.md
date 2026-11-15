@@ -24,7 +24,6 @@ quiz:
     explanation: "According to developer discussions on Hacker News, the high cost of securing data APIs for real-time ship tracking was cited as a major barrier."
 lang: en
 ref: 2026-05-04-Show-HN-Is-Hormuz-open-yet
-audio: 2026-05-04-Show-HN-Is-Hormuz-open-yet.en.mp3
 industry: security
 ---
 

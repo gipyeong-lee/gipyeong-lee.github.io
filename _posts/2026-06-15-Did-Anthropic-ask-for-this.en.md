@@ -24,7 +24,6 @@ quiz:
     explanation: "Prominent critics like SE Gyges point out that because Anthropic heavily pushed for stricter legislation to control the risks of AI in the past, they brought the harsh leash of government regulation upon themselves."
 lang: en
 ref: 2026-06-15-Did-Anthropic-ask-for-this
-audio: 2026-06-15-Did-Anthropic-ask-for-this.en.mp3
 industry: robotics
 ---
 

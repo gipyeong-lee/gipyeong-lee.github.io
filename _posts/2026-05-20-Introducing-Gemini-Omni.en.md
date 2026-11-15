@@ -24,7 +24,6 @@ quiz:
     explanation: "A week before the event, traces of the Omni model were leaked from user interface (UI) strings within Google's Gemini app installed on smartphones, revealing its features in advance."
 lang: en
 ref: 2026-05-20-Introducing-Gemini-Omni
-audio: 2026-05-20-Introducing-Gemini-Omni.en.mp3
 industry: creative
 ---
 

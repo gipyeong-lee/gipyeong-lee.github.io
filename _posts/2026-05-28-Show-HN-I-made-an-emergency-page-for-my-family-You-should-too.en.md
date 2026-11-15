@@ -24,7 +24,6 @@ quiz:
     explanation: "The key is to identify the location in advance and prepare it like a fire extinguisher, which is not used often in normal times but is absolutely necessary in an emergency."
 lang: en
 ref: 2026-05-28-Show-HN-I-made-an-emergency-page-for-my-family-You-should-too
-audio: 2026-05-28-Show-HN-I-made-an-emergency-page-for-my-family-You-should-too.en.mp3
 industry: healthcare
 ---
 

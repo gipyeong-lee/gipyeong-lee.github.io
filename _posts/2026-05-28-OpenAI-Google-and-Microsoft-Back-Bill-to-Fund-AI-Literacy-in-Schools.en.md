@@ -24,7 +24,6 @@ quiz:
     explanation: "AFT President Randi Weingarten explained that 'the tech industry has the deep pockets that schools do not,' noting that the union approached these companies first because there were no other financial alternatives to support AI education."
 lang: en
 ref: 2026-05-28-OpenAI-Google-and-Microsoft-Back-Bill-to-Fund-AI-Literacy-in-Schools
-audio: 2026-05-28-OpenAI-Google-and-Microsoft-Back-Bill-to-Fund-AI-Literacy-in-Schools.en.mp3
 industry: education
 ---
 

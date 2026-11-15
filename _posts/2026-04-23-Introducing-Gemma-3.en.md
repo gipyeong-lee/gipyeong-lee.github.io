@@ -24,7 +24,6 @@ quiz:
     explanation: "Gemma 3 supports a context window of up to 128k tokens, allowing it to process vast amounts of information at once."
 lang: en
 ref: 2026-04-23-Introducing-Gemma-3
-audio: 2026-04-23-Introducing-Gemma-3.en.mp3
 industry: creative
 ---
 

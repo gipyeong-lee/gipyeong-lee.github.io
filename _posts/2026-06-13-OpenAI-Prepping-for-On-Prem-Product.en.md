@@ -24,7 +24,6 @@ quiz:
     explanation: "Sam Altman described the transition to AGI as 'The Gentle Singularity,' viewing this process as gradual and natural."
 lang: en
 ref: 2026-06-13-OpenAI-Prepping-for-On-Prem-Product
-audio: 2026-06-13-OpenAI-Prepping-for-On-Prem-Product.en.mp3
 industry: finance
 ---
 

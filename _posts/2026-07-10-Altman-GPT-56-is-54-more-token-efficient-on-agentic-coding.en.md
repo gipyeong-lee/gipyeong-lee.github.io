@@ -24,7 +24,6 @@ quiz:
     explanation: "When AI agents can perform the same tasks with fewer tokens, businesses can reduce AI operational costs and create more value."
 lang: en
 ref: "2026-07-10-Altman-GPT-56-is-54-more-token-efficient-on-agentic-coding"
-audio: 2026-07-10-Altman-GPT-56-is-54-more-token-efficient-on-agentic-coding.en.mp3
 industry: creative
 ---
 

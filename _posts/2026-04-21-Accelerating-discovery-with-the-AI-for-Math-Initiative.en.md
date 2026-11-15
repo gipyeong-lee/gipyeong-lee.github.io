@@ -24,7 +24,6 @@ quiz:
     explanation: "This initiative aims to accelerate discovery, tooling, and training in the field of mathematics. [Source 15]"
 lang: en
 ref: 2026-04-21-Accelerating-discovery-with-the-AI-for-Math-Initiative
-audio: 2026-04-21-Accelerating-discovery-with-the-AI-for-Math-Initiative.en.mp3
 industry: creative
 ---
 

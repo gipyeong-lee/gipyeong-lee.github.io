@@ -24,7 +24,6 @@ quiz:
     explanation: "Google established 'DP Scaling Laws' to balance computational power, privacy budget, and model utility."
 lang: en
 ref: 2026-04-22-VaultGemma-The-worlds-most-capable-differentially-private-LLM
-audio: 2026-04-22-VaultGemma-The-worlds-most-capable-differentially-private-LLM.en.mp3
 industry: healthcare
 ---
 

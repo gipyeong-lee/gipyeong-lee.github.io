@@ -24,7 +24,6 @@ quiz:
     explanation: "Aristotle foresaw a utopia where automated machines replaced labor, thereby eliminating the oppressive structures of human society."
 lang: en
 ref: 2026-07-06-Ancient-Greek-Technology-The-Origins-of-Robotics-and-Engineering
-audio: 2026-07-06-Ancient-Greek-Technology-The-Origins-of-Robotics-and-Engineering.en.mp3
 industry: creative
 ---
 

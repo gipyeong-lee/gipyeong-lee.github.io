@@ -24,7 +24,6 @@ quiz:
     explanation: "SmallDocs emphasizes its 100% private browser-based rendering functionality to protect user privacy."
 lang: en
 ref: 2026-05-05-Show-HN-SmallDocs---A-CLI-and-webapp-for-private-Markdown-reading-and-sharing
-audio: 2026-05-05-Show-HN-SmallDocs---A-CLI-and-webapp-for-private-Markdown-reading-and-sharing.en.mp3
 industry: creative
 ---
 

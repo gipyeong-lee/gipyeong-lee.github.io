@@ -24,7 +24,6 @@ quiz:
     explanation: "Tools for the agent era are designed with a focus on efficient collaboration, intent understanding, and automated processing by AI agents, rather than the speed at which humans write code."
 lang: en
 ref: 2026-06-24-Git-platform-built-for-agentic-era
-audio: 2026-06-24-Git-platform-built-for-agentic-era.en.mp3
 industry: creative
 ---
 

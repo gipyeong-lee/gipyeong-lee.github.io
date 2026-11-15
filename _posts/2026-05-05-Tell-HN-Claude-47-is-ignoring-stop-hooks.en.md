@@ -24,7 +24,6 @@ quiz:
     explanation: "Claude 4.7 takes instructions more literally than its predecessor and is less likely to fill in gaps by guessing the user's intent."
 lang: en
 ref: 2026-05-05-Tell-HN-Claude-4-7-is-ignoring-stop-hooks
-audio: 2026-05-05-Tell-HN-Claude-47-is-ignoring-stop-hooks.en.mp3
 industry: creative
 ---
 

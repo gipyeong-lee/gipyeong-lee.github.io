@@ -24,7 +24,6 @@ quiz:
     explanation: "The 'gh skill' command allows you to install and manage AI agent skills like a package manager."
 lang: en
 ref: 2026-05-15-Show-HN-JDS-a-Copilot-skill-suite-for-structuring-AI-coding-behavior
-audio: 2026-05-15-Show-HN-JDS-a-Copilot-skill-suite-for-structuring-AI-coding-behavior.en.mp3
 industry: healthcare
 ---
 

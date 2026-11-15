@@ -24,7 +24,6 @@ quiz:
     explanation: "The military version of Grok reportedly supported 'Operation Epic Fury' during the recent war with Iran, helping to coordinate the deployment of ammunition to 2,000 targets in 96 hours."
 lang: en
 ref: 2026-06-28-Grok-Is-More-Important-Than-Clean-Air-DOJ-Says
-audio: 2026-06-28-Grok-Is-More-Important-Than-Clean-Air-DOJ-Says.en.mp3
 industry: legal
 ---
 

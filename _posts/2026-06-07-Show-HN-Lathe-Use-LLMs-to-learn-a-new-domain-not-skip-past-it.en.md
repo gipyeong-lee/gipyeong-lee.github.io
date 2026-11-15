@@ -24,7 +24,6 @@ quiz:
     explanation: "The AI industry of 2026 has undergone a massive paradigm shift from simple chatbots to 'Agents'—systems that can reason, plan, and act independently."
 lang: en
 ref: 2026-06-07-Show-HN-Lathe-Use-LLMs-to-learn-a-new-domain-not-skip-past-it
-audio: 2026-06-07-Show-HN-Lathe-Use-LLMs-to-learn-a-new-domain-not-skip-past-it.en.mp3
 industry: education
 ---
 

@@ -24,7 +24,6 @@ quiz:
     explanation: "Unoptimized settings can send the entire context to the API every 30 minutes, potentially incurring hundreds of dollars in costs overnight."
 lang: en
 ref: 2026-05-05-Show-HN-Eve-Managed-OpenClaw-for-work
-audio: 2026-05-05-Show-HN-Eve-Managed-OpenClaw-for-work.en.mp3
 industry: creative
 ---
 

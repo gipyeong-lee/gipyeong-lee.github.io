@@ -24,7 +24,6 @@ quiz:
     explanation: "While lowering costs, DeepClaude preserves Claude Code's greatest strength: the 'agent loop' (the process of planning, executing, and correcting on its own)."
 lang: en
 ref: 2026-05-06-DeepClaude-Claude-Code-agent-loop-with-DeepSeek-V4-Pro-17x-cheaper
-audio: 2026-05-06-DeepClaude-Claude-Code-agent-loop-with-DeepSeek-V4-Pro-17x-cheaper.en.mp3
 industry: education
 ---
 

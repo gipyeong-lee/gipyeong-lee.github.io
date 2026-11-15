@@ -24,7 +24,6 @@ quiz:
     explanation: "Many developers find what they believe is a perfect opportunity, only to find themselves conflicted because it differs from their current stack."
 lang: en
 ref: 2026-07-11-Ask-HN-I-am-not-able-to-find-a-job-Should-I-switch-stacks
-audio: 2026-07-11-Ask-HN-I-am-not-able-to-find-a-job-Should-I-switch-stacks.en.mp3
 industry: general
 ---
 

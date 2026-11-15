@@ -24,7 +24,6 @@ quiz:
     explanation: "Anthropic pledged an initial investment of $100 million to help businesses adopt and build with Claude AI models through its partner network."
 lang: en
 ref: 2026-06-03-Jun-3-2026AnnouncementsIntroducing-the-Services-Track-and-Partner-Hub-of-the-Cla
-audio: 2026-06-03-Jun-3-2026AnnouncementsIntroducing-the-Services-Track-and-Partner-Hub-of-the-Cla.en.mp3
 industry: healthcare
 ---
 

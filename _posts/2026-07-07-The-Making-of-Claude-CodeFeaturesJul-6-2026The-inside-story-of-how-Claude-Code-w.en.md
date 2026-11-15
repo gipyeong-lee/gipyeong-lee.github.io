@@ -24,7 +24,6 @@ quiz:
     explanation: "On May 6, 2026, Anthropic permanently increased the rate limits for Claude Code on Pro, Max, Team, and Enterprise plans by 2x compared to before."
 lang: en
 ref: 2026-07-07-The-Making-of-Claude-code
-audio: 2026-07-07-The-Making-of-Claude-CodeFeaturesJul-6-2026The-inside-story-of-how-Claude-Code-w.en.mp3
 industry: creative
 ---
 

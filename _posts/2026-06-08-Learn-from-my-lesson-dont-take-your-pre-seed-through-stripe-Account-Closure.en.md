@@ -24,7 +24,6 @@ quiz:
     explanation: "If the account balance is insufficient, Stripe will forcibly withdraw the required amount from other financial institution accounts the user has linked."
 lang: en
 ref: 2026-06-08-Learn-from-my-lesson-dont-take-your-pre-seed-through-stripe-Account-Closure
-audio: 2026-06-08-Learn-from-my-lesson-dont-take-your-pre-seed-through-stripe-Account-Closure.en.mp3
 industry: finance
 ---
 

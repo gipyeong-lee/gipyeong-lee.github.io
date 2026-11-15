@@ -24,7 +24,6 @@ quiz:
     explanation: "DepsGuard is built as a single Rust binary, boasting zero dependencies on external programs."
 lang: en
 ref: 2026-06-06-Show-HN-DepsGuard-One-command-to-harden-NPMpnpmyarnbunuv-configs
-audio: 2026-06-06-Show-HN-DepsGuard-One-command-to-harden-NPMpnpmyarnbunuv-configs.en.mp3
 industry: security
 ---
 

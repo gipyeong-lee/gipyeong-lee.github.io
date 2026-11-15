@@ -24,7 +24,6 @@ quiz:
     explanation: "For responsible AI use, Google applies SynthID watermarks to all videos generated with Veo 2 so they can be identified as AI-generated content."
 lang: en
 ref: 2026-04-22-Generate-videos-in-Gemini-and-Whisk-with-Veo-2
-audio: 2026-04-22-Generate-videos-in-Gemini-and-Whisk-with-Veo-2.en.mp3
 industry: creative
 ---
 

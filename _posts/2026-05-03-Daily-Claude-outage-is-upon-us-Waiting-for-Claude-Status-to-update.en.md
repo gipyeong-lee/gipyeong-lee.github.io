@@ -24,7 +24,6 @@ quiz:
     explanation: "Anthropic provides official system performance data and outage information at status.claude.com."
 lang: en
 ref: 2026-05-03-Daily-Claude-outage-is-upon-us-Waiting-for-Claude-Status-to-update
-audio: 2026-05-03-Daily-Claude-outage-is-upon-us-Waiting-for-Claude-Status-to-update.en.mp3
 industry: finance
 ---
 

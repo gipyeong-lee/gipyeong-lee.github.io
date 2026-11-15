@@ -24,7 +24,6 @@ quiz:
     explanation: "Fine-tuning must be performed using professional libraries such as PyTorch, TensorFlow, or HuggingFace."
 lang: en
 ref: 2026-06-23-Good-results-fine-tuning-a-local-LLM-like-Qwen-306B-to-categorize-questions
-audio: 2026-06-23-Good-results-fine-tuning-a-local-LLM-like-Qwen-306B-to-categorize-questions.en.mp3
 industry: education
 ---
 

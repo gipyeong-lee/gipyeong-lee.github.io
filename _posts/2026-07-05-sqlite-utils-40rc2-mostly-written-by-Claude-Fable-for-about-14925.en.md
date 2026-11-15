@@ -24,7 +24,6 @@ quiz:
     explanation: "The cost to develop sqlite-utils 4.0rc2 using Claude Fable was approximately $149.25."
 lang: en
 ref: 2026-07-05-sqlite-utils-40rc2-mostly-written-by-Claude-Fable-for-about-14925
-audio: 2026-07-05-sqlite-utils-40rc2-mostly-written-by-Claude-Fable-for-about-14925.en.mp3
 industry: creative
 ---
 

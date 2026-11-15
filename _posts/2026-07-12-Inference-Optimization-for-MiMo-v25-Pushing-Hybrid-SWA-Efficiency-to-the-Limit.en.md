@@ -24,7 +24,6 @@ quiz:
     explanation: "Through its partnership with TileRT, MiMo v2.5's 1-trillion parameter model first broke the 1000 tokens per second output speed. [XiaomiMiMoHome](https://mimo.mi.com/docs/en-US/news/latest/mimocode)"
 lang: en
 ref: 2026-07-12-Inference-Optimization-for-MiMo-v25-Pushing-Hybrid-SWA-Efficiency-to-the-Limit
-audio: 2026-07-12-Inference-Optimization-for-MiMo-v25-Pushing-Hybrid-SWA-Efficiency-to-the-Limit.en.mp3
 industry: creative
 ---
 

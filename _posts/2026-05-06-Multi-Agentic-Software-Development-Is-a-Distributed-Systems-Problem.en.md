@@ -24,7 +24,6 @@ quiz:
     explanation: "The article explains multi-agent collaboration challenges by relating them to classic distributed systems problems like the Byzantine Generals Problem or the FLP Impossibility principle."
 lang: en
 ref: 2026-05-06-Multi-Agentic-Software-Development-Is-a-Distributed-Systems-Problem
-audio: 2026-05-06-Multi-Agentic-Software-Development-Is-a-Distributed-Systems-Problem.en.mp3
 industry: creative
 ---
 

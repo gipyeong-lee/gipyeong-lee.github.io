@@ -24,7 +24,6 @@ quiz:
     explanation: "GPT-5 demonstrated the ability to build an app like a jumping ball game with just a single prompt."
 lang: en
 ref: 2026-07-09-We-made-Grok-45-GPT-55-and-Claude-build-the-same-apps
-audio: 2026-07-09-We-made-Grok-45-GPT-55-and-Claude-build-the-same-apps.en.mp3
 industry: creative
 ---
 

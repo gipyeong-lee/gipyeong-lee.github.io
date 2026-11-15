@@ -24,7 +24,6 @@ quiz:
     explanation: "In Q3 2026, a 'native purchase feature' will be introduced, allowing users to buy products directly during a conversation without leaving the chat window."
 lang: en
 ref: 2026-05-06-New-ways-to-buy-ChatGPT-adsProductMay-5-2026
-audio: 2026-05-06-New-ways-to-buy-ChatGPT-adsProductMay-5-2026.en.mp3
 industry: general
 ---
 

@@ -24,7 +24,6 @@ quiz:
     explanation: "This is the achievement of a research team at ETH Zurich in Switzerland, including Yann Kiefer and Professor Tilman Esslinger."
 lang: en
 ref: 2026-05-04-Protected-quantum-gates-using-qubit-doublons-in-dynamical-optical-lattices
-audio: 2026-05-04-Protected-quantum-gates-using-qubit-doublons-in-dynamical-optical-lattices.en.mp3
 industry: education
 ---
 

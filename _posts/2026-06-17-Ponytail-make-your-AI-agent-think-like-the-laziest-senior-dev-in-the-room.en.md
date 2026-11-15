@@ -24,7 +24,6 @@ quiz:
     explanation: "An AI equipped with Ponytail will suggest utilizing basic built-in features that require no coding at all, rather than adding new, complex code to install external libraries."
 lang: en
 ref: 2026-06-17-Ponytail-make-your-AI-agent-think-like-the-laziest-senior-dev-in-the-room
-audio: 2026-06-17-Ponytail-make-your-AI-agent-think-like-the-laziest-senior-dev-in-the-room.en.mp3
 industry: creative
 ---
 

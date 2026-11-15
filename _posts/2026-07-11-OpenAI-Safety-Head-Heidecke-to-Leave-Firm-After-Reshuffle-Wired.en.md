@@ -24,7 +24,6 @@ quiz:
     explanation: "As OpenAI develops increasingly powerful AI systems, there is ongoing concern that the pace of technological advancement is too fast."
 lang: en
 ref: 2026-07-11-OpenAI-Safety-Head-Heidecke-to-Leave-Firm-After-Reshuffle-Wired
-audio: 2026-07-11-OpenAI-Safety-Head-Heidecke-to-Leave-Firm-After-Reshuffle-Wired.en.mp3
 industry: general
 ---
 

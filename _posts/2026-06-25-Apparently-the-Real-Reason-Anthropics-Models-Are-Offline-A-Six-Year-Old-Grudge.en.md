@@ -24,7 +24,6 @@ quiz:
     explanation: "Anthropic believes that the government's awareness of jailbreak techniques that bypass safety mechanisms was one of the contributing causes."
 lang: en
 ref: 2026-06-25-Apparently-the-Real-Reason-Anthropics-Models-Are-Offline-A-Six-Year-Old-Grudge
-audio: 2026-06-25-Apparently-the-Real-Reason-Anthropics-Models-Are-Offline-A-Six-Year-Old-Grudge.en.mp3
 industry: education
 ---
 

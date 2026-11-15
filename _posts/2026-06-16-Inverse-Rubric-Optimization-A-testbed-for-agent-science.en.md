@@ -24,7 +24,6 @@ quiz:
     explanation: "Agents cannot probe the judge's mind indefinitely. They can only receive evaluations and get hints for the right answer within a limited number of attempts called the 'Label budget'."
 lang: en
 ref: 2026-06-16-Inverse-Rubric-Optimization-A-testbed-for-agent-science
-audio: 2026-06-16-Inverse-Rubric-Optimization-A-testbed-for-agent-science.en.mp3
 industry: education
 ---
 

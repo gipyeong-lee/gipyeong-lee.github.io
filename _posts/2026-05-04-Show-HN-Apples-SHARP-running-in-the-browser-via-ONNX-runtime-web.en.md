@@ -24,7 +24,6 @@ quiz:
     explanation: "The size of the SHARP model currently converted for web use is approximately 2.4 GB."
 lang: en
 ref: 2026-05-04-Show-HN-Apples-SHARP-running-in-the-browser-via-ONNX-runtime-web
-audio: 2026-05-04-Show-HN-Apples-SHARP-running-in-the-browser-via-ONNX-runtime-web.en.mp3
 industry: education
 ---
 

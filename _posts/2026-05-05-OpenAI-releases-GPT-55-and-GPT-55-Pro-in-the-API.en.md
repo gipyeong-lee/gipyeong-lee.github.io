@@ -24,7 +24,6 @@ quiz:
     explanation: "GPT-5.5 Pro is a higher-tier model designed for more challenging questions and tasks requiring high precision."
 lang: en
 ref: 2026-05-05-OpenAI-releases-GPT-55-and-GPT-55-Pro-in-the-API
-audio: 2026-05-05-OpenAI-releases-GPT-55-and-GPT-55-Pro-in-the-API.en.mp3
 industry: creative
 ---
 

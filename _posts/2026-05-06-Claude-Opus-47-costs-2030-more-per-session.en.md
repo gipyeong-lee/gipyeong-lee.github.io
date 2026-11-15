@@ -24,7 +24,6 @@ quiz:
     explanation: "Claude 4.7 introduced a new 'xhigh' effort level to process the most difficult software engineering tasks and other complex problems."
 lang: en
 ref: 2026-05-06-Claude-Opus-47-costs-2030-more-per-session
-audio: 2026-05-06-Claude-Opus-47-costs-2030-more-per-session.en.mp3
 industry: general
 ---
 

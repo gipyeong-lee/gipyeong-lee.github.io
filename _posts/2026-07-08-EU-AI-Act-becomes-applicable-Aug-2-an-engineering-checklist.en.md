@@ -24,7 +24,6 @@ quiz:
     explanation: "The EU AI Act is implemented in phases over several years, applied in four stages between August 2, 2026, and August 2, 2028."
 lang: en
 ref: 2026-07-08-EU-AI-Act-becomes-applicable-Aug-2-an-engineering-checklist
-audio: 2026-07-08-EU-AI-Act-becomes-applicable-Aug-2-an-engineering-checklist.en.mp3
 industry: legal
 ---
 

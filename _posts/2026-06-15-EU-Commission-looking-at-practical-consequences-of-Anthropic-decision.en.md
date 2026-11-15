@@ -24,7 +24,6 @@ quiz:
     explanation: "Experiencing the unilateral US measure, the European Union emphasized the need for 'technological sovereignty'—the idea that Europe must become technologically self-reliant rather than depending on foreign technologies."
 lang: en
 ref: 2026-06-15-EU-Commission-looking-at-practical-consequences-of-Anthropic-decision
-audio: 2026-06-15-EU-Commission-looking-at-practical-consequences-of-Anthropic-decision.en.mp3
 industry: finance
 ---
 

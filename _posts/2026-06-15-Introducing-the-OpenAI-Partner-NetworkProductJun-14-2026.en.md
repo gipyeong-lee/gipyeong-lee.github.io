@@ -24,7 +24,6 @@ quiz:
     explanation: "Under the new agreement framework, OpenAI can now provide services to customers using third-party cloud platforms, such as Amazon, in addition to Microsoft."
 lang: en
 ref: 2026-06-15-Introducing-the-OpenAI-Partner-NetworkProductJun-14-2026
-audio: 2026-06-15-Introducing-the-OpenAI-Partner-NetworkProductJun-14-2026.en.mp3
 industry: finance
 ---
 

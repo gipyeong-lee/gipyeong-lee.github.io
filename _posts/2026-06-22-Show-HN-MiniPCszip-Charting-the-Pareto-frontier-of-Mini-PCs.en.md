@@ -24,7 +24,6 @@ quiz:
     explanation: "MiniPCs.zip provides information by analyzing real-time sales listings from Amazon and eBay."
 lang: en
 ref: 2026-06-22-Show-HN-MiniPCszip-Charting-the-Pareto-frontier-of-Mini-PCs
-audio: 2026-06-22-Show-HN-MiniPCszip-Charting-the-Pareto-frontier-of-Mini-PCs.en.mp3
 industry: general
 ---
 

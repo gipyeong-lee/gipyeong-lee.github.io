@@ -24,7 +24,6 @@ quiz:
     explanation: "SimBIG reduces the uncertainty in determining the clumpiness of matter by half, which is equivalent to doubling the output of a telescope without building new hardware."
 lang: en
 ref: 2026-04-21-Using-AI-to-perceive-the-universe-in-greater-depth
-audio: 2026-04-21-Using-AI-to-perceive-the-universe-in-greater-depth.en.mp3
 industry: general
 ---
 

@@ -24,7 +24,6 @@ quiz:
     explanation: "Expanse helps improve performance by using existing infrastructure more efficiently, without the need to purchase new hardware."
 lang: en
 ref: 2026-06-22-Launch-HN-Expanse-YC-P26-Unlock-Wasted-GPU-Capacity
-audio: 2026-06-22-Launch-HN-Expanse-YC-P26-Unlock-Wasted-GPU-Capacity.en.mp3
 industry: general
 ---
 
