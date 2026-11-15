@@ -70,12 +70,25 @@ The `ref` field must be identical across all language versions of the same post.
 
 Push to `main` branch triggers GitHub Actions (`.github/workflows/jekyll.yml`) which builds and deploys to GitHub Pages automatically.
 
-The Pages artifact is ~1 GB (2026-11: ~960 MB, three quarters of it
-`images/`), right at GitHub Pages' published-site limit. `actions/deploy-pages`
-gives up after a hard 10-minute cap and Pages sometimes re-syncs the whole
-artifact (5-9 min), so the deploy job retries once. Check anything that
-grows the built site (asset folders, generated pages) against that budget;
-`audio/` is excluded and streamed from jsDelivr for the same reason.
+The Pages artifact must stay under 1 GiB (`actions/deploy-pages` warns above
+`ONE_GIGABYTE = 1073741824`, GitHub Pages' published-site limit). It hit
+997 MB on 2026-11-15, three quarters of it hero images, so the build step
+`scripts/shrink_site_images.py` rewrites every top-level `_site/images` jpg
+to 1200 px wide q82 progressive and deletes its webp sibling. git keeps the
+pipeline's 1600x900 jpg + webp; templates must not reference webp
+(`scripts/tests/test_image_budget_contract.py`). Result: 514 MB (branch run
+43694987292). Remaining growth ~192 KB per post (~115 KB hero + ~77 KB
+HTML), ~2.8 MB/day at ~15 posts/day, so 1 GiB again around 2027-06.
+Re-measure with `gh api repos/gipyeong-lee/gipyeong-lee.github.io/actions/runs/<id>/artifacts`.
+The next lever is moving images off Pages: Cloudflare R2 needs a Cloudflare
+account and a domain on Cloudflare (r2.dev is rate-limited, dev only);
+jsDelivr's Terms of Use section 6 forbid "general-purpose file or media
+hosting", which also puts the jsDelivr-streamed `audio/` at risk.
+
+`actions/deploy-pages` gives up after a hard 10-minute cap and Pages
+sometimes re-syncs the whole artifact (5-9 min), so the deploy job retries
+once. Check anything that grows the built site (asset folders, generated
+pages) against that budget; `audio/` is excluded for the same reason.
 
 ## Key Configuration
 

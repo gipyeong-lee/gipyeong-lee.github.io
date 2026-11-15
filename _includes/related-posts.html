@@ -18,11 +18,9 @@ Related posts precomputed by _plugins/related_posts_map.rb as page.related
     <div class="related-posts__grid">
       {%- for item in page.related limit: 4 %}
         <a class="related-posts__card" href="{{ site.baseurl }}{{ item.url }}">
-          {%- if item.image and item.image != '' -%}
-          {%- assign rp_webp = item.image | split: '.' | first %}
+          {%- if item.image and item.image != '' %}
           <span class="related-posts__thumb">
             <picture>
-              <source srcset="{{ site.baseurl }}/images/{{ rp_webp }}.webp" type="image/webp">
               <img src="{{ site.baseurl }}/images/{{ item.image }}" alt="{{ item.image_alt | escape }}" loading="lazy" width="400" height="225">
             </picture>
           </span>
