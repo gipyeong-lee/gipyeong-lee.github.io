@@ -93,6 +93,14 @@ sometimes re-syncs the whole artifact (5-9 min), so the deploy job retries
 once. Check anything that grows the built site (asset folders, generated
 pages) against that budget; `audio/` is excluded for the same reason.
 
+The build job's checkout leaves `audio/` out (sparse checkout, which
+actions/checkout fetches with `--filter=blob:none`): Checkout went from a
+median 140 s over 40 runs to 23-31 s (branch runs 43710063626,
+43710245049) with the same artifact. On the runner `audio/` is absent, so
+a build step that checks audio references must take the file list from
+`git ls-files audio/` (the index, no fetch), never from the filesystem;
+`git cat-file` or `git ls-tree -l` on audio paths fetches one blob per call.
+
 ## Key Configuration
 
 - **Pagination:** none; the home page lists posts with its own Liquid loop, and old `/page/N/` URLs are redirected home by the 404 script

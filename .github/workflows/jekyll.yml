@@ -50,6 +50,8 @@ jobs:
       # never downloaded. `git ls-files audio/` still lists the files from
       # the index; reading their content or size (git cat-file,
       # git ls-tree -l) would fetch each blob in its own request.
+      # Checkout: median 140 s over 40 runs -> 31 s and 23 s (branch runs
+      # 43710063626, 43710245049), same artifact.
       - name: Checkout
         uses: actions/checkout@v4
         with:
