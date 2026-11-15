@@ -70,8 +70,13 @@ The `ref` field must be identical across all language versions of the same post.
 
 Push to `main` branch triggers GitHub Actions (`.github/workflows/jekyll.yml`) which builds and deploys to GitHub Pages automatically.
 
-The Pages artifact must stay under 1 GiB (`actions/deploy-pages` warns above
-`ONE_GIGABYTE = 1073741824`, GitHub Pages' published-site limit). It hit
+The Pages artifact zip must stay under 1 GiB: `actions/deploy-pages` compares
+the artifact's `size_in_bytes` (the zip) with `ONE_GIGABYTE = 1073741824`.
+GitHub also documents a 1 GB limit for published sites. Extracted, the site
+is already ~1.0 GiB (the `artifact.tar` inside the zip was 1,077,954,560 B
+on 2026-11-15; HTML compresses ~5x) and deploys still succeed, so that limit
+is not enforced on the extracted size today; if it ever is, the HTML of the
+~13k post pages is what has to shrink. The zip hit
 997 MB on 2026-11-15, three quarters of it hero images, so the build step
 `scripts/shrink_site_images.py` rewrites every top-level `_site/images` jpg
 to 1200 px wide q82 progressive and deletes its webp sibling. git keeps the
