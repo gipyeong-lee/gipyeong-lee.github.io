@@ -51,11 +51,22 @@ style: border          # or fill (optional)
 color: primary         # primary|info|success|warning|danger (optional)
 description: "SEO description"
 image: filename.jpg    # from /images/ directory (optional)
+audio: filename.mp3    # narration in /audio/ (optional)
 ref: YYYY-MM-DD-slug   # links translations together
 ---
 ```
 
 The `ref` field must be identical across all language versions of the same post.
+
+`audio:` must name an mp3 that git tracks under `audio/`. The player renders
+whenever the field is set and streams the file from jsDelivr, so a missing
+mp3 is a dead play button. `scripts/validate_posts.py` fails the CI build on
+one, reading the tracked set with `git ls-files` so a sparse checkout without
+`audio/` still works (`scripts/tests/test_validate_posts.py`). On 2026-11-15
+656 posts (655 en, 1 ko, 2026-04..07) had lost their mp3: the publisher
+never committed it (fixed in mindtickle-studio b54972c). Their `audio:`
+lines were removed; every one of those mp3s is still in the local
+`gipyeong-lee.github.io-backup/audio/` (186 MB) if the narration is wanted back.
 
 ## Architecture
 

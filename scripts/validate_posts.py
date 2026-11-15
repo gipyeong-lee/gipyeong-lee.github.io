@@ -12,15 +12,22 @@ Repair strategies (each result is re-validated before being written):
      front-matter delimiter).
   2. broken quiz block — LLM output truncation leaves an unterminated quiz
      entry; the quiz field is optional, so drop the whole block.
+
+It also fails when a post's `audio:` names an mp3 that git does not track
+under audio/: the player still renders, requests the file from jsDelivr,
+gets a 404 and its play button silently does nothing. --fix leaves those
+alone; commit the mp3 or remove the line.
 """
 import argparse
 import re
+import subprocess
 import sys
 from pathlib import Path
 
 import yaml
 
-POSTS_DIR = Path(__file__).resolve().parent.parent / "_posts"
+REPO_ROOT = Path(__file__).resolve().parent.parent
+POSTS_DIR = REPO_ROOT / "_posts"
 
 FRONT_MATTER_RE = re.compile(r"\A---\s*\n(.*?)\n---\s*\n", re.DOTALL)
 SPLICE_RE = re.compile(
@@ -32,20 +39,85 @@ QUIZ_BLOCK_RE = re.compile(
 )
 
 
-def parse_error(content: str) -> str | None:
-    """Return a description of the front-matter problem, or None if valid."""
+def load_front_matter(content: str) -> tuple[dict | None, str | None]:
+    """Return (front matter, None) when valid, else (None, the problem)."""
     m = FRONT_MATTER_RE.match(content)
     if not m:
-        return "no closed front matter block"
+        return None, "no closed front matter block"
     try:
         data = yaml.safe_load(m.group(1))
     except yaml.YAMLError as e:
-        return f"invalid YAML: {str(e).splitlines()[0]}"
+        return None, f"invalid YAML: {str(e).splitlines()[0]}"
     if not isinstance(data, dict):
-        return "front matter is not a mapping"
+        return None, "front matter is not a mapping"
     for key, value in data.items():
         if isinstance(value, str) and re.search(r"\b(permalink|image):", value):
-            return f"spliced field inside '{key}'"
+            return None, f"spliced field inside '{key}'"
+    return data, None
+
+
+def parse_error(content: str) -> str | None:
+    """Return a description of the front-matter problem, or None if valid."""
+    return load_front_matter(content)[1]
+
+
+def tracked_audio(repo: Path) -> set[str]:
+    """Names, relative to audio/, of the files git tracks there.
+
+    Read from the index, not the disk: jsDelivr serves only what git has, and
+    a checkout that leaves audio/ out of the working tree (sparse checkout)
+    still lists every path. -z stops git from octal-quoting non-ASCII names.
+    """
+    out = subprocess.run(
+        ["git", "-C", str(repo), "ls-files", "-z", "--", "audio/"],
+        capture_output=True,
+        check=True,
+    ).stdout.decode("utf-8")
+    return {path.removeprefix("audio/") for path in out.split("\0") if path}
+
+
+def renders_player(data: dict) -> bool:
+    """Whether _layouts/default.html renders the audio player for this post.
+
+    It does whenever page.audio is truthy in Liquid: anything but nil and
+    false, so an empty string or 0 still renders it.
+    """
+    value = data.get("audio")
+    return value is not None and value is not False
+
+
+def audio_error(data: dict, tracked: set[str]) -> str | None:
+    """Return the problem with a post's `audio:` value, or None if it plays.
+
+    js/audio-player.js fetches audio/<value> from jsDelivr, which serves only
+    what git tracks.
+    """
+    if not renders_player(data):
+        return None
+    value = data["audio"]
+    # str() of a YAML date is the same text Jekyll renders for it.
+    if str(value) in tracked:
+        return None
+    return f"audio/{value} is not tracked in git"
+
+
+def repair(content: str) -> str | None:
+    """Return the first repaired variant whose front matter parses, or None."""
+    strategies = (
+        fix_splice,
+        fix_quiz,
+        fix_preamble,
+        fix_duplicate_front_matter,
+        lambda c: fix_quiz(fix_splice(c)),
+        lambda c: fix_duplicate_front_matter(fix_preamble(c)),
+        lambda c: fix_quiz(fix_splice(fix_duplicate_front_matter(fix_preamble(c)))),
+        fix_glued_header,
+        lambda c: fix_quiz(fix_splice(fix_glued_header(c))),
+    )
+    for strategy in strategies:
+        candidate = strategy(content)
+        if candidate != content and parse_error(candidate) is None:
+            return candidate
     return None
 
 
@@ -98,59 +170,72 @@ def fix_quiz(content: str) -> str:
     return content
 
 
-def main() -> int:
+def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--fix", action="store_true", help="attempt auto-repair")
-    args = ap.parse_args()
+    args = ap.parse_args(argv)
 
+    try:
+        tracked = tracked_audio(REPO_ROOT)
+    except (OSError, subprocess.CalledProcessError) as e:
+        if isinstance(e, subprocess.CalledProcessError):
+            detail = e.stderr.decode("utf-8", "replace").strip()
+        else:
+            detail = str(e)
+        print(f"ERROR: git ls-files could not list the tracked audio files: {detail}")
+        return 1
+
+    posts = sorted(POSTS_DIR.glob("*.md"))
     broken: list[tuple[Path, str]] = []
     fixed: list[Path] = []
     unfixable: list[tuple[Path, str]] = []
+    dangling: list[tuple[Path, str]] = []
+    audio_count = 0
 
-    for path in sorted(POSTS_DIR.glob("*.md")):
+    for path in posts:
         content = path.read_text(encoding="utf-8")
-        err = parse_error(content)
-        if not err:
+        data, err = load_front_matter(content)
+        if err:
+            broken.append((path, err))
+            if args.fix:
+                repaired = repair(content)
+                if repaired is None:
+                    unfixable.append((path, err))
+                else:
+                    path.write_text(repaired, encoding="utf-8")
+                    fixed.append(path)
+                    data, _ = load_front_matter(repaired)
+        if data is None:
             continue
-        broken.append((path, err))
+        audio_count += renders_player(data)
+        problem = audio_error(data, tracked)
+        if problem:
+            dangling.append((path, problem))
 
-        if not args.fix:
-            continue
-
-        strategies = (
-            fix_splice,
-            fix_quiz,
-            fix_preamble,
-            fix_duplicate_front_matter,
-            lambda c: fix_quiz(fix_splice(c)),
-            lambda c: fix_duplicate_front_matter(fix_preamble(c)),
-            lambda c: fix_quiz(fix_splice(fix_duplicate_front_matter(fix_preamble(c)))),
-            fix_glued_header,
-            lambda c: fix_quiz(fix_splice(fix_glued_header(c))),
-        )
-        for strategy in strategies:
-            candidate = strategy(content)
-            if candidate != content and parse_error(candidate) is None:
-                path.write_text(candidate, encoding="utf-8")
-                fixed.append(path)
-                break
-        else:
-            unfixable.append((path, err))
-
+    status = 0
     if not broken:
-        print(f"OK: all {len(list(POSTS_DIR.glob('*.md')))} posts have valid front matter")
-        return 0
-
-    if args.fix:
+        print(f"OK: all {len(posts)} posts have valid front matter")
+    elif args.fix:
         for p in fixed:
             print(f"FIXED: {p.name}")
         for p, err in unfixable:
             print(f"UNFIXABLE: {p.name} — {err}")
-        return 1 if unfixable else 0
+        status = 1 if unfixable else 0
+    else:
+        for p, err in broken:
+            print(f"BROKEN: {p.name} — {err}")
+        print(f"\n{len(broken)} post(s) with invalid front matter. Run with --fix to repair.")
+        status = 1
 
-    for p, err in broken:
-        print(f"BROKEN: {p.name} — {err}")
-    print(f"\n{len(broken)} post(s) with invalid front matter. Run with --fix to repair.")
+    if not dangling:
+        print(f"OK: {audio_count} audio: values, each naming a file git tracks under audio/")
+        return status
+    for p, problem in dangling:
+        print(f"DANGLING AUDIO: {p.name} — {problem}")
+    print(
+        f"\n{len(dangling)} post(s) name an audio file git does not track; their "
+        "player would 404 on jsDelivr. Commit the mp3 or remove the audio: line."
+    )
     return 1
 
 
