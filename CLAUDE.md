@@ -87,6 +87,10 @@ The next lever is moving images off Pages: Cloudflare R2 needs a Cloudflare
 account and a domain on Cloudflare (r2.dev is rate-limited, dev only);
 jsDelivr's Terms of Use section 6 forbid "general-purpose file or media
 hosting", which also puts the jsDelivr-streamed `audio/` at risk.
+`js/audio-player.js` must request the mp3 only on the first play
+(`scripts/tests/test_audio_player.mjs`): with `new Audio(src)` every view
+of a post with narration downloaded the whole file, so jsDelivr traffic
+followed page views (4,963 hits / 3.39 GB in the 30 days to 2026-11-13).
 
 `actions/deploy-pages` gives up after a hard 10-minute cap and Pages
 sometimes re-syncs the whole artifact (5-9 min), so the deploy job retries
